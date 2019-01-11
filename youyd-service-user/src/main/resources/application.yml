@@ -1,0 +1,46 @@
+server:
+  port: 9007
+spring:
+  application:
+    name: service-user  #指定服务名
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+
+
+mybatis-plus:
+  mapper-locations: classpath*:/dao/*.xml
+  global-config:
+    db-config:
+      table-prefix: "us_"
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true #配置的缓存的全局开关
+    lazyLoadingEnabled: true #延时加载的开关
+    multipleResultSetsEnabled: true #开启的话，延时加载一个属性时会加载该对象全部属性，否则按需加载属性
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql语句,调试用
+
+eureka:
+  client: #客户端注册进eureka服务列表内
+    service-url:
+      #defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+      defaultZone:  http://localhost:5000/eureka  #单机版
+  instance:
+    # 为注册的这个服务起个别名
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    prefer-ip-address: true     #使用ip进行注册
+    # 注册中心跳转到swagger接口
+    status-page-url-path:  /swagger-ui.html
+    # #绑定客户端的ip而不是主机号
+    hostname: ${spring.cloud.client.ip-address}   # ${spring.cloud.client.ip-address} 参考https://blog.csdn.net/xichenguan/article/details/76632033
+
+
+# JWT配置
+jwt:
+  config:
+    encodedSecretKey: youyd # 签名
+    expiration: 360000 # 设置过期时间
+
+
+
