@@ -28,6 +28,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class UserApplication {
 
 	public static void main(String[] args) {
+		System.out.println("test tags");
 		SpringApplication.run(UserApplication.class, args);
 	}
 
