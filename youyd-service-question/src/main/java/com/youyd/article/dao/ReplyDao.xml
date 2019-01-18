@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youyd.article.dao.ReplyDao" >
+    <resultMap id="BaseResultMap" type="com.youyd.article.pojo.Reply">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="problem_id" jdbcType="VARCHAR" property="problemId" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="user_id" jdbcType="VARCHAR" property="userId" />
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      id, problem_id, create_time, update_time, user_id, nick_name,content
+  </sql>
+
+    <select id="findReplyByCondition" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_reply
+        order by create_time DESC
+    </select>
+
+    <!--按照主键查找-->
+    <select id="findReplyByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List" />
+        from tb_reply
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+
+    <insert id="insertReply" parameterType="com.youyd.article.pojo.Reply" >
+    insert into tb_reply (id, problem_id, create_time,
+      update_time, user_id, nick_name,
+      content)
+    values (#{id,jdbcType=VARCHAR}, #{problemId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR},
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+
+    <!--有选择的更新-->
+    <update id="updateByReplySelective" parameterType="com.youyd.article.pojo.Problem">
+        update tb_reply
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.problemId != null">
+                problem_id = #{record.problemId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateTime != null">
+                update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.userId != null">
+                user_id = #{record.userId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.nickName != null">
+                nick_name = #{record.nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.content != null">
+                content = #{record.content,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.util.List" >
+        delete from tb_reply
+        <where>
+            <foreach collection="list" item="id" separator="," open="id in (" close=")">
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+
+
+</mapper>
