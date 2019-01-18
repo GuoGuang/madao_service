@@ -1,0 +1,91 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: web-gateway  #指定服务名
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+    # id：固定，不同 id 对应不同的功能，可参考 官方文档
+    # uri：目标服务地址
+    # predicates：路由条件
+    # filters：过滤规则
+  cloud:
+    gateway:
+      # CORS：解决Cross-Origin Resource Sharing（跨源资源共享）
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedHeaders: "x-token"
+            allowedOrigins: "http://localhost:9527"
+            allowedMethods:
+            - OPTIONS
+            - GET
+            - POST
+            - PUT
+            - DELETE # https://segmentfault.com/a/1190000017188296
+
+#      routes:
+#      - id: host_route
+#        uri: lb://SERVICE-USER #  lb = load-balanced
+#        predicates:
+#        - Path=/user/**
+#        filters:
+#        - StripPrefix=0 # Strip(剥夺前缀)
+
+
+eureka:
+  client: #客户端注册进eureka服务列表内
+    service-url:
+      #defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+      defaultZone:  http://localhost:5000/eureka  #单机版
+  instance:
+    # 为注册的这个服务起个别名
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    prefer-ip-address: true     #使用ip进行注册
+    # 注册中心跳转到swagger接口
+    status-page-url-path:  /swagger-ui.html
+    # #绑定客户端的ip而不是主机号
+    hostname: ${spring.cloud.client.ip-address}   # ${spring.cloud.client.ip-address} 参考https://blog.csdn.net/xichenguan/article/details/76632033
+
+# JWT配置
+jwt:
+  config:
+    encodedSecretKey: youyd # 签名
+    expiration: 360000 # 设置过期时间
+#
+#zuul:
+#  routes:
+#    youyd-service-user:           # 用户服务
+#      path: /user/**              # 配置请求URL的请求规则 所有/user 开头的请求都转发到 serviceId 服务上
+#      serviceId: youyd-service-user  # 指定Eureka注册中心中的服务id
+#      # 是否将路径/user去除 比如访问路径是localhost:8080/user/find/1 如果设置为true,那么路径就是localhost:8080/find/1
+#      stripPrefix: false
+#
+#    youyd-service-spit:           # 吐槽服务
+#          path: /spit/**
+#          serviceId: youyd-service-spit
+#
+#    youyd-service-search:         # 搜索服务
+#          path: /search/**
+#          serviceId: youyd-service-search
+#
+#    youyd-service-question:       # 问题服务
+#          path: /question/**
+#          serviceId: youyd-service-question
+#
+#    youyd-service-gathering:      # 活动服务
+#          path: /spit/**
+#          serviceId: youyd-service-gathering
+#
+#    youyd-service-base:            # 基础服务
+#          path: /base/**
+#          serviceId: youyd-service-base
+#
+#    youyd-service-article:         # 文章服务
+#          path: /article/**
+#          serviceId: youyd-service-article
+#
+
+#

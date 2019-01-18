@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youyd.base.dao.LabelDao" >
+    <resultMap id="BaseResultMap" type="com.youyd.base.pojo.Label" >
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="label_name" property="labelName" jdbcType="VARCHAR" />
+        <result column="state" property="state" jdbcType="VARCHAR" />
+        <result column="count" property="count" jdbcType="BIGINT" />
+        <result column="recommend" property="recommend" jdbcType="VARCHAR" />
+        <result column="fans" property="fans" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+      id, label_name, state, count, recommend, fans,create_time,update_time
+  </sql>
+
+    <select id="findLabelByCondition" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_label
+        order by create_time
+    </select>
+
+    <!--按照主键查找-->
+    <select id="findLabelByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List" />
+        from tb_label
+        <where>
+            <if test="_parameter != null and _parameter != ''">
+                id = #{_parameter}
+            </if>
+        </where>
+        order by create_time
+    </select>
+
+
+    <!--更新全部-->
+    <insert id="insertLabel" parameterType="com.youyd.base.pojo.Label" >
+        insert into tb_label (
+        id,
+        label_name,
+        state,
+        count,
+        recommend,
+        fans,
+        create_time,
+        update_time
+          )
+        values (
+          #{id,jdbcType=VARCHAR},
+          #{labelName,jdbcType=VARCHAR},
+          #{state,jdbcType=VARCHAR},
+          #{count,jdbcType=BIGINT},
+          #{recommend,jdbcType=VARCHAR},
+          #{fans,jdbcType=BIGINT},
+          #{fans,jdbcType=BIGINT},
+          #{createTime},
+          #{updateTime}
+          )
+  </insert>
+
+    <!--有选择的更新-->
+    <insert id="insertSelective" parameterType="com.youyd.base.pojo.Label" >
+        insert into tb_label
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="labelName != null" >
+                labelName,
+            </if>
+            <if test="state != null" >
+                state,
+            </if>
+            <if test="count != null" >
+                count,
+            </if>
+            <if test="recommend != null" >
+                recommend,
+            </if>
+            <if test="fans != null" >
+                fans,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="labelName != null" >
+                #{labelName,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null" >
+                #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="count != null" >
+                #{count,jdbcType=BIGINT},
+            </if>
+            <if test="recommend != null" >
+                #{recommend,jdbcType=VARCHAR},
+            </if>
+            <if test="fans != null" >
+                #{fans,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null" >
+                #{createTime},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="java.util.Map" >
+        update tb_label
+        <set >
+            <if test="ruleName != null" >
+                RULE_NAME = #{ruleName,jdbcType=VARCHAR},
+            </if>
+            <if test="ruleType != null" >
+                RULE_TYPE = #{ruleType,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null" >
+                UPDATE_TIME = #{updateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null" >
+                ENABLE = #{enable,jdbcType=VARCHAR},
+            </if>
+            <if test="ruleFileName != null" >
+                RULE_FILE_NAME = #{ruleFileName,jdbcType=VARCHAR},
+            </if>
+            <if test="ruleContext != null" >
+                RULE_CONTEXT = #{ruleContext,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.util.List" >
+        delete from tb_label
+        <where>
+            <foreach collection="list" item="id" separator="," open="id in (" close=")">
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+
+
+</mapper>

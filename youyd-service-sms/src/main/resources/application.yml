@@ -1,0 +1,35 @@
+server:
+  port: 9009
+spring:
+  application:
+    name: service-sms #指定服务名
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+
+eureka:
+  client: #客户端注册进eureka服务列表内
+    service-url:
+      #defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+      defaultZone:  http://localhost:5000/eureka  #单机版
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} # 为注册的这个服务起个别名
+    prefer-ip-address: true     #使用ip进行注册
+    # 注册中心跳转到swagger接口
+    status-page-url-path:  /swagger-ui.html
+    # #绑定客户端的ip而不是主机号
+    hostname: ${spring.cloud.client.ip-address}   # ${spring.cloud.client.ip-address} 参考https://blog.csdn.net/xichenguan/article/details/76632033
+
+
+#为了成功发送一条短信通知，至少需要完成以下步骤
+ #一. 在控制台完成短信签名与短信模板的申请，获得调用接口必备的参数
+ #2. 申请短信签名
+ #3. 申请短信模板
+aliyun:
+  sms:
+    accessKeyId: LTAInqBgQMW6xQLB
+    accessKeySecret: 0nct3FsOzMssy1OUu0R6yLRTohokzu
+    template_code: SMS_148593191  # 模版CODE:需要申请
+    sign_name: 个人手工展示             # 签名:需要申请
+

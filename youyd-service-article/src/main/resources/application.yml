@@ -1,0 +1,7 @@
+server:
+  port: 9003
+spring:
+  application:
+    name: service-article #指定服务名
+
+
