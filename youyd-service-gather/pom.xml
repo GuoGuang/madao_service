@@ -10,11 +10,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>youyd-service-gathering</artifactId>
+    <artifactId>youyd-service-gather</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
     <description>活动微服务模块</description>
-    <name>youyd-service-gathering【活动服务】</name>
+    <name>youyd-service-gather【活动服务】</name>
 
     <dependencies>
 
