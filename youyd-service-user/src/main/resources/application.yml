@@ -4,7 +4,7 @@ spring:
   application:
     name: service-user  #指定服务名
   rabbitmq:
-    host: localhost
+    host: 39.108.191.56
     username: guest
     password: guest
 

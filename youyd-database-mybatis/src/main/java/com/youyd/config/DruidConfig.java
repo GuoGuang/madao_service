@@ -25,7 +25,7 @@ import org.springframework.context.annotation.PropertySource;
  * 数据池连接
  */
 @Configuration
-@PropertySource("classpath:properties/datasource.properties")
+//@PropertySource("classpath:properties/datasource.properties")
 public class DruidConfig {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
