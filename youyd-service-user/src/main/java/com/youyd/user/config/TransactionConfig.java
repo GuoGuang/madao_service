@@ -21,7 +21,7 @@ import java.util.Map;
 public class TransactionConfig {
 
 	private static final int TX_METHOD_TIMEOUT = 5;
-	private static final String AOP_POINTCUT_EXPRESSION = "execution (* com.youyd.*..*.*(..))";
+	private static final String AOP_POINTCUT_EXPRESSION = "execution (* com.youyd.user..*.*(..))";
 
 	/**
 	 * 配置事务拦截类型
