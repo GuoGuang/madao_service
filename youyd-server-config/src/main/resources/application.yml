@@ -7,10 +7,18 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/GuoGuang0536/youyd_config.git #GitHub上面的git仓库名字
-          label: master
+          uri: https://github.com/GuoGuang0536/youyd_config.git
+          default-label: master
+          username: GuoGuang0536@gmail.com
+          password: GuoGuangLin0536
+
     bus:
       enabled: true # 开启消息跟踪
+
+  rabbitmq:
+    host: 39.108.191.56
+    username: admin
+    password: admin
 
 eureka:
   client: #客户端注册进eureka服务列表内
