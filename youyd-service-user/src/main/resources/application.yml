@@ -3,11 +3,6 @@ server:
 spring:
   application:
     name: service-user  #指定服务名
-  rabbitmq:
-    host: 39.108.191.56
-    username: guest
-    password: guest
-
 
 mybatis-plus:
   mapper-locations: classpath*:/dao/*.xml
@@ -34,7 +29,6 @@ eureka:
     status-page-url-path:  /swagger-ui.html
     # #绑定客户端的ip而不是主机号
     hostname: ${spring.cloud.client.ip-address}   # ${spring.cloud.client.ip-address} 参考https://blog.csdn.net/xichenguan/article/details/76632033
-
 
 # JWT配置
 jwt:
