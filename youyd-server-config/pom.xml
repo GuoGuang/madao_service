@@ -16,7 +16,7 @@
     <name>youyd-server-config【配置中心】</name>
 
     <dependencies>
-        <!-- springCloud Config -->
+        <!-- springCloud Config服务端 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-config-server</artifactId>
