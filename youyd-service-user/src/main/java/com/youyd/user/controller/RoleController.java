@@ -2,7 +2,7 @@ package com.youyd.user.controller;
 
 import com.youyd.user.pojo.Role;
 import com.youyd.user.service.RoleService;
-import com.youyd.utils.JSONData;
+import com.youyd.utils.JsonData;
 import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,67 +28,67 @@ public class RoleController {
 	/**
 	 * 条件查询角色
 	 * @param paramMap 查询参数
-	 * @return JSONData
+	 * @return JsonData
 	 */
 	@GetMapping
-	public JSONData findRuleByCondition(@RequestParam Map paramMap) {
+	public JsonData findRuleByCondition(@RequestParam Map paramMap) {
 		List ruleData = roleService.findRuleByCondition(paramMap);
-		return new JSONData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), ruleData);
+		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), ruleData);
 	}
 
 	/**
 	 * 根据用户id查询
 	 * @param roleId 角色id
-	 * @return JSONData
+	 * @return JsonData
 	 */
 	@GetMapping("/{roleId}")
-	public JSONData findById(@PathVariable String roleId) {
+	public JsonData findById(@PathVariable String roleId) {
 		Role ruleData = roleService.findRuleById(roleId);
-		return new JSONData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), ruleData);
+		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), ruleData);
 	}
 
 	/**
 	 * 添加一个角色
 	 * @param role 角色实体
-	 * @return JSONData
+	 * @return JsonData
 	 */
 	@PostMapping
-	public JSONData insertSelective(@RequestBody Role role) {
+	public JsonData insertSelective(@RequestBody Role role) {
 		boolean state = roleService.insertSelective(role);
-		return new JSONData(state, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(state, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
 
 	/**
 	 * 删除角色
 	 * @param roleId 角色id数组
-	 * @return JSONData
+	 * @return JsonData
 	 */
 	@DeleteMapping()
-	public JSONData deleteByIds(@RequestBody List roleId) {
+	public JsonData deleteByIds(@RequestBody List roleId) {
 		boolean state = roleService.deleteByIds(roleId);
-		return new JSONData(state, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(state, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
 
 	/**
 	 * 更新角色
 	 * @param role 角色实体
-	 * @return JSONData
+	 * @return JsonData
 	 */
 	@PutMapping()
-	public JSONData updateByPrimaryKey(@RequestBody Role role) {
+	public JsonData updateByPrimaryKey(@RequestBody Role role) {
 		boolean state = roleService.updateByPrimaryKey(role);
-		return new JSONData(state, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(state, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
 
 	/**
 	 * 更新角色状态
 	 * @param roleIds id数组
-	 * @return JSONData
+	 * @return JsonData
 	 */
 	@PutMapping("/state")
-	public JSONData updateRoleState(@RequestBody List roleIds){
+	public JsonData updateRoleState(@RequestBody List roleIds){
 		roleService.updateRoleState(roleIds);
-		return new JSONData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), null);
+		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), null);
 	}
 
 }

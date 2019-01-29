@@ -1,10 +1,8 @@
 package com.youyd.utils;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.ApiModel;
+
+import java.io.Serializable;
 
 /**
  * 通用json返回类型
@@ -12,25 +10,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @param <E>
  *
  */
-public class JSONData {
 
-	// 执行状态
+@ApiModel("api接口通用返回对象")
+public class JsonData implements Serializable {
+
 	private boolean status;
-	//状态码
+
 	private int code;
-	//返回消息
+
 	private String message;
-	//返回的数据
+
 	private Object data;
 
-	public JSONData(boolean status, int code, String message, Object data) {
+	public JsonData(boolean status, int code, String message, Object data) {
 		this.status = status;
 		this.code = code;
 		this.message = message;
 		this.data = data;
 	}
 
-	public JSONData(boolean state, Integer code, String msg) {
+	public JsonData(boolean state, Integer code, String msg) {
 		this.status = state;
 		this.code = code;
 		this.message = msg;

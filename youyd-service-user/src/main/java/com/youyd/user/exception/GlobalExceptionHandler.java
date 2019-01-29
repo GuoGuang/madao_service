@@ -1,6 +1,6 @@
 package com.youyd.user.exception;
 
-import com.youyd.utils.JSONData;
+import com.youyd.utils.JsonData;
 import com.youyd.utils.LogBack;
 import com.youyd.utils.StatusCode;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -19,9 +19,9 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(value = Exception.class)
 	@ResponseBody
-	public JSONData handleException(HttpServletRequest request, Exception ex) {
+	public JsonData handleException(HttpServletRequest request, Exception ex) {
 		LogBack.error(ex.getMessage(),ex);
-		return new JSONData(false, StatusCode.SYSTEM_EXCEPTION.getCode(),ex.getMessage());
+		return new JsonData(false, StatusCode.SYSTEM_EXCEPTION.getCode(),ex.getMessage());
 	}
 
 }

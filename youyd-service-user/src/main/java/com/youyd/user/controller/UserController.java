@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.user.pojo.User;
 import com.youyd.user.service.MenuService;
 import com.youyd.user.service.UserService;
-import com.youyd.utils.JSONData;
+import com.youyd.utils.JsonData;
 import com.youyd.utils.StatusCode;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -40,16 +40,16 @@ public class UserController {
 	 *
 	 * @param account  ：账号
 	 * @param password ：密码
-	 * @return JSONData
+	 * @return JsonData
 	 */
 	@PostMapping(value = "/login")
 	@ApiOperation(value = "用户登录", notes = "User")
-	public JSONData login(String account, String password) {
+	public JsonData login(String account, String password) {
 		Map uMap = userService.login(account, password);
 		if (uMap != null) {
-			return new JSONData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), uMap);
+			return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), uMap);
 		} else {
-			return new JSONData(false, StatusCode.LOGIN_ERROR.getCode(), StatusCode.LOGIN_ERROR.getMsg());
+			return new JsonData(false, StatusCode.LOGIN_ERROR.getCode(), StatusCode.LOGIN_ERROR.getMsg());
 		}
 	}
 
@@ -60,9 +60,9 @@ public class UserController {
 	 * @return boolean
 	 */
 	@PostMapping()
-	public JSONData insertUser(@RequestBody User user) {
+	public JsonData insertUser(@RequestBody User user) {
 		userService.insertUser(user);
-		return new JSONData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
 
 	/**
@@ -72,9 +72,9 @@ public class UserController {
 	 * @return boolean
 	 */
 	@PostMapping("/info")
-	public JSONData info(String token) {
+	public JsonData info(String token) {
 		List menu = menuService.findMenuByCondition(token);
-		return new JSONData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), menu);
+		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), menu);
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class UserController {
 	 * @return boolean
 	 */
 	@GetMapping("/dashboard")
-	public JSONData dashboardInfo(String token) {
+	public JsonData dashboardInfo(String token) {
 		Map<String, Object> info = new HashMap<>();
 		info.put("order_no", "3cFA9Cce-dFDC-3Db7-17B9-eB4CAfE3ba3f");
 		info.put("timestamp", "1248155062802");
@@ -100,7 +100,7 @@ public class UserController {
 		List<Map<String, Object>> list = new ArrayList<>();
 		list.add(info);
 		list.add(info1);
-		return new JSONData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), list);
+		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), list);
 	}
 
 	/**
@@ -113,13 +113,13 @@ public class UserController {
 	@ApiOperation(value = "查找用户列表", notes = "按照条件查找用户列表")
 	@ApiImplicitParam(name = "User", value = "查询条件：用户对象", dataType = "Map", paramType = "query")
 	@GetMapping
-	/*public JSONData findByCondition(User user) {
+	/*public JsonData findByCondition(User user) {
 		IPage<User> byCondition = userService.findByCondition(user);
-		return new JSONData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(),byCondition);
+		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(),byCondition);
 	}*/
-	public JSONData findByCondition(User user) {
+	public JsonData findByCondition(User user) {
 		IPage<User> byCondition = userService.findByCondition(user);
-		return new JSONData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), byCondition);
+		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), byCondition);
 	}
 
 	/**
@@ -129,9 +129,9 @@ public class UserController {
 	 * @return boolean
 	 */
 	@PostMapping(value = "/logout")
-	public JSONData logout(@RequestHeader("X-Token")String token) {
+	public JsonData logout(@RequestHeader("X-Token")String token) {
 		userService.logout(token);
-		return new JSONData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
 
 
@@ -141,9 +141,9 @@ public class UserController {
 	 * @return
 	 */
 	@PutMapping()
-	public JSONData updateByPrimaryKey(@RequestBody User user) {
+	public JsonData updateByPrimaryKey(@RequestBody User user) {
 		boolean result = userService.updateByPrimaryKey(user);
-		return new JSONData(result, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(result, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
 
 	/**
@@ -156,12 +156,12 @@ public class UserController {
 	 * @return
 	 */
 	@DeleteMapping()
-	public JSONData deleteByIds(@RequestBody List userId, @ModelAttribute("admin_claims") Claims claims) {
+	public JsonData deleteByIds(@RequestBody List userId, @ModelAttribute("admin_claims") Claims claims) {
 		if (claims == null) {
-			return new JSONData(true, StatusCode.PARAM_ERROR.getCode(), StatusCode.PARAM_ERROR.getMsg());
+			return new JsonData(true, StatusCode.PARAM_ERROR.getCode(), StatusCode.PARAM_ERROR.getMsg());
 		}
 		boolean result = userService.deleteByIds(userId);
-		return new JSONData(result, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(result, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
 
 
