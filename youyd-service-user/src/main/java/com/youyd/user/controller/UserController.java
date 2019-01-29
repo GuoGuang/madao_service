@@ -113,15 +113,10 @@ public class UserController {
 	@ApiOperation(value = "查找用户列表", notes = "按照条件查找用户列表")
 	@ApiImplicitParam(name = "User", value = "查询条件：用户对象", dataType = "Map", paramType = "query")
 	@GetMapping
-	/*public JsonData findByCondition(User user) {
-		IPage<User> byCondition = userService.findByCondition(user);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(),byCondition);
-	}*/
 	public JsonData findByCondition(User user) {
 		IPage<User> byCondition = userService.findByCondition(user);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), byCondition);
+		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(),byCondition);
 	}
-
 	/**
 	 * 退出
 	 *

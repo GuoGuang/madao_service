@@ -48,7 +48,7 @@ public class GateWayConfig {
 				// 用户服务
 				.route("user_route", r -> r.path("/service_user/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-USER"))
 				// 文章服务
-				.route("article_route",a ->a.path("/service_article/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-ARTICLE"))
+				.route("article_route",a ->a.path("/service_article/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-ARTICLE"))
 				.build();
 	}
 
