@@ -1,6 +1,9 @@
 package com.youyd.article.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youyd.article.dao.ArticleDao;
 import com.youyd.article.pojo.Article;
 import com.youyd.article.service.ArticleService;
@@ -30,8 +33,11 @@ public class ArticleServiceImpl implements ArticleService {
 	 * @return
 	 */
 	@Override
-	public List<Article> findArticleByCondition() {
-		return articleDao.selectList(null);
+	public IPage<Article> findArticleByCondition(Article article) {
+		Page<Article> pr = new Page<>(article.getPage(),article.getLimit());
+		QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
+		IPage<Article> articleIPage = articleDao.selectPage(pr, queryWrapper);
+		return articleIPage;
 	}
 
 	/**

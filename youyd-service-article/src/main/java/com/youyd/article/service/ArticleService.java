@@ -1,5 +1,6 @@
 package com.youyd.article.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.article.pojo.Article;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
  * 文章接口
  */
 public interface ArticleService {
-	List<Article> findArticleByCondition();
+	IPage<Article> findArticleByCondition(Article article);
 
 	Article findArticleByPrimaryKey(String id);
 

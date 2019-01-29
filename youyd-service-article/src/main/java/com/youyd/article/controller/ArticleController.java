@@ -1,10 +1,13 @@
 package com.youyd.article.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.pojo.Result;
 import com.youyd.utils.StatusCode;
 import com.youyd.article.pojo.Article;
 import com.youyd.article.service.ArticleService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,11 +30,12 @@ public class ArticleController {
     /**
      * 查询全部数据
      *
-     * @return
+     * @return Result
      */
+    @ApiOperation(value = "查询文章集合", notes = "Article")
     @GetMapping
-    public Result findArticleByCondition() {
-        List<Article> result = articleService.findArticleByCondition();
+    public Result findArticleByCondition(Article article) {
+	    IPage<Article> result = articleService.findArticleByCondition(article);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
     }
 
@@ -41,6 +45,7 @@ public class ArticleController {
      * @param id ID
      * @return Result
      */
+    @ApiOperation(value = "按照id查询文章", notes = "id")
     @GetMapping(value = "/{id}")
     public Result findArticleByPrimaryKey(@PathVariable String id) {
         Article result = articleService.findArticleByPrimaryKey(id);
@@ -53,6 +58,7 @@ public class ArticleController {
      *
      * @param article:文章实例
      */
+    @ApiOperation(value = "添加一条新的文章", notes = "id")
     @PostMapping
     public Result insertArticle(@RequestBody Article article) {
         articleService.insertArticle(article);
@@ -64,6 +70,7 @@ public class ArticleController {
      *
      * @param article:文章实例
      */
+    @ApiOperation(value = "按照id修改", notes = "id")
     @PutMapping(value = "/{id}")
     public Result updateByPrimaryKeySelective(@RequestBody Article article, @PathVariable String id) {
         article.setId(id);
@@ -76,6 +83,7 @@ public class ArticleController {
      *
      * @param articleIds 文章id
      */
+    @ApiOperation(value = "删除", notes = "id")
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable List articleIds) {
         articleService.deleteByIds(articleIds);
@@ -87,6 +95,7 @@ public class ArticleController {
      * @param id:文章id
      * @return Result
      */
+    @ApiOperation(value = "审核当前文章", notes = "id")
     @PutMapping(value="/examine/{id}")
     public Result examine(@PathVariable String id) {
         articleService.examine(id);
@@ -98,6 +107,7 @@ public class ArticleController {
      * @param id:文章id
      * @return Result
      */
+    @ApiOperation(value = "点赞", notes = "id")
     @PutMapping(value="/thumbup/{id}")
     public Result updateThumbup(@PathVariable String id) {
         articleService.updateThumbup(id);

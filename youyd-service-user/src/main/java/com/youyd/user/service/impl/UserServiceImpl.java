@@ -44,9 +44,10 @@ public class UserServiceImpl implements UserService {
 	 * 注册用户
 	 * @param user
 	 */
+	@Override
 	public void insertUser(User user) {
-		//密码加密
-		String bCryptPassword = bCryptPasswordEncoder.encode(user.getPassword());//加密后的密码
+		//加密后的密码
+		String bCryptPassword = bCryptPasswordEncoder.encode(user.getPassword());
 		user.setPassword(bCryptPassword);
 		userDao.insert(user);
 	}
@@ -54,7 +55,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public IPage<User> findByCondition(User user) {
-		Page<User> pr = new Page<>(user.getPage(),user.getSize());
+		Page<User> pr = new Page<>(user.getPage(),user.getLimit());
 		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
 		return userDao.selectPage(pr, queryWrapper);
 	}

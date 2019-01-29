@@ -1,139 +1,216 @@
 package com.youyd.article.pojo;
 
 import com.youyd.pojo.BasePojo;
+import io.swagger.annotations.ApiModel;
 
 import java.io.Serializable;
 
-/***
- * 文章板块: 文章类
- */
 
+ /**
+ * @description: 文章板块: 文章类
+ * @author: LGG
+ * @create: 2019-01-29
+ **/
+
+@ApiModel(value="article", description="文章类")
 public class Article extends BasePojo implements Serializable {
 
-    private String id;//ID
-    private String categoryId;//分类ID
-    private String userId;//用户ID
-    private String title;//标题
-    private String content;//文章正文
-    private String image;//文章封面
-    private String isPublic;//是否公开
-    private String isTop;//是否置顶
-    private Integer visits;//浏览量
-    private Integer thumbUp;//点赞数
-    private Integer comment;//评论数
-    private String state;//审核状态
-    private String url;//URL
-    private String type;//类型
+	 /**
+	  * ID
+	  */
+	 private String id;
 
-    public String getId() {
-        return id;
-    }
+	 /**
+	  * 专栏ID
+	  */
+	 private Integer categoryId;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	 /**
+	  * 用户ID
+	  */
+	 private String userId;
 
-	public String getCategoryId() {
-		return categoryId;
-	}
+	 /**
+	  * 标题
+	  */
+	 private String title;
 
-	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
-	}
+	 /**
+	  * 文章封面
+	  */
+	 private String image;
 
-	public String getUserId() {
-        return userId;
-    }
+	 /**
+	  * 是否公开
+	  */
+	 private String isPublic;
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+	 /**
+	  * 是否置顶
+	  */
+	 private String isTop;
 
-    public String getTitle() {
-        return title;
-    }
+	 /**
+	  * 浏览量
+	  */
+	 private Integer visits;
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	 /**
+	  * 点赞数
+	  */
+	 private Integer thumbUp;
 
-    public String getContent() {
-        return content;
-    }
+	 /**
+	  * 评论数
+	  */
+	 private Integer comment;
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+	 /**
+	  * 审核状态
+	  */
+	 private String reviewState;
 
-    public String getImage() {
-        return image;
-    }
+	 /**
+	  * URL
+	  */
+	 private String url;
 
-    public void setImage(String image) {
-        this.image = image;
-    }
+	 /**
+	  * 类型
+	  */
+	 private String type;
 
-    public String getIsPublic() {
-        return isPublic;
-    }
+	 /**
+	  * 热度
+	  */
+	 private String importance;
 
-    public void setIsPublic(String isPublic) {
-        this.isPublic = isPublic;
-    }
+	 /**
+	  * 文章正文
+	  */
+	 private String content;
 
-    public String getIsTop() {
-        return isTop;
-    }
 
-    public void setIsTop(String isTop) {
-        this.isTop = isTop;
-    }
+	 private static final long serialVersionUID = 1L;
 
-    public Integer getVisits() {
-        return visits;
-    }
+	 public String getId() {
+		 return id;
+	 }
 
-    public void setVisits(Integer visits) {
-        this.visits = visits;
-    }
+	 public void setId(String id) {
+		 this.id = id;
+	 }
 
-    public Integer getThumbUp() {
-        return thumbUp;
-    }
+	 public Integer getCategoryId() {
+		 return categoryId;
+	 }
 
-    public void setThumbUp(Integer thumbUp) {
-        this.thumbUp = thumbUp;
-    }
+	 public void setCategoryId(Integer categoryId) {
+		 this.categoryId = categoryId;
+	 }
 
-    public Integer getComment() {
-        return comment;
-    }
+	 public String getUserId() {
+		 return userId;
+	 }
 
-    public void setComment(Integer comment) {
-        this.comment = comment;
-    }
+	 public void setUserId(String userId) {
+		 this.userId = userId;
+	 }
 
-    public String getState() {
-        return state;
-    }
+	 public String getTitle() {
+		 return title;
+	 }
 
-    public void setState(String state) {
-        this.state = state;
-    }
+	 public void setTitle(String title) {
+		 this.title = title;
+	 }
 
-    public String getUrl() {
-        return url;
-    }
+	 public String getImage() {
+		 return image;
+	 }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+	 public void setImage(String image) {
+		 this.image = image;
+	 }
 
-    public String getType() {
-        return type;
-    }
+	 public String getIsPublic() {
+		 return isPublic;
+	 }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-}
+	 public void setIsPublic(String isPublic) {
+		 this.isPublic = isPublic;
+	 }
+
+	 public String getIsTop() {
+		 return isTop;
+	 }
+
+	 public void setIsTop(String isTop) {
+		 this.isTop = isTop;
+	 }
+
+	 public Integer getVisits() {
+		 return visits;
+	 }
+
+	 public void setVisits(Integer visits) {
+		 this.visits = visits;
+	 }
+
+	 public Integer getThumbUp() {
+		 return thumbUp;
+	 }
+
+	 public void setThumbUp(Integer thumbUp) {
+		 this.thumbUp = thumbUp;
+	 }
+
+	 public Integer getComment() {
+		 return comment;
+	 }
+
+	 public void setComment(Integer comment) {
+		 this.comment = comment;
+	 }
+
+	 public String getReviewState() {
+		 return reviewState;
+	 }
+
+	 public void setReviewState(String reviewState) {
+		 this.reviewState = reviewState;
+	 }
+
+	 public String getUrl() {
+		 return url;
+	 }
+
+	 public void setUrl(String url) {
+		 this.url = url;
+	 }
+
+	 public String getType() {
+		 return type;
+	 }
+
+	 public void setType(String type) {
+		 this.type = type;
+	 }
+
+	 public String getImportance() {
+		 return importance;
+	 }
+
+	 public void setImportance(String importance) {
+		 this.importance = importance;
+	 }
+
+	 public String getContent() {
+		 return content;
+	 }
+
+	 public void setContent(String content) {
+		 this.content = content;
+	 }
+
+ }

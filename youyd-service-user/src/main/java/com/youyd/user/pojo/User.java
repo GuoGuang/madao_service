@@ -8,7 +8,12 @@ import io.swagger.annotations.ApiModel;
 import java.io.Serializable;
 import java.util.Date;
 
-@ApiModel(value="User", description="用户实体类")
+/**
+ * @description: 用户实体类
+ * @author: LGG
+ * @create: 2018-09-27
+ **/
+@ApiModel(value="user", description="用户实体类")
 public class User extends BasePojo implements Serializable{
 
 	@TableId(type = IdType.ID_WORKER_STR)
