@@ -25,5 +25,5 @@ public interface ArticleDao extends BaseMapper<Article> {
 	 * @param id
 	 * @return
 	 */
-	int updateThumbup(String id);
+	int updateThumbUp(String id);
 }

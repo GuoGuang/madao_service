@@ -6,6 +6,7 @@ import com.youyd.article.service.ArticleService;
 import com.youyd.pojo.Result;
 import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -71,7 +72,7 @@ public class ArticleController {
      */
     @ApiOperation(value = "按照id修改", notes = "id")
     @PutMapping(value = "/{id}")
-    public Result updateByPrimaryKeySelective(@RequestBody Article article, @PathVariable String id) {
+    public Result updateByPrimaryKeySelective(@PathVariable String id,@RequestBody Article article) {
         article.setId(id);
         articleService.updateByPrimaryKeySelective(article);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
