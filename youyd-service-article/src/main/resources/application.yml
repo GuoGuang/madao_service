@@ -4,4 +4,6 @@ spring:
   application:
     name: service-article #指定服务名
 
-
+com:
+  youyd:
+    aopPointcutExpression: execution (* com.youyd.article..*.*(..))

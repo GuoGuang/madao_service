@@ -93,7 +93,7 @@ public class ArticleService{
 	 * @return
 	 */
 	public int updateThumbUp(String id){
-		return articleDao.updateThumbup(id);
+		return articleDao.updateThumbUp(id);
 	}
 
 }
