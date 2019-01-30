@@ -21,10 +21,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableCaching // 开启缓存注解
 // SpringBoot主配置类只会扫描自己所在的包及其子包下面,如果不加此扫描youyd-common里的公用包则扫描不到
 @ComponentScan(basePackages = {"com.youyd"})
-public class GatheringApplication {
+public class GatherApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GatheringApplication.class, args);
+        SpringApplication.run(GatherApplication.class, args);
     }
 
 
