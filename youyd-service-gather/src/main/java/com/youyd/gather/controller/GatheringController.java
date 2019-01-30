@@ -1,9 +1,9 @@
-package com.youyd.gathering.controller;
+package com.youyd.gather.controller;
 
+import com.youyd.gather.pojo.Gathering;
+import com.youyd.gather.service.GatheringService;
 import com.youyd.pojo.Result;
 import com.youyd.utils.StatusCode;
-import com.youyd.gathering.pojo.Gathering;
-import com.youyd.gathering.service.GatheringService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;

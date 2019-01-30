@@ -1,4 +1,4 @@
-package com.youyd.gathering.exception;
+package com.youyd.gather.exception;
 
 import com.youyd.pojo.Result;
 import com.youyd.utils.StatusCode;

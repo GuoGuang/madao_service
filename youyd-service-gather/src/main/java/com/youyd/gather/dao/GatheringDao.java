@@ -1,7 +1,6 @@
-package com.youyd.gathering.dao;
+package com.youyd.gather.dao;
 
-import com.youyd.gathering.pojo.Gathering;
-import org.apache.ibatis.annotations.Mapper;
+import com.youyd.gather.pojo.Gathering;
 
 import java.util.List;
 import java.util.Map;

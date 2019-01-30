@@ -1,4 +1,4 @@
-package com.youyd.gathering.config;
+package com.youyd.gather.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

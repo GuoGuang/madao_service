@@ -1,4 +1,4 @@
-package com.youyd.gathering.pojo;
+package com.youyd.gather.pojo;
 
 import com.youyd.pojo.BasePojo;
 

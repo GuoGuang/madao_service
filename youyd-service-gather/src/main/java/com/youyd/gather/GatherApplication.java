@@ -1,4 +1,4 @@
-package com.youyd.gathering;
+package com.youyd.gather;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
