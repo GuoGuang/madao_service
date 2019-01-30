@@ -1,8 +1,8 @@
-package com.youyd.gathering.service;
+package com.youyd.gather.service;
 
 
-import com.youyd.gathering.dao.GatheringDao;
-import com.youyd.gathering.pojo.Gathering;
+import com.youyd.gather.pojo.Gathering;
+import com.youyd.gather.dao.GatheringDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
