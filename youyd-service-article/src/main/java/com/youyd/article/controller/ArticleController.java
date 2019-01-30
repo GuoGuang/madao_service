@@ -1,12 +1,11 @@
 package com.youyd.article.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youyd.pojo.Result;
-import com.youyd.utils.StatusCode;
 import com.youyd.article.pojo.Article;
 import com.youyd.article.service.ArticleService;
+import com.youyd.pojo.Result;
+import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -84,7 +83,7 @@ public class ArticleController {
      * @param articleIds 文章id
      */
     @ApiOperation(value = "删除", notes = "id")
-    @DeleteMapping("/{id}")
+    @DeleteMapping
     public Result delete(@PathVariable List articleIds) {
         articleService.deleteByIds(articleIds);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
@@ -108,9 +107,9 @@ public class ArticleController {
      * @return Result
      */
     @ApiOperation(value = "点赞", notes = "id")
-    @PutMapping(value="/thumbup/{id}")
-    public Result updateThumbup(@PathVariable String id) {
-        articleService.updateThumbup(id);
+    @PutMapping(value="/thumbUp/{id}")
+    public Result updateThumbUp(@PathVariable String id) {
+        articleService.updateThumbUp(id);
         return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
     }
 }

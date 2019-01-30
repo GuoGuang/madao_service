@@ -1,6 +1,10 @@
 package com.youyd.article.service;
 
+import com.youyd.article.dao.CommentDao;
 import com.youyd.article.pojo.Comment;
+import com.youyd.article.service.CommentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -9,26 +13,44 @@ import java.util.List;
  * @author: LGG
  * @create: 2018-10-13 16:39
  **/
-public interface CommentService {
 
-	List<Comment> findCommentByCondition();
+@Service
+public class CommentService{
+
+	@Autowired
+	private CommentDao commentDao;
+
+	/**
+	 * 查询全部列表
+	 * @return
+	 */
+	public List<Comment> findCommentByCondition() {
+		return commentDao.selectList(null);
+	}
 
 	/**
 	 * 根据ID查询实体
 	 * @param id
 	 * @return
 	 */
-	Comment findCommentByPrimaryKey(String id);
+	public Comment findCommentByPrimaryKey(String id) {
+		return commentDao.selectById(id);
+	}
 
 	/**
 	 * 增加
 	 * @param comment
 	 */
-	void insertComment(Comment comment);
+	public void insertComment(Comment comment) {
+		commentDao.insert(comment);
+	}
 
 	/**
 	 * 删除
 	 * @param commentIds
 	 */
-	void deleteByIds(List commentIds);
+	public void deleteByIds(List commentIds) {
+		commentDao.deleteBatchIds(commentIds);
+	}
+
 }
