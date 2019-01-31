@@ -85,7 +85,7 @@ public class ArticleController {
      */
     @ApiOperation(value = "删除", notes = "id")
     @DeleteMapping
-    public Result delete(@PathVariable List articleIds) {
+    public Result delete(@RequestBody List<Long> articleIds) {
         articleService.deleteByIds(articleIds);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
     }

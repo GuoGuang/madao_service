@@ -7,7 +7,7 @@
     </update>
 
     <update id="updateThumbUp" parameterType="java.lang.String">
-       update ar_article a set thumb_up = thumb_up+1 where id=#{id}
+       update ar_article a set upvote = upvote+1 where id=#{id}
     </update>
 
 </mapper>

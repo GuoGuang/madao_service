@@ -58,7 +58,7 @@ public class Article extends BasePojo implements Serializable {
 	 /**
 	  * 点赞数
 	  */
-	 private Integer thumbUp;
+	 private Integer upvote;
 
 	 /**
 	  * 评论数
@@ -157,14 +157,6 @@ public class Article extends BasePojo implements Serializable {
 		 this.visits = visits;
 	 }
 
-	 public Integer getThumbUp() {
-		 return thumbUp;
-	 }
-
-	 public void setThumbUp(Integer thumbUp) {
-		 this.thumbUp = thumbUp;
-	 }
-
 	 public Integer getComment() {
 		 return comment;
 	 }
@@ -213,4 +205,11 @@ public class Article extends BasePojo implements Serializable {
 		 this.content = content;
 	 }
 
+	 public Integer getUpvote() {
+		 return upvote;
+	 }
+
+	 public void setUpvote(Integer upvote) {
+		 this.upvote = upvote;
+	 }
  }
