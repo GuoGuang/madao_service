@@ -8,6 +8,7 @@ spring:
 
 
 
+# 配置织入点
 com:
   youyd:
     aopPointcutExpression: execution (* com.youyd.user..*.*(..))
