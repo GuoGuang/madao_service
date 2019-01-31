@@ -1,5 +1,7 @@
 package com.youyd.article.pojo;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.youyd.pojo.BasePojo;
 import io.swagger.annotations.ApiModel;
 
@@ -18,7 +20,8 @@ public class Article extends BasePojo implements Serializable {
 	 /**
 	  * ID
 	  */
-	 private String id;
+	 @TableId(type = IdType.ID_WORKER)
+	 private Long id;
 
 	 /**
 	  * 专栏ID
@@ -93,11 +96,11 @@ public class Article extends BasePojo implements Serializable {
 
 	 private static final long serialVersionUID = 1L;
 
-	 public String getId() {
+	 public Long getId() {
 		 return id;
 	 }
 
-	 public void setId(String id) {
+	 public void setId(Long id) {
 		 this.id = id;
 	 }
 

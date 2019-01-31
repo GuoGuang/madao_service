@@ -13,8 +13,8 @@ import java.io.Serializable;
  **/
 public class Role extends BasePojo implements Serializable {
 
-	@TableId(type = IdType.ID_WORKER_STR)
-    private String roleId; // 角色表主键
+	@TableId(type = IdType.ID_WORKER)
+    private Long roleId; // 角色表主键
 
     private String parentRoleId; // 父级角色id
 
@@ -26,11 +26,11 @@ public class Role extends BasePojo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public String getRoleId() {
+    public Long getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(String roleId) {
+    public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
 
