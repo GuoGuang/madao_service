@@ -1,6 +1,7 @@
 package com.youyd.article.service;
 
 import com.youyd.article.dao.CommentDao;
+import com.youyd.article.pojo.Category;
 import com.youyd.article.pojo.Comment;
 import com.youyd.article.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,14 @@ public class CommentService{
 	public void insertComment(Comment comment) {
 		commentDao.insert(comment);
 	}
+	/**
+	 * 修改
+	 * @param comment
+	 */
+	public void updateByCommentSelective(Comment comment) {
+		commentDao.updateById(comment);
+	}
+
 
 	/**
 	 * 删除

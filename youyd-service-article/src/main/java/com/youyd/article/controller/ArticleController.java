@@ -71,9 +71,8 @@ public class ArticleController {
      * @param article:文章实例
      */
     @ApiOperation(value = "按照id修改", notes = "id")
-    @PutMapping(value = "/{id}")
-    public Result updateByPrimaryKeySelective(@PathVariable String id,@RequestBody Article article) {
-        article.setId(id);
+    @PutMapping
+    public Result updateByPrimaryKeySelective(@RequestBody Article article) {
         articleService.updateByPrimaryKeySelective(article);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
     }

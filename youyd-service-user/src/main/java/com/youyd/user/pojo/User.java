@@ -16,8 +16,8 @@ import java.util.Date;
 @ApiModel(value="user", description="用户实体类")
 public class User extends BasePojo implements Serializable{
 
-	@TableId(type = IdType.ID_WORKER_STR)
-	private String id;
+	@TableId(type = IdType.ID_WORKER)
+	private Long id;
 	private String account; // 账号
 	private String userName; //用户名
 	private String password; //密码
@@ -178,11 +178,11 @@ public class User extends BasePojo implements Serializable{
 		return serialVersionUID;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 }

@@ -1,5 +1,6 @@
 package com.youyd.article.controller;
 
+import com.youyd.article.pojo.Category;
 import com.youyd.article.pojo.Comment;
 import com.youyd.article.service.CommentService;
 import com.youyd.pojo.Result;
@@ -58,13 +59,21 @@ public class CommentController {
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
 	}
 
-	
+	/**
+	 * 修改
+	 */
+	@PutMapping
+	public Result updateByCommentSelective(@RequestBody Comment comment) {
+		commentService.updateByCommentSelective(comment);
+		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+	}
+
 	/**
 	 * 删除
 	 * @param commentIds
 	 */
 	@DeleteMapping
-	public Result deleteByIds(List commentIds){
+	public Result deleteByIds(List<Long> commentIds){
 		commentService.deleteByIds(commentIds);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
 	}

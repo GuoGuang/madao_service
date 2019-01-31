@@ -1,76 +1,97 @@
 package com.youyd.article.pojo;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.youyd.pojo.BasePojo;
+import io.swagger.annotations.ApiModel;
 
 import java.io.Serializable;
 
 /***
  * 文章分类
+ * @author LGG
  */
 
+@ApiModel(value="article", description="文章类")
 public class Category extends BasePojo implements Serializable {
 
-		private Integer id; // ID
+	private Integer id;
 
-		private Integer parentId; // 父ID
+	/**
+	 * 父ID
+	 */
+	@TableId(type = IdType.ID_WORKER)
+	private Integer parentId;
 
-		private String name; // v
+	/**
+	 * 名称
+	 */
+	private String name;
 
-		private String summary; // 分类简介
+	/**
+	 * 分类简介
+	 */
+	private String summary;
 
-		private String userId; // 用户ID
+	/**
+	 * 用户ID
+	 */
+	private String userId;
 
-		private String state; // 状态
+	/**
+	 * 状态
+	 */
+	private String state;
 
-		private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-		public Integer getId() {
-			return id;
-		}
+	public Integer getId() {
+		return id;
+	}
 
-		public void setId(Integer id) {
-			this.id = id;
-		}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-		public Integer getParentId() {
-			return parentId;
-		}
+	public Integer getParentId() {
+		return parentId;
+	}
 
-		public void setParentId(Integer parentId) {
-			this.parentId = parentId;
-		}
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
+	}
 
-		public String getName() {
-			return name;
-		}
+	public String getName() {
+		return name;
+	}
 
-		public void setName(String name) {
-			this.name = name;
-		}
+	public void setName(String name) {
+		this.name = name;
+	}
 
-		public String getSummary() {
-			return summary;
-		}
+	public String getSummary() {
+		return summary;
+	}
 
-		public void setSummary(String summary) {
-			this.summary = summary;
-		}
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
 
-		public String getUserId() {
-			return userId;
-		}
+	public String getUserId() {
+		return userId;
+	}
 
-		public void setUserId(String userId) {
-			this.userId = userId;
-		}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
 
-		public String getState() {
-			return state;
-		}
+	public String getState() {
+		return state;
+	}
 
-		public void setState(String state) {
-			this.state = state;
-		}
+	public void setState(String state) {
+		this.state = state;
+	}
 
 }

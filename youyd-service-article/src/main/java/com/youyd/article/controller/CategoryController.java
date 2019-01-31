@@ -1,10 +1,13 @@
 package com.youyd.article.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.article.pojo.Article;
 import com.youyd.article.pojo.Category;
 import com.youyd.article.service.CategoryService;
 import com.youyd.pojo.Result;
 import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,16 +27,15 @@ public class CategoryController {
 	@Autowired
 	private CategoryService columnService;
 
-
 	/**
 	 * 查询全部数据
 	 *
 	 * @return
 	 */
 	@GetMapping
-	public Result findCategoryByCondition() {
-		List result = columnService.findCategoryByCondition();
-		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), result);
+	public Result findCategoryByCondition(Category category) {
+		IPage<Category> categoryByCondition = columnService.findCategoryByCondition(category);
+		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), categoryByCondition);
 	}
 
 	/**
@@ -51,9 +53,8 @@ public class CategoryController {
 
 	/**
 	 * 增加
-	 *
-	 * @param category
 	 */
+	@ApiOperation(value = "添加一条新的分类", notes = "id")
 	@PostMapping
 	public Result insertCategory(@RequestBody Category category) {
 		columnService.insertCategory(category);
@@ -62,8 +63,6 @@ public class CategoryController {
 
 	/**
 	 * 修改
-	 *
-	 * @param category
 	 */
 	@PutMapping
 	public Result updateByCategorySelective(@RequestBody Category category) {
@@ -74,10 +73,10 @@ public class CategoryController {
 	/**
 	 * 删除
 	 *
-	 * @param categoryIds
+	 * @param categoryIds :分类id数组
 	 */
 	@DeleteMapping
-	public Result deleteByPrimaryKey(List categoryIds) {
+	public Result deleteByPrimaryKey(@RequestBody List<Long> categoryIds) {
 		columnService.deleteByPrimaryKey(categoryIds);
 		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}

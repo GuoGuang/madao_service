@@ -13,8 +13,8 @@ import java.io.Serializable;
  **/
 public class Menu extends BasePojo implements Serializable {
 
-	@TableId(type = IdType.ID_WORKER_STR)
-	private String id; // 菜单表主键
+	@TableId(type = IdType.ID_WORKER)
+	private Long id; // 菜单表主键
 
 	private String title; // 标题
 
@@ -28,19 +28,19 @@ public class Menu extends BasePojo implements Serializable {
 
 	private String path; // 路径
 
-	private Integer state; // 状态（禁用：0，启用：1）
+	private Long state; // 状态（禁用：0，启用：1）
 
-	private Integer sort; // 排序
+	private Long sort; // 排序
 
 	private String description; // 描述
 
 	private static final long serialVersionUID = 1L;
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -92,19 +92,19 @@ public class Menu extends BasePojo implements Serializable {
 		this.path = path;
 	}
 
-	public Integer getState() {
+	public Long getState() {
 		return state;
 	}
 
-	public void setState(Integer state) {
+	public void setState(Long state) {
 		this.state = state;
 	}
 
-	public Integer getSort() {
+	public Long getSort() {
 		return sort;
 	}
 
-	public void setSort(Integer sort) {
+	public void setSort(Long sort) {
 		this.sort = sort;
 	}
 

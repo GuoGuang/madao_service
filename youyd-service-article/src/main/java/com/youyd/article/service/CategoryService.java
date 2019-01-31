@@ -1,8 +1,15 @@
 package com.youyd.article.service;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youyd.article.dao.CategoryDao;
+import com.youyd.article.pojo.Article;
 import com.youyd.article.pojo.Category;
+import com.youyd.cache.constant.RedisConstant;
+import com.youyd.cache.redis.RedisService;
+import com.youyd.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +26,17 @@ public class CategoryService{
 	@Autowired
 	private CategoryDao categoryDao;
 
+	@Autowired
+	private RedisService redisService;
 
 	/**
 	 * 查询全部列表
 	 * @return
 	 */
-	public List findCategoryByCondition() {
-		return categoryDao.selectList(null);
+	public IPage<Category> findCategoryByCondition(Category category) {
+		Page<Category> pr = new Page<>(category.getPage(),category.getLimit());
+		QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
+		return categoryDao.selectPage(pr, queryWrapper);
 	}
 
 	/**
@@ -34,7 +45,14 @@ public class CategoryService{
 	 * @return
 	 */
 	public Category findCategoryByPrimaryKey(String id) {
-		return categoryDao.selectById(id);
+		Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + id);
+		Category category = JsonUtil.mapToPojo(mapJson, Category.class);
+		// 如果缓存没有则到数据库查询并放入缓存,有效期一天
+		if(category==null) {
+			category = categoryDao.selectById(id);
+			redisService.set(RedisConstant.REDIS_KEY_ARTICLE+ id, category,RedisConstant.REDIS_TIME_DAY);
+		}
+		return category;
 	}
 
 	/**

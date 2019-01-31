@@ -13,8 +13,10 @@ import java.util.Date;
 @ConfigurationProperties("jwt.config")
 public class JWTAuthentication {
 
-	private String encodedSecretKey ;//签名秘钥
-	private long expiration ;// 过期时间
+	//签名秘钥
+	private String encodedSecretKey;
+	// 过期时间
+	private long expiration ;
 
 
 	/**
@@ -24,15 +26,18 @@ public class JWTAuthentication {
 	 * @param roles
 	 * @return
 	 */
-	public String createJWT(String id, String subject, String roles) {
+	public String createJWT(Long id, String subject, String roles) {
 		long nowMillis = System.currentTimeMillis();
 		Date now = new Date(nowMillis);
 		JwtBuilder builder = Jwts.builder();
-		builder.setId(id);
+		builder.setId(id.toString());
 		builder.setSubject(subject);
-		builder.setIssuedAt(now);// 设置签发时间
-		builder.signWith(SignatureAlgorithm.HS256, encodedSecretKey); // 设置签名秘钥
-		builder.setExpiration(new Date(System.currentTimeMillis() + 1000*60 ));//过期时间为1分钟
+		// 设置签发时间
+		builder.setIssuedAt(now);
+		// 设置签名秘钥
+		builder.signWith(SignatureAlgorithm.HS256, encodedSecretKey);
+		// 过期时间为1分钟
+		builder.setExpiration(new Date(System.currentTimeMillis() + 1000*60 ));
 		builder.claim("roles",roles);
 		if (expiration > 0) {
 			builder.setExpiration( new Date( nowMillis + expiration));
