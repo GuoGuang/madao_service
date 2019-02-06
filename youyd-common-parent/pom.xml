@@ -155,6 +155,7 @@
                    <module>../youyd-service-user</module>
                    <module>../youyd-service-sms</module>
                    <module>../youyd-web-gateway</module>
+                   <module>../youyd-web-platform</module>
                    <module>../youyd-server-config</module>
                    <module>../youyd-server-eureka</module>
                    <module>../youyd-common-redis</module>
