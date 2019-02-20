@@ -1,4 +1,4 @@
-package com.youyd.article.controller;
+package com.youyd.article.controller.backstage;
 
 import com.youyd.article.pojo.Category;
 import com.youyd.article.pojo.Comment;
@@ -19,7 +19,7 @@ import java.util.List;
 
 @Api(tags = "文章评论")
 @RestController
-@RequestMapping(value = "/comment",produces = "application/json")
+@RequestMapping(value = "/sa/comment",produces = "application/json")
 
 public class CommentController {
 

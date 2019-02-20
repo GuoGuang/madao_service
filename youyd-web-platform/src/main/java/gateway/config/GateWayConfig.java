@@ -43,6 +43,7 @@ public class GateWayConfig {
 		// config.setParts(1);
 		return builder.routes()
 				// 用户服务
+				/* 路径可以去掉service 直接user,或者article 然后stripPrefix（0）  */
 				.route("user_route", r -> r.path("/service_user/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-USER"))
 				// 文章服务
 				.route("article_route",a ->a.path("/service_article/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-ARTICLE"))

@@ -1,4 +1,4 @@
-package com.youyd.article.controller;
+package com.youyd.article.controller.blog;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.article.pojo.Article;
@@ -6,7 +6,6 @@ import com.youyd.article.service.ArticleService;
 import com.youyd.pojo.Result;
 import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @description: 文章管理
+ * @description: 前台网站文章管理
  * @author: LGG
- * @create: 2019-01-11
+ * @create: 2019-02-20
  **/
 
 @Api(tags = "文章")

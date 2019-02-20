@@ -1,4 +1,4 @@
-package com.youyd.article.controller;
+package com.youyd.article.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.article.pojo.Article;
@@ -21,7 +21,7 @@ import java.util.List;
 
 @Api(tags = "文章分类")
 @RestController
-@RequestMapping(value = "/category", produces = "application/json")
+@RequestMapping(value = "/sa/category", produces = "application/json")
 public class CategoryController {
 
 	@Autowired
