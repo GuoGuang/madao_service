@@ -10,7 +10,8 @@ spring:
           uri: https://github.com/GuoGuang0536/youyd_config.git
           default-label: master
           username: GuoGuang0536@gmail.com
-          password: GuoGuangLin0536
+          # TODO 加密
+          password: Lin250360
 
     bus:
       enabled: true # 开启消息跟踪
