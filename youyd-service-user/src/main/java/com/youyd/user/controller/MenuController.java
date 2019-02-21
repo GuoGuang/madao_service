@@ -20,7 +20,7 @@ import java.util.Map;
 
 @Api(tags = "菜单")
 @RestController
-@RequestMapping(value = "/p/menu")
+@RequestMapping(value = "/su/menu")
 public class MenuController {
 
 
