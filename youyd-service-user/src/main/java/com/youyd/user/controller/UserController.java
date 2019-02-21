@@ -26,7 +26,7 @@ import java.util.Map;
 
 @Api(tags = "用户")
 @RestController
-@RequestMapping(value = "/p/user", produces = "application/json")
+@RequestMapping(value = "/su/user", produces = "application/json")
 public class UserController {
 
 	@Autowired

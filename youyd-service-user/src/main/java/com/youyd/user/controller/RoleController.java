@@ -19,7 +19,7 @@ import java.util.Map;
 
 @Api(tags = "角色")
 @RestController
-@RequestMapping(value = "/p/role")
+@RequestMapping(value = "/su/role")
 public class RoleController {
 
 	@Autowired
