@@ -9,49 +9,51 @@ import java.io.Serializable;
  */
 
 public class Answers extends BasePojo implements Serializable {
-    private String id;
-    private String problemId;//问题ID
-    private String content;//回答内容
-    private String userId;//回答人ID
-    private String nickName;//回答人昵称
+    private Integer id; // 答案表id
+    private Integer questionId;// 问题表ID
+    private String content;// 答案内容
+    private Integer userId;// 回答人ID
+    private String nickName;// 回答人昵称
 
-    public String getId() {
-        return id;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getProblemId() {
-        return problemId;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setProblemId(String problemId) {
-        this.problemId = problemId == null ? null : problemId.trim();
-    }
+	public Integer getQuestionId() {
+		return questionId;
+	}
 
-    public String getUserId() {
-        return userId;
-    }
+	public void setQuestionId(Integer questionId) {
+		this.questionId = questionId;
+	}
 
-    public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
-    }
+	public Integer getUserId() {
+		return userId;
+	}
 
-    public String getNickName() {
-        return nickName;
-    }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName == null ? null : nickName.trim();
-    }
+	public String getNickName() {
+		return nickName;
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
 
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
-    }
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
 }
