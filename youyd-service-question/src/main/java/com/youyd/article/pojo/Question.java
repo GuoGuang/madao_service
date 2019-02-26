@@ -11,9 +11,10 @@ import java.util.Date;
  * @create: 2019-02-26 16:21
  **/
 public class Question extends BasePojo implements Serializable {
-    private String id;
+    private Integer id;
     private String title;//标题
     private String content;//内容
+    private Integer tagsId;//问题标签表
     private String userId;//用户ID
     private String nickName;//昵称
     private Long visits;//浏览量
@@ -21,93 +22,105 @@ public class Question extends BasePojo implements Serializable {
     private Long reply;//回复数
     private String solve;//是否解决
     private String replyName;//回复人昵称
-    private java.util.Date replyTime;//回复日期
+    private Date replyTime;//回复日期
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
+	private static final long serialVersionUID = 1L;
 
-    public String getTitle() {
-        return title;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getUserId() {
-        return userId;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public String getNickName() {
-        return nickName;
-    }
+	public Integer getTagsId() {
+		return tagsId;
+	}
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName == null ? null : nickName.trim();
-    }
+	public void setTagsId(Integer tagsId) {
+		this.tagsId = tagsId;
+	}
 
-    public Long getVisits() {
-        return visits;
-    }
+	public String getUserId() {
+		return userId;
+	}
 
-    public void setVisits(Long visits) {
-        this.visits = visits;
-    }
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
-    public Long getThumbUp() {
-        return thumbUp;
-    }
+	public String getNickName() {
+		return nickName;
+	}
 
-    public void setThumbUp(Long thumbUp) {
-        this.thumbUp = thumbUp;
-    }
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
 
-    public Long getReply() {
-        return reply;
-    }
+	public Long getVisits() {
+		return visits;
+	}
 
-    public void setReply(Long reply) {
-        this.reply = reply;
-    }
+	public void setVisits(Long visits) {
+		this.visits = visits;
+	}
 
-    public String getSolve() {
-        return solve;
-    }
+	public Long getThumbUp() {
+		return thumbUp;
+	}
 
-    public void setSolve(String solve) {
-        this.solve = solve == null ? null : solve.trim();
-    }
+	public void setThumbUp(Long thumbUp) {
+		this.thumbUp = thumbUp;
+	}
 
-    public String getReplyName() {
-        return replyName;
-    }
+	public Long getReply() {
+		return reply;
+	}
 
-    public void setReplyName(String replyName) {
-        this.replyName = replyName == null ? null : replyName.trim();
-    }
+	public void setReply(Long reply) {
+		this.reply = reply;
+	}
 
-    public Date getReplyTime() {
-        return replyTime;
-    }
+	public String getSolve() {
+		return solve;
+	}
 
-    public void setReplyTime(Date replyTime) {
-        this.replyTime = replyTime;
-    }
+	public void setSolve(String solve) {
+		this.solve = solve;
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public String getReplyName() {
+		return replyName;
+	}
 
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
-    }
+	public void setReplyName(String replyName) {
+		this.replyName = replyName;
+	}
+
+	public Date getReplyTime() {
+		return replyTime;
+	}
+
+	public void setReplyTime(Date replyTime) {
+		this.replyTime = replyTime;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 }
