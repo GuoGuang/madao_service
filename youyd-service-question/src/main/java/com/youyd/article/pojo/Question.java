@@ -6,10 +6,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 问答板块:问题表
- */
-
-public class Problem extends BasePojo implements Serializable {
+ * @description: 问题表
+ * @author: LGG
+ * @create: 2019-02-26 16:21
+ **/
+public class Question extends BasePojo implements Serializable {
     private String id;
     private String title;//标题
     private String content;//内容

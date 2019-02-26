@@ -5,10 +5,10 @@ import com.youyd.pojo.BasePojo;
 import java.io.Serializable;
 
 /**
- * 问答板块:回答表
+ * 回答表
  */
 
-public class Reply  extends BasePojo implements Serializable {
+public class Answers extends BasePojo implements Serializable {
     private String id;
     private String problemId;//问题ID
     private String content;//回答内容

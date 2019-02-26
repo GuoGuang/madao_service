@@ -21,6 +21,7 @@ public class GlobalExceptionHandler {
 	@ResponseBody
 	public JsonData handleException(HttpServletRequest request, Exception ex) {
 		LogBack.error(ex.getMessage(),ex);
+		ex.printStackTrace();
 		return new JsonData(false, StatusCode.SYSTEM_EXCEPTION.getCode(),ex.getMessage());
 	}
 
