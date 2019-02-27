@@ -1,0 +1,5 @@
+server:
+  port: 9005
+spring:
+  application:
+    name: service-spit #指定服务名
