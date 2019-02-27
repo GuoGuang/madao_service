@@ -1,8 +1,8 @@
-package com.youyd.article.controller;
+package com.youyd.question.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youyd.article.pojo.Answers;
-import com.youyd.article.service.AnswersService;
+import com.youyd.question.pojo.Answers;
+import com.youyd.question.service.AnswersService;
 import com.youyd.pojo.Result;
 import com.youyd.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;

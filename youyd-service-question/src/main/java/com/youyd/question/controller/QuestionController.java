@@ -1,8 +1,8 @@
-package com.youyd.article.controller;
+package com.youyd.question.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youyd.article.pojo.Question;
-import com.youyd.article.service.QuestionService;
+import com.youyd.question.pojo.Question;
+import com.youyd.question.service.QuestionService;
 import com.youyd.pojo.Result;
 import com.youyd.utils.JsonData;
 import com.youyd.utils.StatusCode;

@@ -1,7 +1,7 @@
-package com.youyd.article.dao;
+package com.youyd.question.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youyd.article.pojo.Answers;
+import com.youyd.question.pojo.Answers;
 
 /**
  * @description: 答案
