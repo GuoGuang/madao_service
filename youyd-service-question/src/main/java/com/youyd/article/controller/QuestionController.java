@@ -1,7 +1,9 @@
 package com.youyd.article.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.article.pojo.Question;
 import com.youyd.article.service.QuestionService;
+import com.youyd.pojo.Result;
 import com.youyd.utils.JsonData;
 import com.youyd.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,22 +18,26 @@ import java.util.List;
  **/
 
 @RestController
-@RequestMapping("/Question")
+@RequestMapping("/question")
 public class QuestionController {
 
-    @Autowired
-    private QuestionService questionService;
+    private final QuestionService questionService;
+
+	@Autowired
+	public QuestionController(QuestionService questionService) {
+		this.questionService = questionService;
+	}
 
 
-    /**
+	/**
      * 查询全部数据
      *
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET)
-    public JsonData findQuestionByCondition() {
-        List<Question> JsonData = questionService.findQuestionByCondition();
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),JsonData);
+    @GetMapping
+    public JsonData findQuestionByCondition(Question question) {
+	    IPage<Question> jsonData = questionService.findQuestionByCondition(question);
+        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),jsonData);
     }
 
     /**
@@ -41,9 +47,9 @@ public class QuestionController {
      * @return
      */
     @GetMapping(value = "/{id}")
-    public JsonData findQuestionByPrimaryKey(@PathVariable String id) {
+    public Result findQuestionByPrimaryKey(@PathVariable String id) {
         Question result = questionService.findQuestionByPrimaryKey(id);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
     }
 
 
@@ -53,9 +59,9 @@ public class QuestionController {
      * @param Question
      */
     @PostMapping()
-    public JsonData insertQuestion(@RequestBody Question question) {
-	    questionService.insertQuestion(question);
-	    return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+    public Result insertQuestion(@RequestBody Question question) {
+	    boolean insertResult = questionService.insertQuestion(question);
+	    return new Result(insertResult, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
     }
 
     /**
@@ -64,20 +70,20 @@ public class QuestionController {
      * @param Question
      */
     @PutMapping()
-    public JsonData updateByPrimaryKey(@RequestBody Question question) {
-	    boolean result = questionService.updateByPrimaryKeySelective(question);
-	    return new JsonData(result, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+    public Result updateByPrimaryKey(@RequestBody Question question) {
+	    boolean updateResult = questionService.updateByPrimaryKeySelective(question);
+	    return new Result(updateResult, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
     }
 
     /**
      * 删除
      *
-     * @param questionId
+     * @param questionIds
      */
     @DeleteMapping
-    public JsonData delete(@RequestBody List questionId) {
-	    boolean result = questionService.deleteByIds(questionId);
-	    return new JsonData(result,StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+    public Result deleteByIds(@RequestBody List questionIds) {
+	    boolean delResult = questionService.deleteByIds(questionIds);
+	    return new Result(delResult,StatusCode.OK.getCode(), StatusCode.OK.getMsg());
     }
 
 
@@ -90,13 +96,13 @@ public class QuestionController {
      * @return
      */
     @RequestMapping(value = "/newlist/{labelid}/{page}/{size}", method = RequestMethod.GET)
-    public JsonData findNewRecommendList(@PathVariable("labelid") String labelid, @PathVariable("page") int page, @PathVariable("size") int size) {
+    public Result findNewRecommendList(@PathVariable("labelid") String labelid, @PathVariable("page") int page, @PathVariable("size") int size) {
         //1.调用业务层方法查询
         //Page<Question> QuestionPage = questionService.findNewRecommendList(labelid, page, size);
         //2.创建自定义的分页对象
         //PageJsonData<Question> QuestionPageJsonData = new PageJsonData<>(QuestionPage.getTotalElements(), QuestionPage.getContent());
         //3.返回
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
     }
 
 
@@ -109,13 +115,13 @@ public class QuestionController {
      * @return
      */
     @RequestMapping(value = "/hotlist/{labelid}/{page}/{size}", method = RequestMethod.GET)
-    public JsonData findHotRecommendList(@PathVariable("labelid") String labelid, @PathVariable("page") int page, @PathVariable("size") int size) {
+    public Result findHotRecommendList(@PathVariable("labelid") String labelid, @PathVariable("page") int page, @PathVariable("size") int size) {
         //1.调用业务层方法查询
        // Page<Question> QuestionPage = questionService.findHotRecommendList(labelid, page, size);
         //2.创建自定义的分页对象
         //PageJsonData<Question> QuestionPageJsonData = new PageJsonData<>(QuestionPage.getTotalElements(), QuestionPage.getContent());
         //3.返回
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
     }
 
 
@@ -128,12 +134,12 @@ public class QuestionController {
      * @return
      */
     @RequestMapping(value = "/waitlist/{labelid}/{page}/{size}", method = RequestMethod.GET)
-    public JsonData findWaitRecommendList(@PathVariable("labelid") String labelid, @PathVariable("page") int page, @PathVariable("size") int size) {
+    public Result findWaitRecommendList(@PathVariable("labelid") String labelid, @PathVariable("page") int page, @PathVariable("size") int size) {
         //1.调用业务层方法查询
        // Page<Question> QuestionPage = questionService.findWaitRecommendList(labelid, page, size);
         //2.创建自定义的分页对象
        // PageJsonData<Question> QuestionPageJsonData = new PageJsonData<>(QuestionPage.getTotalElements(), QuestionPage.getContent());
         //3.返回
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
     }
 }
