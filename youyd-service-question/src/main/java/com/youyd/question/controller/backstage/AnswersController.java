@@ -1,4 +1,4 @@
-package com.youyd.question.controller;
+package com.youyd.question.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.question.pojo.Answers;
@@ -17,7 +17,7 @@ import java.util.List;
  **/
 
 @RestController
-@RequestMapping("/answers")
+@RequestMapping("/sq/answers")
 public class AnswersController {
 
 	private final AnswersService answersService;
