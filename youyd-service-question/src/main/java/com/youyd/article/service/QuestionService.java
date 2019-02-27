@@ -1,6 +1,8 @@
 package com.youyd.article.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.article.dao.QuestionDao;
 import com.youyd.article.pojo.Question;
@@ -25,9 +27,10 @@ public class QuestionService {
 	 * 查询全部列表
 	 * @return
 	 */
-	public List<Question> findQuestionByCondition() {
+	public IPage<Question> findQuestionByCondition(Question question) {
+		Page<Question> pr = new Page<>(question.getPage(),question.getLimit());
 		QueryWrapper<Question> queryWrapper = new QueryWrapper<>();
-		return questionDao.selectList(queryWrapper);
+		return questionDao.selectPage(pr, queryWrapper);
 	}
 
 	/**
@@ -36,7 +39,9 @@ public class QuestionService {
 	 * @return
 	 */
 	public Question findQuestionByPrimaryKey(String questionId) {
-		return questionDao.selectById(questionId);
+		Question question = questionDao.selectById(questionId);
+
+		return null;
 	}
 
 	/**

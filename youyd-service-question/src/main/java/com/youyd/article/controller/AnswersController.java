@@ -20,14 +20,18 @@ import java.util.List;
 @RequestMapping("/answers")
 public class AnswersController {
 
+	private final AnswersService answersService;
+
 	@Autowired
-	private AnswersService answersService;
+	public AnswersController(AnswersService answersService) {
+		this.answersService = answersService;
+	}
 
 
 	/**
 	 * 查询全部数据
 	 *
-	 * @return
+	 * @return Result
 	 */
 	@GetMapping
 	public Result findAnswersByCondition(Answers answers) {
@@ -39,7 +43,7 @@ public class AnswersController {
 	 * 根据ID查询
 	 *
 	 * @param id ID
-	 * @return
+	 * @return Result
 	 */
 	@GetMapping(value = "/{id}")
 	public Result findAnswersByPrimaryKey(@PathVariable String id) {
@@ -51,7 +55,7 @@ public class AnswersController {
 	/**
 	 * 增加
 	 *
-	 * @param answers
+	 * @param answers 要添加的对象
 	 */
 	@PostMapping
 	public Result insertAnswers(Answers answers) {
@@ -61,8 +65,7 @@ public class AnswersController {
 
 	/**
 	 * 修改
-	 *
-	 * @param answers
+	 * @param answers 被修改的对象
 	 */
 	@PutMapping()
 	public Result updateByAnswersSelective(Answers answers) {
@@ -73,7 +76,7 @@ public class AnswersController {
 	/**
 	 * 删除
 	 *
-	 * @param answersIds
+	 * @param answersIds 答案id数组
 	 */
 	@DeleteMapping()
 	public Result deleteByPrimaryKey(@RequestBody List answersIds) {
