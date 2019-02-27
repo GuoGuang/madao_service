@@ -1,4 +1,4 @@
-package com.youyd.article.exception;
+package com.youyd.question.exception;
 
 import com.youyd.pojo.Result;
 import com.youyd.utils.LogBack;

@@ -1,4 +1,4 @@
-package com.youyd.article.config;
+package com.youyd.question.config;
 
 import org.springframework.context.annotation.Configuration;
 

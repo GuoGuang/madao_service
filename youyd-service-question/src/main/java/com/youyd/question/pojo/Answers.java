@@ -1,4 +1,4 @@
-package com.youyd.article.pojo;
+package com.youyd.question.pojo;
 
 import com.youyd.pojo.BasePojo;
 
