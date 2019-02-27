@@ -101,7 +101,7 @@ public class QuestionController {
         //Page<Question> QuestionPage = questionService.findNewRecommendList(labelid, page, size);
         //2.创建自定义的分页对象
         //PageJsonData<Question> QuestionPageJsonData = new PageJsonData<>(QuestionPage.getTotalElements(), QuestionPage.getContent());
-        //3.返回
+        //3. 返回
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
     }
 
