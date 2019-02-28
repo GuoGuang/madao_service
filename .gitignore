@@ -1,0 +1,94 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Java template
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+.idea/
+log/
+src/
+youyd-common-parent/youyd-common-parent.iml
+youyd-common-redis/src/test/
+youyd-common-redis/target/
+youyd-common-redis/youyd-common-redis.iml
+youyd-common/src/main/java/com/youyd/core/
+youyd-common/src/main/resources/
+youyd-common/src/test/
+youyd-common/target/
+youyd-common/youyd-common.iml
+youyd-database-mybatis/src/test/
+youyd-database-mybatis/target/
+youyd-database-mybatis/youyd-database-mybatis.iml
+youyd-database-redis/target/generated-sources/
+youyd-database-redis/target/generated-test-sources/
+youyd-database-redis/youyd-database-redis.iml
+youyd-server-config/src/main/java/com/youyd/mybatis/
+youyd-server-config/src/main/java/com/youyd/user/
+youyd-server-config/src/test/
+youyd-server-config/target/
+youyd-server-config/youyd-server-config.iml
+youyd-server-eureka/src/test/
+youyd-server-eureka/target/
+youyd-server-eureka/youyd-server-eureka.iml
+youyd-service-article/src/main/java/com/youyd/article/config/
+youyd-service-article/src/main/resources/META-INF/
+youyd-service-article/src/test/
+youyd-service-article/target/
+youyd-service-article/youyd-service-article.iml
+youyd-service-base/src/main/java/com/youyd/base/config/
+youyd-service-base/src/test/
+youyd-service-base/target/
+youyd-service-base/youyd-service-base.iml
+youyd-service-gather/src/test/java/com/wlcoco/
+youyd-service-gather/target/
+youyd-service-gather/youyd-service-gather.iml
+youyd-service-question/src/main/java/com/youyd/question/controller/blog/
+youyd-service-question/src/test/
+youyd-service-question/target/
+youyd-service-question/youyd-service-question.iml
+youyd-service-search/src/main/java/com/youyd/search/config/
+youyd-service-search/src/test/
+youyd-service-search/target/
+youyd-service-search/youyd-service-search.iml
+youyd-service-sms/src/test/java/com/wlcoco/
+youyd-service-sms/target/
+youyd-service-sms/youyd-service-sms.iml
+youyd-service-tweets/src/test/
+youyd-service-tweets/target/
+youyd-service-tweets/youyd-service-spit.iml
+youyd-service-tweets/youyd-service-tweets.iml
+youyd-service-user/src/main/resources/properties/
+youyd-service-user/target/
+youyd-service-user/youyd-service-user.iml
+youyd-web-gateway/src/test/
+youyd-web-gateway/target/
+youyd-web-gateway/youyd-web-gateway.iml
+youyd-web-platform/target/
+youyd-web-platform/youyd-web-platform.iml
+
