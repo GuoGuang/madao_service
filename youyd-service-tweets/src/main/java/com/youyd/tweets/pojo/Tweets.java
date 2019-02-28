@@ -2,6 +2,7 @@ package com.youyd.tweets.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.youyd.pojo.BasePojo;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,7 +11,7 @@ import java.util.Date;
  * 吐槽表
  */
 
-public class Tweets implements Serializable {
+public class Tweets extends BasePojo implements Serializable {
 
 	@TableId(type = IdType.ID_WORKER_STR)
     private String id; // 吐槽表ID

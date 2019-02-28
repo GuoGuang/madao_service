@@ -1,15 +1,15 @@
 package com.youyd.tweets.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.pojo.Result;
-import com.youyd.utils.ParamUtil;
-import com.youyd.utils.StatusCode;
 import com.youyd.tweets.pojo.Tweets;
 import com.youyd.tweets.service.TweetsService;
+import com.youyd.utils.StatusCode;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * @description: 招聘控制层
@@ -20,40 +20,38 @@ import java.util.Map;
 @RequestMapping("/tweets")
 public class TweetsController {
 
+	private final TweetsService tweetsService;
+
 	@Autowired
-	private TweetsService tweetsService;
+	public TweetsController(TweetsService tweetsService) {
+		this.tweetsService = tweetsService;
+	}
 
 	/**
 	 * 按照条件查询招聘信息
 	 * @return Result
 	 */
-	@SuppressWarnings("Duplicates")
-	@GetMapping(value="/search")
-	public Result findTweetsByCondition(@RequestParam(required = false) Map searchMap){
-		if (!ParamUtil.isAvailable(searchMap,"page","size")){
-			return new Result(false,StatusCode.PARAM_ERROR.getCode(),StatusCode.PARAM_ERROR.getMsg());
-		}
-		Integer page = Integer.valueOf(searchMap.get("page").toString());
-		Integer size = Integer.valueOf(searchMap.get("size").toString());
-		Result result = tweetsService.findTweetsByCondition(searchMap, page, size);
-		return result;
+	@GetMapping
+	public Result findTweetsByCondition(Tweets tweets){
+		IPage<Tweets> byCondition =  tweetsService.findTweetsByCondition(tweets);
+		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), byCondition);
 
 	}
 
 	/**
 	 * 根据ID查询
-	 * @param id
+	 * @param tweetsId 吐槽id
 	 * @return Result
 	 */
-	@GetMapping(value="/{id}")
-	public Result findTweetsByPrimaryKey(@PathVariable String id){
-		Tweets label = tweetsService.findTweetsByPrimaryKey(id);
-		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),label);
+	@GetMapping(value="/{tweetsId}")
+	public Result findTweetsByPrimaryKey(@PathVariable String tweetsId){
+		Tweets result = tweetsService.findTweetsByPrimaryKey(tweetsId);
+		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
 	}
 
 	/**
 	 * 增加
-	 * @param tweets
+	 * @param tweets : 吐槽实体
 	 * @return Result
 	 */
 	@PostMapping()
@@ -68,22 +66,21 @@ public class TweetsController {
 	 * @param id
 	 * @return Result
 	 */
-	@PutMapping(value="/{id}")
-	public Result updateTweets(@RequestBody Tweets tweets,@PathVariable String id){
-		tweets.setId(id);
-		tweetsService.updateByPrimaryKeyfindive(tweets);
-		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+	@PutMapping
+	public Result updateByTweetsSelective(Tweets tweets){
+		boolean updateResult = tweetsService.updateByTweetsSelective(tweets);
+		return new Result(updateResult,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
 	}
 
 	/**
 	 * 删除
-	 * @param id
+	 * @param tweetsId:吐槽id数组
 	 * @return Result
 	 */
-	@DeleteMapping(value="/{id}")
-	public Result deleteById(@PathVariable String id){
-		tweetsService.deleteById(id);
-		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+	@DeleteMapping
+	public Result deleteByTweetsId(@RequestBody List tweetsId){
+		boolean br = tweetsService.deleteByTweetsId(tweetsId);
+		return new Result(br,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
 	}
 
 	/**
