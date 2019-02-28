@@ -1,6 +1,7 @@
 package com.youyd.tweets.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.tweets.pojo.Tweets;
 import com.youyd.tweets.service.TweetsService;
@@ -32,8 +33,8 @@ public class TweetsController {
 	 * @return Result
 	 */
 	@GetMapping
-	public Result findTweetsByCondition(Tweets tweets){
-		IPage<Tweets> byCondition =  tweetsService.findTweetsByCondition(tweets);
+	public Result findTweetsByCondition(Tweets tweets, QueryVO queryVO){
+		IPage<Tweets> byCondition =  tweetsService.findTweetsByCondition(tweets,queryVO);
 		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), byCondition);
 
 	}
@@ -92,10 +93,7 @@ public class TweetsController {
 	 */
 	@GetMapping(value="/comment/{parentId}/{page}/{size}")
 	public Result findByParentid(@PathVariable String parentId, @PathVariable Integer page,@PathVariable Integer size){
-		if (StringUtils.isBlank(page.toString()) || StringUtils.isBlank(size.toString())){
-			return new Result(false,StatusCode.PARAM_ERROR.getCode(),StatusCode.PARAM_ERROR.getMsg());
-		}
-		Result result = tweetsService.findTweetsByParentid(parentId, page, size);
+		Result result = tweetsService.findTweetsByParentid(parentId);
 		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
 	}
 
