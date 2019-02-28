@@ -36,8 +36,6 @@ public class Tweets extends BasePojo implements Serializable {
 
     private String parentId; // 上级ID
 
-    private Date updateTime; // 更新时间
-
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -126,36 +124,5 @@ public class Tweets extends BasePojo implements Serializable {
 
     public void setParentId(String parentId) {
         this.parentId = parentId;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", content=").append(content);
-        sb.append(", publishTime=").append(publishTime);
-        sb.append(", userId=").append(userId);
-        sb.append(", nickName=").append(nickName);
-        sb.append(", visitsCount=").append(visitsCount);
-        sb.append(", thumbUpCount=").append(thumbUpCount);
-        sb.append(", shareCount=").append(shareCount);
-        sb.append(", replyCount=").append(replyCount);
-        sb.append(", isVisible=").append(isVisible);
-        sb.append(", parentId=").append(parentId);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
     }
 }

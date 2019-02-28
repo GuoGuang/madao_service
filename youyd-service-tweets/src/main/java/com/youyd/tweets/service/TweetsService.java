@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.youyd.pojo.QueryVO;
 import com.youyd.tweets.dao.TweetsDao;
 import com.youyd.tweets.pojo.Tweets;
 import com.youyd.pojo.Result;
@@ -36,8 +37,8 @@ public class TweetsService {
 	 * 按照条件查询全部标签
 	 * @return IPage
 	 */
-	public IPage<Tweets> findTweetsByCondition(Tweets tweets) {
-		Page<Tweets> pr = new Page<>(tweets.getPage(),tweets.getLimit());
+	public IPage<Tweets> findTweetsByCondition(Tweets tweets,QueryVO queryVO){
+		Page<Tweets> pr = new Page<>(queryVO.getPage(),queryVO.getLimit());
 		QueryWrapper<Tweets> queryWrapper = new QueryWrapper<>();
 		return tweetsDao.selectPage(pr, queryWrapper);
 	}
@@ -98,7 +99,7 @@ public class TweetsService {
 	 * @param size
 	 * @return Result
 	 */
-	public Result findTweetsByParentid(String parentId, Integer page, Integer size){
+	public Result findTweetsByParentid(String parentId){
 		Tweets result = tweetsDao.findTweetsByParentid(parentId);
 		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
 	}
