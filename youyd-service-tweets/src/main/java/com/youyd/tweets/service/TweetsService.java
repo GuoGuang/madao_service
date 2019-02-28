@@ -1,6 +1,9 @@
 package com.youyd.tweets.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.tweets.dao.TweetsDao;
 import com.youyd.tweets.pojo.Tweets;
 import com.youyd.pojo.Result;
@@ -13,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @description: 吐槽服务
@@ -23,34 +25,36 @@ import java.util.Map;
 @Service
 public class TweetsService {
 
-	@Autowired
-	private TweetsDao tweetsDao;
+	private final TweetsDao tweetsDao;
 
-	/**
-	 * 按照条件查询全部标签
-	 * @param map
-	 * @param page
-	 * @param size
-	 * @return
-	 */
-	public Result findTweetsByCondition(Map map, Integer page, Integer size) {
-		QueryWrapper queryWrapper = new QueryWrapper();
-		List result = tweetsDao.selectList(queryWrapper);
-		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+	@Autowired
+	public TweetsService(TweetsDao tweetsDao) {
+		this.tweetsDao = tweetsDao;
 	}
 
 	/**
-	 * 根据ID查询
-	 * @param id
-	 * @return
+	 * 按照条件查询全部标签
+	 * @return IPage
 	 */
-	public Tweets findTweetsByPrimaryKey(String id) {
-		return tweetsDao.selectById(id);
+	public IPage<Tweets> findTweetsByCondition(Tweets tweets) {
+		Page<Tweets> pr = new Page<>(tweets.getPage(),tweets.getLimit());
+		QueryWrapper<Tweets> queryWrapper = new QueryWrapper<>();
+		return tweetsDao.selectPage(pr, queryWrapper);
+	}
+
+
+	/**
+	 * 根据ID查询
+	 * @param tweetsId 吐槽id
+	 * @return Tweets
+	 */
+	public Tweets findTweetsByPrimaryKey(String tweetsId) {
+		return tweetsDao.selectById(tweetsId);
 	}
 
 	/**
 	 * 发布吐槽（或吐槽评论）
-	 * @param tweets
+	 * @param tweets 吐槽实体
 	 */
 	public void insertTweets(Tweets tweets){
 		tweets.setPublishTime(new Date());//发布日期
@@ -71,19 +75,20 @@ public class TweetsService {
 
 	/**
 	 * 修改
-	 * @param
+	 * @param tweets 吐槽实体
 	 */
-	public void updateByPrimaryKeyfindive(Tweets tweets) {
-		tweetsDao.updateById(tweets);
+	public boolean updateByTweetsSelective(Tweets tweets) {
+		int i = tweetsDao.updateById(tweets);
+		return SqlHelper.retBool(i);
 	}
 
 	/**
 	 * 删除
 	 * @param ids
 	 */
-	public void deleteById(String ids) {
-		List<String> delIds = CodeCommonUtil.deletePart(ids);
-		tweetsDao.deleteBatchIds(delIds);
+	public boolean deleteByTweetsId(List tweetsId) {
+		int i = tweetsDao.deleteBatchIds(tweetsId);
+		return SqlHelper.retBool(i);
 	}
 
 	/**
