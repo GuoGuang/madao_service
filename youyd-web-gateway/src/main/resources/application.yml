@@ -63,9 +63,9 @@ jwt:
 #      # 是否将路径/user去除 比如访问路径是localhost:8080/user/find/1 如果设置为true,那么路径就是localhost:8080/find/1
 #      stripPrefix: false
 #
-#    youyd-service-spit:           # 吐槽服务
-#          path: /spit/**
-#          serviceId: youyd-service-spit
+#    youyd-service-tweets:           # 吐槽服务
+#          path: /tweets/**
+#          serviceId: youyd-service-tweets
 #
 #    youyd-service-search:         # 搜索服务
 #          path: /search/**
@@ -76,7 +76,7 @@ jwt:
 #          serviceId: youyd-service-question
 #
 #    youyd-service-gathering:      # 活动服务
-#          path: /spit/**
+#          path: /tweets/**
 #          serviceId: youyd-service-gathering
 #
 #    youyd-service-base:            # 基础服务

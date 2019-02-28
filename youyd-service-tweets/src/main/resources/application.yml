@@ -2,4 +2,4 @@ server:
   port: 9005
 spring:
   application:
-    name: service-spit #指定服务名
+    name: service-tweets #指定服务名
