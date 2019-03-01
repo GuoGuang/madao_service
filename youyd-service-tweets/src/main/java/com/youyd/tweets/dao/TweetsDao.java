@@ -24,5 +24,5 @@ public interface TweetsDao extends BaseMapper<Tweets> {
 	/**
 	 * 更新 点赞数,回复数,分享数或者评论数 的通用更新方法
 	 */
-	void updateCountByPrimaryKey(Map paramMap);
+	void updateTweetsStatus(Tweets tweets);
 }

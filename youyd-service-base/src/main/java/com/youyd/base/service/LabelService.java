@@ -1,5 +1,6 @@
 package com.youyd.base.service;
 
+import com.google.common.collect.Lists;
 import com.youyd.base.dao.LabelDao;
 import com.youyd.base.pojo.Label;
 import com.youyd.utils.CodeCommonUtil;
@@ -8,6 +9,7 @@ import com.youyd.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +67,7 @@ public class LabelService {
 	 * @param ids
 	 */
 	public void deleteById(String ids){
-		List<String> delIds = CodeCommonUtil.deletePart(ids);
+		List<String> delIds = Arrays.asList(ids.split(","));
 		labelDao.deleteByPrimaryKey(delIds);
 	}
 }

@@ -1,4 +1,4 @@
-package com.youyd.tweets.controller;
+package com.youyd.tweets.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.pojo.QueryVO;
@@ -17,10 +17,11 @@ import java.util.List;
  * @create: 2018-09-26 15:59
  **/
 @RestController
-@RequestMapping("/tweetsComment")
+@RequestMapping("/st/tweetsComment")
 public class TweetsCommentController {
 
 	private final TweetsCommentService tweetsCommentService;
+
 
 	@Autowired
 	public TweetsCommentController(TweetsCommentService tweetsCommentService) {
@@ -55,8 +56,8 @@ public class TweetsCommentController {
 	 * @return Result
 	 */
 	@PostMapping()
-	public Result insertTweetsComment(@RequestBody TweetsComment tweetsComment){
-		tweetsCommentService.insertTweetsComment(tweetsComment);
+	public Result insertTweetsComment(@RequestBody TweetsComment tweetsComment,Integer tweetsId){
+		tweetsCommentService.insertTweetsComment(tweetsComment,tweetsId);
 		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
 	}
 

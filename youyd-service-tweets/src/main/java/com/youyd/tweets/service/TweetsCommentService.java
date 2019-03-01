@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.pojo.QueryVO;
 import com.youyd.tweets.dao.TweetsCommentDao;
+import com.youyd.tweets.pojo.Tweets;
 import com.youyd.tweets.pojo.TweetsComment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,14 +22,16 @@ import java.util.List;
 public class TweetsCommentService {
 
 	private final TweetsCommentDao tweetsCommentCommentDao;
+	private final TweetsService tweetsService;
 
 	@Autowired
-	public TweetsCommentService(TweetsCommentDao tweetsCommentCommentDao) {
+	public TweetsCommentService(TweetsCommentDao tweetsCommentCommentDao,TweetsService tweetsService) {
 		this.tweetsCommentCommentDao = tweetsCommentCommentDao;
+		this.tweetsService = tweetsService;
 	}
 
 	/**
-	 * 按照条件查询全部标签
+	 * 按照条件查询全部评论
 	 * @return IPage
 	 */
 	public IPage<TweetsComment> findTweetsCommentByCondition(TweetsComment tweetsComment, QueryVO queryVO){
@@ -51,10 +54,17 @@ public class TweetsCommentService {
 	 * 发布吐槽评论
 	 * @param tweetsComment 吐槽实体
 	 */
-	public void insertTweetsComment(TweetsComment tweetsComment){
+	public void insertTweetsComment(TweetsComment tweetsComment,Integer tweetsId){
 		tweetsComment.setThumbUpCount(0L);
 		tweetsComment.setReplyCount(0L);
 		tweetsComment.setIsVisible(1);
+		tweetsCommentCommentDao.insert(tweetsComment);
+
+		Tweets tweets = new Tweets();
+		tweets.setId(tweetsId);
+		tweets.setReplyCount(1L);
+		tweetsService.updateTweetsStatus(tweets);
+
 		// 如果存在上级ID,则是上级评论的子评论,给父评论回复数加一
 		/*if(StringUtils.isNotBlank(tweetsComment.getParentId())){
 			HashMap<Object, Object> map = new HashMap<>();
@@ -62,7 +72,6 @@ public class TweetsCommentService {
 			map.put("id",tweetsComment.getParentId());
 			tweetsCommentCommentDao.updateCountByPrimaryKey(map);
 		}*/
-		tweetsCommentCommentDao.insert(tweetsComment);
 	}
 
 	/**
