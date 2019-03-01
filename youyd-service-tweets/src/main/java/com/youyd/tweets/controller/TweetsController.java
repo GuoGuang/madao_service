@@ -6,14 +6,13 @@ import com.youyd.pojo.Result;
 import com.youyd.tweets.pojo.Tweets;
 import com.youyd.tweets.service.TweetsService;
 import com.youyd.utils.StatusCode;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- * @description: 招聘控制层
+ * @description: 吐槽控制层
  * @author: LGG
  * @create: 2018-09-26 15:59
  **/
@@ -29,7 +28,7 @@ public class TweetsController {
 	}
 
 	/**
-	 * 按照条件查询招聘信息
+	 * 按照条件查询吐槽信息
 	 * @return Result
 	 */
 	@GetMapping

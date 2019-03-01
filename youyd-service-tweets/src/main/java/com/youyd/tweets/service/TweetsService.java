@@ -54,23 +54,15 @@ public class TweetsService {
 	}
 
 	/**
-	 * 发布吐槽（或吐槽评论）
+	 * 发布吐槽
 	 * @param tweets 吐槽实体
 	 */
 	public void insertTweets(Tweets tweets){
-		tweets.setPublishTime(new Date());//发布日期
-		tweets.setVisitsCount(0L);//浏览量
-		tweets.setShareCount(0L);//分享数
-		tweets.setThumbUpCount(0L);//点赞数
-		tweets.setReplyCount(0L);//回复数
-		tweets.setIsVisible(1);//是否可见
-		// 如果存在上级ID,则是上级评论的子评论,给父评论回复数加一
-		if(StringUtils.isNotBlank(tweets.getParentId())){
-			HashMap<Object, Object> map = new HashMap<>();
-			map.put("_count","reply_count"); // 回复数 字段
-			map.put("id",tweets.getParentId());
-			tweetsDao.updateCountByPrimaryKey(map);
-		}
+		tweets.setVisitsCount(0L);
+		tweets.setShareCount(0L);
+		tweets.setThumbUpCount(0L);
+		tweets.setReplyCount(0L);
+		tweets.setIsVisible(1);
 		tweetsDao.insert(tweets);
 	}
 
