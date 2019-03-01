@@ -5,17 +5,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.pojo.QueryVO;
+import com.youyd.pojo.Result;
 import com.youyd.tweets.dao.TweetsDao;
 import com.youyd.tweets.pojo.Tweets;
-import com.youyd.pojo.Result;
-import com.youyd.utils.CodeCommonUtil;
 import com.youyd.utils.StatusCode;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -34,10 +30,10 @@ public class TweetsService {
 	}
 
 	/**
-	 * 按照条件查询全部标签
+	 * 按照条件查询
 	 * @return IPage
 	 */
-	public IPage<Tweets> findTweetsByCondition(Tweets tweets,QueryVO queryVO){
+	public IPage<Tweets> findTweetsByCondition(Tweets tweets, QueryVO queryVO){
 		Page<Tweets> pr = new Page<>(queryVO.getPage(),queryVO.getLimit());
 		QueryWrapper<Tweets> queryWrapper = new QueryWrapper<>();
 		return tweetsDao.selectPage(pr, queryWrapper);
@@ -97,14 +93,10 @@ public class TweetsService {
 	}
 
 	/**
-	 * 点赞
-	 * @param id:被点赞的吐槽id
+	 * 更新吐槽表字段状态
 	 */
-	public void updateThumbUp(String id){
-		HashMap<Object, Object> map = new HashMap<>();
-		map.put("_count","thumb_up_count"); // 点赞 字段
-		map.put("id",id);
-		tweetsDao.updateCountByPrimaryKey(map);
+	public void updateTweetsStatus(Tweets tweets){
+		tweetsDao.updateTweetsStatus(tweets);
 	}
 }
 
