@@ -5,22 +5,20 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.youyd.pojo.BasePojo;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
- * 吐槽表
- */
-
+ * @description: 吐槽表
+ * @author: LGG
+ * @create: 2019-03-01
+ **/
 public class Tweets extends BasePojo implements Serializable {
 
-	@TableId(type = IdType.ID_WORKER_STR)
-    private String id; // 吐槽表ID
+	@TableId(type = IdType.ID_WORKER)
+    private Integer id; // 吐槽表ID
 
     private String content; // 吐槽内容
 
-    private Date publishTime; // 发布日期(创建时间)
-
-    private String userId; // 发布人ID
+    private Integer userId; // 发布人ID
 
     private String nickName; // 发布人昵称
 
@@ -34,95 +32,78 @@ public class Tweets extends BasePojo implements Serializable {
 
     private Integer isVisible; // 是否可见
 
-    private String parentId; // 上级ID
-
     private static final long serialVersionUID = 1L;
 
-    public String getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public String getContent() {
+		return content;
+	}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+	public void setContent(String content) {
+		this.content = content;
+	}
 
-    public Date getPublishTime() {
-        return publishTime;
-    }
+	public Integer getUserId() {
+		return userId;
+	}
 
-    public void setPublishTime(Date publishTime) {
-        this.publishTime = publishTime;
-    }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    public String getUserId() {
-        return userId;
-    }
+	public String getNickName() {
+		return nickName;
+	}
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
 
-    public String getNickName() {
-        return nickName;
-    }
+	public Long getVisitsCount() {
+		return visitsCount;
+	}
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
+	public void setVisitsCount(Long visitsCount) {
+		this.visitsCount = visitsCount;
+	}
 
-    public Long getVisitsCount() {
-        return visitsCount;
-    }
+	public Long getThumbUpCount() {
+		return thumbUpCount;
+	}
 
-    public void setVisitsCount(Long visitsCount) {
-        this.visitsCount = visitsCount;
-    }
+	public void setThumbUpCount(Long thumbUpCount) {
+		this.thumbUpCount = thumbUpCount;
+	}
 
-    public Long getThumbUpCount() {
-        return thumbUpCount;
-    }
+	public Long getShareCount() {
+		return shareCount;
+	}
 
-    public void setThumbUpCount(Long thumbUpCount) {
-        this.thumbUpCount = thumbUpCount;
-    }
+	public void setShareCount(Long shareCount) {
+		this.shareCount = shareCount;
+	}
 
-    public Long getShareCount() {
-        return shareCount;
-    }
+	public Long getReplyCount() {
+		return replyCount;
+	}
 
-    public void setShareCount(Long shareCount) {
-        this.shareCount = shareCount;
-    }
+	public void setReplyCount(Long replyCount) {
+		this.replyCount = replyCount;
+	}
 
-    public Long getReplyCount() {
-        return replyCount;
-    }
+	public Integer getIsVisible() {
+		return isVisible;
+	}
 
-    public void setReplyCount(Long replyCount) {
-        this.replyCount = replyCount;
-    }
+	public void setIsVisible(Integer isVisible) {
+		this.isVisible = isVisible;
+	}
 
-    public Integer getIsVisible() {
-        return isVisible;
-    }
-
-    public void setIsVisible(Integer isVisible) {
-        this.isVisible = isVisible;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
 }
