@@ -59,14 +59,13 @@ public class TweetsCommentController {
 	 */
 	@PostMapping()
 	public Result insertTweetsComment(@RequestBody TweetsComment tweetsComment,Integer tweetsId){
-		tweetsCommentService.insertTweetsComment(tweetsComment);
+		tweetsCommentService.insertTweetsComment(tweetsComment,tweetsId);
 		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
 	}
 
 	/**
 	 * 修改
 	 * @param tweetsComment
-	 * @param id
 	 * @return Result
 	 */
 	@PutMapping
