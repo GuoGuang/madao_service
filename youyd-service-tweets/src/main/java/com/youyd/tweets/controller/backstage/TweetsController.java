@@ -101,11 +101,11 @@ public class TweetsController {
 	 * @param id : 被点赞吐槽id
 	 * @return
 	 */
-	@RequestMapping(value="/thumbUp/{id}",method=RequestMethod.PUT)
+/*	@RequestMapping(value="/thumbUp/{id}",method=RequestMethod.PUT)
 	public Result updateThumbUp(@PathVariable String id){
 		tweetsService.updateThumbUp(id);
 		return new Result(true,StatusCode.OK.getCode(),"点赞成功");
-	}
+	}*/
 
 }
 
