@@ -15,20 +15,6 @@ public class BasePojo implements Serializable {
 	private Date updateTime;
 	private Date createTime;
 
-	@TableField(exist = false)
-	private long page;
-	@TableField(exist = false)
-	private long limit;
-
-	public long getPage() {
-		return page;
-	}
-
-	public void setPage(long page) {
-		this.page = page;
-	}
-
-
 	public Date getUpdateTime() {
 		return updateTime;
 	}
@@ -45,11 +31,4 @@ public class BasePojo implements Serializable {
 		this.createTime = createTime;
 	}
 
-	public long getLimit() {
-		return limit;
-	}
-
-	public void setLimit(long limit) {
-		this.limit = limit;
-	}
 }

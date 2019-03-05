@@ -7,6 +7,7 @@ import com.youyd.article.dao.ArticleDao;
 import com.youyd.article.pojo.Article;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
+import com.youyd.pojo.QueryVO;
 import com.youyd.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,8 @@ public class ArticleService{
 	 * 查询全部列表
 	 * @return
 	 */
-	public IPage<Article> findArticleByCondition(Article article) {
-		Page<Article> pr = new Page<>(article.getPage(),article.getLimit());
+	public IPage<Article> findArticleByCondition(Article article, QueryVO queryVO){
+		Page<Article> pr = new Page<>(queryVO.getPage(),queryVO.getLimit());
 		QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
 		return articleDao.selectPage(pr, queryWrapper);
 	}

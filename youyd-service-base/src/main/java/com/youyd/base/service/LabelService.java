@@ -1,9 +1,7 @@
 package com.youyd.base.service;
 
-import com.google.common.collect.Lists;
 import com.youyd.base.dao.LabelDao;
 import com.youyd.base.pojo.Label;
-import com.youyd.utils.CodeCommonUtil;
 import com.youyd.pojo.Result;
 import com.youyd.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
