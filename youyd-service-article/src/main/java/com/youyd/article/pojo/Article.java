@@ -91,7 +91,12 @@ public class Article extends BasePojo implements Serializable {
 	 /**
 	  * 文章正文
 	  */
-	 private String content;
+	 private String description;
+
+	 /**
+	  * 关键字
+	  */
+	 private String keywords;
 
 
 	 private static final long serialVersionUID = 1L;
@@ -200,19 +205,27 @@ public class Article extends BasePojo implements Serializable {
 		 this.importance = importance;
 	 }
 
-	 public String getContent() {
-		 return content;
-	 }
-
-	 public void setContent(String content) {
-		 this.content = content;
-	 }
-
 	 public Integer getUpvote() {
 		 return upvote;
 	 }
 
 	 public void setUpvote(Integer upvote) {
 		 this.upvote = upvote;
+	 }
+
+	 public String getKeywords() {
+		 return keywords;
+	 }
+
+	 public void setKeywords(String keywords) {
+		 this.keywords = keywords;
+	 }
+
+	 public String getDescription() {
+		 return description;
+	 }
+
+	 public void setDescription(String description) {
+		 this.description = description;
 	 }
  }

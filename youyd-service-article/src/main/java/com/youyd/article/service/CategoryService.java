@@ -9,6 +9,7 @@ import com.youyd.article.pojo.Article;
 import com.youyd.article.pojo.Category;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
+import com.youyd.pojo.QueryVO;
 import com.youyd.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,8 +34,8 @@ public class CategoryService{
 	 * 查询全部列表
 	 * @return
 	 */
-	public IPage<Category> findCategoryByCondition(Category category) {
-		Page<Category> pr = new Page<>(category.getPage(),category.getLimit());
+	public IPage<Category> findCategoryByCondition(Category category, QueryVO queryVO) {
+		Page<Category> pr = new Page<>(queryVO.getPage(),queryVO.getLimit());
 		QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
 		return categoryDao.selectPage(pr, queryWrapper);
 	}

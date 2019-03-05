@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class QueryVO implements Serializable {
 
 	private long page;
-	private long limit;
+	private long limit = 10;
 	private String searchValue;
 	private String searchSort;
 

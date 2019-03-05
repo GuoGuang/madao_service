@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.article.pojo.Article;
 import com.youyd.article.pojo.Category;
 import com.youyd.article.service.CategoryService;
+import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
@@ -33,8 +34,8 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping
-	public Result findCategoryByCondition(Category category) {
-		IPage<Category> categoryByCondition = columnService.findCategoryByCondition(category);
+	public Result findCategoryByCondition(Category category, QueryVO queryVO) {
+		IPage<Category> categoryByCondition = columnService.findCategoryByCondition(category,queryVO);
 		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), categoryByCondition);
 	}
 

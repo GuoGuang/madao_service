@@ -36,17 +36,12 @@ public class GateWayConfig {
 	 */
 	@Bean
 	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
-		// 以下是一对针对请求url前缀进行处理的filter工厂
-		// PrefixPathGatewayFilterFactory：添加prefix
-		// StripPrefixGatewayFilterFactory：去除prefix
-		// StripPrefixGatewayFilterFactory.Config config = new StripPrefixGatewayFilterFactory.Config();
-		// config.setParts(1);
 		return builder.routes()
-				// 用户服务
-				/* 路径可以去掉service 直接user,或者article 然后stripPrefix（0）  */
-				.route("user_route", r -> r.path("/service_user/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-USER"))
-				// 文章服务
-				.route("article_route",a ->a.path("/service_article/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-ARTICLE"))
+				.route("user_route", r -> r.path("/su/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-USER"))
+				.route("article_route",a ->a.path("/sa/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-ARTICLE"))
+				.route("tweets_route",a ->a.path("/st/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-TWEETS"))
+				.route("gather_route",a ->a.path("/sg/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-GATHER"))
+				.route("question_route",a ->a.path("/sq/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-QUESTION"))
 				.build();
 	}
 
