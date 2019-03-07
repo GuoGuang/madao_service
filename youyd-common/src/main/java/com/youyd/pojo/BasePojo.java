@@ -1,7 +1,5 @@
 package com.youyd.pojo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,23 +10,22 @@ import java.util.Date;
  **/
 public class BasePojo implements Serializable {
 
-	private Date updateTime;
-	private Date createTime;
+	private Date updateAt;
+	private Date createAt;
 
-	public Date getUpdateTime() {
-		return updateTime;
+	public Date getUpdateAt() {
+		return updateAt;
 	}
 
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
+	public void setUpdateAt(Date updateAt) {
+		this.updateAt = updateAt;
 	}
 
-	public Date getCreateTime() {
-		return createTime;
+	public Date getCreateAt() {
+		return createAt;
 	}
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+	public void setCreateAt(Date createAt) {
+		this.createAt = createAt;
 	}
-
 }
