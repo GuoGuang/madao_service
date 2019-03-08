@@ -2,6 +2,7 @@ package com.youyd.user.service;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.pojo.QueryVO;
 import com.youyd.user.pojo.User;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public interface UserService{
 	 */
 	void insertUser(User user);
 
-	IPage<User> findByCondition(User user);
+	IPage<User> findByCondition(User user, QueryVO queryVO);
 
 	Map login(String account, String password);
 
