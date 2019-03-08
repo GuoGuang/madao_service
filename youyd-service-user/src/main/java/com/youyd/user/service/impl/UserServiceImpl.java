@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
+import com.youyd.pojo.QueryVO;
 import com.youyd.user.dao.UserDao;
 import com.youyd.user.pojo.User;
 import com.youyd.user.service.UserService;
@@ -54,8 +55,8 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public IPage<User> findByCondition(User user) {
-		Page<User> pr = new Page<>(user.getPage(),user.getLimit());
+	public IPage<User> findByCondition(User user, QueryVO queryVO) {
+		Page<User> pr = new Page<>(queryVO.getPage(),queryVO.getLimit());
 		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
 		return userDao.selectPage(pr, queryWrapper);
 	}
