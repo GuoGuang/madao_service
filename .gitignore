@@ -15,5 +15,5 @@ out
 gen
 .idea/
 log/
-*.release
+
 
