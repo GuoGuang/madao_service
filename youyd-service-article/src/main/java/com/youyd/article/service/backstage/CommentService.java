@@ -1,9 +1,7 @@
-package com.youyd.article.service;
+package com.youyd.article.service.backstage;
 
-import com.youyd.article.dao.CommentDao;
-import com.youyd.article.pojo.Category;
+import com.youyd.article.dao.backstage.CommentDao;
 import com.youyd.article.pojo.Comment;
-import com.youyd.article.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
