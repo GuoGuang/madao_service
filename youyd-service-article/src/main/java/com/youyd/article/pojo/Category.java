@@ -15,12 +15,12 @@ import java.io.Serializable;
 @ApiModel(value="article", description="文章类")
 public class Category extends BasePojo implements Serializable {
 
-	private Integer id;
-
 	/**
 	 * 父ID
 	 */
 	@TableId(type = IdType.ID_WORKER)
+	private Integer id;
+
 	private Integer parentId;
 
 	/**

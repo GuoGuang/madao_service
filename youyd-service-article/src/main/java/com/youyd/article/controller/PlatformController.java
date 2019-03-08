@@ -1,13 +1,12 @@
-package com.youyd.article.controller.backstage;
+package com.youyd.article.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.article.pojo.Article;
-import com.youyd.article.service.ArticleService;
+import com.youyd.article.service.PlatformService;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,19 +14,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @description: 文章管理
- * /e 区分前后台 uri
+ * @description: 前台网站文章
  * @author: LGG
- * @create: 2019-01-11
+ * @create: 2019-02-20
  **/
 
 @Api(tags = "文章")
 @RestController
-@RequestMapping(value = "/sa/article",produces = "application/json")
-public class SaArticleController {
+@RequestMapping(value = "/article",produces = "application/json")
+public class PlatformController {
 
     @Autowired
-    private ArticleService articleService;
+    private PlatformService platformService;
 
     /**
      * 查询全部数据
@@ -37,7 +35,7 @@ public class SaArticleController {
     @ApiOperation(value = "查询文章集合", notes = "Article")
     @GetMapping
     public Result findArticleByCondition(Article article, QueryVO queryVO) {
-	    IPage<Article> result = articleService.findArticleByCondition(article,queryVO);
+	    IPage<Article> result = platformService.findArticleByCondition(article,queryVO);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
     }
 
@@ -50,7 +48,7 @@ public class SaArticleController {
     @ApiOperation(value = "按照id查询文章", notes = "id")
     @GetMapping(value = "/{id}")
     public Result findArticleByPrimaryKey(@PathVariable String id) {
-        Article result = articleService.findArticleByPrimaryKey(id);
+        Article result = platformService.findArticleByPrimaryKey(id);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
     }
 
@@ -63,7 +61,7 @@ public class SaArticleController {
     @ApiOperation(value = "添加一条新的文章", notes = "id")
     @PostMapping
     public Result insertArticle(@RequestBody Article article) {
-        articleService.insertArticle(article);
+        platformService.insertArticle(article);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
     }
 
@@ -75,7 +73,7 @@ public class SaArticleController {
     @ApiOperation(value = "按照id修改", notes = "id")
     @PutMapping
     public Result updateByPrimaryKeySelective(@RequestBody Article article) {
-        articleService.updateByPrimaryKeySelective(article);
+        platformService.updateByPrimaryKeySelective(article);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
     }
 
@@ -87,31 +85,9 @@ public class SaArticleController {
     @ApiOperation(value = "删除", notes = "id")
     @DeleteMapping
     public Result delete(@RequestBody List<Long> articleIds) {
-        articleService.deleteByIds(articleIds);
+        platformService.deleteByIds(articleIds);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
     }
 
-    /**
-     * 审核
-     * @param id:文章id
-     * @return Result
-     */
-    @ApiOperation(value = "审核当前文章", notes = "id")
-    @PutMapping(value="/examine/{id}")
-    public Result examine(@PathVariable String id) {
-        articleService.examine(id);
-        return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
-    }
 
-    /**
-     * 点赞
-     * @param id:文章id
-     * @return Result
-     */
-    @ApiOperation(value = "点赞", notes = "id")
-    @PutMapping(value="/thumbUp/{id}")
-    public Result updateThumbUp(@PathVariable String id) {
-        articleService.updateThumbUp(id);
-        return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
-    }
 }

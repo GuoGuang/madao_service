@@ -1,6 +1,7 @@
 package com.youyd.question.controller.blog;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.question.pojo.Question;
 import com.youyd.question.service.QuestionService;
@@ -35,8 +36,8 @@ public class QuestionController {
      * @return
      */
     @GetMapping
-    public JsonData findQuestionByCondition(Question question) {
-	    IPage<Question> jsonData = questionService.findQuestionByCondition(question);
+    public JsonData findQuestionByCondition(Question question, QueryVO queryVO) {
+	    IPage<Question> jsonData = questionService.findQuestionByCondition(queryVO);
         return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),jsonData);
     }
 

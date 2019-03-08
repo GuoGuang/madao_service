@@ -1,6 +1,5 @@
-package com.youyd.article.controller.backstage;
+package com.youyd.article.controller;
 
-import com.youyd.article.pojo.Category;
 import com.youyd.article.pojo.Comment;
 import com.youyd.article.service.CommentService;
 import com.youyd.pojo.Result;
