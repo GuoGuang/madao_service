@@ -1,6 +1,7 @@
 package com.youyd.article.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youyd.pojo.BasePojo;
 import io.swagger.annotations.ApiModel;
@@ -89,7 +90,7 @@ public class Article extends BasePojo implements Serializable {
 	 private String importance;
 
 	 /**
-	  * 文章正文
+	  * 文章描述（概述）
 	  */
 	 private String description;
 
@@ -97,6 +98,22 @@ public class Article extends BasePojo implements Serializable {
 	  * 关键字
 	  */
 	 private String keywords;
+
+	 /**
+	  * 来源（1：原创，2：转载，3：混撰）
+	  */
+	 private String origin;
+
+	 /**
+	  * 文章正文
+	  */
+	 private String content;
+
+	 /**
+	  * 文章分类
+	  */
+	 @TableField(exist=false)
+	 private Category category;
 
 
 	 private static final long serialVersionUID = 1L;
@@ -227,5 +244,29 @@ public class Article extends BasePojo implements Serializable {
 
 	 public void setDescription(String description) {
 		 this.description = description;
+	 }
+
+	 public String getOrigin() {
+		 return origin;
+	 }
+
+	 public void setOrigin(String origin) {
+		 this.origin = origin;
+	 }
+
+	 public Category getCategory() {
+		 return category;
+	 }
+
+	 public void setCategory(Category category) {
+		 this.category = category;
+	 }
+
+	 public String getContent() {
+		 return content;
+	 }
+
+	 public void setContent(String content) {
+		 this.content = content;
 	 }
  }

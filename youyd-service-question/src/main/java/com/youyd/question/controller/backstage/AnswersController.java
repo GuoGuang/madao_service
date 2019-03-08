@@ -1,9 +1,10 @@
 package com.youyd.question.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.pojo.QueryVO;
+import com.youyd.pojo.Result;
 import com.youyd.question.pojo.Answers;
 import com.youyd.question.service.AnswersService;
-import com.youyd.pojo.Result;
 import com.youyd.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +35,8 @@ public class AnswersController {
 	 * @return Result
 	 */
 	@GetMapping
-	public Result findAnswersByCondition(Answers answers) {
-		IPage<Answers> byCondition = answersService.findAnswersByCondition(answers);
+	public Result findAnswersByCondition(Answers answers, QueryVO queryVO) {
+		IPage<Answers> byCondition = answersService.findAnswersByCondition(queryVO);
 		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), byCondition);
 	}
 

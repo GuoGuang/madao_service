@@ -1,4 +1,4 @@
-package com.youyd.article.controller.blog;
+package com.youyd.article.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.article.pojo.Article;
@@ -14,15 +14,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @description: 前台网站文章管理
+ * @description: 文章管理
+ * /e 区分前后台 uri
  * @author: LGG
- * @create: 2019-02-20
+ * @create: 2019-01-11
  **/
 
 @Api(tags = "文章")
 @RestController
-@RequestMapping(value = "/article",produces = "application/json")
-public class ArticleController {
+@RequestMapping(value = "/sa/article",produces = "application/json")
+public class SaArticleController {
 
     @Autowired
     private ArticleService articleService;
