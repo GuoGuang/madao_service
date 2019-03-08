@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.youyd.pojo.QueryVO;
 import com.youyd.question.dao.QuestionDao;
 import com.youyd.question.pojo.Question;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,8 @@ public class QuestionService {
 	 * 查询全部列表
 	 * @return
 	 */
-	public IPage<Question> findQuestionByCondition(Question question) {
-		Page<Question> pr = new Page<>(question.getPage(),question.getLimit());
+	public IPage<Question> findQuestionByCondition(QueryVO queryVO) {
+		Page<Question> pr = new Page<>(queryVO.getPage(),queryVO.getLimit());
 		QueryWrapper<Question> queryWrapper = new QueryWrapper<>();
 		return questionDao.selectPage(pr, queryWrapper);
 	}
