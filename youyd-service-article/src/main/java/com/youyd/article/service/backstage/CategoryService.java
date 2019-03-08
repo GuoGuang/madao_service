@@ -1,11 +1,10 @@
-package com.youyd.article.service;
+package com.youyd.article.service.backstage;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youyd.article.dao.CategoryDao;
-import com.youyd.article.pojo.Article;
+import com.youyd.article.dao.backstage.CategoryDao;
 import com.youyd.article.pojo.Category;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;

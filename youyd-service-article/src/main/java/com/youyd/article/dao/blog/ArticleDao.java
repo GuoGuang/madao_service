@@ -1,7 +1,10 @@
-package com.youyd.article.dao;
+package com.youyd.article.dao.blog;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youyd.article.pojo.Article;
+import com.youyd.pojo.QueryVO;
 
 /**
  * @description: 文章数据处理层
@@ -12,18 +15,5 @@ import com.youyd.article.pojo.Article;
 
 public interface ArticleDao extends BaseMapper<Article> {
 
-	/**
-	 * 审核文章
-	 *
-	 * @param id
-	 */
-	void examine(String id);
-
-	/**
-	 * 点赞
-	 *
-	 * @param id
-	 * @return
-	 */
-	int updateThumbUp(String id);
+	IPage<Article> findArticlePage(Page page, QueryVO queryVO);
 }
