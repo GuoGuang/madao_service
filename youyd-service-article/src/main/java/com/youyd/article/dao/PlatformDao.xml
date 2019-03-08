@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youyd.article.dao.PlatformDao" >
+
+    <resultMap type="com.youyd.article.pojo.Article" id="pojoResultMap">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="image" property="image" jdbcType="VARCHAR" />
+        <result column="create_at" property="createAt" jdbcType="TIMESTAMP" />
+        <result column="update_at" property="updateAt" jdbcType="TIMESTAMP" />
+        <result column="is_public" property="isPublic" jdbcType="VARCHAR" />
+        <result column="is_top" property="isTop" jdbcType="VARCHAR" />
+        <result column="visits" property="visits" jdbcType="INTEGER" />
+        <result column="upvote" property="upvote" jdbcType="INTEGER" />
+        <result column="comment" property="comment" jdbcType="INTEGER" />
+        <result column="review_state" property="reviewState" jdbcType="VARCHAR" />
+        <result column="url" property="url" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="VARCHAR" />
+        <result column="importance" property="importance" jdbcType="VARCHAR" />
+        <result column="keywords" property="keywords" jdbcType="VARCHAR" />
+        <result column="origin" property="origin" jdbcType="INTEGER" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="content" property="content" jdbcType="LONGVARCHAR" />
+        <association property="category" javaType="com.youyd.article.pojo.Category">
+            <id column="cid" property="id" />
+            <result column="name" property="name"/>
+        </association>
+
+    </resultMap>
+
+    <!--resultType="com.youyd.article.pojo.Article"-->
+    <select id="findArticlePage" resultMap="pojoResultMap" >
+        SELECT aa.*,ac.name,ac.id as cid FROM ar_article aa LEFT JOIN ar_category ac on aa.category_id = ac.id
+    </select>
+
+</mapper>
