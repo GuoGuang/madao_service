@@ -1,8 +1,8 @@
-package com.youyd.article.controller;
+package com.youyd.article.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.article.pojo.Category;
-import com.youyd.article.service.CategoryService;
+import com.youyd.article.service.backstage.CategoryService;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.utils.StatusCode;
