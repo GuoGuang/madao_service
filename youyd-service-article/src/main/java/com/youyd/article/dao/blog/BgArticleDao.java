@@ -1,4 +1,4 @@
-package com.youyd.article.dao;
+package com.youyd.article.dao.blog;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -13,7 +13,7 @@ import com.youyd.pojo.QueryVO;
  **/
 
 
-public interface PlatformDao extends BaseMapper<Article> {
+public interface BgArticleDao extends BaseMapper<Article> {
 
 	IPage<Article> findArticlePage(Page page, QueryVO queryVO);
 }

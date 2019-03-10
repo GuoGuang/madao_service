@@ -1,8 +1,9 @@
-package com.youyd.article.service;
+package com.youyd.article.service.blog;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youyd.article.dao.PlatformDao;
+import com.youyd.article.dao.backstage.ArticleDao;
+import com.youyd.article.dao.blog.BgArticleDao;
 import com.youyd.article.pojo.Article;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
@@ -19,10 +20,10 @@ import java.util.List;
  * @create: 2018-10-13 16:39
  **/
 @Service
-public class PlatformService {
+public class BgArticleService {
 
 	@Autowired
-	private PlatformDao platformDao;
+	private BgArticleDao articleDao;
 
 	@Autowired
 	private RedisService redisService;
@@ -33,7 +34,7 @@ public class PlatformService {
 	 */
 	public IPage<Article> findArticleByCondition(Article article, QueryVO queryVO){
 		Page<Article> page = new Page<Article>(queryVO.getPage(),queryVO.getLimit());
-		IPage<Article> articlePage = platformDao.findArticlePage(page,queryVO);
+		IPage<Article> articlePage = articleDao.findArticlePage(page,queryVO);
 		return articlePage;
 	}
 
@@ -53,7 +54,7 @@ public class PlatformService {
 			e.printStackTrace();
 		}
 
-		article = platformDao.selectById(id);
+		article = articleDao.selectById(id);
 		System.out.println("555");
 		try {
 			redisService.set(RedisConstant.REDIS_KEY_ARTICLE + id, article, RedisConstant.REDIS_TIME_DAY);
@@ -70,7 +71,7 @@ public class PlatformService {
 	 * @param article
 	 */
 	public void insertArticle(Article article) {
-		platformDao.insert(article);
+		articleDao.insert(article);
 	}
 
 	/**
@@ -79,7 +80,7 @@ public class PlatformService {
 	 */
 	public void updateByPrimaryKeySelective(Article article) {
 		redisService.del( "article_" + article.getId());
-		platformDao.updateById(article);
+		articleDao.updateById(article);
 	}
 
 	/**
@@ -88,7 +89,7 @@ public class PlatformService {
 	 */
 	public void deleteByIds(List articleIds) {
 		redisService.del( "article_" + articleIds );
-		platformDao.deleteBatchIds(articleIds);
+		articleDao.deleteBatchIds(articleIds);
 	}
 
 

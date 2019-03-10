@@ -1,8 +1,8 @@
-package com.youyd.article.controller;
+package com.youyd.article.controller.blog;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.article.pojo.Article;
-import com.youyd.article.service.PlatformService;
+import com.youyd.article.service.blog.BgArticleService;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.utils.StatusCode;
@@ -22,10 +22,10 @@ import java.util.List;
 @Api(tags = "文章")
 @RestController
 @RequestMapping(value = "/article",produces = "application/json")
-public class PlatformController {
+public class BgArticleController {
 
     @Autowired
-    private PlatformService platformService;
+    private BgArticleService articleService;
 
     /**
      * 查询全部数据
@@ -35,7 +35,7 @@ public class PlatformController {
     @ApiOperation(value = "查询文章集合", notes = "Article")
     @GetMapping
     public Result findArticleByCondition(Article article, QueryVO queryVO) {
-	    IPage<Article> result = platformService.findArticleByCondition(article,queryVO);
+	    IPage<Article> result = articleService.findArticleByCondition(article,queryVO);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
     }
 
@@ -48,7 +48,7 @@ public class PlatformController {
     @ApiOperation(value = "按照id查询文章", notes = "id")
     @GetMapping(value = "/{id}")
     public Result findArticleByPrimaryKey(@PathVariable String id) {
-        Article result = platformService.findArticleByPrimaryKey(id);
+        Article result = articleService.findArticleByPrimaryKey(id);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
     }
 
@@ -61,7 +61,7 @@ public class PlatformController {
     @ApiOperation(value = "添加一条新的文章", notes = "id")
     @PostMapping
     public Result insertArticle(@RequestBody Article article) {
-        platformService.insertArticle(article);
+        articleService.insertArticle(article);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
     }
 
@@ -73,7 +73,7 @@ public class PlatformController {
     @ApiOperation(value = "按照id修改", notes = "id")
     @PutMapping
     public Result updateByPrimaryKeySelective(@RequestBody Article article) {
-        platformService.updateByPrimaryKeySelective(article);
+        articleService.updateByPrimaryKeySelective(article);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
     }
 
@@ -85,7 +85,7 @@ public class PlatformController {
     @ApiOperation(value = "删除", notes = "id")
     @DeleteMapping
     public Result delete(@RequestBody List<Long> articleIds) {
-        platformService.deleteByIds(articleIds);
+        articleService.deleteByIds(articleIds);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
     }
 
