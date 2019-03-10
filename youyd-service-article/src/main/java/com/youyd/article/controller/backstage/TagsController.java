@@ -1,8 +1,8 @@
-package com.youyd.article.controller;
+package com.youyd.article.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.article.pojo.Article;
-import com.youyd.article.service.ArticleService;
+import com.youyd.article.service.backstage.ArticleService;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.utils.StatusCode;
@@ -22,8 +22,8 @@ import java.util.List;
 
 @Api(tags = "文章")
 @RestController
-@RequestMapping(value = "/sa/article",produces = "application/json")
-public class SaArticleController {
+@RequestMapping(value = "/sa/tags",produces = "application/json")
+public class TagsController {
 
     @Autowired
     private ArticleService articleService;
