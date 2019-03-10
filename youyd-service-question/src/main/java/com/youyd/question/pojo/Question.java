@@ -1,8 +1,13 @@
 package com.youyd.question.pojo;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.youyd.pojo.BasePojo;
+import io.swagger.annotations.ApiModel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -10,7 +15,14 @@ import java.util.Date;
  * @author: LGG
  * @create: 2019-02-26 16:21
  **/
+
+@ApiModel(value="question", description="文章类")
 public class Question extends BasePojo implements Serializable {
+
+	/**
+	 * ID
+	 */
+	@TableId(type = IdType.ID_WORKER)
     private Integer id;
     private String title;//标题
     private String content;//内容
@@ -23,6 +35,9 @@ public class Question extends BasePojo implements Serializable {
     private String solve;//是否解决
     private String replyName;//回复人昵称
     private Date replyTime;//回复日期
+
+	@TableField(exist=false)
+    private ArrayList<Answers> answers; // 答案
 
 
 	private static final long serialVersionUID = 1L;
@@ -119,8 +134,15 @@ public class Question extends BasePojo implements Serializable {
 		return content;
 	}
 
+	public ArrayList<Answers> getAnswers() {
+		return answers;
+	}
+
 	public void setContent(String content) {
 		this.content = content;
 	}
 
+	public void setAnswers(ArrayList<Answers> answers) {
+		this.answers = answers;
+	}
 }

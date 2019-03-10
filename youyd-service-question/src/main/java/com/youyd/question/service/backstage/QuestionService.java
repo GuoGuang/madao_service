@@ -1,11 +1,11 @@
-package com.youyd.question.service;
+package com.youyd.question.service.backstage;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.pojo.QueryVO;
-import com.youyd.question.dao.QuestionDao;
+import com.youyd.question.dao.backstage.QuestionDao;
 import com.youyd.question.pojo.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

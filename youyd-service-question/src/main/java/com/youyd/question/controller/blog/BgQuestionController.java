@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.question.pojo.Question;
-import com.youyd.question.service.QuestionService;
+import com.youyd.question.service.blog.BgQuestionService;
 import com.youyd.utils.JsonData;
 import com.youyd.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +20,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/question")
-public class QuestionController {
+public class BgQuestionController {
 
-    private final QuestionService questionService;
+    private final BgQuestionService questionService;
 
 	@Autowired
-	public QuestionController(QuestionService questionService) {
+	public BgQuestionController(BgQuestionService questionService) {
 		this.questionService = questionService;
 	}
 

@@ -7,3 +7,6 @@ spring:
 com:
   youyd:
     aopPointcutExpression: execution (* com.youyd.article..*.*(..))
+
+
+
