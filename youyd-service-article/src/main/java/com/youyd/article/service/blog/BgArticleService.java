@@ -2,7 +2,8 @@ package com.youyd.article.service.blog;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youyd.article.dao.blog.ArticleDao;
+import com.youyd.article.dao.backstage.ArticleDao;
+import com.youyd.article.dao.blog.BgArticleDao;
 import com.youyd.article.pojo.Article;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
@@ -19,10 +20,10 @@ import java.util.List;
  * @create: 2018-10-13 16:39
  **/
 @Service
-public class ArticleService {
+public class BgArticleService {
 
 	@Autowired
-	private ArticleDao articleDao;
+	private BgArticleDao articleDao;
 
 	@Autowired
 	private RedisService redisService;

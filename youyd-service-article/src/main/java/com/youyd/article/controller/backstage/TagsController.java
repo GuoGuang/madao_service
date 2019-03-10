@@ -22,7 +22,7 @@ import java.util.List;
 
 @Api(tags = "文章")
 @RestController
-@RequestMapping(value = "/sa/article",produces = "application/json")
+@RequestMapping(value = "/sa/tags",produces = "application/json")
 public class TagsController {
 
     @Autowired
