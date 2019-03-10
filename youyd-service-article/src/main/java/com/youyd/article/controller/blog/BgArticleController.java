@@ -2,7 +2,7 @@ package com.youyd.article.controller.blog;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.article.pojo.Article;
-import com.youyd.article.service.blog.ArticleService;
+import com.youyd.article.service.blog.BgArticleService;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.utils.StatusCode;
@@ -22,10 +22,10 @@ import java.util.List;
 @Api(tags = "文章")
 @RestController
 @RequestMapping(value = "/article",produces = "application/json")
-public class ArticleController {
+public class BgArticleController {
 
     @Autowired
-    private ArticleService articleService;
+    private BgArticleService articleService;
 
     /**
      * 查询全部数据

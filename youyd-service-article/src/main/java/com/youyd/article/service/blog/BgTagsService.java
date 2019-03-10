@@ -1,6 +1,6 @@
 package com.youyd.article.service.blog;
 
-import com.youyd.article.dao.backstage.TagsDao;
+import com.youyd.article.dao.blog.BgTagsDao;
 import com.youyd.article.pojo.Tags;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
@@ -18,10 +18,10 @@ import java.util.List;
  * @create: 2018-10-13 16:39
  **/
 @Service
-public class TagsService {
+public class BgTagsService {
 
 	@Autowired
-	private TagsDao tagsDao;
+	private BgTagsDao bgTagsDao;
 
 	@Autowired
 	private RedisService redisService;
@@ -31,7 +31,7 @@ public class TagsService {
 	 * @return
 	 */
 	public ArrayList<Tags> findTagsByCondition(Tags tags, QueryVO queryVO){
-		ArrayList<Tags> tagsPage = tagsDao.findTagsByCondition(queryVO);
+		ArrayList<Tags> tagsPage = bgTagsDao.findTagsByCondition(queryVO);
 		return tagsPage;
 	}
 
@@ -51,7 +51,7 @@ public class TagsService {
 			e.printStackTrace();
 		}
 
-		tags = tagsDao.selectById(id);
+		tags = bgTagsDao.selectById(id);
 		System.out.println("555");
 		try {
 			redisService.set(RedisConstant.REDIS_KEY_ARTICLE + id, tags, RedisConstant.REDIS_TIME_DAY);
@@ -68,7 +68,7 @@ public class TagsService {
 	 * @param tags
 	 */
 	public void insertTags(Tags tags) {
-		tagsDao.insert(tags);
+		bgTagsDao.insert(tags);
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class TagsService {
 	 */
 	public void updateByPrimaryKeySelective(Tags tags) {
 		redisService.del( "tags_" + tags.getId());
-		tagsDao.updateById(tags);
+		bgTagsDao.updateById(tags);
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class TagsService {
 	 */
 	public void deleteByIds(List tagsIds) {
 		redisService.del( "tags_" + tagsIds );
-		tagsDao.deleteBatchIds(tagsIds);
+		bgTagsDao.deleteBatchIds(tagsIds);
 	}
 
 

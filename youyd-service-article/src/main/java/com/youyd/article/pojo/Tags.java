@@ -1,6 +1,7 @@
 package com.youyd.article.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youyd.pojo.BasePojo;
 import io.swagger.annotations.ApiModel;
@@ -39,19 +40,17 @@ public class Tags extends BasePojo implements Serializable {
     private String icon;
 
     /**
-     * 创建时间
-     */
-    private Date createAt;
-
-    /**
      * 状态
      */
     private String state;
 
-    /**
-     * 更新时间
-     */
-    private Date updateAt;
+
+	/**
+	 * 接收连接查询结果专用字段
+	 */
+	@TableField(exist=false)
+	private Integer tagsCount;
+
 
     private static final long serialVersionUID = 1L;
 
@@ -95,14 +94,6 @@ public class Tags extends BasePojo implements Serializable {
         this.icon = icon;
     }
 
-    public Date getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
-    }
-
     public String getState() {
         return state;
     }
@@ -110,31 +101,11 @@ public class Tags extends BasePojo implements Serializable {
     public void setState(String state) {
         this.state = state;
     }
+	public Integer getTagsCount() {
+		return tagsCount;
+	}
 
-    public Date getUpdateAt() {
-        return updateAt;
-    }
-
-    public void setUpdateAt(Date updateAt) {
-        this.updateAt = updateAt;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
-        sb.append(", slug=").append(slug);
-        sb.append(", description=").append(description);
-        sb.append(", icon=").append(icon);
-        sb.append(", createAt=").append(createAt);
-        sb.append(", state=").append(state);
-        sb.append(", updateAt=").append(updateAt);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
+	public void setTagsCount(Integer tagsCount) {
+		this.tagsCount = tagsCount;
+	}
 }

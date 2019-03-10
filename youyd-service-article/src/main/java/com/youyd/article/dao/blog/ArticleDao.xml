@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.youyd.article.dao.blog.ArticleDao" >
+<mapper namespace="com.youyd.article.dao.blog.BgArticleDao" >
 
     <resultMap type="com.youyd.article.pojo.Article" id="pojoResultMap">
         <id column="id" property="id" jdbcType="INTEGER" />
@@ -30,9 +30,10 @@
 
     </resultMap>
 
-    <!--resultType="com.youyd.article.pojo.Article"-->
+    <!--前台首页文章查询-->
     <select id="findArticlePage" resultMap="pojoResultMap" >
         SELECT aa.*,ac.name,ac.id as cid FROM ar_article aa LEFT JOIN ar_category ac on aa.category_id = ac.id
     </select>
+
 
 </mapper>
