@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youyd.question.dao.blog.BgQuestionDao" >
+
+    <resultMap type="com.youyd.question.pojo.Question" id="findQuestionDetail">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="tags_id" property="tagsId" jdbcType="INTEGER" />
+        <result column="create_at" property="createAt" jdbcType="TIMESTAMP" />
+        <result column="update_at" property="updateAt" jdbcType="TIMESTAMP" />
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+        <result column="visits" property="visits" jdbcType="BIGINT" />
+        <result column="thumb_up" property="thumbUp" jdbcType="BIGINT" />
+        <result column="reply" property="reply" jdbcType="BIGINT" />
+        <result column="solve" property="solve" jdbcType="VARCHAR" />
+        <result column="reply_name" property="replyName" jdbcType="VARCHAR" />
+        <result column="reply_time" property="replyTime" jdbcType="TIMESTAMP" />
+        <collection property="answers" javaType="Arraylist" ofType="com.youyd.question.pojo.Answers"  autoMapping="true"
+                    select="findQuestionOfAnswers" column="id">
+        </collection>
+    </resultMap>
+
+
+    <select id="findQuestionDetail" resultMap="findQuestionDetail">
+        SELECT * FROM qa_question
+    </select>
+    <select id="findQuestionOfAnswers" resultType="com.youyd.question.pojo.Answers" >
+        SELECT id as qid, question_id, create_at, update_at, user_id, nick_name FROM qa_answers WHERE question_id = #{id}
+    </select>
+</mapper>
