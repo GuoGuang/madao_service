@@ -16,7 +16,7 @@
         <result column="solve" property="solve" jdbcType="VARCHAR" />
         <result column="reply_name" property="replyName" jdbcType="VARCHAR" />
         <result column="reply_time" property="replyTime" jdbcType="TIMESTAMP" />
-        <collection property="answers" javaType="Arraylist" ofType="com.youyd.question.pojo.Answers"  autoMapping="true"
+        <collection property="answers" javaType="Arraylist" ofType="com.youyd.question.pojo.Answers" autoMapping="true"
                     select="findQuestionOfAnswers" column="id">
         </collection>
     </resultMap>
@@ -25,7 +25,8 @@
     <select id="findQuestionDetail" resultMap="findQuestionDetail">
         SELECT * FROM qa_question
     </select>
+
     <select id="findQuestionOfAnswers" resultType="com.youyd.question.pojo.Answers" >
-        SELECT id as qid, question_id, create_at, update_at, user_id, nick_name FROM qa_answers WHERE question_id = #{id}
+        SELECT id , question_id, create_at, update_at, user_id, nick_name,content FROM qa_answers WHERE question_id = #{id}
     </select>
 </mapper>
