@@ -3,8 +3,8 @@ package com.youyd.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.youyd.pojo.base.Role;
 import com.youyd.user.dao.RoleDao;
-import com.youyd.user.pojo.Role;
 import com.youyd.user.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
