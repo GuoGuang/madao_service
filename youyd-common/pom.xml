@@ -60,6 +60,13 @@
             <version>0.6.0</version>
         </dependency>
 
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.2</version>
+        </dependency>
+
         <!-- mybatis-plus 因为抽象了com.youyd.user.core.BaseService到common中所有将此dependency放在此处 -->
         <dependency>
             <groupId>com.baomidou</groupId>
