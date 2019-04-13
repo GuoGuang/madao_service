@@ -9,9 +9,10 @@ import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.pojo.QueryVO;
+import com.youyd.pojo.user.User;
 import com.youyd.user.dao.UserDao;
-import com.youyd.user.pojo.User;
 import com.youyd.user.service.UserService;
+import com.youyd.utils.LogBack;
 import com.youyd.utils.security.JWTAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -78,7 +79,11 @@ public class UserServiceImpl implements UserService {
 			map.put("token", token);
 			map.put("userName", uResult.getUserName());//昵称
 			map.put("avatar", uResult.getAvatar());//头像
-			redisService.set(RedisConstant.REDIS_KEY_TOKEN + token,uResult,RedisConstant.REDIS_TIME_WEEK);
+			try {
+				redisService.set(RedisConstant.REDIS_KEY_TOKEN + token,uResult,RedisConstant.REDIS_TIME_WEEK);
+			}catch (Exception ex){
+				LogBack.error(ex.getMessage(),ex);
+			}
 			return map;
 		} else {
 			return null;
