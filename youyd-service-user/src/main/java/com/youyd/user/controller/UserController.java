@@ -2,8 +2,7 @@ package com.youyd.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.pojo.QueryVO;
-import com.youyd.user.pojo.User;
-import com.youyd.user.service.MenuService;
+import com.youyd.pojo.user.User;
 import com.youyd.user.service.UserService;
 import com.youyd.utils.JsonData;
 import com.youyd.utils.StatusCode;
@@ -33,8 +32,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private MenuService menuService;
 
 	/**
 	 * 用户登陆
@@ -66,17 +63,6 @@ public class UserController {
 		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
 
-	/**
-	 * 获取用户权限，信息
-	 *
-	 * @param token
-	 * @return boolean
-	 */
-	@PostMapping("/info")
-	public JsonData info(String token) {
-		List menu = menuService.findMenuByCondition(token);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), menu);
-	}
 
 	/**
 	 * 获取用户权限，信息

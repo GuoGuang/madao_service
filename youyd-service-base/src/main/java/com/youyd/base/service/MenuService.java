@@ -1,11 +1,13 @@
-package com.youyd.user.service.impl;
+package com.youyd.base.service;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.youyd.user.dao.MenuDao;
-import com.youyd.user.pojo.Menu;
-import com.youyd.user.service.MenuService;
+import com.youyd.base.dao.MenuDao;
+import com.youyd.pojo.QueryVO;
+import com.youyd.pojo.base.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +19,7 @@ import java.util.List;
  * @create: 2018-09-27
  **/
 @Service
-public class MenuServiceImpl implements MenuService {
+public class MenuService{
 
 	@Autowired
 	private MenuDao menuDao;
@@ -27,30 +29,27 @@ public class MenuServiceImpl implements MenuService {
 	 * @param token 查询参数
 	 * @return List
 	 */
-	@Override
-	public List findMenuByCondition(String token) {
+	public IPage<Menu> findMenuByCondition(Menu menu, QueryVO queryVO) {
+		Page<Menu> pr = new Page<>(queryVO.getPage(),queryVO.getLimit());
 		QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
-		return menuDao.selectList(queryWrapper);
+		IPage<Menu> menuIPage = menuDao.selectPage(pr, queryWrapper);
+		return menuIPage;
 	}
 
-	@Override
 	public Menu findMenuById(String resId) {
 		return menuDao.selectById(resId);
 	}
 
-	@Override
 	public boolean updateByPrimaryKey(Menu resources) {
 		int i = menuDao.updateById(resources);
 		return SqlHelper.retBool(i);
 	}
 
-	@Override
 	public boolean insertSelective(Menu resources) {
 		int insert = menuDao.insert(resources);
 		return SqlHelper.retBool(insert);
 	}
 
-	@Override
 	public boolean deleteByIds(List resId) {
 		int i = menuDao.deleteBatchIds(resId);
 		return SqlHelper.retBool(i);

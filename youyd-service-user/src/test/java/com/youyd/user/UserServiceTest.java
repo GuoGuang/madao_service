@@ -1,8 +1,7 @@
 package com.youyd.user;
 
 import com.youyd.cache.redis.RedisService;
-import com.youyd.cache.redis.RedisServiceImpl;
-import com.youyd.user.pojo.User;
+import com.youyd.pojo.user.User;
 import com.youyd.user.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;

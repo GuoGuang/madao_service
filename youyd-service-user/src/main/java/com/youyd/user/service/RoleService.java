@@ -1,6 +1,6 @@
 package com.youyd.user.service;
 
-import com.youyd.user.pojo.Role;
+import com.youyd.pojo.base.Role;
 
 import java.util.List;
 import java.util.Map;
