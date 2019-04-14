@@ -2,7 +2,6 @@ package com.youyd.article.service.blog;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youyd.article.dao.backstage.ArticleDao;
 import com.youyd.article.dao.blog.BgArticleDao;
 import com.youyd.article.pojo.Article;
 import com.youyd.cache.constant.RedisConstant;
@@ -33,7 +32,7 @@ public class BgArticleService {
 	 * @return
 	 */
 	public IPage<Article> findArticleByCondition(Article article, QueryVO queryVO){
-		Page<Article> page = new Page<Article>(queryVO.getPage(),queryVO.getLimit());
+		Page<Article> page = new Page<Article>(article.getPageSize(),article.getPageSize());
 		IPage<Article> articlePage = articleDao.findArticlePage(page,queryVO);
 		return articlePage;
 	}

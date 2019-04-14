@@ -1,5 +1,6 @@
 package com.youyd.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,9 +14,16 @@ import java.io.Serializable;
 @Data
 public class QueryVO implements Serializable {
 
-	private long page;
-	private long limit = 10;
+	@TableField(exist = false)
+	private long pageNum;
+
+	@TableField(exist = false)
+	private long pageSize = 10;
+
+	@TableField(exist = false)
 	private String searchValue;
+
+	@TableField(exist = false)
 	private String searchSort;
 
 }
