@@ -1,6 +1,6 @@
 package com.youyd.user.controller;
 
-import com.youyd.user.pojo.Role;
+import com.youyd.pojo.base.Role;
 import com.youyd.user.service.RoleService;
 import com.youyd.utils.JsonData;
 import com.youyd.utils.StatusCode;

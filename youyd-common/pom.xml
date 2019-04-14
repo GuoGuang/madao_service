@@ -33,7 +33,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+        </dependency>
         <!--spring-data-redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -55,6 +58,13 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.6.0</version>
+        </dependency>
+
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.2</version>
         </dependency>
 
         <!-- mybatis-plus 因为抽象了com.youyd.user.core.BaseService到common中所有将此dependency放在此处 -->

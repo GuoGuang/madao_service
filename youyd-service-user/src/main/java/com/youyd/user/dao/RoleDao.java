@@ -1,7 +1,7 @@
 package com.youyd.user.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youyd.user.pojo.Role;
+import com.youyd.pojo.base.Role;
 
 import java.util.List;
 
