@@ -34,7 +34,7 @@ public class CategoryService{
 	 * @return
 	 */
 	public IPage<Category> findCategoryByCondition(Category category, QueryVO queryVO) {
-		Page<Category> pr = new Page<>(queryVO.getPage(),queryVO.getLimit());
+		Page<Category> pr = new Page<>(category.getPageSize(),category.getPageSize());
 		QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
 		return categoryDao.selectPage(pr, queryWrapper);
 	}

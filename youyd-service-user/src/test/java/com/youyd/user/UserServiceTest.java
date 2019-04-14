@@ -32,7 +32,7 @@ public class UserServiceTest {
 		user.setEmail("121@qq.com");
 		user.setContactAddress("山东省潍坊市昌邑市");
 		//user.setIsLock(0);
-		user.setMobile("15866969696");
+		user.setPhone("15866969696");
 		user.setOnlineTime(150L);
 		//user.setRegisteredDate(new Date());
 		user.setRegisteredType("");

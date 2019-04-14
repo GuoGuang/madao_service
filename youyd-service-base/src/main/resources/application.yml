@@ -1,5 +1,5 @@
 server:
-  port: 9001
+  port: 9008
 spring:
   application:
     name: service-base  #指定服务名
