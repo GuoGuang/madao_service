@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.question.pojo.Question;
-import com.youyd.question.service.QuestionService;
+import com.youyd.question.service.backstage.QuestionService;
 import com.youyd.utils.JsonData;
 import com.youyd.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,7 @@
 package com.youyd.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youyd.pojo.QueryVO;
-import com.youyd.user.pojo.User;
-import com.youyd.user.service.MenuService;
+import com.youyd.pojo.user.User;
 import com.youyd.user.service.UserService;
 import com.youyd.utils.JsonData;
 import com.youyd.utils.StatusCode;
@@ -33,8 +31,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private MenuService menuService;
 
 	/**
 	 * 用户登陆
@@ -66,17 +62,6 @@ public class UserController {
 		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
 
-	/**
-	 * 获取用户权限，信息
-	 *
-	 * @param token
-	 * @return boolean
-	 */
-	@PostMapping("/info")
-	public JsonData info(String token) {
-		List menu = menuService.findMenuByCondition(token);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), menu);
-	}
 
 	/**
 	 * 获取用户权限，信息
@@ -114,8 +99,8 @@ public class UserController {
 	@ApiOperation(value = "查找用户列表", notes = "按照条件查找用户列表")
 	@ApiImplicitParam(name = "User", value = "查询条件：用户对象", dataType = "Map", paramType = "query")
 	@GetMapping
-	public JsonData findByCondition(User user, QueryVO queryVO) {
-		IPage<User> byCondition = userService.findByCondition(user,queryVO);
+	public JsonData findByCondition(User user) {
+		IPage<User> byCondition = userService.findByCondition(user);
 		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(),byCondition);
 	}
 	/**
@@ -152,7 +137,7 @@ public class UserController {
 	 * @return
 	 */
 	@DeleteMapping()
-	public JsonData deleteByIds(@RequestBody List userId, @ModelAttribute("admin_claims") Claims claims) {
+	public JsonData deleteByIds(@RequestBody List<Long> userId, @ModelAttribute("admin_claims") Claims claims) {
 		if (claims == null) {
 			return new JsonData(true, StatusCode.PARAM_ERROR.getCode(), StatusCode.PARAM_ERROR.getMsg());
 		}
