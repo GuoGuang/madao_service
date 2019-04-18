@@ -38,6 +38,8 @@ public class MenuService{
 		if (menu.getStatus() != null){
 			queryWrapper.eq(Menu::getStatus,menu.getStatus());
 		}
+
+
 		IPage<Menu> menuIPage = menuDao.selectPage(pr, queryWrapper);
 		return menuIPage;
 	}
