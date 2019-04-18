@@ -1,13 +1,13 @@
 package com.youyd.base.service;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.base.dao.MenuDao;
-import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.Menu;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,9 +29,17 @@ public class MenuService{
 	 * @param token 查询参数
 	 * @return List
 	 */
-	public IPage<Menu> findMenuByCondition(Menu menu, QueryVO queryVO) {
-		Page<Menu> pr = new Page<>(queryVO.getPage(),queryVO.getLimit());
-		QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
+	public IPage<Menu> findMenuByCondition(Menu menu) {
+		Page<Menu> pr = new Page<>(menu.getPageNum(),menu.getPageSize());
+		LambdaQueryWrapper<Menu> queryWrapper = new LambdaQueryWrapper<>();
+		if (StringUtils.isNotEmpty(menu.getName())){
+			queryWrapper.eq(Menu::getName,menu.getName());
+		}
+		if (menu.getStatus() != null){
+			queryWrapper.eq(Menu::getStatus,menu.getStatus());
+		}
+
+
 		IPage<Menu> menuIPage = menuDao.selectPage(pr, queryWrapper);
 		return menuIPage;
 	}
@@ -50,7 +58,7 @@ public class MenuService{
 		return SqlHelper.retBool(insert);
 	}
 
-	public boolean deleteByIds(List resId) {
+	public boolean deleteByIds(List<Long>  resId) {
 		int i = menuDao.deleteBatchIds(resId);
 		return SqlHelper.retBool(i);
 	}
