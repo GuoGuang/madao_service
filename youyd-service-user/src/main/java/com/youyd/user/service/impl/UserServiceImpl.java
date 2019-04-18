@@ -2,22 +2,22 @@ package com.youyd.user.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
-import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.user.User;
 import com.youyd.user.dao.UserDao;
 import com.youyd.user.service.UserService;
 import com.youyd.utils.LogBack;
 import com.youyd.utils.security.JWTAuthentication;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public void insertUser(User user) {
+		user.setCreateAt(new Date());
 		//加密后的密码
 		String bCryptPassword = bCryptPasswordEncoder.encode(user.getPassword());
 		user.setPassword(bCryptPassword);
@@ -56,9 +57,15 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public IPage<User> findByCondition(User user, QueryVO queryVO) {
-		Page<User> pr = new Page<>(queryVO.getPage(),queryVO.getLimit());
-		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+	public IPage<User> findByCondition(User user) {
+		Page<User> pr = new Page<>(user.getPageNum(),user.getPageSize());
+		LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+		if (StringUtils.isNotEmpty(user.getUserName())){
+			queryWrapper.eq(User::getUserName,user.getUserName());
+		}
+		if (user.getStatus() != null){
+			queryWrapper.eq(User::getStatus,user.getStatus());
+		}
 		return userDao.selectPage(pr, queryWrapper);
 	}
 
@@ -100,7 +107,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean deleteByIds(List userId) {
+	public boolean deleteByIds(List<Long> userId) {
 		int i = userDao.deleteBatchIds(userId);
 		return SqlHelper.retBool(i);
 	}
