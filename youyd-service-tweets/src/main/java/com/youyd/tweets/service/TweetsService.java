@@ -35,7 +35,7 @@ public class TweetsService {
 	 * @return IPage
 	 */
 	public IPage<Tweets> findTweetsByCondition(Tweets tweets, QueryVO queryVO){
-		Page<Tweets> pr = new Page<>(queryVO.getPage(),queryVO.getLimit());
+		Page<Tweets> pr = new Page<>(tweets.getPageSize(),tweets.getPageSize());
 		QueryWrapper<Tweets> queryWrapper = new QueryWrapper<>();
 		return tweetsDao.selectPage(pr, queryWrapper);
 	}

@@ -35,7 +35,7 @@ public class TweetsCommentService {
 	 * @return IPage
 	 */
 	public IPage<TweetsComment> findTweetsCommentByCondition(TweetsComment tweetsComment, QueryVO queryVO){
-		Page<TweetsComment> pr = new Page<>(queryVO.getPage(),queryVO.getLimit());
+		Page<TweetsComment> pr = new Page<>(tweetsComment.getPageSize(),tweetsComment.getPageSize());
 		QueryWrapper<TweetsComment> queryWrapper = new QueryWrapper<>();
 		return tweetsCommentCommentDao.selectPage(pr, queryWrapper);
 	}

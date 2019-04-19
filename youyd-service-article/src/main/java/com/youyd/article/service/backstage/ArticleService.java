@@ -33,7 +33,7 @@ public class ArticleService{
 	 * @return
 	 */
 	public IPage<Article> findArticleByCondition(Article article, QueryVO queryVO){
-		Page<Article> pr = new Page<>(queryVO.getPage(),queryVO.getLimit());
+		Page<Article> pr = new Page<>(article.getPageSize(),article.getPageSize());
 		QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
 		return articleDao.selectPage(pr, queryWrapper);
 	}
