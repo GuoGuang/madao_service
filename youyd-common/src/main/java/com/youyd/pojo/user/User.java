@@ -4,7 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youyd.pojo.BasePojo;
 import io.swagger.annotations.ApiModel;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,15 +16,16 @@ import java.util.Date;
  * @create: 2018-09-27
  **/
 @ApiModel(value="user", description="用户实体类")
-@Data
+@Getter
+@Setter
 public class User extends BasePojo implements Serializable{
 
 	@TableId(type = IdType.ID_WORKER)
 	private Long id;
 	private String account; // 账号
-	private String userName; //用户名
-	private String nickName; //用户名
-	private String password; //密码
+	private String userName; // 用户名
+	private String nickName; // 昵称
+	private String password; // 密码
 	private String sex;//性别
 	private Date birthday;//出生年月日
 	private String avatar;//头像
@@ -39,5 +41,4 @@ public class User extends BasePojo implements Serializable{
 	private String registeredType;//注册类型/方式
 	private Integer status;//是否锁定(0:未锁定,1已锁定)
 
-	private static final long serialVersionUID = 1L;
 }

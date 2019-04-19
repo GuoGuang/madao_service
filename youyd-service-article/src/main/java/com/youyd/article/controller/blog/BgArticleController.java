@@ -1,10 +1,10 @@
 package com.youyd.article.controller.blog;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youyd.article.pojo.Article;
 import com.youyd.article.service.blog.BgArticleService;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
+import com.youyd.pojo.article.Article;
 import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

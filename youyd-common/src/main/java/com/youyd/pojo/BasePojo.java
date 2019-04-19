@@ -1,6 +1,7 @@
 package com.youyd.pojo;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,10 +11,10 @@ import java.util.Date;
  * @author: LGG
  * @create: 2018-09-27 14:19
  **/
-@Data
+@Getter
+@Setter
 public class BasePojo extends QueryVO implements Serializable {
 
 	private Date updateAt;
 	private Date createAt;
-
 }

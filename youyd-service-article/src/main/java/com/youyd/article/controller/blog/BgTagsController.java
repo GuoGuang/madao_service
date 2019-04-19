@@ -1,9 +1,9 @@
 package com.youyd.article.controller.blog;
 
-import com.youyd.article.pojo.Tags;
 import com.youyd.article.service.blog.BgTagsService;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
+import com.youyd.pojo.article.Tags;
 import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

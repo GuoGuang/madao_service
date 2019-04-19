@@ -3,7 +3,8 @@ package com.youyd.pojo.base;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youyd.pojo.BasePojo;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
@@ -12,7 +13,8 @@ import java.io.Serializable;
  * @author: LGG
  * @create: 2018-09-27
  **/
-@Data
+@Getter
+@Setter
 public class Menu extends BasePojo implements Serializable {
 
 	@TableId(type = IdType.ID_WORKER)
