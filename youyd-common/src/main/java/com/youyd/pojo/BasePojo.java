@@ -13,24 +13,8 @@ import java.util.Date;
  **/
 @Getter
 @Setter
-public class BasePojo implements Serializable {
+public class BasePojo extends QueryVO implements Serializable {
 
 	private Date updateAt;
 	private Date createAt;
-
-	public Date getUpdateAt() {
-		return updateAt;
-	}
-
-	public void setUpdateAt(Date updateAt) {
-		this.updateAt = updateAt;
-	}
-
-	public Date getCreateAt() {
-		return createAt;
-	}
-
-	public void setCreateAt(Date createAt) {
-		this.createAt = createAt;
-	}
 }

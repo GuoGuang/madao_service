@@ -3,7 +3,7 @@
 <mapper namespace="com.youyd.article.dao.backstage.TagsDao" >
 
 
-    <select id="findTagsByCondition" resultType="com.youyd.article.pojo.Tags">
+    <select id="findTagsByCondition" resultType="com.youyd.pojo.article.Tags">
 
     </select>
 </mapper>
