@@ -1,7 +1,7 @@
 package com.youyd.article.dao.backstage;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youyd.article.pojo.Article;
+import com.youyd.pojo.article.Article;
 
 /**
  * @description: 文章数据处理层

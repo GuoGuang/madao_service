@@ -1,7 +1,7 @@
 package com.youyd.article.dao.backstage;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youyd.article.pojo.Category;
+import com.youyd.pojo.article.Category;
 
 
 /**

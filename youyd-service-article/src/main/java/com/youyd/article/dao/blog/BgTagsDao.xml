@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.youyd.article.dao.blog.BgTagsDao">
 
-    <resultMap type="com.youyd.article.pojo.Tags" id="pojoResultMap" autoMapping="true">
+    <resultMap type="com.youyd.pojo.article.Tags" id="pojoResultMap" autoMapping="true">
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="tags_count" property="tagsCount" jdbcType="INTEGER" />
     </resultMap>

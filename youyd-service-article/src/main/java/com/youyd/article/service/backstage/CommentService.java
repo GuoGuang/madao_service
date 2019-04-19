@@ -1,7 +1,7 @@
 package com.youyd.article.service.backstage;
 
 import com.youyd.article.dao.backstage.CommentDao;
-import com.youyd.article.pojo.Comment;
+import com.youyd.pojo.article.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

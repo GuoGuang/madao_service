@@ -1,7 +1,8 @@
 package com.youyd.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
@@ -11,7 +12,8 @@ import java.io.Serializable;
  * @create: 28-February-2019
  **/
 
-@Data
+@Getter
+@Setter
 public class QueryVO implements Serializable {
 
 	@TableField(exist = false)
