@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.youyd.article.dao.blog.BgArticleDao" >
 
-    <resultMap type="com.youyd.article.pojo.Article" id="pojoResultMap">
+    <resultMap type="com.youyd.pojo.article.Article" id="pojoResultMap">
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="category_id" property="categoryId" jdbcType="INTEGER" />
         <result column="user_id" property="userId" jdbcType="VARCHAR" />
@@ -23,7 +23,7 @@
         <result column="origin" property="origin" jdbcType="INTEGER" />
         <result column="description" property="description" jdbcType="VARCHAR" />
         <result column="content" property="content" jdbcType="LONGVARCHAR" />
-        <association property="category" javaType="com.youyd.article.pojo.Category">
+        <association property="category" javaType="com.youyd.pojo.article.Category">
             <id column="cid" property="id" />
             <result column="name" property="name"/>
         </association>

@@ -1,10 +1,10 @@
 package com.youyd.article.service.blog;
 
 import com.youyd.article.dao.blog.BgTagsDao;
-import com.youyd.article.pojo.Tags;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.pojo.QueryVO;
+import com.youyd.pojo.article.Tags;
 import com.youyd.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

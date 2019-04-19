@@ -1,10 +1,9 @@
 package com.youyd.article.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youyd.article.pojo.Article;
 import com.youyd.article.service.backstage.ArticleService;
-import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
+import com.youyd.pojo.article.Article;
 import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,8 +34,8 @@ public class ArticleController {
      */
     @ApiOperation(value = "查询文章集合", notes = "Article")
     @GetMapping
-    public Result findArticleByCondition(Article article, QueryVO queryVO) {
-	    IPage<Article> result = articleService.findArticleByCondition(article,queryVO);
+    public Result findArticleByCondition(Article article) {
+	    IPage<Article> result = articleService.findArticleByCondition(article);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
     }
 

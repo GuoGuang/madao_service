@@ -1,8 +1,8 @@
 package com.youyd.article.controller.backstage;
 
-import com.youyd.article.pojo.Comment;
 import com.youyd.article.service.backstage.CommentService;
 import com.youyd.pojo.Result;
+import com.youyd.pojo.article.Comment;
 import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
