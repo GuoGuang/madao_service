@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.youyd.gather.pojo.Gather;
 import com.youyd.gather.dao.GatherDao;
+import com.youyd.gather.pojo.Gather;
 import com.youyd.pojo.QueryVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class GatherService {
 	 * @return
 	 */
 	public IPage<Gather> findGatherByCondition(QueryVO queryVO){
-		Page<Gather> pr = new Page<>(queryVO.getPage(),queryVO.getLimit());
+		Page<Gather> pr = new Page<>(queryVO.getPageSize(),queryVO.getPageSize());
 		QueryWrapper<Gather> queryWrapper = new QueryWrapper<>();
 		return gatherDao.selectPage(pr, queryWrapper);
 	}

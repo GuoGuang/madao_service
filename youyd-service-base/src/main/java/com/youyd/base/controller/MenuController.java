@@ -2,7 +2,6 @@ package com.youyd.base.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.base.service.MenuService;
-import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.Menu;
 import com.youyd.utils.JsonData;
 import com.youyd.utils.StatusCode;
@@ -35,8 +34,8 @@ public class MenuController {
 	 * @return JsonData
 	 */
 	@GetMapping
-	public JsonData findResByCondition(Menu menu, QueryVO queryVO) {
-		IPage<Menu> resData = menuService.findMenuByCondition(menu,queryVO);
+	public JsonData findResByCondition(Menu menu) {
+		IPage<Menu> resData = menuService.findMenuByCondition(menu);
 		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), resData);
 	}
 
@@ -58,31 +57,31 @@ public class MenuController {
 	 * @return boolean
 	 */
 	@PostMapping("/info")
-	public JsonData info(Menu menu, QueryVO queryVO) {
-		IPage<Menu> menuByCondition = menuService.findMenuByCondition(menu, queryVO);
+	public JsonData info(Menu menu ) {
+		IPage<Menu> menuByCondition = menuService.findMenuByCondition(menu);
 		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), menu);
 	}
 
 
 	/**
 	 * 更新资源
-	 * @param resources 资源实体
+	 * @param  menu 菜单
 	 * @return JsonData
 	 */
-	@PutMapping()
-	public JsonData updateByPrimaryKey(@RequestBody Menu resources) {
-		boolean state = menuService.updateByPrimaryKey(resources);
+	@PutMapping
+	public JsonData updateByPrimaryKey(@RequestBody Menu menu) {
+		boolean state = menuService.updateByPrimaryKey(menu);
 		return new JsonData(state, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
 
 	/**
 	 * 添加一条数据
-	 * @param resources 资源实体
+	 * @param menu 菜单
 	 * @return JsonData
 	 */
 	@PostMapping
-	public JsonData insertSelective(@RequestBody Menu resources) {
-		boolean state = menuService.insertSelective(resources);
+	public JsonData insertSelective(@RequestBody Menu menu) {
+		boolean state = menuService.insertSelective(menu);
 		return new JsonData(state, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
 
@@ -92,7 +91,7 @@ public class MenuController {
 	 * @return JsonData
 	 */
 	@DeleteMapping()
-	public JsonData deleteByIds(@RequestBody List<String> resId) {
+	public JsonData deleteByIds(@RequestBody List<Long> resId) {
 		boolean state = menuService.deleteByIds(resId);
 		return new JsonData(state, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
