@@ -75,7 +75,7 @@ public class CategoryController {
 	 * @param categoryIds :分类id数组
 	 */
 	@DeleteMapping
-	public Result deleteByPrimaryKey(@RequestBody List<Long> categoryIds) {
+	public Result deleteByPrimaryKey(@RequestBody List<String> categoryIds) {
 		columnService.deleteByPrimaryKey(categoryIds);
 		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
