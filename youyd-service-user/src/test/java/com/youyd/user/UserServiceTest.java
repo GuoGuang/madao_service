@@ -24,7 +24,7 @@ public class UserServiceTest {
 	public void testPlus(){
 		List<User> list = new ArrayList<>();
 		User user = new User();
-		user.setId(1067076025403432962L);
+		user.setId("1067076025403432962");
 		user.setUserName("ZH001");
 		user.setPassword("123456");
 		user.setAvatar("头像是qq");

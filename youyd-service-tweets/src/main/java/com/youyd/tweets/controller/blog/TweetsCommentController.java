@@ -3,10 +3,8 @@ package com.youyd.tweets.controller.blog;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
-import com.youyd.tweets.pojo.Tweets;
 import com.youyd.tweets.pojo.TweetsComment;
 import com.youyd.tweets.service.TweetsCommentService;
-import com.youyd.tweets.service.TweetsService;
 import com.youyd.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -58,7 +56,7 @@ public class TweetsCommentController {
 	 * @return Result
 	 */
 	@PostMapping()
-	public Result insertTweetsComment(@RequestBody TweetsComment tweetsComment,Integer tweetsId){
+	public Result insertTweetsComment(@RequestBody TweetsComment tweetsComment,String tweetsId){
 		tweetsCommentService.insertTweetsComment(tweetsComment,tweetsId);
 		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
 	}
