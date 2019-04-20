@@ -18,8 +18,8 @@ import java.io.Serializable;
 @Setter
 public class Role extends BasePojo implements Serializable {
 
-	@TableId(type = IdType.ID_WORKER)
-    private Long roleId; // 角色表主键
+	@TableId(type = IdType.ID_WORKER_STR)
+    private String id; // 角色表主键
 
     private String parentRoleId; // 父级角色id
 
