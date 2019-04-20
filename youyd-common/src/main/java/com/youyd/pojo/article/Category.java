@@ -20,8 +20,8 @@ import java.io.Serializable;
 public class Category extends BasePojo implements Serializable {
 
 
-	@TableId(type = IdType.ID_WORKER)
-	private Integer id;
+	@TableId(type = IdType.ID_WORKER_STR)
+	private String id;
 
 	private Integer parentId;
 
