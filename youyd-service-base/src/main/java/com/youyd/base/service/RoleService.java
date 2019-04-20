@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.base.dao.RoleDao;
 import com.youyd.pojo.base.Role;
+import com.youyd.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,28 @@ import java.util.List;
 @Service
 public class RoleService {
 
+	private final RoleDao roleDao;
+
 	@Autowired
-	private RoleDao roleDao;
+	public RoleService(RoleDao roleDao) {
+		this.roleDao = roleDao;
+	}
+
+
+	/**
+	 * 条件查询角色
+	 * @param role : Role
+	 * @return IPage<Role>
+	 */
+	public IPage<Role> findRuleByCondition(Role role) {
+		Page<Role> pr = new Page<>(role.getPageNum(),role.getPageSize());
+		LambdaQueryWrapper<Role> queryWrapper = new LambdaQueryWrapper<>();
+		if (StringUtils.isNotEmpty(role.getRoleName())){
+			queryWrapper.eq(Role::getRoleName,role.getRoleName());
+		}
+		queryWrapper.orderByDesc(Role::getCreateAt);
+		return roleDao.selectPage(pr, queryWrapper);
+	}
 
 	/**
 	 * 更新角色状态
@@ -32,32 +53,19 @@ public class RoleService {
 		roleDao.updateRole(roleId);
 	}
 
-	/**
-	 * 条件查询角色
-	 * @param paramMap
-	 * @return
-	 */
-	public IPage<Role> findRuleByCondition(Role role) {
-		Page<Role> pr = new Page<>(role.getPageNum(),role.getPageSize());
-		LambdaQueryWrapper<Role> queryWrapper = new LambdaQueryWrapper<>();
-		if (StringUtils.isNotEmpty(role.getRoleName())){
-			queryWrapper.eq(Role::getRoleName,role.getRoleName());
-		}
-		IPage<Role> roleIPage = roleDao.selectPage(pr, queryWrapper);
-		return roleIPage;
-	}
-
 	public boolean updateByPrimaryKey(Role role) {
 		int i = roleDao.updateById(role);
 		return SqlHelper.retBool(i);
 	}
 
-	public boolean deleteByIds(List<Long> roleId) {
+	public boolean deleteByIds(List<String> roleId) {
 		int i = roleDao.deleteBatchIds(roleId);
 		return SqlHelper.retBool(i);
 	}
 
 	public boolean insertSelective(Role role) {
+		role.setCreateAt(DateUtil.getTimestamp());
+		role.setUpdateAt(DateUtil.getTimestamp());
 		int insert = roleDao.insert(role);
 		return SqlHelper.retBool(insert);
 	}

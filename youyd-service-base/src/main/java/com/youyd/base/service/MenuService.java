@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.base.dao.MenuDao;
 import com.youyd.pojo.base.Menu;
+import com.youyd.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class MenuService{
 
 	/**
 	 * 条件查询资源
-	 * @param token 查询参数
+	 * @param menu 查询参数
 	 * @return List
 	 */
 	public IPage<Menu> findMenuByCondition(Menu menu) {
@@ -51,12 +52,14 @@ public class MenuService{
 		return SqlHelper.retBool(i);
 	}
 
-	public boolean insertSelective(Menu resources) {
-		int insert = menuDao.insert(resources);
+	public boolean insertSelective(Menu menu) {
+		menu.setCreateAt(DateUtil.getTimestamp());
+		menu.setUpdateAt(DateUtil.getTimestamp());
+		int insert = menuDao.insert(menu);
 		return SqlHelper.retBool(insert);
 	}
 
-	public boolean deleteByIds(List<Long>  resId) {
+	public boolean deleteByIds(List<String>  resId) {
 		int i = menuDao.deleteBatchIds(resId);
 		return SqlHelper.retBool(i);
 	}

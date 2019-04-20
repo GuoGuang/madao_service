@@ -67,8 +67,8 @@ public class RoleController {
 	 * @param roleId 角色id数组
 	 * @return JsonData
 	 */
-	@DeleteMapping()
-	public JsonData deleteByIds(@RequestBody List<Long> roleId) {
+	@DeleteMapping
+	public JsonData deleteByIds(@RequestBody List<String> roleId) {
 		boolean state = roleService.deleteByIds(roleId);
 		return new JsonData(state, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
