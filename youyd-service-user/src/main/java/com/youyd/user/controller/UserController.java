@@ -103,6 +103,19 @@ public class UserController {
 		IPage<User> byCondition = userService.findByCondition(user);
 		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(),byCondition);
 	}
+
+	/**
+	 * 按照id查询用户
+	 *
+	 * @param user：用户条件
+	 * @return boolean
+	 * url: ?search={query}{&page,per_page,sort,order}
+	 */
+	@GetMapping(value = "/{id}")
+	public JsonData findByCondition(@PathVariable String id) {
+		User byId = userService.findUserById(id);
+		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(),byId);
+	}
 	/**
 	 * 退出
 	 *
@@ -137,7 +150,7 @@ public class UserController {
 	 * @return
 	 */
 	@DeleteMapping()
-	public JsonData deleteByIds(@RequestBody List<Long> userId, @ModelAttribute("admin_claims") Claims claims) {
+	public JsonData deleteByIds(@RequestBody List<String> userId, @ModelAttribute("admin_claims") Claims claims) {
 		if (claims == null) {
 			return new JsonData(true, StatusCode.PARAM_ERROR.getCode(), StatusCode.PARAM_ERROR.getMsg());
 		}
