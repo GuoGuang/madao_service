@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @description: 基础实体类,其他实体应继承此实体
@@ -15,6 +14,6 @@ import java.util.Date;
 @Setter
 public class BasePojo extends QueryVO implements Serializable {
 
-	private Date updateAt;
-	private Date createAt;
+	private Long updateAt;
+	private Long createAt;
 }

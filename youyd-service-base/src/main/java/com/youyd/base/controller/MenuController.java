@@ -3,6 +3,7 @@ package com.youyd.base.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.base.service.MenuService;
 import com.youyd.pojo.base.Menu;
+import com.youyd.utils.DateUtil;
 import com.youyd.utils.JsonData;
 import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
@@ -30,7 +31,7 @@ public class MenuController {
 
 	/**
 	 * 条件查询菜单
-	 * @param paramMap 查询参数
+	 * @param menu 查询参数
 	 * @return JsonData
 	 */
 	@GetMapping
@@ -44,9 +45,9 @@ public class MenuController {
 	 * @param resId:资源数据
 	 * @return
 	 */
-	@GetMapping(value = "/{resId}")
-	public JsonData findById(@PathVariable String resId) {
-		Menu resData = menuService.findMenuById(resId);
+	@GetMapping(value = "/{id}")
+	public JsonData findById(@PathVariable String id) {
+		Menu resData = menuService.findMenuById(id);
 		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), resData);
 	}
 
@@ -81,6 +82,8 @@ public class MenuController {
 	 */
 	@PostMapping
 	public JsonData insertSelective(@RequestBody Menu menu) {
+		menu.setCreateAt(DateUtil.getTimestamp());
+		menu.setUpdateAt(DateUtil.getTimestamp());
 		boolean state = menuService.insertSelective(menu);
 		return new JsonData(state, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
@@ -91,7 +94,7 @@ public class MenuController {
 	 * @return JsonData
 	 */
 	@DeleteMapping()
-	public JsonData deleteByIds(@RequestBody List<Long> resId) {
+	public JsonData deleteByIds(@RequestBody List<String> resId) {
 		boolean state = menuService.deleteByIds(resId);
 		return new JsonData(state, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}

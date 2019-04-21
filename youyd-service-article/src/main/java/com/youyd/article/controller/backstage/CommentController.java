@@ -72,7 +72,7 @@ public class CommentController {
 	 * @param commentIds
 	 */
 	@DeleteMapping
-	public Result deleteByIds(List<Long> commentIds){
+	public Result deleteByIds(List<String> commentIds){
 		commentService.deleteByIds(commentIds);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
 	}

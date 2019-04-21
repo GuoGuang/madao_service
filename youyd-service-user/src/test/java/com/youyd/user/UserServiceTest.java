@@ -1,5 +1,8 @@
 package com.youyd.user;
 
+import com.aliyun.oss.HttpMethod;
+import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.model.PutObjectResult;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.pojo.user.User;
 import com.youyd.user.service.UserService;
@@ -8,7 +11,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.StreamUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -19,12 +27,14 @@ import java.util.*;
 public class UserServiceTest {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private OSSClient ossClient; // 阿里云OSS对象存储
 
 	@Test
 	public void testPlus(){
 		List<User> list = new ArrayList<>();
 		User user = new User();
-		user.setId(1067076025403432962L);
+		user.setId("1067076025403432962");
 		user.setUserName("ZH001");
 		user.setPassword("123456");
 		user.setAvatar("头像是qq");
@@ -87,5 +97,20 @@ public class UserServiceTest {
 	public void testSpringDataRedis(){
 		//redisService.set("stringK","stringV"); // string
 		redisService.lSet("listK",Arrays.asList("王","赵"));
+	}
+
+	@Test
+	public void uploadFile() throws IOException {
+		final String bucketName = "vue-admin-guoguang";
+		final String fileKey = "文件名";
+		final String localFile = "D:/6.png";
+		final String downloadFile = "demo.jpg";
+		File file = new File(localFile);
+		PutObjectResult putObjectResult = ossClient.putObject(bucketName, fileKey, file);
+		final InputStream inputStream = ossClient.getObject(bucketName, fileKey).getObjectContent();
+		StreamUtils.copy(inputStream, new FileOutputStream(downloadFile));
+		System.out.println(ossClient.generatePresignedUrl(bucketName, fileKey, new Date(System.currentTimeMillis() + (1000 * 30)), HttpMethod.GET).toString());
+
+
 	}
 }

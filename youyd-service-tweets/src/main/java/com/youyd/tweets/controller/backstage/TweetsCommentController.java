@@ -56,7 +56,7 @@ public class TweetsCommentController {
 	 * @return Result
 	 */
 	@PostMapping()
-	public Result insertTweetsComment(@RequestBody TweetsComment tweetsComment,Integer tweetsId){
+	public Result insertTweetsComment(@RequestBody TweetsComment tweetsComment,String tweetsId){
 		tweetsCommentService.insertTweetsComment(tweetsComment,tweetsId);
 		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
 	}
