@@ -9,16 +9,16 @@ import lombok.Setter;
 import java.io.Serializable;
 
 /**
- * @description: 菜单实体
- * @author: LGG
- * @create: 2018-09-27
+ *  菜单实体
+ * @author LGG
+ * @create 2018-09-27
  **/
 @Getter
 @Setter
 public class Menu extends BasePojo implements Serializable {
 
-	@TableId(type = IdType.ID_WORKER)
-	private Long id; // 菜单表主键
+	@TableId(type = IdType.ID_WORKER_STR)
+	private String id; // 菜单表主键
 
 	private String name; // 名称
 

@@ -20,8 +20,8 @@ import java.util.Date;
 @Setter
 public class User extends BasePojo implements Serializable{
 
-	@TableId(type = IdType.ID_WORKER)
-	private Long id;
+	@TableId(type = IdType.ID_WORKER_STR)
+	private String id;
 	private String account; // 账号
 	private String userName; // 用户名
 	private String nickName; // 昵称

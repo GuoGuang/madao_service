@@ -11,7 +11,9 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -103,6 +105,33 @@ public class UserController {
 		IPage<User> byCondition = userService.findByCondition(user);
 		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(),byCondition);
 	}
+
+	/**
+	 * 用户上传头像
+	 * @param user：用户条件
+	 * @return boolean
+	 * url: ?search={query}{&page,per_page,sort,order}
+	 */
+	@ApiOperation(value = "查找用户列表", notes = "按照条件查找用户列表")
+	@ApiImplicitParam(name = "User", value = "查询条件：用户对象", dataType = "Map", paramType = "query")
+	@PutMapping("avatar")
+	public JsonData updateUserAvatar(User user, MultipartFile file) throws IOException {
+		userService.updateUserAvatar(user,file);
+		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+	}
+
+	/**
+	 * 按照id查询用户
+	 *
+	 * @param id：用户id
+	 * @return boolean
+	 * url: ?search={query}{&page,per_page,sort,order}
+	 */
+	@GetMapping(value = "/{id}")
+	public JsonData findByCondition(@PathVariable String id) {
+		User byId = userService.findUserById(id);
+		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(),byId);
+	}
 	/**
 	 * 退出
 	 *
@@ -137,7 +166,7 @@ public class UserController {
 	 * @return
 	 */
 	@DeleteMapping()
-	public JsonData deleteByIds(@RequestBody List<Long> userId, @ModelAttribute("admin_claims") Claims claims) {
+	public JsonData deleteByIds(@RequestBody List<String> userId, @ModelAttribute("admin_claims") Claims claims) {
 		if (claims == null) {
 			return new JsonData(true, StatusCode.PARAM_ERROR.getCode(), StatusCode.PARAM_ERROR.getMsg());
 		}

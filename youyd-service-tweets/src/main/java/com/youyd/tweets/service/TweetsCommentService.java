@@ -54,7 +54,7 @@ public class TweetsCommentService {
 	 * 发布吐槽评论
 	 * @param tweetsComment 吐槽实体
 	 */
-	public void insertTweetsComment(TweetsComment tweetsComment,Integer tweetsId){
+	public void insertTweetsComment(TweetsComment tweetsComment,String tweetsId){
 		tweetsComment.setThumbUpCount(0L);
 		tweetsComment.setReplyCount(0L);
 		tweetsComment.setIsVisible(1);

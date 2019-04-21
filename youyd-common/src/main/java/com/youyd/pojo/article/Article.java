@@ -29,8 +29,8 @@ public class Article extends BasePojo implements Serializable {
 	 /**
 	  * ID
 	  */
-	 @TableId(type = IdType.ID_WORKER)
-	 private Long id;
+	 @TableId(type = IdType.ID_WORKER_STR)
+	 private String id;
 
 	 /**
 	  * 专栏ID
