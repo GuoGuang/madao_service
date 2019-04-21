@@ -4,11 +4,14 @@ spring:
   application:
     name: service-user  #指定服务名
 
-
-
-
-
 # 配置织入点
 com:
   youyd:
     aopPointcutExpression: execution (* com.youyd.user..*.*(..))
+
+aliyun:
+  oss:
+    # 确认endpoint里面的请求地址跟bucket是否都一致。 https://mvp.aliyun.com/zhidao/9180
+    endpoint: oss-cn-shanghai.aliyuncs.com
+    access-key-id: LTAInqBgQMW6xQLB
+    access-key-secret: 0nct3FsOzMssy1OUu0R6yLRTohokzu
