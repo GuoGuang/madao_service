@@ -30,8 +30,12 @@ import java.util.Map;
 @RequestMapping(value = "/su/user", produces = "application/json")
 public class UserController {
 
+	private final UserService userService;
+
 	@Autowired
-	private UserService userService;
+	public UserController(UserService userService) {
+		this.userService = userService;
+	}
 
 
 	/**
@@ -146,13 +150,24 @@ public class UserController {
 
 
 	/**
-	 * 修改用户资料
+	 * 更新用户资料
 	 * @param user
 	 * @return
 	 */
 	@PutMapping()
 	public JsonData updateByPrimaryKey(@RequestBody User user) {
 		boolean result = userService.updateByPrimaryKey(user);
+		return new JsonData(result, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+	}
+
+	/**
+	 * 修改密码
+	 * @param user 实体
+	 * @return JsonData
+	 */
+	@PutMapping("password")
+	public JsonData changePassword(@RequestBody User user) {
+		boolean result = userService.changePassword(user);
 		return new JsonData(result, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
 

@@ -1,6 +1,6 @@
 package com.youyd.article.controller.blog;
 
-import com.youyd.article.service.blog.BgTagsService;
+import com.youyd.article.service.blog.TagsService;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.pojo.article.Tags;
@@ -24,12 +24,16 @@ import java.util.ArrayList;
 @Api(tags = "标签")
 @RestController
 @RequestMapping(value = "/tags",produces = "application/json")
-public class BgTagsController {
+public class TagsController {
 
-    @Autowired
-    private BgTagsService tagsService;
+    private final TagsService tagsService;
 
-    /**
+	@Autowired
+	public TagsController(TagsService tagsService) {
+		this.tagsService = tagsService;
+	}
+
+	/**
      * 查询全部标签
      *
      * @return Result

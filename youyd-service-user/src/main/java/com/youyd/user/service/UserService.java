@@ -139,4 +139,8 @@ public class UserService {
 		user.setAvatar(fileUrl);
 		userDao.updateById(user);
 	}
+
+	public boolean changePassword(User user) {
+		return false;
+	}
 }

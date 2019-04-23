@@ -17,10 +17,15 @@ import java.util.Date;
 @Service
 public class OssClientUtil {
 
-	@Autowired
-	private OSSClient ossClient; // 阿里云OSS对象存储
 
 	private static final String BUCKET_NAME = "vue-admin-guoguang";
+
+	private final OSSClient ossClient; // 阿里云OSS对象存储
+
+	@Autowired
+	public OssClientUtil(OSSClient ossClient) {
+		this.ossClient = ossClient;
+	}
 
 	/**
 	 * 上传文件
