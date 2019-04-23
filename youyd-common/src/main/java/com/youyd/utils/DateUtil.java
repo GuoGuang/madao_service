@@ -18,8 +18,4 @@ public class DateUtil {
 	public static Long getTimestamp(){
 		return LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
 	}
-
-	public static void main(String[] args) {
-		System.out.println(LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli());
-	}
 }
