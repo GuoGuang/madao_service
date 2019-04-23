@@ -1,6 +1,7 @@
 package com.youyd.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.constant.UserConst;
 import com.youyd.pojo.user.User;
 import com.youyd.user.service.UserService;
 import com.youyd.utils.JsonData;
@@ -166,8 +167,11 @@ public class UserController {
 	 * @return JsonData
 	 */
 	@PutMapping("password")
-	public JsonData changePassword(@RequestBody User user) {
-		boolean result = userService.changePassword(user);
+	public JsonData changePassword(@RequestBody User user,String oldPassword) {
+		boolean result = userService.changePassword(user,oldPassword);
+		if (!result){
+			System.out.println(UserConst.class);
+		}
 		return new JsonData(result, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
 
