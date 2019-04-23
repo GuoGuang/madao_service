@@ -14,7 +14,7 @@ import java.util.ArrayList;
  **/
 
 
-public interface BgTagsDao extends BaseMapper<Tags> {
+public interface TagsDao extends BaseMapper<Tags> {
 
 
 	ArrayList<Tags> findTagsByCondition(QueryVO queryVO);

@@ -13,7 +13,7 @@ import com.youyd.pojo.article.Article;
  **/
 
 
-public interface BgArticleDao extends BaseMapper<Article> {
+public interface ArticleDao extends BaseMapper<Article> {
 
 	IPage<Article> findArticlePage(Page page, QueryVO queryVO);
 }
