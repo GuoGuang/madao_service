@@ -139,4 +139,20 @@ public class UserService {
 		user.setAvatar(fileUrl);
 		userDao.updateById(user);
 	}
+
+	/**
+	 * 修改密码
+	 * @param user 当前用户
+	 * @param oldPassword 老密码
+	 * @return boolean
+	 */
+	public boolean changePassword(User user,String oldPassword) {
+		User userInfo = userDao.selectById(user);
+		if (!bCryptPasswordEncoder.matches(oldPassword, userInfo.getPassword())){
+			return false;
+		}
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		userDao.updateById(user);
+		return true;
+	}
 }

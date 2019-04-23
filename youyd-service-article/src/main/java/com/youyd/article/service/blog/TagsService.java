@@ -1,6 +1,6 @@
 package com.youyd.article.service.blog;
 
-import com.youyd.article.dao.blog.BgTagsDao;
+import com.youyd.article.dao.blog.TagsDao;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.pojo.QueryVO;
@@ -18,10 +18,10 @@ import java.util.List;
  * @create: 2018-10-13 16:39
  **/
 @Service
-public class BgTagsService {
+public class TagsService {
 
 	@Autowired
-	private BgTagsDao bgTagsDao;
+	private TagsDao bgTagsDao;
 
 	@Autowired
 	private RedisService redisService;
