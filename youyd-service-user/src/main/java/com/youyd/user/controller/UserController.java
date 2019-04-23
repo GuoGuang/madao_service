@@ -1,7 +1,7 @@
 package com.youyd.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youyd.constant.UserConst;
+import com.youyd.enumclass.UserEnum;
 import com.youyd.pojo.user.User;
 import com.youyd.user.service.UserService;
 import com.youyd.utils.JsonData;
@@ -152,8 +152,8 @@ public class UserController {
 
 	/**
 	 * 更新用户资料
-	 * @param user
-	 * @return
+	 * @param user 实体
+	 * @return JsonData
 	 */
 	@PutMapping()
 	public JsonData updateByPrimaryKey(@RequestBody User user) {
@@ -170,9 +170,9 @@ public class UserController {
 	public JsonData changePassword(@RequestBody User user,String oldPassword) {
 		boolean result = userService.changePassword(user,oldPassword);
 		if (!result){
-			System.out.println(UserConst.class);
+			return new JsonData(false, UserEnum.WRONG_PASSWORD.getCode(), UserEnum.WRONG_PASSWORD.getInfo());
 		}
-		return new JsonData(result, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
 
 	/**
@@ -182,9 +182,9 @@ public class UserController {
 	 *
 	 * @param userId:要删除的用户id
 	 * @param claims:jwt鉴权的数据
-	 * @return
+	 * @return JsonData
 	 */
-	@DeleteMapping()
+	@DeleteMapping
 	public JsonData deleteByIds(@RequestBody List<String> userId, @ModelAttribute("admin_claims") Claims claims) {
 		if (claims == null) {
 			return new JsonData(true, StatusCode.PARAM_ERROR.getCode(), StatusCode.PARAM_ERROR.getMsg());
