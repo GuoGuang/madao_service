@@ -17,7 +17,7 @@ import java.io.Serializable;
 public class QueryVO implements Serializable {
 
 	@TableField(exist = false)
-	private long pageNum;
+	private long pageNum = 1;
 
 	@TableField(exist = false)
 	private long pageSize = 10;
