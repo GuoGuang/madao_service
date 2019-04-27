@@ -1,4 +1,4 @@
-package com.youyd.enumclass;
+package com.youyd.enums;
 
 
 import lombok.Getter;

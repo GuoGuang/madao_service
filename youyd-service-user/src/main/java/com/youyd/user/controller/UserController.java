@@ -1,7 +1,7 @@
 package com.youyd.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youyd.enumclass.UserEnum;
+import com.youyd.enums.UserEnum;
 import com.youyd.pojo.user.User;
 import com.youyd.user.service.UserService;
 import com.youyd.utils.JsonData;
