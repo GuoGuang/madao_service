@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.base.dao.RoleDao;
+import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.Role;
 import com.youyd.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -35,8 +36,8 @@ public class RoleService {
 	 * @param role : Role
 	 * @return IPage<Role>
 	 */
-	public IPage<Role> findRuleByCondition(Role role) {
-		Page<Role> pr = new Page<>(role.getPageNum(),role.getPageSize());
+	public IPage<Role> findRuleByCondition(Role role, QueryVO queryVO ) {
+		Page<Role> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
 		LambdaQueryWrapper<Role> queryWrapper = new LambdaQueryWrapper<>();
 		if (StringUtils.isNotEmpty(role.getRoleName())){
 			queryWrapper.eq(Role::getRoleName,role.getRoleName());
