@@ -1,6 +1,6 @@
 package com.youyd.tweets.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
@@ -8,6 +8,7 @@ import com.youyd.pojo.QueryVO;
 import com.youyd.tweets.dao.TweetsCommentDao;
 import com.youyd.tweets.pojo.Tweets;
 import com.youyd.tweets.pojo.TweetsComment;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,8 +36,11 @@ public class TweetsCommentService {
 	 * @return IPage
 	 */
 	public IPage<TweetsComment> findTweetsCommentByCondition(TweetsComment tweetsComment, QueryVO queryVO){
-		Page<TweetsComment> pr = new Page<>(tweetsComment.getPageSize(),tweetsComment.getPageSize());
-		QueryWrapper<TweetsComment> queryWrapper = new QueryWrapper<>();
+		Page<TweetsComment> pr = new Page<>(queryVO.getPageSize(),queryVO.getPageSize());
+		LambdaQueryWrapper<TweetsComment> queryWrapper = new LambdaQueryWrapper<>();
+		if (StringUtils.isNotEmpty(tweetsComment.getNickName())) {
+			queryWrapper.like(TweetsComment::getNickName, tweetsComment.getNickName());
+		}
 		return tweetsCommentCommentDao.selectPage(pr, queryWrapper);
 	}
 
@@ -85,9 +89,9 @@ public class TweetsCommentService {
 
 	/**
 	 * 删除
-	 * @param commentIds
+	 * @param commentIds 要删除的评论
 	 */
-	public boolean deleteByIds(List commentIds) {
+	public boolean deleteByIds(List<String> commentIds) {
 		int i = tweetsCommentCommentDao.deleteBatchIds(commentIds);
 		return SqlHelper.retBool(i);
 	}

@@ -77,7 +77,7 @@ public class TweetsController {
 	 * @return Result
 	 */
 	@DeleteMapping
-	public Result deleteByTweetsId(@RequestBody List tweetsId){
+	public Result deleteByTweetsId(@RequestBody List<String> tweetsId){
 		boolean br = tweetsService.deleteByTweetsId(tweetsId);
 		return new Result(br,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
 	}
