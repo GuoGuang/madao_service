@@ -78,7 +78,7 @@ public class TweetsCommentController {
 	 * @return Result
 	 */
 	@DeleteMapping
-	public Result deleteByIds(@RequestBody List tweetsCommentId){
+	public Result deleteByIds(@RequestBody List<String> tweetsCommentId){
 		boolean br = tweetsCommentService.deleteByIds(tweetsCommentId);
 		return new Result(br,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
 	}
