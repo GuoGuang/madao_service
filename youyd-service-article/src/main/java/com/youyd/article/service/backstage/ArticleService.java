@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youyd.article.dao.backstage.ArticleDao;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
+import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Article;
 import com.youyd.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ public class ArticleService{
 	 * 查询全部列表
 	 * @return
 	 */
-	public IPage<Article> findArticleByCondition(Article article){
-		Page<Article> pr = new Page<>(article.getPageSize(),article.getPageSize());
+	public IPage<Article> findArticleByCondition(Article article, QueryVO queryVO ){
+		Page<Article> pr = new Page<>(queryVO.getPageSize(),queryVO.getPageSize());
 		QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
 		return articleDao.selectPage(pr, queryWrapper);
 	}

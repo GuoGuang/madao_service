@@ -2,6 +2,7 @@ package com.youyd.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.enums.UserEnum;
+import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.user.User;
 import com.youyd.user.service.UserService;
 import com.youyd.utils.JsonData;
@@ -106,8 +107,8 @@ public class UserController {
 	@ApiOperation(value = "查找用户列表", notes = "按照条件查找用户列表")
 	@ApiImplicitParam(name = "User", value = "查询条件：用户对象", dataType = "Map", paramType = "query")
 	@GetMapping
-	public JsonData findByCondition(User user) {
-		IPage<User> byCondition = userService.findByCondition(user);
+	public JsonData findByCondition(User user, QueryVO queryVO ) {
+		IPage<User> byCondition = userService.findByCondition(user,queryVO);
 		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(),byCondition);
 	}
 
