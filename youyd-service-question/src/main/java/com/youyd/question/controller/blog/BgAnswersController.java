@@ -36,7 +36,7 @@ public class BgAnswersController {
 	 */
 	@GetMapping
 	public Result findAnswersByCondition(Answers answers, QueryVO queryVO) {
-		IPage<Answers> byCondition = answersService.findAnswersByCondition(queryVO);
+		IPage<Answers> byCondition = answersService.findAnswersByCondition(answers,queryVO);
 		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), byCondition);
 	}
 
@@ -79,9 +79,9 @@ public class BgAnswersController {
 	 *
 	 * @param answersIds 答案id数组
 	 */
-	@DeleteMapping()
-	public Result deleteByPrimaryKey(@RequestBody List answersIds) {
-		answersService.deleteByPrimaryKey(answersIds);
+	@DeleteMapping
+	public Result deleteAnswersByPrimaryKey(@RequestBody List<String> answersIds) {
+		answersService.deleteAnswersByPrimaryKey(answersIds);
 		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
 
