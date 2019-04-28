@@ -2,6 +2,7 @@ package com.youyd.base.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.base.service.MenuService;
+import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.Menu;
 import com.youyd.utils.DateUtil;
 import com.youyd.utils.JsonData;
@@ -35,15 +36,15 @@ public class MenuController {
 	 * @return JsonData
 	 */
 	@GetMapping
-	public JsonData findResByCondition(Menu menu) {
-		IPage<Menu> resData = menuService.findMenuByCondition(menu);
+	public JsonData findResByCondition(Menu menu, QueryVO queryVO) {
+		IPage<Menu> resData = menuService.findMenuByCondition(menu,queryVO);
 		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), resData);
 	}
 
 	/**
 	 * 根据id查询单条
 	 * @param resId:资源数据
-	 * @return
+	 * @return  JsonData
 	 */
 	@GetMapping(value = "/{id}")
 	public JsonData findById(@PathVariable String id) {
@@ -53,14 +54,13 @@ public class MenuController {
 
 	/**
 	 * 获取用户权限，信息
-	 *
 	 * @param token
 	 * @return boolean
 	 */
 	@PostMapping("/info")
-	public JsonData info(Menu menu ) {
-		IPage<Menu> menuByCondition = menuService.findMenuByCondition(menu);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), menu);
+	public JsonData info(Menu menu,QueryVO queryVO ) {
+		IPage<Menu> menuByCondition = menuService.findMenuByCondition(menu,queryVO);
+		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), menuByCondition);
 	}
 
 

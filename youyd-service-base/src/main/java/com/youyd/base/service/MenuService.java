@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.base.dao.MenuDao;
+import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.Menu;
 import com.youyd.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -22,16 +23,21 @@ import java.util.List;
 @Service
 public class MenuService{
 
+	private final MenuDao menuDao;
+
 	@Autowired
-	private MenuDao menuDao;
+	public MenuService(MenuDao menuDao) {
+		this.menuDao = menuDao;
+	}
 
 	/**
 	 * 条件查询资源
-	 * @param menu 查询参数
+	 * @param menu 菜单实体
+	 * @param queryVO 查询参数
 	 * @return List
 	 */
-	public IPage<Menu> findMenuByCondition(Menu menu) {
-		Page<Menu> pr = new Page<>(menu.getPageNum(),menu.getPageSize());
+	public IPage<Menu> findMenuByCondition(Menu menu, QueryVO queryVO) {
+		Page<Menu> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
 		LambdaQueryWrapper<Menu> queryWrapper = new LambdaQueryWrapper<>();
 		if (StringUtils.isNotEmpty(menu.getName())){
 			queryWrapper.eq(Menu::getName,menu.getName());
