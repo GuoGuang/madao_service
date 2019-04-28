@@ -1,6 +1,6 @@
 package com.youyd.article.service.backstage;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youyd.article.dao.backstage.ArticleDao;
@@ -9,6 +9,7 @@ import com.youyd.cache.redis.RedisService;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Article;
 import com.youyd.utils.JsonUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,41 +23,51 @@ import java.util.List;
 @Service
 public class ArticleService{
 
-	@Autowired
-	private ArticleDao articleDao;
+	private final ArticleDao articleDao;
+
+	private final RedisService redisService;
 
 	@Autowired
-	private RedisService redisService;
+	public ArticleService(ArticleDao articleDao, RedisService redisService) {
+		this.articleDao = articleDao;
+		this.redisService = redisService;
+	}
 
 	/**
-	 * 查询全部列表
-	 * @return
+	 * 查询文章
+	 * @return IPage<Article>
 	 */
 	public IPage<Article> findArticleByCondition(Article article, QueryVO queryVO ){
 		Page<Article> pr = new Page<>(queryVO.getPageSize(),queryVO.getPageSize());
-		QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
+		LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+		if (StringUtils.isNotEmpty(article.getTitle())) {
+			queryWrapper.like(Article::getTitle, article.getTitle());
+		}
+		if (StringUtils.isNotEmpty(article.getDescription())) {
+			queryWrapper.like(Article::getDescription, article.getDescription());
+		}
 		return articleDao.selectPage(pr, queryWrapper);
 	}
 
 	/**
 	 * 根据ID查询实体
-	 * @param id
-	 * @return
+	 * @param articleId 文章id
+	 * @return Article
 	 */
-	public Article findArticleByPrimaryKey(String id) {
-		Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + id);
+	public Article findArticleById(String articleId) {
+		Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + articleId);
 		Article article = JsonUtil.mapToPojo(mapJson, Article.class);
 		// 如果缓存没有则到数据库查询并放入缓存,有效期一天
 		if(article==null) {
-			article = articleDao.selectById(id);
-			redisService.set(RedisConstant.REDIS_KEY_ARTICLE+ id, article,RedisConstant.REDIS_TIME_DAY);
+			article = articleDao.selectById(articleId);
+			redisService.set(RedisConstant.REDIS_KEY_ARTICLE+ articleId, article,RedisConstant.REDIS_TIME_DAY);
 		}
 		return article;
 	}
 
 	/**
 	 * 增加
-	 * @param article
+	 * @param article 实体
 	 */
 	public void insertArticle(Article article) {
 		articleDao.insert(article);
@@ -64,7 +75,7 @@ public class ArticleService{
 
 	/**
 	 * 修改
-	 * @param article
+	 * @param article 实体
 	 */
 	public void updateByPrimaryKeySelective(Article article) {
 		redisService.del( "article_" + article.getId());
@@ -75,8 +86,7 @@ public class ArticleService{
 	 * 删除
 	 * @param articleIds:文章id集合
 	 */
-	public void deleteByIds(List articleIds) {
-		redisService.del( "article_" + articleIds );
+	public void deleteArticleByIds(List<String> articleIds) {
 		articleDao.deleteBatchIds(articleIds);
 	}
 
