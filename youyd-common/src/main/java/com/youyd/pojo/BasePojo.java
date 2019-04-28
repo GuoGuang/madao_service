@@ -12,7 +12,7 @@ import java.io.Serializable;
  **/
 @Getter
 @Setter
-public class BasePojo extends QueryVO implements Serializable {
+public class BasePojo implements Serializable {
 
 	private Long updateAt;
 	private Long createAt;
