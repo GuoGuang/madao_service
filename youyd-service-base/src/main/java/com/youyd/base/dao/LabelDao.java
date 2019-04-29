@@ -1,7 +1,7 @@
 package com.youyd.base.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youyd.base.pojo.Label;
+import com.youyd.pojo.base.Label;
 
 import java.util.List;
 import java.util.Map;
