@@ -1,9 +1,9 @@
 package com.youyd.base.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youyd.base.pojo.Label;
 import com.youyd.base.service.LabelService;
 import com.youyd.pojo.QueryVO;
+import com.youyd.pojo.base.Label;
 import com.youyd.utils.JsonData;
 import com.youyd.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
