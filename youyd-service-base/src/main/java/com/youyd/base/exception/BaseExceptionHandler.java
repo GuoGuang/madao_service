@@ -1,6 +1,7 @@
 package com.youyd.base.exception;
 
-import com.youyd.pojo.Result;
+import com.youyd.utils.JsonData;
+import com.youyd.utils.LogBack;
 import com.youyd.utils.StatusCode;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,8 +17,8 @@ public class BaseExceptionHandler {
 
 	@ExceptionHandler(value = Exception.class)
 	@ResponseBody
-	public Result error(Exception e) {
-		e.printStackTrace();
-		return new Result(false, StatusCode.ERROR.getCode(), e.getMessage());
+	public JsonData handleException(Exception ex) {
+		LogBack.error(ex.getMessage(),ex);
+		return new JsonData(false, StatusCode.ERROR.getCode(), ex.getMessage());
 	}
 }
