@@ -15,7 +15,7 @@ public enum UserEnum {
 	WRONG_PASSWORD(10001,"登录名或登录密码不正确！"),
 	NICKNAME_REPEAT(10002,"该昵称已被他人使用！"),
 	ERROR_CODE(10003,"验证码错误！"),
-	FAILED_TOOMANY(10004,"登录失败次数太多！");
+	FAILED_TOO_MANY(10004,"登录失败次数太多！");
 
 
 	private Integer code;
