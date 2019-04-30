@@ -1,14 +1,14 @@
 package com.youyd.article.service.backstage;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youyd.article.dao.backstage.CategoryDao;
-import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
+import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Category;
-import com.youyd.utils.JsonUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,41 +22,46 @@ import java.util.List;
 @Service
 public class CategoryService{
 
-	@Autowired
-	private CategoryDao categoryDao;
+	private final CategoryDao categoryDao;
+
+	private final RedisService redisService;
 
 	@Autowired
-	private RedisService redisService;
+	public CategoryService(CategoryDao categoryDao, RedisService redisService) {
+		this.categoryDao = categoryDao;
+		this.redisService = redisService;
+	}
 
 	/**
 	 * 查询全部列表
-	 * @return
+	 * @return IPage<Category>
 	 */
-	public IPage<Category> findCategoryByCondition(Category category) {
-		Page<Category> pr = new Page<>(category.getPageSize(),category.getPageSize());
-		QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
+	public IPage<Category> findCategoryByCondition(Category category, QueryVO queryVO ) {
+		Page<Category> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
+
+		LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
+
+		if (StringUtils.isNotEmpty(category.getName())){
+			queryWrapper.eq(Category::getName,category.getName());
+		}
+		if (category.getState() != null){
+			queryWrapper.eq(Category::getState,category.getState());
+		}
 		return categoryDao.selectPage(pr, queryWrapper);
 	}
 
 	/**
 	 * 根据ID查询实体
-	 * @param id
-	 * @return
+	 * @param id 分类id
+	 * @return Category
 	 */
-	public Category findCategoryByPrimaryKey(String id) {
-		Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + id);
-		Category category = JsonUtil.mapToPojo(mapJson, Category.class);
-		// 如果缓存没有则到数据库查询并放入缓存,有效期一天
-		if(category==null) {
-			category = categoryDao.selectById(id);
-			redisService.set(RedisConstant.REDIS_KEY_ARTICLE+ id, category,RedisConstant.REDIS_TIME_DAY);
-		}
-		return category;
+	public Category findCategoryByPrimaryKey(String categoryId) {
+		return categoryDao.selectById(categoryId);
 	}
 
 	/**
 	 * 增加
-	 * @param category
+	 * @param category 实体
 	 */
 	public void insertCategory(Category category) {
 		categoryDao.insert(category);
@@ -64,7 +69,7 @@ public class CategoryService{
 
 	/**
 	 * 修改
-	 * @param category
+	 * @param category 实体
 	 */
 	public void updateByCategorySelective(Category category) {
 		categoryDao.updateById(category);
@@ -74,7 +79,7 @@ public class CategoryService{
 	 * 删除
 	 * @param categoryIds:分类id
 	 */
-	public void deleteByPrimaryKey(List categoryIds) {
+	public void deleteCategoryByIds(List<String> categoryIds) {
 		categoryDao.deleteBatchIds(categoryIds);
 	}
 }

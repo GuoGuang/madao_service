@@ -1,15 +1,19 @@
 package com.youyd.article.service.blog;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youyd.article.dao.blog.TagsDao;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Tags;
 import com.youyd.utils.JsonUtil;
+import com.youyd.utils.LogBack;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,27 +24,38 @@ import java.util.List;
 @Service
 public class TagsService {
 
-	@Autowired
-	private TagsDao bgTagsDao;
+	private final TagsDao bgTagsDao;
+
+	private final RedisService redisService;
 
 	@Autowired
-	private RedisService redisService;
-
-	/**
-	 * 查询全部列表
-	 * @return
-	 */
-	public ArrayList<Tags> findTagsByCondition(Tags tags, QueryVO queryVO){
-		ArrayList<Tags> tagsPage = bgTagsDao.findTagsByCondition(queryVO);
-		return tagsPage;
+	public TagsService(TagsDao bgTagsDao, RedisService redisService) {
+		this.bgTagsDao = bgTagsDao;
+		this.redisService = redisService;
 	}
 
 	/**
-	 * 根据ID查询实体
-	 * @param id
-	 * @return
+	 * 查询标签全部列表
+	 * @return IPage<Tags>
 	 */
-	public Tags findTagsByPrimaryKey(String id) {
+	public IPage<Tags> findTagsByCondition(Tags tags, QueryVO queryVO){
+		Page<Tags> pr = new Page<>(queryVO.getPageSize(),queryVO.getPageSize());
+		LambdaQueryWrapper<Tags> queryWrapper = new LambdaQueryWrapper<>();
+		if (StringUtils.isNotEmpty(tags.getName())) {
+			queryWrapper.like(Tags::getName, tags.getName());
+		}
+		if (StringUtils.isNotEmpty(tags.getState())) {
+			queryWrapper.eq(Tags::getState, tags.getState());
+		}
+		return bgTagsDao.selectPage(pr, queryWrapper);
+	}
+
+	/**
+	 * 根据ID查询标签
+	 * @param id 标签id
+	 * @return Tags
+	 */
+	public Tags findTagsById(String id) {
 		Tags tags = null;
 		try {
 			Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + id);
@@ -48,24 +63,22 @@ public class TagsService {
 				return JsonUtil.mapToPojo(mapJson, Tags.class);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogBack.error("findTagsById->查询标签异常，参数为：{}",id,e);
 		}
 
 		tags = bgTagsDao.selectById(id);
-		System.out.println("555");
 		try {
 			redisService.set(RedisConstant.REDIS_KEY_ARTICLE + id, tags, RedisConstant.REDIS_TIME_DAY);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogBack.error("findTagsById->查询标签异常，参数为：{}",id,e);
 		}
-
 		return tags;
 
 	}
 
 	/**
 	 * 增加
-	 * @param tags
+	 * @param tags 实体
 	 */
 	public void insertTags(Tags tags) {
 		bgTagsDao.insert(tags);
@@ -73,9 +86,9 @@ public class TagsService {
 
 	/**
 	 * 修改
-	 * @param tags
+	 * @param tags 实体
 	 */
-	public void updateByPrimaryKeySelective(Tags tags) {
+	public void updateTagsById(Tags tags) {
 		redisService.del( "tags_" + tags.getId());
 		bgTagsDao.updateById(tags);
 	}

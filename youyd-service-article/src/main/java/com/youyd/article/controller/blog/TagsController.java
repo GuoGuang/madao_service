@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-
 /**
  * @description: 前台标签管理
  * /e 区分前后台 uri
@@ -41,7 +39,7 @@ public class TagsController {
     @ApiOperation(value = "查询标签集合", notes = "Article")
     @GetMapping
     public Result findArticleByCondition(Tags tags,QueryVO queryVO) {
-	    ArrayList<Tags> result = tagsService.findTagsByCondition(tags,queryVO);
-        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+//	    ArrayList<Tags> result = tagsService.findTagsByCondition(tags,queryVO);
+        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
     }
 }

@@ -2,6 +2,7 @@ package com.youyd.base.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.base.service.RoleService;
+import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.Role;
 import com.youyd.utils.JsonData;
 import com.youyd.utils.StatusCode;
@@ -35,8 +36,8 @@ public class RoleController {
 	 * @return JsonData
 	 */
 	@GetMapping
-	public JsonData findRuleByCondition(Role role) {
-		IPage<Role> ruleData = roleService.findRuleByCondition(role);
+	public JsonData findRuleByCondition(Role role, QueryVO queryVO ) {
+		IPage<Role> ruleData = roleService.findRuleByCondition(role,queryVO);
 		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), ruleData);
 	}
 

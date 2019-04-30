@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
+import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.user.User;
 import com.youyd.user.dao.UserDao;
 import com.youyd.utils.DateUtil;
@@ -68,8 +69,8 @@ public class UserService {
 	}
 
 
-	public IPage<User> findByCondition(User user) {
-		Page<User> pr = new Page<>(user.getPageNum(), user.getPageSize());
+	public IPage<User> findByCondition(User user, QueryVO queryVO ) {
+		Page<User> pr = new Page<>(queryVO.getPageNum(), queryVO.getPageSize());
 		LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
 		if (StringUtils.isNotEmpty(user.getUserName())) {
 			queryWrapper.eq(User::getUserName, user.getUserName());

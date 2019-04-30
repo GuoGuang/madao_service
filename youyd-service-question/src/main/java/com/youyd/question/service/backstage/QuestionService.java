@@ -20,13 +20,17 @@ import java.util.List;
 @Service
 public class QuestionService {
 
+	private final QuestionDao questionDao;
+
 	@Autowired
-	private QuestionDao questionDao;
+	public QuestionService(QuestionDao questionDao) {
+		this.questionDao = questionDao;
+	}
 
 
 	/**
 	 * 查询全部列表
-	 * @return
+	 * @return IPage<Question>
 	 */
 	public IPage<Question> findQuestionByCondition(QueryVO queryVO) {
 		Page<Question> pr = new Page<>(queryVO.getPageSize(),queryVO.getPageSize());
@@ -36,18 +40,17 @@ public class QuestionService {
 
 	/**
 	 * 根据ID查询实体
-	 * @param id
-	 * @return
+	 * @param questionId 答案id
+	 * @return Question
 	 */
 	public Question findQuestionByPrimaryKey(String questionId) {
 		Question question = questionDao.selectById(questionId);
-
-		return null;
+		return question;
 	}
 
 	/**
 	 * 增加
-	 * @param Question
+	 * @param Question 实体
 	 */
 	public boolean insertQuestion(Question question) {
 		int insert = questionDao.insert(question);
@@ -56,7 +59,7 @@ public class QuestionService {
 
 	/**
 	 * 修改
-	 * @param Question
+	 * @param Question 实体
 	 */
 	public boolean updateByPrimaryKeySelective(Question question) {
 		int i = questionDao.updateById(question);
@@ -65,9 +68,9 @@ public class QuestionService {
 
 	/**
 	 * 删除
-	 * @param id
+	 * @param questionId
 	 */
-	public boolean deleteByIds(List questionId) {
+	public boolean deleteByIds(List<String> questionId) {
 		int i = questionDao.deleteBatchIds(questionId);
 		return SqlHelper.retBool(i);
 	}
