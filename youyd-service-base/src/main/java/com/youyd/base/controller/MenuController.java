@@ -26,13 +26,18 @@ import java.util.List;
 public class MenuController {
 
 
+	private final MenuService menuService;
+
 	@Autowired
-	private MenuService menuService;
+	public MenuController(MenuService menuService) {
+		this.menuService = menuService;
+	}
 
 
 	/**
 	 * 条件查询菜单
-	 * @param menu 查询参数
+	 * @param 菜单实体 查询参数
+	 * @param queryVO 查询参数
 	 * @return JsonData
 	 */
 	@GetMapping
