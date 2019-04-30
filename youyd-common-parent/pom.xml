@@ -148,7 +148,6 @@
                    <module>../youyd-service-base</module>
                    <module>../youyd-service-question</module>
                    <module>../youyd-service-article</module>
-                   <module>../youyd-service-gather</module>
                    <module>../youyd-service-tweets</module>
                    <module>../youyd-service-search</module>
                    <module>../youyd-service-user</module>

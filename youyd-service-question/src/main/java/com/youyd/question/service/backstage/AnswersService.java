@@ -1,13 +1,14 @@
 package com.youyd.question.service.backstage;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.pojo.QueryVO;
 import com.youyd.question.dao.backstage.AnswersDao;
 import com.youyd.question.pojo.Answers;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,17 +22,27 @@ import java.util.List;
 @Service
 public class AnswersService {
 
+	private final AnswersDao answersDao;
+
 	@Autowired
-	private AnswersDao answersDao;
+	public AnswersService(AnswersDao answersDao) {
+		this.answersDao = answersDao;
+	}
 
 
 	/**
 	 * 查询全部列表
 	 * @return IPage
 	 */
-	public IPage<Answers> findAnswersByCondition(QueryVO queryVO) {
+	public IPage<Answers> findAnswersByCondition(Answers answers,QueryVO queryVO) {
 		Page<Answers> pr = new Page<>(queryVO.getPageSize(),queryVO.getPageSize());
-		QueryWrapper<Answers> queryWrapper = new QueryWrapper<>();
+		LambdaQueryWrapper<Answers> queryWrapper = new LambdaQueryWrapper<>();
+		if (StringUtils.isNotEmpty(answers.getNickName())) {
+			queryWrapper.like(Answers::getNickName, answers.getNickName());
+		}
+		if (StringUtils.isNotEmpty(answers.getContent())) {
+			queryWrapper.like(Answers::getContent, answers.getContent());
+		}
 		return answersDao.selectPage(pr, queryWrapper);
 	}
 
@@ -65,7 +76,7 @@ public class AnswersService {
 	 * 删除
 	 * @param answersIds:要删除的数据数组
 	 */
-	public boolean deleteByPrimaryKey(List answersIds) {
+	public boolean deleteAnswersByPrimaryKey(List<String> answersIds) {
 		int i = answersDao.deleteBatchIds(answersIds);
 		return SqlHelper.retBool(i);
 	}

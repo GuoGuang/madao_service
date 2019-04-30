@@ -26,7 +26,7 @@ public class Category extends BasePojo implements Serializable {
 	private Integer parentId;
 
 	/**
-	 * 名称
+	 * 分类名称
 	 */
 	private String name;
 

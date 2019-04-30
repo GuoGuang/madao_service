@@ -32,8 +32,7 @@ public class QuestionController {
 
 	/**
      * 查询全部数据
-     *
-     * @return
+     * @return JsonData
      */
     @GetMapping
 	    public JsonData findQuestionByCondition(Question question, QueryVO queryVO) {
@@ -57,9 +56,9 @@ public class QuestionController {
     /**
      * 增加
      *
-     * @param Question
+     * @param Question <String>
      */
-    @PostMapping()
+    @PostMapping
     public Result insertQuestion(@RequestBody Question question) {
 	    boolean insertResult = questionService.insertQuestion(question);
 	    return new Result(insertResult, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
@@ -68,9 +67,9 @@ public class QuestionController {
     /**
      * 修改
      *
-     * @param Question
+     * @param Question <String>
      */
-    @PutMapping()
+    @PutMapping
     public Result updateByPrimaryKey(@RequestBody Question question) {
 	    boolean updateResult = questionService.updateByPrimaryKeySelective(question);
 	    return new Result(updateResult, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
@@ -78,11 +77,10 @@ public class QuestionController {
 
     /**
      * 删除
-     *
-     * @param questionIds
+     * @param questionIds 实体
      */
     @DeleteMapping
-    public Result deleteByIds(@RequestBody List questionIds) {
+    public Result deleteByIds(@RequestBody List<String> questionIds) {
 	    boolean delResult = questionService.deleteByIds(questionIds);
 	    return new Result(delResult,StatusCode.OK.getCode(), StatusCode.OK.getMsg());
     }

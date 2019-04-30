@@ -1,14 +1,15 @@
 package com.youyd.base.controller;
 
-import com.youyd.base.pojo.Label;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.base.service.LabelService;
-import com.youyd.utils.ParamUtil;
-import com.youyd.pojo.Result;
+import com.youyd.pojo.QueryVO;
+import com.youyd.pojo.base.Label;
+import com.youyd.utils.JsonData;
 import com.youyd.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * @description: 标签控制层
@@ -19,22 +20,21 @@ import java.util.Map;
 @RequestMapping("/label")
 public class LabelController {
 
+	private final LabelService labelService;
+
 	@Autowired
-	private LabelService labelService;
+	public LabelController(LabelService labelService) {
+		this.labelService = labelService;
+	}
 
 	/**
 	 * 按照条件查询全部列表
 	 * @return Result
 	 */
-	@GetMapping(value="/search")
-	public Result findLabelByCondition(@RequestParam(required = false) Map searchMap){
-		if (!ParamUtil.isAvailable(searchMap,"page","size")){
-			return new Result(false,StatusCode.PARAM_ERROR.getCode(),StatusCode.PARAM_ERROR.getMsg());
-		}
-		Integer page = Integer.valueOf(searchMap.get("page").toString());
-		Integer size = Integer.valueOf(searchMap.get("size").toString());
-		Result result = labelService.findLabelByCondition(searchMap, page, size);
-		return result;
+	@GetMapping
+	public JsonData findLabelByCondition(Label label, QueryVO queryVO){
+		IPage<Label> result = labelService.findLabelByCondition(label,queryVO);
+		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), result);
 
 	}
 
@@ -44,43 +44,41 @@ public class LabelController {
 	 * @return Result
 	 */
 	@GetMapping(value="/{id}")
-	public Result findLabelByPrimaryKey(@PathVariable String id){
+	public JsonData findLabelByPrimaryKey(@PathVariable String id){
 		Label label = labelService.findLabelByPrimaryKey(id);
-		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),label);
+		return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),label);
 	}
 
 	/**
 	 * 增加标签
-	 * @param label
-	 * @return Result
+	 * @param label 标签实体
+	 * @return JsonData
 	 */
 	@PostMapping()
-	public Result insertLabel(@RequestBody Label label){
+	public JsonData insertLabel(@RequestBody Label label){
 		labelService.insertLabel(label);
-		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+		return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
 	}
 
 	/**
 	 * 修改标签
-	 * @param label
-	 * @param id
-	 * @return Result
+	 * @param label 标签实体
+	 * @return JsonData
 	 */
-	@PutMapping(value="/{id}")
-	public Result updateLabel(@RequestBody Label label,@PathVariable String id){
-		label.setId(id);
+	@PutMapping
+	public JsonData updateLabel(@RequestBody Label label){
 		labelService.updateLabel(label);
-		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+		return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
 	}
 
 	/**
 	 * 删除标签
-	 * @param id
-	 * @return Result
+	 * @param labelIds 要删除的id数组
+	 * @return JsonData
 	 */
-	@DeleteMapping(value="/{id}")
-	public Result deleteById(@PathVariable String id){
-		labelService.deleteById(id);
-		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+	@DeleteMapping
+	public JsonData deleteById(@RequestBody List<String> labelIds){
+		labelService.deleteById(labelIds);
+		return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
 	}
 }
