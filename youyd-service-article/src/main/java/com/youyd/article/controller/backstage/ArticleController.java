@@ -60,10 +60,9 @@ public class ArticleController {
 
     /**
      * 增加
-     *
      * @param article:文章实例
      */
-    @ApiOperation(value = "添加一条新的文章", notes = "id")
+    @ApiOperation(value = "添加一条新的文章")
     @PostMapping
     public JsonData insertArticle(@RequestBody Article article) {
         articleService.insertArticle(article);
@@ -72,7 +71,6 @@ public class ArticleController {
 
     /**
      * 修改
-     *
      * @param article:文章实例
      */
     @ApiOperation(value = "按照id修改", notes = "id")

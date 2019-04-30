@@ -65,7 +65,7 @@ public class MenuService{
 		return SqlHelper.retBool(insert);
 	}
 
-	public boolean deleteByIds(List<String>  resId) {
+	public boolean deleteByIds(List<String> resId) {
 		int i = menuDao.deleteBatchIds(resId);
 		return SqlHelper.retBool(i);
 	}

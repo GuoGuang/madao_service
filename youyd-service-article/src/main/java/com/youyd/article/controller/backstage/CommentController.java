@@ -1,8 +1,10 @@
 package com.youyd.article.controller.backstage;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.article.service.backstage.CommentService;
-import com.youyd.pojo.Result;
+import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Comment;
+import com.youyd.utils.JsonData;
 import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,59 +24,69 @@ import java.util.List;
 
 public class CommentController {
 
+	private final CommentService commentService;
+
 	@Autowired
-	private CommentService commentService;
-	
-	
+	public CommentController(CommentService commentService) {
+		this.commentService = commentService;
+	}
+
+
 	/**
-	 * 查询全部数据
-	 * @return
+	 * 查询文章评论
+	 * @param comment 实体
+	 * @param queryVO 查询条件
+	 * @return JsonData
 	 */
 	@GetMapping()
-	public Result findCommentByCondition(){
-		List result = commentService.findCommentByCondition();
-		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+	public JsonData findCommentByCondition(Comment comment, QueryVO queryVO ){
+		IPage<Comment> result = commentService.findCommentByCondition(comment,queryVO);
+		return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
 	}
 	
 	/**
 	 * 根据ID查询
 	 * @param id ID
-	 * @return
+	 * @return JsonData
 	 */
 	@GetMapping(value="/{id}")
-	public Result findCommentByPrimaryKey(@PathVariable String id){
+	public JsonData findCommentByPrimaryKey(@PathVariable String id){
 		Comment result = commentService.findCommentByPrimaryKey(id);
-		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+		return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
 	}
 
 
 	/**
 	 * 增加
-	 * @param comment
+	 * @param comment 实体
+	 * @return JsonData
 	 */
 	@PostMapping()
-	public Result insertComment(@RequestBody Comment comment){
+	public JsonData insertComment(@RequestBody Comment comment){
 		commentService.insertComment(comment);
-        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
 	}
 
 	/**
 	 * 修改
+	 * @param comment 实体
+	 * @return JsonData
 	 */
 	@PutMapping
-	public Result updateByCommentSelective(@RequestBody Comment comment) {
+	public JsonData updateByCommentSelective(@RequestBody Comment comment) {
 		commentService.updateByCommentSelective(comment);
-		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
 
 	/**
 	 * 删除
-	 * @param commentIds
+	 * @param commentIds 删除的id
+	 * @return JsonData
 	 */
 	@DeleteMapping
-	public Result deleteByIds(List<String> commentIds){
-		commentService.deleteByIds(commentIds);
-        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+	public JsonData deleteByIds(List<String> commentIds){
+		commentService.deleteCommentByIds(commentIds);
+        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
 	}
 	
 }
