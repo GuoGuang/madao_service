@@ -1,7 +1,7 @@
 package com.youyd.article.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youyd.article.service.backstage.CommentService;
+import com.youyd.article.service.backstage.SaCommentService;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Comment;
 import com.youyd.utils.JsonData;
@@ -22,13 +22,13 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/sa/comment",produces = "application/json")
 
-public class CommentController {
+public class SaCommentController {
 
-	private final CommentService commentService;
+	private final SaCommentService saCommentService;
 
 	@Autowired
-	public CommentController(CommentService commentService) {
-		this.commentService = commentService;
+	public SaCommentController(SaCommentService saCommentService) {
+		this.saCommentService = saCommentService;
 	}
 
 
@@ -40,7 +40,7 @@ public class CommentController {
 	 */
 	@GetMapping()
 	public JsonData findCommentByCondition(Comment comment, QueryVO queryVO ){
-		IPage<Comment> result = commentService.findCommentByCondition(comment,queryVO);
+		IPage<Comment> result = saCommentService.findCommentByCondition(comment,queryVO);
 		return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
 	}
 	
@@ -51,7 +51,7 @@ public class CommentController {
 	 */
 	@GetMapping(value="/{id}")
 	public JsonData findCommentByPrimaryKey(@PathVariable String id){
-		Comment result = commentService.findCommentByPrimaryKey(id);
+		Comment result = saCommentService.findCommentByPrimaryKey(id);
 		return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
 	}
 
@@ -63,7 +63,7 @@ public class CommentController {
 	 */
 	@PostMapping()
 	public JsonData insertComment(@RequestBody Comment comment){
-		commentService.insertComment(comment);
+		saCommentService.insertComment(comment);
         return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
 	}
 
@@ -74,7 +74,7 @@ public class CommentController {
 	 */
 	@PutMapping
 	public JsonData updateByCommentSelective(@RequestBody Comment comment) {
-		commentService.updateByCommentSelective(comment);
+		saCommentService.updateByCommentSelective(comment);
 		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
 	}
 
@@ -85,7 +85,7 @@ public class CommentController {
 	 */
 	@DeleteMapping
 	public JsonData deleteByIds(List<String> commentIds){
-		commentService.deleteCommentByIds(commentIds);
+		saCommentService.deleteCommentByIds(commentIds);
         return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
 	}
 	

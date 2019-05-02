@@ -1,7 +1,7 @@
 package com.youyd.article.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youyd.article.service.backstage.CategoryService;
+import com.youyd.article.service.backstage.SaCategoryService;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Category;
 import com.youyd.utils.JsonData;
@@ -21,13 +21,13 @@ import java.util.List;
 
 @Api(tags = "文章分类")
 @RestController
-@RequestMapping(value = "/sa/category", produces = "application/json")
-public class CategoryController {
+@RequestMapping(value = "/sa/article/category", produces = "application/json")
+public class SaCategoryController {
 
-	private final CategoryService columnService;
+	private final SaCategoryService columnService;
 
 	@Autowired
-	public CategoryController(CategoryService columnService) {
+	public SaCategoryController(SaCategoryService columnService) {
 		this.columnService = columnService;
 	}
 

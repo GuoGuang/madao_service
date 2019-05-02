@@ -3,7 +3,7 @@ package com.youyd.article.service.backstage;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youyd.article.dao.backstage.CommentDao;
+import com.youyd.article.dao.backstage.SaCommentDao;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Comment;
 import org.apache.commons.lang3.StringUtils;
@@ -13,19 +13,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @description: 文章的评论服务
- * @author: LGG
- * @create: 2018-10-13 16:39
+ * 文章的评论服务
+ * @author : LGG
+ * @create : 2018-10-13 16:39
  **/
 
 @Service
-public class CommentService{
+public class SaCommentService {
 
-	private final CommentDao commentDao;
+	private final SaCommentDao saCommentDao;
 
 	@Autowired
-	public CommentService(CommentDao commentDao) {
-		this.commentDao = commentDao;
+	public SaCommentService(SaCommentDao saCommentDao) {
+		this.saCommentDao = saCommentDao;
 	}
 
 	/**
@@ -44,36 +44,36 @@ public class CommentService{
 			queryWrapper.eq(Comment::getContent,comment.getContent());
 		}
 
-		return commentDao.selectPage(pr, queryWrapper);
+		return saCommentDao.selectPage(pr, queryWrapper);
 	}
 
 	/**
 	 * 根据评论表ID查询评论
-	 * @param id 评论表ID
+	 * @param commentId 评论表ID
 	 * @return Comment
 	 */
 	public Comment findCommentByPrimaryKey(String commentId) {
-		return commentDao.selectById(commentId);
+		return saCommentDao.selectById(commentId);
 	}
 
 	/**
 	 * 增加
 	 */
 	public void insertComment(Comment comment) {
-		commentDao.insert(comment);
+		saCommentDao.insert(comment);
 	}
 	/**
 	 * 修改
 	 */
 	public void updateByCommentSelective(Comment comment) {
-		commentDao.updateById(comment);
+		saCommentDao.updateById(comment);
 	}
 
 	/**
 	 * 删除
 	 */
 	public void deleteCommentByIds(List<String> commentIds) {
-		commentDao.deleteBatchIds(commentIds);
+		saCommentDao.deleteBatchIds(commentIds);
 	}
 
 }
