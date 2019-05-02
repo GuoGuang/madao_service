@@ -10,7 +10,7 @@ import com.youyd.pojo.article.Article;
  **/
 
 
-public interface ArticleDao extends BaseMapper<Article> {
+public interface SaArticleDao extends BaseMapper<Article> {
 
 	/**
 	 * 审核文章
