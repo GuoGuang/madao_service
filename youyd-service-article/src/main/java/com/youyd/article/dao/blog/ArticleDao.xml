@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.youyd.article.dao.blog.BgArticleDao" >
+<mapper namespace="com.youyd.article.dao.blog.ArticleDao" >
 
     <resultMap type="com.youyd.pojo.article.Article" id="pojoResultMap">
         <id column="id" property="id" jdbcType="INTEGER" />

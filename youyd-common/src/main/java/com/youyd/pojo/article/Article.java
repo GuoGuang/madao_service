@@ -7,6 +7,7 @@ import com.youyd.pojo.BasePojo;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -18,6 +19,7 @@ import java.io.Serializable;
  **/
 @Getter
 @Setter
+@ToString
 @ApiModel(value="article", description="文章类")
 public class Article extends BasePojo implements Serializable {
 
@@ -43,6 +45,11 @@ public class Article extends BasePojo implements Serializable {
 	 private String userId;
 
 	 /**
+	  * 标签
+	  */
+	 private String label;
+
+	 /**
 	  * 标题
 	  */
 	 private String title;
@@ -55,12 +62,12 @@ public class Article extends BasePojo implements Serializable {
 	 /**
 	  * 是否公开
 	  */
-	 private String isPublic;
+	 private Integer isPublic;
 
 	 /**
 	  * 是否置顶
 	  */
-	 private String isTop;
+	 private Integer isTop;
 
 	 /**
 	  * 浏览量
@@ -80,7 +87,7 @@ public class Article extends BasePojo implements Serializable {
 	 /**
 	  * 审核状态
 	  */
-	 private String reviewState;
+	 private Integer reviewState;
 
 	 /**
 	  * URL
@@ -90,12 +97,12 @@ public class Article extends BasePojo implements Serializable {
 	 /**
 	  * 类型
 	  */
-	 private String type;
+	 private Integer type;
 
 	 /**
 	  * 热度
 	  */
-	 private String importance;
+	 private Integer importance;
 
 	 /**
 	  * 文章描述（概述）
@@ -110,7 +117,7 @@ public class Article extends BasePojo implements Serializable {
 	 /**
 	  * 来源（1：原创，2：转载，3：混撰）
 	  */
-	 private String origin;
+	 private Integer origin;
 
 	 /**
 	  * 文章正文

@@ -6,16 +6,19 @@ import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.Label;
 import com.youyd.utils.JsonData;
 import com.youyd.utils.StatusCode;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- * @description: 标签控制层
- * @author: LGG
- * @create: 2018-09-26 15:59
+ * 标签控制层
+ * @author : LGG
+ * @create : 2018-09-26 15:59
  **/
+
+@Api(tags = "标签")
 @RestController
 @RequestMapping("/label")
 public class LabelController {

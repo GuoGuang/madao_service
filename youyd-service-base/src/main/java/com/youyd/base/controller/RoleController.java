@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @description: 角色管理
- * @author: LGG
- * @create: 2018-12-23
+ * 角色管理
+ * @author : LGG
+ * @create : 2018-12-23
  **/
 
 @Api(tags = "角色")
