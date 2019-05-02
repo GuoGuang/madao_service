@@ -48,7 +48,7 @@ public class ArticleController {
     @ApiOperation(value = "按照id查询文章", notes = "id")
     @GetMapping(value = "/{id}")
     public Result findArticleByPrimaryKey(@PathVariable String id) {
-        Article result = articleService.findArticleByPrimaryKey(id);
+        Article result = articleService.findArticleById(id);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
     }
 
@@ -85,7 +85,7 @@ public class ArticleController {
     @ApiOperation(value = "删除", notes = "id")
     @DeleteMapping
     public Result delete(@RequestBody List<String> articleIds) {
-        articleService.deleteByIds(articleIds);
+        articleService.deleteArticleByIds(articleIds);
         return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
     }
 

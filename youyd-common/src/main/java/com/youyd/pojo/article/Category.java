@@ -23,7 +23,7 @@ public class Category extends BasePojo implements Serializable {
 	@TableId(type = IdType.ID_WORKER_STR)
 	private String id;
 
-	private Integer parentId;
+	private String parentId;
 
 	/**
 	 * 分类名称
@@ -43,6 +43,6 @@ public class Category extends BasePojo implements Serializable {
 	/**
 	 * 状态
 	 */
-	private String state;
+	private Integer state;
 
 }

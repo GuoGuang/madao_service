@@ -3,7 +3,7 @@ package com.youyd.article.service.blog;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youyd.article.dao.backstage.ArticleDao;
+import com.youyd.article.dao.blog.ArticleDao;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.pojo.QueryVO;
@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @description: 文章板块:文章服务
- * @author: LGG
- * @create: 2018-10-13 16:39
+ * 文章板块:文章服务
+ * @author : LGG
+ * @create : 2018-10-13 16:39
  **/
 @Service
 public class ArticleService{
