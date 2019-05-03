@@ -1,0 +1,43 @@
+package com.youyd.pojo.base;
+
+import com.youyd.pojo.BasePojo;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.Serializable;
+
+
+/**
+ *  登录日志
+ * @author LGG
+ * @create 2018-09-27
+ **/
+@Getter
+@Setter
+public class LoginLog extends BasePojo implements Serializable {
+    /**
+     * 日志表
+     */
+    private String id;
+
+    /**
+     * 登录人
+     */
+    private String userId;
+
+    /**
+     * 登录ip
+     */
+    private String clientIp;
+
+    /**
+     * 浏览器
+     */
+    private String browser;
+
+    /**
+     * 操作系统信息
+     */
+    private String osInfo;
+
+}
