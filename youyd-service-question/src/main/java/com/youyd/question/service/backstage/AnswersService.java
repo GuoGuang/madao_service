@@ -35,7 +35,7 @@ public class AnswersService {
 	 * @return IPage
 	 */
 	public IPage<Answers> findAnswersByCondition(Answers answers,QueryVO queryVO) {
-		Page<Answers> pr = new Page<>(queryVO.getPageSize(),queryVO.getPageSize());
+		Page<Answers> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
 		LambdaQueryWrapper<Answers> queryWrapper = new LambdaQueryWrapper<>();
 		if (StringUtils.isNotEmpty(answers.getNickName())) {
 			queryWrapper.like(Answers::getNickName, answers.getNickName());

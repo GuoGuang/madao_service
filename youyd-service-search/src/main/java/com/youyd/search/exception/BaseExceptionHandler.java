@@ -1,7 +1,7 @@
 package com.youyd.search.exception;
 
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.Result;
-import com.youyd.utils.StatusCode;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,6 +18,6 @@ public class BaseExceptionHandler {
 	@ResponseBody
 	public Result error(Exception e) {
 		e.printStackTrace();
-		return new Result(false, StatusCode.ERROR.getCode(), e.getMessage());
+		return new Result(false, StatusEnum.ERROR.getCode(), e.getMessage());
 	}
 }

@@ -1,11 +1,11 @@
 package com.youyd.tweets.controller.blog;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.tweets.pojo.TweetsComment;
 import com.youyd.tweets.service.TweetsCommentService;
-import com.youyd.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +35,7 @@ public class TweetsCommentController {
 	@GetMapping
 	public Result findTweetsCommentByCondition(TweetsComment tweetsComment, QueryVO queryVO){
 		IPage<TweetsComment> byCondition =  tweetsCommentService.findTweetsCommentByCondition(tweetsComment,queryVO);
-		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), byCondition);
+		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), byCondition);
 
 	}
 
@@ -47,7 +47,7 @@ public class TweetsCommentController {
 	@GetMapping(value="/{tweetsCommentId}")
 	public Result findTweetsCommentByPrimaryKey(@PathVariable String tweetsCommentId){
 		TweetsComment result = tweetsCommentService.findTweetsCommentByPrimaryKey(tweetsCommentId);
-		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class TweetsCommentController {
 	@PostMapping()
 	public Result insertTweetsComment(@RequestBody TweetsComment tweetsComment,String tweetsId){
 		tweetsCommentService.insertTweetsComment(tweetsComment,tweetsId);
-		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class TweetsCommentController {
 	@PutMapping
 	public Result updateByTweetsCommentSelective(TweetsComment tweetsComment){
 		boolean updateResult = tweetsCommentService.updateByTweetsCommentSelective(tweetsComment);
-		return new Result(updateResult,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+		return new Result(updateResult, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class TweetsCommentController {
 	@DeleteMapping
 	public Result deleteByIds(@RequestBody List<String> tweetsCommentId){
 		boolean br = tweetsCommentService.deleteByIds(tweetsCommentId);
-		return new Result(br,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+		return new Result(br, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 }

@@ -89,7 +89,7 @@ public class SaArticleService {
 	 * @param article 实体
 	 */
 	public void updateByPrimaryKeySelective(Article article) {
-		redisService.del( "article_" + article.getId());
+		redisService.del( "ARTICLE_" + article.getId());
 		saArticleDao.updateById(article);
 	}
 

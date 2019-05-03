@@ -38,7 +38,7 @@ public class ArticleService{
 	 * @return IPage<Article>
 	 */
 	public IPage<Article> findArticleByCondition(Article article, QueryVO queryVO ){
-		Page<Article> pr = new Page<>(queryVO.getPageSize(),queryVO.getPageSize());
+		Page<Article> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
 		LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
 		if (StringUtils.isNotEmpty(article.getTitle())) {
 			queryWrapper.like(Article::getTitle, article.getTitle());

@@ -1,10 +1,10 @@
 package com.youyd.article.controller.blog;
 
 import com.youyd.article.service.blog.TagsService;
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.pojo.article.Tags;
-import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +40,6 @@ public class TagsController {
     @GetMapping
     public Result findArticleByCondition(Tags tags,QueryVO queryVO) {
 //	    ArrayList<Tags> result = tagsService.findTagsByCondition(tags,queryVO);
-        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 }
