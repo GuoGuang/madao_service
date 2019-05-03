@@ -2,11 +2,11 @@ package com.youyd.base.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.base.service.MenuService;
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.Menu;
 import com.youyd.utils.DateUtil;
 import com.youyd.utils.JsonData;
-import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +43,7 @@ public class MenuController {
 	@GetMapping
 	public JsonData findResByCondition(Menu menu, QueryVO queryVO) {
 		IPage<Menu> resData = menuService.findMenuByCondition(menu,queryVO);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), resData);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), resData);
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class MenuController {
 	@GetMapping(value = "/{id}")
 	public JsonData findById(@PathVariable String id) {
 		Menu resData = menuService.findMenuById(id);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), resData);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), resData);
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class MenuController {
 	@PostMapping("/info")
 	public JsonData info(Menu menu,QueryVO queryVO ) {
 		IPage<Menu> menuByCondition = menuService.findMenuByCondition(menu,queryVO);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), menuByCondition);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), menuByCondition);
 	}
 
 
@@ -77,7 +77,7 @@ public class MenuController {
 	@PutMapping
 	public JsonData updateByPrimaryKey(@RequestBody Menu menu) {
 		boolean state = menuService.updateByPrimaryKey(menu);
-		return new JsonData(state, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class MenuController {
 		menu.setCreateAt(DateUtil.getTimestamp());
 		menu.setUpdateAt(DateUtil.getTimestamp());
 		boolean state = menuService.insertSelective(menu);
-		return new JsonData(state, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -101,6 +101,6 @@ public class MenuController {
 	@DeleteMapping()
 	public JsonData deleteByIds(@RequestBody List<String> resId) {
 		boolean state = menuService.deleteByIds(resId);
-		return new JsonData(state, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 }

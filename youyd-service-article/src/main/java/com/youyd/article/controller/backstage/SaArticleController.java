@@ -2,10 +2,10 @@ package com.youyd.article.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.article.service.backstage.SaArticleService;
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Article;
 import com.youyd.utils.JsonData;
-import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class SaArticleController {
     @GetMapping
     public JsonData findArticleByCondition(Article article, QueryVO queryVO ) {
 	    IPage<Article> result = saArticleService.findArticleByCondition(article,queryVO);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
     }
 
     /**
@@ -54,7 +54,7 @@ public class SaArticleController {
     @GetMapping(value = "/{id}")
     public JsonData findArticleById(@PathVariable String id) {
         Article result = saArticleService.findArticleById(id);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
     }
 
 
@@ -66,7 +66,7 @@ public class SaArticleController {
     @PostMapping
     public JsonData insertArticle(@RequestBody Article article) {
         saArticleService.insertArticle(article);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
     /**
@@ -77,7 +77,7 @@ public class SaArticleController {
     @PutMapping
     public JsonData updateByPrimaryKeySelective(@RequestBody Article article) {
         saArticleService.updateByPrimaryKeySelective(article);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
     /**
@@ -89,7 +89,7 @@ public class SaArticleController {
     @DeleteMapping
     public JsonData deleteArticleByIds(@RequestBody List<String> articleIds) {
         saArticleService.deleteArticleByIds(articleIds);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
     /**
@@ -101,7 +101,7 @@ public class SaArticleController {
     @PutMapping(value="/examine/{id}")
     public JsonData examine(@PathVariable String id) {
         saArticleService.examine(id);
-        return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
     }
 
     /**
@@ -113,6 +113,6 @@ public class SaArticleController {
     @PutMapping(value="/thumbUp/{id}")
     public JsonData updateThumbUp(@PathVariable String id) {
         saArticleService.updateThumbUp(id);
-        return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
     }
 }

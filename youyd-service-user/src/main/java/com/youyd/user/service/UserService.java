@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.youyd.base.LoginLogServiceRpc;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.pojo.QueryVO;
+import com.youyd.pojo.base.LoginLog;
 import com.youyd.pojo.user.User;
 import com.youyd.user.dao.UserDao;
 import com.youyd.utils.DateUtil;
@@ -21,6 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -28,8 +31,8 @@ import java.util.Map;
 
 /**
  * @description: 用户服务
- * @author: LGG
- * @create: 2018-09-27
+ * @author : LGG
+ * @create : 2018-09-27
  **/
 @Service
 public class UserService {
@@ -44,14 +47,17 @@ public class UserService {
 
 	private final OssClientUtil ossClientUtil; // 对象存储工具
 
+	private final LoginLogServiceRpc loginLogServiceRpc;
+
 
 	@Autowired
-	public UserService(UserDao userDao, RedisService redisService, JWTAuthentication jwtAuthentication, BCryptPasswordEncoder bCryptPasswordEncoder, OSSClient ossClient, OssClientUtil ossClientUtil) {
+	public UserService(UserDao userDao, RedisService redisService, JWTAuthentication jwtAuthentication, BCryptPasswordEncoder bCryptPasswordEncoder, OSSClient ossClient, OssClientUtil ossClientUtil, LoginLogServiceRpc loginLogServiceRpc) {
 		this.userDao = userDao;
 		this.redisService = redisService;
 		this.jwtAuthentication = jwtAuthentication;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.ossClientUtil = ossClientUtil;
+		this.loginLogServiceRpc = loginLogServiceRpc;
 	}
 
 	/**
@@ -83,11 +89,11 @@ public class UserService {
 
 	/**
 	 * 登录到系统
-	 *
-	 * @param account  ：账号
+	 *  @param account  ：账号
 	 * @param password ：密码
+	 * @param request
 	 */
-	public Map login(String account, String password) {
+	public Map login(String account, String password, HttpServletRequest request) {
 		LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
 		queryWrapper.eq(User::getAccount, account);
 		User uResult = userDao.selectOne(queryWrapper);
@@ -100,6 +106,10 @@ public class UserService {
 			map.put("avatar", uResult.getAvatar());//头像
 			try {
 				redisService.set(RedisConstant.REDIS_KEY_TOKEN + token, uResult, RedisConstant.REDIS_TIME_WEEK);
+				// 添加登录日志
+				LoginLog loginLog = new LoginLog();
+				request.get
+				loginLogServiceRpc.insertLoginLog(loginLog);
 			} catch (Exception ex) {
 				LogBack.error(ex.getMessage(), ex);
 			}

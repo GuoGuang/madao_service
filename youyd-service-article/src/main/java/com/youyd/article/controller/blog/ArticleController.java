@@ -2,10 +2,10 @@ package com.youyd.article.controller.blog;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.article.service.blog.ArticleService;
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.pojo.article.Article;
-import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class ArticleController {
     @GetMapping
     public Result findArticleByCondition(Article article, QueryVO queryVO) {
 	    IPage<Article> result = articleService.findArticleByCondition(article,queryVO);
-        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+        return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
     }
 
     /**
@@ -49,7 +49,7 @@ public class ArticleController {
     @GetMapping(value = "/{id}")
     public Result findArticleByPrimaryKey(@PathVariable String id) {
         Article result = articleService.findArticleById(id);
-        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+        return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
     }
 
 
@@ -62,7 +62,7 @@ public class ArticleController {
     @PostMapping
     public Result insertArticle(@RequestBody Article article) {
         articleService.insertArticle(article);
-        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
     /**
@@ -74,7 +74,7 @@ public class ArticleController {
     @PutMapping
     public Result updateByPrimaryKeySelective(@RequestBody Article article) {
         articleService.updateByPrimaryKeySelective(article);
-        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
     /**
@@ -86,7 +86,7 @@ public class ArticleController {
     @DeleteMapping
     public Result delete(@RequestBody List<String> articleIds) {
         articleService.deleteArticleByIds(articleIds);
-        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
 

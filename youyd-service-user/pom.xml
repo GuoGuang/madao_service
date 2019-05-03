@@ -30,6 +30,12 @@
             <version>1.0.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.youyd</groupId>
+            <artifactId>youyd-service-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
         <!--添加 SpringSecurity 依赖后，所有的地址都被 SpringSecurity 所控制了，我们目前只是需要用到BCrypt密码加密的部分，
                         所以我们要添加一个配置类，配置为所有地址都可以匿名访问-->
         <dependency>

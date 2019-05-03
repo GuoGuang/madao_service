@@ -1,8 +1,8 @@
 package com.youyd.question.exception;
 
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.Result;
 import com.youyd.utils.LogBack;
-import com.youyd.utils.StatusCode;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +20,6 @@ public class BaseExceptionHandler {
 	public Result error(Exception ex) {
 		LogBack.error(ex.getMessage(),ex);
 		ex.printStackTrace();
-		return new Result(false, StatusCode.ERROR.getCode(), ex.getMessage());
+		return new Result(false, StatusEnum.ERROR.getCode(), ex.getMessage());
 	}
 }

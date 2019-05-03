@@ -1,11 +1,11 @@
 package com.youyd.question.controller.blog;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.question.pojo.Answers;
 import com.youyd.question.service.backstage.AnswersService;
-import com.youyd.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +37,7 @@ public class BgAnswersController {
 	@GetMapping
 	public Result findAnswersByCondition(Answers answers, QueryVO queryVO) {
 		IPage<Answers> byCondition = answersService.findAnswersByCondition(answers,queryVO);
-		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), byCondition);
+		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), byCondition);
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class BgAnswersController {
 	@GetMapping(value = "/{id}")
 	public Result findAnswersByPrimaryKey(@PathVariable String id) {
 		Answers result = answersService.findAnswersByPrimaryKey(id);
-		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), result);
+		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), result);
 	}
 
 
@@ -61,7 +61,7 @@ public class BgAnswersController {
 	@PostMapping
 	public Result insertAnswers(Answers answers) {
 		answersService.insertAnswers(answers);
-		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class BgAnswersController {
 	@PutMapping()
 	public Result updateByAnswersSelective(Answers answers) {
 		boolean result = answersService.updateByAnswersSelective(answers);
-		return new Result(result, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new Result(result, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class BgAnswersController {
 	@DeleteMapping
 	public Result deleteAnswersByPrimaryKey(@RequestBody List<String> answersIds) {
 		answersService.deleteAnswersByPrimaryKey(answersIds);
-		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 }

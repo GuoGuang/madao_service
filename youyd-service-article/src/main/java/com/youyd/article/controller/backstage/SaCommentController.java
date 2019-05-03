@@ -2,10 +2,10 @@ package com.youyd.article.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.article.service.backstage.SaCommentService;
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Comment;
 import com.youyd.utils.JsonData;
-import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +41,7 @@ public class SaCommentController {
 	@GetMapping()
 	public JsonData findCommentByCondition(Comment comment, QueryVO queryVO ){
 		IPage<Comment> result = saCommentService.findCommentByCondition(comment,queryVO);
-		return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
 	}
 	
 	/**
@@ -52,7 +52,7 @@ public class SaCommentController {
 	@GetMapping(value="/{id}")
 	public JsonData findCommentByPrimaryKey(@PathVariable String id){
 		Comment result = saCommentService.findCommentByPrimaryKey(id);
-		return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
 	}
 
 
@@ -64,7 +64,7 @@ public class SaCommentController {
 	@PostMapping()
 	public JsonData insertComment(@RequestBody Comment comment){
 		saCommentService.insertComment(comment);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class SaCommentController {
 	@PutMapping
 	public JsonData updateByCommentSelective(@RequestBody Comment comment) {
 		saCommentService.updateByCommentSelective(comment);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class SaCommentController {
 	@DeleteMapping
 	public JsonData deleteByIds(List<String> commentIds){
 		saCommentService.deleteCommentByIds(commentIds);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 	
 }

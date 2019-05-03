@@ -33,7 +33,7 @@ public class QuestionService {
 	 * @return IPage<Question>
 	 */
 	public IPage<Question> findQuestionByCondition(QueryVO queryVO) {
-		Page<Question> pr = new Page<>(queryVO.getPageSize(),queryVO.getPageSize());
+		Page<Question> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
 		QueryWrapper<Question> queryWrapper = new QueryWrapper<>();
 		return questionDao.selectPage(pr, queryWrapper);
 	}

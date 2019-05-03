@@ -39,7 +39,7 @@ public class TagsService {
 	 * @return IPage<Tags>
 	 */
 	public IPage<Tags> findTagsByCondition(Tags tags, QueryVO queryVO){
-		Page<Tags> pr = new Page<>(queryVO.getPageSize(),queryVO.getPageSize());
+		Page<Tags> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
 		LambdaQueryWrapper<Tags> queryWrapper = new LambdaQueryWrapper<>();
 		if (StringUtils.isNotEmpty(tags.getName())) {
 			queryWrapper.like(Tags::getName, tags.getName());
