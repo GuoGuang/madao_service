@@ -1,5 +1,7 @@
 package com.youyd.pojo.base;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.youyd.pojo.BasePojo;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +20,7 @@ public class OptLog extends BasePojo implements Serializable {
     /**
      * 日志表
      */
+    @TableId(type = IdType.ID_WORKER_STR)
     private String id;
 
     /**
@@ -36,6 +39,21 @@ public class OptLog extends BasePojo implements Serializable {
     private Integer type;
 
     /**
+     * 操作方法名称
+     */
+    private String method;
+
+    /**
+     * 操作方法的参数（json）
+     */
+    private String params;
+
+    /**
+     * 异常详情
+     */
+    private String exceptionDetail;
+
+    /**
      * 浏览器
      */
     private String browser;
@@ -43,6 +61,6 @@ public class OptLog extends BasePojo implements Serializable {
     /**
      * 操作系统信息
      */
-    private String osinfo;
+    private String osInfo;
 
 }

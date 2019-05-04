@@ -56,7 +56,7 @@ public class ArticleService{
 	 */
 	public Article findArticleById(String articleId) {
 		Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + articleId);
-		Article article = JsonUtil.mapToPojo(mapJson, Article.class);
+		Article article = JsonUtil.jsonToPojo(mapJson.toString(), Article.class);
 		// 如果缓存没有则到数据库查询并放入缓存,有效期一天
 		if(article==null) {
 			article = articleDao.selectById(articleId);

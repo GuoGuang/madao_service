@@ -1,6 +1,8 @@
 package com.youyd.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.annotation.OptLog;
+import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.enums.UserEnum;
 import com.youyd.pojo.QueryVO;
@@ -105,6 +107,7 @@ public class UserController {
 	 * @return boolean
 	 * url: ?search={query}{&page,per_page,sort,order}
 	 */
+	@OptLog(operationType= CommonConst.ADD,operationName="按照条件查找用户列表")
 	@ApiOperation(value = "查找用户列表", notes = "按照条件查找用户列表")
 	@ApiImplicitParam(name = "User", value = "查询条件：用户对象", dataType = "Map", paramType = "query")
 	@GetMapping
