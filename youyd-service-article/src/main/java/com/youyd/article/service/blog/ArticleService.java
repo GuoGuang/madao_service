@@ -3,7 +3,7 @@ package com.youyd.article.service.blog;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youyd.article.dao.backstage.ArticleDao;
+import com.youyd.article.dao.blog.ArticleDao;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.pojo.QueryVO;
@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @description: 文章板块:文章服务
- * @author: LGG
- * @create: 2018-10-13 16:39
+ * 文章板块:文章服务
+ * @author : LGG
+ * @create : 2018-10-13 16:39
  **/
 @Service
 public class ArticleService{
@@ -38,7 +38,7 @@ public class ArticleService{
 	 * @return IPage<Article>
 	 */
 	public IPage<Article> findArticleByCondition(Article article, QueryVO queryVO ){
-		Page<Article> pr = new Page<>(queryVO.getPageSize(),queryVO.getPageSize());
+		Page<Article> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
 		LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
 		if (StringUtils.isNotEmpty(article.getTitle())) {
 			queryWrapper.like(Article::getTitle, article.getTitle());
@@ -56,7 +56,7 @@ public class ArticleService{
 	 */
 	public Article findArticleById(String articleId) {
 		Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + articleId);
-		Article article = JsonUtil.mapToPojo(mapJson, Article.class);
+		Article article = JsonUtil.jsonToPojo(mapJson.toString(), Article.class);
 		// 如果缓存没有则到数据库查询并放入缓存,有效期一天
 		if(article==null) {
 			article = articleDao.selectById(articleId);

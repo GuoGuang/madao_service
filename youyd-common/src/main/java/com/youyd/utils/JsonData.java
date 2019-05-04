@@ -34,6 +34,9 @@ public class JsonData implements Serializable {
 		this.code = code;
 		this.message = msg;
 	}
+	public JsonData() {
+
+	}
 
 	public boolean isStatus() {
 		return status;

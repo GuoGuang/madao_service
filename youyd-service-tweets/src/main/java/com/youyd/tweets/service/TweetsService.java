@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.tweets.dao.TweetsDao;
 import com.youyd.tweets.pojo.Tweets;
-import com.youyd.utils.StatusCode;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class TweetsService {
 	 * @return IPage
 	 */
 	public IPage<Tweets> findTweetsByCondition(Tweets tweets, QueryVO queryVO){
-		Page<Tweets> pr = new Page<>(queryVO.getPageSize(),queryVO.getPageSize());
+		Page<Tweets> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
 		LambdaQueryWrapper<Tweets> queryWrapper = new LambdaQueryWrapper<>();
 		if (StringUtils.isNotEmpty(tweets.getNickName())) {
 			queryWrapper.like(Tweets::getNickName, tweets.getNickName());
@@ -94,7 +94,7 @@ public class TweetsService {
 	 */
 	public Result findTweetsByParentid(String parentId){
 		Tweets result = tweetsDao.findTweetsByParentid(parentId);
-		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
 	}
 
 	/**

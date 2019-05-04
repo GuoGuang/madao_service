@@ -1,11 +1,11 @@
 package com.youyd.question.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.question.pojo.Answers;
 import com.youyd.question.service.backstage.AnswersService;
 import com.youyd.utils.JsonData;
-import com.youyd.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +36,7 @@ public class AnswersController {
 	@GetMapping
 	public JsonData findAnswersByCondition(Answers answers, QueryVO queryVO) {
 		IPage<Answers> byCondition = answersService.findAnswersByCondition(answers,queryVO);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), byCondition);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), byCondition);
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class AnswersController {
 	@GetMapping(value = "/{id}")
 	public JsonData findAnswersByPrimaryKey(@PathVariable String id) {
 		Answers result = answersService.findAnswersByPrimaryKey(id);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), result);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), result);
 	}
 
 
@@ -58,7 +58,7 @@ public class AnswersController {
 	@PostMapping
 	public JsonData insertAnswers(Answers answers) {
 		answersService.insertAnswers(answers);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class AnswersController {
 	@PutMapping()
 	public JsonData updateByAnswersSelective(Answers answers) {
 		boolean result = answersService.updateByAnswersSelective(answers);
-		return new JsonData(result, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(result, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class AnswersController {
 	@DeleteMapping
 	public JsonData deleteAnswersByPrimaryKey(@RequestBody List<String> answersIds) {
 		answersService.deleteAnswersByPrimaryKey(answersIds);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 }

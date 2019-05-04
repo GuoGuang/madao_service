@@ -2,10 +2,10 @@ package com.youyd.article.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.article.service.blog.TagsService;
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Tags;
 import com.youyd.utils.JsonData;
-import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +23,12 @@ import java.util.List;
 @Api(tags = "标签")
 @RestController
 @RequestMapping(value = "/sa/tags",produces = "application/json")
-public class TagsController {
+public class SaTagsController {
 
     private final TagsService tagsService;
 
 	@Autowired
-	public TagsController(TagsService tagsService) {
+	public SaTagsController(TagsService tagsService) {
 		this.tagsService = tagsService;
 	}
 
@@ -41,7 +41,7 @@ public class TagsController {
     @GetMapping
     public JsonData findArticleByCondition(Tags tags, QueryVO queryVO ) {
 	    IPage<Tags> result = tagsService.findTagsByCondition(tags,queryVO);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
     }
 
     /**
@@ -54,7 +54,7 @@ public class TagsController {
     @GetMapping(value = "/{id}")
     public JsonData findArticleByPrimaryKey(@PathVariable String id) {
         Tags result = tagsService.findTagsById(id);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
     }
 
 
@@ -67,7 +67,7 @@ public class TagsController {
     @PostMapping
     public JsonData insertArticle(@RequestBody Tags tags) {
         tagsService.insertTags(tags);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
     /**
@@ -78,7 +78,7 @@ public class TagsController {
     @PutMapping
     public JsonData updateTagsById(@RequestBody Tags tags) {
         tagsService.updateTagsById(tags);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
     /**
@@ -89,7 +89,7 @@ public class TagsController {
     @DeleteMapping
     public JsonData delete(@RequestBody List<String> articleIds) {
         tagsService.deleteByIds(articleIds);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
 }

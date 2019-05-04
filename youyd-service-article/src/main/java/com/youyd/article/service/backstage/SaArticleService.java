@@ -1,9 +1,10 @@
 package com.youyd.article.service.backstage;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youyd.article.dao.backstage.ArticleDao;
+import com.google.common.base.CaseFormat;
+import com.youyd.article.dao.backstage.SaArticleDao;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.pojo.QueryVO;
@@ -16,20 +17,20 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @description: 文章板块:文章服务
- * @author: LGG
- * @create: 2018-10-13 16:39
+ * 文章板块:文章服务
+ * @author : LGG
+ * @create : 2018-10-13 16:39
  **/
 @Service
-public class ArticleService{
+public class SaArticleService {
 
-	private final ArticleDao articleDao;
+	private final SaArticleDao saArticleDao;
 
 	private final RedisService redisService;
 
 	@Autowired
-	public ArticleService(ArticleDao articleDao, RedisService redisService) {
-		this.articleDao = articleDao;
+	public SaArticleService(SaArticleDao saArticleDao, RedisService redisService) {
+		this.saArticleDao = saArticleDao;
 		this.redisService = redisService;
 	}
 
@@ -38,16 +39,26 @@ public class ArticleService{
 	 * @return IPage<Article>
 	 */
 	public IPage<Article> findArticleByCondition(Article article, QueryVO queryVO ){
-		Page<Article> pr = new Page<>(queryVO.getPageSize(),queryVO.getPageSize());
-		LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+		Page<Article> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
+		QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
 		if (StringUtils.isNotEmpty(article.getTitle())) {
-			queryWrapper.like(Article::getTitle, article.getTitle());
+			queryWrapper.lambda().like(Article::getTitle, article.getTitle());
+		}
+		if (article.getReviewState() != null ) {
+			queryWrapper.lambda().like(Article::getReviewState, article.getReviewState());
 		}
 		if (StringUtils.isNotEmpty(article.getDescription())) {
-			queryWrapper.like(Article::getDescription, article.getDescription());
+			queryWrapper.lambda().like(Article::getDescription, article.getDescription());
 		}
-		return articleDao.selectPage(pr, queryWrapper);
+		if (queryVO.getOrderBy() != null && StringUtils.isNotEmpty(queryVO.getFieldSort())){
+			// 驼峰下划线
+			String fieldSort = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, queryVO.getFieldSort());
+			queryWrapper.orderBy(true,queryVO.getOrderBy(),fieldSort);
+		}
+		return saArticleDao.selectPage(pr, queryWrapper);
 	}
+
+
 
 	/**
 	 * 根据ID查询实体
@@ -56,10 +67,10 @@ public class ArticleService{
 	 */
 	public Article findArticleById(String articleId) {
 		Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + articleId);
-		Article article = JsonUtil.mapToPojo(mapJson, Article.class);
+		Article article = JsonUtil.jsonToPojo(mapJson.toString(), Article.class);
 		// 如果缓存没有则到数据库查询并放入缓存,有效期一天
 		if(article==null) {
-			article = articleDao.selectById(articleId);
+			article = saArticleDao.selectById(articleId);
 			redisService.set(RedisConstant.REDIS_KEY_ARTICLE+ articleId, article,RedisConstant.REDIS_TIME_DAY);
 		}
 		return article;
@@ -70,7 +81,7 @@ public class ArticleService{
 	 * @param article 实体
 	 */
 	public void insertArticle(Article article) {
-		articleDao.insert(article);
+		saArticleDao.insert(article);
 	}
 
 	/**
@@ -78,8 +89,8 @@ public class ArticleService{
 	 * @param article 实体
 	 */
 	public void updateByPrimaryKeySelective(Article article) {
-		redisService.del( "article_" + article.getId());
-		articleDao.updateById(article);
+		redisService.del( "ARTICLE_" + article.getId());
+		saArticleDao.updateById(article);
 	}
 
 	/**
@@ -87,7 +98,7 @@ public class ArticleService{
 	 * @param articleIds:文章id集合
 	 */
 	public void deleteArticleByIds(List<String> articleIds) {
-		articleDao.deleteBatchIds(articleIds);
+		saArticleDao.deleteBatchIds(articleIds);
 	}
 
 	/**
@@ -95,16 +106,15 @@ public class ArticleService{
 	 * @param id
 	 */
 	public void examine(String id){
-		articleDao.examine(id);
+		saArticleDao.examine(id);
 	}
 
 	/**
 	 * 点赞
 	 * @param id 文章ID
-	 * @return
 	 */
 	public int updateThumbUp(String id){
-		return articleDao.updateThumbUp(id);
+		return saArticleDao.updateThumbUp(id);
 	}
 
 }

@@ -1,11 +1,11 @@
-package com.youyd.utils;
+package com.youyd.enums;
 
 /**
  * @description: 状态码定义
  * @author: LGG
  * @create: 2018-09-26 14:34
  **/
-public enum StatusCode {
+public enum StatusEnum {
 	OK(20000,"操作成功"), //成功
 	ERROR(20001,"操作失败"), // error
 	SYSTEM_EXCEPTION(0,"系统异常"), // 系统异常
@@ -22,10 +22,10 @@ public enum StatusCode {
 	public String getMsg() {
 		return msg;
 	}
-	StatusCode() {
+	StatusEnum() {
 	}
 	// 枚举中使用的值需要在构造函数中定义
-	StatusCode(Integer code,String msg){
+	StatusEnum(Integer code, String msg){
 		this.code = code;
 		this.msg = msg;
 	}

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.interceptor.*;
@@ -16,11 +17,13 @@ import java.util.Map;
 /**
  * 配置全局事务处理
  * {@link http://www.cnblogs.com/guozp/articles/7446477.html}
- * @author: LGG
- * @create: 2019-01-23
+ * EnableAspectJAutoProxy : 强制使用cglib，因为如果包下的XXService类实现了接口，Spring会报异常
+ * @author : LGG
+ * @create : 2019-01-23
  **/
 @Configuration
 @ConfigurationProperties
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class TransactionConfig {
 
 	private static final int TX_METHOD_TIMEOUT = 5;

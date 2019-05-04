@@ -1,12 +1,14 @@
 package com.youyd.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.annotation.OptLog;
+import com.youyd.constant.CommonConst;
+import com.youyd.enums.StatusEnum;
 import com.youyd.enums.UserEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.user.User;
 import com.youyd.user.service.UserService;
 import com.youyd.utils.JsonData;
-import com.youyd.utils.StatusCode;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,12 +52,12 @@ public class UserController {
 	 */
 	@PostMapping(value = "/login")
 	@ApiOperation(value = "用户登录", notes = "User")
-	public JsonData login(String account, String password) {
-		Map uMap = userService.login(account, password);
+	public JsonData login(HttpServletRequest request, String account, String password) {
+		Map uMap = userService.login(account, password,request);
 		if (uMap != null) {
-			return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), uMap);
+			return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), uMap);
 		} else {
-			return new JsonData(false, StatusCode.LOGIN_ERROR.getCode(), StatusCode.LOGIN_ERROR.getMsg());
+			return new JsonData(false, StatusEnum.LOGIN_ERROR.getCode(), StatusEnum.LOGIN_ERROR.getMsg());
 		}
 	}
 
@@ -67,7 +70,7 @@ public class UserController {
 	@PostMapping()
 	public JsonData insertUser(@RequestBody User user) {
 		userService.insertUser(user);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 
@@ -94,7 +97,7 @@ public class UserController {
 		List<Map<String, Object>> list = new ArrayList<>();
 		list.add(info);
 		list.add(info1);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), list);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), list);
 	}
 
 	/**
@@ -104,12 +107,13 @@ public class UserController {
 	 * @return boolean
 	 * url: ?search={query}{&page,per_page,sort,order}
 	 */
+	@OptLog(operationType= CommonConst.ADD,operationName="按照条件查找用户列表")
 	@ApiOperation(value = "查找用户列表", notes = "按照条件查找用户列表")
 	@ApiImplicitParam(name = "User", value = "查询条件：用户对象", dataType = "Map", paramType = "query")
 	@GetMapping
 	public JsonData findByCondition(User user, QueryVO queryVO ) {
 		IPage<User> byCondition = userService.findByCondition(user,queryVO);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(),byCondition);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),byCondition);
 	}
 
 	/**
@@ -123,7 +127,7 @@ public class UserController {
 	@PutMapping("avatar")
 	public JsonData updateUserAvatar(User user, MultipartFile file) throws IOException {
 		userService.updateUserAvatar(user,file);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -136,7 +140,7 @@ public class UserController {
 	@GetMapping(value = "/{id}")
 	public JsonData findByCondition(@PathVariable String id) {
 		User byId = userService.findUserById(id);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(),byId);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),byId);
 	}
 	/**
 	 * 退出
@@ -147,7 +151,7 @@ public class UserController {
 	@PostMapping(value = "/logout")
 	public JsonData logout(@RequestHeader("X-Token")String token) {
 		userService.logout(token);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 
@@ -159,7 +163,7 @@ public class UserController {
 	@PutMapping()
 	public JsonData updateByPrimaryKey(@RequestBody User user) {
 		boolean result = userService.updateByPrimaryKey(user);
-		return new JsonData(result, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(result, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -173,7 +177,7 @@ public class UserController {
 		if (!result){
 			return new JsonData(false, UserEnum.WRONG_PASSWORD.getCode(), UserEnum.WRONG_PASSWORD.getInfo());
 		}
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -188,10 +192,10 @@ public class UserController {
 	@DeleteMapping
 	public JsonData deleteByIds(@RequestBody List<String> userId, @ModelAttribute("admin_claims") Claims claims) {
 		if (claims == null) {
-			return new JsonData(true, StatusCode.PARAM_ERROR.getCode(), StatusCode.PARAM_ERROR.getMsg());
+			return new JsonData(true, StatusEnum.PARAM_ERROR.getCode(), StatusEnum.PARAM_ERROR.getMsg());
 		}
 		boolean result = userService.deleteByIds(userId);
-		return new JsonData(result, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(result, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 

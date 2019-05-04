@@ -39,7 +39,7 @@ public class TagsService {
 	 * @return IPage<Tags>
 	 */
 	public IPage<Tags> findTagsByCondition(Tags tags, QueryVO queryVO){
-		Page<Tags> pr = new Page<>(queryVO.getPageSize(),queryVO.getPageSize());
+		Page<Tags> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
 		LambdaQueryWrapper<Tags> queryWrapper = new LambdaQueryWrapper<>();
 		if (StringUtils.isNotEmpty(tags.getName())) {
 			queryWrapper.like(Tags::getName, tags.getName());
@@ -60,7 +60,7 @@ public class TagsService {
 		try {
 			Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + id);
 			if (mapJson != null) {
-				return JsonUtil.mapToPojo(mapJson, Tags.class);
+				return JsonUtil.jsonToPojo(mapJson.toString(), Tags.class);
 			}
 		} catch (Exception e) {
 			LogBack.error("findTagsById->查询标签异常，参数为：{}",id,e);

@@ -36,7 +36,7 @@ public class TweetsCommentService {
 	 * @return IPage
 	 */
 	public IPage<TweetsComment> findTweetsCommentByCondition(TweetsComment tweetsComment, QueryVO queryVO){
-		Page<TweetsComment> pr = new Page<>(queryVO.getPageSize(),queryVO.getPageSize());
+		Page<TweetsComment> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
 		LambdaQueryWrapper<TweetsComment> queryWrapper = new LambdaQueryWrapper<>();
 		if (StringUtils.isNotEmpty(tweetsComment.getNickName())) {
 			queryWrapper.like(TweetsComment::getNickName, tweetsComment.getNickName());

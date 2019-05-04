@@ -16,4 +16,5 @@ public class BasePojo implements Serializable {
 
 	private Long updateAt;
 	private Long createAt;
+
 }
