@@ -1,10 +1,13 @@
 package com.youyd.search.controller;
 
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.Result;
-import com.youyd.utils.StatusCode;
 import com.youyd.search.service.ArticleSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @description: 集成ElasticSearch的文章搜索系统
@@ -28,7 +31,7 @@ public class ArticleSearchController {
     @GetMapping(value="/search/{keywords}/{page}/{size}")
     public Result searchArticleByCondition(@PathVariable String keywords,@PathVariable Integer page, @PathVariable Integer size){
         articleSearchService.searchArticleByCondition(keywords,page,size);
-        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
    /* *//**

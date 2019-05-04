@@ -2,10 +2,10 @@ package com.youyd.base.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.base.service.RoleService;
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.Role;
 import com.youyd.utils.JsonData;
-import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @description: 角色管理
- * @author: LGG
- * @create: 2018-12-23
+ * 角色管理
+ * @author : LGG
+ * @create : 2018-12-23
  **/
 
 @Api(tags = "角色")
@@ -38,7 +38,7 @@ public class RoleController {
 	@GetMapping
 	public JsonData findRuleByCondition(Role role, QueryVO queryVO ) {
 		IPage<Role> ruleData = roleService.findRuleByCondition(role,queryVO);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), ruleData);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), ruleData);
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class RoleController {
 	@GetMapping("/{roleId}")
 	public JsonData findById(@PathVariable String roleId) {
 		Role ruleData = roleService.findRuleById(roleId);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), ruleData);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), ruleData);
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class RoleController {
 	@PostMapping
 	public JsonData insertSelective(@RequestBody Role role) {
 		boolean state = roleService.insertSelective(role);
-		return new JsonData(state, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class RoleController {
 	@DeleteMapping
 	public JsonData deleteByIds(@RequestBody List<String> roleId) {
 		boolean state = roleService.deleteByIds(roleId);
-		return new JsonData(state, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class RoleController {
 	@PutMapping()
 	public JsonData updateByPrimaryKey(@RequestBody Role role) {
 		boolean state = roleService.updateByPrimaryKey(role);
-		return new JsonData(state, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 }

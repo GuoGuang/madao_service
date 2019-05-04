@@ -30,7 +30,7 @@ public class BgAnswersService {
 	 * @return IPage
 	 */
 	public IPage<Answers> findAnswersByCondition(QueryVO queryVO) {
-		Page<Answers> pr = new Page<>(queryVO.getPageSize(),queryVO.getPageSize());
+		Page<Answers> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
 		QueryWrapper<Answers> queryWrapper = new QueryWrapper<>();
 		return answersDao.selectPage(pr, queryWrapper);
 	}

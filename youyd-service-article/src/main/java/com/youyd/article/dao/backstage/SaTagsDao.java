@@ -14,7 +14,7 @@ import java.util.ArrayList;
  **/
 
 
-public interface TagsDao extends BaseMapper<Tags> {
+public interface SaTagsDao extends BaseMapper<Tags> {
 
 
 	ArrayList<Tags> findTagsByCondition(QueryVO queryVO);

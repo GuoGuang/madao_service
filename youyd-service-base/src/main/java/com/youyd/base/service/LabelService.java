@@ -33,7 +33,7 @@ public class LabelService {
 	 * @return IPage<Label>
 	 */
 	public IPage<Label> findLabelByCondition(Label label, QueryVO queryVO) {
-		Page<Label> pr = new Page<>(queryVO.getPageSize(),queryVO.getPageSize());
+		Page<Label> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
 		LambdaQueryWrapper<Label> queryWrapper = new LambdaQueryWrapper<>();
 		if (StringUtils.isNotEmpty(label.getLabelName())) {
 			queryWrapper.like(Label::getLabelName, label.getLabelName());

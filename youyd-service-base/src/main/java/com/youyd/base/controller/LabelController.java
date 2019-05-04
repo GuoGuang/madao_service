@@ -2,20 +2,23 @@ package com.youyd.base.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.base.service.LabelService;
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.Label;
 import com.youyd.utils.JsonData;
-import com.youyd.utils.StatusCode;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- * @description: 标签控制层
- * @author: LGG
- * @create: 2018-09-26 15:59
+ * 标签控制层
+ * @author : LGG
+ * @create : 2018-09-26 15:59
  **/
+
+@Api(tags = "标签")
 @RestController
 @RequestMapping("/label")
 public class LabelController {
@@ -34,7 +37,7 @@ public class LabelController {
 	@GetMapping
 	public JsonData findLabelByCondition(Label label, QueryVO queryVO){
 		IPage<Label> result = labelService.findLabelByCondition(label,queryVO);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), result);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), result);
 
 	}
 
@@ -46,7 +49,7 @@ public class LabelController {
 	@GetMapping(value="/{id}")
 	public JsonData findLabelByPrimaryKey(@PathVariable String id){
 		Label label = labelService.findLabelByPrimaryKey(id);
-		return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),label);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),label);
 	}
 
 	/**
@@ -57,7 +60,7 @@ public class LabelController {
 	@PostMapping()
 	public JsonData insertLabel(@RequestBody Label label){
 		labelService.insertLabel(label);
-		return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -68,7 +71,7 @@ public class LabelController {
 	@PutMapping
 	public JsonData updateLabel(@RequestBody Label label){
 		labelService.updateLabel(label);
-		return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -79,6 +82,6 @@ public class LabelController {
 	@DeleteMapping
 	public JsonData deleteById(@RequestBody List<String> labelIds){
 		labelService.deleteById(labelIds);
-		return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 }

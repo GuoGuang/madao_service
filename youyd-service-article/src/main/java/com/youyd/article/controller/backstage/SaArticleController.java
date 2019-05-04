@@ -1,11 +1,11 @@
 package com.youyd.article.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youyd.article.service.backstage.ArticleService;
+import com.youyd.article.service.backstage.SaArticleService;
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Article;
 import com.youyd.utils.JsonData;
-import com.youyd.utils.StatusCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +23,13 @@ import java.util.List;
 @Api(tags = "文章")
 @RestController
 @RequestMapping(value = "/sa/article",produces = "application/json")
-public class ArticleController {
+public class SaArticleController {
 
-    private final ArticleService articleService;
+    private final SaArticleService saArticleService;
 
 	@Autowired
-	public ArticleController(ArticleService articleService) {
-		this.articleService = articleService;
+	public SaArticleController(SaArticleService saArticleService) {
+		this.saArticleService = saArticleService;
 	}
 
 	/**
@@ -40,8 +40,8 @@ public class ArticleController {
     @ApiOperation(value = "查询文章集合", notes = "Article")
     @GetMapping
     public JsonData findArticleByCondition(Article article, QueryVO queryVO ) {
-	    IPage<Article> result = articleService.findArticleByCondition(article,queryVO);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+	    IPage<Article> result = saArticleService.findArticleByCondition(article,queryVO);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
     }
 
     /**
@@ -53,8 +53,8 @@ public class ArticleController {
     @ApiOperation(value = "按照id查询文章", notes = "id")
     @GetMapping(value = "/{id}")
     public JsonData findArticleById(@PathVariable String id) {
-        Article result = articleService.findArticleById(id);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+        Article result = saArticleService.findArticleById(id);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
     }
 
 
@@ -65,8 +65,8 @@ public class ArticleController {
     @ApiOperation(value = "添加一条新的文章")
     @PostMapping
     public JsonData insertArticle(@RequestBody Article article) {
-        articleService.insertArticle(article);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        saArticleService.insertArticle(article);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
     /**
@@ -76,8 +76,8 @@ public class ArticleController {
     @ApiOperation(value = "按照id修改", notes = "id")
     @PutMapping
     public JsonData updateByPrimaryKeySelective(@RequestBody Article article) {
-        articleService.updateByPrimaryKeySelective(article);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        saArticleService.updateByPrimaryKeySelective(article);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
     /**
@@ -88,8 +88,8 @@ public class ArticleController {
     @ApiOperation(value = "删除", notes = "id")
     @DeleteMapping
     public JsonData deleteArticleByIds(@RequestBody List<String> articleIds) {
-        articleService.deleteArticleByIds(articleIds);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        saArticleService.deleteArticleByIds(articleIds);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
     /**
@@ -100,8 +100,8 @@ public class ArticleController {
     @ApiOperation(value = "审核当前文章", notes = "id")
     @PutMapping(value="/examine/{id}")
     public JsonData examine(@PathVariable String id) {
-        articleService.examine(id);
-        return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+        saArticleService.examine(id);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
     }
 
     /**
@@ -112,7 +112,7 @@ public class ArticleController {
     @ApiOperation(value = "点赞", notes = "id")
     @PutMapping(value="/thumbUp/{id}")
     public JsonData updateThumbUp(@PathVariable String id) {
-        articleService.updateThumbUp(id);
-        return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+        saArticleService.updateThumbUp(id);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
     }
 }

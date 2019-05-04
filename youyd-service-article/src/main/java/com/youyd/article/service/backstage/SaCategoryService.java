@@ -4,7 +4,7 @@ package com.youyd.article.service.backstage;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youyd.article.dao.backstage.CategoryDao;
+import com.youyd.article.dao.backstage.SaCategoryDao;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Category;
@@ -15,20 +15,20 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @description: 文章分类
- * @author: LGG
- * @create: 2019-01-30
+ *  文章分类
+ * @author : LGG
+ * @create : 2019-01-30
  **/
 @Service
-public class CategoryService{
+public class SaCategoryService {
 
-	private final CategoryDao categoryDao;
+	private final SaCategoryDao saSaCategoryDao;
 
 	private final RedisService redisService;
 
 	@Autowired
-	public CategoryService(CategoryDao categoryDao, RedisService redisService) {
-		this.categoryDao = categoryDao;
+	public SaCategoryService(SaCategoryDao saSaCategoryDao, RedisService redisService) {
+		this.saSaCategoryDao = saSaCategoryDao;
 		this.redisService = redisService;
 	}
 
@@ -42,12 +42,12 @@ public class CategoryService{
 		LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
 
 		if (StringUtils.isNotEmpty(category.getName())){
-			queryWrapper.eq(Category::getName,category.getName());
+			queryWrapper.like(Category::getName,category.getName());
 		}
 		if (category.getState() != null){
 			queryWrapper.eq(Category::getState,category.getState());
 		}
-		return categoryDao.selectPage(pr, queryWrapper);
+		return saSaCategoryDao.selectPage(pr, queryWrapper);
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class CategoryService{
 	 * @return Category
 	 */
 	public Category findCategoryByPrimaryKey(String categoryId) {
-		return categoryDao.selectById(categoryId);
+		return saSaCategoryDao.selectById(categoryId);
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class CategoryService{
 	 * @param category 实体
 	 */
 	public void insertCategory(Category category) {
-		categoryDao.insert(category);
+		saSaCategoryDao.insert(category);
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class CategoryService{
 	 * @param category 实体
 	 */
 	public void updateByCategorySelective(Category category) {
-		categoryDao.updateById(category);
+		saSaCategoryDao.updateById(category);
 	}
 
 	/**
@@ -80,6 +80,6 @@ public class CategoryService{
 	 * @param categoryIds:分类id
 	 */
 	public void deleteCategoryByIds(List<String> categoryIds) {
-		categoryDao.deleteBatchIds(categoryIds);
+		saSaCategoryDao.deleteBatchIds(categoryIds);
 	}
 }

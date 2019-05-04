@@ -1,8 +1,8 @@
 package com.youyd.base.exception;
 
+import com.youyd.enums.StatusEnum;
 import com.youyd.utils.JsonData;
 import com.youyd.utils.LogBack;
-import com.youyd.utils.StatusCode;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +19,6 @@ public class BaseExceptionHandler {
 	@ResponseBody
 	public JsonData handleException(Exception ex) {
 		LogBack.error(ex.getMessage(),ex);
-		return new JsonData(false, StatusCode.ERROR.getCode(), ex.getMessage());
+		return new JsonData(false, StatusEnum.ERROR.getCode(), ex.getMessage());
 	}
 }

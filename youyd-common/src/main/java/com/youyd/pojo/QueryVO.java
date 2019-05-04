@@ -20,7 +20,9 @@ public class QueryVO implements Serializable {
 	private long pageSize = 10;
 
 	private String searchValue;
-
 	private String searchSort;
 
+	/*排序*/
+	private Boolean orderBy;
+	private String fieldSort;
 }

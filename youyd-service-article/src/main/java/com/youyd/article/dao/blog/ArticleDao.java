@@ -16,4 +16,19 @@ import com.youyd.pojo.article.Article;
 public interface ArticleDao extends BaseMapper<Article> {
 
 	IPage<Article> findArticlePage(Page page, QueryVO queryVO);
+
+	/**
+	 * 审核文章
+	 *
+	 * @param id
+	 */
+	void examine(String id);
+
+	/**
+	 * 点赞
+	 *
+	 * @param id
+	 * @return
+	 */
+	int updateThumbUp(String id);
 }

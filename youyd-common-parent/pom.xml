@@ -157,6 +157,7 @@
                    <module>../youyd-server-config</module>
                    <module>../youyd-server-eureka</module>
                    <module>../youyd-common-redis</module>
+                   <module>../youyd-service-api</module>
                </modules>
                <packaging>pom</packaging>
 

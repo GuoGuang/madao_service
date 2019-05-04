@@ -28,7 +28,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableEurekaClient
 @EnableSwagger2
-@EnableFeignClients
+@EnableFeignClients(basePackages = "com.youyd.api")
 @EnableWebSecurity
 @ComponentScan(basePackages = {"com.youyd"})
 public class UserApplication {
