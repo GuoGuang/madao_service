@@ -10,5 +10,5 @@ public class FeignConst {
 
 	/* 基础微服务 */
 	public static final String SERVICE_BASE  ="service-base";
-	public static final String SERVICE_BASE_PATH  ="/base/loginLog";
+	public static final String SERVICE_BASE_PATH  ="/loginLog";
 }

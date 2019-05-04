@@ -97,6 +97,11 @@
             <artifactId>guava</artifactId>
             <version>27.1-jre</version>
         </dependency>
-
+        <!-- 获取用户UserAgent对象帮助类 -->
+        <dependency>
+            <groupId>eu.bitwalker</groupId>
+            <artifactId>UserAgentUtils</artifactId>
+            <version>1.21</version>
+        </dependency>
     </dependencies>
 </project>

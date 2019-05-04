@@ -6,17 +6,16 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.youyd.base.LoginLogServiceRpc;
+import com.youyd.api.base.LoginLogServiceRpc;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.LoginLog;
 import com.youyd.pojo.user.User;
 import com.youyd.user.dao.UserDao;
-import com.youyd.utils.DateUtil;
-import com.youyd.utils.LogBack;
-import com.youyd.utils.OssClientUtil;
+import com.youyd.utils.*;
 import com.youyd.utils.security.JWTAuthentication;
+import eu.bitwalker.useragentutils.UserAgent;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -99,7 +98,7 @@ public class UserService {
 		User uResult = userDao.selectOne(queryWrapper);
 		if (uResult != null && bCryptPasswordEncoder.matches(password, uResult.getPassword())) {
 			// 生成token
-			String token = jwtAuthentication.createJWT(Long.valueOf(uResult.getId()), uResult.getUserName(), "admin");
+			String token = jwtAuthentication.createJWT(Long.valueOf(uResult.getId()),  JsonUtil.toJsonString(uResult), "admin");
 			Map<String, String> map = new HashMap<>();
 			map.put("token", token);
 			map.put("userName", uResult.getUserName());//昵称
@@ -108,8 +107,15 @@ public class UserService {
 				redisService.set(RedisConstant.REDIS_KEY_TOKEN + token, uResult, RedisConstant.REDIS_TIME_WEEK);
 				// 添加登录日志
 				LoginLog loginLog = new LoginLog();
-				request.get
+				loginLog.setClientIp(HttpServletUtil.getIpAddr(request));
+				loginLog.setUserId(uResult.getId());
+				UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
+				loginLog.setBrowser(userAgent.getBrowser().getName());
+				loginLog.setOsInfo(userAgent.getOperatingSystem().getName());
+				loginLog.setCreateAt(DateUtil.getTimestamp());
+				loginLog.setUpdateAt(DateUtil.getTimestamp());
 				loginLogServiceRpc.insertLoginLog(loginLog);
+
 			} catch (Exception ex) {
 				LogBack.error(ex.getMessage(), ex);
 			}
