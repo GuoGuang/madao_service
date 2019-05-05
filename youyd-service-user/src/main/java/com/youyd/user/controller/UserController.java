@@ -108,6 +108,7 @@ public class UserController {
 	 * url: ?search={query}{&page,per_page,sort,order}
 	 */
 	@OptLog(operationType= CommonConst.ADD,operationName="按照条件查找用户列表")
+	// TODO 只给增删改添加拦截 quartz表达式启动的时候能执行成功
 	@ApiOperation(value = "查找用户列表", notes = "按照条件查找用户列表")
 	@ApiImplicitParam(name = "User", value = "查询条件：用户对象", dataType = "Map", paramType = "query")
 	@GetMapping

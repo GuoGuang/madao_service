@@ -1,7 +1,6 @@
 package com.youyd.base.job;
 
 import com.youyd.base.service.TaskService;
-import com.youyd.utils.LogBack;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.slf4j.Logger;
@@ -11,6 +10,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+/**
+ * 发送邮件Job
+ * @author : LGG
+ * @create : 2019-05-05
+ **/
 @Component
 public class TestJob implements Job {
 
@@ -23,10 +27,8 @@ public class TestJob implements Job {
 	@Override
 	public void execute(JobExecutionContext jobExecutionContext) {
 		try {
-			System.out.println("持续输出中"+new Date());
-			LogBack.info("持续输出中"+new Date());
+			System.out.println("持续输出中"+new Date().toString());
 			//List<QuartzJob> allJobByCondition = taskService.getAllJobByCondition(new QuartzJob());
-
 		} catch (Exception e) {
 			logger.error("Parse announcement failed, error message is {}", e.getMessage());
 		}

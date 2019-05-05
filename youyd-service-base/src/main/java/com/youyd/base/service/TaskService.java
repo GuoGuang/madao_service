@@ -53,6 +53,7 @@ public class TaskService {
 
 	public boolean updateByPrimaryKey(QuartzJob quartzJob) {
 		int i = jobDao.updateById(quartzJob);
+
 		QuartzUtil.updateQuartzJob(scheduler, quartzJob);
 		return SqlHelper.retBool(i);
 	}

@@ -35,7 +35,7 @@ public class Article extends BasePojo implements Serializable {
 	 private String id;
 
 	 /**
-	  * 专栏ID
+	  * 分类ID
 	  */
 	 private String categoryId;
 

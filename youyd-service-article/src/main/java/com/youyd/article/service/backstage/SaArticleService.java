@@ -9,7 +9,7 @@ import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Article;
-import com.youyd.utils.JsonUtil;
+import com.youyd.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,11 +67,14 @@ public class SaArticleService {
 	 */
 	public Article findArticleById(String articleId) {
 		Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + articleId);
-		Article article = JsonUtil.jsonToPojo(mapJson.toString(), Article.class);
-		// 如果缓存没有则到数据库查询并放入缓存,有效期一天
-		if(article==null) {
+		Article article;
+		if(mapJson==null) {
 			article = saArticleDao.selectById(articleId);
 			redisService.set(RedisConstant.REDIS_KEY_ARTICLE+ articleId, article,RedisConstant.REDIS_TIME_DAY);
+			return article;
+		}else {
+//			article = JsonUtil.jsonToPojo(mapJson.toString(), Article.class);
+			article = (Article)mapJson;
 		}
 		return article;
 	}
@@ -81,6 +84,16 @@ public class SaArticleService {
 	 * @param article 实体
 	 */
 	public void insertArticle(Article article) {
+		article.setComment(0);
+		article.setUpvote(0);
+		article.setVisits(0);
+		article.setReviewState(2);
+		article.setImportance(0);
+		article.setCreateAt(DateUtil.getTimestamp());
+		article.setUpdateAt(DateUtil.getTimestamp());
+		if (article.getIsPublic() == null){
+			article.setIsPublic(0);
+		}
 		saArticleDao.insert(article);
 	}
 
@@ -90,6 +103,7 @@ public class SaArticleService {
 	 */
 	public void updateByPrimaryKeySelective(Article article) {
 		redisService.del( "ARTICLE_" + article.getId());
+		article.setUpdateAt(DateUtil.getTimestamp());
 		saArticleDao.updateById(article);
 	}
 
