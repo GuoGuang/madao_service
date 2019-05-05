@@ -3,6 +3,7 @@ package com.youyd.base;
 import com.aliyun.oss.ServiceException;
 import com.youyd.base.service.TaskService;
 import com.youyd.pojo.QuartzJob;
+import com.youyd.utils.LogBack;
 import com.youyd.utils.QuartzUtil;
 import org.quartz.CronTrigger;
 import org.quartz.Scheduler;
@@ -14,6 +15,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * 在项目启动后执行的功能
+ * @author : LGG
+ * @create : 2018-09-26 14:34
+ **/
 @Component
 public class ApplicationListener implements CommandLineRunner {
 
@@ -41,8 +47,8 @@ public class ApplicationListener implements CommandLineRunner {
 					QuartzUtil.updateQuartzJob(scheduler, scheduleJob);
 				}
 				logger.info("Startup {}-{} success", scheduleJob.getJobGroup(), scheduleJob.getJobName());
-			} catch (ServiceException e) {
-				e.printStackTrace();
+			} catch (ServiceException ex) {
+				LogBack.error("ApplicationListener-应用启动之后执行所有可执行的的任务失败",ex);
 			}
 		}
 	}
