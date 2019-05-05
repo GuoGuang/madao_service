@@ -88,4 +88,38 @@ public class TaskController {
 		boolean state = taskService.deleteByIds(quartzJobIds);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
+
+	/**
+	 * 暂停任务
+	 * @param jobId 任务Id
+	 * @return JsonData
+	 */
+	@GetMapping("/pause/{id}")
+	public JsonData pauseJob(@PathVariable("id") String jobId){
+		taskService.pause(jobId);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+	}
+
+	/**
+	 * 开始任务
+	 * @param jobId 任务Id
+	 * @return JsonData
+	 */
+	@GetMapping("/run/{id}")
+	public JsonData runJob(@PathVariable("id") String jobId){
+		taskService.run(jobId);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+	}
+
+	/**
+	 * 重新开始任务
+	 * @param jobId 任务Id
+	 * @return JsonData
+	 */
+	@GetMapping("/resume/{id}")
+	public JsonData resumeJob(@PathVariable("id") String jobId) {
+		taskService.resume(jobId);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+	}
+
 }
