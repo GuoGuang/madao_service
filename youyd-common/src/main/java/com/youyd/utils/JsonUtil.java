@@ -4,10 +4,13 @@ import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ser.NullSerializer;
 import org.codehaus.jackson.map.ser.StdSerializerProvider;
+import org.codehaus.jackson.type.JavaType;
 import org.codehaus.jackson.type.TypeReference;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -86,6 +89,23 @@ public class JsonUtil {
 			LogBack.error("json error:" + e.getMessage());
 			return null;
 		}
+	}
+
+	/**
+	 * json转为map
+	 * @param jsonData JSON字符串
+	 * @return
+	 */
+	public static List<Map<String,Object>> jsonToMap(String jsonData) {
+		JavaType javaType = objectMapper.getTypeFactory().constructParametricType(List.class, Map.class);
+		try {
+			List<Map<String,Object>> list = objectMapper.readValue(jsonData, javaType);
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 }
