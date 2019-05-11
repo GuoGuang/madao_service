@@ -32,21 +32,21 @@ public class DictService {
 
 	/**
 	 * 条件查询字典
-	 * @param menu 菜单实体
+	 * @param dict 字典实体
 	 * @param queryVO 查询参数
 	 * @return List
 	 */
-	public IPage<Dict> findDictByCondition(Dict menu, QueryVO queryVO) {
+	public IPage<Dict> findDictByCondition(Dict dict, QueryVO queryVO) {
 		Page<Dict> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
 		LambdaQueryWrapper<Dict> queryWrapper = new LambdaQueryWrapper<>();
-		if (StringUtils.isNotEmpty(menu.getName())){
-			queryWrapper.eq(Dict::getName,menu.getName());
+		if (StringUtils.isNotEmpty(dict.getName())){
+			queryWrapper.eq(Dict::getName,dict.getName());
 		}
-		if (menu.getState() != null){
-			queryWrapper.eq(Dict::getState,menu.getState());
+		if (dict.getState() != null){
+			queryWrapper.eq(Dict::getState,dict.getState());
 		}
-		IPage<Dict> menuIPage = dictDao.selectPage(pr, queryWrapper);
-		return menuIPage;
+		IPage<Dict> dictIPage = dictDao.selectPage(pr, queryWrapper);
+		return dictIPage;
 	}
 
 	public Dict findDictById(String resId) {
@@ -58,10 +58,10 @@ public class DictService {
 		return SqlHelper.retBool(i);
 	}
 
-	public boolean insertDictSelective(Dict menu) {
-		menu.setCreateAt(DateUtil.getTimestamp());
-		menu.setUpdateAt(DateUtil.getTimestamp());
-		int insert = dictDao.insert(menu);
+	public boolean insertDictSelective(Dict dict) {
+		dict.setCreateAt(DateUtil.getTimestamp());
+		dict.setUpdateAt(DateUtil.getTimestamp());
+		int insert = dictDao.insert(dict);
 		return SqlHelper.retBool(insert);
 	}
 
