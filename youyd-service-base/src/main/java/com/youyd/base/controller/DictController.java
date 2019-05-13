@@ -36,7 +36,7 @@ public class DictController {
 
 	/**
 	 * 条件查询菜单
-	 * @param 菜单实体 查询参数
+	 * @param dict 查询参数
 	 * @param queryVO 查询参数
 	 * @return JsonData
 	 */
@@ -47,13 +47,35 @@ public class DictController {
 	}
 
 	/**
+	 * 获取组字典类型
+	 * @param dict 菜单实体
+	 * @return JsonData
+	 */
+	@GetMapping("/type")
+	public JsonData fetchDictType(Dict dict) {
+		List<Dict> dictTypes = dictService.fetchDictType(dict);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), dictTypes);
+	}
+	/**
+	 * 按照字典类型获取树形字典
+	 * 返回满足转换为tree的列表
+	 * @param dict 菜单实体
+	 * @return JsonData
+	 */
+	@GetMapping("/tree")
+	public JsonData fetchDictTreeList(Dict dict) {
+		List<Dict> dictTypes = dictService.fetchDictTreeList(dict);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), dictTypes);
+	}
+
+	/**
 	 * 根据id查询单条
-	 * @param resId:资源数据
+	 * @param dictId:字典id
 	 * @return  JsonData
 	 */
-	@GetMapping(value = "/{id}")
-	public JsonData findById(@PathVariable String id) {
-		Dict resData = dictService.findDictById(id);
+	@GetMapping(value = "/{dictId}")
+	public JsonData findById(@PathVariable String dictId) {
+		Dict resData = dictService.findDictById(dictId);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), resData);
 	}
 

@@ -42,11 +42,25 @@ public class DictService {
 		if (StringUtils.isNotEmpty(dict.getName())){
 			queryWrapper.eq(Dict::getName,dict.getName());
 		}
+		if (StringUtils.isNotEmpty(dict.getParentId())){
+			queryWrapper.eq(Dict::getParentId,dict.getParentId());
+		}
 		if (dict.getState() != null){
 			queryWrapper.eq(Dict::getState,dict.getState());
 		}
 		IPage<Dict> dictIPage = dictDao.selectPage(pr, queryWrapper);
 		return dictIPage;
+	}
+
+	/**
+	 * 按照字典类型获取树形字典
+	 * @param dict 字典实体
+	 * @return List
+	 */
+	public List<Dict> fetchDictTreeList(Dict dict) {
+		LambdaQueryWrapper<Dict> queryWrapper = new LambdaQueryWrapper<>();
+		queryWrapper.eq(Dict::getType,dict.getType());
+		return dictDao.selectList(queryWrapper);
 	}
 
 	public Dict findDictById(String resId) {
@@ -68,5 +82,16 @@ public class DictService {
 	public boolean deleteDictByIds(List<String> resId) {
 		int i = dictDao.deleteBatchIds(resId);
 		return SqlHelper.retBool(i);
+	}
+
+	/**
+	 * 获取组字典类型
+	 * @param dict 菜单实体
+	 * @return JsonData
+	 */
+	public List<Dict> fetchDictType(Dict dict) {
+		LambdaQueryWrapper<Dict> queryWrapper = new LambdaQueryWrapper<>();
+		queryWrapper.select(Dict::getId,Dict::getName,Dict::getType).in(Dict::getParentId,"0","");
+		return dictDao.selectList(queryWrapper);
 	}
 }
