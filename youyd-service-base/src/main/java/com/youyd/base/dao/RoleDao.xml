@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youyd.base.dao.RoleDao" >
+
+    <!--更新角色是否禁用-->
+    <update id="updateRole" parameterType="java.util.List">
+        update role set state = #{state}
+          where
+          <foreach collection="list" item="roleId" separator="," open="id = (" close=")">
+              #{roleId}
+          </foreach>
+    </update>
+</mapper>

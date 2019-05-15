@@ -1,5 +1,8 @@
 package com.youyd.pojo;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 
 /**
@@ -8,42 +11,18 @@ import java.io.Serializable;
  * @create: 28-February-2019
  **/
 
+@Getter
+@Setter
 public class QueryVO implements Serializable {
 
-	private long page;
-	private long limit = 10;
+	private long pageNum = 1;
+
+	private long pageSize = 10;
+
 	private String searchValue;
 	private String searchSort;
 
-	public long getPage() {
-		return page;
-	}
-
-	public void setPage(long page) {
-		this.page = page;
-	}
-
-	public long getLimit() {
-		return limit;
-	}
-
-	public void setLimit(long limit) {
-		this.limit = limit;
-	}
-
-	public String getSearchValue() {
-		return searchValue;
-	}
-
-	public void setSearchValue(String searchValue) {
-		this.searchValue = searchValue;
-	}
-
-	public String getSearchSort() {
-		return searchSort;
-	}
-
-	public void setSearchSort(String searchSort) {
-		this.searchSort = searchSort;
-	}
+	/*排序*/
+	private Boolean orderBy;
+	private String fieldSort;
 }

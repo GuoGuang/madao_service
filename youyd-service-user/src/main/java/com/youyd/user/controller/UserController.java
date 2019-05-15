@@ -1,19 +1,24 @@
 package com.youyd.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.annotation.OptLog;
+import com.youyd.constant.CommonConst;
+import com.youyd.enums.StatusEnum;
+import com.youyd.enums.UserEnum;
 import com.youyd.pojo.QueryVO;
-import com.youyd.user.pojo.User;
-import com.youyd.user.service.MenuService;
+import com.youyd.pojo.user.User;
 import com.youyd.user.service.UserService;
 import com.youyd.utils.JsonData;
-import com.youyd.utils.StatusCode;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,11 +35,13 @@ import java.util.Map;
 @RequestMapping(value = "/su/user", produces = "application/json")
 public class UserController {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 
 	@Autowired
-	private MenuService menuService;
+	public UserController(UserService userService) {
+		this.userService = userService;
+	}
+
 
 	/**
 	 * 用户登陆
@@ -45,12 +52,12 @@ public class UserController {
 	 */
 	@PostMapping(value = "/login")
 	@ApiOperation(value = "用户登录", notes = "User")
-	public JsonData login(String account, String password) {
-		Map uMap = userService.login(account, password);
+	public JsonData login(HttpServletRequest request, String account, String password) {
+		Map uMap = userService.login(account, password,request);
 		if (uMap != null) {
-			return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), uMap);
+			return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), uMap);
 		} else {
-			return new JsonData(false, StatusCode.LOGIN_ERROR.getCode(), StatusCode.LOGIN_ERROR.getMsg());
+			return new JsonData(false, StatusEnum.LOGIN_ERROR.getCode(), StatusEnum.LOGIN_ERROR.getMsg());
 		}
 	}
 
@@ -63,20 +70,9 @@ public class UserController {
 	@PostMapping()
 	public JsonData insertUser(@RequestBody User user) {
 		userService.insertUser(user);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
-	/**
-	 * 获取用户权限，信息
-	 *
-	 * @param token
-	 * @return boolean
-	 */
-	@PostMapping("/info")
-	public JsonData info(String token) {
-		List menu = menuService.findMenuByCondition(token);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), menu);
-	}
 
 	/**
 	 * 获取用户权限，信息
@@ -101,7 +97,7 @@ public class UserController {
 		List<Map<String, Object>> list = new ArrayList<>();
 		list.add(info);
 		list.add(info1);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), list);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), list);
 	}
 
 	/**
@@ -111,12 +107,41 @@ public class UserController {
 	 * @return boolean
 	 * url: ?search={query}{&page,per_page,sort,order}
 	 */
+	@OptLog(operationType= CommonConst.ADD,operationName="按照条件查找用户列表")
+	// TODO 只给增删改添加拦截 quartz表达式启动的时候能执行成功
 	@ApiOperation(value = "查找用户列表", notes = "按照条件查找用户列表")
 	@ApiImplicitParam(name = "User", value = "查询条件：用户对象", dataType = "Map", paramType = "query")
 	@GetMapping
-	public JsonData findByCondition(User user, QueryVO queryVO) {
+	public JsonData findByCondition(User user, QueryVO queryVO ) {
 		IPage<User> byCondition = userService.findByCondition(user,queryVO);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(),byCondition);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),byCondition);
+	}
+
+	/**
+	 * 用户上传头像
+	 * @param user：用户条件
+	 * @return boolean
+	 * url: ?search={query}{&page,per_page,sort,order}
+	 */
+	@ApiOperation(value = "查找用户列表", notes = "按照条件查找用户列表")
+	@ApiImplicitParam(name = "User", value = "查询条件：用户对象", dataType = "Map", paramType = "query")
+	@PutMapping("avatar")
+	public JsonData updateUserAvatar(User user, MultipartFile file) throws IOException {
+		userService.updateUserAvatar(user,file);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+	}
+
+	/**
+	 * 按照id查询用户
+	 *
+	 * @param id：用户id
+	 * @return boolean
+	 * url: ?search={query}{&page,per_page,sort,order}
+	 */
+	@GetMapping(value = "/{id}")
+	public JsonData findByCondition(@PathVariable String id) {
+		User byId = userService.findUserById(id);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),byId);
 	}
 	/**
 	 * 退出
@@ -127,19 +152,33 @@ public class UserController {
 	@PostMapping(value = "/logout")
 	public JsonData logout(@RequestHeader("X-Token")String token) {
 		userService.logout(token);
-		return new JsonData(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 
 	/**
-	 * 修改用户资料
-	 * @param user
-	 * @return
+	 * 更新用户资料
+	 * @param user 实体
+	 * @return JsonData
 	 */
 	@PutMapping()
 	public JsonData updateByPrimaryKey(@RequestBody User user) {
 		boolean result = userService.updateByPrimaryKey(user);
-		return new JsonData(result, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(result, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+	}
+
+	/**
+	 * 修改密码
+	 * @param user 实体
+	 * @return JsonData
+	 */
+	@PutMapping("password")
+	public JsonData changePassword(@RequestBody User user,String oldPassword) {
+		boolean result = userService.changePassword(user,oldPassword);
+		if (!result){
+			return new JsonData(false, UserEnum.WRONG_PASSWORD.getCode(), UserEnum.WRONG_PASSWORD.getInfo());
+		}
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -149,15 +188,15 @@ public class UserController {
 	 *
 	 * @param userId:要删除的用户id
 	 * @param claims:jwt鉴权的数据
-	 * @return
+	 * @return JsonData
 	 */
-	@DeleteMapping()
-	public JsonData deleteByIds(@RequestBody List userId, @ModelAttribute("admin_claims") Claims claims) {
+	@DeleteMapping
+	public JsonData deleteByIds(@RequestBody List<String> userId, @ModelAttribute("admin_claims") Claims claims) {
 		if (claims == null) {
-			return new JsonData(true, StatusCode.PARAM_ERROR.getCode(), StatusCode.PARAM_ERROR.getMsg());
+			return new JsonData(true, StatusEnum.PARAM_ERROR.getCode(), StatusEnum.PARAM_ERROR.getMsg());
 		}
 		boolean result = userService.deleteByIds(userId);
-		return new JsonData(result, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		return new JsonData(result, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 

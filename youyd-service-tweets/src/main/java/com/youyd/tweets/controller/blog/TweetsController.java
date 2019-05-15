@@ -1,11 +1,11 @@
 package com.youyd.tweets.controller.blog;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.tweets.pojo.Tweets;
 import com.youyd.tweets.service.TweetsService;
-import com.youyd.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +34,7 @@ public class TweetsController {
 	@GetMapping
 	public Result findTweetsByCondition(Tweets tweets, QueryVO queryVO){
 		IPage<Tweets> byCondition =  tweetsService.findTweetsByCondition(tweets,queryVO);
-		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), byCondition);
+		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), byCondition);
 
 	}
 
@@ -46,7 +46,7 @@ public class TweetsController {
 	@GetMapping(value="/{tweetsId}")
 	public Result findTweetsByPrimaryKey(@PathVariable String tweetsId){
 		Tweets result = tweetsService.findTweetsByPrimaryKey(tweetsId);
-		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class TweetsController {
 	@PostMapping()
 	public Result insertTweets(@RequestBody Tweets tweets){
 		tweetsService.insertTweets(tweets);
-		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class TweetsController {
 	@PutMapping
 	public Result updateByTweetsSelective(Tweets tweets){
 		boolean updateResult = tweetsService.updateByTweetsSelective(tweets);
-		return new Result(updateResult,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+		return new Result(updateResult, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -77,9 +77,9 @@ public class TweetsController {
 	 * @return Result
 	 */
 	@DeleteMapping
-	public Result deleteByTweetsId(@RequestBody List tweetsId){
+	public Result deleteByTweetsId(@RequestBody List<String> tweetsId){
 		boolean br = tweetsService.deleteByTweetsId(tweetsId);
-		return new Result(br,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+		return new Result(br, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class TweetsController {
 	@GetMapping(value="/comment/{parentId}/{page}/{size}")
 	public Result findByParentid(@PathVariable String parentId, @PathVariable Integer page,@PathVariable Integer size){
 		Result result = tweetsService.findTweetsByParentid(parentId);
-		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
 	}
 
 	/**

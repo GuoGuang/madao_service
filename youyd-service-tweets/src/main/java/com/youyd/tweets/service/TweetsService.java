@@ -1,14 +1,15 @@
 package com.youyd.tweets.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.tweets.dao.TweetsDao;
 import com.youyd.tweets.pojo.Tweets;
-import com.youyd.utils.StatusCode;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,12 +32,15 @@ public class TweetsService {
 	}
 
 	/**
-	 * 按照条件查询
+	 * 按照条件查询吐槽内容
 	 * @return IPage
 	 */
 	public IPage<Tweets> findTweetsByCondition(Tweets tweets, QueryVO queryVO){
-		Page<Tweets> pr = new Page<>(queryVO.getPage(),queryVO.getLimit());
-		QueryWrapper<Tweets> queryWrapper = new QueryWrapper<>();
+		Page<Tweets> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
+		LambdaQueryWrapper<Tweets> queryWrapper = new LambdaQueryWrapper<>();
+		if (StringUtils.isNotEmpty(tweets.getNickName())) {
+			queryWrapper.like(Tweets::getNickName, tweets.getNickName());
+		}
 		return tweetsDao.selectPage(pr, queryWrapper);
 	}
 
@@ -74,9 +78,9 @@ public class TweetsService {
 
 	/**
 	 * 删除
-	 * @param ids
+	 * @param tweetsId 要删除的id
 	 */
-	public boolean deleteByTweetsId(List tweetsId) {
+	public boolean deleteByTweetsId(List<String> tweetsId) {
 		int i = tweetsDao.deleteBatchIds(tweetsId);
 		return SqlHelper.retBool(i);
 	}
@@ -90,7 +94,7 @@ public class TweetsService {
 	 */
 	public Result findTweetsByParentid(String parentId){
 		Tweets result = tweetsDao.findTweetsByParentid(parentId);
-		return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
 	}
 
 	/**

@@ -1,7 +1,7 @@
 package com.youyd.base.dao;
 
-import com.youyd.base.pojo.Label;
-import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.youyd.pojo.base.Label;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.Map;
  **/
 
 
-public interface LabelDao {
+public interface LabelDao  extends BaseMapper<Label> {
 
 	List findLabelByCondition(Map map);
 

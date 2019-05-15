@@ -33,7 +33,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+        </dependency>
         <!--spring-data-redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -57,6 +60,13 @@
             <version>0.6.0</version>
         </dependency>
 
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.2</version>
+        </dependency>
+
         <!-- mybatis-plus 因为抽象了com.youyd.user.core.BaseService到common中所有将此dependency放在此处 -->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -73,5 +83,32 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+
+        <!-- Aliyun OSS  -->
+        <dependency>
+            <groupId>cn.javaer.aliyun</groupId>
+            <artifactId>aliyun-spring-boot-starter-oss</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>27.1-jre</version>
+        </dependency>
+        <!-- 获取用户UserAgent对象帮助类 -->
+        <dependency>
+            <groupId>eu.bitwalker</groupId>
+            <artifactId>UserAgentUtils</artifactId>
+            <version>1.21</version>
+        </dependency>
+        <!-- Quartz -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+
     </dependencies>
 </project>

@@ -1,0 +1,28 @@
+server:
+  port: 9009
+spring:
+  application:
+    name: server-config #指定服务名
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/GuoGuang0536/youyd_config.git
+          default-label: master
+          username: GuoGuang0536@gmail.com
+          password: AQAVrwDtIkjPBOLgOtWc6hwl7IAjLVlpDsRutn682ipb/pZC9WcfYtmdLwSAEoAbx/n/JeFlEBlXhB8kngB27C2NbB9zTmXRT4TZQh1O3nJj5l4kHoOdWplWeN/WAcSuaCitC82a+nZGX+bSLW3pcABE05eKjWCsgrhRUme+Kv9z3Ya41ohvo9MdEvyp5D7I6hym6cS6yFWRUtb91BduyY8nst0q2tM3T2B58jgsFBPq/d8ZH6F2Wu8KSS6u+PBB2byyVFkHRx9UBb15Dz/u6MoXLOCv31VXRgtQn3IpuElaeu32H5gxwNXvufrrxJ5pooZMKlYwOR7j6HHTMd6K87Fin5+/0OEmXk8mP0ecRy7yFbs0+BOuz/+P2BQa7QFjtDk=
+    bus:
+      enabled: true # 开启消息跟踪
+
+eureka:
+  client: #客户端注册进eureka服务列表内
+    service-url:
+      #defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+      defaultZone:  http://localhost:5000/eureka  #单机版
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} # 为注册的这个服务起个别名
+    prefer-ip-address: true     #使用ip进行注册
+    # 注册中心跳转到swagger接口
+    status-page-url-path:  /swagger-ui.html
+    # #绑定客户端的ip而不是主机号
+    hostname: ${spring.cloud.client.ip-address}   # ${spring.cloud.client.ip-address} 参考https://blog.csdn.net/xichenguan/article/details/76632033

@@ -148,7 +148,6 @@
                    <module>../youyd-service-base</module>
                    <module>../youyd-service-question</module>
                    <module>../youyd-service-article</module>
-                   <module>../youyd-service-gather</module>
                    <module>../youyd-service-tweets</module>
                    <module>../youyd-service-search</module>
                    <module>../youyd-service-user</module>
@@ -158,6 +157,7 @@
                    <module>../youyd-server-config</module>
                    <module>../youyd-server-eureka</module>
                    <module>../youyd-common-redis</module>
+                   <module>../youyd-service-api</module>
                </modules>
                <packaging>pom</packaging>
 

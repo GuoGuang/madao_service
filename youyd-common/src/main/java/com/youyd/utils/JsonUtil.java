@@ -1,89 +1,111 @@
 package com.youyd.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ser.NullSerializer;
+import org.codehaus.jackson.map.ser.StdSerializerProvider;
+import org.codehaus.jackson.type.JavaType;
+import org.codehaus.jackson.type.TypeReference;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
+
 
 /**
  * <p>对Jackson进行一层封装</p>
  */
 public class JsonUtil {
 
+	private JsonUtil(){}
+
     // 定义jackson对象
-    private static final ObjectMapper MAPPER = new ObjectMapper();
+	private static final ObjectMapper objectMapper;
+	static {
+		StdSerializerProvider sp = new StdSerializerProvider();
+		sp.setNullValueSerializer(NullSerializer.instance);
+		objectMapper = new ObjectMapper(null, sp, null);
+		objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+		objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+		objectMapper.configure(JsonParser.Feature.INTERN_FIELD_NAMES, true);
+		objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
+//		objectMapper.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
+		objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+	}
 
-    /**
-     * 将对象转换成json字符串。
-     * <p>Title: pojoToJson</p>
-     * <p>Description: </p>
-     *
-     * @param data
-     * @return
-     */
-    public static String objectToJson(Object data) {
-        try {
-            String string = MAPPER.writeValueAsString(data);
-            return string;
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+	public static ObjectMapper getObjectMapper() {
+		return objectMapper;
+	}
 
-    /**
-     * 将json结果集转化为对象
-     *
-     * @param jsonData json数据
-     * @param classType    对象中的object类型
-     * @return
-     */
-    public static <T> T jsonToPojo(String jsonData, Class<T> classType) {
-        try {
-            T t = MAPPER.readValue(jsonData, classType);
-            return t;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+	/**
+	 * JSON字符串转换为Java泛型对象
+	 * 例1：String jsonStr = "[{\"id\":\"1234\",\"account\":\"admin\"}]";
+	 * List<UserInfo> list = JsonUtil.json2GenericObject(jsonStr, new TypeReference<List<UserInfo>>() {});
+	 * 例2：String jsonStr = "[\"1111\",\"2222\",\"3333\"]";
+	 * List<String> list = JsonUtil.json2GenericObject(jsonStr, new TypeReference<List<String>>() {});
+	 * @param <T> 转换泛型
+	 * @param jsonString JSON字符串
+	 * @param tr 需要转换的对象类型
+	 * @return Java泛型对象
+	 */
+	public static synchronized <T> T jsonToGenericObject(String jsonString, TypeReference<T> tr) {
+		if (jsonString != null && !("".equals(jsonString))) {
+			try {
+				return (T) (tr.getType().equals(String.class) ? jsonString : objectMapper.readValue(jsonString, tr));
+			} catch (Exception e) {
+				LogBack.error("json error:" + e.getMessage());
+			}
+		}
+		return null;
+	}
 
-    /**
-     * 将map结果集转化为对象
-     *
-     * @param mapData map数据
-     * @param classType    对象中的object类型
-     * @return
-     */
-    public static <T> T mapToPojo(Object mapData, Class<T> classType) {
-        try {
-            T t = MAPPER.convertValue(mapData,classType);
-            return t;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+	/**
+	 * Java对象转Json字符串
+	 * @param object Java对象，可以是对象，数组，List,Map等
+	 * @return json 字符串
+	 */
+	public static synchronized String toJsonString(Object object) {
+		String jsonString = "";
+		try {
+			jsonString = objectMapper.writeValueAsString(object);
+		} catch (Exception e) {
+			LogBack.error("json error:" + e.getMessage());
+		}
+		return jsonString;
+	}
 
-    /**
-     * 将json数据转换成pojo对象list
-     * <p>Title: jsonToList</p>
-     * <p>Description: </p>
-     *
-     * @param jsonData
-     * @param beanType
-     * @return
-     */
-    public static <T> List<T> jsonToList(String jsonData, Class<T> beanType) {
-        JavaType javaType = MAPPER.getTypeFactory().constructParametricType(List.class, beanType);
-        try {
-            List<T> list = MAPPER.readValue(jsonData, javaType);
-            return list;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+	/**
+	 * JSON字符串转java对象
+	 * @param <T> 转换泛型
+	 * @param jsonStr JSON字符串
+	 * @param clazz 类型
+	 * @return java对象
+	 */
+	public static synchronized <T> T jsonToPojo(String jsonStr, Class<T> clazz) {
+		try {
+			return objectMapper.readValue(jsonStr, clazz);
+		} catch (IOException e) {
+			LogBack.error("json error:" + e.getMessage());
+			return null;
+		}
+	}
 
-        return null;
-    }
+	/**
+	 * json转为map
+	 * @param jsonData JSON字符串
+	 * @return
+	 */
+	public static List<Map<String,Object>> jsonToMap(String jsonData) {
+		JavaType javaType = objectMapper.getTypeFactory().constructParametricType(List.class, Map.class);
+		try {
+			List<Map<String,Object>> list = objectMapper.readValue(jsonData, javaType);
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
 }

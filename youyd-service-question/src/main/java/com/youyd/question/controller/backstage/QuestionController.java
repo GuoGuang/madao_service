@@ -1,12 +1,12 @@
 package com.youyd.question.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
 import com.youyd.question.pojo.Question;
-import com.youyd.question.service.QuestionService;
+import com.youyd.question.service.backstage.QuestionService;
 import com.youyd.utils.JsonData;
-import com.youyd.utils.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,13 +32,12 @@ public class QuestionController {
 
 	/**
      * 查询全部数据
-     *
-     * @return
+     * @return JsonData
      */
     @GetMapping
 	    public JsonData findQuestionByCondition(Question question, QueryVO queryVO) {
 	    IPage<Question> jsonData = questionService.findQuestionByCondition(queryVO);
-        return new JsonData(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),jsonData);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),jsonData);
     }
 
     /**
@@ -50,41 +49,40 @@ public class QuestionController {
     @GetMapping(value = "/{id}")
     public Result findQuestionByPrimaryKey(@PathVariable String id) {
         Question result = questionService.findQuestionByPrimaryKey(id);
-        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),result);
+        return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
     }
 
 
     /**
      * 增加
      *
-     * @param Question
+     * @param Question <String>
      */
-    @PostMapping()
+    @PostMapping
     public Result insertQuestion(@RequestBody Question question) {
 	    boolean insertResult = questionService.insertQuestion(question);
-	    return new Result(insertResult, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+	    return new Result(insertResult, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
     }
 
     /**
      * 修改
      *
-     * @param Question
+     * @param Question <String>
      */
-    @PutMapping()
+    @PutMapping
     public Result updateByPrimaryKey(@RequestBody Question question) {
 	    boolean updateResult = questionService.updateByPrimaryKeySelective(question);
-	    return new Result(updateResult, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+	    return new Result(updateResult, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
     }
 
     /**
      * 删除
-     *
-     * @param questionIds
+     * @param questionIds 实体
      */
     @DeleteMapping
-    public Result deleteByIds(@RequestBody List questionIds) {
+    public Result deleteByIds(@RequestBody List<String> questionIds) {
 	    boolean delResult = questionService.deleteByIds(questionIds);
-	    return new Result(delResult,StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+	    return new Result(delResult, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
     }
 
 
@@ -103,7 +101,7 @@ public class QuestionController {
         //2.创建自定义的分页对象
         //PageJsonData<Question> QuestionPageJsonData = new PageJsonData<>(QuestionPage.getTotalElements(), QuestionPage.getContent());
         //3. 返回
-        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
 
@@ -122,7 +120,7 @@ public class QuestionController {
         //2.创建自定义的分页对象
         //PageJsonData<Question> QuestionPageJsonData = new PageJsonData<>(QuestionPage.getTotalElements(), QuestionPage.getContent());
         //3.返回
-        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
 
@@ -141,6 +139,6 @@ public class QuestionController {
         //2.创建自定义的分页对象
        // PageJsonData<Question> QuestionPageJsonData = new PageJsonData<>(QuestionPage.getTotalElements(), QuestionPage.getContent());
         //3.返回
-        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(),null);
+        return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 }
