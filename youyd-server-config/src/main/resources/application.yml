@@ -10,16 +10,9 @@ spring:
           uri: https://github.com/GuoGuang0536/youyd_config.git
           default-label: master
           username: GuoGuang0536@gmail.com
-          # TODO 加密
-          password: Lin250360
-
+          password: AQAVrwDtIkjPBOLgOtWc6hwl7IAjLVlpDsRutn682ipb/pZC9WcfYtmdLwSAEoAbx/n/JeFlEBlXhB8kngB27C2NbB9zTmXRT4TZQh1O3nJj5l4kHoOdWplWeN/WAcSuaCitC82a+nZGX+bSLW3pcABE05eKjWCsgrhRUme+Kv9z3Ya41ohvo9MdEvyp5D7I6hym6cS6yFWRUtb91BduyY8nst0q2tM3T2B58jgsFBPq/d8ZH6F2Wu8KSS6u+PBB2byyVFkHRx9UBb15Dz/u6MoXLOCv31VXRgtQn3IpuElaeu32H5gxwNXvufrrxJ5pooZMKlYwOR7j6HHTMd6K87Fin5+/0OEmXk8mP0ecRy7yFbs0+BOuz/+P2BQa7QFjtDk=
     bus:
       enabled: true # 开启消息跟踪
-
-  rabbitmq:
-    host: 39.108.191.56
-    username: admin
-    password: admin
 
 eureka:
   client: #客户端注册进eureka服务列表内
