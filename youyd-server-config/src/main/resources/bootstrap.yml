@@ -1,17 +1,17 @@
-#spring:
-#  cloud:
-#    config:
-#      server:
-#        encrypt:
-#          enabled: true # 启用config加密功能
+spring:
+  cloud:
+    config:
+      server:
+        encrypt:
+          enabled: true # 启用config加密功能
 
 # 非对称加密
-#encrypt:
-#  key-store:
-#    location: classpath:/server.jks  # jks文件的路径
-#    alias: paascloud-key-store
-#    password: paascloud-storepass
-#    secret: paascloud-keypass
+encrypt:
+  key-store:
+    location: classpath:server.jks
+    alias: SpringCloudConfig
+    password: GuoGuang
+    secret: GuoGuang
 
 
 # spring.cloud.config.enabled=false # 禁用现有的配置服务器属性源。
