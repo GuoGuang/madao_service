@@ -17,13 +17,13 @@ import java.util.List;
  * @create: 2018-09-26 15:59
  **/
 @RestController
-@RequestMapping("/tweets")
-public class TweetsController {
+@RequestMapping("/st/tweets")
+public class StTweetsController {
 
 	private final TweetsService tweetsService;
 
 	@Autowired
-	public TweetsController(TweetsService tweetsService) {
+	public StTweetsController(TweetsService tweetsService) {
 		this.tweetsService = tweetsService;
 	}
 

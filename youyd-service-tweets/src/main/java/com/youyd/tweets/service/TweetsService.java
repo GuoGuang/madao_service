@@ -62,7 +62,6 @@ public class TweetsService {
 		tweets.setVisitsCount(0L);
 		tweets.setShareCount(0L);
 		tweets.setThumbUpCount(0L);
-		tweets.setReplyCount(0L);
 		tweets.setIsVisible(1);
 		tweetsDao.insert(tweets);
 	}
