@@ -45,18 +45,12 @@ public class TweetsComment extends BasePojo implements Serializable {
     private Long thumbUpCount;
 
     /**
-     * 回复数
-     */
-    private Long replyCount;
-
-    /**
      * 是否可见
      */
     private Integer isVisible;
 
-
     /**
      * 吐槽表id
      */
-    private Integer tweetsId;
+    private String tweetsId;
 }

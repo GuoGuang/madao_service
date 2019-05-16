@@ -60,13 +60,11 @@ public class TweetsCommentService {
 	 */
 	public void insertTweetsComment(TweetsComment tweetsComment,String tweetsId){
 		tweetsComment.setThumbUpCount(0L);
-		tweetsComment.setReplyCount(0L);
 		tweetsComment.setIsVisible(1);
 		tweetsCommentCommentDao.insert(tweetsComment);
 
 		Tweets tweets = new Tweets();
 		tweets.setId(tweetsId);
-		tweets.setReplyCount(1L);
 		tweetsService.updateTweetsStatus(tweets);
 
 		// 如果存在上级ID,则是上级评论的子评论,给父评论回复数加一

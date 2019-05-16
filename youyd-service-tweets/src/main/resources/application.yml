@@ -3,3 +3,8 @@ server:
 spring:
   application:
     name: service-tweets #指定服务名
+
+# 配置织入点
+com:
+  youyd:
+    aopPointcutExpression: execution (* com.youyd.tweets..*.*(..))

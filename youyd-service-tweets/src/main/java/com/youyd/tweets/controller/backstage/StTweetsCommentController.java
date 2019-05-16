@@ -18,13 +18,13 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("/st/tweetsComment")
-public class TweetsCommentController {
+public class StTweetsCommentController {
 
 	private final TweetsCommentService tweetsCommentService;
 
 
 	@Autowired
-	public TweetsCommentController(TweetsCommentService tweetsCommentService) {
+	public StTweetsCommentController(TweetsCommentService tweetsCommentService) {
 		this.tweetsCommentService = tweetsCommentService;
 	}
 
