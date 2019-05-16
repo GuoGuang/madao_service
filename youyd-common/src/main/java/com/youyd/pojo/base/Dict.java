@@ -16,7 +16,7 @@ import java.io.Serializable;
  **/
 @Getter
 @Setter
-public class Dict extends BasePojo implements Serializable {
+public class  Dict extends BasePojo implements Serializable {
 
 
     @TableId(type = IdType.ID_WORKER_STR)
