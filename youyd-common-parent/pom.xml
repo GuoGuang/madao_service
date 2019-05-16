@@ -146,7 +146,6 @@
                    <module>../youyd-common</module>
                    <module>../youyd-database-mybatis</module>
                    <module>../youyd-service-base</module>
-                   <module>../youyd-service-question</module>
                    <module>../youyd-service-article</module>
                    <module>../youyd-service-tweets</module>
                    <module>../youyd-service-search</module>
