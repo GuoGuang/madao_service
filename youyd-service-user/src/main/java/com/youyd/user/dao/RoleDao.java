@@ -1,4 +1,4 @@
-package com.youyd.base.dao;
+package com.youyd.user.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.youyd.pojo.base.Role;

@@ -1,10 +1,10 @@
-package com.youyd.base.controller;
+package com.youyd.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youyd.base.service.MenuService;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.Menu;
+import com.youyd.user.service.MenuService;
 import com.youyd.utils.DateUtil;
 import com.youyd.utils.JsonData;
 import io.swagger.annotations.Api;
