@@ -109,6 +109,24 @@
             <artifactId>quartz</artifactId>
             <version>2.3.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.youyd</groupId>
+            <artifactId>youyd-database-mybatis</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
+        <!--阿里云通信API-->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>3.2.5</version>
+        </dependency>
+
+        
     </dependencies>
 </project>
