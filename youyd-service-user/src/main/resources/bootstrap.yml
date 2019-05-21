@@ -7,4 +7,3 @@ spring:
       #profile: test
       label: master
       uri: http://localhost:9009  #SpringCloudConfig获取的服务地址
-
