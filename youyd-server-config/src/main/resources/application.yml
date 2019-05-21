@@ -3,6 +3,11 @@ server:
 spring:
   application:
     name: server-config #指定服务名
+  rabbitmq:
+    host: 39.108.191.56
+    username: admin
+    password: admin
+    port: 5672
   cloud:
     config:
       server:
