@@ -20,7 +20,7 @@ import java.util.List;
 
 @Api(tags = "角色")
 @RestController
-@RequestMapping(value = "/su/user/role")
+@RequestMapping(value = "/su/role")
 public class RoleController {
 
 	private final RoleService roleService;

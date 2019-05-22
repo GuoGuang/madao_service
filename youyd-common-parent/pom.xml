@@ -61,7 +61,12 @@
                  <artifactId>jackson-datatype-jsr310</artifactId>
              </dependency>
 
-
+            <!-- 健康检查，监控 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-actuator</artifactId>
+                <scope>compile</scope>
+            </dependency>
              <dependency>
                  <groupId>org.apache.commons</groupId>
                  <artifactId>commons-lang3</artifactId>
