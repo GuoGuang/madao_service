@@ -26,6 +26,11 @@ public class Tweets extends BasePojo implements Serializable {
     private String id;
 
     /**
+     * 标题
+     */
+    private String title;
+
+    /**
      * 吐槽内容
      */
     private String content;

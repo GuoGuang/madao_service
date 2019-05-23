@@ -1,22 +1,30 @@
 package com.youyd.tweets.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 
 /**
- * @program: SpringBoot
- * @description: 配置自定义Json序列化器
- * @author: LinGuoGuang
+ * 配置自定义Json序列化器
+ * @author: LGG
+ * @create: 2018-09-26 15:59
  **/
-//@Configuration
+@Configuration
 public class JsonRedisSerializable {
 
-/*    @Bean
+	/**
+	 *  配置Redis
+	 * @param redisConnectionFactory redis连接工厂
+	 */
+    @Bean
     @ConditionalOnMissingBean(name = "redisTemplate")
-    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) throws UnknownHostException {
-        RedisTemplate<Object, Object> template = new RedisTemplate<Object, Object>();
+    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<Object, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);
-        // 设置默认使用Jackson序列化
-        template.setDefaultSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class));
+        template.setDefaultSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
         return template;
-    }*/
+    }
 }

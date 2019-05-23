@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
-import com.youyd.tweets.pojo.TweetsComment;
+import com.youyd.pojo.tweets.TweetsComment;
 import com.youyd.tweets.service.TweetsCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
