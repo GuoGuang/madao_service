@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @author: LGG
  * @create: 2019-05-23
  **/
-@ApiModel(value="user", description="吐槽，推特")
+@ApiModel(value="Tweets", description="吐槽，推特")
 @Getter
 @Setter
 public class Tweets extends BasePojo implements Serializable {

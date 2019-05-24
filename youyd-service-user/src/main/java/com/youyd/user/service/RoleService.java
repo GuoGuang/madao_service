@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.pojo.QueryVO;
-import com.youyd.pojo.base.Role;
+import com.youyd.pojo.user.Role;
 import com.youyd.user.dao.RoleDao;
 import com.youyd.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;

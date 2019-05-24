@@ -3,7 +3,7 @@ package com.youyd.user.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
-import com.youyd.pojo.base.Role;
+import com.youyd.pojo.user.Role;
 import com.youyd.user.service.RoleService;
 import com.youyd.utils.JsonData;
 import io.swagger.annotations.Api;

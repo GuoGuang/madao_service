@@ -1,7 +1,8 @@
 package com.youyd.user.dao;
 
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youyd.pojo.base.Menu;
+import com.youyd.pojo.user.Menu;
 
 /**
  * @description: 资源管理

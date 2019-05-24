@@ -59,7 +59,7 @@ public class TweetsCommentService {
 	 * @param tweetsComment 吐槽实体
 	 */
 	public void insertTweetsComment(TweetsComment tweetsComment,String tweetsId){
-		tweetsComment.setThumbUpCount(0L);
+		tweetsComment.setLikeNum(0L);
 		tweetsComment.setIsVisible(1);
 		tweetsCommentCommentDao.insert(tweetsComment);
 

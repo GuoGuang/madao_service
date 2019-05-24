@@ -1,4 +1,4 @@
-package com.youyd.pojo.base;
+package com.youyd.pojo.user;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

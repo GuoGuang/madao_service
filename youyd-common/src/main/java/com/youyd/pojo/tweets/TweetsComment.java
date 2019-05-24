@@ -1,8 +1,10 @@
 package com.youyd.pojo.tweets;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youyd.pojo.BasePojo;
+import com.youyd.pojo.user.User;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +21,12 @@ import java.io.Serializable;
 @Setter
 public class TweetsComment extends BasePojo implements Serializable {
 
+	/**
+	 * 前台搜索参数
+	 */
+	@TableField(exist = false)
+	private String nickName;
+
     /**
      * 吐槽评论ID
      */
@@ -29,6 +37,10 @@ public class TweetsComment extends BasePojo implements Serializable {
      * 评论内容
      */
     private String content;
+    /**
+     * 评论内容
+     */
+    private User user;
 
     /**
      * 评论人ID
@@ -36,14 +48,9 @@ public class TweetsComment extends BasePojo implements Serializable {
     private String userId;
 
     /**
-     * 评论人昵称
-     */
-    private String nickName;
-
-    /**
      * 点赞数
      */
-    private Long thumbUpCount;
+    private Long likeNum;
 
     /**
      * 是否可见
