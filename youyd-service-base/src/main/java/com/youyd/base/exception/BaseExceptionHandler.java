@@ -5,6 +5,7 @@ import com.youyd.utils.JsonData;
 import com.youyd.utils.LogBack;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.ResourceAccessException;
 
 /**
  * 统一异常处理类
@@ -20,8 +21,31 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class BaseExceptionHandler {
 
+	/**
+	 * 系统抛出ERROR异常
+	 * @param ex 异常信息
+	 */
+	@ExceptionHandler(Throwable.class)
+	public JsonData handleOtherException(Throwable ex) {
+		return new JsonData(false,StatusEnum.UNKNOWN.getCode(), ex.getMessage());
+	}
+
+	/**
+	 * 当抛出非自定义异常时执行此处理器
+	 * @param ex 异常信息
+	 */
 	@ExceptionHandler(value = Exception.class)
-	public JsonData handleException(Exception ex) {
+	public JsonData HandleException(Exception ex) {
+		LogBack.error(ex.getMessage(),ex);
+		return new JsonData(false, StatusEnum.ERROR.getCode(), ex.getMessage());
+	}
+
+	/**
+	 * 业务异常：资源不存在时
+	 * @param ex 异常信息
+	 */
+	@ExceptionHandler(value = ResourceAccessException.class)
+	public JsonData ResourceAccessExceptionException(Exception ex) {
 		LogBack.error(ex.getMessage(),ex);
 		return new JsonData(false, StatusEnum.ERROR.getCode(), ex.getMessage());
 	}
