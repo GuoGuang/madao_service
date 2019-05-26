@@ -32,6 +32,7 @@ public class LoginLogService {
 	 * @return IPage<LoginLog>
 	 */
 	public IPage<LoginLog> findLoginLogByCondition(LoginLog loginLog, QueryVO queryVO) {
+		System.out.println(1/0);
 		Page<LoginLog> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
 		LambdaQueryWrapper<LoginLog> queryWrapper = new LambdaQueryWrapper<>();
 		if (StringUtils.isNotEmpty(loginLog.getClientIp())) {

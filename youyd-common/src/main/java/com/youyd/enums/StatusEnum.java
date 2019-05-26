@@ -1,11 +1,16 @@
 package com.youyd.enums;
 
 /**
- * @description: 状态码定义
- * @author: LGG
- * @create: 2018-09-26 14:34
+ * 状态码定义
+ * @author : LGG
+ * @create : 2018-09-26 14:34
  **/
 public enum StatusEnum {
+
+	/* 系统ERROR */
+	UNKNOWN(-1,"系统错误"),
+
+
 	OK(20000,"操作成功"), //成功
 	ERROR(20001,"操作失败"), // error
 	SYSTEM_EXCEPTION(0,"系统异常"), // 系统异常

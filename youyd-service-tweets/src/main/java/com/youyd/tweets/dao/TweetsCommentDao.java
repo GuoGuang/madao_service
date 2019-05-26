@@ -1,7 +1,8 @@
 package com.youyd.tweets.dao;
 
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youyd.tweets.pojo.TweetsComment;
+import com.youyd.pojo.tweets.TweetsComment;
 
 /**
  * @description: dao

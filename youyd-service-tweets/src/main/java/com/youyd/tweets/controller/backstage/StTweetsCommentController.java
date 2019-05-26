@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
-import com.youyd.tweets.pojo.TweetsComment;
+import com.youyd.pojo.tweets.TweetsComment;
 import com.youyd.tweets.service.TweetsCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @description: 吐槽评论
+ * 吐槽评论
  * @author: LGG
  * @create: 2018-09-26 15:59
  **/
 @RestController
-@RequestMapping("/st/tweetsComment")
+@RequestMapping("/ts/tweetsComment")
 public class StTweetsCommentController {
 
 	private final TweetsCommentService tweetsCommentService;

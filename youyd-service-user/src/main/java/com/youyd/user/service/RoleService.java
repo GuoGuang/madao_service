@@ -1,13 +1,13 @@
-package com.youyd.base.service;
+package com.youyd.user.service;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.youyd.base.dao.RoleDao;
 import com.youyd.pojo.QueryVO;
-import com.youyd.pojo.base.Role;
+import com.youyd.pojo.user.Role;
+import com.youyd.user.dao.RoleDao;
 import com.youyd.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

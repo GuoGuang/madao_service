@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.pojo.QueryVO;
+import com.youyd.pojo.tweets.Tweets;
+import com.youyd.pojo.tweets.TweetsComment;
 import com.youyd.tweets.dao.TweetsCommentDao;
-import com.youyd.tweets.pojo.Tweets;
-import com.youyd.tweets.pojo.TweetsComment;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @description: 吐槽评论
+ * 吐槽评论
  * @author: LGG
  * @create: 2018-09-27
  **/
@@ -59,7 +59,7 @@ public class TweetsCommentService {
 	 * @param tweetsComment 吐槽实体
 	 */
 	public void insertTweetsComment(TweetsComment tweetsComment,String tweetsId){
-		tweetsComment.setThumbUpCount(0L);
+		tweetsComment.setLikeNum(0L);
 		tweetsComment.setIsVisible(1);
 		tweetsCommentCommentDao.insert(tweetsComment);
 

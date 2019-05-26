@@ -61,7 +61,12 @@
                  <artifactId>jackson-datatype-jsr310</artifactId>
              </dependency>
 
-
+            <!-- 健康检查，监控 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-actuator</artifactId>
+                <scope>compile</scope>
+            </dependency>
              <dependency>
                  <groupId>org.apache.commons</groupId>
                  <artifactId>commons-lang3</artifactId>
@@ -144,19 +149,18 @@
 
                <modules>
                    <module>../youyd-common</module>
+                   <module>../youyd-common-redis</module>
                    <module>../youyd-database-mybatis</module>
+                   <module>../youyd-server-eureka</module>
+                   <module>../youyd-server-config</module>
                    <module>../youyd-service-base</module>
                    <module>../youyd-service-article</module>
                    <module>../youyd-service-tweets</module>
                    <module>../youyd-service-search</module>
+                   <module>../youyd-service-api</module>
                    <module>../youyd-service-user</module>
-                   <module>../youyd-service-sms</module>
                    <module>../youyd-web-gateway</module>
                    <module>../youyd-web-platform</module>
-                   <module>../youyd-server-config</module>
-                   <module>../youyd-server-eureka</module>
-                   <module>../youyd-common-redis</module>
-                   <module>../youyd-service-api</module>
                </modules>
                <packaging>pom</packaging>
 

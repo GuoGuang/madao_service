@@ -1,11 +1,8 @@
 package com.youyd.tweets.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.youyd.tweets.pojo.Tweets;
-import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
-import java.util.Map;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.youyd.pojo.tweets.Tweets;
 
 /**
  * @description: dao

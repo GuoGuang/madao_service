@@ -47,7 +47,7 @@ public class DictController {
 	}
 
 	/**
-	 * 获取组字典类型
+	 * 获取组字典类型，所有根节点
 	 * @param dict 菜单实体
 	 * @return JsonData
 	 */
@@ -56,6 +56,7 @@ public class DictController {
 		List<Dict> dictTypes = dictService.fetchDictType(dict);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), dictTypes);
 	}
+
 	/**
 	 * 按照字典类型获取树形字典
 	 * 返回满足转换为tree的列表

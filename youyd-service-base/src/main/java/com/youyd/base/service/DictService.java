@@ -85,13 +85,13 @@ public class DictService {
 	}
 
 	/**
-	 * 获取组字典类型
+	 * 获取组字典类型，所有根节点
 	 * @param dict 菜单实体
 	 * @return JsonData
 	 */
 	public List<Dict> fetchDictType(Dict dict) {
 		LambdaQueryWrapper<Dict> queryWrapper = new LambdaQueryWrapper<>();
-		queryWrapper.select(Dict::getId,Dict::getName,Dict::getType).in(Dict::getParentId,"0","");
+		queryWrapper.select(Dict::getId,Dict::getName,Dict::getType).eq(Dict::getParentId,"0");
 		return dictDao.selectList(queryWrapper);
 	}
 }

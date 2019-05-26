@@ -55,9 +55,16 @@ public class GateWayConfig {
 		// config.setParts(1);
 		return builder.routes()
 				// 用户服务
-				.route("user_route", r -> r.path("/user/**").filters(f -> f.stripPrefix(0).prefixPath("/su")).uri("lb://SERVICE-USER"))
+				/*
+				* 此处的f.stripPrefix(0) 0应该为1，减少路径请求，为0是因为user工程里现在是包含前台后台的访问请求，
+				* 这块后边是否需要优化为前台后台请求分为不同工程有待商榷
+				*
+				* */
+				.route("user_route", r -> r.path("/su/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-USER"))
 				// 基础服务
 				.route("base_route", r -> r.path("/base/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-BASE"))
+				// 微博服务
+				.route("tweet_route", r -> r.path("/ts/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-TWEETS"))
 				// 文章服务
 				.route("article_route",a ->a.path("/article/**").filters(f -> f.stripPrefix(0).prefixPath("/sa")).uri("lb://SERVICE-ARTICLE"))
 				.build();

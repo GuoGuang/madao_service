@@ -1,10 +1,10 @@
-package com.youyd.base.controller;
+package com.youyd.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youyd.base.service.RoleService;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
-import com.youyd.pojo.base.Role;
+import com.youyd.pojo.user.Role;
+import com.youyd.user.service.RoleService;
 import com.youyd.utils.JsonData;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import java.util.List;
 
 @Api(tags = "角色")
 @RestController
-@RequestMapping(value = "/role")
+@RequestMapping(value = "/su/role")
 public class RoleController {
 
 	private final RoleService roleService;
