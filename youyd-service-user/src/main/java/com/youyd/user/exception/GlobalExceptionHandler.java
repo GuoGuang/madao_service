@@ -3,9 +3,9 @@ package com.youyd.user.exception;
 import com.youyd.enums.StatusEnum;
 import com.youyd.utils.JsonData;
 import com.youyd.utils.LogBack;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
  * <p>Title: GlobalExceptionHandler </p>
  * <p>Description: 全局异常处理器</p>
  */
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
 
