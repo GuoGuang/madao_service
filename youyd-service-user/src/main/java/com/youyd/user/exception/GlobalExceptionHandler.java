@@ -4,7 +4,6 @@ import com.youyd.enums.StatusEnum;
 import com.youyd.utils.JsonData;
 import com.youyd.utils.LogBack;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +17,6 @@ public class GlobalExceptionHandler {
 
 
 	@ExceptionHandler(value = Exception.class)
-	@ResponseBody
 	public JsonData handleException(HttpServletRequest request, Exception ex) {
 		LogBack.error(ex.getMessage(),ex);
 		return new JsonData(false, StatusEnum.SYSTEM_EXCEPTION.getCode(),ex.getMessage());
