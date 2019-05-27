@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,7 +69,7 @@ public class UserController {
 	 * @return boolean
 	 */
 	@PostMapping()
-	public JsonData insertUser(@RequestBody User user) {
+	public JsonData insertUser(@RequestBody @Valid User user) {
 		userService.insertUser(user);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
@@ -193,7 +194,7 @@ public class UserController {
 	@DeleteMapping
 	public JsonData deleteByIds(@RequestBody List<String> userId, @ModelAttribute("admin_claims") Claims claims) {
 		if (claims == null) {
-			return new JsonData(true, StatusEnum.PARAM_ERROR.getCode(), StatusEnum.PARAM_ERROR.getMsg());
+			return new JsonData(true, StatusEnum.PARAM_MISSING.getCode(), StatusEnum.PARAM_MISSING.getMsg());
 		}
 		boolean result = userService.deleteByIds(userId);
 		return new JsonData(result, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());

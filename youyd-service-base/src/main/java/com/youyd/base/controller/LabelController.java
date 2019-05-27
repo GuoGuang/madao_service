@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -58,7 +59,7 @@ public class LabelController {
 	 * @return JsonData
 	 */
 	@PostMapping()
-	public JsonData insertLabel(@RequestBody Label label){
+	public JsonData insertLabel(@RequestBody @Valid Label label){
 		labelService.insertLabel(label);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}

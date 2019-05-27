@@ -28,12 +28,6 @@ import java.util.List;
 @SuppressWarnings("Duplicates")
 public class BaseExceptionHandler {
 
-	@ExceptionHandler(value = Exception.class)
-	public ErrotResult error(Exception ex) {
-		LogBack.error(ex.getMessage(),ex);
-		return new ErrotResult(StatusEnum.PARAM_ILLEGAL);
-	}
-
 
 	/**
 	 * 参数不合法错误

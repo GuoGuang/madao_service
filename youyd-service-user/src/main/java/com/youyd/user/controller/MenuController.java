@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -86,7 +87,7 @@ public class MenuController {
 	 * @return JsonData
 	 */
 	@PostMapping
-	public JsonData insertSelective(@RequestBody Menu menu) {
+	public JsonData insertSelective(@RequestBody @Valid Menu menu) {
 		menu.setCreateAt(DateUtil.getTimestamp());
 		menu.setUpdateAt(DateUtil.getTimestamp());
 		boolean state = menuService.insertSelective(menu);

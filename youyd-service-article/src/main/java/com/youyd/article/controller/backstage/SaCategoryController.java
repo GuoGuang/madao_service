@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -60,7 +61,7 @@ public class SaCategoryController {
 	 */
 	@ApiOperation(value = "添加一条新的分类", notes = "id")
 	@PostMapping
-	public JsonData insertCategory(@RequestBody Category category) {
+	public JsonData insertCategory(@RequestBody @Valid Category category) {
 		columnService.insertCategory(category);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}

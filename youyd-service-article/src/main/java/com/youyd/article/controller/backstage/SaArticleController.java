@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -64,7 +65,7 @@ public class SaArticleController {
      */
     @ApiOperation(value = "添加一条新的文章")
     @PostMapping
-    public JsonData insertArticle(@RequestBody Article article) {
+    public JsonData insertArticle(@RequestBody @Valid Article article) {
         saArticleService.insertArticle(article);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
