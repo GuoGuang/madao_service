@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 
@@ -23,105 +24,51 @@ import java.io.Serializable;
 @ApiModel(value="article", description="文章类")
 public class Article extends BasePojo implements Serializable {
 
-	 /**
-	  * 文章分类
-	  */
 	 @TableField(exist=false)
-	 private Category category;
-	 /**
-	  * ID
-	  */
+	 private Category category; // 文章分类
+
 	 @TableId(type = IdType.ID_WORKER_STR)
-	 private String id;
+	 private String id; // ID
 
-	 /**
-	  * 分类ID
-	  */
-	 private String categoryId;
+	 private String categoryId; // 分类ID
 
-	 /**
-	  * 用户ID
-	  */
-	 private String userId;
+	 private String userId; // 用户ID
 
-	 /**
-	  * 标签
-	  */
-	 private String label;
+	 @NotNull(message="标签不能为空")
+	 private String label; // 标签
 
-	 /**
-	  * 标题
-	  */
-	 private String title;
+	 @NotNull(message="标题不能为空")
+	 private String title; // 标题
 
-	 /**
-	  * 文章封面
-	  */
-	 private String image;
+	 private String image; // 文章封面
 
-	 /**
-	  * 是否公开
-	  */
-	 private Integer isPublic;
+	 private Integer isPublic; // 是否公开
 
-	 /**
-	  * 是否置顶
-	  */
-	 private Integer isTop;
+	 private Integer isTop; // 是否置顶
 
-	 /**
-	  * 浏览量
-	  */
-	 private Integer visits;
+	 private Integer visits; // 浏览量
 
-	 /**
-	  * 点赞数
-	  */
-	 private Integer upvote;
+	 private Integer upvote; // 点赞数
 
-	 /**
-	  * 评论数
-	  */
-	 private Integer comment;
+	 private Integer comment; // 评论数
 
-	 /**
-	  * 审核状态
-	  */
-	 private Integer reviewState;
+	 private Integer reviewState; // 审核状态
 
-	 /**
-	  * URL
-	  */
-	 private String url;
+	 private String url; // URL
 
-	 /**
-	  * 类型
-	  */
-	 private Integer type;
+	 private Integer type; // 类型
 
-	 /**
-	  * 热度
-	  */
-	 private Integer importance;
+	 private Integer importance; // 热度
 
-	 /**
-	  * 文章描述（概述）
-	  */
-	 private String description;
+	 @NotNull(message="概述不能为空")
+	 private String description; // 文章描述（概述）
 
-	 /**
-	  * 关键字
-	  */
-	 private String keywords;
+	 private String keywords; // 关键字
 
-	 /**
-	  * 来源（1：原创，2：转载，3：混撰）
-	  */
-	 private Integer origin;
+	 @NotNull(message="来源不能为空")
+	 private Integer origin; // 来源（1：原创，2：转载，3：混撰）
 
-	 /**
-	  * 文章正文
-	  */
-	 private String content;
+	 @NotNull(message="内容不能为空")
+	 private String content; // 文章正文
 
  }

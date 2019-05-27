@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -19,49 +20,24 @@ import java.io.Serializable;
 @Setter
 public class Tweets extends BasePojo implements Serializable {
 
-    /**
-     * 吐槽表ID
-     */
     @TableId(type = IdType.ID_WORKER_STR)
-    private String id;
+    private String id; // 吐槽表ID
 
-    /**
-     * 标题
-     */
-    private String title;
+    @NotNull(message="标题不能为空")
+    private String title; // 标题
 
-    /**
-     * 吐槽内容
-     */
-    private String content;
+	@NotNull(message="内容不能为空")
+    private String content; // 吐槽内容
 
-    /**
-     * 发布人ID
-     */
-    private String userId;
+    private String userId; // 发布人ID
 
-    /**
-     * 发布人昵称
-     */
-    private String nickName;
+    private String nickName; // 发布人昵称
 
-    /**
-     * 浏览量
-     */
-    private Long visitsCount;
+    private Long visitsCount; // 浏览量
 
-    /**
-     * 点赞数
-     */
-    private Long thumbUpCount;
+    private Long thumbUpCount; // 点赞数
 
-    /**
-     * 分享数
-     */
-    private Long shareCount;
+    private Long shareCount; // 分享数
 
-    /**
-     * 是否可见
-     */
-    private Integer isVisible;
+    private Integer isVisible; // 是否可见
 }

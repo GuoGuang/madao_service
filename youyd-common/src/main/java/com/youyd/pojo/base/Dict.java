@@ -6,6 +6,7 @@ import com.youyd.pojo.BasePojo;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 
@@ -27,30 +28,19 @@ public class Dict extends BasePojo implements Serializable {
      */
     private String parentId;
 
-    /**
-     * 编码
-     */
-    private String code;
+    @NotNull(message="编码不能为空")
+    private String code; // 编码
 
-    /**
-     * 名称
-     */
-    private String name;
+    @NotNull(message="编码不能为空")
+    private String name; // 名称
 
-    /**
-     * 描述
-     */
-    private String description;
+    @NotNull(message="描述不能为空")
+    private String description; // 描述
 
-    /**
-     * 状态
-     */
-    private Integer state;
+    private Integer state; // 状态
 
-    /**
-     * 类型
-     */
-    private String type;
+    @NotNull(message="类型不能为空")
+    private String type; // 类型
 
     private static final long serialVersionUID = 1L;
 

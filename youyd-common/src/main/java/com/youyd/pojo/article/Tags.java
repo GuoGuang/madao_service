@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Getter
@@ -15,43 +16,27 @@ import java.io.Serializable;
 @ApiModel(value="article", description="标签类")
 public class Tags extends BasePojo implements Serializable {
 
-
 	/**
 	 * 接收连接查询结果专用字段
 	 */
 	@TableField(exist=false)
 	private Integer tagsCount;
 
-    /**
-     * ID
-     */
     @TableId(type = IdType.ID_WORKER_STR)
-    private String id;
+    private String id; // ID
 
-    /**
-     * 标签名称
-     */
-    private String name;
+    @NotNull(message="标签名称不能为空")
+    private String name; // 标签名称
 
-    /**
-     * 英文名称
-     */
-    private String slug;
+    @NotNull(message="英文名称不能为空")
+    private String slug; // 英文名称
 
-    /**
-     * 描述
-     */
+    @NotNull(message="描述不能为空")
     private String description;
 
-    /**
-     * 标签图标
-     */
-    private String icon;
+    private String icon; // 标签图标
 
-    /**
-     * 状态
-     */
-    private String state;
+    private String state; // 状态
 
 
 }
