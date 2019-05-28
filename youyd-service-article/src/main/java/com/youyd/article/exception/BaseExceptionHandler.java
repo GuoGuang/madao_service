@@ -30,7 +30,7 @@ public class BaseExceptionHandler {
 
 	/**
 	 * 参数不合法错误
-	 * @param e IllegalArgumentException
+	 * @param ex IllegalArgumentException
 	 */
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ErrotResult illegalArgumentException(IllegalArgumentException ex) {
@@ -40,7 +40,7 @@ public class BaseExceptionHandler {
 
 	/**
 	 * 缺少请求参数错误
-	 * @param e MissingServletRequestParameterException
+	 * @param ex MissingServletRequestParameterException
 	 */
 	@ExceptionHandler(MissingServletRequestParameterException.class)
 	public ErrotResult missingServletRequestParameterException(MissingServletRequestParameterException ex) {
@@ -50,7 +50,7 @@ public class BaseExceptionHandler {
 
 	/**
 	 * 请求类型错误
-	 * @param e HttpRequestMethodNotSupportedException
+	 * @param ex HttpRequestMethodNotSupportedException
 	 */
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	public ErrotResult httpRequestMethodNotSupportedException(Exception ex) {
@@ -60,7 +60,7 @@ public class BaseExceptionHandler {
 
 	/**
 	 * JSR303参数校验错误
-	 * @param e BindException
+	 * @param ex BindException
 	 */
 	@ExceptionHandler(BindException.class)
 	public ErrotResult bindException(Exception ex) {
@@ -83,7 +83,7 @@ public class BaseExceptionHandler {
 
 	/**
 	 * 其他异常
-	 * @param e Exception
+	 * @param ex Exception
 	 */
 	@ExceptionHandler(Exception.class)
 	@ResponseBody
