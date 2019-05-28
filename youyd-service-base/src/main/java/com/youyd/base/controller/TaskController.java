@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -62,7 +63,7 @@ public class TaskController {
 	 * @return JsonData
 	 */
 	@PutMapping
-	public JsonData updateByPrimaryKey(@RequestBody QuartzJob quartzJob) {
+	public JsonData updateByPrimaryKey(@RequestBody @Valid QuartzJob quartzJob) {
 		boolean state = taskService.updateByPrimaryKey(quartzJob);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
@@ -73,7 +74,7 @@ public class TaskController {
 	 * @return JsonData
 	 */
 	@PostMapping
-	public JsonData insertSelective(@RequestBody QuartzJob quartzJob) {
+	public JsonData insertSelective(@RequestBody @Valid QuartzJob quartzJob) {
 		boolean state = taskService.insertSelective(quartzJob);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}

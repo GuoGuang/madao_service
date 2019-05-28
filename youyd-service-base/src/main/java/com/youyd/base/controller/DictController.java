@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -86,7 +87,7 @@ public class DictController {
 	 * @return JsonData
 	 */
 	@PutMapping
-	public JsonData updateByPrimaryKey(@RequestBody Dict dict) {
+	public JsonData updateByPrimaryKey(@RequestBody @Valid Dict dict) {
 		boolean state = dictService.updateByPrimaryKey(dict);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
@@ -97,7 +98,7 @@ public class DictController {
 	 * @return JsonData
 	 */
 	@PostMapping
-	public JsonData insertSelective(@RequestBody Dict dict) {
+	public JsonData insertSelective(@RequestBody @Valid Dict dict) {
 		dict.setCreateAt(DateUtil.getTimestamp());
 		dict.setUpdateAt(DateUtil.getTimestamp());
 		boolean state = dictService.insertDictSelective(dict);

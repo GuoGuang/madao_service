@@ -6,6 +6,8 @@ import com.youyd.pojo.BasePojo;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 /**
@@ -20,6 +22,8 @@ public class Menu extends BasePojo implements Serializable {
 	@TableId(type = IdType.ID_WORKER_STR)
 	private String id; // 菜单表主键
 
+	@NotNull(message="名称不能为空")
+	@Pattern(regexp="([a-zA-Z0-9\u4E00-\u9FA5]{2,10})",message="必须是2到10位(字母，数字)名称！")
 	private String name; // 名称
 
 	private String parentId; // 父资源id
@@ -34,6 +38,7 @@ public class Menu extends BasePojo implements Serializable {
 
 	private Long sort; // 排序
 
+	@NotNull(message="描述不能为空")
 	private String description; // 描述
 
 }

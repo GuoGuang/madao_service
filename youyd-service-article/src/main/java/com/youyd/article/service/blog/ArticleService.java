@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youyd.article.dao.blog.ArticleDao;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
+import com.youyd.constant.CommonConst;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Article;
 import com.youyd.utils.JsonUtil;
@@ -60,7 +61,7 @@ public class ArticleService{
 		// 如果缓存没有则到数据库查询并放入缓存,有效期一天
 		if(article==null) {
 			article = articleDao.selectById(articleId);
-			redisService.set(RedisConstant.REDIS_KEY_ARTICLE+ articleId, article,RedisConstant.REDIS_TIME_DAY);
+			redisService.set(RedisConstant.REDIS_KEY_ARTICLE+ articleId, article, CommonConst.TIME_OUT_DAY);
 		}
 		return article;
 	}

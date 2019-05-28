@@ -9,6 +9,7 @@ import com.youyd.tweets.service.TweetsCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -56,7 +57,7 @@ public class StTweetsCommentController {
 	 * @return Result
 	 */
 	@PostMapping()
-	public Result insertTweetsComment(@RequestBody TweetsComment tweetsComment,String tweetsId){
+	public Result insertTweetsComment(@RequestBody @Valid TweetsComment tweetsComment, String tweetsId){
 		tweetsCommentService.insertTweetsComment(tweetsComment,tweetsId);
 		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
@@ -68,7 +69,7 @@ public class StTweetsCommentController {
 	 * @return Result
 	 */
 	@PutMapping
-	public Result updateByTweetsCommentSelective(TweetsComment tweetsComment){
+	public Result updateByTweetsCommentSelective(@Valid TweetsComment tweetsComment){
 		boolean updateResult = tweetsCommentService.updateByTweetsCommentSelective(tweetsComment);
 		return new Result(updateResult, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}

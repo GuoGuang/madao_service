@@ -9,6 +9,7 @@ import com.youyd.tweets.service.TweetsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -55,7 +56,7 @@ public class StTweetsController {
 	 * @return Result
 	 */
 	@PostMapping()
-	public Result insertTweets(@RequestBody Tweets tweets){
+	public Result insertTweets(@RequestBody @Valid Tweets tweets){
 		tweetsService.insertTweets(tweets);
 		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
@@ -67,7 +68,7 @@ public class StTweetsController {
 	 * @return Result
 	 */
 	@PutMapping
-	public Result updateByTweetsSelective(Tweets tweets){
+	public Result updateByTweetsSelective(@Valid Tweets tweets){
 		boolean updateResult = tweetsService.updateByTweetsSelective(tweets);
 		return new Result(updateResult, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}

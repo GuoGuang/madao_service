@@ -1,5 +1,6 @@
 package com.youyd.pojo;
 
+import com.youyd.enums.StatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,11 @@ public class Result implements Serializable {
 
 	public Result() {
 	}
+
+	public Result(StatusEnum statusEnum) {
+		this(false,statusEnum.getCode(), statusEnum.getMsg());
+	}
+
 
 	public Result(boolean status, Integer code, String message, Object data) {
 		super();

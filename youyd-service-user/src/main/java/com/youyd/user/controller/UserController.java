@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,7 +69,7 @@ public class UserController {
 	 * @return boolean
 	 */
 	@PostMapping()
-	public JsonData insertUser(@RequestBody User user) {
+	public JsonData insertUser(@RequestBody @Valid User user) {
 		userService.insertUser(user);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
@@ -107,8 +108,6 @@ public class UserController {
 	 * @return boolean
 	 * url: ?search={query}{&page,per_page,sort,order}
 	 */
-	@OptLog(operationType= CommonConst.ADD,operationName="按照条件查找用户列表")
-	// TODO 只给增删改添加拦截 quartz表达式启动的时候能执行成功
 	@ApiOperation(value = "查找用户列表", notes = "按照条件查找用户列表")
 	@ApiImplicitParam(name = "User", value = "查询条件：用户对象", dataType = "Map", paramType = "query")
 	@GetMapping
@@ -143,12 +142,14 @@ public class UserController {
 		User byId = userService.findUserById(id);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),byId);
 	}
+
 	/**
 	 * 退出
 	 *
 	 * @param token
 	 * @return boolean
 	 */
+	@OptLog(operationType= CommonConst.MODIFY,operationName="退出系统")
 	@PostMapping(value = "/logout")
 	public JsonData logout(@RequestHeader("X-Token")String token) {
 		userService.logout(token);
@@ -162,7 +163,7 @@ public class UserController {
 	 * @return JsonData
 	 */
 	@PutMapping()
-	public JsonData updateByPrimaryKey(@RequestBody User user) {
+	public JsonData updateByPrimaryKey(@RequestBody @Valid User user) {
 		boolean result = userService.updateByPrimaryKey(user);
 		return new JsonData(result, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
@@ -193,7 +194,7 @@ public class UserController {
 	@DeleteMapping
 	public JsonData deleteByIds(@RequestBody List<String> userId, @ModelAttribute("admin_claims") Claims claims) {
 		if (claims == null) {
-			return new JsonData(true, StatusEnum.PARAM_ERROR.getCode(), StatusEnum.PARAM_ERROR.getMsg());
+			return new JsonData(true, StatusEnum.PARAM_MISSING.getCode(), StatusEnum.PARAM_MISSING.getMsg());
 		}
 		boolean result = userService.deleteByIds(userId);
 		return new JsonData(result, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());

@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -58,7 +59,7 @@ public class RoleController {
 	 * @return JsonData
 	 */
 	@PostMapping
-	public JsonData insertSelective(@RequestBody Role role) {
+	public JsonData insertSelective(@RequestBody @Valid Role role) {
 		boolean state = roleService.insertSelective(role);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
@@ -80,7 +81,7 @@ public class RoleController {
 	 * @return JsonData
 	 */
 	@PutMapping()
-	public JsonData updateByPrimaryKey(@RequestBody Role role) {
+	public JsonData updateByPrimaryKey(@RequestBody @Valid Role role) {
 		boolean state = roleService.updateByPrimaryKey(role);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}

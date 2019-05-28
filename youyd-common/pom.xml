@@ -67,6 +67,13 @@
             <version>1.18.2</version>
         </dependency>
 
+        <!-- JSR303 validator -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>5.2.4.Final</version>
+        </dependency>
+
         <!-- mybatis-plus 因为抽象了com.youyd.user.core.BaseService到common中所有将此dependency放在此处 -->
         <dependency>
             <groupId>com.baomidou</groupId>

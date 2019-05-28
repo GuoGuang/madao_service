@@ -6,6 +6,7 @@ import com.youyd.pojo.BasePojo;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -23,10 +24,12 @@ public class Role extends BasePojo implements Serializable {
 
     private String parentRoleId; // 父级角色id
 
+	@NotNull(message="角色名称不能为空")
     private String roleName; // 角色名称
 
     private String roleDesc; // 角色描述
 
+	@NotNull(message="角色编码不能为空")
     private String roleCode; // 角色编码
 
 }

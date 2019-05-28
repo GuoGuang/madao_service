@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -60,12 +61,11 @@ public class SaTagsController {
 
     /**
      * 增加
-     *
      * @param article:标签实例
      */
     @ApiOperation(value = "添加一条新的文章", notes = "id")
     @PostMapping
-    public JsonData insertArticle(@RequestBody Tags tags) {
+    public JsonData insertArticle(@RequestBody @Valid Tags tags) {
         tagsService.insertTags(tags);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
@@ -76,7 +76,7 @@ public class SaTagsController {
      */
     @ApiOperation(value = "按照id修改", notes = "id")
     @PutMapping
-    public JsonData updateTagsById(@RequestBody Tags tags) {
+    public JsonData updateTagsById(@RequestBody @Valid Tags tags) {
         tagsService.updateTagsById(tags);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }

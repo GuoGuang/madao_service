@@ -7,6 +7,7 @@ import com.google.common.base.CaseFormat;
 import com.youyd.article.dao.backstage.SaArticleDao;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
+import com.youyd.constant.CommonConst;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Article;
 import com.youyd.utils.DateUtil;
@@ -70,7 +71,7 @@ public class SaArticleService {
 		Article article;
 		if(mapJson==null) {
 			article = saArticleDao.selectById(articleId);
-			redisService.set(RedisConstant.REDIS_KEY_ARTICLE+ articleId, article,RedisConstant.REDIS_TIME_DAY);
+			redisService.set(RedisConstant.REDIS_KEY_ARTICLE+ articleId, article, CommonConst.TIME_OUT_DAY);
 			return article;
 		}else {
 //			article = JsonUtil.jsonToPojo(mapJson.toString(), Article.class);

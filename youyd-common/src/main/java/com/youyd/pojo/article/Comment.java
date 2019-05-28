@@ -3,6 +3,7 @@ package com.youyd.pojo.article;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,8 +16,10 @@ public class Comment implements Serializable {
 
     private String id; // 评论表id
 
+	@NotNull(message="文章ID不能为空")
     private String articleId; // 外键文章表ID
 
+	@NotNull(message="评论内容不能为空")
     private String content; // 评论内容
 
     private String userId; // 评论人ID
