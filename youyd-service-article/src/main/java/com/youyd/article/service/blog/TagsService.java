@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youyd.article.dao.blog.TagsDao;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
+import com.youyd.constant.CommonConst;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Tags;
 import com.youyd.utils.JsonUtil;
@@ -68,7 +69,7 @@ public class TagsService {
 
 		tags = bgTagsDao.selectById(id);
 		try {
-			redisService.set(RedisConstant.REDIS_KEY_ARTICLE + id, tags, RedisConstant.REDIS_TIME_DAY);
+			redisService.set(RedisConstant.REDIS_KEY_ARTICLE + id, tags, CommonConst.TIME_OUT_DAY);
 		} catch (Exception e) {
 			LogBack.error("findTagsById->查询标签异常，参数为：{}",id,e);
 		}

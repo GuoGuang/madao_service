@@ -108,8 +108,6 @@ public class UserController {
 	 * @return boolean
 	 * url: ?search={query}{&page,per_page,sort,order}
 	 */
-	@OptLog(operationType= CommonConst.ADD,operationName="按照条件查找用户列表")
-	// TODO 只给增删改添加拦截 quartz表达式启动的时候能执行成功
 	@ApiOperation(value = "查找用户列表", notes = "按照条件查找用户列表")
 	@ApiImplicitParam(name = "User", value = "查询条件：用户对象", dataType = "Map", paramType = "query")
 	@GetMapping
@@ -144,12 +142,14 @@ public class UserController {
 		User byId = userService.findUserById(id);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),byId);
 	}
+
 	/**
 	 * 退出
 	 *
 	 * @param token
 	 * @return boolean
 	 */
+	@OptLog(operationType= CommonConst.MODIFY,operationName="退出系统")
 	@PostMapping(value = "/logout")
 	public JsonData logout(@RequestHeader("X-Token")String token) {
 		userService.logout(token);

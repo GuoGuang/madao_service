@@ -92,12 +92,7 @@ public class OptLogAspect {
 					}
 				}
 			}
-			//*========控制台输出=========*//
-			System.out.println("=====controller前置通知开始=====");
-			System.out.println("请求方法:" + (joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()")+"."+operationType);
-			System.out.println("方法描述:" + operationName);
-			System.out.println("请求人:" + "aaaa");
-			System.out.println("请求IP:" + ipAddr);
+
 			//*========数据库日志=========*//
 			com.youyd.pojo.base.OptLog log = new com.youyd.pojo.base.OptLog();
 			log.setClientIp(HttpServletUtil.getIpAddr(request));
@@ -110,18 +105,6 @@ public class OptLogAspect {
 			log.setParams(JsonUtil.toJsonString(arguments));
 			log.setCreateAt(DateUtil.getTimestamp());
 			log.setUpdateAt(DateUtil.getTimestamp());
-
-			/*log.setDescription(operationName);
-			log.setMethod((joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()")+"."+operationType);
-			log.setLogType(0);
-			log.setRequestIp(ip);
-			log.setExceptionCode(null);
-			log.setExceptionDetail( null);
-			log.setParams( null);
-			log.setCreateBy(user.getUserName());
-			log.setCreateDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-			log.setRequestIp(ip);*/
-			//保存数据库
 			optLogServiceRpc.insertOptLog(log);
 			System.out.println("=====controller前置通知结束=====");
 		} catch (Exception e) {

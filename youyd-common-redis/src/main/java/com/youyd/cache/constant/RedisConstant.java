@@ -18,11 +18,5 @@ public class RedisConstant {
 	public static final String REDIS_KEY_QUESTION = "QUESTION";  // 问题
 
 
-	/*超时时间*/
-	// 三个月
-	public static final Integer REDIS_TIME_THREE_MONTHS = 60 * 60 * 24 * 30 * 3;
-	// 一周
-	public static final Integer REDIS_TIME_WEEK = 60 * 60 * 24 * 7;
-	// 一天
-	public static final Integer REDIS_TIME_DAY = 60 * 60 * 24;
+
 }

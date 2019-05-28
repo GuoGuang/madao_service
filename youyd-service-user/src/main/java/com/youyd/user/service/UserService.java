@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.api.base.LoginLogServiceRpc;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
+import com.youyd.constant.CommonConst;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.LoginLog;
 import com.youyd.pojo.user.User;
@@ -98,13 +99,13 @@ public class UserService {
 		User uResult = userDao.selectOne(queryWrapper);
 		if (uResult != null && bCryptPasswordEncoder.matches(password, uResult.getPassword())) {
 			// 生成token
-			String token = jwtAuthentication.createJWT(Long.valueOf(uResult.getId()),  JsonUtil.toJsonString(uResult), "admin");
+			String token = jwtAuthentication.createJWT(Long.valueOf(uResult.getId()),  JsonUtil.toJsonString(uResult), "admin",CommonConst.TIME_OUT_WEEK);
 			Map<String, String> map = new HashMap<>();
 			map.put("token", token);
 			map.put("userName", uResult.getUserName());//昵称
 			map.put("avatar", uResult.getAvatar());//头像
 			try {
-				redisService.set(RedisConstant.REDIS_KEY_TOKEN + token, uResult, RedisConstant.REDIS_TIME_WEEK);
+				redisService.set(RedisConstant.REDIS_KEY_TOKEN + token, uResult, CommonConst.TIME_OUT_WEEK);
 				// 添加登录日志
 				LoginLog loginLog = new LoginLog();
 				loginLog.setClientIp(HttpServletUtil.getIpAddr(request));
