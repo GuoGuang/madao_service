@@ -70,7 +70,7 @@ public class LabelController {
 	 * @return JsonData
 	 */
 	@PutMapping
-	public JsonData updateLabel(@RequestBody Label label){
+	public JsonData updateLabel(@RequestBody @Valid Label label){
 		labelService.updateLabel(label);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}

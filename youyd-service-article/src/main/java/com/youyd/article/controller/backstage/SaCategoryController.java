@@ -70,7 +70,7 @@ public class SaCategoryController {
 	 * 修改
 	 */
 	@PutMapping
-	public JsonData updateByCategorySelective(@RequestBody Category category) {
+	public JsonData updateByCategorySelective(@RequestBody @Valid Category category) {
 		columnService.updateByCategorySelective(category);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}

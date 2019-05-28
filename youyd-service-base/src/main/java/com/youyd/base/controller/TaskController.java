@@ -63,7 +63,7 @@ public class TaskController {
 	 * @return JsonData
 	 */
 	@PutMapping
-	public JsonData updateByPrimaryKey(@RequestBody QuartzJob quartzJob) {
+	public JsonData updateByPrimaryKey(@RequestBody @Valid QuartzJob quartzJob) {
 		boolean state = taskService.updateByPrimaryKey(quartzJob);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}

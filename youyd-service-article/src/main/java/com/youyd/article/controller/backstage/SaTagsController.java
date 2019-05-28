@@ -76,7 +76,7 @@ public class SaTagsController {
      */
     @ApiOperation(value = "按照id修改", notes = "id")
     @PutMapping
-    public JsonData updateTagsById(@RequestBody Tags tags) {
+    public JsonData updateTagsById(@RequestBody @Valid Tags tags) {
         tagsService.updateTagsById(tags);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }

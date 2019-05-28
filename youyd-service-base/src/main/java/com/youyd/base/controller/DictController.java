@@ -87,7 +87,7 @@ public class DictController {
 	 * @return JsonData
 	 */
 	@PutMapping
-	public JsonData updateByPrimaryKey(@RequestBody Dict dict) {
+	public JsonData updateByPrimaryKey(@RequestBody @Valid Dict dict) {
 		boolean state = dictService.updateByPrimaryKey(dict);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}

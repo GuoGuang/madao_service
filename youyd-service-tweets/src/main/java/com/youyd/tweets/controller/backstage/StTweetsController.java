@@ -68,7 +68,7 @@ public class StTweetsController {
 	 * @return Result
 	 */
 	@PutMapping
-	public Result updateByTweetsSelective(Tweets tweets){
+	public Result updateByTweetsSelective(@Valid Tweets tweets){
 		boolean updateResult = tweetsService.updateByTweetsSelective(tweets);
 		return new Result(updateResult, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}

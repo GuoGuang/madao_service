@@ -74,7 +74,7 @@ public class SaCommentController {
 	 * @return JsonData
 	 */
 	@PutMapping
-	public JsonData updateByCommentSelective(@RequestBody Comment comment) {
+	public JsonData updateByCommentSelective(@RequestBody @Valid Comment comment) {
 		saCommentService.updateByCommentSelective(comment);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}

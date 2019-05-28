@@ -69,7 +69,7 @@ public class StTweetsCommentController {
 	 * @return Result
 	 */
 	@PutMapping
-	public Result updateByTweetsCommentSelective(TweetsComment tweetsComment){
+	public Result updateByTweetsCommentSelective(@Valid TweetsComment tweetsComment){
 		boolean updateResult = tweetsCommentService.updateByTweetsCommentSelective(tweetsComment);
 		return new Result(updateResult, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}

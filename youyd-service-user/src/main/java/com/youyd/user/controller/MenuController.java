@@ -76,7 +76,7 @@ public class MenuController {
 	 * @return JsonData
 	 */
 	@PutMapping
-	public JsonData updateByPrimaryKey(@RequestBody Menu menu) {
+	public JsonData updateByPrimaryKey(@RequestBody @Valid Menu menu) {
 		boolean state = menuService.updateByPrimaryKey(menu);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}

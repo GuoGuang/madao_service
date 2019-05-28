@@ -81,7 +81,7 @@ public class RoleController {
 	 * @return JsonData
 	 */
 	@PutMapping()
-	public JsonData updateByPrimaryKey(@RequestBody Role role) {
+	public JsonData updateByPrimaryKey(@RequestBody @Valid Role role) {
 		boolean state = roleService.updateByPrimaryKey(role);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}

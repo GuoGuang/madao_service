@@ -163,7 +163,7 @@ public class UserController {
 	 * @return JsonData
 	 */
 	@PutMapping()
-	public JsonData updateByPrimaryKey(@RequestBody User user) {
+	public JsonData updateByPrimaryKey(@RequestBody @Valid User user) {
 		boolean result = userService.updateByPrimaryKey(user);
 		return new JsonData(result, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}

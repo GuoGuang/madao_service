@@ -76,7 +76,7 @@ public class SaArticleController {
      */
     @ApiOperation(value = "按照id修改", notes = "id")
     @PutMapping
-    public JsonData updateByPrimaryKeySelective(@RequestBody Article article) {
+    public JsonData updateByPrimaryKeySelective(@RequestBody @Valid Article article) {
         saArticleService.updateByPrimaryKeySelective(article);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
