@@ -42,6 +42,7 @@ public class TweetsComment extends BasePojo implements Serializable {
 
     private Integer isVisible; // 是否可见
 
+	@NotNull(message="推特主键不能为空")
     private String tweetsId; // 吐槽表id
 
     private String parentId; // 父级评论
