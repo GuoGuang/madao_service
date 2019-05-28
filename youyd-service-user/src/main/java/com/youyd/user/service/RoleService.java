@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @description: 角色接口实现
- * @author: LGG
- * @create: 2018-09-27
+ *  角色接口实现
+ * @author : LGG
+ * @create : 2018-09-27
  **/
 @Service
 public class RoleService {
