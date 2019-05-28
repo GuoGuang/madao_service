@@ -16,7 +16,7 @@ public class JWTAuthentication {
 	//签名秘钥
 	private String encodedSecretKey;
 	// 过期时间
-	private long expiration ;
+	//private long expiration ;
 
 
 	/**
@@ -24,9 +24,10 @@ public class JWTAuthentication {
 	 * @param id
 	 * @param subject
 	 * @param roles
+	 * @param expiration 过期时间
 	 * @return
 	 */
-	public String createJWT(Long id, String subject, String roles) {
+	public String createJWT(Long id, String subject, String roles,Integer expiration) {
 		long nowMillis = System.currentTimeMillis();
 		Date now = new Date(nowMillis);
 		JwtBuilder builder = Jwts.builder();
@@ -36,12 +37,13 @@ public class JWTAuthentication {
 		builder.setIssuedAt(now);
 		// 设置签名秘钥
 		builder.signWith(SignatureAlgorithm.HS256, encodedSecretKey);
-		// 过期时间为1分钟
-		builder.setExpiration(new Date(System.currentTimeMillis() + 1000*60 ));
+		// 过期时间
+		Date afterDate = new Date(now.getTime() + expiration);
+		builder.setExpiration(afterDate);
 		builder.claim("roles",roles);
-		if (expiration > 0) {
+		/*if (expiration > 0) {
 			builder.setExpiration( new Date( nowMillis + expiration));
-		}
+		}*/
 		return builder.compact();
 	}
 
@@ -67,11 +69,5 @@ public class JWTAuthentication {
 		this.encodedSecretKey = encodedSecretKey;
 	}
 
-	public long getExpiration() {
-		return expiration;
-	}
 
-	public void setExpiration(long expiration) {
-		this.expiration = expiration;
-	}
 }
