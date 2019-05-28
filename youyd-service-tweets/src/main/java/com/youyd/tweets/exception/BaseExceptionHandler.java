@@ -41,10 +41,10 @@ public class BaseExceptionHandler {
 
 	/**
 	 * 缺少请求参数错误
-	 * @param e MissingServletRequestParameterException
+	 * @param e missingServletRequestParameterException
 	 */
 	@ExceptionHandler(MissingServletRequestParameterException.class)
-	public ErrotResult MissingServletRequestParameterException(MissingServletRequestParameterException ex) {
+	public ErrotResult missingServletRequestParameterException(MissingServletRequestParameterException ex) {
 		LogBack.error(ex.getMessage(),ex);
 		return new ErrotResult(StatusEnum.PARAM_MISSING);
 	}

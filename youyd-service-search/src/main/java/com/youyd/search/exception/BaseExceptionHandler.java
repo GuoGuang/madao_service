@@ -50,7 +50,7 @@ public class BaseExceptionHandler {
 	 * @param e MissingServletRequestParameterException
 	 */
 	@ExceptionHandler(MissingServletRequestParameterException.class)
-	public ErrotResult MissingServletRequestParameterException(MissingServletRequestParameterException ex) {
+	public ErrotResult missingServletRequestParameterException(MissingServletRequestParameterException ex) {
 		LogBack.error(ex.getMessage(),ex);
 		return new ErrotResult(StatusEnum.PARAM_MISSING);
 	}
