@@ -99,7 +99,11 @@ public class UserService {
 		User uResult = userDao.selectOne(queryWrapper);
 		if (uResult != null && bCryptPasswordEncoder.matches(password, uResult.getPassword())) {
 			// 生成token
-			String token = jwtAuthentication.createJWT(Long.valueOf(uResult.getId()),  JsonUtil.toJsonString(uResult), "admin",CommonConst.TIME_OUT_WEEK);
+			String token = jwtAuthentication.createJWT(
+									Long.valueOf(uResult.getId()),
+									JsonUtil.toJsonString(uResult),
+								"admin",
+									DateUtil.getPlusWeeks(1));
 			Map<String, String> map = new HashMap<>();
 			map.put("token", token);
 			map.put("userName", uResult.getUserName());//昵称
