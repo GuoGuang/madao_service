@@ -69,6 +69,7 @@ public class UserController {
 	 * @return boolean
 	 */
 	@PostMapping()
+	@OptLog(operationType= CommonConst.ADD,operationName="注册用户")
 	public JsonData insertUser(@RequestBody @Valid User user) {
 		userService.insertUser(user);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
@@ -145,12 +146,11 @@ public class UserController {
 
 	/**
 	 * 退出
-	 *
 	 * @param token
 	 * @return boolean
 	 */
-	@OptLog(operationType= CommonConst.MODIFY,operationName="退出系统")
 	@PostMapping(value = "/logout")
+	@OptLog(operationType= CommonConst.MODIFY,operationName="退出系统")
 	public JsonData logout(@RequestHeader("X-Token")String token) {
 		userService.logout(token);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
@@ -163,6 +163,7 @@ public class UserController {
 	 * @return JsonData
 	 */
 	@PutMapping()
+	@OptLog(operationType= CommonConst.MODIFY,operationName="更新用户资料")
 	public JsonData updateByPrimaryKey(@RequestBody @Valid User user) {
 		boolean result = userService.updateByPrimaryKey(user);
 		return new JsonData(result, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
@@ -174,6 +175,7 @@ public class UserController {
 	 * @return JsonData
 	 */
 	@PutMapping("password")
+	@OptLog(operationType= CommonConst.MODIFY,operationName="修改用户密码")
 	public JsonData changePassword(@RequestBody User user,String oldPassword) {
 		boolean result = userService.changePassword(user,oldPassword);
 		if (!result){
@@ -192,6 +194,7 @@ public class UserController {
 	 * @return JsonData
 	 */
 	@DeleteMapping
+	@OptLog(operationType= CommonConst.DELETE,operationName="删除用户")
 	public JsonData deleteByIds(@RequestBody List<String> userId, @ModelAttribute("admin_claims") Claims claims) {
 		if (claims == null) {
 			return new JsonData(true, StatusEnum.PARAM_MISSING.getCode(), StatusEnum.PARAM_MISSING.getMsg());

@@ -1,7 +1,9 @@
 package com.youyd.base.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.annotation.OptLog;
 import com.youyd.base.service.DictService;
+import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.Dict;
@@ -82,11 +84,12 @@ public class DictController {
 	}
 
 	/**
-	 * 更新资源
+	 * 更新字典项
 	 * @param  dict 菜单
 	 * @return JsonData
 	 */
 	@PutMapping
+	@OptLog(operationType= CommonConst.MODIFY,operationName="更新字典项")
 	public JsonData updateByPrimaryKey(@RequestBody @Valid Dict dict) {
 		boolean state = dictService.updateByPrimaryKey(dict);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
@@ -98,6 +101,7 @@ public class DictController {
 	 * @return JsonData
 	 */
 	@PostMapping
+	@OptLog(operationType= CommonConst.ADD,operationName="插入字典项")
 	public JsonData insertSelective(@RequestBody @Valid Dict dict) {
 		dict.setCreateAt(DateUtil.getTimestamp());
 		dict.setUpdateAt(DateUtil.getTimestamp());
@@ -106,11 +110,12 @@ public class DictController {
 	}
 
 	/**
-	 * 删除资源
+	 * 删除字典项
 	 * @param resId 资源id数组
 	 * @return JsonData
 	 */
 	@DeleteMapping()
+	@OptLog(operationType= CommonConst.DELETE,operationName="删除字典项")
 	public JsonData deleteByIds(@RequestBody List<String> resId) {
 		boolean state = dictService.deleteDictByIds(resId);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());

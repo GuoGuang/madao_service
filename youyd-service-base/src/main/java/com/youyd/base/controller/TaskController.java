@@ -1,7 +1,9 @@
 package com.youyd.base.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.annotation.OptLog;
 import com.youyd.base.service.TaskService;
+import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QuartzJob;
 import com.youyd.pojo.QueryVO;
@@ -63,6 +65,7 @@ public class TaskController {
 	 * @return JsonData
 	 */
 	@PutMapping
+	@OptLog(operationType= CommonConst.MODIFY,operationName="更新Quartz任务")
 	public JsonData updateByPrimaryKey(@RequestBody @Valid QuartzJob quartzJob) {
 		boolean state = taskService.updateByPrimaryKey(quartzJob);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
@@ -74,17 +77,19 @@ public class TaskController {
 	 * @return JsonData
 	 */
 	@PostMapping
+	@OptLog(operationType= CommonConst.ADD,operationName="插入Quartz任务")
 	public JsonData insertSelective(@RequestBody @Valid QuartzJob quartzJob) {
 		boolean state = taskService.insertSelective(quartzJob);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
-	 * 删除资源
+	 * 删除Quartz任务
 	 * @param quartzJobIds 资源id数组
 	 * @return JsonData
 	 */
 	@DeleteMapping()
+	@OptLog(operationType= CommonConst.DELETE,operationName="删除Quartz任务")
 	public JsonData deleteByIds(@RequestBody List<String> quartzJobIds) {
 		boolean state = taskService.deleteByIds(quartzJobIds);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
@@ -107,6 +112,7 @@ public class TaskController {
 	 * @return JsonData
 	 */
 	@GetMapping("/run/{id}")
+	@OptLog(operationType= CommonConst.MODIFY,operationName="开始执行Quartz任务")
 	public JsonData runJob(@PathVariable("id") String jobId){
 		taskService.run(jobId);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());

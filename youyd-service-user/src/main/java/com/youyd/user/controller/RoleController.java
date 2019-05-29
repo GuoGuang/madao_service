@@ -1,6 +1,8 @@
 package com.youyd.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.annotation.OptLog;
+import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.user.Role;
@@ -59,19 +61,9 @@ public class RoleController {
 	 * @return JsonData
 	 */
 	@PostMapping
+	@OptLog(operationType= CommonConst.MODIFY,operationName="添加一个角色")
 	public JsonData insertSelective(@RequestBody @Valid Role role) {
 		boolean state = roleService.insertSelective(role);
-		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
-	}
-
-	/**
-	 * 删除角色
-	 * @param roleId 角色id数组
-	 * @return JsonData
-	 */
-	@DeleteMapping
-	public JsonData deleteByIds(@RequestBody List<String> roleId) {
-		boolean state = roleService.deleteByIds(roleId);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
@@ -81,9 +73,21 @@ public class RoleController {
 	 * @return JsonData
 	 */
 	@PutMapping()
+	@OptLog(operationType= CommonConst.MODIFY,operationName="更新角色")
 	public JsonData updateByPrimaryKey(@RequestBody @Valid Role role) {
 		boolean state = roleService.updateByPrimaryKey(role);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
+	/**
+	 * 删除角色
+	 * @param roleId 角色id数组
+	 * @return JsonData
+	 */
+	@DeleteMapping
+	@OptLog(operationType= CommonConst.DELETE,operationName="删除角色")
+	public JsonData deleteByIds(@RequestBody List<String> roleId) {
+		boolean state = roleService.deleteByIds(roleId);
+		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+	}
 }
