@@ -1,7 +1,6 @@
 package com.youyd.user;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.youyd.utils.security.JWTAuthentication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -45,16 +44,6 @@ public class UserApplication {
 	@Bean
 	public BCryptPasswordEncoder bcryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
-	}
-
-	/**
-	 * JWT鉴权
-	 *
-	 * @return : JWTAuthentication
-	 */
-	@Bean
-	public JWTAuthentication jwtUtil() {
-		return new JWTAuthentication();
 	}
 
 	/**
