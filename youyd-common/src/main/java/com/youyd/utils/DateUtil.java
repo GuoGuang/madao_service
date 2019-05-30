@@ -25,6 +25,14 @@ public class DateUtil {
 	}
 
 	/**
+	 * 获取当前时间
+	 * @return ： Long
+	 */
+	public static LocalDateTime getCurrentTime(){
+		return LocalDateTime.now();
+	}
+
+	/**
 	 * 当前日期加几天，返回下一天的当前时间
 	 * @param days 天
 	 * @return LocalDateTime

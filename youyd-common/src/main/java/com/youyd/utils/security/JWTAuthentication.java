@@ -1,13 +1,11 @@
 package com.youyd.utils.security;
 
-
 import com.youyd.utils.DateUtil;
 import io.jsonwebtoken.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * @description: S
@@ -26,28 +24,24 @@ public class JWTAuthentication {
 
 	/**
 	 * 生成JWT
-	 * @param id
-	 * @param subject
-	 * @param roles
+	 * @param id 用户id
+	 * @param subject 载体，用户数据
+	 * @param roles 所属角色组
 	 * @param afterDate 过期时间
-	 * @return
+	 * @return String
 	 */
 	public String createJWT(Long id, String subject, String roles, LocalDateTime afterDate) {
 		long nowMillis = System.currentTimeMillis();
-		Date now = new Date(nowMillis);
 		JwtBuilder builder = Jwts.builder();
 		builder.setId(id.toString());
 		builder.setSubject(subject);
 		// 设置签发时间
-		builder.setIssuedAt(now);
+		builder.setIssuedAt(DateUtil.convertLdtToDate(DateUtil.getCurrentTime()));
 		// 设置签名秘钥
 		builder.signWith(SignatureAlgorithm.HS256, encodedSecretKey);
 		// 过期时间
 		builder.setExpiration(DateUtil.convertLdtToDate(afterDate));
 		builder.claim("roles",roles);
-		/*if (expiration > 0) {
-			builder.setExpiration( new Date( nowMillis + expiration));
-		}*/
 		return builder.compact();
 	}
 
