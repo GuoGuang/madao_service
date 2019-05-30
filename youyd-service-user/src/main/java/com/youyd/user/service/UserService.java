@@ -41,11 +41,12 @@ public class UserService {
 
 	private final RedisService redisService;
 
-	private final JWTAuthentication jwtAuthentication; // jwt鉴权
-
-	private final BCryptPasswordEncoder bCryptPasswordEncoder; //加密
-
-	private final OssClientUtil ossClientUtil; // 对象存储工具
+	// jwt鉴权
+	private final JWTAuthentication jwtAuthentication;
+	// 加密
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	// 对象存储工具
+	private final OssClientUtil ossClientUtil;
 
 	private final LoginLogServiceRpc loginLogServiceRpc;
 

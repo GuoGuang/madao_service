@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.annotation.OptLog;
 import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
-import com.youyd.enums.UserEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.user.User;
 import com.youyd.user.service.UserService;
@@ -152,21 +151,6 @@ public class UserController {
 	public JsonData updateByPrimaryKey(@RequestBody @Valid User user) {
 		boolean result = userService.updateByPrimaryKey(user);
 		return new JsonData(result, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
-	}
-
-	/**
-	 * 修改密码
-	 * @param user 实体
-	 * @return JsonData
-	 */
-	@PutMapping("password")
-	@OptLog(operationType= CommonConst.MODIFY,operationName="修改用户密码")
-	public JsonData changePassword(@RequestBody User user,String oldPassword) {
-		boolean result = userService.changePassword(user,oldPassword);
-		if (!result){
-			return new JsonData(false, UserEnum.WRONG_PASSWORD.getCode(), UserEnum.WRONG_PASSWORD.getInfo());
-		}
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
