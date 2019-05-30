@@ -1,7 +1,9 @@
 package com.youyd.article.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.annotation.OptLog;
 import com.youyd.article.service.backstage.SaCommentService;
+import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Comment;
@@ -63,6 +65,7 @@ public class SaCommentController {
 	 * @return JsonData
 	 */
 	@PostMapping()
+	@OptLog(operationType= CommonConst.ADD,operationName="增加文章评论")
 	public JsonData insertComment(@RequestBody @Valid Comment comment){
 		saCommentService.insertComment(comment);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
@@ -74,6 +77,7 @@ public class SaCommentController {
 	 * @return JsonData
 	 */
 	@PutMapping
+	@OptLog(operationType= CommonConst.MODIFY,operationName="修改文章评论")
 	public JsonData updateByCommentSelective(@RequestBody @Valid Comment comment) {
 		saCommentService.updateByCommentSelective(comment);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
@@ -85,6 +89,7 @@ public class SaCommentController {
 	 * @return JsonData
 	 */
 	@DeleteMapping
+	@OptLog(operationType= CommonConst.DELETE,operationName="添加文章评论")
 	public JsonData deleteByIds(List<String> commentIds){
 		saCommentService.deleteCommentByIds(commentIds);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());

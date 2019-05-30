@@ -1,6 +1,8 @@
 package com.youyd.tweets.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.annotation.OptLog;
+import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
@@ -57,6 +59,7 @@ public class StTweetsCommentController {
 	 * @return Result
 	 */
 	@PostMapping()
+	@OptLog(operationType= CommonConst.ADD,operationName="发布推特")
 	public Result insertTweetsComment(@RequestBody @Valid TweetsComment tweetsComment, String tweetsId){
 		tweetsCommentService.insertTweetsComment(tweetsComment,tweetsId);
 		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
@@ -69,6 +72,7 @@ public class StTweetsCommentController {
 	 * @return Result
 	 */
 	@PutMapping
+	@OptLog(operationType= CommonConst.MODIFY,operationName="修改推特评论")
 	public Result updateByTweetsCommentSelective(@Valid TweetsComment tweetsComment){
 		boolean updateResult = tweetsCommentService.updateByTweetsCommentSelective(tweetsComment);
 		return new Result(updateResult, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
@@ -80,6 +84,7 @@ public class StTweetsCommentController {
 	 * @return Result
 	 */
 	@DeleteMapping
+	@OptLog(operationType= CommonConst.DELETE,operationName="删除推特评论")
 	public Result deleteByIds(@RequestBody List<String> tweetsCommentId){
 		boolean br = tweetsCommentService.deleteByIds(tweetsCommentId);
 		return new Result(br, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());

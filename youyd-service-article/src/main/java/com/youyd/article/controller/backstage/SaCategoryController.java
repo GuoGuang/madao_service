@@ -1,7 +1,9 @@
 package com.youyd.article.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.annotation.OptLog;
 import com.youyd.article.service.backstage.SaCategoryService;
+import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Category;
@@ -61,6 +63,7 @@ public class SaCategoryController {
 	 */
 	@ApiOperation(value = "添加一条新的分类", notes = "id")
 	@PostMapping
+	@OptLog(operationType= CommonConst.ADD,operationName="添加文章分类")
 	public JsonData insertCategory(@RequestBody @Valid Category category) {
 		columnService.insertCategory(category);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
@@ -70,6 +73,7 @@ public class SaCategoryController {
 	 * 修改
 	 */
 	@PutMapping
+	@OptLog(operationType= CommonConst.MODIFY,operationName="修改文章分类")
 	public JsonData updateByCategorySelective(@RequestBody @Valid Category category) {
 		columnService.updateByCategorySelective(category);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
@@ -81,6 +85,7 @@ public class SaCategoryController {
 	 * @param categoryIds :分类id数组
 	 */
 	@DeleteMapping
+	@OptLog(operationType= CommonConst.DELETE,operationName="删除文章分类")
 	public JsonData deleteCategoryByIds(@RequestBody List<String> categoryIds) {
 		columnService.deleteCategoryByIds(categoryIds);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());

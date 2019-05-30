@@ -1,6 +1,8 @@
 package com.youyd.user.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.annotation.OptLog;
+import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.user.Menu;
@@ -76,6 +78,7 @@ public class MenuController {
 	 * @return JsonData
 	 */
 	@PutMapping
+	@OptLog(operationType= CommonConst.MODIFY,operationName="更新Menu")
 	public JsonData updateByPrimaryKey(@RequestBody @Valid Menu menu) {
 		boolean state = menuService.updateByPrimaryKey(menu);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
@@ -87,6 +90,7 @@ public class MenuController {
 	 * @return JsonData
 	 */
 	@PostMapping
+	@OptLog(operationType= CommonConst.MODIFY,operationName="插入Menu")
 	public JsonData insertSelective(@RequestBody @Valid Menu menu) {
 		menu.setCreateAt(DateUtil.getTimestamp());
 		menu.setUpdateAt(DateUtil.getTimestamp());
@@ -100,6 +104,7 @@ public class MenuController {
 	 * @return JsonData
 	 */
 	@DeleteMapping()
+	@OptLog(operationType= CommonConst.DELETE,operationName="删除Menu")
 	public JsonData deleteByIds(@RequestBody List<String> resId) {
 		boolean state = menuService.deleteByIds(resId);
 		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());

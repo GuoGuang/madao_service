@@ -1,7 +1,9 @@
 package com.youyd.article.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.annotation.OptLog;
 import com.youyd.article.service.backstage.SaArticleService;
+import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Article;
@@ -65,6 +67,7 @@ public class SaArticleController {
      */
     @ApiOperation(value = "添加一条新的文章")
     @PostMapping
+    @OptLog(operationType= CommonConst.ADD,operationName="添加一条新的文章")
     public JsonData insertArticle(@RequestBody @Valid Article article) {
         saArticleService.insertArticle(article);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
@@ -76,6 +79,7 @@ public class SaArticleController {
      */
     @ApiOperation(value = "按照id修改", notes = "id")
     @PutMapping
+    @OptLog(operationType= CommonConst.MODIFY,operationName="修改文章")
     public JsonData updateByPrimaryKeySelective(@RequestBody @Valid Article article) {
         saArticleService.updateByPrimaryKeySelective(article);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
@@ -88,6 +92,7 @@ public class SaArticleController {
      */
     @ApiOperation(value = "删除", notes = "id")
     @DeleteMapping
+    @OptLog(operationType= CommonConst.DELETE,operationName="删除文章")
     public JsonData deleteArticleByIds(@RequestBody List<String> articleIds) {
         saArticleService.deleteArticleByIds(articleIds);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);

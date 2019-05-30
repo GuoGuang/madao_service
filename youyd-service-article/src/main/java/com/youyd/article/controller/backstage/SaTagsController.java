@@ -1,7 +1,9 @@
 package com.youyd.article.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.youyd.annotation.OptLog;
 import com.youyd.article.service.blog.TagsService;
+import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Tags;
@@ -60,11 +62,12 @@ public class SaTagsController {
 
 
     /**
-     * 增加
+     * 增加文章标签
      * @param article:标签实例
      */
-    @ApiOperation(value = "添加一条新的文章", notes = "id")
+    @ApiOperation(value = "增加文章标签", notes = "id")
     @PostMapping
+    @OptLog(operationType= CommonConst.ADD,operationName="增加文章标签")
     public JsonData insertArticle(@RequestBody @Valid Tags tags) {
         tagsService.insertTags(tags);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
@@ -76,6 +79,7 @@ public class SaTagsController {
      */
     @ApiOperation(value = "按照id修改", notes = "id")
     @PutMapping
+    @OptLog(operationType= CommonConst.MODIFY,operationName="修改文章标签")
     public JsonData updateTagsById(@RequestBody @Valid Tags tags) {
         tagsService.updateTagsById(tags);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
@@ -87,6 +91,7 @@ public class SaTagsController {
      */
     @ApiOperation(value = "删除", notes = "id")
     @DeleteMapping
+    @OptLog(operationType= CommonConst.DELETE,operationName="删除文章标签")
     public JsonData delete(@RequestBody List<String> articleIds) {
         tagsService.deleteByIds(articleIds);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);

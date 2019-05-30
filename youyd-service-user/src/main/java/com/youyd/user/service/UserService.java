@@ -41,11 +41,12 @@ public class UserService {
 
 	private final RedisService redisService;
 
-	private final JWTAuthentication jwtAuthentication; // jwt鉴权
-
-	private final BCryptPasswordEncoder bCryptPasswordEncoder; //加密
-
-	private final OssClientUtil ossClientUtil; // 对象存储工具
+	// jwt鉴权
+	private final JWTAuthentication jwtAuthentication;
+	// 加密
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	// 对象存储工具
+	private final OssClientUtil ossClientUtil;
 
 	private final LoginLogServiceRpc loginLogServiceRpc;
 
@@ -99,7 +100,11 @@ public class UserService {
 		User uResult = userDao.selectOne(queryWrapper);
 		if (uResult != null && bCryptPasswordEncoder.matches(password, uResult.getPassword())) {
 			// 生成token
-			String token = jwtAuthentication.createJWT(Long.valueOf(uResult.getId()),  JsonUtil.toJsonString(uResult), "admin",CommonConst.TIME_OUT_WEEK);
+			String token = jwtAuthentication.createJWT(
+									Long.valueOf(uResult.getId()),
+									JsonUtil.toJsonString(uResult),
+								"admin",
+									DateUtil.getPlusWeeks(1));
 			Map<String, String> map = new HashMap<>();
 			map.put("token", token);
 			map.put("userName", uResult.getUserName());//昵称

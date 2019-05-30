@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.annotation.OptLog;
 import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
-import com.youyd.enums.UserEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.user.User;
 import com.youyd.user.service.UserService;
@@ -15,11 +14,9 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,6 +66,7 @@ public class UserController {
 	 * @return boolean
 	 */
 	@PostMapping()
+	@OptLog(operationType= CommonConst.ADD,operationName="注册用户")
 	public JsonData insertUser(@RequestBody @Valid User user) {
 		userService.insertUser(user);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
@@ -116,19 +114,6 @@ public class UserController {
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),byCondition);
 	}
 
-	/**
-	 * 用户上传头像
-	 * @param user：用户条件
-	 * @return boolean
-	 * url: ?search={query}{&page,per_page,sort,order}
-	 */
-	@ApiOperation(value = "查找用户列表", notes = "按照条件查找用户列表")
-	@ApiImplicitParam(name = "User", value = "查询条件：用户对象", dataType = "Map", paramType = "query")
-	@PutMapping("avatar")
-	public JsonData updateUserAvatar(User user, MultipartFile file) throws IOException {
-		userService.updateUserAvatar(user,file);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
-	}
 
 	/**
 	 * 按照id查询用户
@@ -145,12 +130,11 @@ public class UserController {
 
 	/**
 	 * 退出
-	 *
 	 * @param token
 	 * @return boolean
 	 */
-	@OptLog(operationType= CommonConst.MODIFY,operationName="退出系统")
 	@PostMapping(value = "/logout")
+	@OptLog(operationType= CommonConst.MODIFY,operationName="退出系统")
 	public JsonData logout(@RequestHeader("X-Token")String token) {
 		userService.logout(token);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
@@ -163,23 +147,10 @@ public class UserController {
 	 * @return JsonData
 	 */
 	@PutMapping()
+	@OptLog(operationType= CommonConst.MODIFY,operationName="更新用户资料")
 	public JsonData updateByPrimaryKey(@RequestBody @Valid User user) {
 		boolean result = userService.updateByPrimaryKey(user);
 		return new JsonData(result, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
-	}
-
-	/**
-	 * 修改密码
-	 * @param user 实体
-	 * @return JsonData
-	 */
-	@PutMapping("password")
-	public JsonData changePassword(@RequestBody User user,String oldPassword) {
-		boolean result = userService.changePassword(user,oldPassword);
-		if (!result){
-			return new JsonData(false, UserEnum.WRONG_PASSWORD.getCode(), UserEnum.WRONG_PASSWORD.getInfo());
-		}
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -192,6 +163,7 @@ public class UserController {
 	 * @return JsonData
 	 */
 	@DeleteMapping
+	@OptLog(operationType= CommonConst.DELETE,operationName="删除用户")
 	public JsonData deleteByIds(@RequestBody List<String> userId, @ModelAttribute("admin_claims") Claims claims) {
 		if (claims == null) {
 			return new JsonData(true, StatusEnum.PARAM_MISSING.getCode(), StatusEnum.PARAM_MISSING.getMsg());
