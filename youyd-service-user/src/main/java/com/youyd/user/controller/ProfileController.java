@@ -70,6 +70,9 @@ public class ProfileController {
 	@PutMapping("password")
 	@OptLog(operationType = CommonConst.MODIFY, operationName = "修改用户密码")
 	public JsonData changePassword(@RequestBody User user, String oldPassword) {
+		if (oldPassword ==null || !oldPassword.equals(user.getPassword())){
+			return new JsonData(false, UserEnum.TWICE_PASSWORD_NOT_MATCH.getCode(), UserEnum.TWICE_PASSWORD_NOT_MATCH.getInfo());
+		}
 		boolean result = userService.changePassword(user, oldPassword);
 		if (!result) {
 			return new JsonData(false, UserEnum.WRONG_PASSWORD.getCode(), UserEnum.WRONG_PASSWORD.getInfo());
