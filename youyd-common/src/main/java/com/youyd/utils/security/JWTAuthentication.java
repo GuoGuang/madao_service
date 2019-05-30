@@ -1,8 +1,10 @@
 package com.youyd.utils.security;
 
+
 import com.youyd.utils.DateUtil;
 import io.jsonwebtoken.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -12,6 +14,7 @@ import java.util.Date;
  * @author: LGG
  * @create: 2018-10-24 19:54
  **/
+@Component
 @ConfigurationProperties("jwt.config")
 public class JWTAuthentication {
 
@@ -40,7 +43,7 @@ public class JWTAuthentication {
 		// 设置签名秘钥
 		builder.signWith(SignatureAlgorithm.HS256, encodedSecretKey);
 		// 过期时间
-		builder.setExpiration(DateUtil.convertLDTToDate(afterDate));
+		builder.setExpiration(DateUtil.convertLdtToDate(afterDate));
 		builder.claim("roles",roles);
 		/*if (expiration > 0) {
 			builder.setExpiration( new Date( nowMillis + expiration));
