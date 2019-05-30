@@ -7,10 +7,11 @@ import java.time.temporal.TemporalUnit;
 import java.util.Date;
 
 /**
- * 日期工具类
+ * LocalDate LocalTime LocalDateTime日期工具类
  * @author LGG
  * @create 2019年4月20日22:35:18
  * @see https://blog.csdn.net/kingboyworld/article/details/75808108
+ * @see https://www.cnblogs.com/qingyunfc/p/10236734.html
  * @version 1.0.0
  */
 public class DateUtil {
@@ -24,12 +25,12 @@ public class DateUtil {
 	}
 
 	/**
-	 * 当前日期加几天
+	 * 当前日期加几天，返回下一天的当前时间
 	 * @param days 天
-	 * @return LocalDate
+	 * @return LocalDateTime
 	 */
 	public static LocalDateTime getPlusDays(Integer days){
-		return LocalDate.now().plusDays(days).atStartOfDay();
+		return LocalDate.now().plusDays(days).atTime(LocalTime.now());
 	}
 
 	/**
@@ -38,7 +39,7 @@ public class DateUtil {
 	 * @return LocalDate
 	 */
 	public static LocalDateTime getPlusWeeks(Integer weeks){
-		return LocalDate.now().plusWeeks(weeks).atStartOfDay();
+		return LocalDate.now().plusWeeks(weeks).atTime(LocalTime.now());
 	}
 
 	/**
@@ -47,44 +48,33 @@ public class DateUtil {
 	 * @return LocalDate
 	 */
 	public static LocalDateTime getPlusMonths(Integer months){
-		return LocalDate.now().plusMonths(months).atStartOfDay();
+		return LocalDate.now().plusMonths(months).atTime(LocalTime.now());
 	}
-
-
-	//获取当前时间的LocalDateTime对象
-	//LocalDateTime.now();
-
-	//根据年月日构建LocalDateTime
-	//LocalDateTime.of();
-
-	//比较日期先后
-	//LocalDateTime.now().isBefore(),
-	//LocalDateTime.now().isAfter(),
 
 	/**
 	 * Date转换为LocalDateTime
-	 * @param date
-	 * @return
+	 * @param date new Date();
+	 * @return LocalDateTime
 	 */
-	public static LocalDateTime convertDateToLDT(Date date) {
+	public static LocalDateTime convertDateToLdt(Date date) {
 		return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
 	}
 
 
 	/**
 	 * LocalDateTime转换为Date
-	 * @param time
-	 * @return
+	 * @param time LocalDateTime
+	 * @return Date
 	 */
-	public static Date convertLDTToDate(LocalDateTime time) {
+	public static Date convertLdtToDate(LocalDateTime time) {
 		return Date.from(time.atZone(ZoneId.systemDefault()).toInstant());
 	}
 
 
 	/**
 	 * 获取指定日期的毫秒
-	 * @param time
-	 * @return
+	 * @param time LocalDateTime
+	 * @return Long
 	 */
 	public static Long getMilliByTime(LocalDateTime time) {
 		return time.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
@@ -92,8 +82,8 @@ public class DateUtil {
 
 	/**
 	 * 获取指定日期的秒
-	 * @param time
-	 * @return
+	 * @param time LocalDateTime
+	 * @return Long
 	 */
 	public static Long getSecondsByTime(LocalDateTime time) {
 		return time.atZone(ZoneId.systemDefault()).toInstant().getEpochSecond();
@@ -101,9 +91,9 @@ public class DateUtil {
 
 	/**
 	 * 获取指定时间的指定格式
-	 * @param time
-	 * @param pattern
-	 * @return
+	 * @param time LocalDateTime
+	 * @param pattern yyyy年MM月dd日 HH:mm
+	 * @return String
 	 */
 	public static String formatTime(LocalDateTime time,String pattern) {
 		return time.format(DateTimeFormatter.ofPattern(pattern));
@@ -111,7 +101,7 @@ public class DateUtil {
 
 	/**
 	 * 获取当前时间的指定格式
-	 * @param pattern
+	 * @param pattern yyyy年MM月dd日 HH:mm
 	 * @return
 	 */
 	public static String formatNow(String pattern) {
