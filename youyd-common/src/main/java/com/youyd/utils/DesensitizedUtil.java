@@ -96,9 +96,9 @@ public class DesensitizedUtil {
 		if (index <= 1) {
 			return email;
 		} else {
-
+			return StringUtils.rightPad(StringUtils.left(email, 1), index, "*").concat(StringUtils.mid(email, index, StringUtils.length(email)));
 		}
-		return StringUtils.rightPad(StringUtils.left(email, 1), index, "*").concat(StringUtils.mid(email, index, StringUtils.length(email)));
+
 	}
 
 	/**
@@ -140,7 +140,6 @@ public class DesensitizedUtil {
 	 * @param str fullName
 	 * @param index index
 	 * @return String
-	 * @Version: 1.0
 	 */
 	public static String left(String str,int index) {
 		if (StringUtils.isBlank(str)) {
@@ -160,7 +159,6 @@ public class DesensitizedUtil {
 	 * @param index index
 	 * @param end end
 	 * @return String
-	 * @Version: 1.0
 	 */
 	public static String around(String str, int index, int end) {
 		if (StringUtils.isBlank(str)) {
@@ -178,7 +176,6 @@ public class DesensitizedUtil {
 	 * @param str name
 	 * @param end end
 	 * @return String
-	 * @Version: 1.0
 	 */
 	public static String right(String str,int end) {
 		if (StringUtils.isBlank(str)) {
