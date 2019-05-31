@@ -85,6 +85,7 @@ public class UserService {
 		if (user.getStatus() != null) {
 			queryWrapper.eq(User::getStatus, user.getStatus());
 		}
+		queryWrapper.orderByDesc(User::getCreateAt);
 		return userDao.selectPage(pr, queryWrapper);
 	}
 

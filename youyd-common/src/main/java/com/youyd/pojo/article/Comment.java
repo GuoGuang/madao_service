@@ -1,5 +1,6 @@
 package com.youyd.pojo.article;
 
+import com.youyd.pojo.BasePojo;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,7 @@ import java.util.Date;
  */
 @Getter
 @Setter
-public class Comment implements Serializable {
+public class Comment extends BasePojo implements Serializable {
 
     private String id; // 评论表id
 

@@ -48,6 +48,7 @@ public class DictService {
 		if (dict.getState() != null){
 			queryWrapper.eq(Dict::getState,dict.getState());
 		}
+		queryWrapper.orderByDesc(Dict::getCreateAt);
 		IPage<Dict> dictIPage = dictDao.selectPage(pr, queryWrapper);
 		return dictIPage;
 	}

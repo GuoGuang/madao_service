@@ -47,6 +47,7 @@ public class SaCategoryService {
 		if (category.getState() != null){
 			queryWrapper.eq(Category::getState,category.getState());
 		}
+		queryWrapper.orderByDesc(Category::getCreateAt);
 		return saSaCategoryDao.selectPage(pr, queryWrapper);
 	}
 
