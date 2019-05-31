@@ -127,4 +127,63 @@ public class DesensitizedUtil {
 		String pwd = StringUtils.left(password, 0);
 		return StringUtils.rightPad(pwd, StringUtils.length(password), "*");
 	}
+
+
+	// 自定义验证
+	//-----------------------------------------------------------------------
+	/**
+	 * 保留前面几位
+	 * <p>
+	 *  DesensitizedUtil.left("张虎子",1); = "张**"
+	 *  DesensitizedUtil.left("17667198751",3); = "176********"
+	 * </p>
+	 * @param str fullName
+	 * @param index index
+	 * @return String
+	 * @Version: 1.0
+	 */
+	public static String left(String str,int index) {
+		if (StringUtils.isBlank(str)) {
+			return "";
+		}
+		String name = StringUtils.left(str, index);
+		return StringUtils.rightPad(name, StringUtils.length(str), "*");
+	}
+
+	/**
+	 * 前面保留 index 位明文，后面保留 end 位明文,如：[身份证号] 110****58，前面保留3位明文，后面保留2位明文
+	 * <p>
+	 *  DesensitizedUtil.around("张虎子",1,1); = "张*子"
+	 *  DesensitizedUtil.around("140311199701017639",3,3); = "140************639"
+	 * </p>
+	 * @param str name
+	 * @param index index
+	 * @param end end
+	 * @return String
+	 * @Version: 1.0
+	 */
+	public static String around(String str, int index, int end) {
+		if (StringUtils.isBlank(str)) {
+			return "";
+		}
+		return StringUtils.left(str, index).concat(StringUtils.removeStart(StringUtils.leftPad(StringUtils.right(str, end), StringUtils.length(str), "*"), "***"));
+	}
+
+	/**
+	 * 保留后面几位
+	 * <p>
+	 *  DesensitizedUtil.around("张虎子",1); = "**子"
+	 *  DesensitizedUtil.around("17667198751",3); = "********751"
+	 * </p>
+	 * @param str name
+	 * @param end end
+	 * @return String
+	 * @Version: 1.0
+	 */
+	public static String right(String str,int end) {
+		if (StringUtils.isBlank(str)) {
+			return "";
+		}
+		return StringUtils.leftPad(StringUtils.right(str, end), StringUtils.length(str), "*");
+	}
 }
