@@ -1,6 +1,7 @@
 package com.youyd.pojo.user;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youyd.pojo.BasePojo;
 import io.swagger.annotations.ApiModel;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @description: 用户实体类
@@ -21,6 +23,12 @@ import java.util.Date;
 @Getter
 @Setter
 public class User extends BasePojo implements Serializable{
+
+	@TableField(exist = false)
+	private List<Role> roles;
+	@TableField(exist = false)
+	private List<Menu> menus;
+
 
 	@TableId(type = IdType.ID_WORKER_STR)
 	private String id;

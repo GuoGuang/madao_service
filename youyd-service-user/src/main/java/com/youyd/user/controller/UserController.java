@@ -3,11 +3,14 @@ package com.youyd.user.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.annotation.OptLog;
 import com.youyd.constant.CommonConst;
+import com.youyd.customexception.ParamException;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.user.User;
 import com.youyd.user.service.UserService;
 import com.youyd.utils.JsonData;
+import com.youyd.utils.JsonUtil;
+import com.youyd.utils.security.JWTAuthentication;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -35,9 +38,13 @@ public class UserController {
 
 	private final UserService userService;
 
+	// jwt鉴权
+	private final JWTAuthentication jwtAuthentication;
+
 	@Autowired
-	public UserController(UserService userService) {
+	public UserController(UserService userService, JWTAuthentication jwtAuthentication) {
 		this.userService = userService;
+		this.jwtAuthentication = jwtAuthentication;
 	}
 
 
@@ -74,8 +81,24 @@ public class UserController {
 
 
 	/**
-	 * 获取用户权限，信息
-	 *
+	 * 获取用户角色、权限
+	 * @param token 用户id
+	 * @return boolean
+	 */
+	@PostMapping("/permission")
+	public JsonData getUserPermission(String token) throws ParamException {
+		String userSub = jwtAuthentication.parseJWT(token).getSubject();
+		User user = JsonUtil.jsonToPojo(userSub, User.class);
+		if(user == null) {
+			throw new ParamException();
+		}
+		User userPermission = userService.getUserPermission(user.getId());
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), userPermission);
+	}
+
+
+	/**
+	 * dashboard信息初始化
 	 * @param token
 	 * @return boolean
 	 */

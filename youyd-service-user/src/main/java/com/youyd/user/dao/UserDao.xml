@@ -3,4 +3,18 @@
 <mapper namespace="com.youyd.user.dao.UserDao" >
 
 
+    <select id="findRolesOfUser" resultType="com.youyd.pojo.user.Role">
+        SELECT * FROM us_role WHERE id in (
+            SELECT us_role_id FROM us_user_role WHERE us_user_id = #{id}
+            )
+    </select>
+    <select id="findMenusOfUser" resultType="com.youyd.pojo.user.Menu">
+        SELECT * FROM us_menu WHERE id in (
+            SELECT us_menu_id FROM us_role_menu WHERE us_role_id in (
+                SELECT id FROM us_role WHERE id in (
+                    SELECT us_role_id FROM us_user_role WHERE us_user_id = '1'
+                    )
+                )
+            )
+    </select>
 </mapper>

@@ -108,8 +108,7 @@ public class UserService {
 									DateUtil.getPlusWeeks(1));
 			Map<String, String> map = new HashMap<>();
 			map.put("token", token);
-			map.put("userName", uResult.getUserName());//昵称
-			map.put("avatar", uResult.getAvatar());//头像
+			map.put("user", JsonUtil.toJsonString(uResult));
 			try {
 				redisService.set(RedisConstant.REDIS_KEY_TOKEN + token, uResult, CommonConst.TIME_OUT_WEEK);
 				// 添加登录日志
@@ -178,5 +177,16 @@ public class UserService {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userDao.updateById(user);
 		return true;
+	}
+
+	/**
+	 * 获取用户角色权限
+	 * @param id 用户id
+	 */
+	public User getUserPermission(String id) {
+		User user = new User();
+		user.setRoles(userDao.findRolesOfUser(id));
+		user.setMenus(userDao.findMenusOfUser(id));
+		return user;
 	}
 }

@@ -61,18 +61,6 @@ public class MenuController {
 	}
 
 	/**
-	 * 获取用户权限，信息
-	 * @param token
-	 * @return boolean
-	 */
-	@PostMapping("/info")
-	public JsonData info(Menu menu,QueryVO queryVO ) {
-		IPage<Menu> menuByCondition = menuService.findMenuByCondition(menu,queryVO);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), menuByCondition);
-	}
-
-
-	/**
 	 * 更新资源
 	 * @param  menu 菜单
 	 * @return JsonData
