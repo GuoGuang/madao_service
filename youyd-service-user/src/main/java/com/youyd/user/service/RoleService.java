@@ -9,6 +9,7 @@ import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.user.Menu;
 import com.youyd.pojo.user.Role;
 import com.youyd.pojo.user.RoleMenu;
+import com.youyd.pojo.user.User;
 import com.youyd.user.dao.RoleDao;
 import com.youyd.user.dao.RoleMenuDao;
 import com.youyd.utils.DateUtil;
@@ -58,14 +59,6 @@ public class RoleService {
 	}
 
 	/**
-	 * 更新角色状态
-	 * @param roleId 角色id
-	 */
-	public void updateRoleState(List roleId) {
-		roleDao.updateRole(roleId);
-	}
-
-	/**
 	 * 更新角色、关联的菜单
 	 * @param role 角色实体
 	 * @return boolean
@@ -100,4 +93,13 @@ public class RoleService {
 		return SqlHelper.retBool(insert);
 	}
 
+
+	/**
+	 * 查询当前角色的用户列表
+	 * @param role 角色
+	 * @return List<User>
+	 */
+	public List<User> findUsersOfRole(Role role) {
+		return roleDao.findUsersOfRole(role.getId());
+	}
 }

@@ -29,5 +29,5 @@ public interface UserDao extends BaseMapper<User> {
 	 * @param id 用户id
 	 * @return 角色数组
 	 */
-	List<Menu> findMenusOfUser(String id);
+	List<Menu> findMenusOfUser(String userId);
 }

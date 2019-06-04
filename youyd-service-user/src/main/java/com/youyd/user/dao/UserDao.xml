@@ -12,7 +12,7 @@
         SELECT * FROM us_menu WHERE id in (
             SELECT us_menu_id FROM us_role_menu WHERE us_role_id in (
                 SELECT id FROM us_role WHERE id in (
-                    SELECT us_role_id FROM us_user_role WHERE us_user_id = '1'
+                    SELECT us_role_id FROM us_user_role WHERE us_user_id = #{userId}
                     )
                 )
             )
