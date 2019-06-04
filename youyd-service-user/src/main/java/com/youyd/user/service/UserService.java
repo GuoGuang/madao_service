@@ -12,8 +12,11 @@ import com.youyd.cache.redis.RedisService;
 import com.youyd.constant.CommonConst;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.LoginLog;
+import com.youyd.pojo.user.Role;
 import com.youyd.pojo.user.User;
+import com.youyd.pojo.user.UserRole;
 import com.youyd.user.dao.UserDao;
+import com.youyd.user.dao.UserRoleDao;
 import com.youyd.utils.*;
 import com.youyd.utils.security.JWTAuthentication;
 import eu.bitwalker.useragentutils.UserAgent;
@@ -50,15 +53,18 @@ public class UserService {
 
 	private final LoginLogServiceRpc loginLogServiceRpc;
 
+	private final UserRoleDao userRoleDao;
+
 
 	@Autowired
-	public UserService(UserDao userDao, RedisService redisService, JWTAuthentication jwtAuthentication, BCryptPasswordEncoder bCryptPasswordEncoder, OSSClient ossClient, OssClientUtil ossClientUtil, LoginLogServiceRpc loginLogServiceRpc) {
+	public UserService(UserDao userDao, RedisService redisService, JWTAuthentication jwtAuthentication, BCryptPasswordEncoder bCryptPasswordEncoder, OSSClient ossClient, OssClientUtil ossClientUtil, LoginLogServiceRpc loginLogServiceRpc, UserRoleDao userRoleDao) {
 		this.userDao = userDao;
 		this.redisService = redisService;
 		this.jwtAuthentication = jwtAuthentication;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.ossClientUtil = ossClientUtil;
 		this.loginLogServiceRpc = loginLogServiceRpc;
+		this.userRoleDao = userRoleDao;
 	}
 
 	/**
@@ -85,6 +91,7 @@ public class UserService {
 		if (user.getStatus() != null) {
 			queryWrapper.eq(User::getStatus, user.getStatus());
 		}
+		queryWrapper.orderByDesc(User::getCreateAt);
 		return userDao.selectPage(pr, queryWrapper);
 	}
 
@@ -107,8 +114,7 @@ public class UserService {
 									DateUtil.getPlusWeeks(1));
 			Map<String, String> map = new HashMap<>();
 			map.put("token", token);
-			map.put("userName", uResult.getUserName());//昵称
-			map.put("avatar", uResult.getAvatar());//头像
+			map.put("user", JsonUtil.toJsonString(uResult));
 			try {
 				redisService.set(RedisConstant.REDIS_KEY_TOKEN + token, uResult, CommonConst.TIME_OUT_WEEK);
 				// 添加登录日志
@@ -145,13 +151,32 @@ public class UserService {
 		return SqlHelper.retBool(i);
 	}
 
+	/**
+	 * 更新用户基础信息，关联的角色
+	 * @param user 用户实体
+	 * @return boolean
+	 */
 	public boolean updateByPrimaryKey(User user) {
 		int i = userDao.updateById(user);
+
+		LambdaQueryWrapper<UserRole> deleteWrapper = new LambdaQueryWrapper<>();
+		deleteWrapper.eq(UserRole::getUsUserId,user.getId());
+		userRoleDao.delete(deleteWrapper);
+
+		List<Role> roles = user.getRoles();
+		for (Role role : roles) {
+			UserRole userRole = new UserRole();
+			userRole.setUsUserId(user.getId());
+			userRole.setUsRoleId(role.getId());
+			userRoleDao.insert(userRole);
+		}
 		return SqlHelper.retBool(i);
 	}
 
 	public User findUserById(String id) {
-		return userDao.selectById(id);
+		User user = userDao.selectById(id);
+		user.setRoles(userDao.findRolesOfUser(id));
+		return user;
 	}
 
 	/**
@@ -177,5 +202,21 @@ public class UserService {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userDao.updateById(user);
 		return true;
+	}
+
+	/**
+	 * 获取用户角色权限
+	 * @param id 用户id
+	 */
+	public User getUserPermission(String id) {
+		User user = new User();
+		user.setRoles(userDao.findRolesOfUser(id));
+		user.setMenus(userDao.findMenusOfUser(id));
+		return user;
+	}
+
+	public List<Role> getUseRoles(String id) {
+		List<Role> rolesOfUser = userDao.findRolesOfUser(id);
+		return rolesOfUser;
 	}
 }

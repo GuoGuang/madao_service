@@ -43,7 +43,7 @@ public class SaCommentService {
 		if (StringUtils.isNotEmpty(comment.getContent())){
 			queryWrapper.eq(Comment::getContent,comment.getContent());
 		}
-
+		queryWrapper.orderByDesc(Comment::getCreateAt);
 		return saCommentDao.selectPage(pr, queryWrapper);
 	}
 

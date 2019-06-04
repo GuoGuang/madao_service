@@ -37,6 +37,7 @@ public class OptLogService {
 		if (StringUtils.isNotEmpty(optLog.getClientIp())) {
 			queryWrapper.like(OptLog::getClientIp, optLog.getClientIp());
 		}
+		queryWrapper.orderByDesc(OptLog::getCreateAt);
 		IPage<OptLog> optLogIPage = optLogDao.selectPage(pr, queryWrapper);
 		return optLogIPage;
 	}

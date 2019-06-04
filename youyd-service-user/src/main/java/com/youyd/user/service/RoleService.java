@@ -6,8 +6,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.pojo.QueryVO;
+import com.youyd.pojo.user.Menu;
 import com.youyd.pojo.user.Role;
+import com.youyd.pojo.user.RoleMenu;
+import com.youyd.pojo.user.User;
 import com.youyd.user.dao.RoleDao;
+import com.youyd.user.dao.RoleMenuDao;
 import com.youyd.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +28,12 @@ import java.util.List;
 public class RoleService {
 
 	private final RoleDao roleDao;
+	private final RoleMenuDao roleMenuDao;
 
 	@Autowired
-	public RoleService(RoleDao roleDao) {
+	public RoleService(RoleDao roleDao, RoleMenuDao roleMenuDao) {
 		this.roleDao = roleDao;
+		this.roleMenuDao = roleMenuDao;
 	}
 
 
@@ -46,16 +52,32 @@ public class RoleService {
 		return roleDao.selectPage(pr, queryWrapper);
 	}
 
-	/**
-	 * 更新角色状态
-	 * @param roleId 角色id
-	 */
-	public void updateRoleState(List roleId) {
-		roleDao.updateRole(roleId);
+	public Role findRoleById(String roleId) {
+		Role role = roleDao.selectById(roleId);
+		role.setMenus(roleMenuDao.findMenusOfRole(roleId));
+		return role;
 	}
 
+	/**
+	 * 更新角色、关联的菜单
+	 * @param role 角色实体
+	 * @return boolean
+	 */
 	public boolean updateByPrimaryKey(Role role) {
 		int i = roleDao.updateById(role);
+
+		LambdaQueryWrapper<RoleMenu> deleteWrapper = new LambdaQueryWrapper<>();
+		deleteWrapper.eq(RoleMenu::getUsRoleId,role.getId());
+		roleMenuDao.delete(deleteWrapper);
+
+		List<Menu> menus = role.getMenus();
+		for (Menu menu : menus) {
+			RoleMenu roleMenu = new RoleMenu();
+			roleMenu.setUsMenuId(menu.getId());
+			roleMenu.setUsRoleId(role.getId());
+			roleMenuDao.insert(roleMenu);
+		}
+
 		return SqlHelper.retBool(i);
 	}
 
@@ -71,7 +93,13 @@ public class RoleService {
 		return SqlHelper.retBool(insert);
 	}
 
-	public Role findRuleById(String roleId) {
-		return roleDao.selectById(roleId);
+
+	/**
+	 * 查询当前角色的用户列表
+	 * @param role 角色
+	 * @return List<User>
+	 */
+	public List<User> findUsersOfRole(Role role) {
+		return roleDao.findUsersOfRole(role.getId());
 	}
 }

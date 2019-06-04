@@ -38,7 +38,7 @@ public class UserServiceTest {
 		user.setUserName("ZH001");
 		user.setPassword("123456");
 		user.setAvatar("头像是qq");
-		user.setBirthday(new Date());
+		user.setBirthday(1L);
 		user.setEmail("121@qq.com");
 		user.setContactAddress("山东省潍坊市昌邑市");
 		//user.setIsLock(0);

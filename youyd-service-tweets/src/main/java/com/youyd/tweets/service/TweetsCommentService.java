@@ -41,6 +41,7 @@ public class TweetsCommentService {
 		if (StringUtils.isNotEmpty(tweetsComment.getNickName())) {
 			queryWrapper.like(TweetsComment::getNickName, tweetsComment.getNickName());
 		}
+		queryWrapper.orderByDesc(TweetsComment::getCreateAt);
 		return tweetsCommentCommentDao.selectPage(pr, queryWrapper);
 	}
 

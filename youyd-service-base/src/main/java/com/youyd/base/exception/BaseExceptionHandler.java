@@ -1,5 +1,6 @@
 package com.youyd.base.exception;
 
+import com.youyd.customexception.ParamException;
 import com.youyd.customexception.ValidFieldError;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.ErrotResult;
@@ -79,6 +80,17 @@ public class BaseExceptionHandler {
 			return new ErrotResult(StatusEnum.PARAM_INVALID, validList.toString());
 		}
 		return new ErrotResult(StatusEnum.PARAM_INVALID);
+	}
+
+	/**
+	 * 参数异常
+	 * @param ex Exception
+	 */
+	@ExceptionHandler(ParamException.class)
+	@ResponseBody
+	public ErrotResult paramException(ParamException ex) {
+		LogBack.error(ex.getMessage(),ex);
+		return new ErrotResult(StatusEnum.PARAM_ILLEGAL);
 	}
 
 	/**

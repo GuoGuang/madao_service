@@ -1,6 +1,7 @@
 package com.youyd.pojo.user;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youyd.pojo.BasePojo;
 import io.swagger.annotations.ApiModel;
@@ -10,7 +11,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 
 /**
  * @description: 用户实体类
@@ -21,6 +22,12 @@ import java.util.Date;
 @Getter
 @Setter
 public class User extends BasePojo implements Serializable{
+
+	@TableField(exist = false)
+	private List<Role> roles;
+	@TableField(exist = false)
+	private List<Menu> menus;
+
 
 	@TableId(type = IdType.ID_WORKER_STR)
 	private String id;
@@ -39,14 +46,14 @@ public class User extends BasePojo implements Serializable{
 
 	@NotNull(message="性别不能为空")
 	private String sex; // 性别
-	private Date birthday;//出生年月日
+	private Long birthday;//出生年月日
 	private String avatar;//头像
 
 	@NotNull(message="E-Mail不能为空")
 	@Pattern(regexp="^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$",message="邮箱格式不正确!")
 	private String email;//E-Mail
 
-	private Date lastDate;//最后登陆日期
+	private Long lastDate;//最后登陆日期
 	private Long onlineTime;//在线时长（分钟）
 	private String interest;//兴趣
 	private String personality;//个性

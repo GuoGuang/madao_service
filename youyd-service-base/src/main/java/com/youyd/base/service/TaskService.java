@@ -43,6 +43,7 @@ public class TaskService {
 	public IPage<QuartzJob> findTaskByCondition(QuartzJob quartzJob, QueryVO queryVO) {
 		Page<QuartzJob> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
 		LambdaQueryWrapper<QuartzJob> queryWrapper = new LambdaQueryWrapper<>();
+		queryWrapper.orderByDesc(QuartzJob::getCreateAt);
 		IPage<QuartzJob> taskIPage = jobDao.selectPage(pr, queryWrapper);
 		return taskIPage;
 	}

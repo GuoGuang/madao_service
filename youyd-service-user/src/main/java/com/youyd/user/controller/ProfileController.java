@@ -6,6 +6,7 @@ import com.youyd.enums.StatusEnum;
 import com.youyd.enums.UserEnum;
 import com.youyd.pojo.user.User;
 import com.youyd.user.service.UserService;
+import com.youyd.utils.DesensitizedUtil;
 import com.youyd.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -58,6 +59,8 @@ public class ProfileController {
 	@GetMapping(value = "/{id}")
 	public JsonData findByCondition(@PathVariable String id) {
 		User byId = userService.findUserById(id);
+		DesensitizedUtil.mobilePhone(byId.getPhone());
+		DesensitizedUtil.around(byId.getAccount(),2,2);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), byId);
 	}
 

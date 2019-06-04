@@ -6,6 +6,7 @@ import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.user.Role;
+import com.youyd.pojo.user.User;
 import com.youyd.user.service.RoleService;
 import com.youyd.utils.JsonData;
 import io.swagger.annotations.Api;
@@ -45,13 +46,24 @@ public class RoleController {
 	}
 
 	/**
-	 * 根据用户id查询
+	 * 查询当前用户关联的角色
+	 * @param role 查询参数
+	 * @return JsonData
+	 */
+	@GetMapping("/user")
+	public JsonData fetchUsersList(Role role ) {
+		List<User> ruleData = roleService.findUsersOfRole(role);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), ruleData);
+	}
+
+	/**
+	 * 根据角色id查询匹配的菜单
 	 * @param roleId 角色id
 	 * @return JsonData
 	 */
 	@GetMapping("/{roleId}")
-	public JsonData findById(@PathVariable String roleId) {
-		Role ruleData = roleService.findRuleById(roleId);
+	public JsonData findRoleById(@PathVariable String roleId) {
+		Role ruleData = roleService.findRoleById(roleId);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), ruleData);
 	}
 

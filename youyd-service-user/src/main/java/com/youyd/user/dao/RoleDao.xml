@@ -10,4 +10,9 @@
               #{roleId}
           </foreach>
     </update>
+    <select id="findUsersOfRole" resultType="com.youyd.pojo.user.User">
+        SELECT * FROM us_user WHERE id in (
+            SELECT us_user_id FROM us_user_role WHERE us_role_id = #{roleId}
+        )
+    </select>
 </mapper>

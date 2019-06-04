@@ -37,6 +37,7 @@ public class LoginLogService {
 		if (StringUtils.isNotEmpty(loginLog.getClientIp())) {
 			queryWrapper.like(LoginLog::getClientIp, loginLog.getClientIp());
 		}
+		queryWrapper.orderByDesc(LoginLog::getCreateAt);
 		IPage<LoginLog> loginLogIPage = loginLogDao.selectPage(pr, queryWrapper);
 		return loginLogIPage;
 	}

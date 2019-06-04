@@ -41,6 +41,7 @@ public class TweetsService {
 		if (StringUtils.isNotEmpty(tweets.getNickName())) {
 			queryWrapper.like(Tweets::getNickName, tweets.getNickName());
 		}
+		queryWrapper.orderByDesc(Tweets::getCreateAt);
 		return tweetsDao.selectPage(pr, queryWrapper);
 	}
 
