@@ -14,7 +14,9 @@ import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.LoginLog;
 import com.youyd.pojo.user.Role;
 import com.youyd.pojo.user.User;
+import com.youyd.pojo.user.UserRole;
 import com.youyd.user.dao.UserDao;
+import com.youyd.user.dao.UserRoleDao;
 import com.youyd.utils.*;
 import com.youyd.utils.security.JWTAuthentication;
 import eu.bitwalker.useragentutils.UserAgent;
@@ -51,15 +53,18 @@ public class UserService {
 
 	private final LoginLogServiceRpc loginLogServiceRpc;
 
+	private final UserRoleDao userRoleDao;
+
 
 	@Autowired
-	public UserService(UserDao userDao, RedisService redisService, JWTAuthentication jwtAuthentication, BCryptPasswordEncoder bCryptPasswordEncoder, OSSClient ossClient, OssClientUtil ossClientUtil, LoginLogServiceRpc loginLogServiceRpc) {
+	public UserService(UserDao userDao, RedisService redisService, JWTAuthentication jwtAuthentication, BCryptPasswordEncoder bCryptPasswordEncoder, OSSClient ossClient, OssClientUtil ossClientUtil, LoginLogServiceRpc loginLogServiceRpc, UserRoleDao userRoleDao) {
 		this.userDao = userDao;
 		this.redisService = redisService;
 		this.jwtAuthentication = jwtAuthentication;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.ossClientUtil = ossClientUtil;
 		this.loginLogServiceRpc = loginLogServiceRpc;
+		this.userRoleDao = userRoleDao;
 	}
 
 	/**
@@ -146,13 +151,32 @@ public class UserService {
 		return SqlHelper.retBool(i);
 	}
 
+	/**
+	 * 更新用户基础信息，关联的角色
+	 * @param user 用户实体
+	 * @return boolean
+	 */
 	public boolean updateByPrimaryKey(User user) {
 		int i = userDao.updateById(user);
+
+		LambdaQueryWrapper<UserRole> deleteWrapper = new LambdaQueryWrapper<>();
+		deleteWrapper.eq(UserRole::getUsUserId,user.getId());
+		userRoleDao.delete(deleteWrapper);
+
+		List<Role> roles = user.getRoles();
+		for (Role role : roles) {
+			UserRole userRole = new UserRole();
+			userRole.setUsUserId(user.getId());
+			userRole.setUsRoleId(role.getId());
+			userRoleDao.insert(userRole);
+		}
 		return SqlHelper.retBool(i);
 	}
 
 	public User findUserById(String id) {
-		return userDao.selectById(id);
+		User user = userDao.selectById(id);
+		user.setRoles(userDao.findRolesOfUser(id));
+		return user;
 	}
 
 	/**

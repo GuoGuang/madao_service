@@ -22,8 +22,6 @@ public class Role extends BasePojo implements Serializable {
 	@TableId(type = IdType.ID_WORKER_STR)
     private String id; // 角色表主键
 
-    private String parentRoleId; // 父级角色id
-
 	@NotNull(message="角色名称不能为空")
     private String roleName; // 角色名称
 

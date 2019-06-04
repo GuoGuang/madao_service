@@ -152,7 +152,6 @@ public class UserController {
 
 	/**
 	 * 按照id查询用户
-	 *
 	 * @param id：用户id
 	 * @return boolean
 	 * url: ?search={query}{&page,per_page,sort,order}
