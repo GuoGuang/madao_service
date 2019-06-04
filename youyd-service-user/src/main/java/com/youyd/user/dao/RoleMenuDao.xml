@@ -3,4 +3,11 @@
 <mapper namespace="com.youyd.user.dao.RoleMenuDao" >
 
 
+    <select id="findMenusOfRole" resultType="com.youyd.pojo.user.Menu">
+        SELECT * FROM us_menu WHERE id in (
+            SELECT us_menu_id FROM us_role_menu WHERE us_role_id in (
+                SELECT id FROM us_role WHERE id = #{roleId}
+            )
+        )
+    </select>
 </mapper>

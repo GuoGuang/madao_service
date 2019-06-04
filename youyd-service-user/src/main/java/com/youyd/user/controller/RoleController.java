@@ -50,8 +50,8 @@ public class RoleController {
 	 * @return JsonData
 	 */
 	@GetMapping("/{roleId}")
-	public JsonData findById(@PathVariable String roleId) {
-		Role ruleData = roleService.findRuleById(roleId);
+	public JsonData findRoleById(@PathVariable String roleId) {
+		Role ruleData = roleService.findRoleById(roleId);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), ruleData);
 	}
 
