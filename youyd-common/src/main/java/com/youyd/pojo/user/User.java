@@ -11,7 +11,6 @@ import lombok.Setter;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,14 +46,14 @@ public class User extends BasePojo implements Serializable{
 
 	@NotNull(message="性别不能为空")
 	private String sex; // 性别
-	private Date birthday;//出生年月日
+	private Long birthday;//出生年月日
 	private String avatar;//头像
 
 	@NotNull(message="E-Mail不能为空")
 	@Pattern(regexp="^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$",message="邮箱格式不正确!")
 	private String email;//E-Mail
 
-	private Date lastDate;//最后登陆日期
+	private Long lastDate;//最后登陆日期
 	private Long onlineTime;//在线时长（分钟）
 	private String interest;//兴趣
 	private String personality;//个性
