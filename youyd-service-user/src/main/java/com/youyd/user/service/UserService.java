@@ -209,7 +209,7 @@ public class UserService {
 	 * @param id 用户id
 	 */
 	public User getUserPermission(String id) {
-		User user = new User();
+		User user = userDao.selectById(id);
 		user.setRoles(userDao.findRolesOfUser(id));
 		user.setMenus(userDao.findMenusOfUser(id));
 		return user;
