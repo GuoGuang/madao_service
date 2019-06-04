@@ -6,6 +6,7 @@ import com.youyd.constant.CommonConst;
 import com.youyd.customexception.ParamException;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
+import com.youyd.pojo.user.Role;
 import com.youyd.pojo.user.User;
 import com.youyd.user.service.UserService;
 import com.youyd.utils.JsonData;
@@ -81,8 +82,19 @@ public class UserController {
 
 
 	/**
+	 * 查询用户角色组
+	 * @param id 用户id
+	 * @return boolean
+	 */
+	@GetMapping("/roles/{id}")
+	public JsonData getUseRoles(@PathVariable String id) {
+		List<Role> role = userService.getUseRoles(id);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), role);
+	}
+
+	/**
 	 * 获取用户角色、权限
-	 * @param token 用户id
+	 * @param token 令牌
 	 * @return boolean
 	 */
 	@PostMapping("/permission")

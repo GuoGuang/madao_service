@@ -12,6 +12,7 @@ import com.youyd.cache.redis.RedisService;
 import com.youyd.constant.CommonConst;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.LoginLog;
+import com.youyd.pojo.user.Role;
 import com.youyd.pojo.user.User;
 import com.youyd.user.dao.UserDao;
 import com.youyd.utils.*;
@@ -188,5 +189,10 @@ public class UserService {
 		user.setRoles(userDao.findRolesOfUser(id));
 		user.setMenus(userDao.findMenusOfUser(id));
 		return user;
+	}
+
+	public List<Role> getUseRoles(String id) {
+		List<Role> rolesOfUser = userDao.findRolesOfUser(id);
+		return rolesOfUser;
 	}
 }
