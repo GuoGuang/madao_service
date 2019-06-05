@@ -13,10 +13,12 @@ import com.youyd.pojo.user.User;
 import com.youyd.user.dao.RoleDao;
 import com.youyd.user.dao.RoleMenuDao;
 import com.youyd.utils.DateUtil;
+import com.youyd.utils.IdGenerate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,11 +31,13 @@ public class RoleService {
 
 	private final RoleDao roleDao;
 	private final RoleMenuDao roleMenuDao;
+	private final IdGenerate idGenerate;
 
 	@Autowired
-	public RoleService(RoleDao roleDao, RoleMenuDao roleMenuDao) {
+	public RoleService(RoleDao roleDao, RoleMenuDao roleMenuDao, IdGenerate idGenerate) {
 		this.roleDao = roleDao;
 		this.roleMenuDao = roleMenuDao;
+		this.idGenerate = idGenerate;
 	}
 
 
@@ -69,14 +73,15 @@ public class RoleService {
 		LambdaQueryWrapper<RoleMenu> deleteWrapper = new LambdaQueryWrapper<>();
 		deleteWrapper.eq(RoleMenu::getUsRoleId,role.getId());
 		roleMenuDao.delete(deleteWrapper);
-
-		List<Menu> menus = role.getMenus();
-		for (Menu menu : menus) {
+		List<RoleMenu> roleMenus = new ArrayList<>();
+		for (Menu menu : role.getMenus()) {
 			RoleMenu roleMenu = new RoleMenu();
+			roleMenu.setId(String.valueOf(idGenerate.nextId()));
 			roleMenu.setUsMenuId(menu.getId());
 			roleMenu.setUsRoleId(role.getId());
-			roleMenuDao.insert(roleMenu);
+			roleMenus.add(roleMenu);
 		}
+		roleMenuDao.insertBatch(roleMenus);
 
 		return SqlHelper.retBool(i);
 	}

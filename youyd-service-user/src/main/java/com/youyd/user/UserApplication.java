@@ -1,6 +1,7 @@
 package com.youyd.user;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.youyd.utils.IdGenerate;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -52,6 +53,15 @@ public class UserApplication {
 	@Bean
 	public PaginationInterceptor paginationInterceptor() {
 		return new PaginationInterceptor();
+	}
+
+	/**
+	 * 雪花算法 id生成器
+	 * @return IdGenerate
+	 */
+	@Bean
+	public IdGenerate idGenerate(){
+		return new IdGenerate(1,1);
 	}
 
 }
