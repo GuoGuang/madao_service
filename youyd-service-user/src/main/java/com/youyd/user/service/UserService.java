@@ -182,10 +182,11 @@ public class UserService {
 	/**
 	 * 更新用户头像地址
 	 */
-	public void updateUserAvatar(User user, MultipartFile file) throws IOException {
+	public String updateUserAvatar(User user, MultipartFile file) throws IOException {
 		String fileUrl = ossClientUtil.uploadFile(file);
 		user.setAvatar(fileUrl);
 		userDao.updateById(user);
+		return fileUrl;
 	}
 
 	/**

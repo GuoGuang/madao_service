@@ -45,9 +45,9 @@ public class ProfileController {
 	@ApiOperation(value = "用户上传头像", notes = "用户上传头像")
 	@ApiImplicitParam(name = "User", value = "用户上传头像", dataType = "Map", paramType = "query")
 	@PutMapping("avatar")
-	public JsonData updateUserAvatar(User user, MultipartFile file) throws IOException {
-		userService.updateUserAvatar(user, file);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+	public JsonData updateUserAvatar( MultipartFile file,User user) throws IOException {
+		String avatar = userService.updateUserAvatar(user, file);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),avatar);
 	}
 
 	/**
