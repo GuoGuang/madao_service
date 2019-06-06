@@ -2,6 +2,7 @@ package com.youyd.user;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.youyd.utils.IdGenerate;
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -21,8 +22,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * // SpringBoot主配置类只会扫描自己所在的包及其子包下面,如果不加此扫描youyd-common里的公用包则扫描不到
  * // @ComponentScan(basePackages = {"com.youyd"})
  *
- * @author: LGG
- * @create: 2018-09-26 14:34
+ * @author : LGG
+ * @create : 2018-09-26 14:34
  **/
 
 @SpringBootApplication
@@ -30,6 +31,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableFeignClients(basePackages = "com.youyd.api")
 @EnableWebSecurity
+@EnableAdminServer
 @ComponentScan(basePackages = {"com.youyd"})
 public class UserApplication {
 

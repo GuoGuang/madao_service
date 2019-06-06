@@ -4,7 +4,10 @@ spring:
   application:
     name: service-user  #指定服务名
 
+
 # 配置织入点
 com:
   youyd:
     aopPointcutExpression: execution (* com.youyd.user..*.*(..))
+
+
