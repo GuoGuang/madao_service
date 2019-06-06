@@ -34,9 +34,7 @@ public class Menu extends BasePojo implements Serializable {
 
 	private String path; // 路径
 
-	private Long status; // 状态（禁用：0，启用：1）
-
-	private Long sort; // 排序
+	private float sort; // 排序
 
 	@NotNull(message="描述不能为空")
 	private String description; // 描述

@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.youyd.user.dao.RoleMenuDao" >
+    <insert id="insertBatch" >
+        INSERT INTO us_role_menu(`id`, `us_role_id`, `us_menu_id`)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},
+            #{item.usRoleId},
+            #{item.usMenuId}
+            )
+        </foreach>
+    </insert>
 
 
     <select id="findMenusOfRole" resultType="com.youyd.pojo.user.Menu">

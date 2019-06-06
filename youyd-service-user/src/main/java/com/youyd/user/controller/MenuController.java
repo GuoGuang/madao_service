@@ -1,6 +1,5 @@
 package com.youyd.user.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.annotation.OptLog;
 import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
@@ -45,7 +44,7 @@ public class MenuController {
 	 */
 	@GetMapping
 	public JsonData findResByCondition(Menu menu, QueryVO queryVO) {
-		IPage<Menu> resData = menuService.findMenuByCondition(menu,queryVO);
+		List<Menu> resData = menuService.findMenuByCondition(menu,queryVO);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), resData);
 	}
 

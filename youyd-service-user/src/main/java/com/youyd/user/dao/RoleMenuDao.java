@@ -23,4 +23,5 @@ public interface RoleMenuDao extends BaseMapper<RoleMenu> {
 	 */
 	List<Menu> findMenusOfRole(String roleId);
 
+	void insertBatch(List<RoleMenu> menus);
 }

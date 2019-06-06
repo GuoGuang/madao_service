@@ -182,10 +182,11 @@ public class UserService {
 	/**
 	 * 更新用户头像地址
 	 */
-	public void updateUserAvatar(User user, MultipartFile file) throws IOException {
+	public String updateUserAvatar(User user, MultipartFile file) throws IOException {
 		String fileUrl = ossClientUtil.uploadFile(file);
 		user.setAvatar(fileUrl);
 		userDao.updateById(user);
+		return fileUrl;
 	}
 
 	/**
@@ -209,7 +210,7 @@ public class UserService {
 	 * @param id 用户id
 	 */
 	public User getUserPermission(String id) {
-		User user = new User();
+		User user = userDao.selectById(id);
 		user.setRoles(userDao.findRolesOfUser(id));
 		user.setMenus(userDao.findMenusOfUser(id));
 		return user;
