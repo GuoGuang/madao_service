@@ -2,8 +2,6 @@ package com.youyd.user.service;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.user.Menu;
@@ -36,18 +34,14 @@ public class MenuService{
 	 * @param queryVO 查询参数
 	 * @return List
 	 */
-	public IPage<Menu> findMenuByCondition(Menu menu, QueryVO queryVO) {
-		Page<Menu> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
+	public List<Menu> findMenuByCondition(Menu menu, QueryVO queryVO) {
 		LambdaQueryWrapper<Menu> queryWrapper = new LambdaQueryWrapper<>();
 		if (StringUtils.isNotEmpty(menu.getName())){
 			queryWrapper.eq(Menu::getName,menu.getName());
 		}
-		if (menu.getStatus() != null){
-			queryWrapper.eq(Menu::getStatus,menu.getStatus());
-		}
-		queryWrapper.orderByDesc(Menu::getCreateAt);
-		IPage<Menu> menuIPage = menuDao.selectPage(pr, queryWrapper);
-		return menuIPage;
+		queryWrapper.orderByAsc(Menu::getSort);
+		List<Menu> menus = menuDao.selectList(queryWrapper);
+		return menus;
 	}
 
 	public Menu findMenuById(String resId) {
