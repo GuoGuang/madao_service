@@ -1,0 +1,7 @@
+server:
+  port: 9002
+spring:
+  application:
+    name: server-monitor  #指定服务名
+
+

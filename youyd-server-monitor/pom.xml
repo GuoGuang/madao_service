@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>youyd-common-parent</artifactId>
+        <groupId>com.youyd</groupId>
+        <version>1.0.0</version>
+        <relativePath>../youyd-common-parent/pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>youyd-server-monitor</artifactId>
+    <description>监控平台模块</description>
+    <name>youyd-server-monitor【监控模块】</name>
+
+    <dependencies>
+
+        <!-- 健康检查，监控 -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-server</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-server-ui</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+
+    </dependencies>
+</project>
