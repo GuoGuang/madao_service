@@ -68,7 +68,7 @@ docker run -d --name rabbit-server -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DE
 
 github clone 此工程 [配置中心](https://github.com/GuoGuang0536/youyd_springcloud_config)
 
-将里面的配置文件更改为你的地址，阿里云地址没有的话可以注释掉
+将里面的配置文件更改为你的地址，阿里云oss地址没有的话可以注释掉
 
 3 . 启动微服务
 

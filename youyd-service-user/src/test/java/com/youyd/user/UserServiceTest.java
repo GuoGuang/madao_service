@@ -27,7 +27,7 @@ import java.util.*;
 public class UserServiceTest {
 	@Autowired
 	private UserService userService;
-	@Autowired
+	@Autowired(required = false)
 	private OSSClient ossClient; // 阿里云OSS对象存储
 
 	@Test
