@@ -6,6 +6,7 @@ import com.youyd.utils.third.SmsUtil;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 @Component
 //@RabbitListener(queues = "sms")
+@ConditionalOnProperty(value = "aliyun.sms")
 public class SmsListener {
 
 	@Autowired
