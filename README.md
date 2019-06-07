@@ -50,7 +50,8 @@
 
 
 ## 架构图
-![架构图](https://github.com/GuoGuang0536/youyd_springcloud_service/blob/master/youyd-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg)
+![架构图](https://github.com/GuoGuang0536/youyd_springcloud_service/blob/develop/youyd-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE1.png)
+![架构图](https://github.com/GuoGuang0536/youyd_springcloud_service/blob/develop/youyd-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE2.png)
 
 ## 服务监控平台
 ![图1](https://github.com/GuoGuang0536/youyd_springcloud_service/blob/develop/youyd-common-parent/image/Application.png)
