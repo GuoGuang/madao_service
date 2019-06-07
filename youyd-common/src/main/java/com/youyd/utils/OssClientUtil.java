@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Date;
 
 
 /** 阿里云OSS对象存储
@@ -18,7 +17,7 @@ import java.util.Date;
 public class OssClientUtil {
 
 
-	private static final String BUCKET_NAME = "vue-admin-guoguang";
+	private static final String BUCKET_NAME = "vue-admin-guoguang"; // Bucket名称
 
 	private final OSSClient ossClient; // 阿里云OSS对象存储
 
@@ -34,7 +33,10 @@ public class OssClientUtil {
 	public String uploadFile(MultipartFile file) throws IOException {
 		String fileName = file.getOriginalFilename();
 		ossClient.putObject(BUCKET_NAME, fileName,file.getInputStream());
-		String fileUrl = ossClient.generatePresignedUrl(BUCKET_NAME, fileName, new Date(System.currentTimeMillis() + (1000 * 30)), HttpMethod.GET).toString();
-		return fileUrl;
+		return ossClient.generatePresignedUrl(
+								BUCKET_NAME,
+								fileName,
+								DateUtil.convertLdtToDate(DateUtil.getPlusMonths(99999)),
+								HttpMethod.GET).toString();
 	}
 }
