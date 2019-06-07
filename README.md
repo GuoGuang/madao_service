@@ -48,6 +48,29 @@
 
 ```
 
+## 快速开始
+1. 使用docker启动mysql、redis、rabbitmq 
+```
+
+// mysql
+docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql --lower_case_table_names=1
+
+// redis
+docker run --name myredis -d -p 6379:6379 -v /data/redis/redis.conf:/etc/redis/redis.conf -v /data/redis/data:/data redis  redis-server /etc/redis/redis.conf --requirepass "root" --appendonly yes
+
+// rebbitmq 
+
+docker run -d --name rabbit-server -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+
+```
+
+2 . 修改注册中心配置文件
+
+github clone 此工程 [配置中心](https://github.com/GuoGuang0536/youyd_springcloud_config)
+
+将里面的配置文件更改为你的地址，阿里云地址没有的话可以注释掉
+
+3 . 启动微服务
 
 ## 架构图
 ![架构图](https://github.com/GuoGuang0536/youyd_springcloud_service/blob/develop/youyd-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE1.png)

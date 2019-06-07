@@ -16,7 +16,7 @@ spring:
           searchPaths: dev
           default-label: master
           username: GuoGuang0536@gmail.com
-          password: '{cipher}AQAVrwDtIkjPBOLgOtWc6hwl7IAjLVlpDsRutn682ipb/pZC9WcfYtmdLwSAEoAbx/n/JeFlEBlXhB8kngB27C2NbB9zTmXRT4TZQh1O3nJj5l4kHoOdWplWeN/WAcSuaCitC82a+nZGX+bSLW3pcABE05eKjWCsgrhRUme+Kv9z3Ya41ohvo9MdEvyp5D7I6hym6cS6yFWRUtb91BduyY8nst0q2tM3T2B58jgsFBPq/d8ZH6F2Wu8KSS6u+PBB2byyVFkHRx9UBb15Dz/u6MoXLOCv31VXRgtQn3IpuElaeu32H5gxwNXvufrrxJ5pooZMKlYwOR7j6HHTMd6K87Fin5+/0OEmXk8mP0ecRy7yFbs0+BOuz/+P2BQa7QFjtDk='
+          password: '{cipher}AQByObofDhY9uTHDkgdQGKPsY8n/zNY4Ob7Y+e7F7qC2byK8OebsVrmZOeycgki1x8/RTl/4RRBmjLdriBIUkAMt0bAIKK21GDNDGkiSlhSy7RmBM3BHTlKDs9AR72aVjdFQh6W6p6t0vnoEPTGi8GYXAW52QO+e3Xwmjs7Qxr54/NE9MjM1ImlYJOYrLY5ciRInkRZKF2ZtJNM+Kseu0puwjieXpJhdNClZJtosdUagaZxwP3sP63SS+UYnmwyyF1PIc3EAqymH++JntlEWvUqM7mLeFs+lfd7iQHTjOB0RjLDLf4JYT/ea7C1pz2cHYcsWZeF1ui1iOJyBaRhkLPlFAsn0S6PvSp20IzvHYw5lv/Z92ENqzSWhhz5M54xycuc='
     bus:
       enabled: true # 开启消息跟踪
 
