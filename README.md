@@ -54,6 +54,8 @@
 ![架构图](https://github.com/GuoGuang0536/youyd_springcloud_service/blob/develop/youyd-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE2.png)
 
 ## 服务监控平台
+启动 youyd-server-monitor 服务 
+访问 [地址](http://127.0.0.1:9002)
 ![图1](https://github.com/GuoGuang0536/youyd_springcloud_service/blob/develop/youyd-common-parent/image/Application.png)
 ![图2](https://github.com/GuoGuang0536/youyd_springcloud_service/blob/develop/youyd-common-parent/image/Wallboard.png)
 ![图3](https://github.com/GuoGuang0536/youyd_springcloud_service/blob/develop/youyd-common-parent/image/Details.png)
