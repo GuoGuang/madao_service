@@ -21,7 +21,8 @@ public enum StatusEnum {
 	PARAM_MISSING(20007,"缺少请求参数！"),
 	PARAM_INVALID(20008,"参数校验失败！"),
 	REQUEST_ERROR(20009,"请求格式错误！"),
-	SYSTEM_ERROR(20010,"系统异常！");
+	SYSTEM_ERROR(20010,"系统异常！"),
+	SERVICE_OFF(20010,"服务已下线或未注册！");
 
 	private Integer code;
 	private String msg;
