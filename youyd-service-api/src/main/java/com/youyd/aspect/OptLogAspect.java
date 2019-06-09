@@ -9,7 +9,6 @@ import com.youyd.utils.JsonUtil;
 import com.youyd.utils.LogBack;
 import com.youyd.utils.security.JWTAuthentication;
 import eu.bitwalker.useragentutils.UserAgent;
-import io.jsonwebtoken.Claims;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
@@ -40,9 +39,6 @@ public class OptLogAspect {
 	@Autowired
 	private OptLogServiceRpc optLogServiceRpc;
 
-	@Autowired
-	private JWTAuthentication jwtAuthentication;
-
 	/**
 	 * 切入点
 	 * 排除login方法
@@ -71,8 +67,7 @@ public class OptLogAspect {
 		}*/
 		//请求的IP
 		final String token = request.getHeader("X-Token");
-		Claims claims = jwtAuthentication.parseJWT(token);
-		User user = (User)JsonUtil.jsonToPojo(claims.get("sub").toString(),User.class);
+		User user = JWTAuthentication.parseJwtToSubject(token);
 		String ipAddr = HttpServletUtil.getIpAddr(request);
 		try {
 			String targetName = joinPoint.getTarget().getClass().getName();

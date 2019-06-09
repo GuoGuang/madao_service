@@ -1,7 +1,6 @@
 package com.youyd.user.service;
 
 
-import com.aliyun.oss.OSSClient;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -43,9 +42,6 @@ public class UserService {
 	private final UserDao userDao;
 
 	private final RedisService redisService;
-
-	// jwt鉴权
-	private final JWTAuthentication jwtAuthentication;
 	// 加密
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	// 对象存储工具
@@ -57,10 +53,9 @@ public class UserService {
 
 
 	@Autowired
-	public UserService(UserDao userDao, RedisService redisService, JWTAuthentication jwtAuthentication, BCryptPasswordEncoder bCryptPasswordEncoder, OSSClient ossClient, OssClientUtil ossClientUtil, LoginLogServiceRpc loginLogServiceRpc, UserRoleDao userRoleDao) {
+	public UserService(UserDao userDao, RedisService redisService , BCryptPasswordEncoder bCryptPasswordEncoder , OssClientUtil ossClientUtil, LoginLogServiceRpc loginLogServiceRpc, UserRoleDao userRoleDao) {
 		this.userDao = userDao;
 		this.redisService = redisService;
-		this.jwtAuthentication = jwtAuthentication;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.ossClientUtil = ossClientUtil;
 		this.loginLogServiceRpc = loginLogServiceRpc;
@@ -107,16 +102,15 @@ public class UserService {
 		User uResult = userDao.selectOne(queryWrapper);
 		if (uResult != null && bCryptPasswordEncoder.matches(password, uResult.getPassword())) {
 			// 生成token
-			String token = jwtAuthentication.createJWT(
+			String token = JWTAuthentication.createJWT(
 									Long.valueOf(uResult.getId()),
 									JsonUtil.toJsonString(uResult),
-								"admin",
-									DateUtil.getPlusWeeks(1));
+									DateUtil.getPlusDays(1));
 			Map<String, String> map = new HashMap<>();
 			map.put("token", token);
 			map.put("user", JsonUtil.toJsonString(uResult));
 			try {
-				redisService.set(RedisConstant.REDIS_KEY_TOKEN + token, uResult, CommonConst.TIME_OUT_WEEK);
+				redisService.set(RedisConstant.REDIS_KEY_TOKEN + uResult.getId(), uResult, CommonConst.TIME_OUT_DAY);
 				// 添加登录日志
 				LoginLog loginLog = new LoginLog();
 				loginLog.setClientIp(HttpServletUtil.getIpAddr(request));
@@ -139,11 +133,11 @@ public class UserService {
 
 	/**
 	 * 登出系统
-	 *
-	 * @param token
+	 * @param token JWT
 	 */
 	public void logout(String token) {
-		redisService.del(RedisConstant.REDIS_KEY_TOKEN + token);
+		User user =  JWTAuthentication.parseJwtToSubject(token);
+		redisService.del(RedisConstant.REDIS_KEY_TOKEN + user.getId());
 	}
 
 	public boolean deleteByIds(List<String> userId) {

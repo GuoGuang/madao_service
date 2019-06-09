@@ -1,71 +1,98 @@
 package com.youyd.utils.security;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTCreator;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.interfaces.JWTVerifier;
+import com.google.common.collect.Maps;
+import com.youyd.pojo.user.User;
 import com.youyd.utils.DateUtil;
-import io.jsonwebtoken.*;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import com.youyd.utils.JsonUtil;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 /**
- * @description: S
- * @author: LGG
- * @create: 2018-10-24 19:54
+ * JWT工具类
+ * @author : LGG
+ * @create : 2018-10-24 19:54
  **/
-@Component
-@ConfigurationProperties("jwt.config")
+//@ConfigurationProperties("jwt.config")
 public class JWTAuthentication {
 
-	//签名秘钥
-	private String encodedSecretKey;
-	// 过期时间
-	//private long expiration ;
+	// 签名秘钥
+	private static final String  SECRET = "session_secret";
+	// jwt 签发者
+	private static final String  ISSUER = "excloud";
 
 
 	/**
 	 * 生成JWT
 	 * @param id 用户id
 	 * @param subject 载体，用户数据
-	 * @param roles 所属角色组
+	 // * @param claims 所属角色组
 	 * @param afterDate 过期时间
 	 * @return String
 	 */
-	public String createJWT(Long id, String subject, String roles, LocalDateTime afterDate) {
-		long nowMillis = System.currentTimeMillis();
-		JwtBuilder builder = Jwts.builder();
-		builder.setId(id.toString());
-		builder.setSubject(subject);
-		// 设置签发时间
-		builder.setIssuedAt(DateUtil.convertLdtToDate(DateUtil.getCurrentTime()));
-		// 设置签名秘钥
-		builder.signWith(SignatureAlgorithm.HS256, encodedSecretKey);
-		// 过期时间
-		builder.setExpiration(DateUtil.convertLdtToDate(afterDate));
-		builder.claim("roles",roles);
-		return builder.compact();
+	public static String createJWT(Long id, String subject,LocalDateTime afterDate) {
+		try {
+			Algorithm algorithm = Algorithm.HMAC256(SECRET);
+			JWTCreator.Builder builder = JWT.create()
+											.withJWTId(id.toString())
+											.withSubject(subject)
+											.withIssuer(ISSUER)
+											.withIssuedAt(DateUtil.convertLdtToDate(DateUtil.getCurrentTime()))
+											.withExpiresAt(DateUtil.convertLdtToDate(afterDate));
+			// 传输自定义claims
+			//claims.forEach((k,v) -> builder.withClaim(k, v));
+			return builder.sign(algorithm);
+		} catch (IllegalArgumentException ex) {
+			throw new RuntimeException(ex);
+		}
 	}
 
+
 	/**
-	 * 解析JWT
+	 * 解析JWT,获取claims
 	 * @param jwtStr:待解密的jwt
 	 * @return
 	 */
-	public Claims parseJWT(String jwtStr){
-		JwtParser parser = Jwts.parser();
-		parser.setSigningKey(encodedSecretKey);
-		Claims body = parser.parseClaimsJws(jwtStr).getBody();
-		return body;
+	public static Map<String, String> parseJwtToClaims(String jwtStr)  {
+		DecodedJWT jwt = parse(jwtStr);
+		Map<String, Claim> map = jwt.getClaims();
+		Map<String, String> resultMap = Maps.newHashMap();
+		map.forEach((k,v) -> resultMap.put(k, v.asString()));
+		return resultMap;
+	}
+
+	/**
+	 * 解析JWT,获取claims
+	 * @param jwtStr:待解密的jwt
+	 * @return String
+	 */
+	public static User parseJwtToSubject(String jwtStr)  {
+		DecodedJWT jwt = parse(jwtStr);
+		String subject = jwt.getSubject();
+		return JsonUtil.jsonToPojo(subject,User.class);
 	}
 
 
-
-
-	public String getEncodedSecretKey() {
-		return encodedSecretKey;
+	/**
+	 * 解析基础信息,返回解码后的JWT
+	 * @param jwtStr jwt
+	 * @return DecodedJWT
+	 */
+	private static DecodedJWT parse(String jwtStr) {
+		Algorithm algorithm = null;
+		try {
+			algorithm = Algorithm.HMAC256(SECRET);
+		} catch (IllegalArgumentException ex) {
+			throw new RuntimeException(ex);
+		}
+		JWTVerifier verifier = JWT.require(algorithm).withIssuer(ISSUER).build();
+		return verifier.verify(jwtStr);
 	}
-	public void setEncodedSecretKey(String encodedSecretKey) {
-		this.encodedSecretKey = encodedSecretKey;
-	}
-
 
 }

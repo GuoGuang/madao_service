@@ -1,5 +1,6 @@
 package com.youyd.user.exception;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.youyd.customexception.ParamException;
 import com.youyd.customexception.ValidFieldError;
 import com.youyd.enums.StatusEnum;
@@ -91,6 +92,14 @@ public class GlobalExceptionHandler {
 	public ErrotResult paramException(ParamException ex) {
 		LogBack.error(ex.getMessage(),ex);
 		return new ErrotResult(StatusEnum.PARAM_ILLEGAL);
+	}
+
+	/**
+	 * JWT异常
+	 * @param ex Exception
+	 */
+	@ExceptionHandler(TokenExpiredException.class)
+	public void tokenExpiredException(TokenExpiredException ex) {
 	}
 
 	/**
