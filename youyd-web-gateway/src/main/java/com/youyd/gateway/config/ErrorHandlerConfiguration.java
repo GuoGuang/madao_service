@@ -1,6 +1,6 @@
 package com.youyd.gateway.config;
 
-import com.youyd.gateway.execption.JsonExceptionHandler;
+import com.youyd.gateway.execption.GlobalExceptionHandler;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
@@ -53,7 +53,7 @@ public class ErrorHandlerConfiguration {
 	@Bean
 	@Order(Ordered.HIGHEST_PRECEDENCE)
 	public ErrorWebExceptionHandler errorWebExceptionHandler(ErrorAttributes errorAttributes) {
-		JsonExceptionHandler exceptionHandler = new JsonExceptionHandler(
+		GlobalExceptionHandler exceptionHandler = new GlobalExceptionHandler(
 				errorAttributes,
 				this.resourceProperties,
 				this.serverProperties.getError(),

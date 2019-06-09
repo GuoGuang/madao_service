@@ -17,10 +17,10 @@ import java.util.Map;
  * @author GuoGuang
  *
  */
-public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
+public class GlobalExceptionHandler extends DefaultErrorWebExceptionHandler {
 
-	public JsonExceptionHandler(ErrorAttributes errorAttributes, ResourceProperties resourceProperties,
-	                            ErrorProperties errorProperties, ApplicationContext applicationContext) {
+	public GlobalExceptionHandler(ErrorAttributes errorAttributes, ResourceProperties resourceProperties,
+	                              ErrorProperties errorProperties, ApplicationContext applicationContext) {
 		super(errorAttributes, resourceProperties, errorProperties, applicationContext);
 	}
 
@@ -35,6 +35,9 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
 		if (error instanceof org.springframework.cloud.gateway.support.NotFoundException) {
 			code = StatusEnum.SERVICE_OFF.getCode();
 			message = StatusEnum.SERVICE_OFF.getMsg();
+		}else if (error instanceof com.auth0.jwt.exceptions.TokenExpiredException) {
+			code = StatusEnum.LOGIN_EXPIRED.getCode();
+			message = StatusEnum.LOGIN_EXPIRED.getMsg();
 		}
 		return response(code, message);
 	}
