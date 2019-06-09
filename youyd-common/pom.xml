@@ -55,9 +55,9 @@
         </dependency>
         <!--鉴权 JSON WEB TOKEN-->
         <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.6.0</version>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.8.1</version>
         </dependency>
 
         <!-- lombok -->

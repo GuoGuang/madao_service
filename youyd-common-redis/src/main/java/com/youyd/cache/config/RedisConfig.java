@@ -55,9 +55,8 @@ public class RedisConfig {
 	    template.setHashValueSerializer(jackson2JsonRedisSerializer);
 	    template.afterPropertiesSet();
 
-
 		// 设置默认使用Jackson序列化
-		// template.setDefaultSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class));
+		template.setDefaultSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class));
 	    return template;
 	}
 

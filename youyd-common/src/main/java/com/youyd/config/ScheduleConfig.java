@@ -3,6 +3,7 @@ package com.youyd.config;
 import com.youyd.utils.ScheduleJobFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
@@ -15,6 +16,7 @@ import javax.sql.DataSource;
  *
  */
 @Configuration
+@ConditionalOnBean(DataSource.class)
 public class ScheduleConfig {
 
 	@Autowired

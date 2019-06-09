@@ -22,7 +22,9 @@ public enum StatusEnum {
 	PARAM_INVALID(20008,"参数校验失败！"),
 	REQUEST_ERROR(20009,"请求格式错误！"),
 	SYSTEM_ERROR(20010,"系统异常！"),
-	SERVICE_OFF(20010,"服务已下线或未注册！");
+	SERVICE_OFF(20011,"服务已下线或未注册！"),
+	INVALID_TOKEN(20012,"无效Token！"),
+	LOGIN_EXPIRED(20012,"登录已失效，请重新登录！");
 
 	private Integer code;
 	private String msg;

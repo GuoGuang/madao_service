@@ -10,9 +10,7 @@ import com.youyd.pojo.user.Role;
 import com.youyd.pojo.user.User;
 import com.youyd.user.service.UserService;
 import com.youyd.utils.JsonData;
-import com.youyd.utils.JsonUtil;
 import com.youyd.utils.security.JWTAuthentication;
-import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -39,13 +37,9 @@ public class UserController {
 
 	private final UserService userService;
 
-	// jwt鉴权
-	private final JWTAuthentication jwtAuthentication;
-
 	@Autowired
-	public UserController(UserService userService, JWTAuthentication jwtAuthentication) {
+	public UserController(UserService userService) {
 		this.userService = userService;
-		this.jwtAuthentication = jwtAuthentication;
 	}
 
 
@@ -99,8 +93,7 @@ public class UserController {
 	 */
 	@PostMapping("/permission")
 	public JsonData getUserPermission(String token) throws ParamException {
-		String userSub = jwtAuthentication.parseJWT(token).getSubject();
-		User user = JsonUtil.jsonToPojo(userSub, User.class);
+		User user = JWTAuthentication.parseJwtToSubject(token);
 		if(user == null) {
 			throw new ParamException();
 		}
@@ -164,7 +157,7 @@ public class UserController {
 
 	/**
 	 * 退出
-	 * @param token
+	 * @param token JWT
 	 * @return boolean
 	 */
 	@PostMapping(value = "/logout")
@@ -198,10 +191,7 @@ public class UserController {
 	 */
 	@DeleteMapping
 	@OptLog(operationType= CommonConst.DELETE,operationName="删除用户")
-	public JsonData deleteByIds(@RequestBody List<String> userId, @ModelAttribute("admin_claims") Claims claims) {
-		if (claims == null) {
-			return new JsonData(true, StatusEnum.PARAM_MISSING.getCode(), StatusEnum.PARAM_MISSING.getMsg());
-		}
+	public JsonData deleteByIds(@RequestBody List<String> userId) {
 		boolean result = userService.deleteByIds(userId);
 		return new JsonData(result, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
