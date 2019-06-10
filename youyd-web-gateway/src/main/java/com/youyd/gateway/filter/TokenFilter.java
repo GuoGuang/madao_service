@@ -81,4 +81,5 @@ public class TokenFilter implements GlobalFilter, Ordered {
 	public int getOrder() {
 		return 100;
 	}
+
 }
