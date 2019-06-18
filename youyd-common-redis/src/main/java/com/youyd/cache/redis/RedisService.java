@@ -15,7 +15,7 @@ public interface RedisService {
      *
      * @param key  键
      * @param time 时间(秒)
-     * @return
+     * @returnexchange
      */
     boolean expire(String key, long time);
 
@@ -69,6 +69,20 @@ public interface RedisService {
      * @return true成功 false 失败
      */
     boolean set(String key, Object value, long time);
+
+	/**
+	 * 获取Key缓存
+	 * @param key
+	 */
+    Object getKeyStr(String key);
+
+	/**
+	 * 设置Key缓存
+	 * @param key
+	 * @param value
+	 * @param ttl
+	 */
+	void setKeyStr(String key,String value, Long ttl);
 
     /**
      * 递增
