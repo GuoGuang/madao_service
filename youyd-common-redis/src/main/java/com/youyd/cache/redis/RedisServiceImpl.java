@@ -182,7 +182,33 @@ public class RedisServiceImpl implements RedisService {
         return redisTemplate.opsForValue().increment(key, -delta);
     }
 
-    //================================Map=================================
+
+	//================================Key String=================================
+	// 以绑定指定key的方式，操作具有简单值的条目
+	/**
+	 * 获取Key缓存<br>
+	 * @param key
+	 * @return
+	 */
+	public Object getKeyStr(String key){
+		return redisTemplate.boundValueOps(key).get();
+	}
+
+	/**
+	 * 设置Key缓存
+	 * @param key
+	 * @param value
+	 * @param ttl
+	 */
+	public void setKeyStr(String key,String value, Long ttl){
+		redisTemplate.boundValueOps(key).set(value,ttl, TimeUnit.SECONDS);
+	}
+
+
+
+
+
+	//================================Map=================================
 
     /**
      * HashGet
