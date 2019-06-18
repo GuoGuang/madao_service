@@ -51,12 +51,19 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
-        <!--添加 SpringSecurity 依赖后，所有的地址都被 SpringSecurity 所控制-->
-       <!-- <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>-->
 
+
+        <dependency>
+            <groupId>com.youyd</groupId>
+            <artifactId>youyd-service-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!-- 不加会导致 java: 程序包javax.servlet.http不存在 -->
+       <!-- <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+        </dependency>-->
     </dependencies>
 
 </project>
