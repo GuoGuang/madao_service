@@ -57,8 +57,8 @@ public class ProfileController {
 	 * url: ?search={query}{&page,per_page,sort,order}
 	 */
 	@GetMapping(value = "/{id}")
-	public JsonData findByCondition(@PathVariable String id) {
-		User byId = userService.findUserById(id);
+	public JsonData findByCondition(User user) {
+		User byId = userService.findUserByUser(user);
 		DesensitizedUtil.mobilePhone(byId.getPhone());
 		DesensitizedUtil.around(byId.getAccount(),2,2);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), byId);

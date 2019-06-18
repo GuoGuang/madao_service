@@ -6,30 +6,23 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.api.base.LoginLogServiceRpc;
-import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
-import com.youyd.constant.CommonConst;
 import com.youyd.pojo.QueryVO;
-import com.youyd.pojo.base.LoginLog;
 import com.youyd.pojo.user.Role;
 import com.youyd.pojo.user.User;
 import com.youyd.pojo.user.UserRole;
 import com.youyd.user.dao.UserDao;
 import com.youyd.user.dao.UserRoleDao;
-import com.youyd.utils.*;
-import com.youyd.utils.security.JWTAuthentication;
-import eu.bitwalker.useragentutils.UserAgent;
+import com.youyd.utils.DateUtil;
+import com.youyd.utils.OssClientUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @description: 用户服务
@@ -90,56 +83,6 @@ public class UserService {
 		return userDao.selectPage(pr, queryWrapper);
 	}
 
-	/**
-	 * 登录到系统
-	 *  @param account  ：账号
-	 * @param password ：密码
-	 * @param request
-	 */
-	public Map login(String account, String password, HttpServletRequest request) {
-		LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-		queryWrapper.eq(User::getAccount, account);
-		User uResult = userDao.selectOne(queryWrapper);
-		if (uResult != null && bCryptPasswordEncoder.matches(password, uResult.getPassword())) {
-			// 生成token
-			String token = JWTAuthentication.createJWT(
-									Long.valueOf(uResult.getId()),
-									JsonUtil.toJsonString(uResult),
-									DateUtil.getPlusDays(1));
-			Map<String, String> map = new HashMap<>();
-			map.put("token", token);
-			map.put("user", JsonUtil.toJsonString(uResult));
-			try {
-				redisService.set(RedisConstant.REDIS_KEY_TOKEN + uResult.getId(), uResult, CommonConst.TIME_OUT_DAY);
-				// 添加登录日志
-				LoginLog loginLog = new LoginLog();
-				loginLog.setClientIp(HttpServletUtil.getIpAddr(request));
-				loginLog.setUserId(uResult.getId());
-				UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
-				loginLog.setBrowser(userAgent.getBrowser().getName());
-				loginLog.setOsInfo(userAgent.getOperatingSystem().getName());
-				loginLog.setCreateAt(DateUtil.getTimestamp());
-				loginLog.setUpdateAt(DateUtil.getTimestamp());
-				loginLogServiceRpc.insertLoginLog(loginLog);
-
-			} catch (Exception ex) {
-				LogBack.error(ex.getMessage(), ex);
-			}
-			return map;
-		} else {
-			return null;
-		}
-	}
-
-	/**
-	 * 登出系统
-	 * @param token JWT
-	 */
-	public void logout(String token) {
-		User user =  JWTAuthentication.parseJwtToSubject(token);
-		redisService.del(RedisConstant.REDIS_KEY_TOKEN + user.getId());
-	}
-
 	public boolean deleteByIds(List<String> userId) {
 		int i = userDao.deleteBatchIds(userId);
 		return SqlHelper.retBool(i);
@@ -167,10 +110,22 @@ public class UserService {
 		return SqlHelper.retBool(i);
 	}
 
-	public User findUserById(String id) {
-		User user = userDao.selectById(id);
-		user.setRoles(userDao.findRolesOfUser(id));
-		return user;
+	/**
+	 * 按照user条件查询，仅支持查询字段为唯一值的
+	 * @param user user
+	 * @return User
+	 */
+	public User findUserByUser(User user) {
+		LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+		queryWrapper.eq(StringUtils.isNotBlank(user.getId()),User::getId,user.getId());
+		queryWrapper.eq(StringUtils.isNotBlank(user.getAccount()),User::getAccount,user.getAccount());
+
+		User userResult = userDao.selectOne(queryWrapper);
+
+		if (StringUtils.isNotBlank(user.getId())){
+			userResult.setRoles(userDao.findRolesOfUser(user.getId()));
+		}
+		return userResult;
 	}
 
 	/**
