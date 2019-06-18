@@ -8,6 +8,3 @@ spring:
       label: master
       uri: http://localhost:9009  #SpringCloudConfig获取的服务地址
 
-auth:
-  skip:
-    urls: /su/user/login,/su/user/register,/su/user/permission
