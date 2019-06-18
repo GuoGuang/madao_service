@@ -1,0 +1,10 @@
+server:
+  port: 8091
+spring:
+  application:
+    name: authorization-server
+
+  security:
+    oauth2:
+      jwt:
+        signingKey: 123456
