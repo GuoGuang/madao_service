@@ -1,4 +1,4 @@
-package com.youyd.api.base.fallback;
+package com.youyd.fallback.base;
 
 import com.youyd.api.base.OptLogServiceRpc;
 import com.youyd.enums.StatusEnum;
