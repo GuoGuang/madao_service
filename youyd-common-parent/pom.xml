@@ -56,10 +56,11 @@
             </dependency>
 
             <!--Jackson-->
-             <dependency>
-                 <groupId>com.fasterxml.jackson.datatype</groupId>
-                 <artifactId>jackson-datatype-jsr310</artifactId>
-             </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.9.9</version>
+            </dependency>
 
 
             <!--springboot 监控 -->
@@ -169,6 +170,8 @@
                    <module>../youyd-service-user</module>
                    <module>../youyd-web-gateway</module>
                    <module>../youyd-web-platform</module>
+                   <module>../youyd-authorization-server</module>
+                   <module>../youyd-authentication-server</module>
 
                </modules>
                <packaging>pom</packaging>
