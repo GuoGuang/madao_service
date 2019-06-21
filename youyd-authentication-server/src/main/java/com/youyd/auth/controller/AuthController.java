@@ -1,21 +1,19 @@
 package com.youyd.auth.controller;
 
 import com.youyd.auth.service.AuthService;
+import com.youyd.cache.redis.RedisService;
+import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
-import com.youyd.pojo.user.AuthToken;
-import com.youyd.pojo.user.User;
-import com.youyd.utils.CookieUtil;
+import com.youyd.utils.CaptchaCode;
 import com.youyd.utils.JsonData;
-import com.youyd.utils.JsonUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * 用户登录认证
@@ -23,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  * @create : 2019-06-18 14:34
  **/
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/oauth")
 public class AuthController  {
 
     @Value("${auth.clientId}")
@@ -38,51 +36,50 @@ public class AuthController  {
     @Autowired
     AuthService authService;
 
-    @PostMapping("/login")
-    public JsonData login(@RequestBody User user, HttpServletRequest request) {
-        if(user == null || StringUtils.isEmpty(user.getUserName())){
-	        // TODO 异常
-	        throw new RuntimeException();
-//            ExceptionCast.cast(AuthCode.AUTH_USERNAME_NONE);
-        }
-        if(user == null || StringUtils.isEmpty(user.getPassword())){
-	        // TODO 异常
-	        throw new RuntimeException();
-        }
-        //账号
-        String username = user.getUserName();
-        //密码
-        String password = user.getPassword();
+    @Autowired
+    RedisService redisService;
 
-        //申请令牌
-	    AuthToken authToken = null;
-	    try {
-		    authToken = authService.login(username,password,clientId,clientSecret,request);
-	    } catch (Exception e) {
-		    e.printStackTrace();
-		    JsonData jsonData = JsonUtil.jsonToPojo(e.getMessage(), JsonData.class);
-		    return jsonData;
-	    }
-
-	    //用户身份令牌
-        String access_token = authToken.getAccess_token();
-        //将令牌存储到cookie
-        saveCookie(access_token);
-	    return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), access_token);
-
-    }
-
-    //将令牌存储到cookie
-    private void saveCookie(String token){
-        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-        //HttpServletResponse response,String domain,String path, String name, String value, int maxAge,boolean httpOnly
-        CookieUtil.addCookie(response,cookieDomain,"/","uid",token,cookieMaxAge,false);
-    }
-
+	/**
+	 * 登出系统
+	 * @param token 令牌
+	 */
 	@PostMapping(value = "/logout")
 	//@OptLog(operationType= CommonConst.MODIFY,operationName="退出系统")
     public JsonData logout(@RequestHeader("AUTH")String token) {
 		authService.logout(token);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
     }
+
+	/**
+	 * 创建验证码，根据验证码类型不同，调用不同的 {@link ValidateCodeProcessor}接口实现
+	 * @param request
+	 * @param response
+	 * @param type
+	 * @throws Exception
+	 */
+	/*@GetMapping("/code/{type}")
+	public void createCode(HttpServletRequest request, HttpServletResponse response, @PathVariable String type)throws Exception {
+		validateCodeProcessorHolder.findValidateCodeProcessor(type)
+								   .create(new ServletWebRequest(request, response));
+	}*/
+
+	/**
+	 * 获取图片验证码;
+	 * 每次访问生成uuid和验证码存入redis,登录时根据uuid到redis中获取验证码对比
+	 */
+	@GetMapping("/captcha")
+	@ResponseBody
+	public JsonData createCode() {
+		String uuid = UUID.randomUUID().toString();
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		String captcha = new CaptchaCode().createImageOnPage(outputStream);
+		String base64Code = Base64.getEncoder().encodeToString(outputStream.toByteArray());
+		redisService.set(uuid,captcha, CommonConst.TIME_OUT_HALF_HOUR);
+		HashMap<Object, Object> map = new HashMap<>();
+		map.put("captchaUuid",uuid);
+		map.put("base64Code",base64Code);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),map);
+
+	}
+
 }
