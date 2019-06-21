@@ -111,6 +111,7 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     public TokenStore tokenStore(JwtAccessTokenConverter jwtAccessTokenConverter) {
         return new JwtTokenStore(jwtAccessTokenConverter);
     }
+
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter(CustomUserAuthenticationConverter customUserAuthenticationConverter) {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
@@ -123,6 +124,7 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
         accessTokenConverter.setUserTokenConverter(customUserAuthenticationConverter);
         return converter;
     }
+
     //授权服务器端点配置
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
