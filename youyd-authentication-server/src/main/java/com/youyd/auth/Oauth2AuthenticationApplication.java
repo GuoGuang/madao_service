@@ -1,5 +1,6 @@
 package com.youyd.auth;
 
+import com.youyd.properties.SecurityProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -26,4 +27,10 @@ public class Oauth2AuthenticationApplication {
 	public RestTemplate restTemplate() {
 		return new RestTemplate(new OkHttp3ClientHttpRequestFactory());
 	}
+
+	@Bean
+	public SecurityProperties securityProperties() {
+		return new SecurityProperties();
+	}
+
 }
