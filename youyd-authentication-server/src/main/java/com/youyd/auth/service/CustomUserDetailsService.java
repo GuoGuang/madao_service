@@ -3,13 +3,9 @@ package com.youyd.auth.service;
 import com.youyd.api.user.UserServiceRpc;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.stereotype.Service;
 
@@ -39,19 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
     public UserDetails loadUserByUsername(String username) {
 
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		//没有认证统一采用httpbasic认证，httpbasic中存储了client_id和client_secret
-		if(authentication==null){
-			ClientDetails clientDetails = clientDetailsService.loadClientByClientId(username);
-			if(clientDetails!=null){
-				//密码
-				String clientSecret = clientDetails.getClientSecret();
-				return new User(username,clientSecret,AuthorityUtils.commaSeparatedStringToAuthorityList(""));
-			}
-		}
-		if (StringUtils.isEmpty(username)) {
-			return null;
-		}
+
 		//远程调用用户中心根据账号查询用户信息
 		com.youyd.pojo.user.User defUser = userService.findUserByUser(username).getData();
 		if(defUser == null){
