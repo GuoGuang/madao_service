@@ -13,7 +13,6 @@ import com.youyd.utils.JsonData;
 import com.youyd.utils.JsonUtil;
 import com.youyd.utils.security.JWTAuthentication;
 import eu.bitwalker.useragentutils.UserAgent;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,11 +91,11 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 
 		ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
 
-		if (clientDetails == null) {
+		/*if (clientDetails == null) {
 			throw new UnapprovedClientAuthenticationException("clientId对应的配置信息不存在:" + clientId);
-		} else if (!StringUtils.equals(clientDetails.getClientSecret(), passwordEncoder.encode(clientSecret))) {
+		} else if (!StringUtils.equals(clientDetails.getClientSecret(), clientSecret)) {
 			throw new UnapprovedClientAuthenticationException("clientSecret不匹配:" + clientId);
-		}
+		}*/
 
 		TokenRequest tokenRequest = new TokenRequest(new HashMap<>(), clientId, clientDetails.getScope(), "custom");
 		OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
@@ -115,15 +114,13 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 
 		// 插入登录日志
 		Map<String, String> stringStringMap = JWTAuthentication.parseJwtToClaims(accessToken);
-		insertLoginLog(jti.toString(),stringStringMap.get("id"),request);
-
+		insertLoginLog(accessToken,stringStringMap.get("id"),request);
 
 		String jsonString = JsonUtil.toJsonString(authToken);
 		JsonData jsonData = new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), jti);
 		saveToken(jti.toString(), jsonString, CommonConst.TIME_OUT_DAY);
 		response.setContentType("application/json;charset=UTF-8");
 		response.getWriter().write(objectMapper.writeValueAsString(jsonData));
-
 
 	}
 

@@ -18,19 +18,17 @@ import java.io.IOException;
  * @author : LGG
  * @create : 2019/6/10 2:03:05
  **/
-
-
 @Component
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-		JsonData errotResult = new JsonData(StatusEnum.SYSTEM_EXCEPTION);
+		JsonData errorResult = new JsonData(StatusEnum.SYSTEM_EXCEPTION);
 		if(e instanceof ValidateCodeException){
-			errotResult = new JsonData(false,40000,e.getMessage());
+			errorResult = new JsonData(false,StatusEnum.LOGIN_ERROR.getCode(),e.getMessage());
 		}
 		httpServletResponse.setContentType("application/json;charset=UTF-8");
-		httpServletResponse.getWriter().write(JsonUtil.toJsonString(errotResult));
+		httpServletResponse.getWriter().write(JsonUtil.toJsonString(errorResult));
 	}
 }
 
