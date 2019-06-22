@@ -1,6 +1,8 @@
 package com.youyd.auth.service;
 
 import com.youyd.api.user.UserServiceRpc;
+import com.youyd.pojo.user.User;
+import com.youyd.utils.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -29,15 +31,15 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	/**
 	 * 根据用户名查找账户信息并返回用户信息实体
-	 * @param username 用户名
+	 * @param user 用户名
 	 * @return 用于身份认证的 UserDetails 用户信息实体
 	 */
 	@Override
-    public UserDetails loadUserByUsername(String username) {
+    public UserDetails loadUserByUsername(String userJson) {
 
-
+		User user = JsonUtil.jsonToPojo(userJson, User.class);
 		//远程调用用户中心根据账号查询用户信息
-		com.youyd.pojo.user.User defUser = userService.findUserByUser(username).getData();
+		com.youyd.pojo.user.User defUser = userService.findUserByUser(user).getData();
 		if(defUser == null){
 			return null;
 		}
@@ -46,7 +48,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		List<String> menus = new ArrayList<>();
 		//userMenus.forEach(item-> menus.add(item.getId()));
 		String user_permission_string  = StringUtils.join(menus.toArray(), ",");
-		UserJwt userDetails = new UserJwt(username,
+		UserJwt userDetails = new UserJwt(defUser.getUserName(),
 				password,
 				defUser.getId(),
 				defUser.getNickName(),

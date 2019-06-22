@@ -1,19 +1,18 @@
 package com.youyd.auth.controller;
 
 import com.youyd.auth.service.AuthService;
+import com.youyd.auth.validate.ValidateCodeProcessor;
+import com.youyd.auth.validate.ValidateCodeProcessorHolder;
 import com.youyd.cache.redis.RedisService;
-import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
-import com.youyd.utils.CaptchaCode;
 import com.youyd.utils.JsonData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.ServletWebRequest;
 
-import java.io.ByteArrayOutputStream;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.UUID;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 用户登录认证
@@ -39,6 +38,9 @@ public class AuthController  {
     @Autowired
     RedisService redisService;
 
+	@Autowired
+	private ValidateCodeProcessorHolder validateCodeProcessorHolder;
+
 	/**
 	 * 登出系统
 	 * @param token 令牌
@@ -57,16 +59,18 @@ public class AuthController  {
 	 * @param type
 	 * @throws Exception
 	 */
-	/*@GetMapping("/code/{type}")
+	@GetMapping("/code/{type}")
 	public void createCode(HttpServletRequest request, HttpServletResponse response, @PathVariable String type)throws Exception {
-		validateCodeProcessorHolder.findValidateCodeProcessor(type)
-								   .create(new ServletWebRequest(request, response));
-	}*/
+		ServletWebRequest servletWebRequest = new ServletWebRequest(request, response);
+		ValidateCodeProcessor validateCodeProcessor = validateCodeProcessorHolder.findValidateCodeProcessor(type);
+		validateCodeProcessor.create(servletWebRequest);
+		//return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+	}
 
 	/**
 	 * 获取图片验证码;
 	 * 每次访问生成uuid和验证码存入redis,登录时根据uuid到redis中获取验证码对比
-	 */
+	/* *//*
 	@GetMapping("/captcha")
 	@ResponseBody
 	public JsonData createCode() {
@@ -80,6 +84,6 @@ public class AuthController  {
 		map.put("base64Code",base64Code);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),map);
 
-	}
+	}*/
 
 }

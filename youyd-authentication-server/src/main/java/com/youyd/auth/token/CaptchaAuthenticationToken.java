@@ -15,27 +15,18 @@ import java.util.Collection;
 @Data
 public class CaptchaAuthenticationToken extends UsernamePasswordAuthenticationToken {
 
-	private String captcha;    //验证码
-	private String captchaUuid;    //验证码uuid
 
 	//未认证Authentication构造方法
-	public CaptchaAuthenticationToken(String captcha,String captchaUuid,Object principal, Object credentials) {
+	public CaptchaAuthenticationToken(Object principal, Object credentials) {
 		super(principal,credentials);
-		this.captcha = captcha;
-		this.captchaUuid = captchaUuid;
 		setAuthenticated(false);
 	}
 
 	//已认证Authentication构造方法
-	public CaptchaAuthenticationToken(String captcha,Object principal, Collection<? extends GrantedAuthority> authorities) {
-		super(principal,"");
-		this.captcha = captcha;
-		setAuthenticated(true);
+	public CaptchaAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
+		super(principal,"",authorities);
 	}
 
-	public CaptchaAuthenticationToken(Object principal,Collection<? extends GrantedAuthority> authorities) {
-		super(principal,authorities);
-	}
 
 }
 
