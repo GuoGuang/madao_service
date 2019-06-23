@@ -29,7 +29,11 @@
             <artifactId>youyd-service-api</artifactId>
             <version>1.0.0</version>
         </dependency>
-
+        <!--oauth2认证-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

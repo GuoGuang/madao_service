@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +25,7 @@ public class JacksonConfig {
 		ObjectMapper objectMapper = new ObjectMapper();
 		// （禁止SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS）
 		// 解决 No serializer found for class org.hibernate.proxy.pojo.javassist.JavassistL
-		objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+		//objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
 
 		// 通过该方法对mapper对象进行设置，所有序列化的对象都将按改规则进行系列化
 		// Include.Include.ALWAYS 默认
@@ -46,6 +47,10 @@ public class JacksonConfig {
 				jsonGenerator.writeString("");
 			}
 		});
+		// 解决jackson2无法反序列化LocalDateTime的问题
+		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+		objectMapper.registerModule(new JavaTimeModule());
+
 		return objectMapper;
 	}
 

@@ -1,3 +1,4 @@
+/*
 package com.youyd.pojo;
 
 import com.youyd.enums.StatusEnum;
@@ -6,11 +7,13 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
+*/
 /**
  * @description: 返回异常结果类
  * @author: LGG
  * @create: 2019-05-27
- **/
+ **//*
+
 @Getter
 @Setter
 public class ErrotResult implements Serializable {
@@ -44,3 +47,4 @@ public class ErrotResult implements Serializable {
 	}
 
 }
+*/

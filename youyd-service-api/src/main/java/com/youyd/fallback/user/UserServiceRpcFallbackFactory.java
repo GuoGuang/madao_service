@@ -33,8 +33,8 @@ public class UserServiceRpcFallbackFactory implements FallbackFactory<UserServic
 			}
 
 			@Override
-			public JsonData findUserByUser(String userName) {
-				LogBack.error(ERROR_INFO,"findUserByUser",userName,throwable);
+			public JsonData findUserByUser(User user) {
+				LogBack.error(ERROR_INFO,"findUserByUser",user,throwable);
 				return new JsonData<User>(false, StatusEnum.RPC_ERROR.getCode(), StatusEnum.RPC_ERROR.getMsg());
 			}
 		};

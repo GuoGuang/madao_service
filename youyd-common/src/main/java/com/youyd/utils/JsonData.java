@@ -23,6 +23,14 @@ public class JsonData<T> implements Serializable {
 
 	private T data;
 
+	public JsonData(boolean state, StatusEnum statusEnum) {
+		this(state,statusEnum.getCode(), statusEnum.getMsg());
+	}
+
+	public JsonData(boolean state, StatusEnum statusEnum, String msg) {
+		this(state,statusEnum.getCode(),msg);
+	}
+
 	/**
 	 * 快速创建成功结果并返回结果数据
 	 *

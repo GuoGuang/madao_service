@@ -67,14 +67,14 @@ public class GateWayConfig {
 				.route("tweet_route", r -> r.path("/ts/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-TWEETS"))
 				// 文章服务
 				.route("article_route",a ->a.path("/article/**").filters(f -> f.stripPrefix(0).prefixPath("/sa")).uri("lb://SERVICE-ARTICLE"))
-				.route("auth_route",a ->a.path("/auth/**").filters(f -> f.stripPrefix(0)).uri("lb://AUTHENTICATION-SERVER"))
+				.route("auth_route",a ->a.path("/oauth/**").filters(f -> f.stripPrefix(0)).uri("lb://AUTHENTICATION-SERVER"))
 				.build();
 
 	}
 
 
 	//这里为支持的请求头，如果有自定义的header字段请自己添加（不知道为什么不能使用*）
-	private static final String ALLOWED_HEADERS = "X-TOKEN,AUTH,x-requested-with, authorization, Content-Type, Authorization, credential, X-XSRF-TOKEN,token,username,client";
+	private static final String ALLOWED_HEADERS = "DEVICE-ID,CAPTCHA-UUID,X-TOKEN,AUTH,x-requested-with, authorization, Content-Type, Authorization, credential, X-XSRF-TOKEN,token,username,client";
 	private static final String ALLOWED_METHODS = "*";
 	private static final String ALLOWED_ORIGIN = "*";
 	private static final String ALLOWED_EXPOSE = "*";

@@ -7,9 +7,9 @@ package com.youyd.auth.validate.impl.sms;
 public interface SmsCodeSender {
 	
 	/**
-	 * @param mobile
+	 * @param phone
 	 * @param code
 	 */
-	void send(String mobile, String code);
+	void send(String phone, String code);
 
 }

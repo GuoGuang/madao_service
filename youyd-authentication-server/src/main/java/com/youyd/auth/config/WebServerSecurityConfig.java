@@ -2,23 +2,23 @@ package com.youyd.auth.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.youyd.auth.filter.CaptchaAuthenticationFilter;
+import com.youyd.auth.filter.SmsCodeAuthenticationFilter;
 import com.youyd.auth.handler.CustomAuthenticationFailureHandler;
 import com.youyd.auth.handler.CustomAuthenticationSuccessHandler;
 import com.youyd.auth.provider.CaptchaAuthenticationProvider;
+import com.youyd.auth.provider.SmsCodeAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -35,21 +35,21 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private DruidDataSource dataSource;
-	@Autowired
-	private CaptchaAuthenticationConfig captchaAuthenticationConfig;
 
-	@Autowired
-	private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
-	@Autowired
-	private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-	//  校验码
-	//@Autowired
-	//private ValidateCodeSecurityConfig validateCodeSecurityConfig;
 	// 短信验证码
 	//@Autowired
 	//private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
-	//@Autowired
-	//private AuthorizeConfigManager authorizeConfigManager;
+
+	// 全局过滤器校验码
+	@Autowired
+	private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+
+	@Autowired
+	private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+	@Autowired
+	private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
@@ -61,11 +61,6 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 		AuthenticationManager manager = super.authenticationManagerBean();
 		return manager;
 	}
-	//采用bcrypt对密码进行编码
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
@@ -73,18 +68,62 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.httpBasic().and()
 				//.addFilterAt(captchaAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.formLogin()
+				.successHandler(customAuthenticationSuccessHandler)
+				.failureHandler(customAuthenticationFailureHandler)
 				//.failureHandler(customAuthenticationFailureHandler)
 				.and()
 				.authorizeRequests()
 				.antMatchers(HttpMethod.OPTIONS).permitAll()
 			.anyRequest().authenticated()
 				.and()
-				.csrf().disable()
-		.apply(captchaAuthenticationConfig);
+				.csrf().disable();
 
+		http.addFilterAfter(smsCodeAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+			.addFilterAt(captchaAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+		http.apply(validateCodeSecurityConfig);
+
+		// 自定义配置
+		/*http.apply(validateCodeSecurityConfig) // 全局配置，过滤器链第一个过滤器
+				.and()
+				.apply(smsCodeAuthenticationSecurityConfig);*/
 	}
 
+	/**
+	 * 短信验证码登录配置
+	 **/
 	@Bean
+	public SmsCodeAuthenticationFilter smsCodeAuthenticationFilter() throws Exception {
+		SmsCodeAuthenticationFilter smsCodeAuthenticationFilter = new SmsCodeAuthenticationFilter();
+		smsCodeAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
+		smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
+		smsCodeAuthenticationFilter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
+		return smsCodeAuthenticationFilter;
+	}
+
+	/**
+	 * 图片验证码自定义配置
+	 **/
+	@Bean
+	public CaptchaAuthenticationFilter captchaAuthenticationFilter() throws Exception {
+		CaptchaAuthenticationFilter captchaAuthenticationFilter = new CaptchaAuthenticationFilter();
+		captchaAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
+		captchaAuthenticationFilter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
+		captchaAuthenticationFilter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
+		return captchaAuthenticationFilter;
+	}
+
+	@Autowired
+	SmsCodeAuthenticationProvider SmsCodeAuthenticationProvider;
+	@Autowired
+	CaptchaAuthenticationProvider captchaAuthenticationProvider;
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.authenticationProvider(SmsCodeAuthenticationProvider)
+			.authenticationProvider(captchaAuthenticationProvider);
+	}
+
+	/*@Bean
 	public CaptchaAuthenticationFilter captchaAuthenticationFilter() throws Exception {
 		CaptchaAuthenticationFilter myFilter = new CaptchaAuthenticationFilter();
 		//使过滤器关联当前的authenticationManager
@@ -93,16 +132,28 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 		myFilter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
 		return myFilter;
 	}
-
-	public void configure(AuthenticationManagerBuilder auth) {
-		auth.authenticationProvider(authenticationProvider());
-	}
-
-	// 图片验证码自定义认证登录
 	@Bean
-	public AuthenticationProvider authenticationProvider() {
-		return new CaptchaAuthenticationProvider();
-	}
+	public SmsCodeAuthenticationFilter smsCodeAuthenticationFilter() throws Exception {
+		SmsCodeAuthenticationFilter myFilter = new SmsCodeAuthenticationFilter();
+		//使过滤器关联当前的authenticationManager
+		myFilter.setAuthenticationManager(authenticationManager());
+		myFilter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
+		myFilter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
+		return myFilter;
+	}*/
+
+	/*@Autowired
+	CaptchaAuthenticationProvider captchaAuthenticationProvider;
+	@Autowired
+	SmsCodeAuthenticationProvider smsCodeAuthenticationProvider;
+
+	@Bean
+	protected AuthenticationManager authenticationManager() throws Exception {
+		List list = new ArrayList();
+		list.add(captchaAuthenticationProvider);
+		list.add(smsCodeAuthenticationProvider);
+		return new ProviderManager(list);
+	}*/
 
 	/**
 	 * 记住我功能的token存取器配置

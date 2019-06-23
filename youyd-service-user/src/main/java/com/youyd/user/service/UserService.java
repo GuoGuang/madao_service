@@ -119,6 +119,7 @@ public class UserService {
 		LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
 		queryWrapper.eq(StringUtils.isNotBlank(user.getId()),User::getId,user.getId());
 		queryWrapper.eq(StringUtils.isNotBlank(user.getAccount()),User::getAccount,user.getAccount());
+		queryWrapper.eq(StringUtils.isNotBlank(user.getPhone()),User::getPhone,user.getPhone());
 
 		User userResult = userDao.selectOne(queryWrapper);
 

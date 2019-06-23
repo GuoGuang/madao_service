@@ -25,9 +25,9 @@ public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
 	/**
 	 * 认证之前的构造函数
 	 */
-	public SmsCodeAuthenticationToken(String mobile) {
+	public SmsCodeAuthenticationToken(String phone) {
 		super(null);
-		this.principal = mobile;
+		this.principal = phone;
 		setAuthenticated(false);
 	}
 

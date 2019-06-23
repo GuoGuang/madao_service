@@ -82,7 +82,8 @@ public interface RedisService {
 	 * @param value
 	 * @param ttl
 	 */
-	void setKeyStr(String key,String value, Long ttl);
+	void setKeyStr(String key,Object value, Long ttl);
+	void setKeyStr(String key,Object value );
 
     /**
      * 递增

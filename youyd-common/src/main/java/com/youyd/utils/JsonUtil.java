@@ -75,6 +75,7 @@ public class JsonUtil {
 			return objectMapper.readValue(jsonStr, clazz);
 		} catch (IOException e) {
 			LogBack.error("json error:" + e.getMessage());
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -83,9 +84,9 @@ public class JsonUtil {
 	 * @param jsonStr JSON字符串
 	 * @return java对象
 	 */
-	public static synchronized Map<String,String> jsonToMap(String jsonStr) {
+	public static synchronized Map<String,Object> jsonToMap(String jsonStr) {
 		try {
-			return objectMapper.readValue(jsonStr, new TypeReference<Map<String, String>>(){});
+			return objectMapper.readValue(jsonStr, new TypeReference<Map<String, Object>>(){});
 		} catch (IOException e) {
 			LogBack.error("json error:" + e.getMessage());
 			return null;

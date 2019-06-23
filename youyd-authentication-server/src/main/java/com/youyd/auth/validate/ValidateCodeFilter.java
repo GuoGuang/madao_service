@@ -64,7 +64,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 		urlMap.put("/oauth/token", ValidateCodeType.CAPTCHA);
 		addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.CAPTCHA);
 
-		urlMap.put("/oauth/mobile", ValidateCodeType.SMS);
+		urlMap.put("/oauth/phone", ValidateCodeType.SMS);
 		addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
 	}
 

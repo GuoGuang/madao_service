@@ -26,11 +26,9 @@ spring:
             - PUT
             - DELETE # https://segmentfault.com/a/1190000017188296
 
-  gate:
-    ignore:
-      authentication:
-        startWith: /oauth,/auth
 
+auth:
+  ignoreUrls: /oauth,/auth
 
 #      routes:
 #      - id: host_route

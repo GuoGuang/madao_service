@@ -126,7 +126,7 @@ public class UserController {
 	 * @return boolean
 	 */
 	@PostMapping(value = "/condition")
-	public JsonData findByCondition(User user) {
+	public JsonData findByCondition(@RequestBody User user) {
 		User byId = userService.findUserByUser(user);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),byId);
 	}

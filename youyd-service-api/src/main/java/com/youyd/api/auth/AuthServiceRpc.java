@@ -7,6 +7,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 鉴权服务api
@@ -23,5 +24,7 @@ public interface AuthServiceRpc {
 	 * 调用签权服务，判断用户是否有权限
 	 */
 	@PostMapping(value = "auth/permission")
-	JsonData authPermission(@RequestHeader(HttpHeaders.AUTHORIZATION) String authentication);
+	JsonData authPermission(@RequestParam("url") String url,
+	                        @RequestParam("method") String method,
+							@RequestHeader(HttpHeaders.AUTHORIZATION) String authentication);
 }

@@ -33,12 +33,14 @@ public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<Vali
 	
 	@Override
 	protected void send(ServletWebRequest request, ValidateCode validateCode) throws Exception {
-		String paramName = CommonConst.DEFAULT_PARAMETER_NAME_MOBILE;
-		String mobile = ServletRequestUtils.getRequiredStringParameter(request.getRequest(), paramName);
-		smsCodeSender.send(mobile, validateCode.getCode());
+		String paramName = CommonConst.DEFAULT_PARAMETER_NAME_PHONE;
+		String phone = ServletRequestUtils.getRequiredStringParameter(request.getRequest(), paramName);
+		smsCodeSender.send(phone, validateCode.getCode());
 
 		HashMap<Object, Object> map = new HashMap<>();
 		map.put("deviceId",request.getHeader("DEVICE-ID"));
+		// TODO 使用模拟手机验证码，配置短信发送器后可再使用真实的
+		map.put("tempCode",validateCode.getCode());
 
 		JsonData jsonData = new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), map);
 

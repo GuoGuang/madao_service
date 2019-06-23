@@ -6,7 +6,7 @@ import com.youyd.pojo.user.User;
 import com.youyd.utils.JsonData;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,6 +33,6 @@ public interface UserServiceRpc {
 	 * @return JsonData
 	 */
 	@PostMapping(value = "/condition")
-	JsonData<User> findUserByUser(@RequestParam("account") String userName);
+	JsonData<User> findUserByUser(@RequestBody User user);
 
 }

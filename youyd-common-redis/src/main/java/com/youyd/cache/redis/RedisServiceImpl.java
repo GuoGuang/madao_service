@@ -200,8 +200,11 @@ public class RedisServiceImpl implements RedisService {
 	 * @param value
 	 * @param ttl
 	 */
-	public void setKeyStr(String key,String value, Long ttl){
+	public void setKeyStr(String key,Object value, Long ttl){
 		redisTemplate.boundValueOps(key).set(value,ttl, TimeUnit.SECONDS);
+	}
+	public void setKeyStr(String key,Object value){
+		redisTemplate.boundValueOps(key).set(value);
 	}
 
 

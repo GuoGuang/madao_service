@@ -5,6 +5,7 @@ import com.youyd.utils.JsonData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,9 +30,9 @@ public class AuthenticationController {
 	 * @return
 	 */
 	@PostMapping(value = "/permission")
-    //public JsonData decide(@RequestParam String url, @RequestParam String method, HttpServletRequest request) {
-    public JsonData decide(HttpServletRequest request) {
-        //boolean decide = authenticationService.decide(new HttpServletRequestAuthWrapper(request, url, method));
+    public JsonData decide(@RequestParam String url, @RequestParam String method, HttpServletRequest request) {
+        // 权限拦截
+		//boolean decide = authenticationService.decide(new HttpServletRequestAuthWrapper(request, url, method));
         return JsonData.success(true);
     }
 

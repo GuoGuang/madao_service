@@ -33,8 +33,8 @@ public class AuthService {
      * 不需要网关签权的url配置(/oauth,/open)
      * 默认/oauth开头是不需要的
      */
-    @Value("${spring.gate.ignore.authorization.startWith}")
-    private String ignoreUrls;
+    @Value("${auth.ignoreUrls}")
+    private String[] ignoreUrls;
 
     /**
      * jwt验签
@@ -47,12 +47,12 @@ public class AuthService {
 	    objectObjectHashMap.put("url",url);
 	    objectObjectHashMap.put("method",method);
 
-	    JsonData jsonData = authServiceRpc.authPermission(BEARER+authentication);
+	    JsonData jsonData = authServiceRpc.authPermission(url,method,BEARER+authentication);
 	    return jsonData;
     }
 
     public boolean ignoreAuthentication(String url) {
-        return Stream.of(this.ignoreUrls.split(",")).anyMatch(ignoreUrl -> url.startsWith(StringUtils.trim(ignoreUrl)));
+        return Stream.of(ignoreUrls).anyMatch(ignoreUrl -> url.startsWith(StringUtils.trim(ignoreUrl)));
     }
 
     public boolean hasPermission(JsonData authJson) {
