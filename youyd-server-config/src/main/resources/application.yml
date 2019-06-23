@@ -8,17 +8,7 @@ spring:
     username: admin
     password: admin
     port: 5672
-  cloud:
-    config:
-      server:
-        git:
-          uri: https://github.com/GuoGuang0536/youyd_config.git
-          searchPaths: dev
-          default-label: master
-          username: GuoGuang0536@gmail.com
-          password: '{cipher}AQByObofDhY9uTHDkgdQGKPsY8n/zNY4Ob7Y+e7F7qC2byK8OebsVrmZOeycgki1x8/RTl/4RRBmjLdriBIUkAMt0bAIKK21GDNDGkiSlhSy7RmBM3BHTlKDs9AR72aVjdFQh6W6p6t0vnoEPTGi8GYXAW52QO+e3Xwmjs7Qxr54/NE9MjM1ImlYJOYrLY5ciRInkRZKF2ZtJNM+Kseu0puwjieXpJhdNClZJtosdUagaZxwP3sP63SS+UYnmwyyF1PIc3EAqymH++JntlEWvUqM7mLeFs+lfd7iQHTjOB0RjLDLf4JYT/ea7C1pz2cHYcsWZeF1ui1iOJyBaRhkLPlFAsn0S6PvSp20IzvHYw5lv/Z92ENqzSWhhz5M54xycuc='
-    bus:
-      enabled: true # 开启消息跟踪
+
 
 eureka:
   client: #客户端注册进eureka服务列表内
@@ -32,3 +22,12 @@ eureka:
     status-page-url-path:  /swagger-ui.html
     # #绑定客户端的ip而不是主机号
     hostname: ${spring.cloud.client.ip-address}   # ${spring.cloud.client.ip-address} 参考https://blog.csdn.net/xichenguan/article/details/76632033
+
+# 消息总线BUS自动刷新配置文件
+management: #暴露触发消息总线的地址
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
+  security:
+    enabled: false # 刷新时，关闭安全验证
