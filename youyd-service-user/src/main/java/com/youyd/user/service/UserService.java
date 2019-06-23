@@ -1,36 +1,28 @@
 package com.youyd.user.service;
 
 
-import com.aliyun.oss.OSSClient;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.youyd.api.base.LoginLogServiceRpc;
-import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
-import com.youyd.constant.CommonConst;
 import com.youyd.pojo.QueryVO;
-import com.youyd.pojo.base.LoginLog;
 import com.youyd.pojo.user.Role;
 import com.youyd.pojo.user.User;
 import com.youyd.pojo.user.UserRole;
 import com.youyd.user.dao.UserDao;
 import com.youyd.user.dao.UserRoleDao;
-import com.youyd.utils.*;
-import com.youyd.utils.security.JWTAuthentication;
-import eu.bitwalker.useragentutils.UserAgent;
+import com.youyd.utils.DateUtil;
+import com.youyd.utils.OssClientUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @description: 用户服务
@@ -43,9 +35,6 @@ public class UserService {
 	private final UserDao userDao;
 
 	private final RedisService redisService;
-
-	// jwt鉴权
-	private final JWTAuthentication jwtAuthentication;
 	// 加密
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	// 对象存储工具
@@ -57,10 +46,9 @@ public class UserService {
 
 
 	@Autowired
-	public UserService(UserDao userDao, RedisService redisService, JWTAuthentication jwtAuthentication, BCryptPasswordEncoder bCryptPasswordEncoder, OSSClient ossClient, OssClientUtil ossClientUtil, LoginLogServiceRpc loginLogServiceRpc, UserRoleDao userRoleDao) {
+	public UserService(UserDao userDao, RedisService redisService , BCryptPasswordEncoder bCryptPasswordEncoder , OssClientUtil ossClientUtil, LoginLogServiceRpc loginLogServiceRpc, UserRoleDao userRoleDao) {
 		this.userDao = userDao;
 		this.redisService = redisService;
-		this.jwtAuthentication = jwtAuthentication;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.ossClientUtil = ossClientUtil;
 		this.loginLogServiceRpc = loginLogServiceRpc;
@@ -95,57 +83,6 @@ public class UserService {
 		return userDao.selectPage(pr, queryWrapper);
 	}
 
-	/**
-	 * 登录到系统
-	 *  @param account  ：账号
-	 * @param password ：密码
-	 * @param request
-	 */
-	public Map login(String account, String password, HttpServletRequest request) {
-		LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-		queryWrapper.eq(User::getAccount, account);
-		User uResult = userDao.selectOne(queryWrapper);
-		if (uResult != null && bCryptPasswordEncoder.matches(password, uResult.getPassword())) {
-			// 生成token
-			String token = jwtAuthentication.createJWT(
-									Long.valueOf(uResult.getId()),
-									JsonUtil.toJsonString(uResult),
-								"admin",
-									DateUtil.getPlusWeeks(1));
-			Map<String, String> map = new HashMap<>();
-			map.put("token", token);
-			map.put("user", JsonUtil.toJsonString(uResult));
-			try {
-				redisService.set(RedisConstant.REDIS_KEY_TOKEN + token, uResult, CommonConst.TIME_OUT_WEEK);
-				// 添加登录日志
-				LoginLog loginLog = new LoginLog();
-				loginLog.setClientIp(HttpServletUtil.getIpAddr(request));
-				loginLog.setUserId(uResult.getId());
-				UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
-				loginLog.setBrowser(userAgent.getBrowser().getName());
-				loginLog.setOsInfo(userAgent.getOperatingSystem().getName());
-				loginLog.setCreateAt(DateUtil.getTimestamp());
-				loginLog.setUpdateAt(DateUtil.getTimestamp());
-				loginLogServiceRpc.insertLoginLog(loginLog);
-
-			} catch (Exception ex) {
-				LogBack.error(ex.getMessage(), ex);
-			}
-			return map;
-		} else {
-			return null;
-		}
-	}
-
-	/**
-	 * 登出系统
-	 *
-	 * @param token
-	 */
-	public void logout(String token) {
-		redisService.del(RedisConstant.REDIS_KEY_TOKEN + token);
-	}
-
 	public boolean deleteByIds(List<String> userId) {
 		int i = userDao.deleteBatchIds(userId);
 		return SqlHelper.retBool(i);
@@ -173,10 +110,23 @@ public class UserService {
 		return SqlHelper.retBool(i);
 	}
 
-	public User findUserById(String id) {
-		User user = userDao.selectById(id);
-		user.setRoles(userDao.findRolesOfUser(id));
-		return user;
+	/**
+	 * 按照user条件查询，仅支持查询字段为唯一值的
+	 * @param user user
+	 * @return User
+	 */
+	public User findUserByUser(User user) {
+		LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+		queryWrapper.eq(StringUtils.isNotBlank(user.getId()),User::getId,user.getId());
+		queryWrapper.eq(StringUtils.isNotBlank(user.getAccount()),User::getAccount,user.getAccount());
+		queryWrapper.eq(StringUtils.isNotBlank(user.getPhone()),User::getPhone,user.getPhone());
+
+		User userResult = userDao.selectOne(queryWrapper);
+
+		if (StringUtils.isNotBlank(user.getId())){
+			userResult.setRoles(userDao.findRolesOfUser(user.getId()));
+		}
+		return userResult;
 	}
 
 	/**

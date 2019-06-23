@@ -1,4 +1,4 @@
-package com.youyd.api.base.fallback;
+package com.youyd.fallback.base;
 
 import com.youyd.api.base.LoginLogServiceRpc;
 import com.youyd.enums.StatusEnum;
@@ -25,7 +25,7 @@ public class LoginLogServiceRpcFallbackFactory implements FallbackFactory<LoginL
 		return new LoginLogServiceRpc() {
 
 			@Override
-			public JsonData insertLoginLog(LoginLog loginLog) {
+			public JsonData insertLoginLog(String auth,LoginLog loginLog) {
 				LogBack.error(ERROR_INFO,"insertLoginLog",loginLog,throwable);
 				return new JsonData(false, StatusEnum.RPC_ERROR.getCode(), StatusEnum.RPC_ERROR.getMsg());
 			}

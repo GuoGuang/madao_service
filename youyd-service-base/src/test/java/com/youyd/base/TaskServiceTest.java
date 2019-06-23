@@ -70,7 +70,7 @@ public class TaskServiceTest{
 
 	private LinkedList<Dict> converTreeToPojo(String city) throws InterruptedException {
 		LinkedList<Dict> list = new LinkedList<>();
-		List<Map<String,Object>> objects = JsonUtil.jsonToMap(city);
+		List<Map<String,Object>> objects = JsonUtil.jsonToListMap(city);
 		for (Map<String, Object> object : objects) {
 			String code = object.get("code")+"";
 			String name = object.get("name")+"";

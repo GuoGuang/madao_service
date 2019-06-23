@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    config:
+      name: application #需要从github上读取的资源名称，注意没有yml后缀名
+      #profile配置是什么就取什么配置dev or test
+      profile: dev
+      #profile: test
+      label: master
+      uri: http://localhost:9009  #SpringCloudConfig获取的服务地址
+
+### Ribbon 配置
+ribbon:
+  # 连接超时
+  ConnectTimeout: 2000
+  # 响应超时
+  ReadTimeout: 5000
+### Feign 配置
+feign:
+  # 开启断路器（熔断器）
+  hystrix:
+    enabled: true

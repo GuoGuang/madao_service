@@ -2,27 +2,21 @@ spring:
   cloud:
     config:
       server:
-        encrypt:
-          enabled: true # 启用config加密功能
+       #encrypt:
+          #enabled: true # 启用config加密功能
+        git:
+          uri: https://github.com/GuoGuang0536/youyd_config.git
+          searchPaths: dev
+          default-label: master
+          username: GuoGuang0536@gmail.com
+          password: 'github密码'
+    bus:
+      enabled: true # 开启消息跟踪
 
 # 非对称加密
 encrypt:
   key-store:
-    location: classpath:server.jks
-    alias: SpringCloudConfig
+    location: classpath:alyunAccessKey.jks
+    alias: aliyunAccessKey
     password: GuoGuang
     secret: GuoGuang
-
-
-# spring.cloud.config.enabled=false # 禁用现有的配置服务器属性源。
-#--------------start -----------------------------
-# 消息总线BUS自动刷新配置文件
-management: #暴露触发消息总线的地址
-  endpoints:
-    web:
-      exposure:
-        include: bus-refresh
-  security:
-    enabled: false # 刷新时，关闭安全验证
-
-#--------------加密配置end -----------------------------

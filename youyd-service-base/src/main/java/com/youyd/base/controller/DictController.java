@@ -46,7 +46,7 @@ public class DictController {
 	@GetMapping
 	public JsonData findResByCondition(Dict dict, QueryVO queryVO) {
 		IPage<Dict> resData = dictService.findDictByCondition(dict,queryVO);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), resData);
+		return new JsonData<IPage>(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), resData);
 	}
 
 	/**

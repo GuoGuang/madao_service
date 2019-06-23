@@ -1,7 +1,7 @@
 package com.youyd.api.base;
 
-import com.youyd.api.base.fallback.OptLogServiceRpcFallbackFactory;
 import com.youyd.constant.FeignConst;
+import com.youyd.fallback.base.OptLogServiceRpcFallbackFactory;
 import com.youyd.pojo.base.OptLog;
 import com.youyd.utils.JsonData;
 import org.springframework.cloud.openfeign.FeignClient;

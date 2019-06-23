@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StreamUtils;
 
@@ -27,7 +28,7 @@ import java.util.*;
 public class UserServiceTest {
 	@Autowired
 	private UserService userService;
-	@Autowired
+	@Autowired(required = false)
 	private OSSClient ossClient; // 阿里云OSS对象存储
 
 	@Test
@@ -93,10 +94,15 @@ public class UserServiceTest {
 	@Autowired
 	private RedisService redisService;
 
+	@Autowired
+	private RedisTemplate redisTemplate;
 	@Test
 	public void testSpringDataRedis(){
-		//redisService.set("stringK","stringV"); // string
-		redisService.lSet("listK",Arrays.asList("王","赵"));
+		 redisService.set("stringK","stringV",10); // string
+		// redisService.lSet("listK",Arrays.asList("王","赵"));
+//		Object user_token1353259235236756534 = redisService.get("USER_TOKEN1353259235236756534");
+//		Object userToken = redisTemplate.opsForValue().get("USER_TOKEN1353259235236756534");
+//		System.out.println(userToken);
 	}
 
 	@Test

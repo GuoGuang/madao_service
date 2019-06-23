@@ -1,5 +1,6 @@
 package com.youyd.utils;
 
+import com.youyd.enums.StatusEnum;
 import io.swagger.annotations.ApiModel;
 
 import java.io.Serializable;
@@ -12,7 +13,7 @@ import java.io.Serializable;
  */
 
 @ApiModel("api接口通用返回对象")
-public class JsonData implements Serializable {
+public class JsonData<T> implements Serializable {
 
 	private boolean status;
 
@@ -20,9 +21,35 @@ public class JsonData implements Serializable {
 
 	private String message;
 
-	private Object data;
+	private T data;
 
-	public JsonData(boolean status, int code, String message, Object data) {
+	public JsonData(boolean state, StatusEnum statusEnum) {
+		this(state,statusEnum.getCode(), statusEnum.getMsg());
+	}
+
+	public JsonData(boolean state, StatusEnum statusEnum, String msg) {
+		this(state,statusEnum.getCode(),msg);
+	}
+
+	/**
+	 * 快速创建成功结果并返回结果数据
+	 *
+	 * @param isSuccess
+	 * @return Result
+	 */
+	public static JsonData success(Boolean isSuccess) {
+		return new JsonData(isSuccess, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
+	}
+	public static JsonData error(Boolean isSuccess) {
+		return new JsonData(isSuccess, StatusEnum.ERROR.getCode(), StatusEnum.ERROR.getMsg(),null);
+	}
+
+	public JsonData(StatusEnum statusEnum) {
+		this(false,statusEnum.getCode(),statusEnum.getMsg());
+	}
+
+
+	public JsonData(boolean status, int code, String message, T data) {
 		this.status = status;
 		this.code = code;
 		this.message = message;
@@ -62,11 +89,11 @@ public class JsonData implements Serializable {
 		this.message = message;
 	}
 
-	public Object getData() {
+	public T getData() {
 		return data;
 	}
 
-	public void setData(Object data) {
+	public void setData(T data) {
 		this.data = data;
 	}
 }

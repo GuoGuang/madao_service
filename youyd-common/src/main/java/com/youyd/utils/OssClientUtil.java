@@ -3,7 +3,7 @@ package com.youyd.utils;
 import com.aliyun.oss.HttpMethod;
 import com.aliyun.oss.OSSClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -13,18 +13,16 @@ import java.io.IOException;
  * @author LGG
  * @create 2019年4月21日18:15:16
  **/
-@Service
+@Component
 public class OssClientUtil {
 
 
 	private static final String BUCKET_NAME = "vue-admin-guoguang"; // Bucket名称
+	@Autowired(required = false)
+	private OSSClient ossClient; // 阿里云OSS对象存储
 
-	private final OSSClient ossClient; // 阿里云OSS对象存储
 
-	@Autowired
-	public OssClientUtil(OSSClient ossClient) {
-		this.ossClient = ossClient;
-	}
+
 
 	/**
 	 * 上传文件

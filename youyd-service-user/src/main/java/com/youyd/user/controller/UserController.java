@@ -11,15 +11,12 @@ import com.youyd.pojo.user.User;
 import com.youyd.user.service.UserService;
 import com.youyd.utils.JsonData;
 import com.youyd.utils.JsonUtil;
-import com.youyd.utils.security.JWTAuthentication;
-import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,32 +36,9 @@ public class UserController {
 
 	private final UserService userService;
 
-	// jwt鉴权
-	private final JWTAuthentication jwtAuthentication;
-
 	@Autowired
-	public UserController(UserService userService, JWTAuthentication jwtAuthentication) {
+	public UserController(UserService userService) {
 		this.userService = userService;
-		this.jwtAuthentication = jwtAuthentication;
-	}
-
-
-	/**
-	 * 用户登陆
-	 *
-	 * @param account  ：账号
-	 * @param password ：密码
-	 * @return JsonData
-	 */
-	@PostMapping(value = "/login")
-	@ApiOperation(value = "用户登录", notes = "User")
-	public JsonData login(HttpServletRequest request, String account, String password) {
-		Map uMap = userService.login(account, password,request);
-		if (uMap != null) {
-			return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), uMap);
-		} else {
-			return new JsonData(false, StatusEnum.LOGIN_ERROR.getCode(), StatusEnum.LOGIN_ERROR.getMsg());
-		}
 	}
 
 	/**
@@ -98,13 +72,9 @@ public class UserController {
 	 * @return boolean
 	 */
 	@PostMapping("/permission")
-	public JsonData getUserPermission(String token) throws ParamException {
-		String userSub = jwtAuthentication.parseJWT(token).getSubject();
-		User user = JsonUtil.jsonToPojo(userSub, User.class);
-		if(user == null) {
-			throw new ParamException();
-		}
-		User userPermission = userService.getUserPermission(user.getId());
+	public JsonData getUserPermission(@RequestHeader("x-client-token-user") String userStr) throws ParamException {
+		Map user = JsonUtil.jsonToPojo(userStr, Map.class);
+		User userPermission = userService.getUserPermission((String) user.get("id"));
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), userPermission);
 	}
 
@@ -154,26 +124,12 @@ public class UserController {
 	 * 按照id查询用户
 	 * @param id：用户id
 	 * @return boolean
-	 * url: ?search={query}{&page,per_page,sort,order}
 	 */
-	@GetMapping(value = "/{id}")
-	public JsonData findByCondition(@PathVariable String id) {
-		User byId = userService.findUserById(id);
+	@PostMapping(value = "/condition")
+	public JsonData findByCondition(@RequestBody User user) {
+		User byId = userService.findUserByUser(user);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),byId);
 	}
-
-	/**
-	 * 退出
-	 * @param token
-	 * @return boolean
-	 */
-	@PostMapping(value = "/logout")
-	@OptLog(operationType= CommonConst.MODIFY,operationName="退出系统")
-	public JsonData logout(@RequestHeader("X-Token")String token) {
-		userService.logout(token);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
-	}
-
 
 	/**
 	 * 更新用户资料
@@ -198,10 +154,7 @@ public class UserController {
 	 */
 	@DeleteMapping
 	@OptLog(operationType= CommonConst.DELETE,operationName="删除用户")
-	public JsonData deleteByIds(@RequestBody List<String> userId, @ModelAttribute("admin_claims") Claims claims) {
-		if (claims == null) {
-			return new JsonData(true, StatusEnum.PARAM_MISSING.getCode(), StatusEnum.PARAM_MISSING.getMsg());
-		}
+	public JsonData deleteByIds(@RequestBody List<String> userId) {
 		boolean result = userService.deleteByIds(userId);
 		return new JsonData(result, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}

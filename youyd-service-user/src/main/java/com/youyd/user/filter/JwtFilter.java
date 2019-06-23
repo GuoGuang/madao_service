@@ -1,7 +1,6 @@
 package com.youyd.user.filter;
 
 import com.youyd.utils.security.JWTAuthentication;
-import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @description: 鉴权拦截器
- * @author: LGG
- * @create: 2018-10-24 20:38
+ * 鉴权拦截器
+ * @author : LGG
+ * @create : 2018-10-24 20:38
  **/
 public class JwtFilter extends HandlerInterceptorAdapter {
 
@@ -33,7 +32,7 @@ public class JwtFilter extends HandlerInterceptorAdapter {
 		final String authorization = request.getHeader("Authorization");
 		if (StringUtils.isNotEmpty(authorization) && StringUtils.startsWith(authorization,"Bearer-")) {
 			final String token = authorization.substring(7); // The part after "Bearer "
-			Claims claims = jwtAuthentication.parseJWT(token);
+			/*Claims claims = jwtAuthentication.parseJWT(token);
 			if (claims != null) {
 				// 管理员角色
 				if(StringUtils.equals("admin",claims.get("roles").toString())){
@@ -43,7 +42,7 @@ public class JwtFilter extends HandlerInterceptorAdapter {
 				if(StringUtils.equals("user",claims.get("roles").toString())){
 					request.setAttribute("user_claims", claims);
 				}
-			}
+			}*/
 		}
 		return true;
 	}

@@ -52,7 +52,7 @@ CREATE TABLE `ar_article` (
 BEGIN;
 INSERT INTO `ar_article` VALUES ('1', '3', 'kkkk,jjjj', '12151044', '受脑认知和神经科学启发的人工智能', '大概描', 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1229855747,4092679124&fm=26&gp=0.jpg', 20190129194744, 20190129194746, 1, 1, 25, 3562, 11, 1, '1', '1', 3.0, '1', 1, '<h3>第一条文章测试</h3>\n<ol>\n<li>6啊</li>\n<li>哈哈哈<img src=\"https://p.nanrenwo.net/uploads/allimg/160907/8122-160ZG10T5-50.jpg\" alt=\"&acirc;&auml;&ordm;&aring;&acirc;&ccedil;&aring;&frac34;&ccedil;&aelig;&ccedil;&acute;&cent;&ccedil;&raquo;&aelig;\" /></li>\n</ol>');
 INSERT INTO `ar_article` VALUES ('1125040614373310466', '1', '言情,假的', NULL, '第三个文章哦', '第三个文章哦', NULL, 1557065559366, 1557065559366, 0, 1, 0, 0, 0, 1, NULL, NULL, 0.0, NULL, 2, '<p>第三个文章哦</p>');
-INSERT INTO `ar_article` VALUES ('2', '2', '第一个标签', '2', '测试', '2', 'https://ss1.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=c8a9d4e2841363270aedc433a18fa056/11385343fbf2b2114a65cd70c48065380cd78e41.jpg', 20190130101649, 20190130101649, 2, 2, 0, 3, 11, 2, '2', '2', 2.0, '2', 1, '1');
+INSERT INTO `ar_article` VALUES ('2', '2', '第一个标签', '2', '测试', '2', 'https://ss1.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/captcha/h%3D300/sign=c8a9d4e2841363270aedc433a18fa056/11385343fbf2b2114a65cd70c48065380cd78e41.jpg', 20190130101649, 20190130101649, 2, 2, 0, 3, 11, 2, '2', '2', 2.0, '2', 1, '1');
 COMMIT;
 
 -- ----------------------------

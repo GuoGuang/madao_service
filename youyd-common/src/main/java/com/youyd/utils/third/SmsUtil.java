@@ -9,8 +9,8 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
@@ -22,15 +22,18 @@ import java.util.Date;
  * @create: 2018-10-21 20:12
  **/
 @Component
+@ConditionalOnProperty("aliyun.sms")
 public class SmsUtil {
 
 	//产品名称:云通信短信API产品,开发者无需替换
 	static final String product = "Dysmsapi";
 	//产品域名,开发者无需替换
 	static final String domain = "dysmsapi.aliyuncs.com";
-	@Autowired
-	private Environment env;
-// TODO 此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)
+
+	@Value("${aliyun.sms.accessKeyId}")
+	String accessKeyId;
+	@Value("${aliyun.sms.accessKeySecret}")
+	String accessKeySecret;
 
 	/**
 	 * 发送短信
@@ -42,8 +45,7 @@ public class SmsUtil {
 	 * @return SendSmsResponse
 	 */
 	public SendSmsResponse sendSms(String mobile, String template_code, String sign_name, String param) throws ClientException {
-		String accessKeyId = env.getProperty("aliyun.sms.accessKeyId");
-		String accessKeySecret = env.getProperty("aliyun.sms.accessKeySecret");
+
 		//可自助调整超时时间
 		System.setProperty("sun.net.client.defaultConnectTimeout","10000");
 		System.setProperty("sun.net.client.defaultReadTimeout", "10000");
@@ -59,7 +61,7 @@ public class SmsUtil {
 		request.setSignName(sign_name);
 		//必填:短信模板‐可在短信控制台中找到
 		request.setTemplateCode(template_code);
-		//可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为$ {code}"时,此处的值为
+		//可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为$ {code}"时,此处的值为("{\"name\":\"Tom\", \"code\":\"123\"}"
 		request.setTemplateParam(param);
 		//选填‐上行短信扩展码(无特殊需求用户请忽略此字段)
 		//request.setSmsUpExtendCode("90997");
@@ -77,8 +79,7 @@ public class SmsUtil {
 	 * @return QuerySendDetailsResponse
 	 */
 	public QuerySendDetailsResponse querySendDetails(String mobile, String bizId) throws ClientException {
-		String accessKeyId = env.getProperty("accessKeyId");
-		String accessKeySecret = env.getProperty("accessKeySecret");
+
 		//可自助调整超时时间
 		System.setProperty("sun.net.client.defaultConnectTimeout","10000");
 		System.setProperty("sun.net.client.defaultReadTimeout", "10000");

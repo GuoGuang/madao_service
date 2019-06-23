@@ -8,7 +8,23 @@ package com.youyd.constant;
  **/
 public class FeignConst {
 
+	private FeignConst() {
+		throw new IllegalStateException("Utility class");
+	}
+
 	/* 基础微服务 */
 	public static final String SERVICE_BASE  ="service-base";
 	public static final String SERVICE_BASE_PATH  ="/loginLog";
+
+	/* 用户微服务 */
+	public static final String SERVICE_USER  ="service-user";
+	public static final String SERVICE_USER_PATH  ="/su/user";
+
+	/* 认证微服务 */
+	public static final String SERVICE_AUTHENTICATION_AUTH  ="authentication-server";
+	public static final String SERVICE_AUTHENTICATION_AUTH_PATH  ="/";
+
+	/* 授权微服务 */
+	public static final String SERVICE_AUTHORIZATION_AUTH  ="authorization-server";
+	public static final String SERVICE_AUTHORIZATION_AUTH_PATH  ="/";
 }

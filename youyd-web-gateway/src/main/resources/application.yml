@@ -26,6 +26,10 @@ spring:
             - PUT
             - DELETE # https://segmentfault.com/a/1190000017188296
 
+
+auth:
+  ignoreUrls: /oauth,/auth
+
 #      routes:
 #      - id: host_route
 #        uri: lb://SERVICE-USER #  lb = load-balanced

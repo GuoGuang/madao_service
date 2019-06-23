@@ -1,14 +1,11 @@
 package com.youyd.utils;
 
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ser.NullSerializer;
-import org.codehaus.jackson.map.ser.StdSerializerProvider;
-import org.codehaus.jackson.type.JavaType;
-import org.codehaus.jackson.type.TypeReference;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -20,18 +17,9 @@ public class JsonUtil {
 
 	private JsonUtil(){}
 
-    // 定义jackson对象
-	private static final ObjectMapper objectMapper;
+	private static ObjectMapper objectMapper;
 	static {
-		StdSerializerProvider sp = new StdSerializerProvider();
-		sp.setNullValueSerializer(NullSerializer.instance);
-		objectMapper = new ObjectMapper(null, sp, null);
-		objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
-		objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-		objectMapper.configure(JsonParser.Feature.INTERN_FIELD_NAMES, true);
-		objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
-//		objectMapper.getSerializationConfig().setSerializationInclusion(Inclusion.NON_NULL);
-		objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+		objectMapper = new ObjectMapper();
 	}
 
 	public static ObjectMapper getObjectMapper() {
@@ -87,6 +75,20 @@ public class JsonUtil {
 			return objectMapper.readValue(jsonStr, clazz);
 		} catch (IOException e) {
 			LogBack.error("json error:" + e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+	}
+	/**
+	 * JSON字符串转java对象
+	 * @param jsonStr JSON字符串
+	 * @return java对象
+	 */
+	public static synchronized Map<String,Object> jsonToMap(String jsonStr) {
+		try {
+			return objectMapper.readValue(jsonStr, new TypeReference<Map<String, Object>>(){});
+		} catch (IOException e) {
+			LogBack.error("json error:" + e.getMessage());
 			return null;
 		}
 	}
@@ -96,7 +98,7 @@ public class JsonUtil {
 	 * @param jsonData JSON字符串
 	 * @return
 	 */
-	public static List<Map<String,Object>> jsonToMap(String jsonData) {
+	public static List<Map<String,Object>> jsonToListMap(String jsonData) {
 		JavaType javaType = objectMapper.getTypeFactory().constructParametricType(List.class, Map.class);
 		try {
 			List<Map<String,Object>> list = objectMapper.readValue(jsonData, javaType);
@@ -108,4 +110,7 @@ public class JsonUtil {
 		return null;
 	}
 
+	public static byte[] toJSONBytes(JsonData result) throws IOException {
+		return objectMapper.writeValueAsBytes(result);
+	}
 }

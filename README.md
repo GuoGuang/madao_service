@@ -48,11 +48,37 @@
 
 ```
 
+## 快速开始
+1. 使用docker启动mysql、redis、rabbitmq 
+```
+
+// mysql
+docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql --lower_case_table_names=1
+
+// redis
+docker run --name myredis -d -p 6379:6379 -v /data/redis/redis.conf:/etc/redis/redis.conf -v /data/redis/data:/data redis  redis-server /etc/redis/redis.conf --requirepass "root" --appendonly yes
+
+// rebbitmq 
+
+docker run -d --name rabbit-server -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+
+```
+
+2 . 修改注册中心配置文件
+
+github clone 此工程 [配置中心](https://github.com/GuoGuang0536/youyd_springcloud_config)
+
+将里面的配置文件更改为你的地址，阿里云oss地址没有的话可以注释掉
+
+3 . 启动微服务
 
 ## 架构图
-![架构图]()
+![架构图](https://github.com/GuoGuang0536/youyd_springcloud_service/blob/develop/youyd-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE1.png)
+![架构图](https://github.com/GuoGuang0536/youyd_springcloud_service/blob/develop/youyd-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE2.png)
 
 ## 服务监控平台
-![图1]()
-![图2]()
-![图3]()
+启动 youyd-server-monitor 服务 
+访问 [地址](http://127.0.0.1:9002)
+![图1](https://github.com/GuoGuang0536/youyd_springcloud_service/blob/develop/youyd-common-parent/image/Application.png)
+![图2](https://github.com/GuoGuang0536/youyd_springcloud_service/blob/develop/youyd-common-parent/image/Wallboard.png)
+![图3](https://github.com/GuoGuang0536/youyd_springcloud_service/blob/develop/youyd-common-parent/image/Details.png)

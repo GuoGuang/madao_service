@@ -2,7 +2,7 @@ package com.youyd.tweets.exception;
 
 import com.youyd.customexception.ValidFieldError;
 import com.youyd.enums.StatusEnum;
-import com.youyd.pojo.ErrotResult;
+import com.youyd.utils.JsonData;
 import com.youyd.utils.LogBack;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
@@ -34,9 +34,9 @@ public class BaseExceptionHandler {
 	 * @param ex IllegalArgumentException
 	 */
 	@ExceptionHandler(IllegalArgumentException.class)
-	public ErrotResult illegalArgumentException(IllegalArgumentException ex) {
+	public JsonData illegalArgumentException(IllegalArgumentException ex) {
 		LogBack.error(ex.getMessage(),ex);
-		return new ErrotResult(StatusEnum.PARAM_ILLEGAL);
+		return new JsonData(StatusEnum.PARAM_ILLEGAL);
 	}
 
 	/**
@@ -44,9 +44,9 @@ public class BaseExceptionHandler {
 	 * @param ex missingServletRequestParameterException
 	 */
 	@ExceptionHandler(MissingServletRequestParameterException.class)
-	public ErrotResult missingServletRequestParameterException(MissingServletRequestParameterException ex) {
+	public JsonData missingServletRequestParameterException(MissingServletRequestParameterException ex) {
 		LogBack.error(ex.getMessage(),ex);
-		return new ErrotResult(StatusEnum.PARAM_MISSING);
+		return new JsonData(StatusEnum.PARAM_MISSING);
 	}
 
 	/**
@@ -54,9 +54,9 @@ public class BaseExceptionHandler {
 	 * @param ex HttpRequestMethodNotSupportedException
 	 */
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-	public ErrotResult httpRequestMethodNotSupportedException(Exception ex) {
+	public JsonData httpRequestMethodNotSupportedException(Exception ex) {
 		LogBack.error(ex.getMessage(),ex);
-		return new ErrotResult(StatusEnum.REQUEST_ERROR);
+		return new JsonData(StatusEnum.REQUEST_ERROR);
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class BaseExceptionHandler {
 	 * @param ex BindException
 	 */
 	@ExceptionHandler(BindException.class)
-	public ErrotResult bindException(Exception ex) {
+	public JsonData bindException(Exception ex) {
 		LogBack.error(ex.getMessage(),ex);
 		BindingResult bindingResult = (ex instanceof BindException) ? ((BindException)ex).getBindingResult()
 				: ((MethodArgumentNotValidException)ex).getBindingResult();
@@ -77,9 +77,9 @@ public class BaseExceptionHandler {
 				}
 			}
 			LogBack.error("参数校验错误："+validList.toString(),ex);
-			return new ErrotResult(StatusEnum.PARAM_INVALID, validList.toString());
+			return new JsonData(false,StatusEnum.PARAM_INVALID,validList.toString());
 		}
-		return new ErrotResult(StatusEnum.PARAM_INVALID);
+		return new JsonData(StatusEnum.PARAM_INVALID);
 	}
 
 	/**
@@ -88,12 +88,12 @@ public class BaseExceptionHandler {
 	 */
 	@ExceptionHandler(Exception.class)
 	@ResponseBody
-	public ErrotResult defaultException(Exception ex) {
+	public JsonData defaultException(Exception ex) {
 		LogBack.error(ex.getMessage(),ex);
 		if ((ex instanceof BindException) || (ex instanceof MethodArgumentNotValidException) || (ex instanceof UnexpectedTypeException)) {
 			return bindException(ex);
 		}
-		return new ErrotResult(StatusEnum.SYSTEM_ERROR);
+		return new JsonData(StatusEnum.SYSTEM_ERROR);
 	}
 
 
