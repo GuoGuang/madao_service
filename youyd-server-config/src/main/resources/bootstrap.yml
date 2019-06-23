@@ -2,22 +2,21 @@ spring:
   cloud:
     config:
       server:
-        encrypt:
-          enabled: true # 启用config加密功能
+       #encrypt:
+          #enabled: true # 启用config加密功能
         git:
           uri: https://github.com/GuoGuang0536/youyd_config.git
           searchPaths: dev
           default-label: master
           username: GuoGuang0536@gmail.com
-          password: '{cipher}AQAxO9IUZZdOKtjmqRPNLKtncalOsL2dkJZgauiqiK5gU9Al8r9pALOZG3tqKQKihtxqfo/PsaO18nlUG5G/t4QCh36Yf7howpPM4ZbYfrAq2biM0IHVaslYDese5AIwMa2SC1iFDyJSsapOp47foYU1SoCHVXCiKHtQuMwgBSH7nySwjbJC29P+g9qqHJPJKchMyHNCyjdIJC+mFMbtoPVcFfLva+iv9FZ5UypNhzerXfpwJDC+Q/QAQ3IAbwVtmKBxYoF79Kvgjkwqowu2OrszEeM7DCFR/B3oDNNugtmn6/JcMRqaIGVHI4AZ+aujrFIjnEeP1QhrZveopkSStOS+qYr8uRY01OgvY2w9nz8zZw9BG8g7+VktnLeUJQivbG4='
-
+          password: 'github密码'
     bus:
-      enabled: true    # 开启消息跟踪
+      enabled: true # 开启消息跟踪
 
 # 非对称加密
 encrypt:
   key-store:
-    location: classpath:server.jks
+    location: classpath:alyunAccessKey.jks
     alias: aliyunAccessKey
     password: GuoGuang
     secret: GuoGuang
