@@ -16,5 +16,5 @@ gen
 .idea/
 log/
 *.jks
-password.yml
+target/
 /Users/lin/project/ideaworkspace/projects/youyd_springcloud_service/youyd-server-config/src/main/resources/bootstrap.yml
