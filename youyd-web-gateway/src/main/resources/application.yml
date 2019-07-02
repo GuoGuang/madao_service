@@ -28,7 +28,7 @@ spring:
 
 
 auth:
-  ignoreUrls: /oauth,/auth
+  ignoreUrls: /oauth,/auth,/social
 
 #      routes:
 #      - id: host_route

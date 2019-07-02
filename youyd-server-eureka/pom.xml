@@ -10,6 +10,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <java.version>1.8</java.version>
+        <docker.image.prefix>youyd</docker.image.prefix>
+    </properties>
+
     <artifactId>youyd-server-eureka</artifactId>
     <description>eureka模块</description>
     <name>youyd-server-eureka【Eureka模块】</name>
@@ -30,4 +35,6 @@
             <!--<artifactId>spring-boot-starter-web</artifactId>-->
         <!--</dependency>-->
     </dependencies>
+
+
 </project>

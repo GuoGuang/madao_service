@@ -3,6 +3,7 @@ package com.youyd.authorization.service;
 import com.youyd.pojo.user.Resource;
 import com.youyd.utils.LogBack;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.core.Authentication;
@@ -55,6 +56,7 @@ public class AuthenticationService {
         ConfigAttribute urlConfigAttribute = findConfigAttributesByUrl(authRequest);
         if (NONEXISTENT_URL.equals(urlConfigAttribute.getAttribute())){
 	        LogBack.error("url未在资源池中找到，拒绝访问");
+	        throw new AccessDeniedException("url未在资源池中找到，拒绝访问");
         }
 	    //获取此访问用户所有角色拥有的权限资源
         Set<Resource> userResources = findResourcesByAuthorityRoles(authentication.getAuthorities());
@@ -80,17 +82,17 @@ public class AuthenticationService {
      * @return
      */
     public ConfigAttribute findConfigAttributesByUrl(HttpServletRequest authRequest) {
-        return this.resourceConfigAttributes.keySet().stream()
-                .filter(requestMatcher -> requestMatcher.matches(authRequest))
-                .map(requestMatcher -> this.resourceConfigAttributes.get(requestMatcher))
-                .peek(urlConfigAttribute -> LogBack.info("url在资源池中配置：{}", urlConfigAttribute.getAttribute()))
-                .findFirst()
-                .orElse(new SecurityConfig(NONEXISTENT_URL));
+	    ConfigAttribute configAttribute = resourceConfigAttributes.keySet().stream()
+			    .filter(requestMatcher -> requestMatcher.matches(authRequest))
+			    .map(requestMatcher -> resourceConfigAttributes.get(requestMatcher))
+			    .peek(urlConfigAttribute -> LogBack.info("url在资源池中配置：{}", urlConfigAttribute.getAttribute()))
+			    .findFirst()
+			    .orElse(new SecurityConfig(NONEXISTENT_URL));
+	    return configAttribute;
     }
 
     /**
      * 根据用户所被授予的角色，查询到用户所拥有的资源
-     *
      * @param authorityRoles
      * @return
      */
@@ -98,9 +100,9 @@ public class AuthenticationService {
         //用户被授予的角色
 	    LogBack.info("用户的授权角色集合信息为:{}", authorityRoles);
         String[] authorityRoleCodes = authorityRoles.stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList())
-                .toArray(new String[authorityRoles.size()]);
+									                .map(GrantedAuthority::getAuthority)
+									                .collect(Collectors.toList())
+									                .toArray(new String[authorityRoles.size()]);
         Set<Resource> resources = resourceService.queryByRoleCodes(authorityRoleCodes);
 	    LogBack.info("用户被授予角色的资源数量是:{}, 资源集合信息为:{}", resources.size(), resources);
         return resources;

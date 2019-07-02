@@ -12,7 +12,12 @@ import lombok.Data;
  **/
 @Data
 public class SocialProperties {
-	
+
+	private String appId;
+	private String appSecret;
+	public SocialProperties() {
+	}
+
 	/**
 	 * 社交登录功能拦截的url
 	 */
