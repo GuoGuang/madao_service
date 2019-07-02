@@ -53,7 +53,7 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/oauth/**");
+		web.ignoring().antMatchers("/oauth/**","/connect/**");
 	}
 	@Bean
 	@Override
