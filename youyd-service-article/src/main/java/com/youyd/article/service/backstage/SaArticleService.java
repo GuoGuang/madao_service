@@ -4,18 +4,21 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.base.CaseFormat;
+import com.youyd.api.user.UserServiceRpc;
 import com.youyd.article.dao.backstage.SaArticleDao;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.constant.CommonConst;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Article;
+import com.youyd.pojo.user.User;
 import com.youyd.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 文章板块:文章服务
@@ -29,10 +32,13 @@ public class SaArticleService {
 
 	private final RedisService redisService;
 
+	private final UserServiceRpc userServiceRpc;
+
 	@Autowired
-	public SaArticleService(SaArticleDao saArticleDao, RedisService redisService) {
+	public SaArticleService(SaArticleDao saArticleDao, RedisService redisService,UserServiceRpc userServiceRpc) {
 		this.saArticleDao = saArticleDao;
 		this.redisService = redisService;
+		this.userServiceRpc = userServiceRpc;
 	}
 
 	/**
@@ -56,7 +62,18 @@ public class SaArticleService {
 			String fieldSort = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, queryVO.getFieldSort());
 			queryWrapper.orderBy(true,queryVO.getOrderBy(),fieldSort);
 		}
-		return saArticleDao.selectPage(pr, queryWrapper);
+		IPage<Article> articleIPage = saArticleDao.selectPage(pr, queryWrapper);
+		List<User> userList = userServiceRpc.findUser().getData().getRecords();
+		articleIPage.getRecords().forEach(
+				articleUser -> userList.forEach(
+					user -> {
+						if (user.getId().equals(articleUser.getUserId())){
+							articleUser.setUserName(user.getUserName());
+						}
+					}
+				)
+		);
+		return articleIPage;
 	}
 
 
@@ -84,28 +101,25 @@ public class SaArticleService {
 	 * 增加
 	 * @param article 实体
 	 */
-	public void insertArticle(Article article) {
-		article.setComment(0);
-		article.setUpvote(0);
-		article.setVisits(0);
-		article.setReviewState(2);
-		article.setImportance(0);
-		article.setCreateAt(DateUtil.getTimestamp());
-		article.setUpdateAt(DateUtil.getTimestamp());
-		if (article.getIsPublic() == null){
-			article.setIsPublic(0);
+	public void insertOrUpdateArticle(Map<String, String> userInfo,Article article) {
+		article.setUserId(userInfo.get("id"));
+		if (StringUtils.isBlank(article.getId())){
+			article.setComment(0);
+			article.setUpvote(0);
+			article.setVisits(0);
+			article.setReviewState(2);
+			article.setImportance(0);
+			article.setCreateAt(DateUtil.getTimestamp());
+			article.setUpdateAt(DateUtil.getTimestamp());
+			if (article.getIsPublic() == null){
+				article.setIsPublic(0);
+			}
+			saArticleDao.insert(article);
+		}else {
+			redisService.del( "ARTICLE_" + article.getId());
+			article.setUpdateAt(DateUtil.getTimestamp());
+			saArticleDao.updateById(article);
 		}
-		saArticleDao.insert(article);
-	}
-
-	/**
-	 * 修改
-	 * @param article 实体
-	 */
-	public void updateByPrimaryKeySelective(Article article) {
-		redisService.del( "ARTICLE_" + article.getId());
-		article.setUpdateAt(DateUtil.getTimestamp());
-		saArticleDao.updateById(article);
 	}
 
 	/**
