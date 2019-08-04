@@ -1,3 +1,4 @@
+/*
 
 package com.youyd.base.config;
 
@@ -13,10 +14,12 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 
+*/
 /**
  * @author Administrator
  * @version 1.0
- **/
+ **//*
+
 
 @Configuration
 @EnableResourceServer
@@ -53,3 +56,4 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     }
 }
 
+*/
