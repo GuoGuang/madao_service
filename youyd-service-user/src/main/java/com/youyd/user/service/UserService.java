@@ -73,14 +73,21 @@ public class UserService {
 	public IPage<User> findByCondition(User user, QueryVO queryVO ) {
 		Page<User> pr = new Page<>(queryVO.getPageNum(), queryVO.getPageSize());
 		LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-		if (StringUtils.isNotEmpty(user.getUserName())) {
-			queryWrapper.eq(User::getUserName, user.getUserName());
-		}
-		if (user.getStatus() != null) {
-			queryWrapper.eq(User::getStatus, user.getStatus());
-		}
+		queryWrapper.eq(StringUtils.isNotEmpty(user.getUserName()),User::getUserName, user.getUserName());
+		queryWrapper.eq(user.getStatus() != null,User::getStatus, user.getStatus());
+		queryWrapper.eq(StringUtils.isNotBlank(user.getId()),User::getId,user.getId());
+		queryWrapper.eq(StringUtils.isNotBlank(user.getAccount()),User::getAccount,user.getAccount());
+		queryWrapper.eq(StringUtils.isNotBlank(user.getPhone()),User::getPhone,user.getPhone());
 		queryWrapper.orderByDesc(User::getCreateAt);
-		return userDao.selectPage(pr, queryWrapper);
+		IPage<User> userIPage = userDao.selectPage(pr, queryWrapper);
+		userIPage.getRecords().forEach(
+				userResult -> userResult.setRoles(userDao.findRolesOfUser(user.getId()))
+		);
+		return userIPage;
+
+
+
+
 	}
 
 	public boolean deleteByIds(List<String> userId) {
@@ -108,25 +115,6 @@ public class UserService {
 			userRoleDao.insert(userRole);
 		}
 		return SqlHelper.retBool(i);
-	}
-
-	/**
-	 * 按照user条件查询，仅支持查询字段为唯一值的
-	 * @param user user
-	 * @return User
-	 */
-	public User findUserByUser(User user) {
-		LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-		queryWrapper.eq(StringUtils.isNotBlank(user.getId()),User::getId,user.getId());
-		queryWrapper.eq(StringUtils.isNotBlank(user.getAccount()),User::getAccount,user.getAccount());
-		queryWrapper.eq(StringUtils.isNotBlank(user.getPhone()),User::getPhone,user.getPhone());
-
-		User userResult = userDao.selectOne(queryWrapper);
-
-		if (StringUtils.isNotBlank(user.getId())){
-			userResult.setRoles(userDao.findRolesOfUser(user.getId()));
-		}
-		return userResult;
 	}
 
 	/**
@@ -169,5 +157,11 @@ public class UserService {
 	public List<Role> getUseRoles(String id) {
 		List<Role> rolesOfUser = userDao.findRolesOfUser(id);
 		return rolesOfUser;
+	}
+
+	public User findUserByUserId(String userId) {
+		User user = userDao.selectById(userId);
+		user.setRoles(userDao.findRolesOfUser(user.getId()));
+		return user;
 	}
 }
