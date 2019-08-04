@@ -1,7 +1,9 @@
 package com.youyd.auth.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youyd.api.user.UserServiceRpc;
 import com.youyd.pojo.user.User;
+import com.youyd.utils.JsonData;
 import com.youyd.utils.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +41,16 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 		User user = JsonUtil.jsonToPojo(userJson, User.class);
 		//远程调用用户中心根据账号查询用户信息
-		com.youyd.pojo.user.User defUser = userService.findUserByUser(user).getData();
-		if(defUser == null){
+		//com.youyd.pojo.user.User defUser = userService.findUserByUser(user).getData();
+		JsonData<Page<User>> userByUser = userService.findUserByUser(user);
+		if(!userByUser.isStatus()){
 			return null;
 		}
+		List<User> records = userByUser.getData().getRecords();
+		if(records.size() != 1){
+			return null;
+		}
+		User defUser = records.get(0);
 		String password = defUser.getPassword();
 		//List<Menu> userMenus = defUser.getMenus();
 		List<String> menus = new ArrayList<>();
