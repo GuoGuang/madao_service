@@ -36,6 +36,8 @@ public class Menu extends BasePojo implements Serializable {
 
 	private float sort; // 排序
 
+	private Integer isHidden; // 是否隐藏
+
 	@NotNull(message="描述不能为空")
 	private String description; // 描述
 
