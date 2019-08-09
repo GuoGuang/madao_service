@@ -8,7 +8,8 @@ package com.youyd.enums;
 public enum StatusEnum {
 
 	/* 系统ERROR */
-	UNKNOWN(-1,"系统错误"),
+	UNKNOWN(-10001,"系统错误"),
+	EXCEEDED_FILE_SIZE_LIMIT(-10002,"超出文件大小限制"),
 
 
 	OK(20000,"操作成功！"), //成功

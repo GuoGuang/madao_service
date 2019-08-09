@@ -14,14 +14,12 @@ import com.youyd.pojo.user.UserRole;
 import com.youyd.user.dao.UserDao;
 import com.youyd.user.dao.UserRoleDao;
 import com.youyd.utils.DateUtil;
-import com.youyd.utils.OssClientUtil;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -37,8 +35,6 @@ public class UserService {
 	private final RedisService redisService;
 	// 加密
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
-	// 对象存储工具
-	private final OssClientUtil ossClientUtil;
 
 	private final LoginLogServiceRpc loginLogServiceRpc;
 
@@ -46,11 +42,12 @@ public class UserService {
 
 
 	@Autowired
-	public UserService(UserDao userDao, RedisService redisService , BCryptPasswordEncoder bCryptPasswordEncoder , OssClientUtil ossClientUtil, LoginLogServiceRpc loginLogServiceRpc, UserRoleDao userRoleDao) {
+	public UserService(UserDao userDao, RedisService redisService ,
+	                   BCryptPasswordEncoder bCryptPasswordEncoder ,
+	                   LoginLogServiceRpc loginLogServiceRpc, UserRoleDao userRoleDao) {
 		this.userDao = userDao;
 		this.redisService = redisService;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-		this.ossClientUtil = ossClientUtil;
 		this.loginLogServiceRpc = loginLogServiceRpc;
 		this.userRoleDao = userRoleDao;
 	}
@@ -117,15 +114,6 @@ public class UserService {
 		return SqlHelper.retBool(i);
 	}
 
-	/**
-	 * 更新用户头像地址
-	 */
-	public String updateUserAvatar(User user, MultipartFile file) throws IOException {
-		String fileUrl = ossClientUtil.uploadFile(file);
-		user.setAvatar(fileUrl);
-		userDao.updateById(user);
-		return fileUrl;
-	}
 
 	/**
 	 * 修改密码
@@ -163,5 +151,10 @@ public class UserService {
 		User user = userDao.selectById(userId);
 		user.setRoles(userDao.findRolesOfUser(user.getId()));
 		return user;
+	}
+
+	public boolean updateUserProfile(User user) {
+		int updateResult = userDao.updateById(user);
+		return BooleanUtils.toBoolean(updateResult);
 	}
 }
