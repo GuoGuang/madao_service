@@ -5,11 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.youyd.utils.LogBack;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import org.apache.commons.lang.exception.ExceptionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -24,45 +20,36 @@ import java.util.*;
  **/
 @Configuration
 public class FeignConfiguration implements RequestInterceptor {
-	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-
+	private static final String EMPTY = "";
 	@Resource
 	private ObjectMapper objectMapper;
 
 	@Override
 	public void apply(RequestTemplate template) {
-		if (HttpMethod.GET.name().equals(template.method())
-				&& null != template.body()) {
+		if ("GET".equals(template.method()) && Objects.nonNull(template.body())) {
 			try {
 				JsonNode jsonNode = objectMapper.readTree(template.body());
 				template.body(null);
 
 				Map<String, Collection<String>> queries = new HashMap<>();
-				buildQuery(jsonNode, "", queries);
+				buildQuery(jsonNode, EMPTY, queries);
 				template.queries(queries);
 			} catch (IOException e) {
-				LogBack.error("【拦截GET请求POJO方式】-出错了：{}", ExceptionUtils.getStackFrames(e));
-				throw new RuntimeException();
+				LogBack.error("IOException occurred while try to create http query");
 			}
 		}
 	}
 
 	private void buildQuery(JsonNode jsonNode, String path, Map<String, Collection<String>> queries) {
-		// 叶子节点
 		if (!jsonNode.isContainerNode()) {
 			if (jsonNode.isNull()) {
 				return;
 			}
-			Collection<String> values = queries.get(path);
-			if (null == values) {
-				values = new ArrayList<>();
-				queries.put(path, values);
-			}
+			Collection<String> values = queries.computeIfAbsent(path, k -> new ArrayList<>());
 			values.add(jsonNode.asText());
 			return;
 		}
-		// 数组节点
 		if (jsonNode.isArray()) {
 			Iterator<JsonNode> it = jsonNode.elements();
 			while (it.hasNext()) {
@@ -74,7 +61,7 @@ public class FeignConfiguration implements RequestInterceptor {
 				Map.Entry<String, JsonNode> entry = it.next();
 				if (StringUtils.hasText(path)) {
 					buildQuery(entry.getValue(), path + "." + entry.getKey(), queries);
-				} else {  // 根节点
+				} else {
 					buildQuery(entry.getValue(), entry.getKey(), queries);
 				}
 			}
