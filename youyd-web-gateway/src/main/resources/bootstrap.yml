@@ -1,33 +1,23 @@
 spring:
   profiles:
-    active: dev
-
-
+    active: ${ACTIVE_PROFILE:dev}
 
 ---
-#dev
 spring:
   profiles: dev
-
   cloud:
     config:
-      name: application #需要从github上读取的资源名称，注意没有yml后缀名
+      name: user #需要从github上读取的资源名称，注意没有yml后缀名
       label: master
-      uri: http://localhost:9009  #SpringCloudConfig获取的服务地址
-
+      uri: localhost:9009  #SpringCloudConfig获取的服务地址
+      profile: dev
 
 ---
-
-# production
 spring:
   profiles: prod
-
   cloud:
     config:
-      name: application #需要从github上读取的资源名称，注意没有yml后缀名
-      #profile配置是什么就取什么配置dev or test
-      profile: prod
-      #profile: test
+      name: user
       label: master
-      uri: http://172.17.0.6:9009
-
+      uri: http://39.108.191.56:9009
+      profile: prod
