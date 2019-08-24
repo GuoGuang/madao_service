@@ -3,15 +3,12 @@ package com.youyd.user;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.youyd.utils.IdGenerate;
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
-import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -71,13 +68,13 @@ public class UserApplication {
 	/**
 	 * 加密的配置文件信息
 	 */
-	@Bean
+	/*@Bean
 	public static PropertySourcesPlaceholderConfigurer properties() {
 		PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
 		YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
 		yaml.setResources(new ClassPathResource("password.yml"));
 		configurer.setProperties(yaml.getObject());
 		return configurer;
-	}
+	}*/
 
 }
