@@ -1,6 +1,7 @@
 package com.youyd.pojo.base;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.youyd.pojo.BasePojo;
 import lombok.Getter;
@@ -27,6 +28,8 @@ public class LoginLog extends BasePojo implements Serializable {
      * 登录人
      */
     private String userId;
+    @TableField(exist = false)
+    private String userName;
 
     /**
      * 登录ip

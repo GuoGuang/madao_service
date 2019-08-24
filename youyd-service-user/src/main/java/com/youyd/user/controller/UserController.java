@@ -122,12 +122,12 @@ public class UserController {
 
 	/**
 	 * 按照id查询用户
-	 * @param id：用户id
+	 * @param userId：用户id
 	 * @return boolean
 	 */
-	@PostMapping(value = "/condition")
-	public JsonData findByCondition(@RequestBody User user) {
-		User byId = userService.findUserByUser(user);
+	@GetMapping(value = "/{userId}")
+	public JsonData findUserByUserId(@PathVariable String userId) {
+		User byId = userService.findUserByUserId(userId);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),byId);
 	}
 

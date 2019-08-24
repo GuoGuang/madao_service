@@ -14,14 +14,12 @@ import com.youyd.pojo.user.UserRole;
 import com.youyd.user.dao.UserDao;
 import com.youyd.user.dao.UserRoleDao;
 import com.youyd.utils.DateUtil;
-import com.youyd.utils.OssClientUtil;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -37,8 +35,6 @@ public class UserService {
 	private final RedisService redisService;
 	// 加密
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
-	// 对象存储工具
-	private final OssClientUtil ossClientUtil;
 
 	private final LoginLogServiceRpc loginLogServiceRpc;
 
@@ -46,11 +42,12 @@ public class UserService {
 
 
 	@Autowired
-	public UserService(UserDao userDao, RedisService redisService , BCryptPasswordEncoder bCryptPasswordEncoder , OssClientUtil ossClientUtil, LoginLogServiceRpc loginLogServiceRpc, UserRoleDao userRoleDao) {
+	public UserService(UserDao userDao, RedisService redisService ,
+	                   BCryptPasswordEncoder bCryptPasswordEncoder ,
+	                   LoginLogServiceRpc loginLogServiceRpc, UserRoleDao userRoleDao) {
 		this.userDao = userDao;
 		this.redisService = redisService;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-		this.ossClientUtil = ossClientUtil;
 		this.loginLogServiceRpc = loginLogServiceRpc;
 		this.userRoleDao = userRoleDao;
 	}
@@ -73,14 +70,21 @@ public class UserService {
 	public IPage<User> findByCondition(User user, QueryVO queryVO ) {
 		Page<User> pr = new Page<>(queryVO.getPageNum(), queryVO.getPageSize());
 		LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-		if (StringUtils.isNotEmpty(user.getUserName())) {
-			queryWrapper.eq(User::getUserName, user.getUserName());
-		}
-		if (user.getStatus() != null) {
-			queryWrapper.eq(User::getStatus, user.getStatus());
-		}
+		queryWrapper.eq(StringUtils.isNotEmpty(user.getUserName()),User::getUserName, user.getUserName());
+		queryWrapper.eq(user.getStatus() != null,User::getStatus, user.getStatus());
+		queryWrapper.eq(StringUtils.isNotBlank(user.getId()),User::getId,user.getId());
+		queryWrapper.eq(StringUtils.isNotBlank(user.getAccount()),User::getAccount,user.getAccount());
+		queryWrapper.eq(StringUtils.isNotBlank(user.getPhone()),User::getPhone,user.getPhone());
 		queryWrapper.orderByDesc(User::getCreateAt);
-		return userDao.selectPage(pr, queryWrapper);
+		IPage<User> userIPage = userDao.selectPage(pr, queryWrapper);
+		userIPage.getRecords().forEach(
+				userResult -> userResult.setRoles(userDao.findRolesOfUser(user.getId()))
+		);
+		return userIPage;
+
+
+
+
 	}
 
 	public boolean deleteByIds(List<String> userId) {
@@ -110,34 +114,6 @@ public class UserService {
 		return SqlHelper.retBool(i);
 	}
 
-	/**
-	 * 按照user条件查询，仅支持查询字段为唯一值的
-	 * @param user user
-	 * @return User
-	 */
-	public User findUserByUser(User user) {
-		LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-		queryWrapper.eq(StringUtils.isNotBlank(user.getId()),User::getId,user.getId());
-		queryWrapper.eq(StringUtils.isNotBlank(user.getAccount()),User::getAccount,user.getAccount());
-		queryWrapper.eq(StringUtils.isNotBlank(user.getPhone()),User::getPhone,user.getPhone());
-
-		User userResult = userDao.selectOne(queryWrapper);
-
-		if (StringUtils.isNotBlank(user.getId())){
-			userResult.setRoles(userDao.findRolesOfUser(user.getId()));
-		}
-		return userResult;
-	}
-
-	/**
-	 * 更新用户头像地址
-	 */
-	public String updateUserAvatar(User user, MultipartFile file) throws IOException {
-		String fileUrl = ossClientUtil.uploadFile(file);
-		user.setAvatar(fileUrl);
-		userDao.updateById(user);
-		return fileUrl;
-	}
 
 	/**
 	 * 修改密码
@@ -169,5 +145,16 @@ public class UserService {
 	public List<Role> getUseRoles(String id) {
 		List<Role> rolesOfUser = userDao.findRolesOfUser(id);
 		return rolesOfUser;
+	}
+
+	public User findUserByUserId(String userId) {
+		User user = userDao.selectById(userId);
+		user.setRoles(userDao.findRolesOfUser(user.getId()));
+		return user;
+	}
+
+	public boolean updateUserProfile(User user) {
+		int updateResult = userDao.updateById(user);
+		return BooleanUtils.toBoolean(updateResult);
 	}
 }

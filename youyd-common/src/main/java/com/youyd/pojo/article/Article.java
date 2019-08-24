@@ -27,6 +27,9 @@ public class Article extends BasePojo implements Serializable {
 	 @TableField(exist=false)
 	 private Category category; // 文章分类
 
+	 @TableField(exist=false)
+	 private String userName; // 用户名
+
 	 @TableId(type = IdType.ID_WORKER_STR)
 	 private String id; // ID
 

@@ -8,6 +8,7 @@ import com.youyd.pojo.user.User;
 import com.youyd.user.service.UserService;
 import com.youyd.utils.DesensitizedUtil;
 import com.youyd.utils.JsonData;
+import com.youyd.utils.OssClientUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -29,10 +30,12 @@ import java.io.IOException;
 public class ProfileController {
 
 	private final UserService userService;
-
+	// 对象存储工具
+	private final OssClientUtil ossClientUtil;
 	@Autowired
-	public ProfileController(UserService userService) {
+	public ProfileController(UserService userService,OssClientUtil ossClientUtil) {
 		this.userService = userService;
+		this.ossClientUtil = ossClientUtil;
 	}
 
 	/**
@@ -46,8 +49,16 @@ public class ProfileController {
 	@ApiImplicitParam(name = "User", value = "用户上传头像", dataType = "Map", paramType = "query")
 	@PutMapping("avatar")
 	public JsonData updateUserAvatar( MultipartFile file,User user) throws IOException {
-		String avatar = userService.updateUserAvatar(user, file);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),avatar);
+		String fileUrl = ossClientUtil.uploadFile(file);
+		user.setAvatar(fileUrl);
+		userService.updateUserProfile(user);
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),fileUrl);
+	}
+	@PutMapping()
+	@OptLog(operationType= CommonConst.MODIFY,operationName="更新用户资料")
+	public JsonData updateByPrimaryKey(@RequestBody User user) {
+		boolean result = userService.updateUserProfile(user);
+		return new JsonData(result, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
 	/**
@@ -56,9 +67,9 @@ public class ProfileController {
 	 * @return boolean
 	 * url: ?search={query}{&page,per_page,sort,order}
 	 */
-	@GetMapping(value = "/{id}")
-	public JsonData findByCondition(User user) {
-		User byId = userService.findUserByUser(user);
+	@GetMapping(value = "/{userId}")
+	public JsonData findByCondition(@PathVariable String userId) {
+		User byId = userService.findUserByUserId(userId);
 		DesensitizedUtil.mobilePhone(byId.getPhone());
 		DesensitizedUtil.around(byId.getAccount(),2,2);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), byId);

@@ -3,9 +3,11 @@ package com.youyd.base.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youyd.api.user.UserServiceRpc;
 import com.youyd.base.dao.OptLogDao;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.OptLog;
+import com.youyd.pojo.user.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,10 +23,11 @@ import java.util.List;
 public class OptLogService {
 
 	private final OptLogDao optLogDao;
-
+	private final UserServiceRpc userServiceRpc;
 	@Autowired
-	public OptLogService(OptLogDao optLogDao) {
+	public OptLogService(OptLogDao optLogDao,UserServiceRpc userServiceRpc) {
 		this.optLogDao = optLogDao;
+		this.userServiceRpc = userServiceRpc;
 	}
 
 	/**
@@ -39,6 +42,17 @@ public class OptLogService {
 		}
 		queryWrapper.orderByDesc(OptLog::getCreateAt);
 		IPage<OptLog> optLogIPage = optLogDao.selectPage(pr, queryWrapper);
+
+		List<User> userList = userServiceRpc.findUser().getData().getRecords();
+		optLogIPage.getRecords().forEach(
+				optLogList -> userList.forEach(
+						user -> {
+							if (user.getId().equals(optLogList.getUserId())){
+								optLogList.setUserName(user.getUserName());
+							}
+						}
+				)
+		);
 		return optLogIPage;
 	}
 

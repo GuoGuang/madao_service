@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @create : 2018-09-27
  **/
 
-@FeignClient(value = FeignConst.SERVICE_BASE,path = "optLog",fallbackFactory = OptLogServiceRpcFallbackFactory.class)
+@FeignClient(value = FeignConst.SERVICE_BASE,path = "/optLog",
+		fallbackFactory = OptLogServiceRpcFallbackFactory.class)
 public interface OptLogServiceRpc {
 
 	/**

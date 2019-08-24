@@ -3,9 +3,11 @@ package com.youyd.base.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.youyd.api.user.UserServiceRpc;
 import com.youyd.base.dao.LoginLogDao;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.LoginLog;
+import com.youyd.pojo.user.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +24,12 @@ public class LoginLogService {
 
 	private final LoginLogDao loginLogDao;
 
+	private final UserServiceRpc userServiceRpc;
+
 	@Autowired
-	public LoginLogService(LoginLogDao loginLogDao) {
+	public LoginLogService(LoginLogDao loginLogDao,UserServiceRpc userServiceRpc) {
 		this.loginLogDao = loginLogDao;
+		this.userServiceRpc = userServiceRpc;
 	}
 
 	/**
@@ -39,6 +44,17 @@ public class LoginLogService {
 		}
 		queryWrapper.orderByDesc(LoginLog::getCreateAt);
 		IPage<LoginLog> loginLogIPage = loginLogDao.selectPage(pr, queryWrapper);
+
+		List<User> userList = userServiceRpc.findUser().getData().getRecords();
+		loginLogIPage.getRecords().forEach(
+				loginLogList -> userList.forEach(
+						user -> {
+							if (user.getId().equals(loginLogList.getUserId())){
+								loginLogList.setUserName(user.getUserName());
+							}
+						}
+				)
+		);
 		return loginLogIPage;
 	}
 

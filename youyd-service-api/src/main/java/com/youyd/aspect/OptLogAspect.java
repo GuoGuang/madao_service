@@ -2,7 +2,6 @@ package com.youyd.aspect;
 
 import com.youyd.annotation.OptLog;
 import com.youyd.api.base.OptLogServiceRpc;
-import com.youyd.pojo.user.User;
 import com.youyd.utils.DateUtil;
 import com.youyd.utils.HttpServletUtil;
 import com.youyd.utils.JsonUtil;
@@ -16,13 +15,16 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 
 /**
@@ -66,8 +68,8 @@ public class OptLogAspect {
 			user.setUserName("非注册用户");
 		}*/
 		//请求的IP
-		final String token = request.getHeader("X-Token");
-		User user = JWTAuthentication.parseJwtToSubject(token);
+		final String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+		Map<String, String> user = JWTAuthentication.parseJwtToClaims(JWTAuthentication.getFullAuthorization(token));
 		String ipAddr = HttpServletUtil.getIpAddr(request);
 		try {
 			String targetName = joinPoint.getTarget().getClass().getName();
@@ -91,13 +93,20 @@ public class OptLogAspect {
 			//*========数据库日志=========*//
 			com.youyd.pojo.base.OptLog log = new com.youyd.pojo.base.OptLog();
 			log.setClientIp(HttpServletUtil.getIpAddr(request));
-			log.setUserId(user.getId());
+			log.setUserId(user.get("id"));
 			UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
 			log.setBrowser(userAgent.getBrowser().getName());
 			log.setType(operationType);
 			log.setMethod(joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()");
 			log.setOsInfo(userAgent.getOperatingSystem().getName());
-			log.setParams(JsonUtil.toJsonString(arguments));
+			String argumentParam = "";
+			for (Object argument : arguments) {
+				if (!(argument instanceof ServletRequest)){
+					argumentParam += JsonUtil.toJsonString(argument);
+				}
+
+			}
+			//log.setParams(argumentParam);
 			log.setCreateAt(DateUtil.getTimestamp());
 			log.setUpdateAt(DateUtil.getTimestamp());
 			optLogServiceRpc.insertOptLog(log);
@@ -171,7 +180,14 @@ public class OptLogAspect {
 			log.setOsInfo(userAgent.getOperatingSystem().getName());
 			log.setMethod(joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()");
 			log.setExceptionDetail(e.getClass().getName() + ":--->" +e.getMessage());
-			log.setParams(JsonUtil.toJsonString(arguments));
+			String argumentParam = "";
+			for (Object argument : arguments) {
+				if (!(argument instanceof ServletRequest)){
+					argumentParam += JsonUtil.toJsonString(argument);
+				}
+
+			}
+			//log.setParams(argumentParam);
 			log.setCreateAt(DateUtil.getTimestamp());
 			log.setUpdateAt(DateUtil.getTimestamp());
 			/*SysLog log = new SysLog();

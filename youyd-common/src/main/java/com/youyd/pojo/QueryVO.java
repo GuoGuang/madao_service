@@ -17,7 +17,7 @@ public class QueryVO implements Serializable {
 
 	private long pageNum = 1;
 
-	private long pageSize = 10;
+	private long pageSize = 10000;
 
 	private String searchValue;
 	private String searchSort;

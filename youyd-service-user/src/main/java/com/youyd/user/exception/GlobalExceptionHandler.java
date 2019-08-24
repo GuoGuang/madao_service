@@ -16,18 +16,18 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import javax.validation.UnexpectedTypeException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @description: 统一异常处理类
- * @author: LGG
- * @create: 2018-09-26 16:06
+ * 统一异常处理类
+ * @author : LGG
+ * @create : 2018-09-26 16:06
  **/
 @RestControllerAdvice
-@SuppressWarnings("Duplicates")
 public class GlobalExceptionHandler {
 
 	/**
@@ -95,11 +95,23 @@ public class GlobalExceptionHandler {
 	}
 
 	/**
-	 * JWT异常
+	 * JWT失效异常
 	 * @param ex Exception
 	 */
 	@ExceptionHandler(TokenExpiredException.class)
-	public void tokenExpiredException(TokenExpiredException ex) {
+	public JsonData tokenExpiredException(TokenExpiredException ex) {
+		LogBack.error(ex.getMessage(),ex);
+		return new JsonData(StatusEnum.LOGIN_EXPIRED);
+	}
+
+	/**
+	 * 超出文件大小限制异常
+	 * @param ex Exception
+	 */
+	@ExceptionHandler(MaxUploadSizeExceededException.class)
+	public JsonData maxUploadSizeExceededException(MaxUploadSizeExceededException ex) {
+		LogBack.error(ex.getMessage(),ex);
+		return new JsonData(StatusEnum.EXCEEDED_FILE_SIZE_LIMIT);
 	}
 
 	/**

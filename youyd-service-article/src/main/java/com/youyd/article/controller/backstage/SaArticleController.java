@@ -2,6 +2,7 @@ package com.youyd.article.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.annotation.OptLog;
+import com.youyd.article.controller.BaseController;
 import com.youyd.article.service.backstage.SaArticleService;
 import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
@@ -13,8 +14,10 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @description: 文章管理
@@ -26,7 +29,7 @@ import java.util.List;
 @Api(tags = "文章")
 @RestController
 @RequestMapping(value = "/sa/article",produces = "application/json")
-public class SaArticleController {
+public class SaArticleController extends BaseController {
 
     private final SaArticleService saArticleService;
 
@@ -68,8 +71,9 @@ public class SaArticleController {
     @ApiOperation(value = "添加一条新的文章")
     @PostMapping
     @OptLog(operationType= CommonConst.ADD,operationName="添加一条新的文章")
-    public JsonData insertArticle(@RequestBody @Valid Article article) {
-        saArticleService.insertArticle(article);
+    public JsonData insertArticle(@RequestBody @Valid Article article, HttpServletRequest request) {
+	    Map<String, String> userInfo = getUserInfo(request);
+	    saArticleService.insertOrUpdateArticle(userInfo,article);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
@@ -80,8 +84,9 @@ public class SaArticleController {
     @ApiOperation(value = "按照id修改", notes = "id")
     @PutMapping
     @OptLog(operationType= CommonConst.MODIFY,operationName="修改文章")
-    public JsonData updateByPrimaryKeySelective(@RequestBody @Valid Article article) {
-        saArticleService.updateByPrimaryKeySelective(article);
+    public JsonData updateByPrimaryKeySelective(@RequestBody @Valid Article article, HttpServletRequest request) {
+	    Map<String, String> userInfo = getUserInfo(request);
+        saArticleService.insertOrUpdateArticle(userInfo,article);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
