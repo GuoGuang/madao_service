@@ -2,6 +2,7 @@ spring:
   cloud:
     config:
       name: application #需要从github上读取的资源名称，注意没有yml后缀名
+      profile: ${ACTIVE_PROFILE:dev}
       label: master
       uri: http://localhost:9009  #SpringCloudConfig获取的服务地址
 
