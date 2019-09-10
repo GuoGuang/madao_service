@@ -36,7 +36,7 @@ public class TaskService {
 
 	/**
 	 * 条件查询任务列表
-	 * @param quartzJob 菜单实体
+	 * @param quartzJob 资源实体
 	 * @param queryVO 查询参数
 	 * @return List
 	 */

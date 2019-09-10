@@ -87,7 +87,7 @@ public class DictService {
 
 	/**
 	 * 获取组字典类型，所有根节点
-	 * @param dict 菜单实体
+	 * @param dict 资源实体
 	 * @return JsonData
 	 */
 	public List<Dict> fetchDictType(Dict dict) {

@@ -38,7 +38,7 @@ public class DictController {
 
 
 	/**
-	 * 条件查询菜单
+	 * 条件查询资源
 	 * @param dict 查询参数
 	 * @param queryVO 查询参数
 	 * @return JsonData
@@ -51,7 +51,7 @@ public class DictController {
 
 	/**
 	 * 获取组字典类型，所有根节点
-	 * @param dict 菜单实体
+	 * @param dict 资源实体
 	 * @return JsonData
 	 */
 	@GetMapping("/type")
@@ -63,7 +63,7 @@ public class DictController {
 	/**
 	 * 按照字典类型获取树形字典
 	 * 返回满足转换为tree的列表
-	 * @param dict 菜单实体
+	 * @param dict 资源实体
 	 * @return JsonData
 	 */
 	@GetMapping("/tree")
@@ -85,7 +85,7 @@ public class DictController {
 
 	/**
 	 * 更新字典项
-	 * @param  dict 菜单
+	 * @param  dict 资源
 	 * @return JsonData
 	 */
 	@PutMapping
@@ -97,7 +97,7 @@ public class DictController {
 
 	/**
 	 * 添加一条数据
-	 * @param dict 菜单
+	 * @param dict 资源
 	 * @return JsonData
 	 */
 	@PostMapping
