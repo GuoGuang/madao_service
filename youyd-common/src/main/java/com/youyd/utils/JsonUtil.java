@@ -86,10 +86,25 @@ public class JsonUtil {
 	 */
 	public static synchronized Map<String,Object> jsonToMap(String jsonStr) {
 		try {
-			return objectMapper.readValue(jsonStr, new TypeReference<Map<String, Object>>(){});
+			return objectMapper.readValue(jsonStr, Map.class);
 		} catch (IOException e) {
 			LogBack.error("json error:" + e.getMessage());
 			return null;
+		}
+	}
+
+	/**
+	 * 判断是否json串
+	 * @param jsonStr JSON字符串
+	 * @return java对象
+	 */
+	public static synchronized boolean isJson(String jsonStr) {
+		try {
+			objectMapper.readTree(jsonStr);
+			return true;
+		} catch (IOException e) {
+			LogBack.info("非json串");
+			return false;
 		}
 	}
 
