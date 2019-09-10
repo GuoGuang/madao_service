@@ -1,6 +1,8 @@
 package com.youyd.gateway.execption;
 
 import com.youyd.enums.StatusEnum;
+import com.youyd.utils.JsonData;
+import com.youyd.utils.JsonUtil;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.DefaultErrorWebExceptionHandler;
@@ -9,7 +11,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.server.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -29,17 +30,18 @@ public class GlobalExceptionHandler extends DefaultErrorWebExceptionHandler {
 	 */
 	@Override
 	protected Map<String, Object> getErrorAttributes(ServerRequest request, boolean includeStackTrace) {
-		int code = StatusEnum.SYSTEM_ERROR.getCode();
-		String message = StatusEnum.SYSTEM_ERROR.getMsg();
-		Throwable error = super.getError(request);
-		if (error instanceof org.springframework.cloud.gateway.support.NotFoundException) {
-			code = StatusEnum.SERVICE_OFF.getCode();
-			message = StatusEnum.SERVICE_OFF.getMsg();
-		}else if (error instanceof com.auth0.jwt.exceptions.TokenExpiredException) {
-			code = StatusEnum.LOGIN_EXPIRED.getCode();
-			message = StatusEnum.LOGIN_EXPIRED.getMsg();
+		boolean isJson = JsonUtil.isJson(super.getError(request).getMessage());
+		if (isJson){
+			Map<String, Object> errorAttributes = JsonUtil.jsonToMap(super.getError(request).getMessage());
+			return errorAttributes;
+		}else {
+			JsonData<Object> objectJsonData = new JsonData<>(false,
+															StatusEnum.SYSTEM_ERROR.getCode(),
+															super.getError(request).getMessage());
+			String toJsonString = JsonUtil.toJsonString(objectJsonData);
+			Map<String, Object> maps = JsonUtil.jsonToMap(toJsonString);
+			return maps;
 		}
-		return response(code, message);
 	}
 
 	/**
@@ -60,19 +62,7 @@ public class GlobalExceptionHandler extends DefaultErrorWebExceptionHandler {
 		return HttpStatus.valueOf(500);
 	}
 
-	/**
-	 * 构建返回的JSON数据格式
-	 * @param status		状态码
-	 * @param errorMessage  异常信息
-	 * @return
-	 */
-	public static Map<String, Object> response(int status, String errorMessage) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("code", status);
-		map.put("message", errorMessage);
-		map.put("data", null);
-		return map;
-	}
+
 
 }
 

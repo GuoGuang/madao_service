@@ -96,7 +96,10 @@
                 <artifactId>logback-classic</artifactId>
                 <version>${logback.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+            </dependency>
 
             <!--Swagger接口文档生成 -->
             <dependency>

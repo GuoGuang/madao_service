@@ -7,9 +7,9 @@ spring:
   profiles: dev
   cloud:
     config:
-      name: user #需要从github上读取的资源名称，注意没有yml后缀名
+      name: gateway #需要从github上读取的资源名称，注意没有yml后缀名
       label: master
-      uri: localhost:9009  #SpringCloudConfig获取的服务地址
+      uri: http://localhost:9009  #SpringCloudConfig获取的服务地址
       profile: dev
 
 ---
@@ -17,7 +17,7 @@ spring:
   profiles: prod
   cloud:
     config:
-      name: user
+      name: gateway
       label: master
       uri: http://39.108.191.56:9009
       profile: prod

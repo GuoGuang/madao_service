@@ -79,8 +79,9 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 				.csrf().disable();
 
 		http.addFilterAfter(smsCodeAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-			.addFilterAt(captchaAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
+			.addFilterAt(captchaAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+			;	//添加过滤器，处理系统自定义异常
+//			.addFilterAfter(new RewriteAccessDenyFilter(), ExceptionTranslationFilter.class);
 		http.apply(validateCodeSecurityConfig);
 
 		// 自定义配置

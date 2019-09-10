@@ -23,17 +23,16 @@ public class AuthenticationController {
     AuthenticationService authenticationService;
 
 	/**
-	 * 验证权限
-	 * @param url
-	 * @param method
-	 * @param request
-	 * @return
+	 * 根据url,method 验证当前用户是否有操作权限
+	 * @param url 请求地址
+	 * @param method 请求方法
+	 * @param request request
+	 * @return JsonData
 	 */
 	@PostMapping(value = "/permission")
     public JsonData decide(@RequestParam String url, @RequestParam String method, HttpServletRequest request) {
-        // 权限拦截
-		//boolean decide = authenticationService.decide(new HttpServletRequestAuthWrapper(request, url, method));
-        return JsonData.success(true);
+		boolean decide = authenticationService.decide(new HttpServletRequestAuthWrapper(request, url, method));
+        return JsonData.success(decide);
     }
 
 }

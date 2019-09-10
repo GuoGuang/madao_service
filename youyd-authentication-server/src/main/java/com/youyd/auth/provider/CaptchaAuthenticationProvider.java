@@ -15,13 +15,11 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * 图片验证码登录验证
@@ -57,10 +55,8 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
 		if (!passwordEncoder.matches(credentials,password)){
 			throw new ValidateCodeException("用户名或密码错误！");
 		}
-
 		//查询该code拥有的权限
-		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		authorities.add(new SimpleGrantedAuthority("ROLE_role1"));
+		Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
 		// 认证通过，生成已认证的Authentication，加入请求权限
 		CaptchaAuthenticationToken authenticationResult = new CaptchaAuthenticationToken(user, user.getAuthorities());
 		authenticationResult.setDetails(authenticationToken.getDetails());

@@ -1,6 +1,7 @@
 package com.youyd.gateway.service;
 
 
+import com.youyd.RemoteRpcException;
 import com.youyd.api.auth.AuthServiceRpc;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.pojo.user.AuthToken;
@@ -36,6 +37,10 @@ public class AuthService {
     @Value("${auth.ignoreUrls}")
     private String[] ignoreUrls;
 
+
+	@Value("${auth.commonUrls}")
+	private String[] commonUrls;
+
     /**
      * jwt验签
      */
@@ -48,11 +53,19 @@ public class AuthService {
 	    objectObjectHashMap.put("method",method);
 
 	    JsonData jsonData = authServiceRpc.authPermission(url,method,BEARER+authentication);
+	    if (!JsonData.isSuccess(jsonData)){
+		    throw new RemoteRpcException(jsonData);
+	    }
 	    return jsonData;
     }
 
     public boolean ignoreAuthentication(String url) {
-        return Stream.of(ignoreUrls).anyMatch(ignoreUrl -> url.startsWith(StringUtils.trim(ignoreUrl)));
+        return Stream.of(ignoreUrls).anyMatch(
+        		ignoreUrl -> url.startsWith(StringUtils.trim(ignoreUrl)));
+    }
+    public boolean commonAuthentication(String url) {
+        return Stream.of(commonUrls).anyMatch(
+        		ignoreUrl -> url.startsWith(StringUtils.trim(ignoreUrl)));
     }
 
     public boolean hasPermission(JsonData authJson) {

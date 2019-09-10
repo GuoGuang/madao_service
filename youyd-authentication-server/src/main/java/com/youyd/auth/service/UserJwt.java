@@ -5,7 +5,7 @@ import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import java.util.List;
+import java.util.Collection;
 /**
  * Oauth临时存储user类
  * @author : LGG
@@ -23,7 +23,9 @@ public class UserJwt extends User {
     private String phone;
     private String email;
 
-	public UserJwt(String username, String password, String id, String nickName, String avatar, String email, String phone,String account, List<GrantedAuthority> authorities) {
+	public UserJwt(String username, String password, String id, String nickName,
+	               String avatar, String email, String phone,String account,
+	               Collection<GrantedAuthority> authorities) {
 		super(username, password, authorities);
     	this.id = id;
     	this.nickName = nickName;
