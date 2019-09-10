@@ -78,7 +78,7 @@ public class UserService {
 		queryWrapper.orderByDesc(User::getCreateAt);
 		IPage<User> userIPage = userDao.selectPage(pr, queryWrapper);
 		userIPage.getRecords().forEach(
-				userResult -> userResult.setRoles(userDao.findRolesOfUser(user.getId()))
+				userResult -> userResult.setRoles(userDao.findRolesOfUser(userResult.getId()))
 		);
 		return userIPage;
 
@@ -138,7 +138,7 @@ public class UserService {
 	public User getUserPermission(String id) {
 		User user = userDao.selectById(id);
 		user.setRoles(userDao.findRolesOfUser(id));
-		user.setMenus(userDao.findMenusOfUser(id));
+		user.setResource(userDao.findResourcesOfUser(id));
 		return user;
 	}
 

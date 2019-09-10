@@ -57,7 +57,7 @@ public class RoleController {
 	}
 
 	/**
-	 * 根据角色id查询匹配的菜单
+	 * 根据角色id查询匹配的资源
 	 * @param roleId 角色id
 	 * @return JsonData
 	 */

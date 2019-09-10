@@ -8,9 +8,9 @@
             SELECT us_role_id FROM us_user_role WHERE us_user_id = #{id}
             )
     </select>
-    <select id="findMenusOfUser" resultType="com.youyd.pojo.user.Menu">
-        SELECT * FROM us_menu WHERE id in (
-            SELECT us_menu_id FROM us_role_menu WHERE us_role_id in (
+    <select id="findResourcesOfUser" resultType="com.youyd.pojo.user.Resource">
+        SELECT * FROM us_resource WHERE id in (
+            SELECT us_resource_id FROM us_role_resource WHERE us_role_id in (
                 SELECT id FROM us_role WHERE id in (
                     SELECT us_role_id FROM us_user_role WHERE us_user_id = #{userId}
                     )
