@@ -7,17 +7,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 角色_菜单中间表
+ * 角色_资源中间表
  * @author : LGG
  * @create : 2019-06-04
  **/
-@ApiModel(value="RoleMenu", description="角色_菜单中间表")
+@ApiModel(value="RoleResource", description="角色_资源中间表")
 @Getter
 @Setter
-public class RoleMenu {
+public class RoleResource {
 
 	@TableId(type = IdType.ID_WORKER_STR)
 	private String id;
 	private String usRoleId; // 角色表_id
-	private String usMenuId; // 菜单表_id
+	private String usResourceId; // 资源表_id
 }

@@ -26,7 +26,7 @@ public class User extends BasePojo implements Serializable{
 	@TableField(exist = false)
 	private List<Role> roles;
 	@TableField(exist = false)
-	private List<Menu> menus;
+	private List<Resource> resource;
 	@TableField(exist = false)
 	private String captcha;
 

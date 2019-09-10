@@ -22,7 +22,7 @@ import java.util.List;
 public class Role extends BasePojo implements Serializable {
 
 	@TableField(exist = false)
-    private List<Menu> menus; // 角色关联的菜单
+    private List<Resource> resource; // 角色关联的资源
 
 	@TableId(type = IdType.ID_WORKER_STR)
     private String id; // 角色表主键
