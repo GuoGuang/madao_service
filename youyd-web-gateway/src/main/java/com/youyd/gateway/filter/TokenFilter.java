@@ -1,15 +1,12 @@
 package com.youyd.gateway.filter;
 
-import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.enums.StatusEnum;
 import com.youyd.gateway.service.AuthService;
 import com.youyd.pojo.user.AuthToken;
-import com.youyd.pojo.user.User;
 import com.youyd.utils.JsonData;
 import com.youyd.utils.JsonUtil;
 import com.youyd.utils.LogBack;
-import com.youyd.utils.security.JWTAuthentication;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -17,8 +14,8 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
@@ -38,8 +35,8 @@ import java.io.IOException;
 public class TokenFilter implements GlobalFilter, Ordered {
 
 
-	private final static String X_CLIENT_TOKEN_USER = "x-client-token-user";
-	private final static String X_CLIENT_TOKEN = "x-client-token";
+	private static final String X_CLIENT_TOKEN_USER = "x-client-token-user";
+	private static final String X_CLIENT_TOKEN = "x-client-token";
 	private static final String BEARER = "Bearer ";
 
 
@@ -52,8 +49,6 @@ public class TokenFilter implements GlobalFilter, Ordered {
 	@Autowired
 	private RedisService redisService;
 
-	//@Value("${com.youyd.auth.skip.urls}")
-	//private String[] skipAuthUrls;
 
 	/**
 	 * 获取token字段，如果能获取到就 pass，获取不到就直接返回401错误，
@@ -77,18 +72,18 @@ public class TokenFilter implements GlobalFilter, Ordered {
 		// 如果请求未携带token信息, 直接跳出
 		if (StringUtils.isBlank(authentication) || !authentication.contains(BEARER)) {
 			LogBack.error("url:{},method:{},headers:{}, 请求未携带token信息", url, method, request.getHeaders());
-			return unauthorized(exchange,StatusEnum.PARAM_ILLEGAL.getCode(),StatusEnum.PARAM_ILLEGAL.getMsg());
+			return unAuthorized(exchange,StatusEnum.PARAM_ILLEGAL);
 		}
 
 		long expire = authService.getExpire(authentication);
 		// 过期
 		if(expire<0){
-			return unauthorized(exchange,StatusEnum.LOGIN_EXPIRED.getCode(),StatusEnum.LOGIN_EXPIRED.getMsg());
+			return unAuthorized(exchange,StatusEnum.LOGIN_EXPIRED);
 		}
 		AuthToken authToken = authService.getAuthToken(authentication);
 		String jwtToken = authToken.getAccess_token();
 		//调用签权服务看用户是否有权限，若有权限进入下一个filter
-		if (authService.hasPermission(jwtToken, url, method)) {
+		if (authService.commonAuthentication(url) || authService.hasPermission(jwtToken, url, method) ) {
 			ServerHttpRequest.Builder builder = request.mutate();
 			builder.header(X_CLIENT_TOKEN, "TODO 添加服务间简单认证");//TODO 转发的请求都加上服务间认证token
 			//将jwt token中的用户信息传给服务
@@ -96,19 +91,9 @@ public class TokenFilter implements GlobalFilter, Ordered {
 			builder.header(HttpHeaders.AUTHORIZATION,BEARER+jwtToken);
 			return chain.filter(exchange.mutate().request(builder.build()).build());
 		}
-		return unauthorized(exchange,StatusEnum.UN_AUTHORIZED.getCode(),StatusEnum.UN_AUTHORIZED.getMsg());
+		return unAuthorized(exchange,StatusEnum.UN_AUTHORIZED);
 	}
 
-	/**
-	 * 连接Redis校验Token有效性，
-	 * @param token 前端携带的令牌
-	 * @return boolean
-	 */
-	private boolean verifyToken(String token) {
-		User user = JWTAuthentication.parseJwtToSubject(token);
-		User userToken = (User)redisService.get(RedisConstant.REDIS_KEY_TOKEN + user.getId());
-		return userToken == null;
-	}
 
 	@Override
 	public int getOrder() {
@@ -121,15 +106,18 @@ public class TokenFilter implements GlobalFilter, Ordered {
 	 *
 	 * @param
 	 */
-	private Mono<Void> unauthorized(ServerWebExchange serverWebExchange,Integer code,String msg) {
-		serverWebExchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-		JsonData jsonData = new JsonData(false, code, msg);
+	private Mono<Void> unAuthorized(ServerWebExchange serverWebExchange,StatusEnum statusEnum) {
+		ServerHttpResponse response = serverWebExchange.getResponse();
+		response.setStatusCode(response.getStatusCode());
+		response.getHeaders().add("Content-Type", "text/plain;charset=UTF-8");
+		JsonData jsonData = new JsonData(statusEnum);
 		DataBuffer buffer = null;
 		try {
 			byte[] bytes = JsonUtil.toJSONBytes(jsonData);
 			 buffer = serverWebExchange.getResponse().bufferFactory().wrap(bytes);
 		} catch (IOException e) {
 			e.printStackTrace();
+			LogBack.error(e.getMessage());
 		}
 
 		return serverWebExchange.getResponse().writeWith(Flux.just(buffer));
