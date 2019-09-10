@@ -2,12 +2,13 @@ package com.youyd.auth.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.youyd.api.user.UserServiceRpc;
+import com.youyd.pojo.user.Role;
 import com.youyd.pojo.user.User;
 import com.youyd.utils.JsonData;
 import com.youyd.utils.JsonUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
@@ -52,10 +53,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 		}
 		User defUser = records.get(0);
 		String password = defUser.getPassword();
-		//List<Menu> userMenus = defUser.getMenus();
-		List<String> menus = new ArrayList<>();
-		//userMenus.forEach(item-> menus.add(item.getId()));
-		String user_permission_string  = StringUtils.join(menus.toArray(), ",");
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		List<Role> roles = records.get(0).getRoles();
+		roles.forEach(role ->
+				authorities.add(new SimpleGrantedAuthority(role.getId())));
 		UserJwt userDetails = new UserJwt(defUser.getUserName(),
 				password,
 				defUser.getId(),
@@ -64,7 +65,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 				defUser.getEmail(),
 				defUser.getPhone(),
 				defUser.getAccount(),
-				AuthorityUtils.commaSeparatedStringToAuthorityList(user_permission_string));
+				authorities);
 
 	/*    UserDetails userDetails = User.withUsername(defUser.getAccount())
 			    .password(defUser.getPassword())

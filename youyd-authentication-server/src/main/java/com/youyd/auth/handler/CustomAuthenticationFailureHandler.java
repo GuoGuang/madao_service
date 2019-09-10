@@ -23,7 +23,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-		JsonData errorResult = new JsonData(StatusEnum.SYSTEM_EXCEPTION);
+		JsonData errorResult = new JsonData(StatusEnum.SYSTEM_ERROR);
 		if(e instanceof ValidateCodeException){
 			errorResult = new JsonData(false,StatusEnum.LOGIN_ERROR.getCode(),e.getMessage());
 		}
