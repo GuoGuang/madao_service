@@ -1,32 +1,41 @@
 package com.youyd.authorization.service;
 
+import com.youyd.api.user.ResourceServiceRpc;
+import com.youyd.authorization.exception.RemoteRpcException;
 import com.youyd.pojo.user.Resource;
-import org.apache.commons.lang3.ArrayUtils;
+import com.youyd.utils.JsonData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ResourceService {
 
-    //@Autowired
-    //private ResourceMapper resourceMapper;
+    @Autowired
+    private ResourceServiceRpc resourceServiceRpc;
 
-    public Set<Resource> findAll() {
-	    Set<Resource> resources = new HashSet<>();
-	    resources.add(new Resource());
-//	    return resourceMapper.findAll();
-	    return resources;
+    public Set<Resource> findResourceByCondition() {
+	    Resource resource = new Resource();
+	    JsonData<List<Resource>> resourceByCondition = resourceServiceRpc.findResourceByCondition(resource);
+	    if (!JsonData.isSuccess(resourceByCondition)){
+		    throw new RemoteRpcException(resourceByCondition);
+	    }
+	    List<Resource> resources = resourceByCondition.getData();
+	    return new HashSet<>(resources);
     }
 
-    public Set<Resource> queryByRoleCodes(String[] roleCodes) {
+    public Set<Resource> queryByRoleIds(String[] roleIds) {
 	    HashSet<Resource> resources = new HashSet<>();
 	    resources.add(new Resource());
-        if (ArrayUtils.isNotEmpty(roleCodes)) {
-            return resources;
-        }
-        return Collections.emptySet();
+	    JsonData<List<Resource>> resourceOfRole = resourceServiceRpc.findResourceByRoleIds(roleIds);
+	    if (!JsonData.isSuccess(resourceOfRole)){
+		    throw new RemoteRpcException(resourceOfRole);
+	    }
+	    List<Resource> data = resourceOfRole.getData();
+	    Set<Resource> resourcesSet = new HashSet<>(data);
+	    Optional<Set<Resource>> resourcesSetOpt = Optional.of(resourcesSet);
+	    return resourcesSetOpt.orElseGet(Collections::emptySet);
     }
+
 }
