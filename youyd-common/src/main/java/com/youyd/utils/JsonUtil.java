@@ -4,6 +4,7 @@ package com.youyd.utils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.youyd.pojo.JsonException;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,6 +19,7 @@ public class JsonUtil {
 	private JsonUtil(){}
 
 	private static ObjectMapper objectMapper;
+	private static final String JACKSON_ERROR = "Jackson序列化异常！";
 	static {
 		objectMapper = new ObjectMapper();
 	}
@@ -43,6 +45,7 @@ public class JsonUtil {
 				return (T) (tr.getType().equals(String.class) ? jsonString : objectMapper.readValue(jsonString, tr));
 			} catch (Exception e) {
 				LogBack.error("json error:" + e.getMessage());
+				throw new JsonException(JACKSON_ERROR);
 			}
 		}
 		return null;
@@ -54,13 +57,12 @@ public class JsonUtil {
 	 * @return json 字符串
 	 */
 	public static synchronized String toJsonString(Object object) {
-		String jsonString = "";
 		try {
-			jsonString = objectMapper.writeValueAsString(object);
+			return objectMapper.writeValueAsString(object);
 		} catch (Exception e) {
 			LogBack.error("json error:" + e.getMessage());
+			throw new JsonException(JACKSON_ERROR);
 		}
-		return jsonString;
 	}
 
 	/**
@@ -76,7 +78,7 @@ public class JsonUtil {
 		} catch (IOException e) {
 			LogBack.error("json error:" + e.getMessage());
 			e.printStackTrace();
-			return null;
+			throw new JsonException(JACKSON_ERROR);
 		}
 	}
 	/**
@@ -89,7 +91,7 @@ public class JsonUtil {
 			return objectMapper.readValue(jsonStr, Map.class);
 		} catch (IOException e) {
 			LogBack.error("json error:" + e.getMessage());
-			return null;
+			throw new JsonException(JACKSON_ERROR);
 		}
 	}
 
@@ -119,10 +121,10 @@ public class JsonUtil {
 			List<Map<String,Object>> list = objectMapper.readValue(jsonData, javaType);
 			return list;
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogBack.error("json error:" + e.getMessage());
+			throw new JsonException(JACKSON_ERROR);
 		}
 
-		return null;
 	}
 
 	public static byte[] toJSONBytes(JsonData result) throws IOException {
