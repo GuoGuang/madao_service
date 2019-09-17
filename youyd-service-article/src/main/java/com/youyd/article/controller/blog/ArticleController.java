@@ -21,7 +21,7 @@ import java.util.List;
 
 @Api(tags = "文章")
 @RestController
-@RequestMapping(value = "/article",produces = "application/json")
+@RequestMapping(value = "/api/article",produces = "application/json")
 public class ArticleController {
 
     @Autowired
