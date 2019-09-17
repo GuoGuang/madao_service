@@ -4,11 +4,9 @@ import com.youyd.annotation.OptLog;
 import com.youyd.auth.service.AuthService;
 import com.youyd.auth.validate.ValidateCodeProcessor;
 import com.youyd.auth.validate.ValidateCodeProcessorHolder;
-import com.youyd.cache.redis.RedisService;
 import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.utils.JsonData;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -24,14 +22,14 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/oauth")
 public class AuthController  {
 
-    @Autowired
-    AuthService authService;
+	private AuthService authService;
 
-    @Autowired
-    RedisService redisService;
+	private final ValidateCodeProcessorHolder validateCodeProcessorHolder;
 
-	@Autowired
-	private ValidateCodeProcessorHolder validateCodeProcessorHolder;
+	public AuthController(AuthService authService, ValidateCodeProcessorHolder validateCodeProcessorHolder) {
+		this.authService = authService;
+		this.validateCodeProcessorHolder = validateCodeProcessorHolder;
+	}
 
 	/**
 	 * 登出系统
