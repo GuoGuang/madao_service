@@ -1,7 +1,7 @@
-package com.youyd.base.controller;
+package com.youyd.base.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youyd.base.service.LoginLogService;
+import com.youyd.base.service.backstage.LoginLogService;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.base.LoginLog;

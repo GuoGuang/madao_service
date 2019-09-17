@@ -1,8 +1,8 @@
-package com.youyd.base.controller;
+package com.youyd.base.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.annotation.OptLog;
-import com.youyd.base.service.DictService;
+import com.youyd.base.service.backstage.DictService;
 import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
