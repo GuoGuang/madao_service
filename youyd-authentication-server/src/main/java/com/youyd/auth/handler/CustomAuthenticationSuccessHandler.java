@@ -1,6 +1,7 @@
 package com.youyd.auth.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.youyd.amqp.RabbitUtil;
 import com.youyd.api.base.LoginLogServiceRpc;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.constant.CommonConst;
@@ -63,15 +64,20 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 	@Autowired
 	LoginLogServiceRpc loginLogServiceRpc;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.springframework.security.web.authentication.
-	 * AuthenticationSuccessHandler#onAuthenticationSuccess(javax.servlet.http.
-	 * HttpServletRequest, javax.servlet.http.HttpServletResponse,
-	 * org.springframework.security.core.Authentication)
+	@Autowired
+	RabbitUtil rabbitUtil;
+
+
+	/**
+	 * 处理用户登录成功后操作；
+	 * 返回JWT，写入redis
+	 * TODO MQ操作
+	 *  - 修改上次登录时间
+	 *  - 写入登录日志
+	 * @param request
+	 * @param response
+	 * @param authentication
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,Authentication authentication) throws IOException, ServletException {
 
@@ -115,6 +121,9 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 		// 插入登录日志
 		Map<String, String> stringStringMap = JWTAuthentication.parseJwtToClaims(accessToken);
 		insertLoginLog(accessToken,stringStringMap.get("id"),request);
+
+		// 更新用户相关信息：更新last_date字段
+		// rabbitUtil.sendMessageToExchange();
 
 		String jsonString = JsonUtil.toJsonString(authToken);
 		JsonData jsonData = new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), jti);
