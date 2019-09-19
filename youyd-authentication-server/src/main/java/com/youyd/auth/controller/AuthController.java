@@ -1,10 +1,8 @@
 package com.youyd.auth.controller;
 
-import com.youyd.annotation.OptLog;
 import com.youyd.auth.service.AuthService;
 import com.youyd.auth.validate.ValidateCodeProcessor;
 import com.youyd.auth.validate.ValidateCodeProcessorHolder;
-import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.utils.JsonData;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +34,6 @@ public class AuthController  {
 	 * @param token 令牌
 	 */
 	@PostMapping(value = "/logout")
-	@OptLog(operationType= CommonConst.MODIFY,operationName="退出系统")
     public JsonData logout(@RequestHeader("AUTH")String token) {
 		authService.logout(token);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
