@@ -16,7 +16,6 @@ import org.springframework.security.jwt.JwtHelper;
 import org.springframework.security.jwt.crypto.sign.MacSigner;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.stream.Stream;
 
 @Service
@@ -47,11 +46,6 @@ public class AuthService {
     private MacSigner verifier;
 
     public JsonData authenticate(String authentication, String url, String method) {
-	    HashMap<String, String> objectObjectHashMap = new HashMap<>();
-	    objectObjectHashMap.put("authorization",authentication);
-	    objectObjectHashMap.put("url",url);
-	    objectObjectHashMap.put("method",method);
-
 	    JsonData jsonData = authServiceRpc.authPermission(url,method,BEARER+authentication);
 	    if (!JsonData.isSuccess(jsonData)){
 		    throw new RemoteRpcException(jsonData);
