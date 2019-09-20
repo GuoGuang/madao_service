@@ -6,15 +6,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * RabbitMQ相关操作工具类
  * @author LinGuoGuang
  * @create 2019-09-19 15:56
  **/
-@Configuration
+//@Component
+	// TODO:配置Rabbitmq HOST,POST
 public class RabbitUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(RabbitUtil.class);
@@ -23,7 +22,7 @@ public class RabbitUtil {
 
 	private final RabbitTemplate rabbitTemplate;
 
-	@Autowired
+//	@Autowired
 	public RabbitUtil(RabbitAdmin rabbitAdmin, RabbitTemplate rabbitTemplate){
 		this.rabbitAdmin = rabbitAdmin;
 		this.rabbitTemplate = rabbitTemplate;
