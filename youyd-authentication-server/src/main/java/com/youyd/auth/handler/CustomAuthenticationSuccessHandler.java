@@ -1,7 +1,6 @@
 package com.youyd.auth.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.youyd.amqp.RabbitUtil;
 import com.youyd.api.base.LoginLogServiceRpc;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.constant.CommonConst;
@@ -64,8 +63,8 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 	@Autowired
 	LoginLogServiceRpc loginLogServiceRpc;
 
-	@Autowired
-	RabbitUtil rabbitUtil;
+//	@Autowired
+//	RabbitUtil rabbitUtil;
 
 
 	/**
