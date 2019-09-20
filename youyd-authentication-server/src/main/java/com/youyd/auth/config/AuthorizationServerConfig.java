@@ -3,6 +3,7 @@ package com.youyd.auth.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.youyd.auth.handler.CustomTokenEnhancer;
 import com.youyd.auth.handler.CustomWebResponseExceptionTranslator;
+import com.youyd.constant.CommonConst;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.bootstrap.encrypt.KeyProperties;
 import org.springframework.context.annotation.Bean;
@@ -51,8 +52,6 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     AuthenticationManager authenticationManager;
     @Autowired
     TokenStore tokenStore;
-    @Autowired
-    private CustomUserAuthenticationConverter customUserAuthenticationConverter;
 
     //读取密钥的配置
     @Bean("keyProp")
@@ -69,18 +68,24 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     public ClientDetailsService clientDetails() {
         return new JdbcClientDetailsService(dataSource);
     }
-    @Override
+
+	/**
+	 * 指定token存储在数据库还是内存
+	 * @param clients
+	 * @throws Exception
+	 */
+	@Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(this.dataSource).clients(this.clientDetails());
-       /* clients.inMemory()
+//        clients.jdbc(this.dataSource).clients(this.clientDetails());
+        clients.inMemory()
                 .withClient("XcWebApp")//客户端id
                 .secret("XcWebApp")//密码，要保密
-                .accessTokenValiditySeconds(60)//访问令牌有效期
-                .refreshTokenValiditySeconds(60)//刷新令牌有效期
+                .accessTokenValiditySeconds(CommonConst.TIME_OUT_DAY)//访问令牌有效期
+                .refreshTokenValiditySeconds(CommonConst.TIME_OUT_DAY)//刷新令牌有效期
                 //授权客户端请求认证服务的类型authorization_code：根据授权码生成令牌，
                 // client_credentials:客户端认证，refresh_token：刷新令牌，password：密码方式认证
                 .authorizedGrantTypes("authorization_code", "client_credentials", "refresh_token", "password")
-                .scopes("app");//客户端范围，名称自定义，必填*/
+                .scopes("app");//客户端范围，名称自定义，必填
     }
 
     //token的存储方法
@@ -96,7 +101,6 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 //    }
 	/**
 	 * 自定义token
-	 *
 	 * @return tokenEnhancerChain
 	 */
 	@Bean
@@ -112,12 +116,17 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
         return new JwtTokenStore(jwtAccessTokenConverter);
     }
 
-    @Bean
+	/**
+	 * 配置AccessToken加密方式
+	 */
+	@Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter(CustomUserAuthenticationConverter customUserAuthenticationConverter) {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        KeyPair keyPair = new KeyStoreKeyFactory
-                (keyProperties.getKeyStore().getLocation(), keyProperties.getKeyStore().getSecret().toCharArray())
-                .getKeyPair(keyProperties.getKeyStore().getAlias(),keyProperties.getKeyStore().getPassword().toCharArray());
+        KeyPair keyPair = new KeyStoreKeyFactory(
+        		        keyProperties.getKeyStore().getLocation(),
+		                keyProperties.getKeyStore().getSecret().toCharArray()).getKeyPair(
+		                		keyProperties.getKeyStore().getAlias(),
+		                        keyProperties.getKeyStore().getPassword().toCharArray());
         converter.setKeyPair(keyPair);
         //配置自定义的CustomUserAuthenticationConverter
         DefaultAccessTokenConverter accessTokenConverter = (DefaultAccessTokenConverter) converter.getAccessTokenConverter();
@@ -125,26 +134,11 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
         return converter;
     }
 
-    //授权服务器端点配置
-    @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        /*Collection<TokenEnhancer> tokenEnhancers = applicationContext.getBeansOfType(TokenEnhancer.class).values();
-        TokenEnhancerChain tokenEnhancerChain=new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(new ArrayList<>(tokenEnhancers));
-
-        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        defaultTokenServices.setReuseRefreshToken(true);
-        defaultTokenServices.setSupportRefreshToken(true);
-        defaultTokenServices.setTokenStore(tokenStore);
-        defaultTokenServices.setAccessTokenValiditySeconds(1111111);
-        defaultTokenServices.setRefreshTokenValiditySeconds(1111111);
-        defaultTokenServices.setTokenEnhancer(tokenEnhancerChain);
-
-        endpoints
-                .authenticationManager(authenticationManager)
-                .userDetailsService(userDetailsService)
-                        //.tokenStore(tokenStore);
-                .tokenServices(defaultTokenServices);*/
+	/**
+	 * 授权服务器端点配置
+	 */
+	@Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints.accessTokenConverter(jwtAccessTokenConverter)
                 .authenticationManager(authenticationManager)//认证管理器
                 .tokenStore(tokenStore)//令牌存储
@@ -153,10 +147,14 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
                 .userDetailsService(userDetailsService);//用户信息service
     }
 
-    //授权服务器的安全配置
+
+	/**
+	 * 授权服务器的安全配置
+	 * https://codeday.me/bug/20181222/463600.html
+	 * @param oauthServer
+	 */
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-//        oauthServer.checkTokenAccess("isAuthenticated()");//校验token需要认证通过，可采用http basic认证
+    public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
         oauthServer.allowFormAuthenticationForClients()
                 .passwordEncoder(new BCryptPasswordEncoder())
                 .tokenKeyAccess("permitAll()")
