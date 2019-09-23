@@ -2,14 +2,19 @@ package com.youyd.article.controller.blog;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.article.service.blog.ArticleService;
+import com.youyd.cache.redis.RedisService;
+import com.youyd.constant.ArticleConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
-import com.youyd.pojo.Result;
 import com.youyd.pojo.article.Article;
+import com.youyd.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -26,6 +31,8 @@ public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private RedisService redisService;
 
     /**
      * 查询全部数据
@@ -34,9 +41,13 @@ public class ArticleController {
      */
     @ApiOperation(value = "查询文章集合", notes = "Article")
     @GetMapping
-    public Result findArticleByCondition(Article article, QueryVO queryVO) {
+    public JsonData findArticleByCondition(Article article, QueryVO queryVO) {
+    	if (ArticleConst.SORT_TYPE_HOT.equals(queryVO.getSortType())){
+		    List<Object> hotList = redisService.lGet("1", 1, 1);
+		    return JsonData.success(hotList);
+    	}
 	    IPage<Article> result = articleService.findArticleByCondition(article,queryVO);
-        return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
+        return JsonData.success(result);
     }
 
     /**
@@ -47,47 +58,11 @@ public class ArticleController {
      */
     @ApiOperation(value = "按照id查询文章", notes = "id")
     @GetMapping(value = "/{id}")
-    public Result findArticleByPrimaryKey(@PathVariable String id) {
+    public JsonData findArticleByPrimaryKey(@PathVariable String id) {
         Article result = articleService.findArticleById(id);
-        return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
     }
 
-
-    /**
-     * 增加
-     *
-     * @param article:文章实例
-     */
-    @ApiOperation(value = "添加一条新的文章", notes = "id")
-    @PostMapping
-    public Result insertArticle(@RequestBody Article article) {
-        articleService.insertArticle(article);
-        return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
-    }
-
-    /**
-     * 修改
-     *
-     * @param article:文章实例
-     */
-    @ApiOperation(value = "按照id修改", notes = "id")
-    @PutMapping
-    public Result updateByPrimaryKeySelective(@RequestBody Article article) {
-        articleService.updateByPrimaryKeySelective(article);
-        return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
-    }
-
-    /**
-     * 删除
-     *
-     * @param articleIds 文章id
-     */
-    @ApiOperation(value = "删除", notes = "id")
-    @DeleteMapping
-    public Result delete(@RequestBody List<String> articleIds) {
-        articleService.deleteArticleByIds(articleIds);
-        return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
-    }
 
 
 }
