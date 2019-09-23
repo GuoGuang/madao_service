@@ -7,5 +7,5 @@ package com.youyd.constant;
  * @create 2019年4月23日22:35:18
  * @version 1.0.0
  */
-public interface UserConst {
+public final class UserConst {
 }

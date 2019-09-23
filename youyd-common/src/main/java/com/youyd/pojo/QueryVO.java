@@ -25,4 +25,8 @@ public class QueryVO implements Serializable {
 	/*排序*/
 	private Boolean orderBy;
 	private String fieldSort;
+
+	private String sortType;
+
+
 }
