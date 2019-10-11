@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.base.CaseFormat;
 import com.youyd.api.user.UserServiceRpc;
-import com.youyd.article.dao.backstage.SaArticleDao;
+import com.youyd.article.dao.backstage.ArticleDao;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.constant.CommonConst;
@@ -26,17 +26,17 @@ import java.util.Map;
  * @create : 2018-10-13 16:39
  **/
 @Service
-public class SaArticleService {
+public class ArticleService {
 
-	private final SaArticleDao saArticleDao;
+	private final ArticleDao articleDao;
 
 	private final RedisService redisService;
 
 	private final UserServiceRpc userServiceRpc;
 
 	@Autowired
-	public SaArticleService(SaArticleDao saArticleDao, RedisService redisService,UserServiceRpc userServiceRpc) {
-		this.saArticleDao = saArticleDao;
+	public ArticleService(ArticleDao articleDao, RedisService redisService,UserServiceRpc userServiceRpc) {
+		this.articleDao = articleDao;
 		this.redisService = redisService;
 		this.userServiceRpc = userServiceRpc;
 	}
@@ -62,7 +62,7 @@ public class SaArticleService {
 			String fieldSort = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, queryVO.getFieldSort());
 			queryWrapper.orderBy(true,queryVO.getOrderBy(),fieldSort);
 		}
-		IPage<Article> articleIPage = saArticleDao.selectPage(pr, queryWrapper);
+		IPage<Article> articleIPage = articleDao.selectPage(pr, queryWrapper);
 		List<User> userList = userServiceRpc.findUser().getData().getRecords();
 		articleIPage.getRecords().forEach(
 				articleUser -> userList.forEach(
@@ -87,7 +87,7 @@ public class SaArticleService {
 		Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + articleId);
 		Article article;
 		if(mapJson==null) {
-			article = saArticleDao.selectById(articleId);
+			article = articleDao.selectById(articleId);
 			redisService.set(RedisConstant.REDIS_KEY_ARTICLE+ articleId, article, CommonConst.TIME_OUT_DAY);
 			return article;
 		}else {
@@ -114,11 +114,11 @@ public class SaArticleService {
 			if (article.getIsPublic() == null){
 				article.setIsPublic(0);
 			}
-			saArticleDao.insert(article);
+			articleDao.insert(article);
 		}else {
 			redisService.del( "ARTICLE_" + article.getId());
 			article.setUpdateAt(DateUtil.getTimestamp());
-			saArticleDao.updateById(article);
+			articleDao.updateById(article);
 		}
 	}
 
@@ -127,7 +127,7 @@ public class SaArticleService {
 	 * @param articleIds:文章id集合
 	 */
 	public void deleteArticleByIds(List<String> articleIds) {
-		saArticleDao.deleteBatchIds(articleIds);
+		articleDao.deleteBatchIds(articleIds);
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class SaArticleService {
 	 * @param id
 	 */
 	public void examine(String id){
-		saArticleDao.examine(id);
+		articleDao.examine(id);
 	}
 
 	/**
@@ -143,7 +143,7 @@ public class SaArticleService {
 	 * @param id 文章ID
 	 */
 	public int updateThumbUp(String id){
-		return saArticleDao.updateThumbUp(id);
+		return articleDao.updateThumbUp(id);
 	}
 
 }

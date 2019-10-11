@@ -2,7 +2,7 @@ package com.youyd.article.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.annotation.OptLog;
-import com.youyd.article.service.backstage.SaCategoryService;
+import com.youyd.article.service.backstage.CategoryService;
 import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
@@ -24,14 +24,14 @@ import java.util.List;
 
 @Api(tags = "文章分类")
 @RestController
-@RequestMapping(value = "/sa/article/category", produces = "application/json")
-public class SaCategoryController {
+@RequestMapping(value = "/article/category", produces = "application/json")
+public class CategoryController {
 
-	private final SaCategoryService columnService;
+	private final CategoryService categoryService;
 
 	@Autowired
-	public SaCategoryController(SaCategoryService columnService) {
-		this.columnService = columnService;
+	public CategoryController(CategoryService categoryService) {
+		this.categoryService = categoryService;
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class SaCategoryController {
 	 */
 	@GetMapping
 	public JsonData findCategoryByCondition(Category category, QueryVO queryVO ) {
-		IPage<Category> categoryByCondition = columnService.findCategoryByCondition(category,queryVO);
+		IPage<Category> categoryByCondition = categoryService.findCategoryByCondition(category,queryVO);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), categoryByCondition);
 	}
 
@@ -53,7 +53,7 @@ public class SaCategoryController {
 	 */
 	@GetMapping(value = "/{id}")
 	public JsonData findCategoryByPrimaryKey(@PathVariable String id) {
-		Category category = columnService.findCategoryByPrimaryKey(id);
+		Category category = categoryService.findCategoryByPrimaryKey(id);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), category);
 	}
 
@@ -65,7 +65,7 @@ public class SaCategoryController {
 	@PostMapping
 	@OptLog(operationType= CommonConst.ADD,operationName="添加文章分类")
 	public JsonData insertCategory(@RequestBody @Valid Category category) {
-		columnService.insertCategory(category);
+		categoryService.insertCategory(category);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
@@ -75,7 +75,7 @@ public class SaCategoryController {
 	@PutMapping
 	@OptLog(operationType= CommonConst.MODIFY,operationName="修改文章分类")
 	public JsonData updateByCategorySelective(@RequestBody @Valid Category category) {
-		columnService.updateByCategorySelective(category);
+		categoryService.updateByCategorySelective(category);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
@@ -87,7 +87,7 @@ public class SaCategoryController {
 	@DeleteMapping
 	@OptLog(operationType= CommonConst.DELETE,operationName="删除文章分类")
 	public JsonData deleteCategoryByIds(@RequestBody List<String> categoryIds) {
-		columnService.deleteCategoryByIds(categoryIds);
+		categoryService.deleteCategoryByIds(categoryIds);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 

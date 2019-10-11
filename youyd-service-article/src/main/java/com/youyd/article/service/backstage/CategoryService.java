@@ -4,7 +4,7 @@ package com.youyd.article.service.backstage;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youyd.article.dao.backstage.SaCategoryDao;
+import com.youyd.article.dao.backstage.CategoryDao;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Category;
@@ -20,15 +20,15 @@ import java.util.List;
  * @create : 2019-01-30
  **/
 @Service
-public class SaCategoryService {
+public class CategoryService {
 
-	private final SaCategoryDao saSaCategoryDao;
+	private final CategoryDao categoryDao;
 
 	private final RedisService redisService;
 
 	@Autowired
-	public SaCategoryService(SaCategoryDao saSaCategoryDao, RedisService redisService) {
-		this.saSaCategoryDao = saSaCategoryDao;
+	public CategoryService(CategoryDao sacategoryDao, RedisService redisService) {
+		this.categoryDao = sacategoryDao;
 		this.redisService = redisService;
 	}
 
@@ -48,7 +48,7 @@ public class SaCategoryService {
 			queryWrapper.eq(Category::getState,category.getState());
 		}
 		queryWrapper.orderByDesc(Category::getCreateAt);
-		return saSaCategoryDao.selectPage(pr, queryWrapper);
+		return categoryDao.selectPage(pr, queryWrapper);
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class SaCategoryService {
 	 * @return Category
 	 */
 	public Category findCategoryByPrimaryKey(String categoryId) {
-		return saSaCategoryDao.selectById(categoryId);
+		return categoryDao.selectById(categoryId);
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class SaCategoryService {
 	 * @param category 实体
 	 */
 	public void insertCategory(Category category) {
-		saSaCategoryDao.insert(category);
+		categoryDao.insert(category);
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class SaCategoryService {
 	 * @param category 实体
 	 */
 	public void updateByCategorySelective(Category category) {
-		saSaCategoryDao.updateById(category);
+		categoryDao.updateById(category);
 	}
 
 	/**
@@ -81,6 +81,6 @@ public class SaCategoryService {
 	 * @param categoryIds:分类id
 	 */
 	public void deleteCategoryByIds(List<String> categoryIds) {
-		saSaCategoryDao.deleteBatchIds(categoryIds);
+		categoryDao.deleteBatchIds(categoryIds);
 	}
 }

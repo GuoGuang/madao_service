@@ -25,13 +25,13 @@ import java.util.List;
 
 @Api(tags = "标签")
 @RestController
-@RequestMapping(value = "/sa/tags",produces = "application/json")
-public class SaTagsController {
+@RequestMapping(value = "/tags",produces = "application/json")
+public class TagsController {
 
     private final ApiTagsService tagsService;
 
 	@Autowired
-	public SaTagsController(ApiTagsService tagsService) {
+	public TagsController(ApiTagsService tagsService) {
 		this.tagsService = tagsService;
 	}
 

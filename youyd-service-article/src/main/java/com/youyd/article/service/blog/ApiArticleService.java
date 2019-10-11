@@ -3,7 +3,7 @@ package com.youyd.article.service.blog;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youyd.article.dao.blog.ArticleDao;
+import com.youyd.article.dao.blog.ApiArticleDao;
 import com.youyd.cache.constant.RedisConstant;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.constant.CommonConst;
@@ -24,12 +24,12 @@ import java.util.List;
 @Service
 public class ApiArticleService{
 
-	private final ArticleDao articleDao;
+	private final ApiArticleDao articleDao;
 
 	private final RedisService redisService;
 
 	@Autowired
-	public ApiArticleService(ArticleDao articleDao, RedisService redisService) {
+	public ApiArticleService(ApiArticleDao articleDao, RedisService redisService) {
 		this.articleDao = articleDao;
 		this.redisService = redisService;
 	}

@@ -2,7 +2,7 @@ package com.youyd.article.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.annotation.OptLog;
-import com.youyd.article.service.backstage.SaCommentService;
+import com.youyd.article.service.backstage.CommentService;
 import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
@@ -23,15 +23,15 @@ import java.util.List;
 
 @Api(tags = "文章评论")
 @RestController
-@RequestMapping(value = "/sa/comment",produces = "application/json")
+@RequestMapping(value = "/comment",produces = "application/json")
 
-public class SaCommentController {
+public class CommentController {
 
-	private final SaCommentService saCommentService;
+	private final CommentService commentService;
 
 	@Autowired
-	public SaCommentController(SaCommentService saCommentService) {
-		this.saCommentService = saCommentService;
+	public CommentController(CommentService commentService) {
+		this.commentService = commentService;
 	}
 
 
@@ -43,7 +43,7 @@ public class SaCommentController {
 	 */
 	@GetMapping()
 	public JsonData findCommentByCondition(Comment comment, QueryVO queryVO ){
-		IPage<Comment> result = saCommentService.findCommentByCondition(comment,queryVO);
+		IPage<Comment> result = commentService.findCommentByCondition(comment,queryVO);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
 	}
 	
@@ -54,7 +54,7 @@ public class SaCommentController {
 	 */
 	@GetMapping(value="/{id}")
 	public JsonData findCommentByPrimaryKey(@PathVariable String id){
-		Comment result = saCommentService.findCommentByPrimaryKey(id);
+		Comment result = commentService.findCommentByPrimaryKey(id);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
 	}
 
@@ -67,7 +67,7 @@ public class SaCommentController {
 	@PostMapping()
 	@OptLog(operationType= CommonConst.ADD,operationName="增加文章评论")
 	public JsonData insertComment(@RequestBody @Valid Comment comment){
-		saCommentService.insertComment(comment);
+		commentService.insertComment(comment);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
@@ -79,7 +79,7 @@ public class SaCommentController {
 	@PutMapping
 	@OptLog(operationType= CommonConst.MODIFY,operationName="修改文章评论")
 	public JsonData updateByCommentSelective(@RequestBody @Valid Comment comment) {
-		saCommentService.updateByCommentSelective(comment);
+		commentService.updateByCommentSelective(comment);
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
@@ -91,7 +91,7 @@ public class SaCommentController {
 	@DeleteMapping
 	@OptLog(operationType= CommonConst.DELETE,operationName="添加文章评论")
 	public JsonData deleteByIds(List<String> commentIds){
-		saCommentService.deleteCommentByIds(commentIds);
+		commentService.deleteCommentByIds(commentIds);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 	

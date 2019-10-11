@@ -3,7 +3,7 @@ package com.youyd.article.service.backstage;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youyd.article.dao.backstage.SaCommentDao;
+import com.youyd.article.dao.backstage.CommentDao;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Comment;
 import org.apache.commons.lang3.StringUtils;
@@ -19,13 +19,13 @@ import java.util.List;
  **/
 
 @Service
-public class SaCommentService {
+public class CommentService {
 
-	private final SaCommentDao saCommentDao;
+	private final CommentDao commentDao;
 
 	@Autowired
-	public SaCommentService(SaCommentDao saCommentDao) {
-		this.saCommentDao = saCommentDao;
+	public CommentService(CommentDao commentDao) {
+		this.commentDao = commentDao;
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class SaCommentService {
 			queryWrapper.eq(Comment::getContent,comment.getContent());
 		}
 		queryWrapper.orderByDesc(Comment::getCreateAt);
-		return saCommentDao.selectPage(pr, queryWrapper);
+		return commentDao.selectPage(pr, queryWrapper);
 	}
 
 	/**
@@ -53,27 +53,27 @@ public class SaCommentService {
 	 * @return Comment
 	 */
 	public Comment findCommentByPrimaryKey(String commentId) {
-		return saCommentDao.selectById(commentId);
+		return commentDao.selectById(commentId);
 	}
 
 	/**
 	 * 增加
 	 */
 	public void insertComment(Comment comment) {
-		saCommentDao.insert(comment);
+		commentDao.insert(comment);
 	}
 	/**
 	 * 修改
 	 */
 	public void updateByCommentSelective(Comment comment) {
-		saCommentDao.updateById(comment);
+		commentDao.updateById(comment);
 	}
 
 	/**
 	 * 删除
 	 */
 	public void deleteCommentByIds(List<String> commentIds) {
-		saCommentDao.deleteBatchIds(commentIds);
+		commentDao.deleteBatchIds(commentIds);
 	}
 
 }

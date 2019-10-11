@@ -3,7 +3,7 @@ package com.youyd.article.controller.backstage;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.annotation.OptLog;
 import com.youyd.article.controller.BaseController;
-import com.youyd.article.service.backstage.SaArticleService;
+import com.youyd.article.service.backstage.ArticleService;
 import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
@@ -28,14 +28,14 @@ import java.util.Map;
 
 @Api(tags = "文章")
 @RestController
-@RequestMapping(value = "/sa/article",produces = "application/json")
-public class SaArticleController extends BaseController {
+@RequestMapping(value = "/article",produces = "application/json")
+public class ArticleController extends BaseController {
 
-    private final SaArticleService saArticleService;
+    private final ArticleService articleService;
 
 	@Autowired
-	public SaArticleController(SaArticleService saArticleService) {
-		this.saArticleService = saArticleService;
+	public ArticleController(ArticleService articleService) {
+		this.articleService = articleService;
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class SaArticleController extends BaseController {
     @ApiOperation(value = "查询文章集合", notes = "Article")
     @GetMapping
     public JsonData findArticleByCondition(Article article, QueryVO queryVO ) {
-	    IPage<Article> result = saArticleService.findArticleByCondition(article,queryVO);
+	    IPage<Article> result = articleService.findArticleByCondition(article,queryVO);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
     }
 
@@ -59,7 +59,7 @@ public class SaArticleController extends BaseController {
     @ApiOperation(value = "按照id查询文章", notes = "id")
     @GetMapping(value = "/{id}")
     public JsonData findArticleById(@PathVariable String id) {
-        Article result = saArticleService.findArticleById(id);
+        Article result = articleService.findArticleById(id);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
     }
 
@@ -73,7 +73,7 @@ public class SaArticleController extends BaseController {
     @OptLog(operationType= CommonConst.ADD,operationName="添加一条新的文章")
     public JsonData insertArticle(@RequestBody @Valid Article article, HttpServletRequest request) {
 	    Map<String, String> userInfo = getUserInfo(request);
-	    saArticleService.insertOrUpdateArticle(userInfo,article);
+	    articleService.insertOrUpdateArticle(userInfo,article);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
@@ -86,7 +86,7 @@ public class SaArticleController extends BaseController {
     @OptLog(operationType= CommonConst.MODIFY,operationName="修改文章")
     public JsonData updateByPrimaryKeySelective(@RequestBody @Valid Article article, HttpServletRequest request) {
 	    Map<String, String> userInfo = getUserInfo(request);
-        saArticleService.insertOrUpdateArticle(userInfo,article);
+        articleService.insertOrUpdateArticle(userInfo,article);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
@@ -99,7 +99,7 @@ public class SaArticleController extends BaseController {
     @DeleteMapping
     @OptLog(operationType= CommonConst.DELETE,operationName="删除文章")
     public JsonData deleteArticleByIds(@RequestBody List<String> articleIds) {
-        saArticleService.deleteArticleByIds(articleIds);
+        articleService.deleteArticleByIds(articleIds);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
     }
 
@@ -111,7 +111,7 @@ public class SaArticleController extends BaseController {
     @ApiOperation(value = "审核当前文章", notes = "id")
     @PutMapping(value="/examine/{id}")
     public JsonData examine(@PathVariable String id) {
-        saArticleService.examine(id);
+        articleService.examine(id);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
     }
 
@@ -123,7 +123,7 @@ public class SaArticleController extends BaseController {
     @ApiOperation(value = "点赞", notes = "id")
     @PutMapping(value="/thumbUp/{id}")
     public JsonData updateThumbUp(@PathVariable String id) {
-        saArticleService.updateThumbUp(id);
+        articleService.updateThumbUp(id);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
     }
 }

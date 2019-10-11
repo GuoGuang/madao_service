@@ -1,4 +1,4 @@
-package com.youyd.article.dao.backstage;
+package com.youyd.article.dao.blog;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.youyd.pojo.QueryVO;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
  **/
 
 
-public interface SaTagsDao extends BaseMapper<Tags> {
+public interface ApiTagsDao extends BaseMapper<Tags> {
 
 
 	ArrayList<Tags> findTagsByCondition(QueryVO queryVO);

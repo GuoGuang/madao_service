@@ -1,9 +1,6 @@
-package com.youyd.article.dao.blog;
+package com.youyd.article.dao.backstage;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Article;
 
 /**
@@ -14,8 +11,6 @@ import com.youyd.pojo.article.Article;
 
 
 public interface ArticleDao extends BaseMapper<Article> {
-
-	IPage<Article> findArticlePage(Page page, QueryVO queryVO);
 
 	/**
 	 * 审核文章
