@@ -17,8 +17,8 @@ import java.util.List;
 
 /**
  * @description: 字典接口实现
- * @author: LGG
- * @create: 2018-09-27
+ * @author LGG
+ * @create 2018-09-27
  **/
 @Service
 public class DictService {

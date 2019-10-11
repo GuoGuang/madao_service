@@ -17,8 +17,8 @@ import java.util.List;
 
 /**
  * @description: 文章的评论
- * @author: LGG
- * @create: 2019-01-11
+ * @author LGG
+ * @create 2019-01-11
  **/
 
 @Api(tags = "文章评论")

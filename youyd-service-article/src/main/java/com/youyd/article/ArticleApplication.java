@@ -18,8 +18,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * // SpringBoot主配置类只会扫描自己所在的包及其子包下面,如果不加此扫描youyd-common里的公用包则扫描不到
  * // @ComponentScan(basePackages = {"com.youyd"})
  *
- * @author: LGG
- * @create: 2019-01-30
+ * @author LGG
+ * @create 2019-01-30
  **/
 @SpringBootApplication
 @EnableEurekaClient

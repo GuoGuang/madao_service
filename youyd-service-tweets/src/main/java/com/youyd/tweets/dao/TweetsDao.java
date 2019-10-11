@@ -6,8 +6,8 @@ import com.youyd.pojo.tweets.Tweets;
 
 /**
  * @description: dao
- * @author: LGG
- * @create: 2018-09-26 16:21
+ * @author LGG
+ * @create 2018-09-26 16:21
  **/
 
 public interface TweetsDao extends BaseMapper<Tweets> {

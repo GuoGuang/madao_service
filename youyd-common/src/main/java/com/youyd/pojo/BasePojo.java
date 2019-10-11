@@ -7,8 +7,8 @@ import java.io.Serializable;
 
 /**
  * @description: 基础实体类,其他实体应继承此实体
- * @author: LGG
- * @create: 2018-09-27 14:19
+ * @author LGG
+ * @create 2018-09-27 14:19
  **/
 @Getter
 @Setter

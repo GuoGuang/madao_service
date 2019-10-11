@@ -8,8 +8,8 @@ import java.io.Serializable;
 
 /**
  * @description: 标签实体类
- * @author: LGG
- * @create: 2018-09-26 15:55
+ * @author LGG
+ * @create 2018-09-26 15:55
  **/
 
 @Getter

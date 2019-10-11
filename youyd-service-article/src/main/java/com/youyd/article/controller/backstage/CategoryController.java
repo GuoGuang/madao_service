@@ -18,8 +18,8 @@ import java.util.List;
 
 /**
  * @description: 文章分类
- * @author: LGG
- * @create: 2019-01-11
+ * @author LGG
+ * @create 2019-01-11
  **/
 
 @Api(tags = "文章分类")

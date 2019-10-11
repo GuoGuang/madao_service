@@ -20,8 +20,8 @@ import java.util.List;
 
 /**
  * @description: 前台网站文章
- * @author: LGG
- * @create: 2019-02-20
+ * @author LGG
+ * @create 2019-02-20
  **/
 
 @Api(tags = "文章")

@@ -13,8 +13,8 @@ import java.util.Map;
 
 /**
  * @description: 监听MQ接口, 发送短信
- * @author: LGG
- * @create: 2018-10-21 19:36
+ * @author LGG
+ * @create 2018-10-21 19:36
  **/
 
 @Component

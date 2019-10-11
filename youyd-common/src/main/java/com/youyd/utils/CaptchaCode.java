@@ -12,8 +12,8 @@ import java.util.Random;
 */
 /**
  * 图片验证码生成
- * @author: LGG
- * @create: 2019-06-21
+ * @author LGG
+ * @create 2019-06-21
  **//*
 
 public class CaptchaCode {

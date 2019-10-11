@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 
 /** https://segmentfault.com/a/1190000007214708
  * @description: LogBcak工具类
- * @author: LGG
- * @create: 2018-12-26 14:34
+ * @author LGG
+ * @create 2018-12-26 14:34
  **/
 @Component
 public final class LogBack {

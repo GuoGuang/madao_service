@@ -7,8 +7,8 @@ import java.io.Serializable;
 
 /**
  * @description: 封装的查询参数类
- * @author: LGG
- * @create: 28-February-2019
+ * @author LGG
+ * @create 28-February-2019
  **/
 
 @Getter

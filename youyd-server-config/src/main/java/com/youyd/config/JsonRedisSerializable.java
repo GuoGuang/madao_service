@@ -14,7 +14,7 @@ import java.net.UnknownHostException;
 /**
  * @program: SpringBoot
  * @description: 配置自定义Json序列化器
- * @author: LinGuoGuang
+ * @author LinGuoGuang
  **//*
 
 @Configuration

@@ -18,8 +18,8 @@ import java.util.Date;
 
 /**
  * @description: 阿里云通信短信API工具类
- * @author: LGG
- * @create: 2018-10-21 20:12
+ * @author LGG
+ * @create 2018-10-21 20:12
  **/
 @Component
 @ConditionalOnProperty("aliyun.sms")

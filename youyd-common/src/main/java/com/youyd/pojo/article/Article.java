@@ -15,8 +15,8 @@ import java.io.Serializable;
 
  /**
  * @description: 文章板块: 文章类
- * @author: LGG
- * @create: 2019-01-29
+ * @author LGG
+ * @create 2019-01-29
  **/
 @Getter
 @Setter

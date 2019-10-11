@@ -17,8 +17,8 @@ import java.util.List;
 
 /**
  * @description: 吐槽服务
- * @author: LGG
- * @create: 2018-09-27
+ * @author LGG
+ * @create 2018-09-27
  **/
 
 @Service

@@ -6,8 +6,8 @@ import java.util.Map;
 
 /**
  * @description: 参数校验
- * @author: LGG
- * @create: 2018-09-13 15:08
+ * @author LGG
+ * @create 2018-09-13 15:08
  **/
 public class ParamUtil {
 

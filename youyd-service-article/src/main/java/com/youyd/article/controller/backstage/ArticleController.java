@@ -22,8 +22,8 @@ import java.util.Map;
 /**
  * @description: 文章管理
  * /e 区分前后台 uri
- * @author: LGG
- * @create: 2019-01-11
+ * @author LGG
+ * @create 2019-01-11
  **/
 
 @Api(tags = "文章")
