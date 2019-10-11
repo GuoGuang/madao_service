@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @description: 集成ElasticSearch的文章搜索系统
- * @author: LGG
- * @create: 2018-10-14 18:44
+ * @description 集成ElasticSearch的文章搜索系统
+ * @author LGG
+ * @create 2018-10-14 18:44
  **/
 
 @RestController

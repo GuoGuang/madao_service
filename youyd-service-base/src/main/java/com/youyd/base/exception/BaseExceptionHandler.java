@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @description: 统一异常处理类
- * @author: LGG
- * @create: 2018-09-26 16:06
+ * @description 统一异常处理类
+ * @author LGG
+ * @create 2018-09-26 16:06
  **/
 @RestControllerAdvice
 @SuppressWarnings("Duplicates")

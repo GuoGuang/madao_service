@@ -7,9 +7,9 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import java.io.Serializable;
 
 /**
- * @description: 文章板块: 文章类,集成ES
- * @author: LGG
- * @create: 2018-10-14 18:44
+ * @description 文章板块: 文章类,集成ES
+ * @author LGG
+ * @create 2018-10-14 18:44
  **/
 @Document(indexName="coco",type="article")
 public class Article extends BasePojo implements Serializable {

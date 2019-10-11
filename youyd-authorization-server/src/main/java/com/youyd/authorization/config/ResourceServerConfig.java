@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 /**
  * 资源服务配置
+ * 所有资源都会经过此配置
  * @ EnableResourceServer 启用资源服务
  */
 @Configuration

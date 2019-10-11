@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @description: 吐槽评论
- * @author: LGG
- * @create: 2018-09-26 15:59
+ * @description 吐槽评论
+ * @author LGG
+ * @create 2018-09-26 15:59
  **/
 @RestController
 @RequestMapping("/tweetsComment")

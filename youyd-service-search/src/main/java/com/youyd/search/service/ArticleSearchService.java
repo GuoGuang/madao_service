@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @description: 文章板块: 文章类,集成ES
- * @author: LGG
- * @create: 2018-10-14 18:44
+ * @description 文章板块: 文章类,集成ES
+ * @author LGG
+ * @create 2018-10-14 18:44
  **/
 @Service
 public class ArticleSearchService {

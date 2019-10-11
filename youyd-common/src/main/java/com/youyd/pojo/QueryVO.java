@@ -6,9 +6,9 @@ import lombok.Setter;
 import java.io.Serializable;
 
 /**
- * @description: 封装的查询参数类
- * @author: LGG
- * @create: 28-February-2019
+ * @description 封装的查询参数类
+ * @author LGG
+ * @create 28-February-2019
  **/
 
 @Getter
@@ -25,4 +25,8 @@ public class QueryVO implements Serializable {
 	/*排序*/
 	private Boolean orderBy;
 	private String fieldSort;
+
+	private String sortType;
+
+
 }

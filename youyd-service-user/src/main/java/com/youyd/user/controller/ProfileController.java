@@ -19,9 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 /**
- * @description: 用户画像
- * @author: LGG
- * @create: 2019-05-30
+ * @description 用户画像
+ * @author LGG
+ * @create 2019-05-30
  **/
 
 @Api(tags = "用户画像")

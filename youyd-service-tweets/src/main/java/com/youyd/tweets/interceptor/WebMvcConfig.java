@@ -8,9 +8,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 */
 /**
- * @description: d
- * @author: LGG
- * @create: 2018-10-29 16:03
+ * @description d
+ * @author LGG
+ * @create 2018-10-29 16:03
  **//*
 
 @Configuration

@@ -24,9 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @description: 用户+JWT鉴权
- * @author: LGG
- * @create: 2018-09-26 15:59
+ * @description 用户+JWT鉴权
+ * @author LGG
+ * @create 2018-09-26 15:59
  **/
 
 @Api(tags = "用户")

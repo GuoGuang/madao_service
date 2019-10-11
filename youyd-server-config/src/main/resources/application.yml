@@ -3,11 +3,6 @@ server:
 spring:
   application:
     name: server-config #指定服务名
-  rabbitmq:
-    host: 39.108.191.56
-    username: admin
-    password: admin
-    port: 5672
 
 
 # 消息总线BUS自动刷新配置文件

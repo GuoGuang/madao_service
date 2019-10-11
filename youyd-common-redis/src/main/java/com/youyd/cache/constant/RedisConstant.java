@@ -1,9 +1,9 @@
 package com.youyd.cache.constant;
 
 /**
- * @description: 定义redis常量
- * @author: LGG
- * @create: 2018-12-25
+ * @description 定义redis常量
+ * @author LGG
+ * @create 2018-12-25
  */
 public class RedisConstant {
 

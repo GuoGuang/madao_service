@@ -40,11 +40,11 @@ public class JsonData<T> implements Serializable {
 	/**
 	 * 快速创建成功结果并返回结果数据
 	 *
-	 * @param isSuccess
+	 * @param data
 	 * @return Result
 	 */
-	public static JsonData success(Boolean isSuccess) {
-		return new JsonData(isSuccess, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
+	public static JsonData success(Object data) {
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),data);
 	}
 	public static JsonData error(Boolean isSuccess) {
 		return new JsonData(isSuccess, StatusEnum.ERROR.getCode(), StatusEnum.ERROR.getMsg(),null);

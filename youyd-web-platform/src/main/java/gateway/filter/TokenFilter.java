@@ -10,9 +10,9 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 /** https://windmt.com/2018/05/08/spring-cloud-14-spring-cloud-gateway-filter/
- * @description: GateWay全局过滤器
- * @author: LGG
- * @create: 2018-12-28
+ * @description GateWay全局过滤器
+ * @author LGG
+ * @create 2018-12-28
  **/
 
 @Component

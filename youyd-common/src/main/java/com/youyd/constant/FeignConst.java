@@ -6,7 +6,7 @@ package com.youyd.constant;
  * @author : LGG
  * @create : 2019-05-04 14:57
  **/
-public class FeignConst {
+public final class FeignConst {
 
 	private FeignConst() {
 		throw new IllegalStateException("Utility class");

@@ -8,6 +8,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,10 +46,9 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
 			throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
 		} else {
 			String phone = this.obtainPhone(request);
-			if (phone == null) {
+			if (StringUtils.isEmpty(phone)) {
 				phone = "";
 			}
-
 
 			phone = phone.trim();
 			//把手机号传进SmsCodeAuthenticationToken
