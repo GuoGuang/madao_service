@@ -18,19 +18,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @description: 前台标签
- * @author: LGG
- * @create: 2018-10-13 16:39
+ * 前台标签
+ * @author LGG
+ * @create 2018-10-13 16:39
  **/
 @Service
-public class TagsService {
+public class ApiTagsService {
 
 	private final TagsDao bgTagsDao;
 
 	private final RedisService redisService;
 
 	@Autowired
-	public TagsService(TagsDao bgTagsDao, RedisService redisService) {
+	public ApiTagsService(TagsDao bgTagsDao, RedisService redisService) {
 		this.bgTagsDao = bgTagsDao;
 		this.redisService = redisService;
 	}

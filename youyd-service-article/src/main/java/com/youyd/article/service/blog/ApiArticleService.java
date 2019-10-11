@@ -22,14 +22,14 @@ import java.util.List;
  * @create : 2018-10-13 16:39
  **/
 @Service
-public class ArticleService{
+public class ApiArticleService{
 
 	private final ArticleDao articleDao;
 
 	private final RedisService redisService;
 
 	@Autowired
-	public ArticleService(ArticleDao articleDao, RedisService redisService) {
+	public ApiArticleService(ArticleDao articleDao, RedisService redisService) {
 		this.articleDao = articleDao;
 		this.redisService = redisService;
 	}

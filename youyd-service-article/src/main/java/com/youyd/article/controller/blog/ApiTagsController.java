@@ -1,6 +1,6 @@
 package com.youyd.article.controller.blog;
 
-import com.youyd.article.service.blog.TagsService;
+import com.youyd.article.service.blog.ApiTagsService;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.Result;
@@ -13,21 +13,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @description: 前台标签管理
- * /e 区分前后台 uri
- * @author: LGG
- * @create: 2019-01-11
+ * 前台标签管理
+ * 区分前后台 uri
+ * @author LGG
+ * @create 2019-01-11
  **/
 
 @Api(tags = "标签")
 @RestController
-@RequestMapping(value = "/tags",produces = "application/json")
-public class TagsController {
+@RequestMapping(value = "/api/tags",produces = "application/json")
+public class ApiTagsController {
 
-    private final TagsService tagsService;
+    private final ApiTagsService tagsService;
 
 	@Autowired
-	public TagsController(TagsService tagsService) {
+	public ApiTagsController(ApiTagsService tagsService) {
 		this.tagsService = tagsService;
 	}
 

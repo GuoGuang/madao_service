@@ -1,7 +1,7 @@
 package com.youyd.article.controller.blog;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.youyd.article.service.blog.ArticleService;
+import com.youyd.article.service.blog.ApiArticleService;
 import com.youyd.cache.redis.RedisService;
 import com.youyd.constant.ArticleConst;
 import com.youyd.enums.StatusEnum;
@@ -27,10 +27,10 @@ import java.util.List;
 @Api(tags = "文章")
 @RestController
 @RequestMapping(value = "/api/article",produces = "application/json")
-public class ArticleController {
+public class ApiArticleController {
 
     @Autowired
-    private ArticleService articleService;
+    private ApiArticleService articleService;
     @Autowired
     private RedisService redisService;
 

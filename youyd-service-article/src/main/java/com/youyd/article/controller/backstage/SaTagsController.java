@@ -2,7 +2,7 @@ package com.youyd.article.controller.backstage;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.youyd.annotation.OptLog;
-import com.youyd.article.service.blog.TagsService;
+import com.youyd.article.service.blog.ApiTagsService;
 import com.youyd.constant.CommonConst;
 import com.youyd.enums.StatusEnum;
 import com.youyd.pojo.QueryVO;
@@ -17,10 +17,10 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * @description: 标签管理
- * /e 区分前后台 uri
- * @author: LGG
- * @create: 2019-01-11
+ * 标签管理
+ * 区分前后台 uri
+ * @author  LGG
+ * @create  2019-01-11
  **/
 
 @Api(tags = "标签")
@@ -28,10 +28,10 @@ import java.util.List;
 @RequestMapping(value = "/sa/tags",produces = "application/json")
 public class SaTagsController {
 
-    private final TagsService tagsService;
+    private final ApiTagsService tagsService;
 
 	@Autowired
-	public SaTagsController(TagsService tagsService) {
+	public SaTagsController(ApiTagsService tagsService) {
 		this.tagsService = tagsService;
 	}
 
