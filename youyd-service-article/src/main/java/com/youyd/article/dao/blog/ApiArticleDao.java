@@ -7,7 +7,7 @@ import com.youyd.pojo.QueryVO;
 import com.youyd.pojo.article.Article;
 
 /**
- * @description: 文章数据处理层
+ * @description 文章数据处理层
  * @author LGG
  * @create 2018-09-26 16:21
  **/

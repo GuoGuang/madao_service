@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Map;
 
 /**
- * @description: 参数校验
+ * @description 参数校验
  * @author LGG
  * @create 2018-09-13 15:08
  **/

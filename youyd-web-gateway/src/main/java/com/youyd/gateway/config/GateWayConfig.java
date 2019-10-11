@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @description: gateway服务网关配置
+ * @description gateway服务网关配置
  * Spring Cloud Gateway功能：
  *      基于Spring Framework 5，Project Reactor和Spring Boot 2.0构建
  *      能够匹配任何请求属性上的路由。
@@ -16,8 +16,8 @@ import org.springframework.context.annotation.Configuration;
  *      易于编写谓词和过滤器
  *      请求率限制
  *      路径重写
- * @author: LGG
- * @create: 2018-12-26 14:34
+ * @author LGG
+ * @create 2018-12-26 14:34
  **/
 
 @Configuration
@@ -53,10 +53,12 @@ public class GateWayConfig {
 				.route("user_route", r -> r.path("/su/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-USER"))
 				// 基础服务
 				.route("base_route", r -> r.path("/base/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-BASE"))
+				.route("api_base_route", r -> r.path("/api/base/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-BASE"))
 				// 微博服务
 				.route("tweet_route", r -> r.path("/ts/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-TWEETS"))
 				// 文章服务
-				.route("article_route",a ->a.path("/article/**").filters(f -> f.stripPrefix(0).prefixPath("/sa")).uri("lb://SERVICE-ARTICLE"))
+				.route("article_route",a ->a.path("/article/**").uri("lb://SERVICE-ARTICLE"))
+				.route("api_article_route",a ->a.path("/api/article/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-ARTICLE"))
 				// 授权、鉴权、第三方登录
 				.route("auth_route",a ->a.path("/oauth/**").filters(f -> f.stripPrefix(0)).uri("lb://AUTHENTICATION-SERVER"))
 				.route("social_route",a ->a.path("/social/**").filters(f -> f.stripPrefix(1)).uri("lb://AUTHENTICATION-SERVER"))

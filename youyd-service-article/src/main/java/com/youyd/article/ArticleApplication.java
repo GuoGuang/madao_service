@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * @description: 用户服务启动类
+ * @description 用户服务启动类
  *
  * @EnableEurekaClient 本服务启动后会自动注册进eureka服务中
  * @EnableSwagger2  接口文档自动生成

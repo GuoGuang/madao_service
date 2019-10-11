@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @description: dao
+ * @description dao
  * @author LGG
  * @create 2018-09-26 16:21
  **/

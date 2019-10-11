@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @description: 文章管理
+ * @description 文章管理
  * /e 区分前后台 uri
  * @author LGG
  * @create 2019-01-11

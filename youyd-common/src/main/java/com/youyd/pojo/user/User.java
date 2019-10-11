@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @description: 用户实体类
+ * @description 用户实体类
  * @author LGG
  * @create 2018-09-27
  **/

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.youyd.pojo.base.Dict;
 
 /**
- * @description: 字典管理
+ * @description 字典管理
  * @author LGG
  * @create 2019-05-08
  **/

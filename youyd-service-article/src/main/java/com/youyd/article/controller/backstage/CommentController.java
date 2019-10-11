@@ -16,7 +16,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * @description: 文章的评论
+ * @description 文章的评论
  * @author LGG
  * @create 2019-01-11
  **/

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * @description: 前台网站文章
+ * @description 前台网站文章
  * @author LGG
  * @create 2019-02-20
  **/

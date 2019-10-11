@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 
 /**
- * @description: 字典表
+ * @description 字典表
  * @author LGG
  * @create 2019-05-08
  **/

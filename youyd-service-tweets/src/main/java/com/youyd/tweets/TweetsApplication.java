@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * @description: 吐槽服务启动类
+ * @description 吐槽服务启动类
  * @author LGG
  * @create 2018-09-26 14:34
  **/

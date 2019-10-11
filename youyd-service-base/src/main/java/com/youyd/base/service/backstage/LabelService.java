@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @description: 标签 业务逻辑实现类
+ * @description 标签 业务逻辑实现类
  * @author LGG
  * @create 2018-09-26 15:57
  **/

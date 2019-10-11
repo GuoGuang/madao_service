@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @description: 阿里云通信短信API工具类
+ * @description 阿里云通信短信API工具类
  * @author LGG
  * @create 2018-10-21 20:12
  **/

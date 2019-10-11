@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.io.Serializable;
 
 /**
- * @description: 返回结果类
+ * @description 返回结果类
  * @author LGG
  * @create 2018-09-26 14:29
  **/
