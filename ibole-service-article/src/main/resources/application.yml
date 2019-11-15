@@ -1,0 +1,20 @@
+server:
+  port: 9003
+spring:
+  application:
+    name: service-article #指定服务名
+
+com:
+  ibole:
+    aopPointcutExpression: execution (* com.ibole.article..*.*(..))
+
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+        isolation:
+          strategy: SEMAPHORE

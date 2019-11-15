@@ -1,8 +1,8 @@
-package com.youyd;
+package com.ibole;
 
-import com.youyd.utils.JsonData;
-import com.youyd.utils.JsonUtil;
-import com.youyd.utils.LogBack;
+import com.ibole.utils.JsonData;
+import com.ibole.utils.JsonUtil;
+import com.ibole.utils.LogBack;
 import feign.Logger;
 import feign.Response;
 import feign.Util;
@@ -16,7 +16,6 @@ import java.io.IOException;
 
 /**
  * Feign调用配置
- * @author : LGG
  **/
 @Configuration
 public class FeignClientConfig  { // implements feign.codec.ErrorDecoder
