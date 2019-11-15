@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<!-- 全局参数  为null 的字段照常显示-->
+		<setting name="callSettersOnNulls" value="true" />
+		<!-- 打印查询语句 -->
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+        
+         <!-- 使用驼峰命名法转换字段。 -->  
+         <!-- <setting name="mapUnderscoreToCamelCase" value="true"/>  -->
+	</settings>
+</configuration>

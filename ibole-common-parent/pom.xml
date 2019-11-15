@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ibole</groupId>
+    <artifactId>ibole-common-parent</artifactId>
+    <version>1.0.0</version>
+    <name>ibole-common-parent</name>
+    <description>分布式框架的父依赖管理</description>
+
+    <!-- 通过继承spring-boot-starter-parent项目来获得一些合理的默认配置。这个parent提供了以下特性：
+            1. 默认使用Java 8
+            2. 使用UTF-8编码
+            3. 一个引用管理的功能，在dependencies里的部分配置可以不用填写version信息，
+                这些version信息会从spring-boot-dependencies里得到继承。
+            4. 识别过来资源过滤（Sensible resource filtering.）
+            4. 识别插件的配置（Sensible plugin configuration (exec plugin, surefire, Git commit ID, shade).）
+            5. 能够识别application.properties和application.yml类型的文件，同时也能支持profile-specific类型的文件
+                （如： application-foo.properties and application-foo.yml，这个功能可以更好的配置不同生产环境下的配置文件)。
+            6. maven把默认的占位符${…​}改为了@..@（这点大家还是看下原文自己理解下吧，我个人用的也比较少
+                since the default config files accept Spring style placeholders (${…​}) the Maven filtering is changed to use @..@ placeholders
+                (you can override that with a Maven property resource.delimiter).） -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.2.RELEASE</version>
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <jackson.version>2.9.6</jackson.version>
+        <logback.version>1.2.3</logback.version>
+        <swagger.version>2.9.2</swagger.version>
+        <spring.boot.version>2.0.2.RELEASE</spring.boot.version>
+        <spring.cloud.version>Finchley.SR2</spring.cloud.version>
+        <netflix.eureka.version>2.0.6.RELEASE</netflix.eureka.version>
+    </properties>
+
+    <!--添加spring-cloud依赖-->
+
+        <dependencies>
+            <!--Swagger ui 2.9.2 需要此包-->
+           <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>20.0</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <scope>test</scope>
+            </dependency>
+
+            <!--Jackson-->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.9.10</version>
+            </dependency>
+
+
+            <!--springboot 监控 -->
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-client</artifactId>
+                <version>2.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-server-ui</artifactId>
+                <version>2.0.1</version>
+            </dependency>
+
+             <dependency>
+                 <groupId>org.apache.commons</groupId>
+                 <artifactId>commons-lang3</artifactId>
+                 <version>3.5</version>
+             </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-access</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+            </dependency>
+
+            <!--Swagger接口文档生成 -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-openfeign</artifactId>
+                <version>2.1.1.RELEASE</version>
+            </dependency>
+            <!-- 从Git中读取配置时所需jar -->
+           <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-config</artifactId>
+            </dependency>
+        </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-eureka</artifactId>
+            </dependency>
+
+            <!--https://blog.csdn.net/alinyua/article/details/80070890
+                Spring Cloud对Feign的支持由org.springframework.cloud:spring-cloud-netflix-core移到org.springframework.cloud:spring-cloud-openfeign-core下,
+                而Finchley.M9版本下的spring-cloud-starter-openfeign:2.0.0.M2的pom依赖文件中导入的是spring-cloud-netflix-core而非spring-cloud-openfeign-core,
+                需要我们在pom文件中添加对应依赖管理使spring-cloud-starter-openfeign版本更新到2.0.0.RC1
+            <dependency>
+               <groupId>org.springframework.cloud</groupId>
+               <artifactId>spring-cloud-openfeign</artifactId>
+               <version>2.0.1.RELEASE</version>
+               <type>pom</type>
+               <scope>import</scope>
+           </dependency>-->
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+               <modules>
+                   <module>../ibole-common</module>
+                   <module>../ibole-common-redis</module>
+                   <module>../ibole-database-mybatis</module>
+                   <module>../ibole-server-eureka</module>
+                   <module>../ibole-server-config</module>
+                   <module>../ibole-server-monitor</module>
+                   <module>../ibole-service-base</module>
+                   <module>../ibole-service-article</module>
+                   <module>../ibole-service-tweets</module>
+                   <module>../ibole-service-search</module>
+                   <module>../ibole-service-api</module>
+                   <module>../ibole-service-user</module>
+                   <module>../ibole-web-gateway</module>
+                   <module>../ibole-web-platform</module>
+                   <module>../ibole-authorization-server</module>
+                   <module>../ibole-authentication-server</module>
+
+               </modules>
+               <packaging>pom</packaging>
+
+    <build>
+        <plugins>
+            <!-- java编译插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
