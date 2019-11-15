@@ -17,8 +17,6 @@ import org.springframework.stereotype.Component;
 */
 /**
  * 自定义认证
- * @author : LGG
- * @create : 2019/6/10 2:03:05
  * @see https://blog.csdn.net/wangb_java/article/details/86636352
  **//*
 

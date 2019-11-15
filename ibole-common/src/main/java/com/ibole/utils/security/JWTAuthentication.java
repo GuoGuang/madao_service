@@ -28,8 +28,6 @@ import java.util.stream.Collectors;
 
 /**
  * JWT工具类
- * @author : LGG
- * @create : 2018-10-24 19:54
  **/
 //@ConfigurationProperties("jwt.config")
 public class JWTAuthentication {

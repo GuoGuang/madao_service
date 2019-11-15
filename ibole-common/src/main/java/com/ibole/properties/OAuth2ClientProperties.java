@@ -5,8 +5,6 @@ package com.ibole.properties;
 
 /**
  * 认证服务器注册的第三方应用配置项
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 public class OAuth2ClientProperties {
 	

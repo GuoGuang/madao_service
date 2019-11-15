@@ -16,9 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @description 吐槽服务
- * @author LGG
- * @create 2018-09-27
+ * 吐槽服务
  **/
 
 @Service

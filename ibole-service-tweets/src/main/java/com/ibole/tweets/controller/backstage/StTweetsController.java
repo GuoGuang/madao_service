@@ -15,9 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * @description 吐槽控制层
- * @author LGG
- * @create 2018-09-26 15:59
+ * 吐槽控制层
  **/
 @RestController
 @RequestMapping("/ts/tweet")

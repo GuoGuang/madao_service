@@ -5,10 +5,8 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 import org.springframework.stereotype.Component;
 
 /**
- * @description 集成ElasticSearch的文章搜索系统
+ * 集成ElasticSearch的文章搜索系统
  *  集成SpringDataElasticSearch 之后只需要继承ElasticsearchRepository就可以,
- * @author LGG
- * @create 2018-10-14 18:44
  **/
 // <Article,String> Article的主键是String类型
 @Component

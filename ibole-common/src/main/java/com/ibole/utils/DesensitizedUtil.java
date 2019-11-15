@@ -4,9 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * 数据脱敏工具类
- * @author LGG
  * @version 1.0.0
- * @create 2019年5月31日22:35:18
  */
 public class DesensitizedUtil {
 

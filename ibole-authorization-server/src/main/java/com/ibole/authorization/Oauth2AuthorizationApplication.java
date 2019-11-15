@@ -14,8 +14,6 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * 鉴权服务启动类
- * @author : LGG
- * @create : 2019-06-13
  **/
 @SpringBootApplication
 @EnableFeignClients(basePackages = "com.ibole.api")

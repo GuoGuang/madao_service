@@ -9,8 +9,6 @@ import java.util.List;
 
 /**
  * 角色_资源管理
- * @author : LGG
- * @create : 2019-06-04
  **/
 
 public interface RoleResourceDao extends BaseMapper<RoleResource> {

@@ -11,8 +11,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * 启动类
- * @author : LGG
- * @create : 2018-09-26 14:34
  **/
 
 @SpringBootApplication

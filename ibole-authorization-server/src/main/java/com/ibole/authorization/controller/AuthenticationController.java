@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * 鉴权控制器
- * @author : LGG
- * @create : 2019-06-12
  **/
 @RequestMapping("/auth")
 @RestController

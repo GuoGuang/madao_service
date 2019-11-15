@@ -13,8 +13,6 @@ import java.util.Map;
  * 校验码处理器管理器
  * 校验码处理器，封装不同校验码的处理逻辑
  * 使用Spring中常用的 依赖搜索 技巧
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 @Component
 public class ValidateCodeProcessorHolder {

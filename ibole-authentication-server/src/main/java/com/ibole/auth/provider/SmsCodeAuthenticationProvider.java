@@ -18,8 +18,6 @@ import org.springframework.stereotype.Component;
 /**
  * 短信登录验证
  * 由于短信验证码的验证在第一个过滤器里已完成，这里直接读取用户信息即可。
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 @Component
 public class SmsCodeAuthenticationProvider implements AuthenticationProvider {

@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * 校验码相关安全配置，过滤器链第一个过滤器，全局过滤器
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 @Component
 public class ValidateCodeSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {

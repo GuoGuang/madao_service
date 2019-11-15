@@ -17,8 +17,6 @@ import java.util.List;
 
 /**
  * 在项目启动后执行的功能
- * @author : LGG
- * @create : 2018-09-26 14:34
  **/
 @Component
 public class ApplicationListener implements CommandLineRunner {

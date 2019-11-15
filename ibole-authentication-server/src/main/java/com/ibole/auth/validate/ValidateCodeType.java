@@ -8,8 +8,6 @@ import com.ibole.constant.CommonConst;
 
 /**
  * 校验码类型
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 public enum ValidateCodeType {
 	

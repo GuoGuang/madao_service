@@ -13,8 +13,6 @@ import java.time.LocalDateTime;
 
 /**
  * 验证码信息封装类
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 @Data
 public class ValidateCode implements Serializable {

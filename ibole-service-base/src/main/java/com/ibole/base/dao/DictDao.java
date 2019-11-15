@@ -4,9 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ibole.pojo.base.Dict;
 
 /**
- * @description 字典管理
- * @author LGG
- * @create 2019-05-08
+ * 字典管理
  **/
 
 public interface DictDao extends BaseMapper<Dict> {

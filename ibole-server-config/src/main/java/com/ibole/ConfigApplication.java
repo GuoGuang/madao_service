@@ -6,11 +6,9 @@ import org.springframework.cloud.config.server.EnableConfigServer;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 /**
- * @description 启动类
+ * 启动类
  *  @EnableEurekaClient 本服务启动后会自动注册进eureka服务中
  *  @EnableConfigServer 启用config功能
- * @author LGG
- * @create 2018-09-26 14:34
  **/
 @SpringBootApplication
 @EnableEurekaClient

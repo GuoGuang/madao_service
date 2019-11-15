@@ -13,8 +13,6 @@ import java.util.Map;
 
 /**
  * 抽象验证码类
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> implements ValidateCodeProcessor {
 

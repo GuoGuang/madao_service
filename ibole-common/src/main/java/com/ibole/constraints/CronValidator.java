@@ -8,8 +8,6 @@ import javax.validation.ConstraintValidatorContext;
 
 /**
  * 自定义CRON表达式限制条件
- * @author : LGG
- * @create : 2019年05-28
  **/
 public class CronValidator implements ConstraintValidator<CronExpress, String> {
 

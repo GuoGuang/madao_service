@@ -16,9 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @description 字典接口实现
- * @author LGG
- * @create 2018-09-27
+ * 字典接口实现
  **/
 @Service
 public class DictService {

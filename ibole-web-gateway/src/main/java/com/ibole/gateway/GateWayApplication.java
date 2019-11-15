@@ -10,8 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 /**
  * gateway服务网关
  * 系统采用Oauth2的客户端模式和授权码模式两种模式
- * @author : LGG
- * @create : 2018-09-26 14:34
  **/
 
 @ComponentScan(basePackages = {"com.ibole"})

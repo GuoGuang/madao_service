@@ -15,8 +15,6 @@ import java.io.IOException;
 
 /**
  * 自定义异常，Spring Security异常之外的异常
- * @author : LGG
- * @create : 2019-09-04 03:45
  **/
 public class RewriteAccessDenyFilter extends GenericFilterBean {
 	private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();

@@ -16,8 +16,6 @@ import java.util.Map;
 
 /**
  * 音乐
- * @author : LGG
- * @create : 2019-09-15
  **/
 
 @Api(tags = "音乐")

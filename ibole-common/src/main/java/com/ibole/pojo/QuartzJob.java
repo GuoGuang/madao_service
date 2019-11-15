@@ -13,8 +13,6 @@ import java.io.Serializable;
 
 /**
  * Quartz 任务调度
- * @author : LGG
- * @create : 28-February-2019
  **/
 @Getter
 @Setter

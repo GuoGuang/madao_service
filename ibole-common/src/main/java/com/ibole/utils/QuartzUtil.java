@@ -7,9 +7,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * 任务管理类
- *
- * @author : LGG
- * @create : 2019-05-04
  **/
 @Component
 public class QuartzUtil {

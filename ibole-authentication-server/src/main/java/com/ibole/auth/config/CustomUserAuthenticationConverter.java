@@ -15,8 +15,6 @@ import java.util.Map;
 
 /**
  * 自定义access_token内容
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 @Component
 public class CustomUserAuthenticationConverter extends DefaultUserAuthenticationConverter {

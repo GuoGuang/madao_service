@@ -8,8 +8,6 @@ import org.springframework.security.core.userdetails.User;
 import java.util.Collection;
 /**
  * Oauth临时存储user类
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 @Data
 @ToString

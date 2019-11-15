@@ -5,8 +5,6 @@ package com.ibole.properties;
 
 /**
  * QQ登录配置项
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 public class QQProperties extends SocialProperties {
 	

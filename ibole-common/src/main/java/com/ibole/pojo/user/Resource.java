@@ -13,8 +13,6 @@ import java.util.Objects;
 
 /**
  *  资源实体
- * @author LGG
- * @create 2018-09-27
  **/
 @Getter
 @Setter

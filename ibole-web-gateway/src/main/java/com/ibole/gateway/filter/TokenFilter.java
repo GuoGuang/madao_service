@@ -25,8 +25,6 @@ import java.io.IOException;
 
 /**
  *  GateWay全局过滤器
- * @author : LGG
- * @create : 2018-12-28
  * @see http://www.manongjc.com/article/43669.html
  * @see https://windmt.com/2018/05/08/spring-cloud-14-spring-cloud-gateway-filter/
  **/

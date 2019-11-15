@@ -6,8 +6,6 @@ import java.io.Serializable;
 
 /**
  * 实体校验错误类
- * @author LGG
- * @create 2019-05-27
  **/
 public class ValidFieldError implements Serializable {
 

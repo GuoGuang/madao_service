@@ -7,8 +7,6 @@ import lombok.Data;
 
 /**
  * Security的所有配置
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 //@ConfigurationProperties(prefix = "imooc.security")
 @Data

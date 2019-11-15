@@ -2,8 +2,6 @@ package com.ibole.properties;
 
 /**
  * 验证码配置
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 public class ValidateCodeProperties {
 	

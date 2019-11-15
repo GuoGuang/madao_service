@@ -3,8 +3,6 @@ package com.ibole.constant;
 
 /**
  * <p>文章模块 业务相关常量</p>
- * @author LGG
- * @create 2019年09月22日22:35:18
  * @version 1.0.0
  */
 public final class ArticleConst {

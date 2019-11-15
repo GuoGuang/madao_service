@@ -18,8 +18,6 @@ import java.util.Map;
  * 配置全局事务处理
  * {@link http://www.cnblogs.com/guozp/articles/7446477.html}
  * EnableAspectJAutoProxy : 强制使用cglib，因为如果包下的XXService类实现了接口，Spring会报异常
- * @author : LGG
- * @create : 2019-01-23
  **/
 @Configuration
 @ConditionalOnProperty(value = "com.ibole.aopPointcutExpression")

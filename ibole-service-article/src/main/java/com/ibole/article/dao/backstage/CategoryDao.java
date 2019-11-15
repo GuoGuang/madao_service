@@ -5,9 +5,7 @@ import com.ibole.pojo.article.Category;
 
 
 /**
- * @description 文章分类
- * @author LGG
- * @create 2018-09-26 16:21
+ * 文章分类
  **/
 
 

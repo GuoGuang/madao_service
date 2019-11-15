@@ -19,8 +19,6 @@ import java.util.stream.Collectors;
 
 /**
  * 短信登录过滤器
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 
 public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {

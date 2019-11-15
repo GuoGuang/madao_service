@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * 登录发生错误时执行
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 
 @Component

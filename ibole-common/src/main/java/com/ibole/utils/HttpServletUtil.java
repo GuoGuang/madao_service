@@ -4,8 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * HttpServlet的工具类
- * @author LGG
- * @create 2019年5月4日22:35:18
  * @version 1.0.0
  */
 public class HttpServletUtil {

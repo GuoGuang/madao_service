@@ -16,8 +16,6 @@ import java.util.List;
 
 /**
  *  文章分类
- * @author : LGG
- * @create : 2019-01-30
  **/
 @Service
 public class CategoryService {

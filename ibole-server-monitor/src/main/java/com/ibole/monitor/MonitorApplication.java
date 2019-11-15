@@ -5,8 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * AdminServer 监控平台
- * @author : LGG
- * @create : 2019-06-06 22:58
  **/
 
 @SpringBootApplication

@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * 操作日志api
- * @author : LGG
- * @create : 2018-09-27
  **/
 
 @FeignClient(value = FeignConst.SERVICE_BASE,path = "/optLog",

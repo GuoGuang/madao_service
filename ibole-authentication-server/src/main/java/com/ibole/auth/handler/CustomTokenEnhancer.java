@@ -11,8 +11,6 @@ import java.util.Map;
 
 /**
  * 自定义token携带内容  {access_token:"xxx",organization:"yyy"}
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 public class CustomTokenEnhancer implements TokenEnhancer {
 

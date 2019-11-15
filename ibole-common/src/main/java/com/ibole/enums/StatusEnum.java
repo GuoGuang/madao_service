@@ -2,8 +2,6 @@ package com.ibole.enums;
 
 /**
  * 状态码定义
- * @author : LGG
- * @create : 2018-09-26 14:34
  **/
 public enum StatusEnum {
 

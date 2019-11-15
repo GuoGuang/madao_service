@@ -15,8 +15,6 @@ import java.util.List;
 
 /**
  * 标签控制层
- * @author : LGG
- * @create : 2018-09-26 15:59
  **/
 
 @Api(tags = "标签")

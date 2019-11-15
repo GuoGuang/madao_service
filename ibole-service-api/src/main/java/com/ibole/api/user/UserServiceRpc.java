@@ -14,8 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * 用户服务api
- * @author : LGG
- * @create : 2019-06-11
  **/
 
 @FeignClient(value = FeignConst.SERVICE_USER,

@@ -19,8 +19,6 @@ import java.util.List;
 
 /**
  * 前台标签
- * @author LGG
- * @create 2018-10-13 16:39
  **/
 @Service
 public class ApiTagsService {

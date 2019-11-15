@@ -3,8 +3,6 @@ package com.ibole.constant;
 
 /**
  * 公共模块常量
- * @author LGG
- * @create 2019年4月23日22:35:18
  * @version 1.0.0
  */
 public final class CommonConst {

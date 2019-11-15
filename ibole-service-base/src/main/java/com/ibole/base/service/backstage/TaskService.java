@@ -19,8 +19,6 @@ import java.util.List;
 
 /**
  * 任务调度
- * @author : LGG
- * @create : 201-05-04
  **/
 @Service
 public class TaskService {

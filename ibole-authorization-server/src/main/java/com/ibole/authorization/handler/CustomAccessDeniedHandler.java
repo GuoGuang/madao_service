@@ -14,8 +14,6 @@ import java.io.IOException;
 
 /**
  * 无权访问
- * @author : LGG
- * @create : 2019/6/10 2:03:05
  **/
 
 @Component

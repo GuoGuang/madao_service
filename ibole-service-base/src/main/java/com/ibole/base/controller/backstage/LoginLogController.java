@@ -14,8 +14,6 @@ import java.util.List;
 
 /**
  * 登录日志
- * @author : LGG
- * @create : 2018-09-26 15:59
  **/
 
 @Api(tags = "登录日志")

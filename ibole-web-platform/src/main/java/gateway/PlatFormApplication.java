@@ -5,9 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 /**
- * @description 前台gateway服务网关
- * @author LGG
- * @create 2018-09-26 14:34
+ * 前台gateway服务网关
  **/
 
 @SpringBootApplication

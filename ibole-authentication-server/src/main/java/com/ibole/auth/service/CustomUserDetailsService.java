@@ -20,8 +20,6 @@ import java.util.List;
 /**
  * 用户信息服务
  * 实现 Spring Security的UserDetailsService接口方法，用于身份认证
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

@@ -16,8 +16,6 @@ import org.springframework.context.annotation.Configuration;
  *      易于编写谓词和过滤器
  *      请求率限制
  *      路径重写
- * @author LGG
- * @create 2018-12-26 14:34
  **/
 
 @Configuration

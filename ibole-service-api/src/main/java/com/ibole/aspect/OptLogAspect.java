@@ -30,8 +30,6 @@ import java.util.Map;
 /**
  * 操作日志切点类
  * https://blog.csdn.net/m0_37556444/article/details/83791651
- * @author : LGG
- * @create : 2018-09-27
  **/
 
 @Aspect

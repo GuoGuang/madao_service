@@ -5,8 +5,6 @@ package com.ibole.properties;
 
 /**
  * 图片验证码配置项
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 public class CaptchaProperties extends SmsCodeProperties {
 	

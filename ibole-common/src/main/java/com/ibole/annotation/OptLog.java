@@ -5,8 +5,6 @@ import java.lang.annotation.*;
 
 /**
  * 操作日志切面
- * @author : LGG
- * @create : 2019年5月4日12:22:22
  **/
 
 @Target({ElementType.METHOD,ElementType.TYPE})

@@ -8,8 +8,6 @@ import lombok.Setter;
 
 /**
  * 用户_角色中间表
- * @author : LGG
- * @create : 2019-06-04
  **/
 @ApiModel(value="UserRole", description="用户_角色中间表")
 @Getter

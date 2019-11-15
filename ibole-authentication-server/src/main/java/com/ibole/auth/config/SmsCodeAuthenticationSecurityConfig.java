@@ -26,8 +26,6 @@ import java.util.UUID;
 */
 /**
  * 短信验证码登录配置
- * @author : LGG
- * @create : 2019-06-18 14:34
  **//*
 
 @Component

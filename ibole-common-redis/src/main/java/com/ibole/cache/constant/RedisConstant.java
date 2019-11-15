@@ -1,9 +1,7 @@
 package com.ibole.cache.constant;
 
 /**
- * @description 定义redis常量
- * @author LGG
- * @create 2018-12-25
+ * 定义redis常量
  */
 public class RedisConstant {
 

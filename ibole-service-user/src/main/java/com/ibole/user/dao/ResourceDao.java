@@ -7,9 +7,7 @@ import com.ibole.pojo.user.Resource;
 import java.util.Set;
 
 /**
- * @description 资源管理
- * @author LGG
- * @create 2018-09-26 16:21
+ * 资源管理
  **/
 
 public interface ResourceDao extends BaseMapper<Resource> {

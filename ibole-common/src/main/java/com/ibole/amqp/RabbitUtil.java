@@ -10,7 +10,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 /**
  * RabbitMQ相关操作工具类
  * @author LinGuoGuang
- * @create 2019-09-19 15:56
  **/
 //@Component
 	// TODO:配置Rabbitmq HOST,POST

@@ -13,8 +13,6 @@ import org.springframework.social.security.AuthenticationNameUserIdSource;
 
 /**
  * 自定义添加连接器工厂解决Social包在SpringBoot2.x移除问题
- * @author : LGG
- * @create : 2019-07-01
  * @see https://www.jianshu.com/p/e6de152a0b4e
  * @see https://blog.csdn.net/melodykke/article/details/83862959
  **/

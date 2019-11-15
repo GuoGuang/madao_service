@@ -16,8 +16,6 @@ import java.util.List;
 
 /**
  * 音乐
- * @author LGG
- * @create 2019-09-15
  **/
 @Service
 public class MusicService {

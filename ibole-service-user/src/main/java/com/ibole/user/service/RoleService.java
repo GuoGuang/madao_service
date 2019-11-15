@@ -23,8 +23,6 @@ import java.util.List;
 
 /**
  *  角色接口实现
- * @author : LGG
- * @create : 2018-09-27
  **/
 @Service
 public class RoleService {

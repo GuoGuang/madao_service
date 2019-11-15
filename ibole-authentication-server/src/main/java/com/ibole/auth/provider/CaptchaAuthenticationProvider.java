@@ -23,8 +23,6 @@ import java.util.Collection;
 
 /**
  * 图片验证码登录验证
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 @Data
 @Component

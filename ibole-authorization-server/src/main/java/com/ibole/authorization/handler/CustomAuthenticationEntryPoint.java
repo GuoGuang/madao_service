@@ -15,8 +15,6 @@ import java.io.IOException;
 
 /**
  * 用户没有登录时返回给前端的数据
- * @author : LGG
- * @create : 2019/6/10 2:03:05
  **/
 
 @Component

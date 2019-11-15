@@ -23,8 +23,6 @@ import java.util.stream.Collectors;
 
 /**
  * 鉴权服务
- * @author : LGG
- * @create : 2019-06-12
  **/
 @Service
 public class AuthenticationService {

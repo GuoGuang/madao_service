@@ -15,8 +15,6 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * Oauth2授权服务
- * @author : LGG
- * @create : 2018-09-26 14:34
  **/
 @SpringBootApplication
 @EnableFeignClients(basePackages = "com.ibole.api")

@@ -9,8 +9,6 @@ import java.util.Collection;
 
 /**
  * 图片登录验证信息封装类
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 @Data
 public class CaptchaAuthenticationToken extends UsernamePasswordAuthenticationToken {

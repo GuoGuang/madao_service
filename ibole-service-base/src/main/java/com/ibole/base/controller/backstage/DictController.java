@@ -19,8 +19,6 @@ import java.util.List;
 
 /**
  *  字典管理
- * @author : LGG
- * @create : 2018-12-23
  **/
 
 @Api(tags = "字典")

@@ -19,8 +19,6 @@ import java.util.Set;
 
 /**
  *  资源管理
- * @author : LGG
- * @create : 2018-12-23
  **/
 
 @Api(tags = "资源")

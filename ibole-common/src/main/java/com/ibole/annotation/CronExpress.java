@@ -13,8 +13,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * CRON表达式验证注解
- * @author : LGG
- * @create : 2019年05-28
  **/
 @Target({METHOD, FIELD, ANNOTATION_TYPE})
 @Retention(RUNTIME)

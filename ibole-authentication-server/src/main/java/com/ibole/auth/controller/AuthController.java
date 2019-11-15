@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 用户登录认证
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 @RestController
 @RequestMapping("/oauth")

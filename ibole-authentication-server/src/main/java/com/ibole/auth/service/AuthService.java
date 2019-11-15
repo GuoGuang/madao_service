@@ -11,8 +11,6 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * 登录，认证
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 @Service
 public class AuthService {

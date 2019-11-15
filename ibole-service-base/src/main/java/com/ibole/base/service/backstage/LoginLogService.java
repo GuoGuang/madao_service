@@ -16,8 +16,6 @@ import java.util.List;
 
 /**
  * 登录日志
- * @author : LGG
- * @create : 2018-09-26 15:57
  **/
 @Service
 public class LoginLogService {

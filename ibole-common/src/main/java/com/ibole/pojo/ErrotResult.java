@@ -9,9 +9,7 @@ import java.io.Serializable;
 
 */
 /**
- * @description 返回异常结果类
- * @author LGG
- * @create 2019-05-27
+ * 返回异常结果类
  **//*
 
 @Getter

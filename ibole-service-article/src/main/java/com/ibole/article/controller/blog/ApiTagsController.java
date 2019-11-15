@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 前台标签管理
  * 区分前后台 uri
- * @author LGG
- * @create 2019-01-11
  **/
 
 @Api(tags = "标签")

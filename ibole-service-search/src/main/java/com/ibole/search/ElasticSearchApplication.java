@@ -8,9 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * @description 搜索服务启动类
- * @author LGG
- * @create 2018-09-26 14:34
+ * 搜索服务启动类
  **/
 
 @SpringBootApplication

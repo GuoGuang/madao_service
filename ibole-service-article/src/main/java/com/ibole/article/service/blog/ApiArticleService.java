@@ -18,8 +18,6 @@ import java.util.List;
 
 /**
  * 文章板块:文章服务
- * @author : LGG
- * @create : 2018-10-13 16:39
  **/
 @Service
 public class ApiArticleService{

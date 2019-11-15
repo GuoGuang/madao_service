@@ -16,8 +16,6 @@ import java.util.Set;
 
 /**
  * 资源接口实现
- * @author : LGG
- * @create : 2018-09-27
  **/
 @Service
 public class ResourceService{

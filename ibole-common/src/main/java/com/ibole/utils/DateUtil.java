@@ -8,8 +8,6 @@ import java.util.Date;
 
 /**
  * LocalDate LocalTime LocalDateTime日期工具类
- * @author LGG
- * @create 2019年4月20日22:35:18
  * @see https://blog.csdn.net/kingboyworld/article/details/75808108
  * @see https://www.cnblogs.com/qingyunfc/p/10236734.html
  * @version 1.0.0

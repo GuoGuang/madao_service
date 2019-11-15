@@ -16,8 +16,6 @@ import java.util.List;
 
 /**
  * 吐槽评论
- * @author LGG
- * @create 2018-09-27
  **/
 @Service
 public class TweetsCommentService {

@@ -24,8 +24,6 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 
 /**
  * WebServerSecurity配置
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 @Configuration
 @EnableWebSecurity

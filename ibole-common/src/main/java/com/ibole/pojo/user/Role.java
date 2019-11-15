@@ -12,9 +12,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @description 角色实体
- * @author LGG
- * @create 2018-09-27
+ * 角色实体
  **/
 
 @Getter

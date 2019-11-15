@@ -10,8 +10,6 @@ import java.io.IOException;
 
 
 /** 阿里云OSS对象存储
- * @author LGG
- * @create 2019年4月21日18:15:16
  **/
 @Component
 public class OssClientUtil {

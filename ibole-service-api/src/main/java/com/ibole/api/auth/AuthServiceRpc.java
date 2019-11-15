@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 鉴权服务api
- * @author : LGG
- * @create : 2019-06-12
  **/
 
 @FeignClient(value = FeignConst.SERVICE_AUTHORIZATION_AUTH,

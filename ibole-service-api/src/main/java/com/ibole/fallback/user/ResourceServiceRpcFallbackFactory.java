@@ -13,8 +13,6 @@ import java.util.List;
 
 /**
  * 接口调用失败处理
- * @author : LGG
- * @create : 2019-09-04
  **/
 
 @Component

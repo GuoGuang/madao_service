@@ -12,8 +12,6 @@ import java.io.Serializable;
 
 /**
  *  登录日志
- * @author LGG
- * @create 2018-09-27
  **/
 @Getter
 @Setter

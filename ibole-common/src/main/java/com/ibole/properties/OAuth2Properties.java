@@ -5,8 +5,6 @@ package com.ibole.properties;
 
 /**
  * OAuth2配置项
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 public class OAuth2Properties {
 	

@@ -17,8 +17,6 @@ import org.springframework.stereotype.Component;
 */
 /**
  * 图片验证码自定义配置
- * @author : LGG
- * @create : 2019-06-18 14:34
  **//*
 
 @Component

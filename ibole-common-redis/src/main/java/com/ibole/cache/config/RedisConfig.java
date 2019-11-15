@@ -13,9 +13,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
- * @description 配置SpringDataRedis
- * @author LGG
- * @create 2018-12-25
+ * 配置SpringDataRedis
  *      RedisSerializer   redis序列化的接口类
  *      OxmSerializer         xml到object的序列化/反序列化
  *      StringRedisSerializer     string字符串的序列化/反序列化

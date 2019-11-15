@@ -13,8 +13,6 @@ import java.util.List;
 */
 /**
  * 添加 SpringSecurity 依赖后，所有的地址都被 SpringSecurity 所控制
- * @author : LGG
- * @create : 2018-10-21 21:07
  * @see https://blog.csdn.net/jkjkjkll/article/details/79975975
  * @see https://blog.csdn.net/larger5/article/details/81047869
  **//*
@@ -112,8 +110,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	 *      3.认证通过，返回已认证Authentication，同样跳出AuthenticationManager。
 	 *      4.如果需要进一步认证，可返回null，跳到下一个authenticationProvider，可实现多重认证。
 	 *
-	 * @author : LGG
-	 * @create : 2019/6/10 2:03:05
 	 **//*
 
 

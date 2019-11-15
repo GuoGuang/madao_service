@@ -12,8 +12,6 @@ import java.util.Date;
 
 /**
  * 发送邮件Job
- * @author : LGG
- * @create : 2019-05-05
  **/
 @Component
 public class TestJob implements Job {

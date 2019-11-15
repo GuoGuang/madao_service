@@ -14,8 +14,6 @@ import java.util.*;
 
 /**
  * 扩展 Feign  get传输pojo
- * @author : LGG
- * @create : 2019-06-11
  * @see https://stackoverflow.com/questions/53546840/spring-cloud-openfeign-failed-to-create-dynamic-query-parameters
  **/
 @Configuration

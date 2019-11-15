@@ -10,8 +10,6 @@ import java.util.List;
 
 /**
  * 用户管理
- * @author : LGG
- * @create : 2018-09-26 16:21
  **/
 
 public interface UserDao extends BaseMapper<User> {

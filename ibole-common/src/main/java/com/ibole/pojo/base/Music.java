@@ -11,8 +11,6 @@ import java.io.Serializable;
 
 /**
  * 音乐实体
- * @author LGG
- * @create 2019-09-15
  **/
 
 @Getter

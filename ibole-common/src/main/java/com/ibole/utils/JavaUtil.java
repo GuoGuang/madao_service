@@ -7,8 +7,6 @@ import java.util.List;
 
 /**
  * java原生 工具类
- * @author LGG
- * @create 2019年4月20日22:35:18
  * @version 1.0.0
  */
 public class JavaUtil {

@@ -8,8 +8,6 @@ import lombok.Setter;
 
 /**
  * 角色_资源中间表
- * @author : LGG
- * @create : 2019-06-04
  **/
 @ApiModel(value="RoleResource", description="角色_资源中间表")
 @Getter

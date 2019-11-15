@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ibole.pojo.tweets.Tweets;
 
 /**
- * @description dao
- * @author LGG
- * @create 2018-09-26 16:21
+ * dao
  **/
 
 public interface TweetsDao extends BaseMapper<Tweets> {

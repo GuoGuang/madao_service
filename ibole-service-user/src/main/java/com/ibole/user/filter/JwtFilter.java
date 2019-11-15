@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 鉴权拦截器
- * @author : LGG
- * @create : 2018-10-24 20:38
  **/
 public class JwtFilter extends HandlerInterceptorAdapter {
 

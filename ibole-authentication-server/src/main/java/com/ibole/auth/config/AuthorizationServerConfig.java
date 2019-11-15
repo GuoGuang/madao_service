@@ -31,8 +31,6 @@ import java.util.Arrays;
 
 /**
  * Oauth2认证配置
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 @Configuration
 @EnableAuthorizationServer

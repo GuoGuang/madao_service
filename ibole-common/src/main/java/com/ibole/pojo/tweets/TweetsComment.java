@@ -14,8 +14,6 @@ import java.io.Serializable;
 
 /**
  * 吐槽，评论表
- * @author LGG
- * @create 2019-05-23
  **/
 @ApiModel(value="TweetsComment", description="吐槽，评论表")
 @Getter

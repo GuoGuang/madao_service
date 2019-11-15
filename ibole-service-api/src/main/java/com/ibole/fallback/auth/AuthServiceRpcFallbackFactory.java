@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 /**
  * 接口调用失败处理
  *
- * @author : LGG
- * @create : 2019-06-12
  **/
 
 @Component

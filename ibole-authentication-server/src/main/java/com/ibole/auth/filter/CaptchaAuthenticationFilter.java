@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 
 /**
  * 自定义图片验证码登录
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 public class CaptchaAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 	// 是否开启验证码功能

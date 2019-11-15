@@ -7,9 +7,7 @@ import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Article;
 
 /**
- * @description 文章数据处理层
- * @author LGG
- * @create 2018-09-26 16:21
+ * 文章数据处理层
  **/
 
 

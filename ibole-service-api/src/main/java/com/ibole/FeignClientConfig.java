@@ -16,7 +16,6 @@ import java.io.IOException;
 
 /**
  * Feign调用配置
- * @author : LGG
  **/
 @Configuration
 public class FeignClientConfig  { // implements feign.codec.ErrorDecoder

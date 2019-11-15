@@ -12,7 +12,6 @@ import java.io.Serializable;
 
 /***
  * 文章分类
- * @author LGG
  */
 
 @Getter

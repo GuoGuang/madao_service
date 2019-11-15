@@ -3,8 +3,6 @@ package com.ibole.constant;
 
 /**
  * 定义一组Feign常量;
- * @author : LGG
- * @create : 2019-05-04 14:57
  **/
 public final class FeignConst {
 

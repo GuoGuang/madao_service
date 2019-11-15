@@ -29,8 +29,6 @@ import java.util.List;
  *      3.认证通过，返回已认证Authentication，同样跳出AuthenticationManager。
  *      4.如果需要进一步认证，可返回null，跳到下一个authenticationProvider，可实现多重认证。
  *
- * @author : LGG
- * @create : 2019/6/10 2:03:05
  **//*
 
 

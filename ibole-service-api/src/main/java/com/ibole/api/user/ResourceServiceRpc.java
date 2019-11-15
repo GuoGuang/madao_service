@@ -13,8 +13,6 @@ import java.util.List;
 
 /**
  * 资源服务api
- * @author : LGG
- * @create : 2019-09-03
  **/
 
 @FeignClient(value = FeignConst.SERVICE_USER,

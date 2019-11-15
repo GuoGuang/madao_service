@@ -8,8 +8,6 @@ import java.util.List;
 
 /**
  * 角色管理
- * @author : LGG
- * @create : 2019-06-04 16:21
  **/
 
 public interface RoleDao extends BaseMapper<Role> {

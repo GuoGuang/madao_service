@@ -14,8 +14,6 @@ import java.util.List;
 
 /**
  * 文章的评论服务
- * @author : LGG
- * @create : 2018-10-13 16:39
  **/
 
 @Service

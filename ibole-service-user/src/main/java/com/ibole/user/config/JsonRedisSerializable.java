@@ -12,8 +12,7 @@ import java.net.UnknownHostException;
 
 */
 /**
- * @description 配置自定义Json序列化器
- * @author LGG
+ * 配置自定义Json序列化器
  **//*
 
 @Configuration

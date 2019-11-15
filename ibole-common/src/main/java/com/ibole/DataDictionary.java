@@ -4,9 +4,7 @@ import java.io.Serializable;
 
 /**
  * TODO 后面放在数据库中进行维护
- * @description 数据字典
- * @author LGG
- * @create 28-February-2019
+ * 数据字典
  **/
 
 public class DataDictionary implements Serializable {

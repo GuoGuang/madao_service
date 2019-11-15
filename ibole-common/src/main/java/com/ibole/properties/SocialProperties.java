@@ -7,8 +7,6 @@ import lombok.Data;
 
 /**
  * 社交登录配置项
- * @author : LGG
- * @create : 2019-06-18 14:34
  **/
 @Data
 public class SocialProperties {
