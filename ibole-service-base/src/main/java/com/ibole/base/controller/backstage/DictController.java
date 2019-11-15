@@ -44,7 +44,7 @@ public class DictController {
 	@GetMapping
 	public JsonData findResByCondition(Dict dict, QueryVO queryVO) {
 		IPage<Dict> resData = dictService.findDictByCondition(dict,queryVO);
-		return new JsonData<IPage>(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), resData);
+		return JsonData.success(resData);
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class DictController {
 	@GetMapping("/type")
 	public JsonData fetchDictType(Dict dict) {
 		List<Dict> dictTypes = dictService.fetchDictType(dict);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), dictTypes);
+		return JsonData.success(dictTypes);
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class DictController {
 	@GetMapping("/tree")
 	public JsonData fetchDictTreeList(Dict dict) {
 		List<Dict> dictTypes = dictService.fetchDictTreeList(dict);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), dictTypes);
+		return JsonData.success(dictTypes);
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class DictController {
 	@GetMapping(value = "/{dictId}")
 	public JsonData findById(@PathVariable String dictId) {
 		Dict resData = dictService.findDictById(dictId);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), resData);
+		return JsonData.success(resData);
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class DictController {
 	@OptLog(operationType= CommonConst.MODIFY,operationName="更新字典项")
 	public JsonData updateByPrimaryKey(@RequestBody @Valid Dict dict) {
 		boolean state = dictService.updateByPrimaryKey(dict);
-		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+		return JsonData.success(state);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class DictController {
 		dict.setCreateAt(DateUtil.getTimestamp());
 		dict.setUpdateAt(DateUtil.getTimestamp());
 		boolean state = dictService.insertDictSelective(dict);
-		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+		return JsonData.success(state);
 	}
 
 	/**
@@ -116,6 +116,6 @@ public class DictController {
 	@OptLog(operationType= CommonConst.DELETE,operationName="删除字典项")
 	public JsonData deleteByIds(@RequestBody List<String> resId) {
 		boolean state = dictService.deleteDictByIds(resId);
-		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+		return JsonData.success(state);
 	}
 }
