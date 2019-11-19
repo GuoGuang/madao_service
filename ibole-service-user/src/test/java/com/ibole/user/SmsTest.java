@@ -26,11 +26,14 @@ public class SmsTest {
 	@Test
 	public void sendSms(){
 		try {
-			 smsUtil.sendSms("15866534150", "SMS_168587174", "探索云",
-					"{'code':'66666'}");
+			 smsUtil.sendSms("18901607027",
+					  "SMS_168587174",
+					 	 "探索云",
+							"{'code':'66666'}");
 		} catch (ClientException e) {
 			e.printStackTrace();
 		}
 
 	}
+
 }

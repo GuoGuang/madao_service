@@ -1,7 +1,7 @@
 package com.ibole.authorization.service;
 
 import com.ibole.api.user.ResourceServiceRpc;
-import com.ibole.authorization.exception.RemoteRpcException;
+import com.ibole.exception.custom.RemoteRpcException;
 import com.ibole.pojo.user.Resource;
 import com.ibole.utils.JsonData;
 import org.springframework.beans.factory.annotation.Autowired;

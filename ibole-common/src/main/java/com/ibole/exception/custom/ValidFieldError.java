@@ -1,4 +1,4 @@
-package com.ibole.customexception;
+package com.ibole.exception.custom;
 
 import org.springframework.validation.FieldError;
 

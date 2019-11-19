@@ -1,6 +1,6 @@
 package com.ibole.auth.validate;
 
-import com.ibole.auth.exception.ValidateCodeException;
+import com.ibole.exception.custom.ValidateCodeException;
 import com.ibole.properties.SecurityProperties;
 import com.ibole.utils.HttpHelper;
 import org.apache.commons.lang.StringUtils;
