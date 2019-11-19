@@ -1,13 +1,14 @@
-package com.ibole.auth.exception;
+package com.ibole.exception;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.netflix.client.ClientException;
-import com.ibole.RemoteRpcException;
-import com.ibole.customexception.ParamException;
-import com.ibole.customexception.ValidFieldError;
+import com.ibole.exception.custom.RemoteRpcException;
+import com.ibole.exception.custom.ParamException;
+import com.ibole.exception.custom.ValidFieldError;
 import com.ibole.enums.StatusEnum;
+import com.ibole.exception.custom.ValidateCodeException;
 import com.ibole.utils.JsonData;
 import com.ibole.utils.LogBack;
+import com.netflix.client.ClientException;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -18,17 +19,17 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import javax.validation.UnexpectedTypeException;
+import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 统一异常处理类
+ * 统一系统异常处理类
  **/
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class SystemExceptionHandler {
 
 	/**
 	 * 参数不合法错误
@@ -38,17 +39,6 @@ public class GlobalExceptionHandler {
 	public JsonData illegalArgumentException(IllegalArgumentException ex) {
 		LogBack.error(ex.getMessage(),ex);
 		return new JsonData(StatusEnum.PARAM_ILLEGAL);
-	}
-
-	/**
-	 * 远程RPC调用异常
-	 * @param ex IllegalArgumentException
-	 */
-	@ExceptionHandler(RemoteRpcException.class)
-	public JsonData remoteRpcException(RemoteRpcException ex) {
-		String message = ex.getMessage();
-		LogBack.error(ex.getMessage(),ex);
-		return new JsonData(StatusEnum.RPC_ERROR);
 	}
 
 	/**
@@ -70,15 +60,6 @@ public class GlobalExceptionHandler {
 		LogBack.error(ex.getMessage(),ex);
 		return new JsonData(StatusEnum.REQUEST_ERROR);
 	}
-	/**
-	 * ValidateCodeException
-	 * @param ex ValidateCodeException
-	 */
-	@ExceptionHandler(ValidateCodeException.class)
-	public JsonData validateCodeException(ValidateCodeException ex) {
-		LogBack.error(ex.getMessage(),ex);
-		return new JsonData(StatusEnum.PARAM_ILLEGAL);
-	}
 
 	/**
 	 * JSR303参数校验错误
@@ -98,7 +79,7 @@ public class GlobalExceptionHandler {
 				}
 			}
 			LogBack.error("参数校验错误："+validList.toString(),ex);
-			return new JsonData(false,30000,"参数校验错误",validList.toString());
+            return new JsonData(false, StatusEnum.PARAM_INVALID, validList.toString());
 		}
 		return new JsonData(StatusEnum.PARAM_INVALID);
 	}
@@ -114,6 +95,29 @@ public class GlobalExceptionHandler {
 		return new JsonData(StatusEnum.PARAM_ILLEGAL);
 	}
 
+    /**
+     * 远程RPC调用异常
+     *
+     * @param ex IllegalArgumentException
+     */
+    @ExceptionHandler(RemoteRpcException.class)
+    public JsonData remoteRpcException(RemoteRpcException ex) {
+        String message = ex.getMessage();
+        LogBack.error(ex.getMessage(), ex);
+        return new JsonData(StatusEnum.RPC_ERROR);
+    }
+
+    /**
+     * url未在资源池中
+     *
+     * @param ex AccessDeniedException
+     */
+    @ExceptionHandler(AccessDeniedException.class)
+    public JsonData missingServletRequestParameterException(AccessDeniedException ex) {
+        LogBack.error(ex.getMessage(), ex);
+        return new JsonData(StatusEnum.ACCESS_DENIED);
+    }
+
 	/**
 	 * JWT失效异常
 	 * @param ex Exception
@@ -125,24 +129,25 @@ public class GlobalExceptionHandler {
 	}
 
 	/**
-	 * 超出文件大小限制异常
-	 * @param ex Exception
-	 */
-	@ExceptionHandler(MaxUploadSizeExceededException.class)
-	public JsonData maxUploadSizeExceededException(MaxUploadSizeExceededException ex) {
-		LogBack.error(ex.getMessage(),ex);
-		return new JsonData(StatusEnum.EXCEEDED_FILE_SIZE_LIMIT);
-	}
-
-	/**
 	 * Load balancer does not have available server for client
 	 * @param ex Exception
 	 */
 	@ExceptionHandler(ClientException.class)
-	public JsonData clientException(ClientException ex) {
-		LogBack.error(ex.getMessage(),ex);
-		return new JsonData(StatusEnum.SERVICE_OFF);
-	}
+    public JsonData clientException(ClientException ex) {
+        LogBack.error(ex.getMessage(),ex);
+        return new JsonData(StatusEnum.SERVICE_OFF);
+    }
+
+    /**
+     * ValidateCodeException
+     *
+     * @param ex ValidateCodeException
+     */
+    @ExceptionHandler(ValidateCodeException.class)
+    public JsonData validateCodeException(ValidateCodeException ex) {
+        LogBack.error(ex.getMessage(), ex);
+        return new JsonData(StatusEnum.PARAM_ILLEGAL);
+    }
 
 	/**
 	 * 其他异常

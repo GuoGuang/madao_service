@@ -1,4 +1,4 @@
-package com.ibole;
+package com.ibole.exception.custom;
 
 import com.ibole.utils.JsonData;
 import com.ibole.utils.JsonUtil;
