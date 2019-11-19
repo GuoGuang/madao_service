@@ -1,7 +1,7 @@
 package com.ibole.gateway.service;
 
 
-import com.ibole.RemoteRpcException;
+import com.ibole.exception.custom.RemoteRpcException;
 import com.ibole.api.auth.AuthServiceRpc;
 import com.ibole.cache.redis.RedisService;
 import com.ibole.pojo.user.AuthToken;
