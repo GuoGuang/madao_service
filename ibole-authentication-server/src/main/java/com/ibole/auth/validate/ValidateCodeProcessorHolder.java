@@ -1,6 +1,6 @@
 package com.ibole.auth.validate;
 
-import com.ibole.exception.custom.ValidateCodeException;
+import com.ibole.auth.exception.ValidateCodeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

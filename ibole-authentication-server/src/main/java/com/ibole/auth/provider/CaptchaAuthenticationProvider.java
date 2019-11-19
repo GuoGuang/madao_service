@@ -3,7 +3,7 @@ package com.ibole.auth.provider;
 import com.ibole.auth.service.CustomUserDetailsService;
 import com.ibole.auth.token.CaptchaAuthenticationToken;
 import com.ibole.cache.redis.RedisService;
-import com.ibole.exception.custom.ValidateCodeException;
+import com.ibole.auth.exception.ValidateCodeException;
 import com.ibole.pojo.user.User;
 import com.ibole.utils.JsonUtil;
 import lombok.Data;
