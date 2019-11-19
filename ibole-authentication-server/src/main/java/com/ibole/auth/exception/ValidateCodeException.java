@@ -1,4 +1,4 @@
-package com.ibole.exception.custom;
+package com.ibole.auth.exception;
 
 import org.springframework.security.core.AuthenticationException;
 

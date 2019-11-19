@@ -5,7 +5,6 @@ import com.ibole.exception.custom.RemoteRpcException;
 import com.ibole.exception.custom.ParamException;
 import com.ibole.exception.custom.ValidFieldError;
 import com.ibole.enums.StatusEnum;
-import com.ibole.exception.custom.ValidateCodeException;
 import com.ibole.utils.JsonData;
 import com.ibole.utils.LogBack;
 import com.netflix.client.ClientException;
@@ -136,17 +135,6 @@ public class SystemExceptionHandler {
     public JsonData clientException(ClientException ex) {
         LogBack.error(ex.getMessage(),ex);
         return new JsonData(StatusEnum.SERVICE_OFF);
-    }
-
-    /**
-     * ValidateCodeException
-     *
-     * @param ex ValidateCodeException
-     */
-    @ExceptionHandler(ValidateCodeException.class)
-    public JsonData validateCodeException(ValidateCodeException ex) {
-        LogBack.error(ex.getMessage(), ex);
-        return new JsonData(StatusEnum.PARAM_ILLEGAL);
     }
 
 	/**

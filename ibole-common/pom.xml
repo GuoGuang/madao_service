@@ -32,12 +32,6 @@
             <artifactId>spring-security-jwt</artifactId>
             <version>RELEASE</version>
         </dependency>
-        <!--oauth2认证 仅作用于当前jar 解决common包AuthenticationException找不到异常-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-security</artifactId>
-            <optional>true</optional>
-        </dependency>
         <!-- 测试 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
