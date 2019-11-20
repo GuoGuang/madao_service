@@ -2,9 +2,10 @@ package com.ibole.auth.provider;
 
 import com.ibole.auth.service.CustomUserDetailsService;
 import com.ibole.auth.token.CaptchaAuthenticationToken;
-import com.ibole.cache.redis.RedisService;
+import com.ibole.db.redis.service.RedisService;
 import com.ibole.auth.exception.ValidateCodeException;
 import com.ibole.pojo.user.User;
+import com.ibole.db.redis.service.RedisService;
 import com.ibole.utils.JsonUtil;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;

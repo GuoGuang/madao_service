@@ -1,6 +1,7 @@
 package com.ibole.user;
 
-import com.ibole.cache.redis.RedisService;
+import com.ibole.db.redis.service.RedisService;
+import com.ibole.db.redis.service.RedisService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

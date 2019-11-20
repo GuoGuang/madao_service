@@ -3,8 +3,9 @@ package com.ibole.user;
 import com.aliyun.oss.HttpMethod;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.PutObjectResult;
-import com.ibole.cache.redis.RedisService;
+import com.ibole.db.redis.service.RedisService;
 import com.ibole.pojo.user.User;
+import com.ibole.db.redis.service.RedisService;
 import com.ibole.user.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -98,7 +99,7 @@ public class UserServiceTest {
 	private RedisTemplate redisTemplate;
 	@Test
 	public void testSpringDataRedis(){
-		 redisService.set("stringK","stringV",10); // string
+		redisService.set("stringK", "stringV", 10000); // string
 		// redisService.lSet("listK",Arrays.asList("王","赵"));
 //		Object user_token1353259235236756534 = redisService.get("USER_TOKEN1353259235236756534");
 //		Object userToken = redisTemplate.opsForValue().get("USER_TOKEN1353259235236756534");

@@ -3,7 +3,7 @@ package com.ibole.user;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ibole.cache.redis.RedisService;
+com.ibole.redis.RedisService
 import com.ibole.utils.JsonUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;

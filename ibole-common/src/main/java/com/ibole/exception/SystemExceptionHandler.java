@@ -8,6 +8,7 @@ import com.ibole.enums.StatusEnum;
 import com.ibole.utils.JsonData;
 import com.ibole.utils.LogBack;
 import com.netflix.client.ClientException;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.Servlet;
 import javax.validation.UnexpectedTypeException;
 import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ import java.util.List;
 /**
  * 统一系统异常处理类
  **/
+@ConditionalOnBean(Servlet.class)
 @RestControllerAdvice
 public class SystemExceptionHandler {
 
