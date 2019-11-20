@@ -161,8 +161,7 @@
 
                <modules>
                    <module>../ibole-common</module>
-                   <module>../ibole-common-redis</module>
-                   <module>../ibole-database-mybatis</module>
+                   <module>../ibole-common-db</module>
                    <module>../ibole-server-eureka</module>
                    <module>../ibole-server-config</module>
                    <module>../ibole-server-monitor</module>

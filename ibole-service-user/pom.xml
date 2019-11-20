@@ -20,13 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>com.ibole</groupId>
-            <artifactId>ibole-database-mybatis</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ibole</groupId>
-            <artifactId>ibole-common-redis</artifactId>
+            <artifactId>ibole-common-db</artifactId>
             <version>1.0.0</version>
         </dependency>
 
