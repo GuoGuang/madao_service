@@ -5,6 +5,7 @@ package com.ibole.auth.validate;
 
 import com.ibole.auth.validate.impl.ValidateCodeGenerator;
 import com.ibole.auth.validate.impl.captcha.CaptchaValidateCodeGenerator;
+import com.ibole.auth.validate.impl.sms.AliSmsCodeSender;
 import com.ibole.auth.validate.impl.sms.DefaultSmsCodeSender;
 import com.ibole.auth.validate.impl.sms.SmsCodeSender;
 import com.ibole.properties.SecurityProperties;
@@ -39,7 +40,17 @@ public class ValidateCodeBeanConfig {
 	}
 	
 	/**
+	 * 阿里短信验证码发送器
+	 */
+	@Bean
+	@ConditionalOnMissingBean(SmsCodeSender.class)
+	public SmsCodeSender aliSmsCodeSender() {
+		return new AliSmsCodeSender();
+	}
+
+	/**
 	 * 短信验证码发送器
+	 *
 	 * @return
 	 */
 	@Bean
