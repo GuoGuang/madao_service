@@ -16,8 +16,6 @@ import java.util.Map;
  **/
 
 @Component
-//@RabbitListener(queues = "sms")
-@ConditionalOnProperty(value = "aliyun.sms")
 public class SmsListener {
 
 	@Autowired

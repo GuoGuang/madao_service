@@ -29,7 +29,6 @@ import java.util.List;
 /**
  * 统一系统异常处理类
  **/
-@ConditionalOnBean(Servlet.class)
 @RestControllerAdvice
 public class SystemExceptionHandler {
 
