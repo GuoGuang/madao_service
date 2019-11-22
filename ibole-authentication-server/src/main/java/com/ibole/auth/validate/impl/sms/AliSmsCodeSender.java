@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class AliSmsCodeSender implements SmsCodeSender {
 
-    @Autowired
-    RabbitUtil rabbitUtil;
+   // @Autowired
+    //RabbitUtil rabbitUtil;
 
     @Override
     public void send(String phone, String code) {
