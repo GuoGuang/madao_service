@@ -46,6 +46,15 @@ public class JsonData<T> implements Serializable {
 	public static JsonData success(Object data) {
 		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),data);
 	}
+	public JsonData ok() {
+		this.status = true;
+		this.code = StatusEnum.OK.getCode();
+		this.message = StatusEnum.OK.getMsg();
+		return new JsonData();
+	}
+	public static JsonData body(Object data) {
+		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),data);
+	}
 	public static JsonData error(Boolean isSuccess) {
 		return new JsonData(isSuccess, StatusEnum.ERROR.getCode(), StatusEnum.ERROR.getMsg(),null);
 	}
