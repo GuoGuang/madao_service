@@ -3,7 +3,7 @@ package com.ibole.user.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ibole.annotation.OptLog;
 import com.ibole.constant.CommonConst;
-import com.ibole.customexception.ParamException;
+import com.ibole.exception.custom.ParamException;
 import com.ibole.enums.StatusEnum;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.user.Role;

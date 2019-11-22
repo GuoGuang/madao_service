@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.ibole.auth.validate;
 
 import com.ibole.auth.exception.ValidateCodeException;

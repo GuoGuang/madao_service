@@ -22,12 +22,16 @@
     <dependencies>
         <dependency>
             <groupId>com.ibole</groupId>
-            <artifactId>ibole-common</artifactId>
+            <artifactId>ibole-common-db</artifactId>
             <version>1.0.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.baomidou</groupId>
                     <artifactId>mybatis-plus-boot-starter</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -38,11 +42,6 @@
                     <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.ibole</groupId>
-            <artifactId>ibole-common-redis</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <dependency>
@@ -70,6 +69,7 @@
         </dependency>-->
     </dependencies>
 
+
     <build>
         <plugins>
             <plugin>
@@ -93,5 +93,6 @@
                 </configuration>
             </plugin>
         </plugins>
+
     </build>
 </project>

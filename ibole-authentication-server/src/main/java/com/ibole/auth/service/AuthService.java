@@ -1,7 +1,8 @@
 package com.ibole.auth.service;
 
 import com.ibole.api.base.LoginLogServiceRpc;
-import com.ibole.cache.redis.RedisService;
+import com.ibole.db.redis.service.RedisService;
+import com.ibole.db.redis.service.RedisService;
 import com.ibole.utils.security.JWTAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

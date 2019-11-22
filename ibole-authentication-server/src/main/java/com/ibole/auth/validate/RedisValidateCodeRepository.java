@@ -1,8 +1,8 @@
 package com.ibole.auth.validate;
 
-import com.ibole.auth.exception.ValidateCodeException;
 import com.ibole.auth.validate.impl.ValidateCode;
-import com.ibole.cache.redis.RedisService;
+import com.ibole.db.redis.service.RedisService;
+import com.ibole.auth.exception.ValidateCodeException;
 import com.ibole.utils.JsonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
