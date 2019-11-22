@@ -17,6 +17,7 @@ import java.util.Map;
  **/
 
 @Component
+@ConditionalOnProperty(value = "aliyun.sms")
 public class SmsListener {
 
     @Autowired(required = false)
