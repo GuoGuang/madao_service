@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Date;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SaArticleServiceTest {
@@ -17,6 +19,7 @@ public class SaArticleServiceTest {
 
 	@Test
 	public void test1(){
+		System.out.println(new Date());
 
 		//Article articleRedis = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + 1125034705563664386L);
 		//System.out.println(articleRedis);

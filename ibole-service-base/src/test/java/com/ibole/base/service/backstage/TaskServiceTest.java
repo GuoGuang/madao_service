@@ -1,9 +1,8 @@
-package com.ibole.base;
+package com.ibole.base.service.backstage;
 
-import com.ibole.base.service.backstage.DictService;
-import com.ibole.base.service.backstage.TaskService;
 import com.ibole.pojo.QuartzJob;
 import com.ibole.pojo.base.Dict;
+import com.ibole.utils.IdGenerate;
 import com.ibole.utils.JsonUtil;
 import com.ibole.utils.QuartzUtil;
 import org.junit.Test;
