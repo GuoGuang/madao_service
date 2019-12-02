@@ -24,14 +24,13 @@ import java.util.Map;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class TransactionConfig {
 
-    private static final int TX_METHOD_TIMEOUT = 5;
+    private static final int TX_METHOD_TIMEOUT = 10;
 
     @Value("${com.ibole.aopPointcutExpression}")
     private String aopPointcutExpression;
 
     /**
      * 配置事务拦截类型
-     *
      * @return TransactionAttributeSource
      */
     @Bean("txSource")
@@ -41,7 +40,8 @@ public class TransactionConfig {
         RuleBasedTransactionAttribute readOnlyTx = new RuleBasedTransactionAttribute();
         readOnlyTx.setReadOnly(true);
         readOnlyTx.setPropagationBehavior(TransactionDefinition.PROPAGATION_NOT_SUPPORTED);
-        RuleBasedTransactionAttribute requiredTx = new RuleBasedTransactionAttribute(TransactionDefinition.PROPAGATION_REQUIRED,
+        RuleBasedTransactionAttribute requiredTx = new RuleBasedTransactionAttribute(
+                TransactionDefinition.PROPAGATION_REQUIRED,
                 Collections.singletonList(new RollbackRuleAttribute(Exception.class)));
         requiredTx.setTimeout(TX_METHOD_TIMEOUT);
         Map<String, TransactionAttribute> txMap = new HashMap<>(9);
@@ -54,7 +54,6 @@ public class TransactionConfig {
         txMap.put("find*", readOnlyTx);
         txMap.put("query*", readOnlyTx);
         source.setNameMap(txMap);
-
         return source;
     }
 
@@ -71,7 +70,6 @@ public class TransactionConfig {
 
     /**
      * 事务拦截器
-     *
      * @param tx:注入的事务管理器
      * @return TransactionInterceptor
      */
