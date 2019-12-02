@@ -22,12 +22,12 @@ public class QuartzJob extends BasePojo implements Serializable {
 	@TableId(type = IdType.ID_WORKER_STR)
 	private String id;
 
-	@NotNull(message="类名不能为空")
-	@Pattern(regexp="([a-zA-Z0-9\u4E00-\u9FA5]{2,10})",message="必须是2到10位(字母，数字)名称！")
+	@NotNull(message = "类名不能为空")
+	@Pattern(regexp = "([a-zA-Z0-9\u4E00-\u9FA5]{2,10})", message = "必须是2到10位(字母，数字)名称！")
 	private String className; // 任务执行时调用哪个类的方法 包名+类名，完全限定名
 
-	@NotNull(message="CRON 表达式不能为空")
-	@CronExpress
+	@NotNull(message = "CRON 表达式不能为空")
+	@CronExpress(message = "测试正则 ")
 	private String cronExpression; // cron 表达式
 
 	@NotNull(message="任务名称不能为空")
