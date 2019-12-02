@@ -1,10 +1,8 @@
 package com.ibole.article.dao.blog;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Tags;
-
-import java.util.ArrayList;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 
 /**
@@ -12,8 +10,8 @@ import java.util.ArrayList;
  **/
 
 
-public interface ApiTagsDao extends BaseMapper<Tags> {
+public interface ApiTagsDao extends JpaRepository<Tags, Long>, JpaSpecificationExecutor<Tags> {
 
 
-	ArrayList<Tags> findTagsByCondition(QueryVO queryVO);
+//	ArrayList<Tags> findTagsByCondition(QueryVO queryVO);
 }

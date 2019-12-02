@@ -1,13 +1,13 @@
 package com.ibole.base.controller.backstage;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ibole.base.service.backstage.LoginLogService;
-import com.ibole.enums.StatusEnum;
+import com.ibole.config.CustomPageRequest;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.base.LoginLog;
 import com.ibole.utils.JsonData;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,24 +30,28 @@ public class LoginLogController {
 
 	/**
 	 * 按照条件查询全部列表
+	 *
 	 * @return Result
 	 */
 	@GetMapping
-	public JsonData findLoginLogByCondition(LoginLog loginLog, QueryVO queryVO){
-		IPage<LoginLog> result = loginLogService.findLoginLogByCondition(loginLog,queryVO);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), result);
+	public JsonData findLoginLogByCondition(LoginLog loginLog, QueryVO queryVO,
+											@RequestParam(name = "pageNum", defaultValue = "0") Integer pageNumber, @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
+		queryVO.setPageable(new CustomPageRequest(pageNumber, pageSize));
+		Page<LoginLog> result = loginLogService.findLoginLogByCondition(loginLog, queryVO);
+		return JsonData.success(result);
 
 	}
 
 	/**
 	 * 根据ID查询登录日志
+	 *
 	 * @param id
 	 * @return Result
 	 */
-	@GetMapping(value="/{id}")
-	public JsonData findLoginLogByPrimaryKey(@PathVariable String id){
-		LoginLog loginLog = loginLogService.findLoginLogByPrimaryKey(id);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),loginLog);
+	@GetMapping(value = "/{id}")
+	public JsonData findById(@PathVariable String id) {
+		LoginLog result = loginLogService.findById(id);
+		return JsonData.success(result);
 	}
 
 	/**
@@ -56,9 +60,9 @@ public class LoginLogController {
 	 * @return JsonData
 	 */
 	@PostMapping()
-	public JsonData insertLoginLog(@RequestBody LoginLog loginLog){
-		loginLogService.insertLoginLog(loginLog);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+	public JsonData insertLoginLog(@RequestBody LoginLog loginLog) {
+		loginLogService.save(loginLog);
+		return JsonData.success();
 	}
 
 
@@ -68,8 +72,8 @@ public class LoginLogController {
 	 * @return JsonData
 	 */
 	@DeleteMapping
-	public JsonData deleteById(@RequestBody List<String> loginLogIds){
-		loginLogService.deleteById(loginLogIds);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+	public JsonData deleteById(@RequestBody List<String> loginLogIds) {
+		loginLogService.deleteBatch(loginLogIds);
+		return JsonData.success();
 	}
 }

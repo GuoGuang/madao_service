@@ -1,9 +1,8 @@
 package com.ibole.user.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ibole.annotation.OptLog;
+import com.ibole.config.CustomPageRequest;
 import com.ibole.constant.CommonConst;
-import com.ibole.enums.StatusEnum;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.user.Role;
 import com.ibole.pojo.user.User;
@@ -11,6 +10,7 @@ import com.ibole.user.service.RoleService;
 import com.ibole.utils.JsonData;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,13 +34,16 @@ public class RoleController {
 
 	/**
 	 * 条件查询角色
+	 *
 	 * @param role 查询参数
 	 * @return JsonData
 	 */
 	@GetMapping
-	public JsonData findRuleByCondition(Role role, QueryVO queryVO ) {
-		IPage<Role> ruleData = roleService.findRuleByCondition(role,queryVO);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), ruleData);
+	public JsonData findRuleByCondition(Role role, QueryVO queryVO,
+										@RequestParam(name = "pageNum", defaultValue = "0") Integer pageNumber, @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
+		queryVO.setPageable(new CustomPageRequest(pageNumber, pageSize));
+		Page<Role> result = roleService.findRuleByCondition(role, queryVO);
+		return JsonData.success(result);
 	}
 
 	/**
@@ -49,9 +52,9 @@ public class RoleController {
 	 * @return JsonData
 	 */
 	@GetMapping("/user")
-	public JsonData fetchUsersList(Role role ) {
-		List<User> ruleData = roleService.findUsersOfRole(role);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), ruleData);
+	public JsonData fetchUsersList(Role role) {
+		List<User> result = roleService.findUsersOfRole(role);
+		return JsonData.success(result);
 	}
 
 	/**
@@ -61,8 +64,8 @@ public class RoleController {
 	 */
 	@GetMapping("/{roleId}")
 	public JsonData findRoleById(@PathVariable String roleId) {
-		Role ruleData = roleService.findRoleById(roleId);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), ruleData);
+		Role result = roleService.findRoleById(roleId);
+		return JsonData.success(result);
 	}
 
 	/**
@@ -73,8 +76,8 @@ public class RoleController {
 	@PostMapping
 	@OptLog(operationType= CommonConst.MODIFY,operationName="添加一个角色")
 	public JsonData insertSelective(@RequestBody @Valid Role role) {
-		boolean state = roleService.insertSelective(role);
-		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+		roleService.saveOrUpdate(role);
+		return JsonData.success();
 	}
 
 	/**
@@ -85,8 +88,8 @@ public class RoleController {
 	@PutMapping()
 	@OptLog(operationType= CommonConst.MODIFY,operationName="更新角色")
 	public JsonData updateByPrimaryKey(@RequestBody @Valid Role role) {
-		boolean state = roleService.updateByPrimaryKey(role);
-		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+		roleService.saveOrUpdate(role);
+		return JsonData.success();
 	}
 
 	/**
@@ -97,7 +100,7 @@ public class RoleController {
 	@DeleteMapping
 	@OptLog(operationType= CommonConst.DELETE,operationName="删除角色")
 	public JsonData deleteByIds(@RequestBody List<String> roleId) {
-		boolean state = roleService.deleteByIds(roleId);
-		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+		roleService.deleteByIds(roleId);
+		return JsonData.success();
 	}
 }

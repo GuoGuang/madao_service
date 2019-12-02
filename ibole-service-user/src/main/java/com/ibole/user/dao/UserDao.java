@@ -1,31 +1,24 @@
 package com.ibole.user.dao;
 
-
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ibole.pojo.user.Resource;
-import com.ibole.pojo.user.Role;
 import com.ibole.pojo.user.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 用户管理
  **/
 
-public interface UserDao extends BaseMapper<User> {
+public interface UserDao extends JpaRepository<User, String>, JpaSpecificationExecutor<User> {
 
 
-	/**
-	 * 查询当前用户的角色
-	 * @param id 用户id
-	 * @return 角色数组
-	 */
-	List<Role> findRolesOfUser(String id);
+	@Modifying
+	@Query("delete from User where id in (:ids)")
+	void deleteBatch(List<String> ids);
 
-	/**
-	 * 查询当前用户的资源列表
-	 * @param id 用户id
-	 * @return 角色数组
-	 */
-	List<Resource> findResourcesOfUser(String userId);
+	Optional<User> findByAccount(String account);
 }

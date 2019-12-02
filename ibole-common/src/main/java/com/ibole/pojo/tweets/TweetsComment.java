@@ -1,8 +1,5 @@
 package com.ibole.pojo.tweets;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.ibole.pojo.BasePojo;
 import com.ibole.pojo.user.User;
 import io.swagger.annotations.ApiModel;
@@ -15,18 +12,22 @@ import java.io.Serializable;
 /**
  * 吐槽，评论表
  **/
-@ApiModel(value="TweetsComment", description="吐槽，评论表")
+@ApiModel(value = "TweetsComment", description = "吐槽，评论表")
 @Getter
 @Setter
+//@Entity
+//@Table(name = "t_hotel", schema = "test", catalog = "")
 public class TweetsComment extends BasePojo implements Serializable {
 
-	/**
-	 * 前台搜索参数
-	 */
-	@TableField(exist = false)
-	private String nickName;
+    /**
+     * 前台搜索参数
+     */
+//	@TableField(exist = false)
+//    @Transient
+    private String nickName;
 
-    @TableId(type = IdType.ID_WORKER_STR)
+    //    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id; // 吐槽评论ID
 
     @NotNull(message="评论内容不能为空")

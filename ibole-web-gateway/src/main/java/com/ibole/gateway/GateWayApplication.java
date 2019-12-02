@@ -1,7 +1,6 @@
 package com.ibole.gateway;
 
-import com.ibole.db.mybatis.config.DruidConfig;
-import com.ibole.db.mybatis.config.MyBatisConfig;
+import com.ibole.db.config.DruidConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -18,7 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @ComponentScan(basePackages = {"com.ibole"}, excludeFilters = {
 //		排除mybatis.config内文件，解决gateway冲突 无效servlet问题
 		@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
-				classes = {DruidConfig.class, MyBatisConfig.class})
+				classes = {DruidConfig.class})
 })
 @EnableFeignClients(basePackages = "com.ibole.api")
 @SpringBootApplication

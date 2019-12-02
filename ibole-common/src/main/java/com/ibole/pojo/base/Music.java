@@ -1,7 +1,5 @@
 package com.ibole.pojo.base;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.ibole.pojo.BasePojo;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,10 +13,12 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+//@Entity
+//@Table(name = "")
 public class Music extends BasePojo implements Serializable {
 
-
-    @TableId(type = IdType.ID_WORKER_STR)
+    //    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     /**

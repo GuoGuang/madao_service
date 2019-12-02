@@ -1,13 +1,13 @@
 package com.ibole.tweets.dao;
 
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ibole.pojo.tweets.TweetsComment;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * dao
  **/
 
-public interface TweetsCommentDao extends BaseMapper<TweetsComment> {
+public interface TweetsCommentDao extends JpaRepository<TweetsComment, Long> {
 
 }

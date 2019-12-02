@@ -1,16 +1,16 @@
 package com.ibole.article.controller.backstage;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ibole.annotation.OptLog;
 import com.ibole.article.service.backstage.CategoryService;
+import com.ibole.config.CustomPageRequest;
 import com.ibole.constant.CommonConst;
-import com.ibole.enums.StatusEnum;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Category;
 import com.ibole.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,16 +32,18 @@ public class CategoryController {
 		this.categoryService = categoryService;
 	}
 
-	/**
-	 * 查询全部数据
-	 *
-	 * @return JsonData
-	 */
-	@GetMapping
-	public JsonData findCategoryByCondition(Category category, QueryVO queryVO ) {
-		IPage<Category> categoryByCondition = categoryService.findCategoryByCondition(category,queryVO);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), categoryByCondition);
-	}
+    /**
+     * 查询全部数据
+     *
+     * @return JsonData
+     */
+    @GetMapping
+    public JsonData findCategoryByCondition(Category category, QueryVO queryVO,
+                                            @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNumber, @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
+        queryVO.setPageable(new CustomPageRequest(pageNumber, pageSize));
+        Page<Category> result = categoryService.findCategoryByCondition(category, queryVO);
+        return JsonData.success(result);
+    }
 
 	/**
 	 * 根据ID查询
@@ -51,8 +53,8 @@ public class CategoryController {
 	 */
 	@GetMapping(value = "/{id}")
 	public JsonData findCategoryByPrimaryKey(@PathVariable String id) {
-		Category category = categoryService.findCategoryByPrimaryKey(id);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), category);
+        Category result = categoryService.findCategoryById(id);
+        return JsonData.success(result);
 	}
 
 
@@ -63,8 +65,8 @@ public class CategoryController {
 	@PostMapping
 	@OptLog(operationType= CommonConst.ADD,operationName="添加文章分类")
 	public JsonData insertCategory(@RequestBody @Valid Category category) {
-		categoryService.insertCategory(category);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+        categoryService.saveOrUpdate(category);
+        return JsonData.success();
 	}
 
 	/**
@@ -73,8 +75,8 @@ public class CategoryController {
 	@PutMapping
 	@OptLog(operationType= CommonConst.MODIFY,operationName="修改文章分类")
 	public JsonData updateByCategorySelective(@RequestBody @Valid Category category) {
-		categoryService.updateByCategorySelective(category);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+        categoryService.saveOrUpdate(category);
+        return JsonData.success();
 	}
 
 	/**
@@ -85,8 +87,8 @@ public class CategoryController {
 	@DeleteMapping
 	@OptLog(operationType= CommonConst.DELETE,operationName="删除文章分类")
 	public JsonData deleteCategoryByIds(@RequestBody List<String> categoryIds) {
-		categoryService.deleteCategoryByIds(categoryIds);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+        categoryService.deleteCategoryByIds(categoryIds);
+        return JsonData.success();
 	}
 
 }

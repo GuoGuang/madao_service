@@ -1,13 +1,12 @@
 package com.ibole.pojo.user;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.ibole.pojo.BasePojo;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
@@ -16,30 +15,35 @@ import java.util.List;
 /**
  * 用户实体类
  **/
-@ApiModel(value="user", description="用户实体类")
+@ApiModel(value = "user", description = "用户实体类")
 @Getter
 @Setter
-public class User extends BasePojo implements Serializable{
+@Entity
+@Table(name = "us_user", schema = "test", catalog = "")
+public class User extends BasePojo implements Serializable {
 
-	@TableField(exist = false)
-	private List<Role> roles;
-	@TableField(exist = false)
-	private List<Resource> resource;
-	@TableField(exist = false)
-	private String captcha;
+    @Transient
+    private List<Role> roles;
 
+    @Transient
+    private List<Resource> resource;
 
-	@TableId(type = IdType.ID_WORKER_STR)
-	private String id;
+    @Transient
+    private String captcha;
 
-	@NotNull(message="账号不能为空")
-	private String account; // 账号
+    @Id
+    @GeneratedValue(generator = "idGenerator")
+    @GenericGenerator(name = "idGenerator", strategy = "com.ibole.config.IdGeneratorConfig")
+    private String id;
 
-	@NotNull(message="用户名不能为空")
-	private String userName; // 用户名
+    @NotNull(message = "账号不能为空")
+    private String account; // 账号
 
-	@NotNull(message="昵称不能为空")
-	private String nickName; // 昵称
+    @NotNull(message = "用户名不能为空")
+    private String userName; // 用户名
+
+    @NotNull(message = "昵称不能为空")
+    private String nickName; // 昵称
 
 	@NotNull(message="密码不能为空")
 	private String password; // 密码

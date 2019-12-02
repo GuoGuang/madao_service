@@ -1,8 +1,5 @@
 package com.ibole.base.service.backstage;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ibole.api.user.UserServiceRpc;
 import com.ibole.base.dao.LoginLogDao;
 import com.ibole.pojo.QueryVO;
@@ -10,9 +7,14 @@ import com.ibole.pojo.base.LoginLog;
 import com.ibole.pojo.user.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 登录日志
@@ -32,54 +34,60 @@ public class LoginLogService {
 
 	/**
 	 * 按照条件查询全部登录日志
+	 *
 	 * @return IPage<LoginLog>
 	 */
-	public IPage<LoginLog> findLoginLogByCondition(LoginLog loginLog, QueryVO queryVO) {
-		Page<LoginLog> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
-		LambdaQueryWrapper<LoginLog> queryWrapper = new LambdaQueryWrapper<>();
-		if (StringUtils.isNotEmpty(loginLog.getClientIp())) {
-			queryWrapper.like(LoginLog::getClientIp, loginLog.getClientIp());
-		}
-		queryWrapper.orderByDesc(LoginLog::getCreateAt);
-		IPage<LoginLog> loginLogIPage = loginLogDao.selectPage(pr, queryWrapper);
+	public Page<LoginLog> findLoginLogByCondition(LoginLog loginLog, QueryVO queryVO) {
 
-		List<User> userList = userServiceRpc.findUser().getData().getRecords();
-		loginLogIPage.getRecords().forEach(
+		Specification<LoginLog> condition = (root, query, builder) -> {
+			List<Predicate> predicates = new ArrayList<>();
+			if (StringUtils.isNotEmpty(loginLog.getClientIp())) {
+				predicates.add(builder.like(root.get("clientIp"), "%" + loginLog.getClientIp() + "%"));
+			}
+			Predicate[] ps = new Predicate[predicates.size()];
+			query.where(builder.and(predicates.toArray(ps)));
+			query.orderBy(builder.desc(root.get("createAt").as(Long.class)));
+			return null;
+		};
+
+		Page<LoginLog> loginLogPage = loginLogDao.findAll(condition, queryVO.getPageable());
+		List<User> userList = userServiceRpc.findUser().getData().getContent();
+		loginLogPage.getContent().forEach(
 				loginLogList -> userList.forEach(
 						user -> {
-							if (user.getId().equals(loginLogList.getUserId())){
+							if (user.getId().equals(loginLogList.getUserId())) {
 								loginLogList.setUserName(user.getUserName());
 							}
 						}
 				)
 		);
-		return loginLogIPage;
+
+		return loginLogPage;
 	}
 
 	/**
 	 * 根据ID查询登录日志
-	 * @param id 登录日志id
+	 *
+	 * @param logId 登录日志id
 	 * @return LoginLog
 	 */
-	public LoginLog findLoginLogByPrimaryKey(String id) {
-		return loginLogDao.selectById(id);
+	public LoginLog findById(String logId) {
+		Optional<LoginLog> byId = loginLogDao.findById(logId);
+		return byId.orElse(new LoginLog());
 	}
 
 	/**
 	 * 添加登录日志
+	 *
 	 * @param loginLog 登录日志实体
 	 */
-	public void insertLoginLog(LoginLog loginLog){
-		loginLogDao.insert(loginLog);
+	public void save(LoginLog loginLog) {
+		loginLogDao.save(loginLog);
 	}
 
-
-	/**
-	 * 删除登录日志
-	 * @param loginLogIds 要删除的id数组
-	 */
-	public void deleteById(List<String> loginLogIds){
-		loginLogDao.deleteBatchIds(loginLogIds);
+	public void deleteBatch(List<String> logId) {
+		loginLogDao.deleteBatch(logId);
 	}
+
 }
 

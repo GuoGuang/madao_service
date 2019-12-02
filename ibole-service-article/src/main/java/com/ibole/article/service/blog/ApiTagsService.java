@@ -1,18 +1,13 @@
 package com.ibole.article.service.blog;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ibole.article.dao.backstage.TagsDao;
+import com.ibole.constant.CommonConst;
 import com.ibole.constant.RedisConstant;
 import com.ibole.db.redis.service.RedisService;
-import com.ibole.constant.CommonConst;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Tags;
-import com.ibole.db.redis.service.RedisService;
 import com.ibole.utils.JsonUtil;
 import com.ibole.utils.LogBack;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,21 +29,23 @@ public class ApiTagsService {
 		this.redisService = redisService;
 	}
 
-	/**
-	 * 查询标签全部列表
-	 * @return IPage<Tags>
-	 */
-	public IPage<Tags> findTagsByCondition(Tags tags, QueryVO queryVO){
-		Page<Tags> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
-		LambdaQueryWrapper<Tags> queryWrapper = new LambdaQueryWrapper<>();
-		if (StringUtils.isNotEmpty(tags.getName())) {
-			queryWrapper.like(Tags::getName, tags.getName());
-		}
-		if (StringUtils.isNotEmpty(tags.getState())) {
-			queryWrapper.eq(Tags::getState, tags.getState());
-		}
-		return bgTagsDao.selectPage(pr, queryWrapper);
-	}
+    /**
+     * 查询标签全部列表
+     *
+     * @return IPage<Tags>
+     */
+    public List<Tags> findTagsByCondition(Tags tags, QueryVO queryVO) {
+//		Page<Tags> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
+//		LambdaQueryWrapper<Tags> queryWrapper = new LambdaQueryWrapper<>();
+//		if (StringUtils.isNotEmpty(tags.getName())) {
+//			queryWrapper.like(Tags::getName, tags.getName());
+//		}
+//		if (StringUtils.isNotEmpty(tags.getState())) {
+//			queryWrapper.eq(Tags::getState, tags.getState());
+//		}
+//		return bgTagsDao.selectPage(pr, queryWrapper);
+        return null;
+    }
 
 	/**
 	 * 根据ID查询标签
@@ -63,10 +60,10 @@ public class ApiTagsService {
 				return JsonUtil.jsonToPojo(mapJson.toString(), Tags.class);
 			}
 		} catch (Exception e) {
-			LogBack.error("findTagsById->查询标签异常，参数为：{}",id,e);
-		}
+			LogBack.error("findTagsById->查询标签异常，参数为：{}", id, e);
+        }
 
-		tags = bgTagsDao.selectById(id);
+//		tags = bgTagsDao.selectById(id);
 		try {
 			redisService.set(RedisConstant.REDIS_KEY_ARTICLE + id, tags, CommonConst.TIME_OUT_DAY);
 		} catch (Exception e) {
@@ -81,7 +78,7 @@ public class ApiTagsService {
 	 * @param tags 实体
 	 */
 	public void insertTags(Tags tags) {
-		bgTagsDao.insert(tags);
+//		bgTagsDao.insert(tags);
 	}
 
 	/**
@@ -90,7 +87,7 @@ public class ApiTagsService {
 	 */
 	public void updateTagsById(Tags tags) {
 		redisService.del( "tags_" + tags.getId());
-		bgTagsDao.updateById(tags);
+//		bgTagsDao.updateById(tags);
 	}
 
 	/**
@@ -98,8 +95,8 @@ public class ApiTagsService {
 	 * @param tagsIds:文章id集合
 	 */
 	public void deleteByIds(List tagsIds) {
-		redisService.del( "tags_" + tagsIds );
-		bgTagsDao.deleteBatchIds(tagsIds);
+		redisService.del( "tags_" + tagsIds);
+//		bgTagsDao.deleteBatchIds(tagsIds);
 	}
 
 

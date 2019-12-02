@@ -1,8 +1,5 @@
 package com.ibole.base.service.backstage;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ibole.api.user.UserServiceRpc;
 import com.ibole.base.dao.OptLogDao;
 import com.ibole.pojo.QueryVO;
@@ -10,9 +7,14 @@ import com.ibole.pojo.base.OptLog;
 import com.ibole.pojo.user.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 操作日志
@@ -30,22 +32,28 @@ public class OptLogService {
 
 	/**
 	 * 按照条件查询全部操作日志
+	 *
 	 * @return IPage<OptLog>
 	 */
-	public IPage<OptLog> findOptLogByCondition(OptLog optLog, QueryVO queryVO) {
-		Page<OptLog> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
-		LambdaQueryWrapper<OptLog> queryWrapper = new LambdaQueryWrapper<>();
-		if (StringUtils.isNotEmpty(optLog.getClientIp())) {
-			queryWrapper.like(OptLog::getClientIp, optLog.getClientIp());
-		}
-		queryWrapper.orderByDesc(OptLog::getCreateAt);
-		IPage<OptLog> optLogIPage = optLogDao.selectPage(pr, queryWrapper);
+	public Page<OptLog> findOptLogByCondition(OptLog optLog, QueryVO queryVO) {
 
-		List<User> userList = userServiceRpc.findUser().getData().getRecords();
-		optLogIPage.getRecords().forEach(
+		Specification<OptLog> condition = (root, query, builder) -> {
+			List<Predicate> predicates = new ArrayList<>();
+			if (StringUtils.isNotEmpty(optLog.getClientIp())) {
+				predicates.add(builder.like(root.get("clientIp"), "%" + optLog.getClientIp() + "%"));
+			}
+			Predicate[] ps = new Predicate[predicates.size()];
+			query.where(builder.and(predicates.toArray(ps)));
+			query.orderBy(builder.desc(root.get("createAt").as(Long.class)));
+			return null;
+		};
+
+		Page<OptLog> optLogIPage = optLogDao.findAll(condition, queryVO.getPageable());
+		List<User> userList = userServiceRpc.findUser().getData().getContent();
+		optLogIPage.getContent().forEach(
 				optLogList -> userList.forEach(
 						user -> {
-							if (user.getId().equals(optLogList.getUserId())){
+							if (user.getId().equals(optLogList.getUserId())) {
 								optLogList.setUserName(user.getUserName());
 							}
 						}
@@ -56,28 +64,26 @@ public class OptLogService {
 
 	/**
 	 * 根据ID查询操作日志
+	 *
 	 * @param id 操作日志id
 	 * @return OptLog
 	 */
-	public OptLog findOptLogByPrimaryKey(String id) {
-		return optLogDao.selectById(id);
+	public OptLog findById(String id) {
+		Optional<OptLog> byId = optLogDao.findById(id);
+		return byId.orElse(new OptLog());
 	}
 
 	/**
 	 * 添加操作日志
+	 *
 	 * @param optLog 操作日志实体
 	 */
-	public void insertOptLog(OptLog optLog){
-		optLogDao.insert(optLog);
+	public void insertOptLog(OptLog optLog) {
+		optLogDao.save(optLog);
 	}
 
-
-	/**
-	 * 删除操作日志
-	 * @param optLogIds 要删除的id数组
-	 */
-	public void deleteById(List<String> optLogIds){
-		optLogDao.deleteBatchIds(optLogIds);
+	public void deleteBatch(List<String> resId) {
+		optLogDao.deleteBatch(resId);
 	}
 }
 

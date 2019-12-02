@@ -1,16 +1,17 @@
 package com.ibole.user.service;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.user.Resource;
 import com.ibole.user.dao.ResourceDao;
 import com.ibole.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -34,37 +35,39 @@ public class ResourceService{
 	 * @return List
 	 */
 	public List<Resource> findResourceByCondition(Resource resource, QueryVO queryVO) {
-		LambdaQueryWrapper<Resource> queryWrapper = new LambdaQueryWrapper<>();
-		if (StringUtils.isNotEmpty(resource.getName())){
-			queryWrapper.eq(Resource::getName,resource.getName());
-		}
-		queryWrapper.orderByAsc(Resource::getSort);
-		List<Resource> resources = resourceDao.selectList(queryWrapper);
-		return resources;
+
+		Specification<Resource> condition = (root, query, builder) -> {
+			List<Predicate> predicates = new ArrayList<>();
+			if (StringUtils.isNotEmpty(resource.getName())) {
+				predicates.add(builder.like(root.get("name"), "%" + resource.getName() + "%"));
+			}
+			Predicate[] ps = new Predicate[predicates.size()];
+			query.where(builder.and(predicates.toArray(ps)));
+			query.orderBy(builder.desc(root.get("createAt").as(Long.class)));
+			return null;
+		};
+		return resourceDao.findAll(condition);
 	}
 
 	public Resource findResourceById(String resId) {
-		return resourceDao.selectById(resId);
+		return resourceDao.findById(resId).get();
 	}
 
-	public Set<Resource> findResourceByRoleIds(String[] resId) {
+	public Set<Resource> findResourceByRoleIds(List<String> resId) {
 		return resourceDao.findResourceByRoleIds(resId);
 	}
 
-	public boolean updateByPrimaryKey(Resource resources) {
-		int i = resourceDao.updateById(resources);
-		return SqlHelper.retBool(i);
+	public void saveOrUpdate(Resource resource) {
+		if (StringUtils.isEmpty(resource.getId())) {
+			resource.setCreateAt(DateUtil.getTimestamp());
+			resource.setUpdateAt(DateUtil.getTimestamp());
+			resourceDao.save(resource);
+		} else {
+			resourceDao.save(resource);
+		}
 	}
 
-	public boolean insertSelective(Resource resource) {
-		resource.setCreateAt(DateUtil.getTimestamp());
-		resource.setUpdateAt(DateUtil.getTimestamp());
-		int insert = resourceDao.insert(resource);
-		return SqlHelper.retBool(insert);
-	}
-
-	public boolean deleteByIds(List<String> resId) {
-		int i = resourceDao.deleteBatchIds(resId);
-		return SqlHelper.retBool(i);
+	public void deleteByIds(List<String> resId) {
+		resourceDao.deleteBatch(resId);
 	}
 }

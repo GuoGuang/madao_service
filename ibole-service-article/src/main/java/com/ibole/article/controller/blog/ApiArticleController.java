@@ -1,13 +1,11 @@
 package com.ibole.article.controller.blog;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ibole.article.service.blog.ApiArticleService;
-import com.ibole.db.redis.service.RedisService;
 import com.ibole.constant.ArticleConst;
+import com.ibole.db.redis.service.RedisService;
 import com.ibole.enums.StatusEnum;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Article;
-import com.ibole.db.redis.service.RedisService;
 import com.ibole.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,7 +43,7 @@ public class ApiArticleController {
 		    List<Object> hotList = redisService.lGet("1", 1, 1);
 		    return JsonData.success(hotList);
     	}
-	    IPage<Article> result = articleService.findArticleByCondition(article,queryVO);
+        List<Article> result = articleService.findArticleByCondition(article, queryVO);
         return JsonData.success(result);
     }
 

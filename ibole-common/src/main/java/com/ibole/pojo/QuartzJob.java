@@ -1,12 +1,10 @@
 package com.ibole.pojo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.ibole.annotation.CronExpress;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
@@ -16,10 +14,12 @@ import java.io.Serializable;
  **/
 @Getter
 @Setter
-@TableName("ba_job")
+@Entity
+@Table(name = "ba_job")
 public class QuartzJob extends BasePojo implements Serializable {
 
-	@TableId(type = IdType.ID_WORKER_STR)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String id;
 
 	@NotNull(message = "类名不能为空")

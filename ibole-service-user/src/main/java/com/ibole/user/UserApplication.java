@@ -1,14 +1,15 @@
 package com.ibole.user;
 
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.ibole.utils.IdGenerate;
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -22,9 +23,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * // @ComponentScan(basePackages = {"com.ibole"})
  **/
 
+@EntityScan("com.ibole.pojo")
 @SpringBootApplication
 @EnableEurekaClient
 @EnableSwagger2
+@EnableJpaRepositories("com.ibole.user.dao")
 @EnableFeignClients(basePackages = "com.ibole.api")
 //@EnableWebSecurity
 @EnableAdminServer
@@ -43,14 +46,6 @@ public class UserApplication {
 	@Bean
 	public BCryptPasswordEncoder bcryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
-	}
-
-	/**
-	 * MP 分页插件
-	 */
-	@Bean
-	public PaginationInterceptor paginationInterceptor() {
-		return new PaginationInterceptor();
 	}
 
 	/**
