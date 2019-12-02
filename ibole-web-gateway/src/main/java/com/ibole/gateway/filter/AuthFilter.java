@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.TreeMap;
 
 @Component
+@Deprecated
 public class AuthFilter implements GatewayFilter, Ordered {
 	@Autowired
 	private RedisService redisService;

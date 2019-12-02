@@ -1,13 +1,13 @@
 package com.ibole.base.controller.backstage;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ibole.base.service.backstage.OptLogService;
-import com.ibole.enums.StatusEnum;
+import com.ibole.config.CustomPageRequest;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.base.OptLog;
 import com.ibole.utils.JsonData;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,12 +30,15 @@ public class OptLogController {
 
 	/**
 	 * 按照条件查询全部列表
+	 *
 	 * @return Result
 	 */
 	@GetMapping
-	public JsonData findOptLogByCondition(OptLog optLog, QueryVO queryVO){
-		IPage<OptLog> result = optLogService.findOptLogByCondition(optLog,queryVO);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), result);
+	public JsonData findOptLogByCondition(OptLog optLog, QueryVO queryVO,
+										  @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNumber, @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
+		queryVO.setPageable(new CustomPageRequest(pageNumber, pageSize));
+		Page<OptLog> result = optLogService.findOptLogByCondition(optLog, queryVO);
+		return JsonData.success(result);
 
 	}
 
@@ -45,9 +48,9 @@ public class OptLogController {
 	 * @return Result
 	 */
 	@GetMapping(value="/{id}")
-	public JsonData findOptLogByPrimaryKey(@PathVariable String id){
-		OptLog optLog = optLogService.findOptLogByPrimaryKey(id);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),optLog);
+	public JsonData findOptLogByPrimaryKey(@PathVariable String id) {
+		OptLog result = optLogService.findById(id);
+		return JsonData.success(result);
 	}
 
 	/**
@@ -56,9 +59,9 @@ public class OptLogController {
 	 * @return JsonData
 	 */
 	@PostMapping()
-	public JsonData insertOptLog(@RequestBody OptLog optLog){
+	public JsonData insertOptLog(@RequestBody OptLog optLog) {
 		optLogService.insertOptLog(optLog);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+		return JsonData.success();
 	}
 
 
@@ -68,8 +71,8 @@ public class OptLogController {
 	 * @return JsonData
 	 */
 	@DeleteMapping
-	public JsonData deleteById(@RequestBody List<String> optLogIds){
-		optLogService.deleteById(optLogIds);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+	public JsonData deleteById(@RequestBody List<String> optLogIds) {
+		optLogService.deleteBatch(optLogIds);
+		return JsonData.success();
 	}
 }

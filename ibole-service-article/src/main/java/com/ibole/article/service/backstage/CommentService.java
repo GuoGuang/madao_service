@@ -1,15 +1,16 @@
 package com.ibole.article.service.backstage;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ibole.article.dao.backstage.CommentDao;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Comment;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,50 +29,42 @@ public class CommentService {
 
 	/**
 	 * 查询全部列表
+	 *
 	 * @param comment 实体
 	 * @param queryVO 查询条件
 	 * @return IPage<Comment>
-	 *
 	 */
-	public IPage<Comment> findCommentByCondition(Comment comment, QueryVO queryVO) {
-		Page<Comment> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
+	public Page<Comment> findCommentByCondition(Comment comment, QueryVO queryVO) {
+		Specification<Comment> condition = (root, query, builder) -> {
+			List<Predicate> predicates = new ArrayList<>();
+			if (StringUtils.isNotEmpty(comment.getContent())) {
+				predicates.add(builder.like(root.get("content"), "%" + comment.getContent() + "%"));
+			}
+			Predicate[] ps = new Predicate[predicates.size()];
+			query.where(builder.and(predicates.toArray(ps)));
+			query.orderBy(builder.desc(root.get("createAt").as(Long.class)));
+			return null;
+		};
+		return commentDao.findAll(condition, queryVO.getPageable());
 
-		LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
-
-		if (StringUtils.isNotEmpty(comment.getContent())){
-			queryWrapper.eq(Comment::getContent,comment.getContent());
-		}
-		queryWrapper.orderByDesc(Comment::getCreateAt);
-		return commentDao.selectPage(pr, queryWrapper);
 	}
 
 	/**
 	 * 根据评论表ID查询评论
+	 *
 	 * @param commentId 评论表ID
 	 * @return Comment
 	 */
 	public Comment findCommentByPrimaryKey(String commentId) {
-		return commentDao.selectById(commentId);
+		return commentDao.findById(commentId).get();
 	}
 
-	/**
-	 * 增加
-	 */
-	public void insertComment(Comment comment) {
-		commentDao.insert(comment);
-	}
-	/**
-	 * 修改
-	 */
-	public void updateByCommentSelective(Comment comment) {
-		commentDao.updateById(comment);
+	public void saveOrUpdate(Comment comment) {
+		commentDao.save(comment);
 	}
 
-	/**
-	 * 删除
-	 */
 	public void deleteCommentByIds(List<String> commentIds) {
-		commentDao.deleteBatchIds(commentIds);
+		commentDao.deleteBatch(commentIds);
 	}
 
 }

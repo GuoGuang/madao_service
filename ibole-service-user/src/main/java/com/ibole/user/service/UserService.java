@@ -1,27 +1,29 @@
 package com.ibole.user.service;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.ibole.api.base.LoginLogServiceRpc;
 import com.ibole.db.redis.service.RedisService;
+import com.ibole.exception.custom.UserException;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.user.Role;
 import com.ibole.pojo.user.User;
 import com.ibole.pojo.user.UserRole;
-import com.ibole.db.redis.service.RedisService;
+import com.ibole.user.dao.ResourceDao;
+import com.ibole.user.dao.RoleDao;
 import com.ibole.user.dao.UserDao;
 import com.ibole.user.dao.UserRoleDao;
 import com.ibole.utils.DateUtil;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 用户服务
@@ -30,6 +32,8 @@ import java.util.List;
 public class UserService {
 
 	private final UserDao userDao;
+	private final RoleDao roleDao;
+	private final ResourceDao resourceDao;
 
 	private final RedisService redisService;
 	// 加密
@@ -41,10 +45,13 @@ public class UserService {
 
 
 	@Autowired
-	public UserService(UserDao userDao, RedisService redisService ,
-	                   BCryptPasswordEncoder bCryptPasswordEncoder ,
-	                   LoginLogServiceRpc loginLogServiceRpc, UserRoleDao userRoleDao) {
+	public UserService(UserDao userDao, RedisService redisService,
+					   BCryptPasswordEncoder bCryptPasswordEncoder,
+					   LoginLogServiceRpc loginLogServiceRpc, UserRoleDao userRoleDao,
+					   RoleDao roleDao, ResourceDao resourceDao) {
 		this.userDao = userDao;
+		this.roleDao = roleDao;
+		this.resourceDao = resourceDao;
 		this.redisService = redisService;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.loginLogServiceRpc = loginLogServiceRpc;
@@ -56,78 +63,85 @@ public class UserService {
 	 *
 	 * @param user
 	 */
-	public void insertUser(User user) {
+	public void registerUser(User user) {
 		user.setCreateAt(DateUtil.getTimestamp());
 		user.setUpdateAt(DateUtil.getTimestamp());
 		//加密后的密码
 		String bCryptPassword = bCryptPasswordEncoder.encode(user.getPassword());
 		user.setPassword(bCryptPassword);
-		userDao.insert(user);
+		userDao.save(user);
 	}
 
 
-	public IPage<User> findByCondition(User user, QueryVO queryVO ) {
-		Page<User> pr = new Page<>(queryVO.getPageNum(), queryVO.getPageSize());
-		LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-		queryWrapper.eq(StringUtils.isNotEmpty(user.getUserName()),User::getUserName, user.getUserName());
-		queryWrapper.eq(user.getStatus() != null,User::getStatus, user.getStatus());
-		queryWrapper.eq(StringUtils.isNotBlank(user.getId()),User::getId,user.getId());
-		queryWrapper.eq(StringUtils.isNotBlank(user.getAccount()),User::getAccount,user.getAccount());
-		queryWrapper.eq(StringUtils.isNotBlank(user.getPhone()),User::getPhone,user.getPhone());
-		queryWrapper.orderByDesc(User::getCreateAt);
-		IPage<User> userIPage = userDao.selectPage(pr, queryWrapper);
-		userIPage.getRecords().forEach(
-				userResult -> userResult.setRoles(userDao.findRolesOfUser(userResult.getId()))
+	public Page<User> findByCondition(User user, QueryVO queryVO) {
+		Specification<User> condition = (root, query, builder) -> {
+			List<Predicate> predicates = new ArrayList<>();
+			if (StringUtils.isNotEmpty(user.getUserName())) {
+				predicates.add(builder.like(root.get("userName"), "%" + user.getUserName() + "%"));
+			}
+			if (user.getStatus() != null) {
+				predicates.add(builder.equal(root.get("status"), user.getStatus()));
+			}
+			if (StringUtils.isNotEmpty(user.getId())) {
+				predicates.add(builder.like(root.get("id"), "%" + user.getId() + "%"));
+			}
+			if (StringUtils.isNotEmpty(user.getUserName())) {
+				predicates.add(builder.like(root.get("userName"), "%" + user.getUserName() + "%"));
+			}
+			if (StringUtils.isNotEmpty(user.getAccount())) {
+				predicates.add(builder.like(root.get("account"), "%" + user.getAccount() + "%"));
+			}
+			if (StringUtils.isNotEmpty(user.getPhone())) {
+				predicates.add(builder.like(root.get("phone"), user.getPhone()));
+			}
+			Predicate[] ps = new Predicate[predicates.size()];
+			query.where(builder.and(predicates.toArray(ps)));
+			query.orderBy(builder.desc(root.get("createAt").as(Long.class)));
+			return null;
+		};
+		Page<User> userPage = userDao.findAll(condition, queryVO.getPageable());
+		userPage.getContent().forEach(
+				userResult -> userResult.setRoles(roleDao.findRolesOfUser(userResult.getId()))
 		);
-		return userIPage;
-
-
-
-
+		return userPage;
 	}
 
-	public boolean deleteByIds(List<String> userId) {
-		int i = userDao.deleteBatchIds(userId);
-		return SqlHelper.retBool(i);
+	public void deleteByIds(List<String> userId) {
+		userDao.deleteBatch(userId);
 	}
 
 	/**
 	 * 更新用户基础信息，关联的角色
+	 *
 	 * @param user 用户实体
 	 * @return boolean
 	 */
-	public boolean updateByPrimaryKey(User user) {
-		int i = userDao.updateById(user);
-
-		LambdaQueryWrapper<UserRole> deleteWrapper = new LambdaQueryWrapper<>();
-		deleteWrapper.eq(UserRole::getUsUserId,user.getId());
-		userRoleDao.delete(deleteWrapper);
-
+	public void updateByPrimaryKey(User user) {
+		userDao.save(user);
+		userRoleDao.deleteBytUsUserId(user.getId());
 		List<Role> roles = user.getRoles();
 		for (Role role : roles) {
 			UserRole userRole = new UserRole();
 			userRole.setUsUserId(user.getId());
 			userRole.setUsRoleId(role.getId());
-			userRoleDao.insert(userRole);
+			userRoleDao.save(userRole);
 		}
-		return SqlHelper.retBool(i);
 	}
 
 
 	/**
 	 * 修改密码
-	 * @param user 当前用户
+	 *
+	 * @param user        当前用户
 	 * @param oldPassword 老密码
-	 * @return boolean
 	 */
-	public boolean changePassword(User user,String oldPassword) {
-		User userInfo = userDao.selectById(user);
-		if (!bCryptPasswordEncoder.matches(oldPassword, userInfo.getPassword())){
-			return false;
+	public void changePassword(User user, String oldPassword) {
+		User userInfo = userDao.findById(user.getId()).get();
+		if (!bCryptPasswordEncoder.matches(oldPassword, userInfo.getPassword())) {
+			throw new UserException("密码不匹配！");
 		}
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		userDao.updateById(user);
-		return true;
+		userDao.save(user);
 	}
 
 	/**
@@ -135,25 +149,33 @@ public class UserService {
 	 * @param id 用户id
 	 */
 	public User getUserPermission(String id) {
-		User user = userDao.selectById(id);
-		user.setRoles(userDao.findRolesOfUser(id));
-		user.setResource(userDao.findResourcesOfUser(id));
+		User user = userDao.findById(id).get();
+		user.setRoles(roleDao.findRolesOfUser(id));
+		user.setResource(resourceDao.findResourcesOfUser(id));
 		return user;
 	}
 
 	public List<Role> getUseRoles(String id) {
-		List<Role> rolesOfUser = userDao.findRolesOfUser(id);
+		List<Role> rolesOfUser = roleDao.findRolesOfUser(id);
 		return rolesOfUser;
 	}
 
-	public User findUserByUserId(String userId) {
-		User user = userDao.selectById(userId);
-		user.setRoles(userDao.findRolesOfUser(user.getId()));
-		return user;
+
+	public User findById(String userId) {
+		Optional<User> user = userDao.findById(userId);
+		User us = user.get();
+		us.setRoles(roleDao.findRolesOfUser(us.getId()));
+		return us;
 	}
 
-	public boolean updateUserProfile(User user) {
-		int updateResult = userDao.updateById(user);
-		return BooleanUtils.toBoolean(updateResult);
+	public User findByAccount(String account) {
+		Optional<User> user = userDao.findByAccount(account);
+		User us = user.get();
+		us.setRoles(roleDao.findRolesOfUser(us.getId()));
+		return us;
+	}
+
+	public void updateUserProfile(User user) {
+		userDao.save(user);
 	}
 }

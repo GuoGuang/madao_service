@@ -1,8 +1,8 @@
 package com.ibole.user.controller;
 
 import com.ibole.annotation.OptLog;
+import com.ibole.config.CustomPageRequest;
 import com.ibole.constant.CommonConst;
-import com.ibole.enums.StatusEnum;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.user.Resource;
 import com.ibole.user.service.ResourceService;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -37,14 +38,18 @@ public class ResourceController {
 
 	/**
 	 * 条件查询资源
+	 *
 	 * @param resource 资源
-	 * @param queryVO 查询参数
+	 * @param queryVO  查询参数
 	 * @return JsonData
 	 */
 	@GetMapping
-	public JsonData findResByCondition(Resource resource, QueryVO queryVO) {
-		List<Resource> resData = resourceService.findResourceByCondition(resource,queryVO);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), resData);
+	public JsonData<List<Resource>> findResByCondition(Resource resource, QueryVO queryVO,
+													   @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNumber,
+													   @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
+		queryVO.setPageable(new CustomPageRequest(pageNumber, pageSize));
+		List<Resource> result = resourceService.findResourceByCondition(resource, queryVO);
+		return JsonData.success(result);
 	}
 
 	/**
@@ -54,8 +59,8 @@ public class ResourceController {
 	 */
 	@GetMapping(value = "/{resId}")
 	public JsonData findById(@PathVariable String resId) {
-		Resource resData = resourceService.findResourceById(resId);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), resData);
+		Resource result = resourceService.findResourceById(resId);
+		return JsonData.success(result);
 	}
 
 	/**
@@ -65,8 +70,8 @@ public class ResourceController {
 	 */
 	@GetMapping(value = "/roles")
 	public JsonData findResourceByRoleIds(String[] roleId) {
-		Set<Resource> resData = resourceService.findResourceByRoleIds(roleId);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), resData);
+		Set<Resource> result = resourceService.findResourceByRoleIds(Arrays.asList(roleId));
+		return JsonData.success(result);
 	}
 
 	/**
@@ -77,8 +82,8 @@ public class ResourceController {
 	@PutMapping
 	@OptLog(operationType= CommonConst.MODIFY,operationName="更新Resource")
 	public JsonData updateByPrimaryKey(@RequestBody @Valid Resource resource) {
-		boolean state = resourceService.updateByPrimaryKey(resource);
-		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+		resourceService.saveOrUpdate(resource);
+		return JsonData.success();
 	}
 
 	/**
@@ -91,8 +96,8 @@ public class ResourceController {
 	public JsonData insertSelective(@RequestBody Resource resource) {
 		resource.setCreateAt(DateUtil.getTimestamp());
 		resource.setUpdateAt(DateUtil.getTimestamp());
-		boolean state = resourceService.insertSelective(resource);
-		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+		resourceService.saveOrUpdate(resource);
+		return JsonData.success();
 	}
 
 	/**
@@ -103,7 +108,7 @@ public class ResourceController {
 	@DeleteMapping()
 	@OptLog(operationType= CommonConst.DELETE,operationName="删除Resource")
 	public JsonData deleteByIds(@RequestBody List<String> resId) {
-		boolean state = resourceService.deleteByIds(resId);
-		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+		resourceService.deleteByIds(resId);
+		return JsonData.success();
 	}
 }

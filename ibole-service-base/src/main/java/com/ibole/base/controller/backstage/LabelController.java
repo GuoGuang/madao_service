@@ -1,6 +1,5 @@
 package com.ibole.base.controller.backstage;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ibole.base.service.backstage.LabelService;
 import com.ibole.enums.StatusEnum;
 import com.ibole.pojo.QueryVO;
@@ -35,10 +34,10 @@ public class LabelController {
 	 */
 	@GetMapping
 	public JsonData findLabelByCondition(Label label, QueryVO queryVO){
-		IPage<Label> result = labelService.findLabelByCondition(label,queryVO);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), result);
+        List<Label> result = labelService.findLabelByCondition(label, queryVO);
+        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), result);
 
-	}
+    }
 
 	/**
 	 * 根据ID查询标签

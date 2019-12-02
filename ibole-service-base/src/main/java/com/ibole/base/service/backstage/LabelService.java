@@ -1,13 +1,7 @@
 package com.ibole.base.service.backstage;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ibole.base.dao.LabelDao;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.base.Label;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,26 +12,27 @@ import java.util.List;
 @Service
 public class LabelService {
 
-	private final LabelDao labelDao;
-
-	@Autowired
-	public LabelService(LabelDao labelDao) {
-		this.labelDao = labelDao;
-	}
+//	private final LabelDao labelDao;
+//
+//	@Autowired
+//	public LabelService(LabelDao labelDao) {
+//		this.labelDao = labelDao;
+//	}
 
 
 	/**
 	 * 按照条件查询全部标签
+	 *
 	 * @return IPage<Label>
 	 */
-	public IPage<Label> findLabelByCondition(Label label, QueryVO queryVO) {
-		Page<Label> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
-		LambdaQueryWrapper<Label> queryWrapper = new LambdaQueryWrapper<>();
-		if (StringUtils.isNotEmpty(label.getLabelName())) {
-			queryWrapper.like(Label::getLabelName, label.getLabelName());
-		}
-		IPage<Label> labelIPage = labelDao.selectPage(pr, queryWrapper);
-		return labelIPage;
+	public List findLabelByCondition(Label label, QueryVO queryVO) {
+//		Page<Label> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
+//		LambdaQueryWrapper<Label> queryWrapper = new LambdaQueryWrapper<>();
+//		if (StringUtils.isNotEmpty(label.getLabelName())) {
+//			queryWrapper.like(Label::getLabelName, label.getLabelName());
+//		}
+//		IPage<Label> labelIPage = labelDao.selectPage(pr, queryWrapper);
+		return null;
 	}
 
 	/**
@@ -46,31 +41,33 @@ public class LabelService {
 	 * @return Label
 	 */
 	public Label findLabelByPrimaryKey(String id) {
-		return labelDao.selectById(id);
+//		return labelDao.selectById(id);
+		return null;
 	}
 
 	/**
 	 * 添加标签
 	 * @param label 标签实体
 	 */
-	public void insertLabel(Label label){
-		labelDao.insert(label);
+	public void insertLabel(Label label) {
+//		labelDao.insert(label);
+
 	}
 
 	/**
 	 * 修改标签
 	 * @param label 标签实体
 	 */
-	public void updateLabel(Label label){
-		labelDao.updateById(label);
+	public void updateLabel(Label label) {
+//		labelDao.updateById(label);
 	}
 
 	/**
 	 * 删除标签
 	 * @param labelIds 要删除的id数组
 	 */
-	public void deleteById(List<String> labelIds){
-		labelDao.deleteBatchIds(labelIds);
+	public void deleteById(List<String> labelIds) {
+//		labelDao.deleteBatchIds(labelIds);
 	}
 }
 

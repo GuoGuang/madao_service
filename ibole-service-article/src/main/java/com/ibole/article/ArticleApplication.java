@@ -1,12 +1,12 @@
 package com.ibole.article;
 
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
@@ -20,8 +20,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  *
  **/
 @SpringBootApplication
+@EntityScan("com.ibole.pojo")
 @EnableEurekaClient
 @EnableSwagger2
+@EnableJpaRepositories("com.ibole.article.dao")
 @EnableFeignClients("com.ibole.api")
 @ComponentScan(basePackages = {"com.ibole"})
 public class ArticleApplication {
@@ -29,11 +31,5 @@ public class ArticleApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ArticleApplication.class, args);
 	}
-	/**
-	 * 分页插件
-	 */
-	@Bean
-	public PaginationInterceptor paginationInterceptor() {
-		return new PaginationInterceptor();
-	}
+
 }

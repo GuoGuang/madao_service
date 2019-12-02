@@ -1,9 +1,8 @@
-package com.ibole.base;
+package com.ibole.base.service.backstage;
 
-import com.ibole.base.service.backstage.DictService;
-import com.ibole.base.service.backstage.TaskService;
 import com.ibole.pojo.QuartzJob;
 import com.ibole.pojo.base.Dict;
+import com.ibole.utils.IdGenerate;
 import com.ibole.utils.JsonUtil;
 import com.ibole.utils.QuartzUtil;
 import org.junit.Test;
@@ -60,8 +59,8 @@ public class TaskServiceTest{
 		LinkedList<Dict> aa = converTreeToPojo(city);
 		//List<Dict> dicts = JsonUtil.jsonToGenericObject(city, new TypeReference<List<Dict>>() {});
 		for (Dict dict : aa) {
-			dictService.insertDictSelective(dict);
-		}
+            dictService.saveOrUpdate(dict);
+        }
 		System.out.println(aa);
 	}
 	public IdGenerate idGenerate(){
@@ -72,41 +71,41 @@ public class TaskServiceTest{
 		LinkedList<Dict> list = new LinkedList<>();
 		List<Map<String,Object>> objects = JsonUtil.jsonToListMap(city);
 		for (Map<String, Object> object : objects) {
-			String code = object.get("code")+"";
-			String name = object.get("name")+"";
-			Dict dict = new Dict();
-			dict.setState(1);
-			dict.setCode(code);
-			dict.setName(name);
-			dict.setDescription("省市");
-			dict.setType("city");
-			IdGenerate idGenerate = idGenerate();
-			long l = idGenerate.nextId();
-			dict.setId(String.valueOf(l));
-			dict.setParentId("0");
-			list.add(dict);
-			List<Object> children = Collections.singletonList(object.get("children"));
-			if (children != null){
-					List<Map<String,Object>> ret = (List<Map<String, Object>>) object.get("children");
-				for (Map<String, Object> stringObjectMap : ret) {
-					System.out.println("");
-					String name1 = stringObjectMap.get("name")+"";
-					String code1 = stringObjectMap.get("code")+"";
-					Dict dicttemp = new Dict();
-					dicttemp.setState(1);
-					dicttemp.setCode(code1);
-					dicttemp.setName(name1);
-					dicttemp.setDescription("省市");
-					dicttemp.setType("city");
-					IdGenerate idGeneratedicttemp = new IdGenerate(1,1);
-					Thread.sleep(100L);
-					long ldicttemp = idGeneratedicttemp.nextId();
-					dicttemp.setId(String.valueOf(ldicttemp));
-					dicttemp.setParentId(String.valueOf(l));
-					list.add(dicttemp);
-				}
-			}
-		}
+            String code = object.get("code") + "";
+            String name = object.get("name") + "";
+            Dict dict = new Dict();
+            dict.setState(1);
+            dict.setCode(code);
+            dict.setName(name);
+            dict.setDescription("省市");
+            dict.setType("city");
+            IdGenerate idGenerate = idGenerate();
+            long l = idGenerate.nextId();
+            dict.setId("");
+            dict.setParentId("0");
+            list.add(dict);
+            List<Object> children = Collections.singletonList(object.get("children"));
+            if (children != null) {
+                List<Map<String, Object>> ret = (List<Map<String, Object>>) object.get("children");
+                for (Map<String, Object> stringObjectMap : ret) {
+                    System.out.println("");
+                    String name1 = stringObjectMap.get("name") + "";
+                    String code1 = stringObjectMap.get("code") + "";
+                    Dict dicttemp = new Dict();
+                    dicttemp.setState(1);
+                    dicttemp.setCode(code1);
+                    dicttemp.setName(name1);
+                    dicttemp.setDescription("省市");
+                    dicttemp.setType("city");
+                    IdGenerate idGeneratedicttemp = new IdGenerate(1, 1);
+                    Thread.sleep(100L);
+                    long ldicttemp = idGeneratedicttemp.nextId();
+                    dicttemp.setId("21");
+                    dicttemp.setParentId(String.valueOf(l));
+                    list.add(dicttemp);
+                }
+            }
+        }
 		return list;
 	}
 }

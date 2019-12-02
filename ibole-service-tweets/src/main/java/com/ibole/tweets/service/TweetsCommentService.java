@@ -1,14 +1,8 @@
 package com.ibole.tweets.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.ibole.pojo.QueryVO;
-import com.ibole.pojo.tweets.Tweets;
 import com.ibole.pojo.tweets.TweetsComment;
 import com.ibole.tweets.dao.TweetsCommentDao;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,18 +24,21 @@ public class TweetsCommentService {
 	}
 
 	/**
-	 * 按照条件查询全部评论
-	 * @return IPage
-	 */
-	public IPage<TweetsComment> findTweetsCommentByCondition(TweetsComment tweetsComment, QueryVO queryVO){
-		Page<TweetsComment> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
-		LambdaQueryWrapper<TweetsComment> queryWrapper = new LambdaQueryWrapper<>();
-		if (StringUtils.isNotEmpty(tweetsComment.getNickName())) {
-			queryWrapper.like(TweetsComment::getNickName, tweetsComment.getNickName());
-		}
-		queryWrapper.orderByDesc(TweetsComment::getCreateAt);
-		return tweetsCommentCommentDao.selectPage(pr, queryWrapper);
-	}
+     * 按照条件查询全部评论
+     *
+     * @return IPage
+     */
+    public List<TweetsComment> findTweetsCommentByCondition(TweetsComment tweetsComment, QueryVO queryVO) {
+//		Page<TweetsComment> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
+//		LambdaQueryWrapper<TweetsComment> queryWrapper = new LambdaQueryWrapper<>();
+//		if (StringUtils.isNotEmpty(tweetsComment.getNickName())) {
+//			queryWrapper.like(TweetsComment::getNickName, tweetsComment.getNickName());
+//		}
+//		queryWrapper.orderByDesc(TweetsComment::getCreateAt);
+//		return tweetsCommentCommentDao.selectPage(pr, queryWrapper);
+
+        return null;
+    }
 
 
 	/**
@@ -50,23 +47,24 @@ public class TweetsCommentService {
 	 * @return TweetsComment
 	 */
 	public TweetsComment findTweetsCommentByPrimaryKey(String tweetsCommentId) {
-		return tweetsCommentCommentDao.selectById(tweetsCommentId);
+//		return tweetsCommentCommentDao.selectById(tweetsCommentId);
+        return null;
 	}
 
 	/**
 	 * 发布吐槽评论
 	 * @param tweetsComment 吐槽实体
 	 */
-	public void insertTweetsComment(TweetsComment tweetsComment,String tweetsId){
-		tweetsComment.setLikeNum(0L);
-		tweetsComment.setIsVisible(1);
-		tweetsCommentCommentDao.insert(tweetsComment);
+	public void insertTweetsComment(TweetsComment tweetsComment, String tweetsId) {
+//		tweetsComment.setLikeNum(0L);
+//		tweetsComment.setIsVisible(1);
+//		tweetsCommentCommentDao.insert(tweetsComment);
+//
+//		Tweets tweets = new Tweets();
+//		tweets.setId(tweetsId);
+//		tweetsService.updateTweetsStatus(tweets);
 
-		Tweets tweets = new Tweets();
-		tweets.setId(tweetsId);
-		tweetsService.updateTweetsStatus(tweets);
-
-		// 如果存在上级ID,则是上级评论的子评论,给父评论回复数加一
+        // 如果存在上级ID,则是上级评论的子评论,给父评论回复数加一
 		/*if(StringUtils.isNotBlank(tweetsComment.getParentId())){
 			HashMap<Object, Object> map = new HashMap<>();
 			map.put("_count","reply_count"); // 回复数 字段
@@ -80,8 +78,10 @@ public class TweetsCommentService {
 	 * @param tweetsComment 评论实体
 	 */
 	public boolean updateByTweetsCommentSelective(TweetsComment tweetsComment) {
-		int i = tweetsCommentCommentDao.updateById(tweetsComment);
-		return SqlHelper.retBool(i);
+//		int i = tweetsCommentCommentDao.updateById(tweetsComment);
+//		return SqlHelper.retBool(i);
+
+        return true;
 	}
 
 	/**
@@ -89,8 +89,10 @@ public class TweetsCommentService {
 	 * @param commentIds 要删除的评论
 	 */
 	public boolean deleteByIds(List<String> commentIds) {
-		int i = tweetsCommentCommentDao.deleteBatchIds(commentIds);
-		return SqlHelper.retBool(i);
+//		int i = tweetsCommentCommentDao.deleteBatchIds(commentIds);
+//		return SqlHelper.retBool(i);
+
+        return true;
 	}
 
 	/**

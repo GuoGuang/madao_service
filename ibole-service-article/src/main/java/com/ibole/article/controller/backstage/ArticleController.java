@@ -1,9 +1,9 @@
 package com.ibole.article.controller.backstage;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ibole.annotation.OptLog;
 import com.ibole.article.controller.BaseController;
 import com.ibole.article.service.backstage.ArticleService;
+import com.ibole.config.CustomPageRequest;
 import com.ibole.constant.CommonConst;
 import com.ibole.enums.StatusEnum;
 import com.ibole.pojo.QueryVO;
@@ -12,6 +12,7 @@ import com.ibole.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,16 +37,19 @@ public class ArticleController extends BaseController {
 		this.articleService = articleService;
 	}
 
-	/**
+    /**
      * 查询全部数据
      *
      * @return Result
      */
     @ApiOperation(value = "查询文章集合", notes = "Article")
     @GetMapping
-    public JsonData findArticleByCondition(Article article, QueryVO queryVO ) {
-	    IPage<Article> result = articleService.findArticleByCondition(article,queryVO);
-        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
+    public JsonData findArticleByCondition(Article article, QueryVO queryVO,
+                                           @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNumber,
+                                           @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
+        queryVO.setPageable(new CustomPageRequest(pageNumber, pageSize));
+        Page<Article> result = articleService.findArticleByCondition(article, queryVO);
+        return JsonData.success(result);
     }
 
     /**
@@ -58,7 +62,7 @@ public class ArticleController extends BaseController {
     @GetMapping(value = "/{id}")
     public JsonData findArticleById(@PathVariable String id) {
         Article result = articleService.findArticleById(id);
-        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),result);
+        return JsonData.success(result);
     }
 
 
@@ -72,7 +76,7 @@ public class ArticleController extends BaseController {
     public JsonData insertArticle(@RequestBody @Valid Article article, HttpServletRequest request) {
 	    Map<String, String> userInfo = getUserInfo(request);
 	    articleService.insertOrUpdateArticle(userInfo,article);
-        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
+        return JsonData.success(userInfo);
     }
 
     /**

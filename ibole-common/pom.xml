@@ -53,6 +53,21 @@
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
 
+        <!-- jpa + querydsl 实现单表和复杂查询 -->
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+        </dependency>
+
+        <!-- jpa -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
 
         <!--消息中间件-->
         <dependency>
@@ -79,24 +94,6 @@
             <artifactId>hibernate-validator</artifactId>
             <version>5.2.4.Final</version>
         </dependency>
-
-        <!-- mybatis-plus 因为抽象了com.ibole.user.core.BaseService到common中所有将此dependency放在此处 -->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.0.6</version>
-            <!-- 如果不排除会导致 Error:java: java.lang.NoClassDefFoundError: org/json/JSONObject
-                    https://gitee.com/baomidou/mybatis-plus/issues/IIJBJ
-                    https://gitee.com/baomidou/mybatisplus-spring-boot/issues/IHR21
-              -->
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-configuration-processor</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
 
         <!-- Aliyun OSS  -->
         <dependency>

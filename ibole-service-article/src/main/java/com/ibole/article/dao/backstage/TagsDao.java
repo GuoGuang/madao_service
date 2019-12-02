@@ -1,10 +1,12 @@
 package com.ibole.article.dao.backstage;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Tags;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -12,8 +14,12 @@ import java.util.ArrayList;
  **/
 
 
-public interface TagsDao extends BaseMapper<Tags> {
+public interface TagsDao extends JpaRepository<Tags, String>, JpaSpecificationExecutor<Tags> {
 
 
-	ArrayList<Tags> findTagsByCondition(QueryVO queryVO);
+	@Modifying
+	@Query("delete from Dict where id in (:ids)")
+	void deleteBatch(List<String> ids);
+
+//	ArrayList<Tags> findTagsByCondition(QueryVO queryVO);
 }

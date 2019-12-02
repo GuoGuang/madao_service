@@ -1,6 +1,5 @@
 package com.ibole.tweets.controller.backstage;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ibole.annotation.OptLog;
 import com.ibole.constant.CommonConst;
 import com.ibole.enums.StatusEnum;
@@ -34,10 +33,11 @@ public class StTweetsController {
 	 */
 	@GetMapping
 	public Result findTweetsByCondition(Tweets tweets, QueryVO queryVO){
-		IPage<Tweets> byCondition =  tweetsService.findTweetsByCondition(tweets,queryVO);
-		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), byCondition);
+//		IPage<Tweets> byCondition =  tweetsService.findTweetsByCondition(tweets,queryVO);
+//		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), byCondition);
+        return null;
 
-	}
+    }
 
 	/**
 	 * 根据ID查询

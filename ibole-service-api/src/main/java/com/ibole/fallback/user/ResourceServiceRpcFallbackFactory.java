@@ -32,11 +32,11 @@ public class ResourceServiceRpcFallbackFactory implements FallbackFactory<Resour
 			}
 
 			@Override
-			public JsonData<List<Resource>> findResourceByRoleIds(String[] roleIds) {
-				LogBack.error(ERROR_INFO,"findResourceByCondition",roleIds,throwable);
-				return new JsonData(false, StatusEnum.RPC_ERROR.getCode(), StatusEnum.RPC_ERROR.getMsg());
+            public JsonData<List<Resource>> findResourceByRoleIds(String[] roleIds) {
+                LogBack.error(ERROR_INFO, "findResourceByCondition", roleIds, throwable);
+                return new JsonData(false, StatusEnum.RPC_ERROR.getCode(), StatusEnum.RPC_ERROR.getMsg());
 
-			}
+            }
 
 
 		};
