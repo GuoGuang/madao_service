@@ -135,14 +135,15 @@ public class AuthenticationService {
      * @return ConfigAttribute
      */
     public ConfigAttribute findConfigAttributesByUrl(HttpServletRequest authRequest) {
-	    ConfigAttribute configAttribute = resourceConfigAttributes.keySet().stream()
-			    .filter(requestMatcher -> requestMatcher.matches(authRequest))
-			    .map(requestMatcher -> resourceConfigAttributes.get(requestMatcher))
-			    .peek(urlConfigAttribute -> LogBack.info("url在资源池中配置：{}", urlConfigAttribute.getAttribute()))
-			    .findFirst()
-			    .orElse(new SecurityConfig(NONEXISTENT_URL));
-	    return configAttribute;
-    }
+
+		ConfigAttribute configAttribute = resourceConfigAttributes.keySet().stream()
+				.filter(requestMatcher -> requestMatcher.matches(authRequest))
+				.map(requestMatcher -> resourceConfigAttributes.get(requestMatcher))
+				.peek(urlConfigAttribute -> LogBack.info("url在资源池中配置：{}", urlConfigAttribute.getAttribute()))
+				.findFirst()
+				.orElse(new SecurityConfig(NONEXISTENT_URL));
+		return configAttribute;
+	}
 
 
     /**
