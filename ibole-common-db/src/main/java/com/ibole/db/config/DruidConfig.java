@@ -1,4 +1,4 @@
-package com.ibole.db.mybatis.config;
+package com.ibole.db.config;
 
 import java.sql.SQLException;
 import java.util.Arrays;
