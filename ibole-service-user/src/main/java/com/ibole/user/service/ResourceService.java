@@ -1,6 +1,7 @@
 package com.ibole.user.service;
 
 
+import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.user.Resource;
 import com.ibole.user.dao.ResourceDao;
@@ -50,8 +51,8 @@ public class ResourceService{
 	}
 
 	public Resource findResourceById(String resId) {
-		return resourceDao.findById(resId).get();
-	}
+        return resourceDao.findById(resId).orElseThrow(ResourceNotFoundException::new);
+    }
 
 	public Set<Resource> findResourceByRoleIds(List<String> resId) {
 		return resourceDao.findResourceByRoleIds(resId);
