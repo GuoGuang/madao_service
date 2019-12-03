@@ -98,11 +98,27 @@ public class TweetsService {
         return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
 	}
 
-	/**
-	 * 更新吐槽表字段状态
-	 */
+    /**
+     * 更新吐槽表字段状态
+     * update tc_tweets
+     * <set>
+     * <if test="visitsCount != null ">
+     * visits_count = visits_count + 1
+     * </if>
+     * <if test="thumbUpCount != null ">
+     * thumb_up_count = thumbUpCount + 1
+     * </if>
+     * <if test="shareCount != null ">
+     * share_count = shareCount + 1
+     * </if>
+     * <if test="replyCount != null ">
+     * reply_count = replyCount + 1
+     * </if>
+     * </set>
+     * where id = #{id}
+     */
 	public void updateTweetsStatus(Tweets tweets) {
-//		tweetsDao.updateTweetsStatus(tweets);
+		tweetsDao.updateTweetsStatus(tweets);
 	}
 }
 

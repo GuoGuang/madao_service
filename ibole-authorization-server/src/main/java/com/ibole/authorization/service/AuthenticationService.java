@@ -90,7 +90,8 @@ public class AuthenticationService {
 		return map;
 	}
 
-    /**
+
+	/**
      * @param authRequest 访问的url,method
      * @return 有权限true, 无权限或全局资源中未找到请求url返回否
      */

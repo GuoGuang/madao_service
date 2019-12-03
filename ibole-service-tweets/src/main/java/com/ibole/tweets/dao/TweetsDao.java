@@ -3,6 +3,8 @@ package com.ibole.tweets.dao;
 
 import com.ibole.pojo.tweets.Tweets;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * dao
@@ -19,5 +21,7 @@ public interface TweetsDao extends JpaRepository<Tweets, Long> {
     /**
      * 更新 点赞数,回复数,分享数或者评论数 的通用更新方法
      */
-//	void updateTweetsStatus(Tweets tweets);
+    @Modifying
+    @Query("delete from Category where id in (:ids)")
+    void updateTweetsStatus(Tweets tweets);
 }
