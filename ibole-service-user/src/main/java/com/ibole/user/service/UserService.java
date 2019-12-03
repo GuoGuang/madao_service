@@ -2,6 +2,7 @@ package com.ibole.user.service;
 
 import com.ibole.api.base.LoginLogServiceRpc;
 import com.ibole.db.redis.service.RedisService;
+import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.exception.custom.UserException;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.user.Role;
@@ -134,7 +135,7 @@ public class UserService {
 	 * @param oldPassword 老密码
 	 */
 	public void changePassword(User user, String oldPassword) {
-		User userInfo = userDao.findById(user.getId()).get();
+		User userInfo = userDao.findById(user.getId()).orElseThrow(() -> new ResourceNotFoundException("用户不存在！"));
 		if (!bCryptPasswordEncoder.matches(oldPassword, userInfo.getPassword())) {
 			throw new UserException("密码不匹配！");
 		}
@@ -147,7 +148,7 @@ public class UserService {
 	 * @param id 用户id
 	 */
 	public User getUserPermission(String id) {
-		User user = userDao.findById(id).get();
+		User user = userDao.findById(id).orElseThrow(ResourceNotFoundException::new);
 		user.setRoles(roleDao.findRolesOfUser(id));
 		user.setResource(resourceDao.findResourcesOfUser(id));
 		return user;
@@ -160,17 +161,15 @@ public class UserService {
 
 
 	public User findById(String userId) {
-		Optional<User> user = userDao.findById(userId);
-		User us = user.get();
-		us.setRoles(roleDao.findRolesOfUser(us.getId()));
-		return us;
+		User user = userDao.findById(userId).orElseThrow(ResourceNotFoundException::new);
+		user.setRoles(roleDao.findRolesOfUser(user.getId()));
+		return user;
 	}
 
 	public User findByAccount(String account) {
-		Optional<User> user = userDao.findByAccount(account);
-		User us = user.get();
-		us.setRoles(roleDao.findRolesOfUser(us.getId()));
-		return us;
+		User user = userDao.findByAccount(account).orElseThrow(ResourceNotFoundException::new);
+		user.setRoles(roleDao.findRolesOfUser(user.getId()));
+		return user;
 	}
 
 	public void updateUserProfile(User user) {

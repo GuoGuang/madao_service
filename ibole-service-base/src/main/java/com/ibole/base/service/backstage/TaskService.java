@@ -3,6 +3,7 @@ package com.ibole.base.service.backstage;
 
 import com.aliyun.oss.ServiceException;
 import com.ibole.base.dao.JobDao;
+import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.pojo.QuartzJob;
 import com.ibole.pojo.QueryVO;
 import com.ibole.utils.DateUtil;
@@ -50,7 +51,8 @@ public class TaskService {
 	}
 
 	public QuartzJob findJobById(String resId) {
-		return jobDao.findById(resId).get();
+		Optional<QuartzJob> byId = jobDao.findById(resId);
+		return byId.orElseThrow(ResourceNotFoundException::new);
 	}
 
 	public void updateByPrimaryKey(QuartzJob quartzJob) {
@@ -69,7 +71,7 @@ public class TaskService {
 		jobDao.deleteBatch(quartzJobs);
 		for (String quartzJob : quartzJobs) {
 			Optional<QuartzJob> quartzJobInfo = jobDao.findById(quartzJob);
-			QuartzUtil.deleteJob(scheduler, quartzJobInfo.get());
+			QuartzUtil.deleteJob(scheduler, quartzJobInfo.orElseThrow(ResourceNotFoundException::new));
 		}
 	}
 
@@ -136,13 +138,10 @@ public class TaskService {
 	 * @return QuartzJob
 	 */
 	private QuartzJob updateQuartzJobStatus(String jobId, Integer isPause) {
-		Optional<QuartzJob> quartzJob = jobDao.findById(jobId);
-		if (quartzJob.isPresent()) {
-			QuartzJob qj = quartzJob.get();
-			qj.setPause(isPause);
-			jobDao.save(qj);
-		}
-		return quartzJob.get();
+		QuartzJob quartzJob = jobDao.findById(jobId).orElseThrow(ResourceNotFoundException::new);
+		quartzJob.setPause(isPause);
+		jobDao.save(quartzJob);
+		return quartzJob;
 	}
 
 }
