@@ -41,32 +41,33 @@ public class JsonData<T> implements Serializable {
      * 快速创建成功结果并返回结果数据
      *
      * @param data
-     * @return Result
-     */
-    public static <T> JsonData<T> success(T data) {
-        return new JsonData<>(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), data);
-    }
+	 * @return Result
+	 */
+	public static <T> JsonData<T> success(T data) {
+		return new JsonData<>(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), data);
+	}
 
-    public static <T> JsonData<T> success() {
-        return new JsonData<>(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
-    }
+	public static <T> JsonData<T> success() {
+		return new JsonData<>(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+	}
 
-    public JsonData ok() {
-        this.status = true;
-        this.code = StatusEnum.OK.getCode();
-        this.message = StatusEnum.OK.getMsg();
-        return new JsonData();
-    }
+	public JsonData ok() {
+		this.status = true;
+		this.code = StatusEnum.OK.getCode();
+		this.message = StatusEnum.OK.getMsg();
+		return new JsonData();
+	}
 
-    public static JsonData body(Object data) {
-        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), data);
-    }
-	public static JsonData error(Boolean isSuccess) {
-		return new JsonData(isSuccess, StatusEnum.ERROR.getCode(), StatusEnum.ERROR.getMsg(),null);
+	public static JsonData body(Object data) {
+		return new JsonData<>(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), data);
+	}
+
+	public static <T> JsonData<T> error(StatusEnum statusEnum) {
+		return new JsonData<>(false, statusEnum.getCode(), statusEnum.getMsg(), null);
 	}
 
 	public JsonData(StatusEnum statusEnum) {
-		this(false,statusEnum.getCode(),statusEnum.getMsg());
+		this(false, statusEnum.getCode(), statusEnum.getMsg());
 	}
 
 	public JsonData(boolean status, int code, String message, T data) {
