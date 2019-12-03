@@ -1,6 +1,5 @@
 package com.ibole.user.service;
 
-
 import com.ibole.api.base.LoginLogServiceRpc;
 import com.ibole.db.redis.service.RedisService;
 import com.ibole.exception.custom.UserException;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 用户服务
