@@ -1,6 +1,5 @@
 package com.ibole.base.controller.blog;
 
-
 import com.ibole.base.service.blog.ApiMusicService;
 import com.ibole.utils.JsonData;
 import com.ibole.utils.JsonUtil;
@@ -13,10 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
-
-/**
- * 音乐
- **/
 
 @Api(tags = "音乐")
 @RestController
@@ -56,6 +51,19 @@ public class ApiMusicController {
 				"  }]";
 		List<Map<String, Object>> hashMap = JsonUtil.jsonToListMap(tempUrl);
 		return JsonData.success(hashMap);
+	}
+
+	/**
+	 * 音乐歌词
+	 *
+	 * @param musicId:音乐id
+	 * @return JsonData
+	 */
+	@GetMapping(value = "/lyric/{musicId}")
+	public JsonData findMusicLyric(@PathVariable String musicId) {
+		String objMap = "{\"status\":\"success\",\"message\":\"获取音乐歌词成功\",\"result\":{\"uncollected\":true,\"sgc\":true,\"sfy\":true,\"qfy\":true,\"needDesc\":true,\"code\":200,\"briefDesc\":null}}\n";
+		Map<String, Object> objectMap = JsonUtil.jsonToMap(objMap);
+		return JsonData.success(objectMap);
 	}
 
 

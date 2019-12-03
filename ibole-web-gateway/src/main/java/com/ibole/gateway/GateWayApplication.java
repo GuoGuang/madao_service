@@ -15,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  **/
 
 @ComponentScan(basePackages = {"com.ibole"}, excludeFilters = {
-//		排除mybatis.config内文件，解决gateway冲突 无效servlet问题
 		@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
 				classes = {DruidConfig.class})
 })

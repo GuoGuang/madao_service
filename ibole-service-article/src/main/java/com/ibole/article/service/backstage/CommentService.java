@@ -1,6 +1,7 @@
 package com.ibole.article.service.backstage;
 
 import com.ibole.article.dao.backstage.CommentDao;
+import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Comment;
 import org.apache.commons.lang3.StringUtils;
@@ -56,8 +57,8 @@ public class CommentService {
 	 * @return Comment
 	 */
 	public Comment findCommentByPrimaryKey(String commentId) {
-		return commentDao.findById(commentId).get();
-	}
+        return commentDao.findById(commentId).orElseThrow(ResourceNotFoundException::new);
+    }
 
 	public void saveOrUpdate(Comment comment) {
 		commentDao.save(comment);

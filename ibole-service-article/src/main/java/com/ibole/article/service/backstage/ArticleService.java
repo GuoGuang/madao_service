@@ -5,6 +5,7 @@ import com.ibole.article.dao.backstage.ArticleDao;
 import com.ibole.constant.CommonConst;
 import com.ibole.constant.RedisConstant;
 import com.ibole.db.redis.service.RedisService;
+import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Article;
 import com.ibole.pojo.user.User;
@@ -20,7 +21,6 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * 文章板块:文章服务
@@ -95,10 +95,9 @@ public class ArticleService {
 		Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + articleId);
 		Article article;
 		if (mapJson == null) {
-			Optional<Article> byId = articleDao.findById(articleId);
-			article = byId.get();
-			redisService.set(RedisConstant.REDIS_KEY_ARTICLE + articleId, article, CommonConst.TIME_OUT_DAY);
-			return article;
+			Article byId = articleDao.findById(articleId).orElseThrow(ResourceNotFoundException::new);
+			redisService.set(RedisConstant.REDIS_KEY_ARTICLE + articleId, byId, CommonConst.TIME_OUT_DAY);
+			return byId;
 		} else {
 			article = JsonUtil.jsonToPojo(mapJson.toString(), Article.class);
 			article = (Article)mapJson;

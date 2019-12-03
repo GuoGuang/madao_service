@@ -2,6 +2,7 @@ package com.ibole.base.service.backstage;
 
 import com.ibole.api.user.UserServiceRpc;
 import com.ibole.base.dao.OptLogDao;
+import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.base.OptLog;
 import com.ibole.pojo.user.User;
@@ -70,7 +71,7 @@ public class OptLogService {
 	 */
 	public OptLog findById(String id) {
 		Optional<OptLog> byId = optLogDao.findById(id);
-		return byId.orElse(new OptLog());
+		return byId.orElseThrow(ResourceNotFoundException::new);
 	}
 
 	/**

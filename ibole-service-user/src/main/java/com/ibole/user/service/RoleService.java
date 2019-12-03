@@ -1,6 +1,7 @@
 package com.ibole.user.service;
 
 
+import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.user.Resource;
 import com.ibole.pojo.user.Role;
@@ -20,7 +21,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 角色接口实现
@@ -62,11 +62,10 @@ public class RoleService {
 	}
 
 	public Role findRoleById(String roleId) {
-		Optional<Role> role = roleDao.findById(roleId);
-		Role ro = role.get();
+		Role role = roleDao.findById(roleId).orElseThrow(ResourceNotFoundException::new);
 		List<Resource> resourcesOfRole = resourceDao.findResourcesOfRole(roleId);
-		ro.setResource(resourcesOfRole);
-		return ro;
+		role.setResource(resourcesOfRole);
+		return role;
 	}
 
 	/**
