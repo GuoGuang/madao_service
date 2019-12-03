@@ -51,7 +51,6 @@ public class GateWayConfig {
 				.route("user_route", r -> r.path("/su/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-USER"))
 				// 基础服务
 				.route("base_route", r -> r.path("/base/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-BASE"))
-				.route("api_base_route", r -> r.path("/api/base/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-BASE"))
 				// 微博服务
 				.route("tweet_route", r -> r.path("/ts/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-TWEETS"))
 				// 文章服务

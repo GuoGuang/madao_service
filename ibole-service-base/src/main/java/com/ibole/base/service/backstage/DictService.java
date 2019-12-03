@@ -2,6 +2,7 @@ package com.ibole.base.service.backstage;
 
 
 import com.ibole.base.dao.DictDao;
+import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.base.Dict;
 import org.apache.commons.lang3.StringUtils;
@@ -65,9 +66,9 @@ public class DictService {
 	}
 
 	public Dict findDictById(String resId) {
-		Optional<Dict> byId = dictDao.findById(resId);
-		return byId.orElse(new Dict());
-	}
+        Optional<Dict> byId = dictDao.findById(resId);
+        return byId.orElseThrow(ResourceNotFoundException::new);
+    }
 
 	public void saveOrUpdate(Dict dict) {
 		dictDao.save(dict);

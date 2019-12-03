@@ -3,6 +3,7 @@ package com.ibole.article.service.backstage;
 
 import com.ibole.article.dao.backstage.CategoryDao;
 import com.ibole.db.redis.service.RedisService;
+import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Category;
 import org.apache.commons.lang3.StringUtils;
@@ -61,7 +62,7 @@ public class CategoryService {
 	 * @return Category
 	 */
 	public Category findCategoryById(String categoryId) {
-		return categoryDao.findById(categoryId).get();
+		return categoryDao.findById(categoryId).orElseThrow(ResourceNotFoundException::new);
 	}
 
 	public void saveOrUpdate(Category category) {

@@ -2,6 +2,7 @@ package com.ibole.base.service.backstage;
 
 import com.ibole.api.user.UserServiceRpc;
 import com.ibole.base.dao.LoginLogDao;
+import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.base.LoginLog;
 import com.ibole.pojo.user.User;
@@ -72,9 +73,9 @@ public class LoginLogService {
 	 * @return LoginLog
 	 */
 	public LoginLog findById(String logId) {
-		Optional<LoginLog> byId = loginLogDao.findById(logId);
-		return byId.orElse(new LoginLog());
-	}
+        Optional<LoginLog> byId = loginLogDao.findById(logId);
+        return byId.orElseThrow(ResourceNotFoundException::new);
+    }
 
 	/**
 	 * 添加登录日志
