@@ -7,8 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author LGG
- * @description gateway服务网关配置
+ * gateway服务网关配置
  * Spring Cloud Gateway功能：
  * 基于Spring Framework 5，Project Reactor和Spring Boot 2.0构建
  * 能够匹配任何请求属性上的路由。
@@ -18,7 +17,6 @@ import org.springframework.context.annotation.Configuration;
  * 易于编写谓词和过滤器
  * 请求率限制
  * 路径重写
- * @create 2018-12-26 14:34
  **/
 
 @Configuration
