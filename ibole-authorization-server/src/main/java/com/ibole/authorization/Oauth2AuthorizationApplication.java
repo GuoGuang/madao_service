@@ -1,6 +1,5 @@
 package com.ibole.authorization;
 
-import com.ibole.utils.IdGenerate;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,14 +27,5 @@ public class Oauth2AuthorizationApplication {
 	public RestTemplate restTemplate() {
 		return new RestTemplate(new OkHttp3ClientHttpRequestFactory());
 	}
-	/**
-	 * 雪花算法 id生成器
-	 * @return IdGenerate
-	 */
-	@Bean
-	public IdGenerate idGenerate(){
-		return new IdGenerate(1,1);
-	}
-
 
 }
