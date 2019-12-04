@@ -54,6 +54,12 @@
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-autoconfigure -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <version>2.2.1.RELEASE</version>
+        </dependency>
 
         <dependency>
             <groupId>com.ibole</groupId>
@@ -62,10 +68,10 @@
         </dependency>
 
         <!-- 不加会导致 java: 程序包javax.servlet.http不存在 -->
-       <!-- <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
-        </dependency>-->
+        <!-- <dependency>
+             <groupId>org.apache.tomcat.embed</groupId>
+             <artifactId>tomcat-embed-core</artifactId>
+         </dependency>-->
     </dependencies>
 
 
