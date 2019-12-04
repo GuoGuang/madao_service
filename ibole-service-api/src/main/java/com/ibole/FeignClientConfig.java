@@ -1,17 +1,8 @@
 package com.ibole;
 
-import com.ibole.utils.JsonData;
-import com.ibole.utils.JsonUtil;
-import com.ibole.utils.LogBack;
 import feign.Logger;
-import feign.Response;
-import feign.Util;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
-
-import java.io.IOException;
 
 
 /**
