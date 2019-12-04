@@ -166,12 +166,6 @@ public class UserService {
 		return user;
 	}
 
-	public User findByAccount(String account) {
-		User user = userDao.findByAccount(account).orElseThrow(ResourceNotFoundException::new);
-		user.setRoles(roleDao.findRolesOfUser(user.getId()));
-		return user;
-	}
-
 	public void updateUserProfile(User user) {
 		userDao.save(user);
 	}

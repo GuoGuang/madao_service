@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 用户管理
@@ -20,5 +19,4 @@ public interface UserDao extends JpaRepository<User, String>, JpaSpecificationEx
 	@Query("delete from User where id in (:ids)")
 	void deleteBatch(List<String> ids);
 
-	Optional<User> findByAccount(String account);
 }
