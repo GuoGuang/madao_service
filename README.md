@@ -1,9 +1,6 @@
 # ibole-manage
 
-![springboot](https://img.shields.io/badge/springboot-2.0.2.RELEASE-brightgreen.svg)    
-![springCloud](https://img.shields.io/badge/springcloud-Finchley.SR2-brightgreen.svg)     
-![jdk](https://img.shields.io/badge/jdk->=1.8-blue.svg)    
-![license](https://img.shields.io/badge/license-GPL%20(%3E%3D%202)-blue)
+![springboot](https://img.shields.io/badge/springboot-2.0.2.RELEASE-brightgreen.svg)    ![springCloud](https://img.shields.io/badge/springcloud-Finchley.SR2-brightgreen.svg)     ![jdk](https://img.shields.io/badge/jdk->=1.8-blue.svg)    ![license](https://img.shields.io/badge/license-GPL%20(%3E%3D%202)-blue)
 
 本仓库基于spring、spring-boot、spring-cloud等全家桶模块搭建
 
