@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
  * 鉴权服务api
  **/
 
-@FeignClient(value = FeignConst.SERVICE_AUTHORIZATION_AUTH,
-			 path = FeignConst.SERVICE_AUTHORIZATION_AUTH_PATH,
-			 fallbackFactory = AuthServiceRpcFallbackFactory.class)
+@FeignClient(contextId = "authClient",
+		value = FeignConst.SERVICE_AUTHORIZATION_AUTH,
+		path = FeignConst.SERVICE_AUTHORIZATION_AUTH_PATH,
+		fallbackFactory = AuthServiceRpcFallbackFactory.class)
 public interface AuthServiceRpc {
 
 	/**

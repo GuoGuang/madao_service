@@ -1,6 +1,5 @@
 package com.ibole.user;
 
-import com.ibole.utils.IdGenerate;
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -46,15 +45,6 @@ public class UserApplication {
 	@Bean
 	public BCryptPasswordEncoder bcryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
-	}
-
-	/**
-	 * 雪花算法 id生成器
-	 * @return IdGenerate
-	 */
-	@Bean
-	public IdGenerate idGenerate(){
-		return new IdGenerate(1,1);
 	}
 
 	/**
