@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
  * 用户服务api
  **/
 
-@FeignClient(value = FeignConst.SERVICE_USER,
-		path = FeignConst.SERVICE_USER_PATH,
+@FeignClient(contextId = "userClient",
+        value = FeignConst.SERVICE_USER,
+        path = FeignConst.SERVICE_USER_PATH,
         fallbackFactory = UserServiceRpcFallbackFactory.class,
         configuration = {FeignClientConfig.class})
 public interface UserServiceRpc {
