@@ -25,10 +25,10 @@ public class FeignConfiguration implements RequestInterceptor {
 
 	@Override
 	public void apply(RequestTemplate template) {
-		if ("GET".equals(template.method()) && Objects.nonNull(template.body())) {
+		if ("GET".equals(template.method()) && Objects.nonNull(template.requestBody().asBytes())) {
 			try {
-				JsonNode jsonNode = objectMapper.readTree(template.body());
-				template.body(null);
+				JsonNode jsonNode = objectMapper.readTree(template.requestBody().asBytes());
+				template.body((String) null);
 
 				Map<String, Collection<String>> queries = new HashMap<>();
 				buildQuery(jsonNode, EMPTY, queries);
