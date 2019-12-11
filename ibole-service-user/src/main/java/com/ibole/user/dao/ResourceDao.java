@@ -18,7 +18,7 @@ import java.util.Set;
 public interface ResourceDao extends JpaRepository<Resource, String>, JpaSpecificationExecutor<Resource> {
 
     @Query(value = "SELECT * FROM us_resource WHERE id IN (SELECT us_resource_id FROM us_role_resource WHERE us_role_id in (:resId))", nativeQuery = true)
-    Set<Resource> findResourceByRoleIds(List<String> resId);
+    Set<Resource> findResourceByRoleIds(@Param("resId") List<String> resId);
 
     /**
      * 查询当前用户的资源列表
@@ -45,5 +45,5 @@ public interface ResourceDao extends JpaRepository<Resource, String>, JpaSpecifi
 
     @Modifying
     @Query("delete from Resource where id in (:ids)")
-    void deleteBatch(List<String> ids);
+    void deleteBatch(@Param("ids") List<String> ids);
 }

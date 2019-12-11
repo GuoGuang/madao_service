@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface ArticleDao extends JpaRepository<Article, String>, JpaSpecifica
 
 	@Modifying
 	@Query("delete from Article where id in (:ids)")
-	void deleteBatch(List<String> ids);
+	void deleteBatch(@Param("ids") List<String> ids);
 
 	/**
 	 * 审核文章
@@ -26,12 +27,12 @@ public interface ArticleDao extends JpaRepository<Article, String>, JpaSpecifica
 	 */
 	@Modifying
 	@Query("update Article set state='1' where id=:id")
-	void examine(String id);
+	void examine(@Param("id") String id);
 
 	/**
 	 * 点赞
 	 */
 	@Modifying
 	@Query("update Article a set upvote = upvote+1 where id=:id")
-	void updateThumbUp(String id);
+	void updateThumbUp(@Param("id") String id);
 }
