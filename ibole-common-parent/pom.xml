@@ -42,92 +42,92 @@
 
     <!--添加spring-cloud依赖-->
 
-        <dependencies>
-            <!--Swagger ui 2.9.2 需要此包-->
-           <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>20.0</version>
-            </dependency>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <scope>test</scope>
-            </dependency>
+    <dependencies>
+        <!--Swagger ui 2.9.2 需要此包-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-            <!--Jackson-->
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>2.9.10</version>
-            </dependency>
+        <!--Jackson-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.10</version>
+        </dependency>
 
 
-            <!--springboot 监控 -->
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-starter-client</artifactId>
-                <version>2.0.1</version>
-            </dependency>
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-server-ui</artifactId>
-                <version>2.0.1</version>
-            </dependency>
+        <!--springboot 监控 -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-server-ui</artifactId>
+            <version>2.0.1</version>
+        </dependency>
 
-             <dependency>
-                 <groupId>org.apache.commons</groupId>
-                 <artifactId>commons-lang3</artifactId>
-                 <version>3.5</version>
-             </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.5</version>
+        </dependency>
 
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-access</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.squareup.okhttp3</groupId>
-                <artifactId>okhttp</artifactId>
-            </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-access</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+        </dependency>
 
-            <!--Swagger接口文档生成 -->
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-openfeign</artifactId>
-                <version>2.1.1.RELEASE</version>
-            </dependency>
-            <!-- 从Git中读取配置时所需jar -->
-           <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-config</artifactId>
-            </dependency>
-        </dependencies>
+        <!--Swagger接口文档生成 -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>2.1.1.RELEASE</version>
+        </dependency>
+        <!-- 从Git中读取配置时所需jar -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+    </dependencies>
 
     <dependencyManagement>
         <dependencies>
@@ -159,26 +159,26 @@
         </dependencies>
     </dependencyManagement>
 
-               <modules>
-                   <module>../ibole-common</module>
-                   <module>../ibole-common-redis</module>
-                   <module>../ibole-database-mybatis</module>
-                   <module>../ibole-server-eureka</module>
-                   <module>../ibole-server-config</module>
-                   <module>../ibole-server-monitor</module>
-                   <module>../ibole-service-base</module>
-                   <module>../ibole-service-article</module>
-                   <module>../ibole-service-tweets</module>
-                   <module>../ibole-service-search</module>
-                   <module>../ibole-service-api</module>
-                   <module>../ibole-service-user</module>
-                   <module>../ibole-web-gateway</module>
-                   <module>../ibole-web-platform</module>
-                   <module>../ibole-authorization-server</module>
-                   <module>../ibole-authentication-server</module>
+    <modules>
+        <module>../ibole-common</module>
+        <module>../ibole-common-redis</module>
+        <module>../ibole-database-mybatis</module>
+        <module>../ibole-server-eureka</module>
+        <module>../ibole-server-config</module>
+        <module>../ibole-server-monitor</module>
+        <module>../ibole-service-base</module>
+        <module>../ibole-service-article</module>
+        <module>../ibole-service-tweets</module>
+        <module>../ibole-service-search</module>
+        <module>../ibole-service-api</module>
+        <module>../ibole-service-user</module>
+        <module>../ibole-web-gateway</module>
+        <module>../ibole-web-platform</module>
+        <module>../ibole-authorization-server</module>
+        <module>../ibole-authentication-server</module>
 
-               </modules>
-               <packaging>pom</packaging>
+    </modules>
+    <packaging>pom</packaging>
 
     <build>
         <plugins>
