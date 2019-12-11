@@ -1,41 +1,44 @@
 package com.ibole.user.service;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.user.Resource;
 import com.ibole.pojo.user.Role;
 import com.ibole.pojo.user.RoleResource;
 import com.ibole.pojo.user.User;
+import com.ibole.user.dao.ResourceDao;
 import com.ibole.user.dao.RoleDao;
 import com.ibole.user.dao.RoleResourceDao;
 import com.ibole.utils.DateUtil;
 import com.ibole.utils.IdGenerate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  角色接口实现
+ * 角色接口实现
  **/
 @Service
 public class RoleService {
 
 	private final RoleDao roleDao;
 	private final RoleResourceDao roleResourceDao;
+	private final ResourceDao resourceDao;
 	private final IdGenerate idGenerate;
 
 	@Autowired
-	public RoleService(RoleDao roleDao, RoleResourceDao roleResourceDao, IdGenerate idGenerate) {
+	public RoleService(RoleDao roleDao, RoleResourceDao roleResourceDao, IdGenerate idGenerate, ResourceDao resourceDao) {
 		this.roleDao = roleDao;
 		this.roleResourceDao = roleResourceDao;
 		this.idGenerate = idGenerate;
+		this.resourceDao = resourceDao;
 	}
 
 
@@ -44,33 +47,40 @@ public class RoleService {
 	 * @param role : Role
 	 * @return IPage<Role>
 	 */
-	public IPage<Role> findRuleByCondition(Role role, QueryVO queryVO ) {
-		Page<Role> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
-		LambdaQueryWrapper<Role> queryWrapper = new LambdaQueryWrapper<>();
-		if (StringUtils.isNotEmpty(role.getRoleName())){
-			queryWrapper.eq(Role::getRoleName,role.getRoleName());
-		}
-		queryWrapper.orderByDesc(Role::getCreateAt);
-		return roleDao.selectPage(pr, queryWrapper);
+	public Page<Role> findRuleByCondition(Role role, QueryVO queryVO) {
+		Specification<Role> condition = (root, query, builder) -> {
+			List<Predicate> predicates = new ArrayList<>();
+			if (StringUtils.isNotEmpty(role.getRoleName())) {
+				predicates.add(builder.like(root.get("roleName"), "%" + role.getRoleName() + "%"));
+			}
+			Predicate[] ps = new Predicate[predicates.size()];
+			query.where(builder.and(predicates.toArray(ps)));
+			query.orderBy(builder.desc(root.get("createAt").as(Long.class)));
+			return null;
+		};
+		return roleDao.findAll(condition, queryVO.getPageable());
 	}
 
 	public Role findRoleById(String roleId) {
-		Role role = roleDao.selectById(roleId);
-		role.setResource(roleResourceDao.findResourcesOfRole(roleId));
+		Role role = roleDao.findById(roleId).orElseThrow(ResourceNotFoundException::new);
+		List<Resource> resourcesOfRole = resourceDao.findResourcesOfRole(roleId);
+		role.setResource(resourcesOfRole);
 		return role;
 	}
 
 	/**
 	 * 更新角色、关联的资源
 	 * @param role 角色实体
-	 * @return boolean
 	 */
-	public boolean updateByPrimaryKey(Role role) {
-		int i = roleDao.updateById(role);
-
-		LambdaQueryWrapper<RoleResource> deleteWrapper = new LambdaQueryWrapper<>();
-		deleteWrapper.eq(RoleResource::getUsRoleId,role.getId());
-		roleResourceDao.delete(deleteWrapper);
+	public void saveOrUpdate(Role role) {
+		if (StringUtils.isEmpty(role.getId())) {
+			role.setCreateAt(DateUtil.getTimestamp());
+			role.setUpdateAt(DateUtil.getTimestamp());
+			roleDao.save(role);
+		} else {
+			roleDao.save(role);
+			roleResourceDao.deleteByUsRoleId(role.getId());
+		}
 		List<RoleResource> roleResources = new ArrayList<>();
 		for (Resource resource : role.getResource()) {
 			RoleResource roleResource = new RoleResource();
@@ -79,26 +89,16 @@ public class RoleService {
 			roleResource.setUsRoleId(role.getId());
 			roleResources.add(roleResource);
 		}
-		roleResourceDao.insertBatch(roleResources);
-
-		return SqlHelper.retBool(i);
+		roleResourceDao.saveAll(roleResources);
 	}
 
-	public boolean deleteByIds(List<String> roleId) {
-		int i = roleDao.deleteBatchIds(roleId);
-		return SqlHelper.retBool(i);
+	public void deleteByIds(List<String> roleId) {
+		roleDao.deleteBatch(roleId);
 	}
-
-	public boolean insertSelective(Role role) {
-		role.setCreateAt(DateUtil.getTimestamp());
-		role.setUpdateAt(DateUtil.getTimestamp());
-		int insert = roleDao.insert(role);
-		return SqlHelper.retBool(insert);
-	}
-
 
 	/**
 	 * 查询当前角色的用户列表
+	 *
 	 * @param role 角色
 	 * @return List<User>
 	 */

@@ -2,7 +2,6 @@ package com.ibole.user.controller;
 
 import com.ibole.annotation.OptLog;
 import com.ibole.constant.CommonConst;
-import com.ibole.enums.StatusEnum;
 import com.ibole.enums.UserEnum;
 import com.ibole.pojo.user.User;
 import com.ibole.user.service.UserService;
@@ -30,6 +29,7 @@ public class ProfileController {
 	private final UserService userService;
 	// 对象存储工具
 	private final OssClientUtil ossClientUtil;
+
 	@Autowired
 	public ProfileController(UserService userService,OssClientUtil ossClientUtil) {
 		this.userService = userService;
@@ -47,17 +47,18 @@ public class ProfileController {
 	@ApiImplicitParam(name = "User", value = "用户上传头像", dataType = "Map", paramType = "query")
 	@PutMapping("avatar")
 	public JsonData updateUserAvatar( MultipartFile file,User user) throws IOException {
-		String fileUrl = ossClientUtil.uploadFile(file);
-		user.setAvatar(fileUrl);
-		userService.updateUserProfile(user);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),fileUrl);
-	}
+        String fileUrl = ossClientUtil.uploadFile(file);
+        user.setAvatar(fileUrl);
+        userService.updateUserProfile(user);
+        return JsonData.success();
+    }
+
 	@PutMapping()
 	@OptLog(operationType= CommonConst.MODIFY,operationName="更新用户资料")
 	public JsonData updateByPrimaryKey(@RequestBody User user) {
-		boolean result = userService.updateUserProfile(user);
-		return new JsonData(result, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
-	}
+        userService.updateUserProfile(user);
+        return JsonData.success();
+    }
 
 	/**
 	 * 查看个人界面
@@ -67,29 +68,25 @@ public class ProfileController {
 	 */
 	@GetMapping(value = "/{userId}")
 	public JsonData findByCondition(@PathVariable String userId) {
-		User byId = userService.findUserByUserId(userId);
-		DesensitizedUtil.mobilePhone(byId.getPhone());
-		DesensitizedUtil.around(byId.getAccount(),2,2);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), byId);
-	}
+        User result = userService.findById(userId);
+        DesensitizedUtil.mobilePhone(result.getPhone());
+        DesensitizedUtil.around(result.getAccount(), 2, 2);
+        return JsonData.success(result);
+    }
 
 	/**
 	 * 修改密码
-	 *
 	 * @param user 实体
 	 * @return JsonData
 	 */
 	@PutMapping("password")
 	@OptLog(operationType = CommonConst.MODIFY, operationName = "修改用户密码")
 	public JsonData changePassword(@RequestBody User user, String oldPassword) {
-		if (oldPassword ==null || !oldPassword.equals(user.getPassword())){
-			return new JsonData(false, UserEnum.TWICE_PASSWORD_NOT_MATCH.getCode(), UserEnum.TWICE_PASSWORD_NOT_MATCH.getInfo());
-		}
-		boolean result = userService.changePassword(user, oldPassword);
-		if (!result) {
-			return new JsonData(false, UserEnum.WRONG_PASSWORD.getCode(), UserEnum.WRONG_PASSWORD.getInfo());
-		}
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
-	}
+        if (oldPassword == null || !oldPassword.equals(user.getPassword())) {
+            return new JsonData(false, UserEnum.TWICE_PASSWORD_NOT_MATCH.getCode(), UserEnum.TWICE_PASSWORD_NOT_MATCH.getInfo());
+        }
+        userService.changePassword(user, oldPassword);
+        return JsonData.success();
+    }
 
 }

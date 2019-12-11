@@ -1,6 +1,5 @@
 package com.ibole.tweets.controller.blog;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ibole.enums.StatusEnum;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.Result;
@@ -31,10 +30,11 @@ public class TweetsController {
 	 */
 	@GetMapping
 	public Result findTweetsByCondition(Tweets tweets, QueryVO queryVO){
-		IPage<Tweets> byCondition =  tweetsService.findTweetsByCondition(tweets,queryVO);
-		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), byCondition);
+//		IPage<Tweets> byCondition =  tweetsService.findTweetsByCondition(tweets,queryVO);
+//		return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), byCondition);
 
-	}
+        return null;
+    }
 
 	/**
 	 * 根据ID查询

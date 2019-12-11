@@ -19,7 +19,8 @@ public class JsonUtil {
 	private JsonUtil(){}
 
 	private static ObjectMapper objectMapper;
-	private static final String JACKSON_ERROR = "Jackson序列化异常！";
+    private static final String JACKSON_ERROR = "Jackson序列化异常：{}";
+    private static final String JACKSON_EXCEPTION = "Jackson序列化异常";
 	static {
 		objectMapper = new ObjectMapper();
 	}
@@ -44,8 +45,8 @@ public class JsonUtil {
 			try {
 				return (T) (tr.getType().equals(String.class) ? jsonString : objectMapper.readValue(jsonString, tr));
 			} catch (Exception e) {
-				LogBack.error("json error:" + e.getMessage());
-				throw new JsonException(JACKSON_ERROR);
+                LogBack.error(JACKSON_ERROR, e.getMessage());
+                throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
 			}
 		}
 		return null;
@@ -60,8 +61,8 @@ public class JsonUtil {
 		try {
 			return objectMapper.writeValueAsString(object);
 		} catch (Exception e) {
-			LogBack.error("json error:" + e.getMessage());
-			throw new JsonException(JACKSON_ERROR);
+            LogBack.error(JACKSON_ERROR, e.getMessage());
+            throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
 		}
 	}
 
@@ -76,9 +77,9 @@ public class JsonUtil {
 		try {
 			return objectMapper.readValue(jsonStr, clazz);
 		} catch (IOException e) {
-			LogBack.error("json error:" + e.getMessage());
+            LogBack.error(JACKSON_ERROR, e.getMessage());
 			e.printStackTrace();
-			throw new JsonException(JACKSON_ERROR);
+            throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
 		}
 	}
 	/**
@@ -90,8 +91,8 @@ public class JsonUtil {
 		try {
 			return objectMapper.readValue(jsonStr, Map.class);
 		} catch (IOException e) {
-			LogBack.error("json error:" + e.getMessage());
-			throw new JsonException(JACKSON_ERROR);
+            LogBack.error(JACKSON_ERROR, e.getMessage());
+            throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
 		}
 	}
 
@@ -105,7 +106,7 @@ public class JsonUtil {
 			objectMapper.readTree(jsonStr);
 			return true;
 		} catch (IOException e) {
-			LogBack.info("非json串");
+            LogBack.error(JACKSON_ERROR, e.getMessage());
 			return false;
 		}
 	}
@@ -121,8 +122,8 @@ public class JsonUtil {
 			List<Map<String,Object>> list = objectMapper.readValue(jsonData, javaType);
 			return list;
 		} catch (Exception e) {
-			LogBack.error("json error:" + e.getMessage());
-			throw new JsonException(JACKSON_ERROR);
+            LogBack.error(JACKSON_ERROR, e.getMessage());
+            throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
 		}
 
 	}

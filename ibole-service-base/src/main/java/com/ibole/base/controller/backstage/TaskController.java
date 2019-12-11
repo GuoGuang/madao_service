@@ -1,15 +1,15 @@
 package com.ibole.base.controller.backstage;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ibole.annotation.OptLog;
 import com.ibole.base.service.backstage.TaskService;
+import com.ibole.config.CustomPageRequest;
 import com.ibole.constant.CommonConst;
-import com.ibole.enums.StatusEnum;
 import com.ibole.pojo.QuartzJob;
 import com.ibole.pojo.QueryVO;
 import com.ibole.utils.JsonData;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -36,14 +36,18 @@ public class TaskController {
 
 	/**
 	 * 条件查询任务
+	 *
 	 * @param quartzJob 查询参数
-	 * @param queryVO 查询参数
+	 * @param queryVO   查询参数
 	 * @return JsonData
 	 */
 	@GetMapping
-	public JsonData findResByCondition(QuartzJob quartzJob, QueryVO queryVO) {
-		IPage<QuartzJob> resData = taskService.findTaskByCondition(quartzJob,queryVO);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), resData);
+	public JsonData findResByCondition(QuartzJob quartzJob, QueryVO queryVO,
+									   @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNumber,
+									   @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
+		queryVO.setPageable(new CustomPageRequest(pageNumber, pageSize));
+		Page<QuartzJob> resData = taskService.findTaskByCondition(quartzJob, queryVO);
+		return JsonData.success(resData);
 	}
 
 	/**
@@ -54,7 +58,7 @@ public class TaskController {
 	@GetMapping(value = "/{id}")
 	public JsonData findById(@PathVariable String id) {
 		QuartzJob resData = taskService.findJobById(id);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), resData);
+		return JsonData.success(resData);
 	}
 
 	/**
@@ -65,8 +69,8 @@ public class TaskController {
 	@PutMapping
 	@OptLog(operationType= CommonConst.MODIFY,operationName="更新Quartz任务")
 	public JsonData updateByPrimaryKey(@RequestBody @Valid QuartzJob quartzJob) {
-		boolean state = taskService.updateByPrimaryKey(quartzJob);
-		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+		taskService.updateByPrimaryKey(quartzJob);
+		return JsonData.success();
 	}
 
 	/**
@@ -77,8 +81,8 @@ public class TaskController {
 	@PostMapping
 	@OptLog(operationType= CommonConst.ADD,operationName="插入Quartz任务")
 	public JsonData insertSelective(@RequestBody @Valid QuartzJob quartzJob) {
-		boolean state = taskService.insertSelective(quartzJob);
-		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+		taskService.insertSelective(quartzJob);
+		return JsonData.success();
 	}
 
 	/**
@@ -89,8 +93,8 @@ public class TaskController {
 	@DeleteMapping()
 	@OptLog(operationType= CommonConst.DELETE,operationName="删除Quartz任务")
 	public JsonData deleteByIds(@RequestBody List<String> quartzJobIds) {
-		boolean state = taskService.deleteByIds(quartzJobIds);
-		return new JsonData(state, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+		taskService.deleteByIds(quartzJobIds);
+		return JsonData.success();
 	}
 
 	/**
@@ -99,9 +103,9 @@ public class TaskController {
 	 * @return JsonData
 	 */
 	@GetMapping("/pause/{id}")
-	public JsonData pauseJob(@PathVariable("id") String jobId){
+	public JsonData pauseJob(@PathVariable("id") String jobId) {
 		taskService.pause(jobId);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+		return JsonData.success();
 	}
 
 	/**
@@ -111,9 +115,9 @@ public class TaskController {
 	 */
 	@GetMapping("/run/{id}")
 	@OptLog(operationType= CommonConst.MODIFY,operationName="开始执行Quartz任务")
-	public JsonData runJob(@PathVariable("id") String jobId){
+	public JsonData runJob(@PathVariable("id") String jobId) {
 		taskService.run(jobId);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+		return JsonData.success();
 	}
 
 	/**
@@ -124,7 +128,7 @@ public class TaskController {
 	@GetMapping("/resume/{id}")
 	public JsonData resumeJob(@PathVariable("id") String jobId) {
 		taskService.resume(jobId);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+		return JsonData.success();
 	}
 
 }

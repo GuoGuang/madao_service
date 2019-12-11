@@ -1,7 +1,7 @@
 package com.ibole.auth.handler;
 
 import com.ibole.enums.StatusEnum;
-import com.ibole.exception.custom.ValidateCodeException;
+import com.ibole.auth.exception.ValidateCodeException;
 import com.ibole.utils.JsonData;
 import com.ibole.utils.JsonUtil;
 import org.springframework.security.core.AuthenticationException;

@@ -2,6 +2,7 @@ package com.ibole.user.listener;
 
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
+import com.ibole.utils.LogBack;
 import com.ibole.utils.third.SmsUtil;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,10 @@ import java.util.Map;
  **/
 
 @Component
-//@RabbitListener(queues = "sms")
 @ConditionalOnProperty(value = "aliyun.sms")
 public class SmsListener {
 
-	@Autowired
+    @Autowired(required = false)
 	private SmsUtil smsUtil;
 
 	@Value("${aliyun.sms.template_code}")
@@ -34,16 +34,16 @@ public class SmsListener {
 	 */
 	@RabbitHandler
 	public SendSmsResponse sendSms(Map<String,String> message){
-		System.out.println("手机号："+message.get("mobile"));
-		System.out.println("验证码："+message.get("code"));
+        LogBack.info("手机号：{}，验证码：{}；", message.get("mobile"), message.get("code"));
 		try {
 			return smsUtil.sendSms(message.get("mobile"), template_code, sign_name,
 					"{\"code\":\"" + message.get("code") + "\"}");
-		} catch (ClientException e) {
+        } catch (ClientException | NullPointerException e) {
+            LogBack.error("发送手机验证码失败：{}", e.getMessage());
 			e.printStackTrace();
 		}
 
-return null;
+        return null;
 	}
 
 }

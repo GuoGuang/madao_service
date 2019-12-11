@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>com.ibole</groupId>
-            <artifactId>ibole-database-mybatis</artifactId>
+            <artifactId>ibole-common-db</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>
@@ -23,16 +23,12 @@
             <artifactId>ibole-service-api</artifactId>
             <version>1.0.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.ibole</groupId>
-            <artifactId>ibole-common-redis</artifactId>
-            <version>1.0.0</version>
-        </dependency>
 
         <!--oauth2认证-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-security</artifactId>
+            <version>2.0.0.RELEASE</version>
         </dependency>
 
         <!--第三方登录-->

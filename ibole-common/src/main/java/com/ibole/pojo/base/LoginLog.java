@@ -1,12 +1,11 @@
 package com.ibole.pojo.base;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.ibole.pojo.BasePojo;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 
@@ -15,18 +14,23 @@ import java.io.Serializable;
  **/
 @Getter
 @Setter
+@Entity
+@Table(name = "ba_login_log")
 public class LoginLog extends BasePojo implements Serializable {
     /**
      * 日志表
      */
-    @TableId(type = IdType.ID_WORKER_STR)
+    @Id
+    @GeneratedValue(generator = "idGenerator")
+    @GenericGenerator(name = "idGenerator", strategy = "com.ibole.config.IdGeneratorConfig")
     private String id;
 
     /**
      * 登录人
      */
     private String userId;
-    @TableField(exist = false)
+
+    @Transient
     private String userName;
 
     /**

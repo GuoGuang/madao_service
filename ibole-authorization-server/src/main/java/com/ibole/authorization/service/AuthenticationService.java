@@ -90,7 +90,8 @@ public class AuthenticationService {
 		return map;
 	}
 
-    /**
+
+	/**
      * @param authRequest 访问的url,method
      * @return 有权限true, 无权限或全局资源中未找到请求url返回否
      */
@@ -135,14 +136,15 @@ public class AuthenticationService {
      * @return ConfigAttribute
      */
     public ConfigAttribute findConfigAttributesByUrl(HttpServletRequest authRequest) {
-	    ConfigAttribute configAttribute = resourceConfigAttributes.keySet().stream()
-			    .filter(requestMatcher -> requestMatcher.matches(authRequest))
-			    .map(requestMatcher -> resourceConfigAttributes.get(requestMatcher))
-			    .peek(urlConfigAttribute -> LogBack.info("url在资源池中配置：{}", urlConfigAttribute.getAttribute()))
-			    .findFirst()
-			    .orElse(new SecurityConfig(NONEXISTENT_URL));
-	    return configAttribute;
-    }
+
+		ConfigAttribute configAttribute = resourceConfigAttributes.keySet().stream()
+				.filter(requestMatcher -> requestMatcher.matches(authRequest))
+				.map(requestMatcher -> resourceConfigAttributes.get(requestMatcher))
+				.peek(urlConfigAttribute -> LogBack.info("url在资源池中配置：{}", urlConfigAttribute.getAttribute()))
+				.findFirst()
+				.orElse(new SecurityConfig(NONEXISTENT_URL));
+		return configAttribute;
+	}
 
 
     /**

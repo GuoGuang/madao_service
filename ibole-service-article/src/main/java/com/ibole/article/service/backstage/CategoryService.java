@@ -1,17 +1,19 @@
 package com.ibole.article.service.backstage;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ibole.article.dao.backstage.CategoryDao;
-import com.ibole.cache.redis.RedisService;
+import com.ibole.db.redis.service.RedisService;
+import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Category;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,53 +34,47 @@ public class CategoryService {
 
 	/**
 	 * 查询全部列表
+	 *
 	 * @return IPage<Category>
 	 */
-	public IPage<Category> findCategoryByCondition(Category category, QueryVO queryVO ) {
-		Page<Category> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
+	public Page<Category> findCategoryByCondition(Category category, QueryVO queryVO) {
+		Specification<Category> condition = (root, query, builder) -> {
+			List<Predicate> predicates = new ArrayList<>();
+			if (StringUtils.isNotEmpty(category.getName())) {
+				predicates.add(builder.like(root.get("name"), "%" + category.getName() + "%"));
+			}
+			if (category.getState() != null) {
+				predicates.add(builder.equal(root.get("state"), category.getState()));
+			}
+			Predicate[] ps = new Predicate[predicates.size()];
+			query.where(builder.and(predicates.toArray(ps)));
+			query.orderBy(builder.desc(root.get("createAt").as(Long.class)));
+			return null;
+		};
+		return categoryDao.findAll(condition, queryVO.getPageable());
 
-		LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
-
-		if (StringUtils.isNotEmpty(category.getName())){
-			queryWrapper.like(Category::getName,category.getName());
-		}
-		if (category.getState() != null){
-			queryWrapper.eq(Category::getState,category.getState());
-		}
-		queryWrapper.orderByDesc(Category::getCreateAt);
-		return categoryDao.selectPage(pr, queryWrapper);
 	}
 
 	/**
 	 * 根据ID查询实体
-	 * @param id 分类id
+	 *
+	 * @param categoryId 分类id
 	 * @return Category
 	 */
-	public Category findCategoryByPrimaryKey(String categoryId) {
-		return categoryDao.selectById(categoryId);
+	public Category findCategoryById(String categoryId) {
+		return categoryDao.findById(categoryId).orElseThrow(ResourceNotFoundException::new);
 	}
 
-	/**
-	 * 增加
-	 * @param category 实体
-	 */
-	public void insertCategory(Category category) {
-		categoryDao.insert(category);
-	}
-
-	/**
-	 * 修改
-	 * @param category 实体
-	 */
-	public void updateByCategorySelective(Category category) {
-		categoryDao.updateById(category);
+	public void saveOrUpdate(Category category) {
+		categoryDao.save(category);
 	}
 
 	/**
 	 * 删除
+	 *
 	 * @param categoryIds:分类id
 	 */
 	public void deleteCategoryByIds(List<String> categoryIds) {
-		categoryDao.deleteBatchIds(categoryIds);
+		categoryDao.deleteBatch(categoryIds);
 	}
 }

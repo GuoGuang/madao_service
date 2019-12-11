@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * 操作日志api
  **/
 
-@FeignClient(value = FeignConst.SERVICE_BASE,path = "/optLog",
+@FeignClient(contextId = "optLogClient", value = FeignConst.SERVICE_BASE, path = "/optLog",
 		fallbackFactory = OptLogServiceRpcFallbackFactory.class)
 public interface OptLogServiceRpc {
 

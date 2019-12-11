@@ -8,8 +8,6 @@ import com.ibole.utils.LogBack;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-
 
 /**
  * 接口调用失败处理
@@ -24,22 +22,22 @@ public class UserServiceRpcFallbackFactory implements FallbackFactory<UserServic
 	public UserServiceRpc create(Throwable throwable) {
 		return new UserServiceRpc() {
 
-			@Override
-			public JsonData login(HttpServletRequest request) {
-				LogBack.error(ERROR_INFO,"login",request,throwable);
-				return new JsonData(false, StatusEnum.RPC_ERROR.getCode(), StatusEnum.RPC_ERROR.getMsg());
-			}
+            @Override
+            public JsonData findUserByUser(User user) {
+                LogBack.error(ERROR_INFO, "findUserByUser", user, throwable);
+                return new JsonData<User>(false, StatusEnum.RPC_ERROR.getCode(), StatusEnum.RPC_ERROR.getMsg());
+            }
 
-			@Override
-			public JsonData findUserByUser(User user) {
-				LogBack.error(ERROR_INFO,"findUserByUser",user,throwable);
-				return new JsonData<User>(false, StatusEnum.RPC_ERROR.getCode(), StatusEnum.RPC_ERROR.getMsg());
-			}
+            @Override
+            public JsonData<User> findUserByAccount(User account) {
+                LogBack.error(ERROR_INFO, "findUserByAccount", account, throwable);
+                return new JsonData<User>(false, StatusEnum.RPC_ERROR.getCode(), StatusEnum.RPC_ERROR.getMsg());
+            }
 
-			@Override
-			public JsonData findUser() {
-				return new JsonData<User>(false, StatusEnum.RPC_ERROR.getCode(), StatusEnum.RPC_ERROR.getMsg());
-			}
-		};
+            @Override
+            public JsonData findUser() {
+                return new JsonData<User>(false, StatusEnum.RPC_ERROR.getCode(), StatusEnum.RPC_ERROR.getMsg());
+            }
+        };
 	}
 }

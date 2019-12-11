@@ -1,6 +1,5 @@
 package com.ibole.gateway.filter;
 
-import com.ibole.cache.redis.RedisService;
 import com.ibole.enums.StatusEnum;
 import com.ibole.gateway.service.AuthService;
 import com.ibole.pojo.user.AuthToken;
@@ -43,10 +42,6 @@ public class TokenFilter implements GlobalFilter, Ordered {
 	 */
 	@Autowired
 	private AuthService authService;
-
-	@Autowired
-	private RedisService redisService;
-
 
 	/**
 	 * 获取token字段，如果能获取到就 pass，获取不到就直接返回401错误，

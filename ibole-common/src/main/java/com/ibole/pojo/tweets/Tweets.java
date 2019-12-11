@@ -1,7 +1,5 @@
 package com.ibole.pojo.tweets;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.ibole.pojo.BasePojo;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
@@ -13,12 +11,15 @@ import java.io.Serializable;
 /**
  * 吐槽，推特
  **/
-@ApiModel(value="Tweets", description="吐槽，推特")
+@ApiModel(value = "Tweets", description = "吐槽，推特")
 @Getter
 @Setter
+//@Entity
+//@Table(name = "t_hotel", schema = "test", catalog = "")
 public class Tweets extends BasePojo implements Serializable {
 
-    @TableId(type = IdType.ID_WORKER_STR)
+    //    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id; // 吐槽表ID
 
     @NotNull(message="标题不能为空")

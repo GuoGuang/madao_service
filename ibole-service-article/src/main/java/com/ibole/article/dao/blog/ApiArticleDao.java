@@ -1,26 +1,26 @@
 package com.ibole.article.dao.blog;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Article;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 /**
  * 文章数据处理层
  **/
 
 
-public interface ApiArticleDao extends BaseMapper<Article> {
+public interface ApiArticleDao extends JpaRepository<Article, Long>, JpaSpecificationExecutor<Article> {
 
-	IPage<Article> findArticlePage(Page page, QueryVO queryVO);
+//	@Query(value = "SELECT aa.*,ac.name,ac.id as cid FROM ar_article aa LEFT JOIN ar_category ac on aa.category_id = ac.id",
+//					nativeQuery = true)
+//	Page<Article> findArticlePage(Page page, QueryVO queryVO);
 
 	/**
 	 * 审核文章
 	 *
 	 * @param id
 	 */
-	void examine(String id);
+//	void examine(String id);
 
 	/**
 	 * 点赞
@@ -28,5 +28,5 @@ public interface ApiArticleDao extends BaseMapper<Article> {
 	 * @param id
 	 * @return
 	 */
-	int updateThumbUp(String id);
+//	int updateThumbUp(String id);
 }

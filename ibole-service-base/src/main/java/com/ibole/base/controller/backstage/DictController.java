@@ -1,16 +1,16 @@
 package com.ibole.base.controller.backstage;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ibole.annotation.OptLog;
 import com.ibole.base.service.backstage.DictService;
+import com.ibole.config.CustomPageRequest;
 import com.ibole.constant.CommonConst;
-import com.ibole.enums.StatusEnum;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.base.Dict;
 import com.ibole.utils.DateUtil;
 import com.ibole.utils.JsonData;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -37,13 +37,16 @@ public class DictController {
 
 	/**
 	 * 条件查询资源
-	 * @param dict 查询参数
+	 *
+	 * @param dict    查询参数
 	 * @param queryVO 查询参数
 	 * @return JsonData
 	 */
 	@GetMapping
-	public JsonData findResByCondition(Dict dict, QueryVO queryVO) {
-		IPage<Dict> resData = dictService.findDictByCondition(dict,queryVO);
+	public JsonData findResByCondition(Dict dict, QueryVO queryVO,
+									   Integer pageNum, Integer pageSize) {
+		queryVO.setPageable(new CustomPageRequest(pageNum, pageSize));
+		Page<Dict> resData = dictService.findDictByCondition(dict, queryVO);
 		return JsonData.success(resData);
 	}
 
@@ -54,7 +57,7 @@ public class DictController {
 	 */
 	@GetMapping("/type")
 	public JsonData fetchDictType(Dict dict) {
-		List<Dict> dictTypes = dictService.fetchDictType(dict);
+		List<Dict> dictTypes = dictService.findIdNameTypeByParentId(dict);
 		return JsonData.success(dictTypes);
 	}
 
@@ -89,8 +92,8 @@ public class DictController {
 	@PutMapping
 	@OptLog(operationType= CommonConst.MODIFY,operationName="更新字典项")
 	public JsonData updateByPrimaryKey(@RequestBody @Valid Dict dict) {
-		boolean state = dictService.updateByPrimaryKey(dict);
-		return JsonData.success(state);
+		dictService.saveOrUpdate(dict);
+		return JsonData.success();
 	}
 
 	/**
@@ -103,8 +106,8 @@ public class DictController {
 	public JsonData insertSelective(@RequestBody @Valid Dict dict) {
 		dict.setCreateAt(DateUtil.getTimestamp());
 		dict.setUpdateAt(DateUtil.getTimestamp());
-		boolean state = dictService.insertDictSelective(dict);
-		return JsonData.success(state);
+		dictService.saveOrUpdate(dict);
+		return JsonData.success();
 	}
 
 	/**
@@ -115,7 +118,7 @@ public class DictController {
 	@DeleteMapping()
 	@OptLog(operationType= CommonConst.DELETE,operationName="删除字典项")
 	public JsonData deleteByIds(@RequestBody List<String> resId) {
-		boolean state = dictService.deleteDictByIds(resId);
-		return JsonData.success(state);
+		dictService.deleteBatch(resId);
+		return JsonData.success();
 	}
 }

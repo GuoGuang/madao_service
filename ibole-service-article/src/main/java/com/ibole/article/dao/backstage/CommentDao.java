@@ -1,14 +1,22 @@
 package com.ibole.article.dao.backstage;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ibole.pojo.article.Comment;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * 文章评论
  **/
 
 
-public interface CommentDao extends BaseMapper<Comment> {
+public interface CommentDao extends JpaRepository<Comment, String>, JpaSpecificationExecutor<Comment> {
 
+    @Modifying
+    @Query("delete from Dict where id in (:ids)")
+    void deleteBatch(List<String> ids);
 
 }

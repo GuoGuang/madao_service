@@ -1,6 +1,6 @@
 package com.ibole.gateway.filter;
 
-import com.ibole.cache.redis.RedisService;
+import com.ibole.db.redis.service.RedisService;
 import com.ibole.utils.JsonData;
 import com.ibole.utils.JsonUtil;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.TreeMap;
 
 @Component
+@Deprecated
 public class AuthFilter implements GatewayFilter, Ordered {
 	@Autowired
 	private RedisService redisService;

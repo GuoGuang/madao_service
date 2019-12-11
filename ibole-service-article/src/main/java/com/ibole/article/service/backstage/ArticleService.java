@@ -1,22 +1,24 @@
 package com.ibole.article.service.backstage;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.common.base.CaseFormat;
 import com.ibole.api.user.UserServiceRpc;
 import com.ibole.article.dao.backstage.ArticleDao;
-import com.ibole.cache.constant.RedisConstant;
-import com.ibole.cache.redis.RedisService;
 import com.ibole.constant.CommonConst;
+import com.ibole.constant.RedisConstant;
+import com.ibole.db.redis.service.RedisService;
+import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Article;
 import com.ibole.pojo.user.User;
 import com.ibole.utils.DateUtil;
+import com.ibole.utils.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,37 +43,45 @@ public class ArticleService {
 
 	/**
 	 * 查询文章
+	 *
 	 * @return IPage<Article>
 	 */
-	public IPage<Article> findArticleByCondition(Article article, QueryVO queryVO ){
-		Page<Article> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
-		QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
-		if (StringUtils.isNotEmpty(article.getTitle())) {
-			queryWrapper.lambda().like(Article::getTitle, article.getTitle());
-		}
-		if (article.getReviewState() != null ) {
-			queryWrapper.lambda().like(Article::getReviewState, article.getReviewState());
-		}
-		if (StringUtils.isNotEmpty(article.getDescription())) {
-			queryWrapper.lambda().like(Article::getDescription, article.getDescription());
-		}
-		if (queryVO.getOrderBy() != null && StringUtils.isNotEmpty(queryVO.getFieldSort())){
-			// 驼峰下划线
-			String fieldSort = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, queryVO.getFieldSort());
-			queryWrapper.orderBy(true,queryVO.getOrderBy(),fieldSort);
-		}
-		IPage<Article> articleIPage = articleDao.selectPage(pr, queryWrapper);
-		List<User> userList = userServiceRpc.findUser().getData().getRecords();
-		articleIPage.getRecords().forEach(
+	public Page<Article> findArticleByCondition(Article article, QueryVO queryVO) {
+
+		Specification<Article> condition = (root, query, builder) -> {
+			List<Predicate> predicates = new ArrayList<>();
+			if (StringUtils.isNotEmpty(article.getTitle())) {
+				predicates.add(builder.like(root.get("title"), "%" + article.getTitle() + "%"));
+			}
+			if (article.getReviewState() != null) {
+				predicates.add(builder.like(root.get("reviewState"), "%" + article.getReviewState() + "%"));
+			}
+			if (StringUtils.isNotEmpty(article.getDescription())) {
+				predicates.add(builder.like(root.get("description"), "%" + article.getDescription() + "%"));
+			}
+			if (queryVO.getOrderBy() != null && StringUtils.isNotEmpty(queryVO.getFieldSort())) {
+				// 驼峰下划线
+				// String fieldSort = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, queryVO.getFieldSort());
+				// queryWrapper.orderBy(true,queryVO.getOrderBy(),fieldSort);
+			}
+			Predicate[] ps = new Predicate[predicates.size()];
+			query.where(builder.and(predicates.toArray(ps)));
+			query.orderBy(builder.desc(root.get("createAt").as(Long.class)));
+			return null;
+		};
+
+		Page<Article> articlePage = articleDao.findAll(condition, queryVO.getPageable());
+		List<User> userList = userServiceRpc.findUser().getData().getContent();
+		articlePage.getContent().forEach(
 				articleUser -> userList.forEach(
-					user -> {
-						if (user.getId().equals(articleUser.getUserId())){
-							articleUser.setUserName(user.getUserName());
+						user -> {
+							if (user.getId().equals(articleUser.getUserId())) {
+								articleUser.setUserName(user.getUserName());
+							}
 						}
-					}
 				)
 		);
-		return articleIPage;
+		return articlePage;
 	}
 
 
@@ -84,12 +94,12 @@ public class ArticleService {
 	public Article findArticleById(String articleId) {
 		Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + articleId);
 		Article article;
-		if(mapJson==null) {
-			article = articleDao.selectById(articleId);
-			redisService.set(RedisConstant.REDIS_KEY_ARTICLE+ articleId, article, CommonConst.TIME_OUT_DAY);
-			return article;
-		}else {
-//			article = JsonUtil.jsonToPojo(mapJson.toString(), Article.class);
+		if (mapJson == null) {
+			Article byId = articleDao.findById(articleId).orElseThrow(ResourceNotFoundException::new);
+			redisService.set(RedisConstant.REDIS_KEY_ARTICLE + articleId, byId, CommonConst.TIME_OUT_DAY);
+			return byId;
+		} else {
+			article = JsonUtil.jsonToPojo(mapJson.toString(), Article.class);
 			article = (Article)mapJson;
 		}
 		return article;
@@ -101,7 +111,7 @@ public class ArticleService {
 	 */
 	public void insertOrUpdateArticle(Map<String, String> userInfo,Article article) {
 		article.setUserId(userInfo.get("id"));
-		if (StringUtils.isBlank(article.getId())){
+		if (StringUtils.isBlank(article.getId())) {
 			article.setComment(0);
 			article.setUpvote(0);
 			article.setVisits(0);
@@ -109,14 +119,14 @@ public class ArticleService {
 			article.setImportance(0);
 			article.setCreateAt(DateUtil.getTimestamp());
 			article.setUpdateAt(DateUtil.getTimestamp());
-			if (article.getIsPublic() == null){
+			if (article.getIsPublic() == null) {
 				article.setIsPublic(0);
 			}
-			articleDao.insert(article);
-		}else {
-			redisService.del( "ARTICLE_" + article.getId());
+			articleDao.save(article);
+		} else {
+			redisService.del("ARTICLE_" + article.getId());
 			article.setUpdateAt(DateUtil.getTimestamp());
-			articleDao.updateById(article);
+			articleDao.save(article);
 		}
 	}
 
@@ -125,7 +135,7 @@ public class ArticleService {
 	 * @param articleIds:文章id集合
 	 */
 	public void deleteArticleByIds(List<String> articleIds) {
-		articleDao.deleteBatchIds(articleIds);
+		articleDao.deleteBatch(articleIds);
 	}
 
 	/**
@@ -138,10 +148,11 @@ public class ArticleService {
 
 	/**
 	 * 点赞
+	 *
 	 * @param id 文章ID
 	 */
-	public int updateThumbUp(String id){
-		return articleDao.updateThumbUp(id);
+	public void updateThumbUp(String id) {
+		articleDao.updateThumbUp(id);
 	}
 
 }

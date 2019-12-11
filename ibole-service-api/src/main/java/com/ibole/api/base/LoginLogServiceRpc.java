@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
  * 登录日志api
  **/
 
-@FeignClient(value = FeignConst.SERVICE_BASE,path = FeignConst.SERVICE_BASE_PATH,fallbackFactory = LoginLogServiceRpcFallbackFactory.class)
+@FeignClient(contextId = "loginLogClient", value = FeignConst.SERVICE_BASE, path = FeignConst.SERVICE_BASE_PATH, fallbackFactory = LoginLogServiceRpcFallbackFactory.class)
 public interface LoginLogServiceRpc {
 
 	/**

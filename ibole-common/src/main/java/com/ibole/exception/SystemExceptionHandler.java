@@ -5,10 +5,10 @@ import com.ibole.exception.custom.RemoteRpcException;
 import com.ibole.exception.custom.ParamException;
 import com.ibole.exception.custom.ValidFieldError;
 import com.ibole.enums.StatusEnum;
-import com.ibole.exception.custom.ValidateCodeException;
 import com.ibole.utils.JsonData;
 import com.ibole.utils.LogBack;
 import com.netflix.client.ClientException;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.Servlet;
 import javax.validation.UnexpectedTypeException;
 import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
@@ -27,7 +28,11 @@ import java.util.List;
 
 /**
  * 统一系统异常处理类
+ *
+ * Add ConditionalOnBean(Servlet.class) fix Exception Caused by: java.lang.ClassNotFoundException: javax.servlet.ServletException
+ * 	Because spring-cloud-starter-gateway conflicts with javax.servlet.Servlet
  **/
+@ConditionalOnBean(Servlet.class)
 @RestControllerAdvice
 public class SystemExceptionHandler {
 
@@ -136,17 +141,6 @@ public class SystemExceptionHandler {
     public JsonData clientException(ClientException ex) {
         LogBack.error(ex.getMessage(),ex);
         return new JsonData(StatusEnum.SERVICE_OFF);
-    }
-
-    /**
-     * ValidateCodeException
-     *
-     * @param ex ValidateCodeException
-     */
-    @ExceptionHandler(ValidateCodeException.class)
-    public JsonData validateCodeException(ValidateCodeException ex) {
-        LogBack.error(ex.getMessage(), ex);
-        return new JsonData(StatusEnum.PARAM_ILLEGAL);
     }
 
 	/**

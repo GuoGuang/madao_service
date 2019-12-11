@@ -1,7 +1,7 @@
 package com.ibole.auth.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ibole.api.user.UserServiceRpc;
+import com.ibole.config.CustomPage;
 import com.ibole.pojo.user.Role;
 import com.ibole.pojo.user.User;
 import com.ibole.utils.JsonData;
@@ -39,14 +39,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userJson) {
 
 		User user = JsonUtil.jsonToPojo(userJson, User.class);
-		//远程调用用户中心根据账号查询用户信息
-		//com.ibole.pojo.user.User defUser = userService.findUserByUser(user).getData();
-		JsonData<Page<User>> userByUser = userService.findUserByUser(user);
-		if(!userByUser.isStatus()){
+//		Page<User> defUser = userService.findUserByUser(user).getData();
+		JsonData<CustomPage<User>> userByUser = userService.findUserByUser(user);
+		if (!userByUser.isStatus()) {
 			return null;
 		}
-		List<User> records = userByUser.getData().getRecords();
-		if(records.size() != 1){
+		List<User> records = userByUser.getData().getContent();
+		if (records.size() != 1) {
 			return null;
 		}
 		User defUser = records.get(0);
