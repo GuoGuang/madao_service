@@ -158,7 +158,7 @@
 
         </dependencies>
     </dependencyManagement>
-
+<!--测试-->
                <modules>
                    <module>../ibole-common</module>
                    <module>../ibole-common-db</module>
