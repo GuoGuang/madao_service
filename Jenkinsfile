@@ -104,20 +104,17 @@ pipeline {
         }
 
         stage('Maven构建') {
+            agent {
+                docker {
+                    image 'maven:3-jdk-8-alpine'
+                    // maven仓库位置映射
+                    args '-v /zoo/maven/.m2:/root/.m2'
+                }
+            }
+            // maven打包命令
             steps {
-                echo "Maven构建"
-                agent {
-                    docker {
-                        image 'maven:3-jdk-8-alpine'
-                        // maven仓库位置映射
-                        args '-v /zoo/maven/.m2:/root/.m2'
-                    }
-                }
-                // maven打包命令
-                steps {
-                    sh 'mvn -B -DskipTests clean package install'
-                    echo '-->> -->>maven打包构建完成!'
-                }
+                sh 'mvn -B -DskipTests clean package install'
+                echo '-->> -->>maven打包构建完成!'
             }
         }
 
