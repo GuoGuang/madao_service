@@ -1,7 +1,8 @@
 FROM java:8
-#VOLUME /tmpppp
 RUN mkdir -p /service
 WORKDIR /service
+RUN ls -a
+RUN pwd
 COPY target/ibole-server-eureka-1.0.0.jar server-eureka.jar
 RUN bash -c "touch /server-eureka.jar"
 EXPOSE 5000
