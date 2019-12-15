@@ -106,7 +106,7 @@ pipeline {
         stage('Maven构建') {
             agent {
                 docker {
-                    image 'maven:3.6-alpine'
+                    image 'maven:3.6'
                     args '-u root -v /data/jenkins:/root/.m2'  //持载到本地，减少重复下载量，使用ali源
                 }
             }
