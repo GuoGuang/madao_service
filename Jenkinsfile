@@ -103,14 +103,19 @@ pipeline {
             }
         }
 
-        stage('mvn install') {
-            sh 'pwd'
-            docker.image('maven').inside('-v /volume1/docker/.m2:/root/.m2') {
-                sh 'mvn --version'
-                sh 'mvn clean install'
+        stage('Maven构建') {
+            agent {
+                docker {
+                    image 'maven:3.6-alpine'
+                    args '-u root -v /data/jenkins:/root/.m2'  //持载到本地，减少重复下载量，使用ali源
+                }
+            }
+            // maven打包命令
+            steps {
+                sh 'mvn -B -DskipTests clean package install'
+                echo '-->> -->>maven打包构建完成!'
             }
         }
-
 
         // dockerfile构建镜像 -- 推送到远程仓库
         stage('Docker构建') {
