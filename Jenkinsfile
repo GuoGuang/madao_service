@@ -99,13 +99,12 @@ pipeline {
             }
         }
 
-        stage('Maven Build') {
-            
+        stage('Maven构建') {
         }
 
         // dockerfile构建镜像 -- 推送到远程仓库
-        stage('Docker Build') {
-            
+        stage('Docker构建') {
+
         }
 
         stage('单元测试') {
