@@ -39,6 +39,7 @@ pipeline {
         //测试人员邮箱地址【参数值对外隐藏】
         QA_EMAIL = '1831682775@qq.com'
         BUILD_USER_EMAIL = '1831682775@qq.com'
+        BUILD_USER  = '构建人'
         //接口测试（网络层）的job名，一般由测试人员编写
         ITEST_JOBNAME = 'InterfaceTest_ExpertPatient'
         //git服务全系统只读账号cred_id【参数值对外隐藏】
