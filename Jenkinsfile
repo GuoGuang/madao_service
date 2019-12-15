@@ -106,13 +106,44 @@ pipeline {
         stage('Maven构建') {
             steps {
                 echo "Maven构建"
+                agent {
+                    docker {
+                        image 'maven:3-jdk-8-alpine'
+                        // maven仓库位置映射
+                        args '-v /zoo/maven/.m2:/root/.m2'
+                    }
+                }
+                // maven打包命令
+                steps {
+                    sh 'mvn -B -DskipTests clean package install'
+                    echo '-->> -->>maven打包构建完成!'
+                }
             }
         }
 
         // dockerfile构建镜像 -- 推送到远程仓库
         stage('Docker构建') {
             steps {
-                echo "Docker构建"
+                script {
+                    // 停止并删除列表中有 ${DOCKER_CONTAINER} 的容器
+                    def container = sh(returnStdout: true, script: "docker ps -a | grep $DOCKER_CONTAINER | awk '{print \$1}'").trim()
+                    if (container.size() > 0) {
+                        sh "docker ps -a | grep $DOCKER_CONTAINER | awk  '{print \$1}' | xargs docker stop"
+                        sh "docker ps -a | grep $DOCKER_CONTAINER | awk '{print \$1}' | xargs docker rm"
+                        echo '-->> 1#停止并删除容器 -->>'
+                    }
+                    // 删除列表中有 ${DOCKER_IMAGE} 的镜像
+                    def image = sh(returnStdout: true, script: "docker images | grep $DOCKER_IMAGE | awk '{print \$3}'").trim()
+                    if (image.size() > 0) {
+                        sh "docker images | grep $DOCKER_IMAGE | awk '{print \$3}' | xargs docker rmi"
+                        echo '-->> 2#停止并删除镜像 -->>'
+                    }
+                }
+                // 构建镜像
+                sh "docker build -t ${DOCKER_IMAGE}:${env.BUILD_ID} ."
+                // 运行容器
+                sh "docker run -p 9010:9010 --name ${DOCKER_CONTAINER} -d ${DOCKER_IMAGE}:${env.BUILD_ID}"
+                echo '-->> 3#构建成功-->>'
             }
         }
 
