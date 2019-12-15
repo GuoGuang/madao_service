@@ -100,25 +100,30 @@ pipeline {
         }
 
         stage('Maven构建') {
+            steps {
+                
+            }
         }
 
         // dockerfile构建镜像 -- 推送到远程仓库
         stage('Docker构建') {
+            steps {
 
+            }
         }
 
         stage('单元测试') {
-//            steps {
+            steps {
 //              echo "starting unitTest......"
 //              //注入jacoco插件配置,clean test执行单元测试代码. All tests should pass.
 //              sh "mvn org.jacoco:jacoco-maven-plugin:prepare-agent -f ${params.pomPath} clean test -Dautoconfig.skip=true -Dmaven.test.skip=false -Dmaven.test.failure.ignore=true"
 //              junit '**/target/surefire-reports/*.xml'
 //              //配置单元测试覆盖率要求，未达到要求pipeline将会fail,code coverage.LineCoverage>20%.
 //              jacoco changeBuildStatus: true, maximumLineCoverage:"${params.lineCoverage}"
-//            }
+            }
         }
         stage('静态检查') {
-//            steps {
+            steps {
 //                echo "starting codeAnalyze with SonarQube......"
 //                //sonar:sonar.QualityGate should pass
 //                withSonarQubeEnv('SonarQube') {
@@ -134,11 +139,11 @@ pipeline {
 //                        }
 //                    }
 //                }
-//            }
+            }
         }
 
         stage('部署测试环境') {
-//            steps {
+            steps {
 //                echo "starting deploy to ${serverIP}......"
 //                //编译和打包
 //                sh "mvn  -f ${params.pomPath} clean package -Dautoconfig.skip=true -Dmaven.test.skip=true"
@@ -157,11 +162,11 @@ pipeline {
 //                    sh "sshpass -p ${serverPasswd} ssh ${serverName}@${serverIP} 'bin/jettyrestart.sh' "
 //                    }
 //                }
-//            }
+            }
         }
 
         stage('接口自动化测试') {
-//            steps{
+            steps{
 //                echo "starting interfaceTest......"
 //                script {
 //                 //为确保jetty启动完成，加了一个判断，确保jetty服务器启动可以访问后再执行接口层测试。
@@ -180,7 +185,7 @@ pipeline {
 //                //将参数IP和Port传入到接口测试的job，需要确保接口测试的job参数可注入
 //                 build job: ITEST_JOBNAME, parameters: [string(name: "dubbourl", value: "${serverIP}:${params.dubboPort}")]
 //                }
-//            }
+            }
         }
 
         stage('UI自动化测试') {
