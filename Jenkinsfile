@@ -5,7 +5,7 @@ pipeline {
     //参数化变量，目前只支持[booleanParam, choice, credentials, file, text, password, run, string]这几种参数类型，其他高级参数化类型还需等待社区支持。
     parameters {
     //git代码路径【参数值对外隐藏】
-    string(name:'repoUrl', defaultValue: 'git@github.com:GuoGuang/ibole_service.git', description: 'git代码路径')
+    string(name:'repoUrl', defaultValue: 'https://github.com/GuoGuang/ibole_service.git', description: 'git代码路径')
     //repoBranch参数后续替换成git parameter不再依赖手工输入,JENKINS-46451【git parameters目前还不支持pipeline】
     string(name:'repoBranch', defaultValue: 'develop', description: 'git分支名称')
     //pom.xml的相对路径
