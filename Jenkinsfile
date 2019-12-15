@@ -101,20 +101,20 @@ pipeline {
 
         stage('Maven构建') {
             steps {
-                
+                echo "Maven构建"
             }
         }
 
         // dockerfile构建镜像 -- 推送到远程仓库
         stage('Docker构建') {
             steps {
-
+                echo "Docker构建"
             }
         }
 
         stage('单元测试') {
             steps {
-//              echo "starting unitTest......"
+              echo "starting unitTest......"
 //              //注入jacoco插件配置,clean test执行单元测试代码. All tests should pass.
 //              sh "mvn org.jacoco:jacoco-maven-plugin:prepare-agent -f ${params.pomPath} clean test -Dautoconfig.skip=true -Dmaven.test.skip=false -Dmaven.test.failure.ignore=true"
 //              junit '**/target/surefire-reports/*.xml'
@@ -124,7 +124,7 @@ pipeline {
         }
         stage('静态检查') {
             steps {
-//                echo "starting codeAnalyze with SonarQube......"
+                echo "starting codeAnalyze with SonarQube......"
 //                //sonar:sonar.QualityGate should pass
 //                withSonarQubeEnv('SonarQube') {
 //                  //固定使用项目根目录${basedir}下的pom.xml进行代码检查
@@ -144,7 +144,7 @@ pipeline {
 
         stage('部署测试环境') {
             steps {
-//                echo "starting deploy to ${serverIP}......"
+                echo "starting deploy to ${serverIP}......"
 //                //编译和打包
 //                sh "mvn  -f ${params.pomPath} clean package -Dautoconfig.skip=true -Dmaven.test.skip=true"
 //                archiveArtifacts warLocation
@@ -167,7 +167,7 @@ pipeline {
 
         stage('接口自动化测试') {
             steps{
-//                echo "starting interfaceTest......"
+                echo "starting interfaceTest......"
 //                script {
 //                 //为确保jetty启动完成，加了一个判断，确保jetty服务器启动可以访问后再执行接口层测试。
 //                 timeout(5) {
