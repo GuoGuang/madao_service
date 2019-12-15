@@ -113,6 +113,7 @@ pipeline {
             // maven打包命令
             steps {
                 sh 'cd ibole-server-eureka'
+                sh 'pwd'
                 sh 'mvn -B -DskipTests clean package install'
                 echo '-->> -->>maven打包构建完成!'
             }
