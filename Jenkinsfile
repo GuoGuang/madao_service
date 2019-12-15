@@ -30,8 +30,8 @@ pipeline {
     environment {
 
         // 阿里云docker仓库凭证 ：这是jenkins管理界面中定义的凭证名称为“aliyun-docker”
-//        FRESH_CREDS = credentials('aliyun-docker')
-//        BUILD_NUMBER = credentials('aliyun-docker')
+        FRESH_CREDS = credentials('aliyun-docker')
+        BUILD_NUMBER = credentials('aliyun-docker')
         // 仓库docker 地址、镜像名、容器名称
         FRESH_HOST = 'registry.cn-hongkong.aliyuncs.com'
         DOCKER_IMAGE = 'GuoGuang/eureka'
@@ -40,6 +40,8 @@ pipeline {
         QA_EMAIL = '1831682775@qq.com'
         //接口测试（网络层）的job名，一般由测试人员编写
         ITEST_JOBNAME = 'InterfaceTest_ExpertPatient'
+        //git服务全系统只读账号cred_id【参数值对外隐藏】
+        CRED_ID='*****-****-****-****-*********'
     }
     options {
         //保持构建的最大个数
