@@ -28,8 +28,14 @@ pipeline {
     // }
     //常量参数，初始确定后一般不需更改
     environment{
-        //git服务全系统只读账号cred_id【参数值对外隐藏】
-        CRED_ID='*****-****-****-****-*********'
+
+        // 阿里云docker仓库凭证 ：这是jenkins管理界面中定义的凭证名称为“aliyun-docker”
+        FRESH_CREDS = credentials('aliyun-docker')
+        BUILD_NUMBER = credentials('aliyun-docker')
+        // 仓库docker 地址、镜像名、容器名称
+        FRESH_HOST = 'registry.cn-hongkong.aliyuncs.com'
+        DOCKER_IMAGE = 'GuoGuang/eureka'
+        DOCKER_CONTAINER = 'web-eureka'
         //测试人员邮箱地址【参数值对外隐藏】
         QA_EMAIL='1831682775@qq.com'
         //接口测试（网络层）的job名，一般由测试人员编写
@@ -92,80 +98,123 @@ pipeline {
               git credentialsId:CRED_ID, url:params.repoUrl, branch:params.repoBranch
             }
         }
-        stage('单元测试') {
+
+        stage('Maven Build') {
+            agent {
+                docker {
+                    image 'maven:3-jdk-8-alpine'
+                    // maven仓库位置映射
+                    args '-v /zoo/maven/.m2:/root/.m2'
+                }
+            }
+            // maven打包命令
             steps {
-              echo "starting unitTest......"
-              //注入jacoco插件配置,clean test执行单元测试代码. All tests should pass.
-              sh "mvn org.jacoco:jacoco-maven-plugin:prepare-agent -f ${params.pomPath} clean test -Dautoconfig.skip=true -Dmaven.test.skip=false -Dmaven.test.failure.ignore=true"
-              junit '**/target/surefire-reports/*.xml'
-              //配置单元测试覆盖率要求，未达到要求pipeline将会fail,code coverage.LineCoverage>20%.
-              jacoco changeBuildStatus: true, maximumLineCoverage:"${params.lineCoverage}"
+                sh 'mvn -B -DskipTests clean package install'
+                echo '-->> -->>maven打包构建完成!'
             }
         }
-        stage('静态检查') {
+
+        // dockerfile构建镜像 -- 推送到远程仓库
+        stage('Docker Build') {
+            agent any
             steps {
-                echo "starting codeAnalyze with SonarQube......"
-                //sonar:sonar.QualityGate should pass
-                withSonarQubeEnv('SonarQube') {
-                  //固定使用项目根目录${basedir}下的pom.xml进行代码检查
-                  sh "mvn -f pom.xml clean compile sonar:sonar"
-                }
                 script {
-                timeout(10) {
-                    //利用sonar webhook功能通知pipeline代码检测结果，未通过质量阈，pipeline将会fail
-                    def qg = waitForQualityGate()
-                        if (qg.status != 'OK') {
-                            error "未通过Sonarqube的代码质量阈检查，请及时修改！failure: ${qg.status}"
-                        }
+                    // 停止并删除列表中有 ${DOCKER_CONTAINER} 的容器
+                    def container = sh(returnStdout: true, script: "docker ps -a | grep $DOCKER_CONTAINER | awk '{print \$1}'").trim()
+                    if(container.size() > 0){
+                        sh "docker ps -a | grep $DOCKER_CONTAINER | awk  '{print \$1}' | xargs docker stop"
+                        sh "docker ps -a | grep $DOCKER_CONTAINER | awk '{print \$1}' | xargs docker rm"
+                        echo '-->> 1#停止并删除容器 -->>'
+                    }
+                    // 删除列表中有 ${DOCKER_IMAGE} 的镜像
+                    def image = sh(returnStdout: true, script: "docker images | grep $DOCKER_IMAGE | awk '{print \$3}'").trim()
+                    if(image.size() > 0){
+                        sh "docker images | grep $DOCKER_IMAGE | awk '{print \$3}' | xargs docker rmi"
+                        echo '-->> 2#停止并删除镜像 -->>'
                     }
                 }
+                // 构建镜像
+                sh "docker build -t ${DOCKER_IMAGE}:${env.BUILD_ID} ."
+                // 运行容器
+                sh "docker run -p 9010:9010 --name ${DOCKER_CONTAINER} -d ${DOCKER_IMAGE}:${env.BUILD_ID}"
+                echo '-->> 3#构建成功-->>'
             }
+        }
+
+        stage('单元测试') {
+//            steps {
+//              echo "starting unitTest......"
+//              //注入jacoco插件配置,clean test执行单元测试代码. All tests should pass.
+//              sh "mvn org.jacoco:jacoco-maven-plugin:prepare-agent -f ${params.pomPath} clean test -Dautoconfig.skip=true -Dmaven.test.skip=false -Dmaven.test.failure.ignore=true"
+//              junit '**/target/surefire-reports/*.xml'
+//              //配置单元测试覆盖率要求，未达到要求pipeline将会fail,code coverage.LineCoverage>20%.
+//              jacoco changeBuildStatus: true, maximumLineCoverage:"${params.lineCoverage}"
+//            }
+        }
+        stage('静态检查') {
+//            steps {
+//                echo "starting codeAnalyze with SonarQube......"
+//                //sonar:sonar.QualityGate should pass
+//                withSonarQubeEnv('SonarQube') {
+//                  //固定使用项目根目录${basedir}下的pom.xml进行代码检查
+//                  sh "mvn -f pom.xml clean compile sonar:sonar"
+//                }
+//                script {
+//                timeout(10) {
+//                    //利用sonar webhook功能通知pipeline代码检测结果，未通过质量阈，pipeline将会fail
+//                    def qg = waitForQualityGate()
+//                        if (qg.status != 'OK') {
+//                            error "未通过Sonarqube的代码质量阈检查，请及时修改！failure: ${qg.status}"
+//                        }
+//                    }
+//                }
+//            }
         }
 
         stage('部署测试环境') {
-            steps {
-                echo "starting deploy to ${serverIP}......"
-                //编译和打包
-                sh "mvn  -f ${params.pomPath} clean package -Dautoconfig.skip=true -Dmaven.test.skip=true"
-                archiveArtifacts warLocation
-                script {
-                    wrap([$class: 'BuildUser']) {
-                    //发布war包到指定服务器，虚拟机文件目录通过shell脚本初始化建立，所以目录是固定的
-                    sh "sshpass -p ${serverPasswd} scp ${params.warLocation} ${serverName}@${serverIP}:htdocs/war"
-                    //这里增加了一个小功能，在服务器上记录了基本部署信息，方便多人使用一套环境时问题排查，storge in {WORKSPACE}/deploy.log  & remoteServer:htdocs/war
-                    Date date = new Date()
-                    def deploylog="${date.toString()},${BUILD_USER} use pipeline  '${JOB_NAME}(${BUILD_NUMBER})' deploy branch ${params.repoBranch} to server ${serverIP}"
-                    println deploylog
-                    sh "echo ${deploylog} >>${WORKSPACE}/deploy.log"
-                    sh "sshpass -p ${serverPasswd} scp ${WORKSPACE}/deploy.log ${serverName}@${serverIP}:htdocs/war"
-                    //jetty restart，重启jetty
-                    sh "sshpass -p ${serverPasswd} ssh ${serverName}@${serverIP} 'bin/jettyrestart.sh' "
-                    }
-                }
-            }
+//            steps {
+//                echo "starting deploy to ${serverIP}......"
+//                //编译和打包
+//                sh "mvn  -f ${params.pomPath} clean package -Dautoconfig.skip=true -Dmaven.test.skip=true"
+//                archiveArtifacts warLocation
+//                script {
+//                    wrap([$class: 'BuildUser']) {
+//                    //发布war包到指定服务器，虚拟机文件目录通过shell脚本初始化建立，所以目录是固定的
+//                    sh "sshpass -p ${serverPasswd} scp ${params.warLocation} ${serverName}@${serverIP}:htdocs/war"
+//                    //这里增加了一个小功能，在服务器上记录了基本部署信息，方便多人使用一套环境时问题排查，storge in {WORKSPACE}/deploy.log  & remoteServer:htdocs/war
+//                    Date date = new Date()
+//                    def deploylog="${date.toString()},${BUILD_USER} use pipeline  '${JOB_NAME}(${BUILD_NUMBER})' deploy branch ${params.repoBranch} to server ${serverIP}"
+//                    println deploylog
+//                    sh "echo ${deploylog} >>${WORKSPACE}/deploy.log"
+//                    sh "sshpass -p ${serverPasswd} scp ${WORKSPACE}/deploy.log ${serverName}@${serverIP}:htdocs/war"
+//                    //jetty restart，重启jetty
+//                    sh "sshpass -p ${serverPasswd} ssh ${serverName}@${serverIP} 'bin/jettyrestart.sh' "
+//                    }
+//                }
+//            }
         }
 
       stage('接口自动化测试') {
-            steps{
-                echo "starting interfaceTest......"
-                script {
-                 //为确保jetty启动完成，加了一个判断，确保jetty服务器启动可以访问后再执行接口层测试。
-                 timeout(5) {
-                     waitUntil {
-                        try {
-                            //确保jetty服务的端口启动成功
-                            sh "nc -z ${serverIP} ${jettyPort}"
-                            //sh "wget -q http://${serverIP}:${jettyPort} -O /dev/null"
-                            return true
-                        } catch (exception) {
-                            return false
-                            }
-                        }
-                    }
-                //将参数IP和Port传入到接口测试的job，需要确保接口测试的job参数可注入
-                 build job: ITEST_JOBNAME, parameters: [string(name: "dubbourl", value: "${serverIP}:${params.dubboPort}")]
-                }
-            }
+//            steps{
+//                echo "starting interfaceTest......"
+//                script {
+//                 //为确保jetty启动完成，加了一个判断，确保jetty服务器启动可以访问后再执行接口层测试。
+//                 timeout(5) {
+//                     waitUntil {
+//                        try {
+//                            //确保jetty服务的端口启动成功
+//                            sh "nc -z ${serverIP} ${jettyPort}"
+//                            //sh "wget -q http://${serverIP}:${jettyPort} -O /dev/null"
+//                            return true
+//                        } catch (exception) {
+//                            return false
+//                            }
+//                        }
+//                    }
+//                //将参数IP和Port传入到接口测试的job，需要确保接口测试的job参数可注入
+//                 build job: ITEST_JOBNAME, parameters: [string(name: "dubbourl", value: "${serverIP}:${params.dubboPort}")]
+//                }
+//            }
         }
 
         stage('UI自动化测试') {
