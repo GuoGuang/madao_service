@@ -115,7 +115,7 @@ pipeline {
                 sh 'cd ${WORKSPACE}/ibole-server-eureka'
                 sh 'pwd'
                 sh 'mvn -v'
-                sh 'cd ${WORKSPACE}/ibole-server-eureka | mvn -B -DskipTests clean package install'
+                sh 'mvn -B -DskipTests clean package install "-DgroupId=com.ibole" "-DartifactId=ibole-common-parent" "-Dversion=4.2.5" "-Dpackaging=jar"'
                 echo '-->> -->>maven打包构建完成!'
             }
         }
