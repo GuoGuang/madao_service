@@ -103,20 +103,14 @@ pipeline {
             }
         }
 
-        stage('Maven构建') {
-            agent {
-                docker {
-                    image 'maven:3-jdk-8-alpine'
-                    // maven仓库位置映射
-                    args '-v /zoo/maven/.m2:/root/.m2'
-                }
-            }
-            // maven打包命令
-            steps {
-                sh 'mvn -B -DskipTests clean package install'
-                echo '-->> -->>maven打包构建完成!'
+        stage('mvn install') {
+            sh 'pwd'
+            docker.image('maven').inside('-v /volume1/docker/.m2:/root/.m2') {
+                sh 'mvn --version'
+                sh 'mvn clean install'
             }
         }
+
 
         // dockerfile构建镜像 -- 推送到远程仓库
         stage('Docker构建') {
