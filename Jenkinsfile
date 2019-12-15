@@ -34,7 +34,7 @@ pipeline {
 //        BUILD_NUMBER = credentials('aliyun-docker')
         // 仓库docker 地址、镜像名、容器名称
         FRESH_HOST = 'registry.cn-hongkong.aliyuncs.com'
-        DOCKER_IMAGE = 'guoguang/eureka'
+        DOCKER_IMAGE = 'ibole-server-eureka'
         DOCKER_CONTAINER = 'web-eureka'
         //测试人员邮箱地址【参数值对外隐藏】
         QA_EMAIL = '1831682775@qq.com'
@@ -139,7 +139,7 @@ pipeline {
                     }
                 }
                 // 构建镜像
-                sh "docker build -t ${DOCKER_IMAGE}:${env.BUILD_ID} ."
+                sh "docker build -t ${DOCKER_IMAGE}:${env.BUILD_ID} ./ibole-server-eureka"
                 // 运行容器
                 sh "docker run -p 9010:9010 --name ${DOCKER_CONTAINER} -d ${DOCKER_IMAGE}:${env.BUILD_ID}"
                 echo '-->> 3#构建成功-->>'
