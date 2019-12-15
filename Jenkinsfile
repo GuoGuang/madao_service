@@ -22,10 +22,10 @@ pipeline {
     booleanParam(name: 'isCommitQA',description: '是否邮件通知测试人员进行人工验收',defaultValue: false )
     }
     //环境变量，初始确定后一般不需更改
-    tools {
-        maven 'maven3'
-        jdk   'jdk8'
-    }
+    // tools {
+   //      maven 'maven3'
+     //    jdk   'jdk8'
+    // }
     //常量参数，初始确定后一般不需更改
     environment{
         //git服务全系统只读账号cred_id【参数值对外隐藏】
