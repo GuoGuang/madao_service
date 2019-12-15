@@ -30,8 +30,8 @@ pipeline {
     environment {
 
         // 阿里云docker仓库凭证 ：这是jenkins管理界面中定义的凭证名称为“aliyun-docker”
-        FRESH_CREDS = credentials('aliyun-docker')
-        BUILD_NUMBER = credentials('aliyun-docker')
+//        FRESH_CREDS = credentials('aliyun-docker')
+//        BUILD_NUMBER = credentials('aliyun-docker')
         // 仓库docker 地址、镜像名、容器名称
         FRESH_HOST = 'registry.cn-hongkong.aliyuncs.com'
         DOCKER_IMAGE = 'GuoGuang/eureka'
