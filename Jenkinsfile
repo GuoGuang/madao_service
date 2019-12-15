@@ -54,7 +54,7 @@ pipeline {
         pollSCM('H 4 * * 1-5')
     }
     //pipeline运行结果通知给触发者
-    post {
+/*    post {
         success {
             script {
                 wrap([$class: 'BuildUser']) {
@@ -83,7 +83,7 @@ pipeline {
                 }
             }
         }
-    }
+    }*/
 
     //pipeline的各个阶段场景
     stages {
