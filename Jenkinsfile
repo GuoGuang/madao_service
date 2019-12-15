@@ -9,7 +9,7 @@ pipeline {
         //repoBranch参数后续替换成git parameter不再依赖手工输入,JENKINS-46451【git parameters目前还不支持pipeline】
         string(name: 'repoBranch', defaultValue: 'develop', description: 'git分支名称')
         //pom.xml的相对路径
-        string(name: 'pomPath', defaultValue: 'pom.xml', description: 'pom.xml的相对路径')
+        string(name: 'pomPath', defaultValue: './ibole-server-eureka/pom.xml', description: 'pom.xml的相对路径')
         //war包的相对路径
         string(name: 'warLocation', defaultValue: 'rpc/war/target/*.war', description: 'war包的相对路径 ')
         //服务器参数采用了组合方式，避免多次选择，使用docker为更佳实践【参数值对外隐藏】
