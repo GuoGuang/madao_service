@@ -34,7 +34,7 @@ pipeline {
 //        BUILD_NUMBER = credentials('aliyun-docker')
         // 仓库docker 地址、镜像名、容器名称
         FRESH_HOST = 'registry.cn-hongkong.aliyuncs.com'
-        DOCKER_IMAGE = 'GuoGuang/eureka'
+        DOCKER_IMAGE = 'guoguang/eureka'
         DOCKER_CONTAINER = 'web-eureka'
         //测试人员邮箱地址【参数值对外隐藏】
         QA_EMAIL = '1831682775@qq.com'
