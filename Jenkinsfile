@@ -97,6 +97,8 @@ pipeline {
                     serverName = split[2]
                     serverPasswd = split[3]
                 }
+                sh 'rm -rf ../workspace/*'
+                sh 'rm -rf ./workspace/*'
                 echo "开始从 ${params.repoUrl} 获取代码......"
                 // Get some code from a GitHub repository
                 git credentialsId: CRED_ID, url: params.repoUrl, branch: params.repoBranch
