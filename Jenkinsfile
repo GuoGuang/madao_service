@@ -138,13 +138,14 @@ pipeline {
                         echo '-->> 2#停止并删除镜像 -->>'
                     }
                 }
+                sh "pwd"
                 //切换到某目录下执行，执行完steps会回退到原来所在目录,容器的空间是原空间路径后面多了 @2
-                dir(path: '/data/jenkins/workspace/ibole_service_develop@2/ibole-server-eureka') {
+                dir(path: 'ibole_service_develop@2/ibole-server-eureka') {
                     sh "pwd"
                     // 构建镜像
-                    sh "docker build -t ${DOCKER_IMAGE}:${env.BUILD_ID} ."
+                    sh "docker build -t eureka ."
                     // 运行容器
-                    sh "docker run -p 5000:5000 --name ${DOCKER_CONTAINER} -d ${DOCKER_IMAGE}:${env.BUILD_ID}"
+                    sh "docker run -p 9010:9010 --name ${DOCKER_CONTAINER} -d ${DOCKER_IMAGE}:${env.BUILD_ID}"
                     echo '-->> 3#构建成功-->>'
                 }
             }
