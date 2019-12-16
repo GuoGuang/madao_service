@@ -99,7 +99,7 @@ pipeline {
                 }
                 
                 sh 'ls -l'
-                sh 'rm -rf ./*'
+                sh 'sudo rm -rf ../ibole-server-eureka'
                 echo "开始从 ${params.repoUrl} 获取代码......"
                 // Get some code from a GitHub repository
                 git credentialsId: CRED_ID, url: params.repoUrl, branch: params.repoBranch
