@@ -91,17 +91,12 @@ pipeline {
             steps {
                 //根据param.server分割获取参数,包括IP,jettyPort,username,password
                 script {
-                    
-                    sh 'pwd'
-                    sh 'rm -rf ./*'
-                    
                     def split = params.server.split(",")
                     serverIP = split[0]
                     jettyPort = split[1]
                     serverName = split[2]
                     serverPasswd = split[3]
                 }
-                sh 'rm -rf /data/jenkins/workspace/*'
                 echo "开始从 ${params.repoUrl} 获取代码......"
                 // Get some code from a GitHub repository
                 git credentialsId: CRED_ID, url: params.repoUrl, branch: params.repoBranch
@@ -117,11 +112,6 @@ pipeline {
             }
             // maven打包命令
             steps {
-                
-                sh 'rm -rf /data/jenkins/workspace/*'
-                sh 'cd ${WORKSPACE}/ibole-server-eureka'
-                sh 'pwd'
-                sh 'mvn -v'
                 sh 'mvn -B -DskipTests clean package install -f ./ibole-server-eureka'
                 echo '-->> -->>maven打包构建完成!'
             }
