@@ -1,6 +1,6 @@
 FROM java:8
 WORKDIR /service
-ADD target/ibole-server-eureka-1.0.0.jar server-eureka.jar
+ADD pom.xml pom1.xml
 RUN bash -c "touch /server-eureka.jar"
 EXPOSE 5000
 ENV JAVA_OPTS "-server -Xmx128m -Xms128m -Xmn36m"
