@@ -99,7 +99,7 @@ pipeline {
                 }
                 
                 sh 'ls -l'
-                sh 'sudo rm -rf ./*'
+                sh 'rm -rf ./*'
                 echo "开始从 ${params.repoUrl} 获取代码......"
                 // Get some code from a GitHub repository
                 git credentialsId: CRED_ID, url: params.repoUrl, branch: params.repoBranch
