@@ -142,9 +142,9 @@ pipeline {
                 dir(path: 'ibole-server-eureka') {
                     sh "pwd"
                     // 构建镜像
-                    sh "docker build -t eureka ."
+                    sh "docker build -t ${DOCKER_CONTAINER}:${env.BUILD_ID} ."
                     // 运行容器
-                    sh "docker run -p 9010:9010 --name ${DOCKER_CONTAINER} -d ${DOCKER_IMAGE}:${env.BUILD_ID}"
+                    sh "docker run -p 5000:5000 --name ${DOCKER_CONTAINER} -d ${DOCKER_IMAGE}:${env.BUILD_ID}"
                     echo '-->> 3#构建成功-->>'
                 }
             }
