@@ -89,8 +89,6 @@ pipeline {
     stages {
         stage('代码获取') {
             steps {
-                
-                sh 'rm -rf /data/jenkins/workspace/*'
                 //根据param.server分割获取参数,包括IP,jettyPort,username,password
                 script {
                     def split = params.server.split(",")
@@ -99,6 +97,7 @@ pipeline {
                     serverName = split[2]
                     serverPasswd = split[3]
                 }
+                sh 'rm -rf /data/jenkins/workspace/*'
                 echo "开始从 ${params.repoUrl} 获取代码......"
                 // Get some code from a GitHub repository
                 git credentialsId: CRED_ID, url: params.repoUrl, branch: params.repoBranch
@@ -112,10 +111,10 @@ pipeline {
                     args '-u root -v /data/jenkins:/root/.m2'  //持载到本地，减少重复下载量，使用ali源
                 }
             }
-            
-            sh 'rm -rf /data/jenkins/workspace/*'
             // maven打包命令
             steps {
+                
+                sh 'rm -rf /data/jenkins/workspace/*'
                 sh 'cd ${WORKSPACE}/ibole-server-eureka'
                 sh 'pwd'
                 sh 'mvn -v'
