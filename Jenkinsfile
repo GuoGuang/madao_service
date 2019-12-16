@@ -91,6 +91,10 @@ pipeline {
             steps {
                 //根据param.server分割获取参数,包括IP,jettyPort,username,password
                 script {
+                    
+                    sh 'pwd'
+                    sh 'rm -rf ./*'
+                    
                     def split = params.server.split(",")
                     serverIP = split[0]
                     jettyPort = split[1]
