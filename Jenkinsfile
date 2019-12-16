@@ -22,10 +22,10 @@ pipeline {
         booleanParam(name: 'isCommitQA', description: '是否邮件通知测试人员进行人工验收', defaultValue: false)
     }
     //环境变量，初始确定后一般不需更改
-    // tools {
-    //      maven 'maven3'
-    //    jdk   'jdk8'
-    // }
+     tools {
+        maven 'maven3'
+        jdk   'jdk8'
+     }
     //常量参数，初始确定后一般不需更改
     environment {
 
@@ -107,16 +107,18 @@ pipeline {
         }
        
         stage('Maven构建') {
-            agent {
-                docker {
-                    image 'maven:3.6'
-                    args '-u root -v /data/jenkins:/root/.m2'  //持载到本地，减少重复下载量，使用ali源
-                }
-            }
+          //  agent {
+           //     docker {
+          //          image 'maven:3.6'
+           //         args '-u root -v /data/jenkins:/root/.m2'  //持载到本地，减少重复下载量，使用ali源
+           //     }
+           // }
             // maven打包命令
             steps {
-                sh 'mvn -B -DskipTests clean package install -f ./ibole-server-eureka'
-                echo '-->> -->>maven打包构建完成!'
+                dir(path: '../ibole_service_develop@2/ibole-server-eureka') {
+                    sh 'mvn -B -DskipTests clean package install'
+                    echo '-->> -->>maven打包构建完成!'
+                }
             }
         }
 
