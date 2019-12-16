@@ -139,8 +139,8 @@ pipeline {
                     }
                 }
                 // 构建镜像
-                    
-                sh "docker build -t eureka . -f ./ibole-server-eureka/Dockerfile"
+                sh "cd ibole-server-eureka"
+                sh "docker build -t eureka ."
                 // 运行容器
                 sh "docker run -p 5000:5000 --name ${DOCKER_CONTAINER} -d ${DOCKER_IMAGE}:${env.BUILD_ID}"
                 echo '-->> 3#构建成功-->>'
