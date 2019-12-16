@@ -1,5 +1,5 @@
 FROM java:8
-VOLUME /tmp
+WORKDIR /service
 RUN bash ls
 RUN bash pwd
 COPY ./ibole-server-eureka/target/ibole-server-eureka-1.0.0.jar server-eureka.jar
