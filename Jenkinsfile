@@ -24,7 +24,6 @@ pipeline {
     //环境变量，初始确定后一般不需更改
      tools {
         maven 'maven3'
-        jdk   'jdk8'
      }
     //常量参数，初始确定后一般不需更改
     environment {
