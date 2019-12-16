@@ -104,10 +104,10 @@ pipeline {
             }
         }
         stage('清除工作空间') {
-                    steps {
-                        sh 'rm -rf ./*'
-                    }
-                }
+            steps {
+                sh 'rm -rf ./*'
+            }
+         }
         stage('Maven构建') {
             agent {
                 docker {
