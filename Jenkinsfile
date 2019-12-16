@@ -100,14 +100,12 @@ pipeline {
                 }
                 echo "开始从 ${params.repoUrl} 获取代码......"
                 // Get some code from a GitHub repository
-                git credentialsId: CRED_ID, url: params.repoUrl, branch: params.repoBranch
+                // git credentialsId: CRED_ID, url: params.repoUrl, branch: params.repoBranch
+                
+                sh "git clone -b devlop https://github.com/GuoGuang/ibole_service.git "
             }
         }
-        stage('清除工作空间') {
-            steps {
-                sh 'rm -rf ./*'
-            }
-         }
+       
         stage('Maven构建') {
             agent {
                 docker {
