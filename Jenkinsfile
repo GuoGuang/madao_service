@@ -114,7 +114,7 @@ pipeline {
            // }
             // maven打包命令
             steps {
-                sh 'mvn -B -DskipTests clean package install  -f ./ibole-server-eureka'
+                sh 'mvn -B -DskipTests clean package install  -f ibole-server-eureka'
                 echo '-->> -->>maven打包构建完成!'
                
             }
