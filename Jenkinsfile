@@ -89,7 +89,7 @@ pipeline {
     stages {
         stage('清除工作空间') {
             steps {
-                sh 'rm -rf ./*'
+                sh 'rm -rf ../*'
             }
         }
         stage('代码获取') {
