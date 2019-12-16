@@ -100,7 +100,7 @@ pipeline {
                 echo "开始从 ${params.repoUrl} 获取代码......"
                 // Get some code from a GitHub repository
                 // git credentialsId: CRED_ID, url: params.repoUrl, branch: params.repoBranch
-                
+                sh "rm -rf ./*"
                 sh "git clone -b develop https://github.com/GuoGuang/ibole_service.git "
             }
         }
