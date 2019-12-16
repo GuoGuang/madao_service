@@ -114,10 +114,9 @@ pipeline {
            // }
             // maven打包命令
             steps {
-                dir(path: '../ibole_service_develop@2/ibole-server-eureka') {
-                    sh 'mvn -B -DskipTests clean package install'
-                    echo '-->> -->>maven打包构建完成!'
-                }
+                sh 'mvn -B -DskipTests clean package install  -f ./ibole-server-eureka'
+                echo '-->> -->>maven打包构建完成!'
+               
             }
         }
 
