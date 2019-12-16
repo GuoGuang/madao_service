@@ -87,6 +87,11 @@ pipeline {
 
     //pipeline的各个阶段场景
     stages {
+        stage('清除工作空间') {
+            steps {
+                sh 'rm -rf ./*'
+            }
+        }
         stage('代码获取') {
             steps {
                 //根据param.server分割获取参数,包括IP,jettyPort,username,password
