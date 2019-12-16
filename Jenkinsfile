@@ -102,7 +102,7 @@ pipeline {
                 // Get some code from a GitHub repository
                 // git credentialsId: CRED_ID, url: params.repoUrl, branch: params.repoBranch
                 
-                sh "git clone -b devlop https://github.com/GuoGuang/ibole_service.git "
+                sh "git clone -b develop https://github.com/GuoGuang/ibole_service.git "
             }
         }
        
