@@ -1,8 +1,8 @@
 FROM java:8
-VOLUME /tmp
+WORKDIR /service
 COPY target/ibole-authorization-server-1.0.0.jar authorization-server.jar
 RUN bash -c "touch /authorization-server.jar"
 EXPOSE 8091
 ENV JAVA_OPTS="-server -Xmx128m -Xms128m -Xmn36m"
-ENTRYPOINT ["java ${JAVA_OPTS}","-jar","authorization-server.jar"]
+ENTRYPOINT ["java ${JAVA_OPTS}","-jar","/service/authorization-server.jar"]
 
