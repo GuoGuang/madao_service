@@ -15,6 +15,9 @@ import java.util.List;
 
 public interface UserDao extends JpaRepository<User, String>, JpaSpecificationExecutor<User> {
 
+	@Query(value = "SELECT * FROM us_user WHERE id in (SELECT us_user_id FROM us_user_role WHERE us_role_id = :roleId)"
+			, nativeQuery = true)
+	List<User> findUsersOfRole(@Param("roleId") String roleId);
 
 	@Modifying
 	@Query("delete from User where id in (:ids)")
