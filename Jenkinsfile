@@ -132,16 +132,16 @@ pipeline {
             steps {
                 script {
                     // 停止并删除列表中有 ${DOCKER_CONTAINER} 的容器
-                    def container = sh(returnStdout: true, script: "docker ps -a | grep $DOCKER_CONTAINER | awk '{print \$1}'").trim()
+                    def container = sh(returnStdout: true, script: "docker ps -a | grep $serviceName | awk '{print \$1}'").trim()
                     if (container.size() > 0) {
-                        sh "docker ps -a | grep $DOCKER_CONTAINER | awk  '{print \$1}' | xargs docker stop"
-                        sh "docker ps -a | grep $DOCKER_CONTAINER | awk '{print \$1}' | xargs docker rm"
+                        sh "docker ps -a | grep $serviceName | awk  '{print \$1}' | xargs docker stop"
+                        sh "docker ps -a | grep $serviceName | awk '{print \$1}' | xargs docker rm"
                         echo '-->> 1#停止并删除容器 -->>'
                     }
                     // 删除列表中有 ${DOCKER_IMAGE} 的镜像
-                    def image = sh(returnStdout: true, script: "docker images | grep $DOCKER_IMAGE | awk '{print \$3}'").trim()
+                    def image = sh(returnStdout: true, script: "docker images | grep $serviceName | awk '{print \$3}'").trim()
                     if (image.size() > 0) {
-                        sh "docker images | grep $DOCKER_IMAGE | awk '{print \$3}' | xargs docker rmi"
+                        sh "docker images | grep $serviceName | awk '{print \$3}' | xargs docker rmi"
                         echo '-->> 2#停止并删除镜像 -->>'
                     }
                 }
@@ -153,9 +153,9 @@ pipeline {
                 dir(path: "ibole_service/${serviceName}") {
                     sh "pwd"
                     // 构建镜像
-                    sh "docker build -t ${DOCKER_IMAGE}:${env.BUILD_ID} ."
+                    sh "docker build -t ${serviceName}:${env.BUILD_ID} ."
                     // 运行容器
-                    sh "docker run -p ${servicePort}:${servicePort} --name ${DOCKER_CONTAINER} -d ${DOCKER_IMAGE}:${env.BUILD_ID}"
+                    sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
                     echo '-->> 3#构建成功-->>'
                 }
             }
@@ -193,7 +193,7 @@ pipeline {
 
         stage('部署测试环境') {
             steps {
-                echo "starting deploy to ${serverIP}......"
+                echo "starting deploy to ${serviceName}......"
 //                //编译和打包
 //                sh "mvn  -f ${params.pomPath} clean package -Dautoconfig.skip=true -Dmaven.test.skip=true"
 //                archiveArtifacts warLocation
