@@ -115,7 +115,7 @@ pipeline {
            // }
             // maven打包命令
             steps {
-                sh 'mvn -B -DskipTests clean package install  -f ibole_service/${params.project}'
+                sh "mvn -B -DskipTests clean package install  -f ibole_service/${params.project}"
                 echo '-->> -->>maven打包构建完成!'
 
             }
