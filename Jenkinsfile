@@ -33,17 +33,17 @@ pipeline {
 //        FRESH_CREDS = credentials('aliyun-docker')
 //        BUILD_NUMBER = credentials('aliyun-docker')
         // 仓库docker 地址、镜像名、容器名称
-        FRESH_HOST = 'registry.cn-hongkong.aliyuncs.com'
-        DOCKER_IMAGE = '${params.project}'
-        DOCKER_CONTAINER = '${params.project}'
+        FRESH_HOST = "registry.cn-hongkong.aliyuncs.com"
+        DOCKER_IMAGE = "${params.project}"
+        DOCKER_CONTAINER = "${params.project}"
         //测试人员邮箱地址【参数值对外隐藏】
-        QA_EMAIL = '1831682775@qq.com'
-        BUILD_USER_EMAIL = '1831682775@qq.com'
-        BUILD_USER  = '构建人'
+        QA_EMAIL = "1831682775@qq.com"
+        BUILD_USER_EMAIL = "1831682775@qq.com"
+        BUILD_USER  = "构建人"
         //接口测试（网络层）的job名，一般由测试人员编写
-        ITEST_JOBNAME = 'InterfaceTest_ExpertPatient'
+        ITEST_JOBNAME = "InterfaceTest_ExpertPatient"
         //git服务全系统只读账号cred_id【参数值对外隐藏】
-        CRED_ID='*****-****-****-****-*********'
+        CRED_ID="*****-****-****-****-*********"
     }
     options {
         //保持构建的最大个数
