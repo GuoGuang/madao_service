@@ -145,7 +145,7 @@ pipeline {
                 // 直接的构建是在容器里，这个是在 Jenkins 容器里，所以空间不一样 容器的空间是原空间路径后面多了 @2
                 // 或者说在 Maven构建 步骤把 'cd ${WORKSPACE}/ibole-server-eureka' 替换为'cd ${WORKSPACE}@2/ibole-server-eureka'
                 // dir(path: "../ibole_service_develop@2/${params.project}") {
-                dir(path: "${WORKSPACE}/${params.project}") {
+                dir(path: "ibole_service/${params.project}") {
                     sh "pwd"
                     // 构建镜像
                     sh "docker build -t ${DOCKER_IMAGE}:${env.BUILD_ID} ."
