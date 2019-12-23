@@ -14,7 +14,7 @@ pipeline {
         string(name: 'warLocation', defaultValue: 'rpc/war/target/*.war', description: 'war包的相对路径 ')
         //服务器参数采用了组合方式，避免多次选择，使用docker为更佳实践【参数值对外隐藏】
         choice(name: 'server', choices: '192.168.1.107,9090,*****,*****\n192.168.1.60,9090,*****,*****', description: '测试服务器列表选择(IP,JettyPort,Name,Passwd)')
-        choice(name: 'project', choices: ['ibole-server-eureka', 'ibole-server-config'], description: '选择微服务')
+        choice(name: 'project', choices: ['ibole-server-eureka:5000', 'ibole-server-config:9009'], description: '选择微服务')
         //测试服务器的dubbo服务端口
         string(name: 'dubboPort', defaultValue: '31100', description: '测试服务器的dubbo服务端口')
         //单元测试代码覆盖率要求，各项目视要求调整参数
@@ -91,11 +91,16 @@ pipeline {
             steps {
                 //根据param.server分割获取参数,包括IP,jettyPort,username,password
                 script {
-                    def split = params.server.split(",")
-                    serverIP = split[0]
-                    jettyPort = split[1]
-                    serverName = split[2]
-                    serverPasswd = split[3]
+                    //      def split = params.server.split(",")
+                    //		serverIP = split[0]
+                    //		jettyPort = split[1]
+                    //		serverName = split[2]
+                    //		serverPasswd = split[3]
+                    
+                    def split = params.project.split(":")
+                    serviceName = split[0]
+                    servicePort = split[1]
+                    
                 }
                 echo "开始从 ${params.repoUrl} 获取代码......"
                 // Get some code from a GitHub repository
@@ -116,7 +121,7 @@ pipeline {
             // maven打包命令
             steps {
                 sh "pwd"
-                sh "mvn -B -DskipTests clean package install  -f ibole_service/${params.project}"
+                sh "mvn -B -DskipTests clean package install  -f ibole_service/${serviceName}"
                 echo '-->> -->>maven打包构建完成!'
 
             }
@@ -145,12 +150,12 @@ pipeline {
                 // 直接的构建是在容器里，这个是在 Jenkins 容器里，所以空间不一样 容器的空间是原空间路径后面多了 @2
                 // 或者说在 Maven构建 步骤把 'cd ${WORKSPACE}/ibole-server-eureka' 替换为'cd ${WORKSPACE}@2/ibole-server-eureka'
                 // dir(path: "../ibole_service_develop@2/${params.project}") {
-                dir(path: "ibole_service/${params.project}") {
+                dir(path: "ibole_service/${serviceName}") {
                     sh "pwd"
                     // 构建镜像
                     sh "docker build -t ${DOCKER_IMAGE}:${env.BUILD_ID} ."
                     // 运行容器
-                    sh "docker run -p 5000:5000 --name ${DOCKER_CONTAINER} -d ${DOCKER_IMAGE}:${env.BUILD_ID}"
+                    sh "docker run -p ${servicePort}:${servicePort} --name ${DOCKER_CONTAINER} -d ${DOCKER_IMAGE}:${env.BUILD_ID}"
                     echo '-->> 3#构建成功-->>'
                 }
             }
