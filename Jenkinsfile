@@ -111,7 +111,7 @@ pipeline {
             }
         }
 
-        stage('Maven构建') {
+        stage("Maven构建--->${serviceName}") {
           //  agent {
            //     docker {
           //          image 'maven:3.6'
@@ -128,7 +128,7 @@ pipeline {
         }
 
         // dockerfile构建镜像 -- 推送到远程仓库
-        stage('Docker构建') {
+        stage("Docker构建") {
             steps {
                 script {
                     // 停止并删除列表中有 ${DOCKER_CONTAINER} 的容器
