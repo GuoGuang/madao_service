@@ -158,7 +158,6 @@
 
         </dependencies>
     </dependencyManagement>
-
     <modules>
         <module>../ibole-common</module>
         <module>../ibole-common-db</module>
@@ -175,7 +174,6 @@
         <module>../ibole-web-platform</module>
         <module>../ibole-authorization-server</module>
         <module>../ibole-authentication-server</module>
-
     </modules>
     <packaging>pom</packaging>
 

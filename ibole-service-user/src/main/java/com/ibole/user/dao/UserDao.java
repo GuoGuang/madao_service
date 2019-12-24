@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -14,9 +15,12 @@ import java.util.List;
 
 public interface UserDao extends JpaRepository<User, String>, JpaSpecificationExecutor<User> {
 
+	@Query(value = "SELECT * FROM us_user WHERE id in (SELECT us_user_id FROM us_user_role WHERE us_role_id = :roleId)"
+			, nativeQuery = true)
+	List<User> findUsersOfRole(@Param("roleId") String roleId);
 
 	@Modifying
 	@Query("delete from User where id in (:ids)")
-	void deleteBatch(List<String> ids);
+	void deleteBatch(@Param("ids") List<String> ids);
 
 }

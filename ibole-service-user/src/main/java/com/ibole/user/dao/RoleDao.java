@@ -16,10 +16,6 @@ import java.util.List;
 
 public interface RoleDao extends JpaRepository<Role, String>, JpaSpecificationExecutor<Role> {
 
-    @Query(value = "SELECT * FROM us_user WHERE id in (SELECT us_user_id FROM us_user_role WHERE us_role_id = :roleId)"
-            , nativeQuery = true)
-    List<User> findUsersOfRole(String roleId);
-
     /**
      * 查询当前用户的角色
      *

@@ -10,6 +10,7 @@ import com.ibole.pojo.user.User;
 import com.ibole.user.dao.ResourceDao;
 import com.ibole.user.dao.RoleDao;
 import com.ibole.user.dao.RoleResourceDao;
+import com.ibole.user.dao.UserDao;
 import com.ibole.utils.DateUtil;
 import com.ibole.utils.IdGenerate;
 import org.apache.commons.lang3.StringUtils;
@@ -29,13 +30,17 @@ import java.util.List;
 public class RoleService {
 
 	private final RoleDao roleDao;
+	private final UserDao userDao;
 	private final RoleResourceDao roleResourceDao;
 	private final ResourceDao resourceDao;
 	private final IdGenerate idGenerate;
 
 	@Autowired
-	public RoleService(RoleDao roleDao, RoleResourceDao roleResourceDao, IdGenerate idGenerate, ResourceDao resourceDao) {
+	public RoleService(RoleDao roleDao, RoleResourceDao roleResourceDao,
+	                   IdGenerate idGenerate, ResourceDao resourceDao,
+						UserDao userDao) {
 		this.roleDao = roleDao;
+		this.userDao = userDao;
 		this.roleResourceDao = roleResourceDao;
 		this.idGenerate = idGenerate;
 		this.resourceDao = resourceDao;
@@ -103,6 +108,9 @@ public class RoleService {
 	 * @return List<User>
 	 */
 	public List<User> findUsersOfRole(Role role) {
-		return roleDao.findUsersOfRole(role.getId());
+		List<User> usersOfRole = userDao.findUsersOfRole(role.getId());
+		return usersOfRole;
+
+
 	}
 }
