@@ -2,7 +2,6 @@ package com.ibole.pojo;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.domain.Pageable;
 
 import java.io.Serializable;
 
@@ -13,20 +12,17 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class QueryVO implements Serializable {
-    /*
-        private long pageNum = 1;
+    private long pageNum = 0;
 
-        private long pageSize = 10000;*/
-    private Pageable pageable;
+    private long pageSize = 10000;
+    private String searchValue;
+    private String searchSort;
 
-	private String searchValue;
-	private String searchSort;
+    /*排序*/
+    private Boolean orderBy;
+    private String fieldSort;
 
-	/*排序*/
-	private Boolean orderBy;
-	private String fieldSort;
-
-	private String sortType;
+    private String sortType;
 
 
 }

@@ -1,7 +1,7 @@
 package com.ibole.api.user;
 
 import com.ibole.FeignClientConfig;
-import com.ibole.config.CustomPage;
+import com.ibole.config.CustomQueryResults;
 import com.ibole.constant.FeignConst;
 import com.ibole.fallback.user.UserServiceRpcFallbackFactory;
 import com.ibole.pojo.user.User;
@@ -27,7 +27,7 @@ public interface UserServiceRpc {
      * @return JsonData
      */
     @GetMapping
-    JsonData<CustomPage<User>> findUserByUser(User user);
+    JsonData<CustomQueryResults<User>> findUserByUser(User user);
 
     @GetMapping("/account")
     JsonData<User> findUserByAccount(User account);
@@ -38,6 +38,6 @@ public interface UserServiceRpc {
      * @return JsonData
      */
     @GetMapping
-    JsonData<CustomPage<User>> findUser();
+    JsonData<CustomQueryResults<User>> findUser();
 
 }

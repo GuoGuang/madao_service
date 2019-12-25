@@ -1,6 +1,5 @@
 package com.ibole.user.service;
 
-import com.ibole.config.CustomPageRequest;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.user.Resource;
 import org.junit.Assert;
@@ -24,7 +23,6 @@ public class ResourceServiceTest {
     @Test
     public void findResourceByCondition() {
         QueryVO queryVO = new QueryVO();
-        queryVO.setPageable(new CustomPageRequest(1, 10));
         List<Resource> dictByCondition = resourceService.findResourceByCondition(new Resource(), queryVO);
         Assert.assertTrue(dictByCondition.size() > 0);
 

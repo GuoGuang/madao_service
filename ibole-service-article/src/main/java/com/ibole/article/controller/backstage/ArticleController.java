@@ -3,16 +3,15 @@ package com.ibole.article.controller.backstage;
 import com.ibole.annotation.OptLog;
 import com.ibole.article.controller.BaseController;
 import com.ibole.article.service.backstage.ArticleService;
-import com.ibole.config.CustomPageRequest;
 import com.ibole.constant.CommonConst;
 import com.ibole.enums.StatusEnum;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Article;
 import com.ibole.utils.JsonData;
+import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,11 +43,8 @@ public class ArticleController extends BaseController {
      */
     @ApiOperation(value = "查询文章集合", notes = "Article")
     @GetMapping
-    public JsonData findArticleByCondition(Article article, QueryVO queryVO,
-                                           @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNumber,
-                                           @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
-        queryVO.setPageable(new CustomPageRequest(pageNumber, pageSize));
-        Page<Article> result = articleService.findArticleByCondition(article, queryVO);
+    public JsonData findArticleByCondition(Article article, QueryVO queryVO) {
+        QueryResults<Article> result = articleService.findArticleByCondition(article, queryVO);
         return JsonData.success(result);
     }
 

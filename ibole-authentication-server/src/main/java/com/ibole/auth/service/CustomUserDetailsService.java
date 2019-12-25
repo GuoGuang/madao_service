@@ -1,7 +1,7 @@
 package com.ibole.auth.service;
 
 import com.ibole.api.user.UserServiceRpc;
-import com.ibole.config.CustomPage;
+import com.ibole.config.CustomQueryResults;
 import com.ibole.pojo.user.Role;
 import com.ibole.pojo.user.User;
 import com.ibole.utils.JsonData;
@@ -40,11 +40,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 		User user = JsonUtil.jsonToPojo(userJson, User.class);
 //		Page<User> defUser = userService.findUserByUser(user).getData();
-		JsonData<CustomPage<User>> userByUser = userService.findUserByUser(user);
+		JsonData<CustomQueryResults<User>> userByUser = userService.findUserByUser(user);
 		if (!userByUser.isStatus()) {
 			return null;
 		}
-		List<User> records = userByUser.getData().getContent();
+		List<User> records = userByUser.getData().getResults();
 		if (records.size() != 1) {
 			return null;
 		}

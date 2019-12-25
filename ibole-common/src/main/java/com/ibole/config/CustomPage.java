@@ -6,6 +6,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Page专用自定义类
+ *
+ * @param <T>
+ */
 public class CustomPage<T> implements Iterable<T>, Serializable {
     private static final long serialVersionUID = -3720998571176536865L;
     private List<T> content = new ArrayList<>();

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  * 操作日志
  **/
 
-public interface OptLogDao extends JpaRepository<OptLog, String>, JpaSpecificationExecutor<OptLog> {
+public interface OptLogDao extends JpaRepository<OptLog, String>, JpaSpecificationExecutor<OptLog>, QuerydslPredicateExecutor<OptLog> {
 
 
     @Modifying

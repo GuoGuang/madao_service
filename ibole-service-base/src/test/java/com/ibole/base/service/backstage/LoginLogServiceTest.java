@@ -1,14 +1,13 @@
 package com.ibole.base.service.backstage;
 
-import com.ibole.config.CustomPageRequest;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.base.LoginLog;
+import com.querydsl.core.QueryResults;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
@@ -23,10 +22,8 @@ public class LoginLogServiceTest {
 
     @Test
     public void findLoginLogByCondition() {
-        QueryVO queryVO = new QueryVO();
-        queryVO.setPageable(new CustomPageRequest(1, 10));
-        Page<LoginLog> dictByCondition = loginLogService.findLoginLogByCondition(new LoginLog(), queryVO);
-        Assert.assertTrue(dictByCondition.getTotalElements() > 0);
+        QueryResults<LoginLog> dictByCondition = loginLogService.findLoginLogByCondition(new LoginLog(), new QueryVO());
+        Assert.assertTrue(dictByCondition.getTotal() > 0);
     }
 
     @Test

@@ -2,14 +2,13 @@ package com.ibole.base.controller.backstage;
 
 import com.ibole.annotation.OptLog;
 import com.ibole.base.service.backstage.TaskService;
-import com.ibole.config.CustomPageRequest;
 import com.ibole.constant.CommonConst;
 import com.ibole.pojo.QuartzJob;
 import com.ibole.pojo.QueryVO;
 import com.ibole.utils.JsonData;
+import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,32 +33,30 @@ public class TaskController {
 	}
 
 
-	/**
-	 * 条件查询任务
-	 *
-	 * @param quartzJob 查询参数
-	 * @param queryVO   查询参数
-	 * @return JsonData
-	 */
-	@GetMapping
-	public JsonData findResByCondition(QuartzJob quartzJob, QueryVO queryVO,
-									   @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNumber,
-									   @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
-		queryVO.setPageable(new CustomPageRequest(pageNumber, pageSize));
-		Page<QuartzJob> resData = taskService.findTaskByCondition(quartzJob, queryVO);
-		return JsonData.success(resData);
-	}
+    /**
+     * 条件查询任务
+     *
+     * @param quartzJob 查询参数
+     * @param queryVO   查询参数
+     * @return JsonData
+     */
+    @GetMapping
+    public JsonData findResByCondition(QuartzJob quartzJob, QueryVO queryVO) {
+        QueryResults<QuartzJob> resData = taskService.findTaskByCondition(quartzJob, queryVO);
+        return JsonData.success(resData);
+    }
 
-	/**
-	 * 根据id查询单条
-	 * @param id:job
-	 * @return  JsonData
-	 */
-	@GetMapping(value = "/{id}")
-	public JsonData findById(@PathVariable String id) {
-		QuartzJob resData = taskService.findJobById(id);
-		return JsonData.success(resData);
-	}
+    /**
+     * 根据id查询单条
+     *
+     * @param id:job
+     * @return JsonData
+     */
+    @GetMapping(value = "/{id}")
+    public JsonData findById(@PathVariable String id) {
+        QuartzJob resData = taskService.findJobById(id);
+        return JsonData.success(resData);
+    }
 
 	/**
 	 * 更新任务

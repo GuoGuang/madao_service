@@ -8,17 +8,21 @@ import com.ibole.db.redis.service.RedisService;
 import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Article;
+import com.ibole.pojo.article.QArticle;
 import com.ibole.pojo.user.User;
 import com.ibole.utils.DateUtil;
 import com.ibole.utils.JsonUtil;
+import com.ibole.utils.QuerydslUtil;
+import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Predicate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +39,10 @@ public class ArticleService {
 	private final UserServiceRpc userServiceRpc;
 
 	@Autowired
-	public ArticleService(ArticleDao articleDao, RedisService redisService,UserServiceRpc userServiceRpc) {
+	JPAQueryFactory jpaQueryFactory;
+
+	@Autowired
+	public ArticleService(ArticleDao articleDao, RedisService redisService, UserServiceRpc userServiceRpc) {
 		this.articleDao = articleDao;
 		this.redisService = redisService;
 		this.userServiceRpc = userServiceRpc;
@@ -46,33 +53,31 @@ public class ArticleService {
 	 *
 	 * @return IPage<Article>
 	 */
-	public Page<Article> findArticleByCondition(Article article, QueryVO queryVO) {
-
-		Specification<Article> condition = (root, query, builder) -> {
-			List<Predicate> predicates = new ArrayList<>();
-			if (StringUtils.isNotEmpty(article.getTitle())) {
-				predicates.add(builder.like(root.get("title"), "%" + article.getTitle() + "%"));
-			}
-			if (article.getReviewState() != null) {
-				predicates.add(builder.like(root.get("reviewState"), "%" + article.getReviewState() + "%"));
-			}
-			if (StringUtils.isNotEmpty(article.getDescription())) {
-				predicates.add(builder.like(root.get("description"), "%" + article.getDescription() + "%"));
-			}
-			if (queryVO.getOrderBy() != null && StringUtils.isNotEmpty(queryVO.getFieldSort())) {
-				// 驼峰下划线
-				// String fieldSort = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, queryVO.getFieldSort());
-				// queryWrapper.orderBy(true,queryVO.getOrderBy(),fieldSort);
-			}
-			Predicate[] ps = new Predicate[predicates.size()];
-			query.where(builder.and(predicates.toArray(ps)));
-			query.orderBy(builder.desc(root.get("createAt").as(Long.class)));
-			return null;
-		};
-
-		Page<Article> articlePage = articleDao.findAll(condition, queryVO.getPageable());
-		List<User> userList = userServiceRpc.findUser().getData().getContent();
-		articlePage.getContent().forEach(
+	public QueryResults<Article> findArticleByCondition(Article article, QueryVO queryVO) {
+		QArticle qArticle = QArticle.article;
+		Predicate predicate = null;
+		OrderSpecifier<?> sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qArticle);
+		if (StringUtils.isNotEmpty(article.getTitle())) {
+			predicate = ExpressionUtils.and(predicate, qArticle.title.like(article.getTitle()));
+		}
+		if (article.getReviewState() != null) {
+			predicate = ExpressionUtils.and(predicate, qArticle.reviewState.eq(article.getReviewState()));
+		}
+		if (StringUtils.isNotEmpty(article.getDescription())) {
+			predicate = ExpressionUtils.and(predicate, qArticle.description.like(article.getDescription()));
+		}
+		if (StringUtils.isNotEmpty(queryVO.getFieldSort())) {
+			sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qArticle, queryVO.getFieldSort());
+		}
+		QueryResults<Article> queryResults = jpaQueryFactory
+				.selectFrom(qArticle)
+				.where(predicate)
+				.offset(queryVO.getPageNum())
+				.limit(queryVO.getPageSize())
+				.orderBy(sortedColumn)
+				.fetchResults();
+		List<User> userList = userServiceRpc.findUser().getData().getResults();
+		queryResults.getResults().forEach(
 				articleUser -> userList.forEach(
 						user -> {
 							if (user.getId().equals(articleUser.getUserId())) {
@@ -81,7 +86,7 @@ public class ArticleService {
 						}
 				)
 		);
-		return articlePage;
+		return queryResults;
 	}
 
 
