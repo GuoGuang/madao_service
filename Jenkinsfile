@@ -122,6 +122,7 @@ pipeline {
             steps {
                 echo "构建--->${serviceName}"
                 sh "pwd"
+                sh "mvn -B -DskipTests compile -f ibole_service/ibole-common"
                 sh "mvn -B -DskipTests clean package install  -f ibole_service/${serviceName}"
                 echo '-->> -->>maven打包构建完成!'
 
