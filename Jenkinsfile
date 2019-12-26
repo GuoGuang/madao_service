@@ -17,6 +17,7 @@ pipeline {
         choice(name: 'project', choices: ['ibole-server-eureka:5000', 'ibole-server-config:9009'], description: '选择微服务')
         //测试服务器的dubbo服务端口
         string(name: 'dubboPort', defaultValue: '31100', description: '测试服务器的dubbo服务端口')
+        file( name: "passwordFile",description: "密码文件地址")
         //单元测试代码覆盖率要求，各项目视要求调整参数
         string(name: 'lineCoverage', defaultValue: '20', description: '单元测试代码覆盖率要求(%)，小于此值pipeline将会失败！')
         //若勾选在pipelie完成后会邮件通知测试人员进行验收
