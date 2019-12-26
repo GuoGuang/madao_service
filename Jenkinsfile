@@ -124,7 +124,7 @@ pipeline {
                 sh "pwd"
                 sh "mvn -B -DskipTests clean package install  -f ibole_service/${serviceName}"
                 sh "pwd"
-                sh "cp /var/jenkins_home/config-server.jks /var/jenkins_home/workspace/ibole_service_develop/ibole-server-config/src/main/resources"
+                sh "cp /var/jenkins_home/config-server.jks ibole_service/ibole-server-config/src/main/resources"
                 echo '-->> -->>maven打包构建完成!'
 
             }
