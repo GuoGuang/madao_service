@@ -17,7 +17,6 @@ pipeline {
         choice(name: 'project', choices: ['ibole-server-eureka:5000', 'ibole-server-config:9009'], description: '选择微服务')
         //测试服务器的dubbo服务端口
         string(name: 'dubboPort', defaultValue: '31100', description: '测试服务器的dubbo服务端口')
-        file( name: "passwordFile",description: "密码文件地址")
         //单元测试代码覆盖率要求，各项目视要求调整参数
         string(name: 'lineCoverage', defaultValue: '20', description: '单元测试代码覆盖率要求(%)，小于此值pipeline将会失败！')
         //若勾选在pipelie完成后会邮件通知测试人员进行验收
@@ -104,7 +103,6 @@ pipeline {
                     
                 }
                 echo "开始从 ${params.repoUrl} 获取代码......"
-                sh "路径：${params.passwordFile}"
                 // Get some code from a GitHub repository
                 // git credentialsId: CRED_ID, url: params.repoUrl, branch: params.repoBranch
                 sh "rm -rf ./*"
@@ -125,6 +123,8 @@ pipeline {
                 echo "构建--->${serviceName}"
                 sh "pwd"
                 sh "mvn -B -DskipTests clean package install  -f ibole_service/${serviceName}"
+                sh "pwd"
+                sh "cp /var/jenkins_home/config-server.jks /var/jenkins_home/workspace/ibole_service_develop/ibole-server-config/src/main/resources"
                 echo '-->> -->>maven打包构建完成!'
 
             }
