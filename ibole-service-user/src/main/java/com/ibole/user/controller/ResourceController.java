@@ -1,7 +1,6 @@
 package com.ibole.user.controller;
 
 import com.ibole.annotation.OptLog;
-import com.ibole.config.CustomPageRequest;
 import com.ibole.constant.CommonConst;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.user.Resource;
@@ -37,20 +36,17 @@ public class ResourceController {
 
 
 	/**
-	 * 条件查询资源
-	 *
-	 * @param resource 资源
-	 * @param queryVO  查询参数
-	 * @return JsonData
-	 */
-	@GetMapping
-	public JsonData<List<Resource>> findResByCondition(Resource resource, QueryVO queryVO,
-													   @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNumber,
-													   @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
-		queryVO.setPageable(new CustomPageRequest(pageNumber, pageSize));
-		List<Resource> result = resourceService.findResourceByCondition(resource, queryVO);
-		return JsonData.success(result);
-	}
+     * 条件查询资源
+     *
+     * @param resource 资源
+     * @param queryVO  查询参数
+     * @return JsonData
+     */
+    @GetMapping
+    public JsonData<List<Resource>> findResByCondition(Resource resource, QueryVO queryVO) {
+        List<Resource> result = resourceService.findResourceByCondition(resource, queryVO);
+        return JsonData.success(result);
+    }
 
 	/**
 	 * 根据id查询单条

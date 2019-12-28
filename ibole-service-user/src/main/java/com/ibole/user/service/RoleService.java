@@ -3,23 +3,23 @@ package com.ibole.user.service;
 
 import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.pojo.QueryVO;
-import com.ibole.pojo.user.Resource;
-import com.ibole.pojo.user.Role;
-import com.ibole.pojo.user.RoleResource;
-import com.ibole.pojo.user.User;
+import com.ibole.pojo.user.*;
 import com.ibole.user.dao.ResourceDao;
 import com.ibole.user.dao.RoleDao;
 import com.ibole.user.dao.RoleResourceDao;
 import com.ibole.user.dao.UserDao;
 import com.ibole.utils.DateUtil;
 import com.ibole.utils.IdGenerate;
+import com.ibole.utils.QuerydslUtil;
+import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,42 +29,53 @@ import java.util.List;
 @Service
 public class RoleService {
 
-	private final RoleDao roleDao;
-	private final UserDao userDao;
-	private final RoleResourceDao roleResourceDao;
-	private final ResourceDao resourceDao;
-	private final IdGenerate idGenerate;
+    private final RoleDao roleDao;
+    private final UserDao userDao;
+    private final RoleResourceDao roleResourceDao;
+    private final ResourceDao resourceDao;
+    private final IdGenerate idGenerate;
 
-	@Autowired
-	public RoleService(RoleDao roleDao, RoleResourceDao roleResourceDao,
-	                   IdGenerate idGenerate, ResourceDao resourceDao,
-						UserDao userDao) {
-		this.roleDao = roleDao;
-		this.userDao = userDao;
-		this.roleResourceDao = roleResourceDao;
-		this.idGenerate = idGenerate;
-		this.resourceDao = resourceDao;
-	}
+    @Autowired
+    JPAQueryFactory jpaQueryFactory;
+
+    @Autowired
+    public RoleService(RoleDao roleDao, RoleResourceDao roleResourceDao,
+                       IdGenerate idGenerate, ResourceDao resourceDao,
+                       UserDao userDao) {
+        this.roleDao = roleDao;
+        this.userDao = userDao;
+        this.roleResourceDao = roleResourceDao;
+        this.idGenerate = idGenerate;
+        this.resourceDao = resourceDao;
+    }
 
 
-	/**
-	 * 条件查询角色
-	 * @param role : Role
-	 * @return IPage<Role>
-	 */
-	public Page<Role> findRuleByCondition(Role role, QueryVO queryVO) {
-		Specification<Role> condition = (root, query, builder) -> {
-			List<Predicate> predicates = new ArrayList<>();
-			if (StringUtils.isNotEmpty(role.getRoleName())) {
-				predicates.add(builder.like(root.get("roleName"), "%" + role.getRoleName() + "%"));
-			}
-			Predicate[] ps = new Predicate[predicates.size()];
-			query.where(builder.and(predicates.toArray(ps)));
-			query.orderBy(builder.desc(root.get("createAt").as(Long.class)));
-			return null;
-		};
-		return roleDao.findAll(condition, queryVO.getPageable());
-	}
+    /**
+     * 条件查询角色
+     *
+     * @param role : Role
+     * @return IPage<Role>
+     */
+    public QueryResults<Role> findRuleByCondition(Role role, QueryVO queryVO) {
+
+        QRole qRole = QRole.role;
+        com.querydsl.core.types.Predicate predicate = null;
+        OrderSpecifier<?> sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qRole);
+        if (StringUtils.isNotEmpty(role.getRoleName())) {
+            predicate = ExpressionUtils.and(predicate, qRole.roleName.like(role.getRoleName()));
+        }
+        if (StringUtils.isNotEmpty(queryVO.getFieldSort())) {
+            sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qRole, queryVO.getFieldSort());
+        }
+        QueryResults<Role> queryResults = jpaQueryFactory
+                .selectFrom(qRole)
+                .where(predicate)
+                .offset(queryVO.getPageNum())
+                .limit(queryVO.getPageSize())
+                .orderBy(sortedColumn)
+                .fetchResults();
+        return queryResults;
+    }
 
 	public Role findRoleById(String roleId) {
 		Role role = roleDao.findById(roleId).orElseThrow(ResourceNotFoundException::new);

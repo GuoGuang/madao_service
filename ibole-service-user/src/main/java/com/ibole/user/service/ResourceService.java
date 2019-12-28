@@ -6,6 +6,7 @@ import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.user.Resource;
 import com.ibole.user.dao.ResourceDao;
 import com.ibole.utils.DateUtil;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -20,21 +21,25 @@ import java.util.Set;
  * 资源接口实现
  **/
 @Service
-public class ResourceService{
+public class ResourceService {
 
-	private final ResourceDao resourceDao;
+    private final ResourceDao resourceDao;
 
-	@Autowired
-	public ResourceService(ResourceDao resourceDao) {
-		this.resourceDao = resourceDao;
-	}
+    @Autowired
+    JPAQueryFactory jpaQueryFactory;
 
-	/**
-	 * 条件查询资源
-	 * @param resource 资源实体
-	 * @param queryVO 查询参数
-	 * @return List
-	 */
+    @Autowired
+    public ResourceService(ResourceDao resourceDao) {
+        this.resourceDao = resourceDao;
+    }
+
+    /**
+     * 条件查询资源
+     *
+     * @param resource 资源实体
+     * @param queryVO  查询参数
+     * @return List
+     */
 	public List<Resource> findResourceByCondition(Resource resource, QueryVO queryVO) {
 
 		Specification<Resource> condition = (root, query, builder) -> {

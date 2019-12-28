@@ -2,15 +2,14 @@ package com.ibole.article.controller.backstage;
 
 import com.ibole.annotation.OptLog;
 import com.ibole.article.service.backstage.CategoryService;
-import com.ibole.config.CustomPageRequest;
 import com.ibole.constant.CommonConst;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Category;
 import com.ibole.utils.JsonData;
+import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,12 +24,12 @@ import java.util.List;
 @RequestMapping(value = "/article/category", produces = "application/json")
 public class CategoryController {
 
-	private final CategoryService categoryService;
+    private final CategoryService categoryService;
 
-	@Autowired
-	public CategoryController(CategoryService categoryService) {
-		this.categoryService = categoryService;
-	}
+    @Autowired
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     /**
      * 查询全部数据
@@ -38,21 +37,19 @@ public class CategoryController {
      * @return JsonData
      */
     @GetMapping
-    public JsonData findCategoryByCondition(Category category, QueryVO queryVO,
-                                            @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNumber, @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
-        queryVO.setPageable(new CustomPageRequest(pageNumber, pageSize));
-        Page<Category> result = categoryService.findCategoryByCondition(category, queryVO);
+    public JsonData findCategoryByCondition(Category category, QueryVO queryVO) {
+        QueryResults<Category> result = categoryService.findCategoryByCondition(category, queryVO);
         return JsonData.success(result);
     }
 
-	/**
-	 * 根据ID查询
-	 *
-	 * @param id ID
-	 * @return JsonData
-	 */
-	@GetMapping(value = "/{id}")
-	public JsonData findCategoryByPrimaryKey(@PathVariable String id) {
+    /**
+     * 根据ID查询
+     *
+     * @param id ID
+     * @return JsonData
+     */
+    @GetMapping(value = "/{id}")
+    public JsonData findCategoryByPrimaryKey(@PathVariable String id) {
         Category result = categoryService.findCategoryById(id);
         return JsonData.success(result);
 	}

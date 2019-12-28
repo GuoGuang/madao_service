@@ -1,14 +1,13 @@
 package com.ibole.article.service.backstage;
 
-import com.ibole.config.CustomPageRequest;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Category;
+import com.querydsl.core.QueryResults;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
@@ -24,9 +23,8 @@ public class CategoryServiceTest {
     @Test
     public void findCategoryByCondition() {
         QueryVO queryVO = new QueryVO();
-        queryVO.setPageable(new CustomPageRequest(1, 10));
-        Page<Category> result = categoryService.findCategoryByCondition(new Category(), queryVO);
-        Assert.assertTrue(result.getTotalElements() > 0);
+        QueryResults<Category> result = categoryService.findCategoryByCondition(new Category(), queryVO);
+        Assert.assertTrue(result.getTotal() > 0);
     }
 
     @Test

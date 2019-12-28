@@ -14,7 +14,17 @@ pipeline {
         string(name: 'warLocation', defaultValue: 'rpc/war/target/*.war', description: 'war包的相对路径 ')
         //服务器参数采用了组合方式，避免多次选择，使用docker为更佳实践【参数值对外隐藏】
         choice(name: 'server', choices: '192.168.1.107,9090,*****,*****\n192.168.1.60,9090,*****,*****', description: '测试服务器列表选择(IP,JettyPort,Name,Passwd)')
-        choice(name: 'project', choices: ['ibole-server-eureka:5000', 'ibole-server-config:9009'], description: '选择微服务')
+        choice(name: 'project', choices: [
+                'ibole-server-eureka:5000',
+                'ibole-server-config:9009',
+                'ibole-service-user:9007',
+                'ibole-web-gateway:8080',
+                'ibole-service-base:9008',
+                'ibole-service-article:9003',
+                'ibole-authorization-server:8091',
+                'ibole-authentication-server:8090',
+
+        ], description: '选择微服务')
         //测试服务器的dubbo服务端口
         string(name: 'dubboPort', defaultValue: '31100', description: '测试服务器的dubbo服务端口')
         //单元测试代码覆盖率要求，各项目视要求调整参数
@@ -124,6 +134,9 @@ pipeline {
                 sh "pwd"
                 sh "mvn -B -DskipTests compile -f ibole_service/ibole-common"
                 sh "mvn -B -DskipTests clean package install  -f ibole_service/${serviceName}"
+                sh "pwd"
+                sh "/bin/cp /var/jenkins_home/config-server.jks ibole_service/ibole-server-config/src/main/resources/"
+                sh "/bin/cp /var/jenkins_home/bootstrap.yml ibole_service/ibole-server-config/src/main/resources/"
                 echo '-->> -->>maven打包构建完成!'
 
             }

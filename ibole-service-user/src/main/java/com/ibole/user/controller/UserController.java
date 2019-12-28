@@ -1,7 +1,6 @@
 package com.ibole.user.controller;
 
 import com.ibole.annotation.OptLog;
-import com.ibole.config.CustomPageRequest;
 import com.ibole.constant.CommonConst;
 import com.ibole.exception.custom.ParamException;
 import com.ibole.pojo.QueryVO;
@@ -10,11 +9,11 @@ import com.ibole.pojo.user.User;
 import com.ibole.user.service.UserService;
 import com.ibole.utils.JsonData;
 import com.ibole.utils.JsonUtil;
+import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -114,11 +113,8 @@ public class UserController {
 	@ApiOperation(value = "查找用户列表", notes = "按照条件查找用户列表")
 	@ApiImplicitParam(name = "User", value = "查询条件：用户对象", dataType = "Map", paramType = "query")
 	@GetMapping
-	public JsonData<Page<User>> findByCondition(User user, QueryVO queryVO,
-												@RequestParam(name = "pageNum", defaultValue = "0") Integer pageNumber,
-												@RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
-		queryVO.setPageable(new CustomPageRequest(pageNumber, pageSize));
-		Page<User> result = userService.findByCondition(user, queryVO);
+	public JsonData<QueryResults<User>> findByCondition(User user, QueryVO queryVO) {
+		QueryResults<User> result = userService.findByCondition(user, queryVO);
 		return JsonData.success(result);
 	}
 

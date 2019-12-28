@@ -3,17 +3,16 @@ package com.ibole.user.service;
 import com.aliyun.oss.HttpMethod;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.PutObjectResult;
-import com.ibole.config.CustomPageRequest;
 import com.ibole.db.redis.service.RedisService;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.user.Role;
 import com.ibole.pojo.user.User;
+import com.querydsl.core.QueryResults;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StreamUtils;
@@ -78,9 +77,8 @@ public class UserServiceTest {
     @Test
     public void findByCondition() {
         QueryVO queryVO = new QueryVO();
-        queryVO.setPageable(new CustomPageRequest(1, 10));
-        Page<User> dictByCondition = userService.findByCondition(new User(), queryVO);
-        Assert.assertTrue(dictByCondition.getTotalElements() > 0);
+        QueryResults<User> dictByCondition = userService.findByCondition(new User(), queryVO);
+        Assert.assertTrue(dictByCondition.getTotal() > 0);
     }
 
     @Test

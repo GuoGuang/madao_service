@@ -1,16 +1,15 @@
 package com.ibole.user.controller;
 
 import com.ibole.annotation.OptLog;
-import com.ibole.config.CustomPageRequest;
 import com.ibole.constant.CommonConst;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.user.Role;
 import com.ibole.pojo.user.User;
 import com.ibole.user.service.RoleService;
 import com.ibole.utils.JsonData;
+import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,24 +31,23 @@ public class RoleController {
 		this.roleService = roleService;
 	}
 
-	/**
-	 * 条件查询角色
-	 *
-	 * @param role 查询参数
-	 * @return JsonData
-	 */
-	@GetMapping
-	public JsonData findRuleByCondition(Role role, QueryVO queryVO,
-										@RequestParam(name = "pageNum", defaultValue = "0") Integer pageNumber, @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
-		queryVO.setPageable(new CustomPageRequest(pageNumber, pageSize));
-		Page<Role> result = roleService.findRuleByCondition(role, queryVO);
-		return JsonData.success(result);
-	}
+    /**
+     * 条件查询角色
+     *
+     * @param role 查询参数
+     * @return JsonData
+     */
+    @GetMapping
+    public JsonData findRuleByCondition(Role role, QueryVO queryVO) {
+        QueryResults<Role> result = roleService.findRuleByCondition(role, queryVO);
+        return JsonData.success(result);
+    }
 
-	/**
-	 * 查询当前用户关联的角色
-	 * @param role 查询参数
-	 * @return JsonData
+    /**
+     * 查询当前用户关联的角色
+     *
+     * @param role 查询参数
+     * @return JsonData
 	 */
 	@GetMapping("/user")
 	public JsonData fetchUsersList(Role role) {

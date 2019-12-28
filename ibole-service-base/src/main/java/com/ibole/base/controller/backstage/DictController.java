@@ -2,15 +2,14 @@ package com.ibole.base.controller.backstage;
 
 import com.ibole.annotation.OptLog;
 import com.ibole.base.service.backstage.DictService;
-import com.ibole.config.CustomPageRequest;
 import com.ibole.constant.CommonConst;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.base.Dict;
 import com.ibole.utils.DateUtil;
 import com.ibole.utils.JsonData;
+import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,25 +34,24 @@ public class DictController {
 	}
 
 
-	/**
-	 * 条件查询资源
-	 *
-	 * @param dict    查询参数
-	 * @param queryVO 查询参数
-	 * @return JsonData
-	 */
-	@GetMapping
-	public JsonData findResByCondition(Dict dict, QueryVO queryVO,
-									   Integer pageNum, Integer pageSize) {
-		queryVO.setPageable(new CustomPageRequest(pageNum, pageSize));
-		Page<Dict> resData = dictService.findDictByCondition(dict, queryVO);
-		return JsonData.success(resData);
-	}
+    /**
+     * 条件查询资源
+     *
+     * @param dict    查询参数
+     * @param queryVO 查询参数
+     * @return JsonData
+     */
+    @GetMapping
+    public JsonData findResByCondition(Dict dict, QueryVO queryVO) {
+        QueryResults<Dict> resData = dictService.findDictByCondition(dict, queryVO);
+        return JsonData.success(resData);
+    }
 
-	/**
-	 * 获取组字典类型，所有根节点
-	 * @param dict 资源实体
-	 * @return JsonData
+    /**
+     * 获取组字典类型，所有根节点
+     *
+     * @param dict 资源实体
+     * @return JsonData
 	 */
 	@GetMapping("/type")
 	public JsonData fetchDictType(Dict dict) {

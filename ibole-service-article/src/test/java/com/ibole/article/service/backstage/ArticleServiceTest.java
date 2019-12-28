@@ -1,14 +1,15 @@
 package com.ibole.article.service.backstage;
 
-import com.ibole.config.CustomPageRequest;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Article;
+import com.ibole.utils.JsonUtil;
+import com.ibole.utils.LogBack;
+import com.querydsl.core.QueryResults;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
@@ -24,9 +25,9 @@ public class ArticleServiceTest {
     @Test
     public void findArticleByCondition() {
         QueryVO queryVO = new QueryVO();
-        queryVO.setPageable(new CustomPageRequest(1, 10));
-        Page<Article> result = articleService.findArticleByCondition(new Article(), queryVO);
-        Assert.assertTrue(result.getTotalElements() > 0);
+        QueryResults<Article> result = articleService.findArticleByCondition(new Article(), queryVO);
+        LogBack.info(JsonUtil.toJsonString(result));
+        Assert.assertTrue(result.getTotal() > 0);
     }
 
     @Test

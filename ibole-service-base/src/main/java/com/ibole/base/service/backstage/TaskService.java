@@ -4,13 +4,19 @@ package com.ibole.base.service.backstage;
 import com.aliyun.oss.ServiceException;
 import com.ibole.base.dao.JobDao;
 import com.ibole.exception.custom.ResourceNotFoundException;
+import com.ibole.pojo.QQuartzJob;
 import com.ibole.pojo.QuartzJob;
 import com.ibole.pojo.QueryVO;
 import com.ibole.utils.DateUtil;
 import com.ibole.utils.QuartzUtil;
+import com.ibole.utils.QuerydslUtil;
+import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -25,30 +31,40 @@ import java.util.Optional;
 @Service
 public class TaskService {
 
-	private final JobDao jobDao;
-	@Autowired
-	private Scheduler scheduler;
+    private final JobDao jobDao;
+    @Autowired
+    private Scheduler scheduler;
 
-	@Autowired
-	public TaskService(JobDao jobDao) {
-		this.jobDao = jobDao;
-	}
+    @Autowired
+    JPAQueryFactory jpaQueryFactory;
 
-	/**
-	 * 条件查询任务列表
-	 *
-	 * @param quartzJob 资源实体
-	 * @param queryVO   查询参数
-	 * @return List
-	 */
-	public Page<QuartzJob> findTaskByCondition(QuartzJob quartzJob, QueryVO queryVO) {
-		Specification<QuartzJob> condition = (root, query, builder) -> {
-			query.orderBy(builder.desc(root.get("createAt").as(Long.class)));
-			return null;
-		};
-		return jobDao.findAll(condition, queryVO.getPageable());
+    @Autowired
+    public TaskService(JobDao jobDao) {
+        this.jobDao = jobDao;
+    }
 
-	}
+    /**
+     * 条件查询任务列表
+     *
+     * @param quartzJob 资源实体
+     * @param queryVO   查询参数
+     * @return List
+     */
+    public QueryResults<QuartzJob> findTaskByCondition(QuartzJob quartzJob, QueryVO queryVO) {
+        QQuartzJob qQuartzJob = QQuartzJob.quartzJob;
+        OrderSpecifier<?> sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qQuartzJob);
+        if (StringUtils.isNotEmpty(queryVO.getFieldSort())) {
+            sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qQuartzJob, queryVO.getFieldSort());
+        }
+        QueryResults<QuartzJob> queryResults = jpaQueryFactory
+                .selectFrom(qQuartzJob)
+                .offset(queryVO.getPageNum())
+                .limit(queryVO.getPageSize())
+                .orderBy(sortedColumn)
+                .fetchResults();
+        return queryResults;
+
+    }
 
 	public QuartzJob findJobById(String resId) {
 		Optional<QuartzJob> byId = jobDao.findById(resId);

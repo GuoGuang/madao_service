@@ -1,13 +1,12 @@
 package com.ibole.base.controller.backstage;
 
 import com.ibole.base.service.backstage.LoginLogService;
-import com.ibole.config.CustomPageRequest;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.base.LoginLog;
 import com.ibole.utils.JsonData;
+import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,19 +27,17 @@ public class LoginLogController {
 		this.loginLogService = loginLogService;
 	}
 
-	/**
-	 * 按照条件查询全部列表
-	 *
-	 * @return Result
-	 */
-	@GetMapping
-	public JsonData findLoginLogByCondition(LoginLog loginLog, QueryVO queryVO,
-											@RequestParam(name = "pageNum", defaultValue = "0") Integer pageNumber, @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
-		queryVO.setPageable(new CustomPageRequest(pageNumber, pageSize));
-		Page<LoginLog> result = loginLogService.findLoginLogByCondition(loginLog, queryVO);
-		return JsonData.success(result);
+    /**
+     * 按照条件查询全部列表
+     *
+     * @return Result
+     */
+    @GetMapping
+    public JsonData findLoginLogByCondition(LoginLog loginLog, QueryVO queryVO) {
+        QueryResults<LoginLog> result = loginLogService.findLoginLogByCondition(loginLog, queryVO);
+        return JsonData.success(result);
 
-	}
+    }
 
 	/**
 	 * 根据ID查询登录日志

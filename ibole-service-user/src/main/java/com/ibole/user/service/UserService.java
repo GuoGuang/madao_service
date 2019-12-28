@@ -5,6 +5,7 @@ import com.ibole.db.redis.service.RedisService;
 import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.exception.custom.UserException;
 import com.ibole.pojo.QueryVO;
+import com.ibole.pojo.user.QUser;
 import com.ibole.pojo.user.Role;
 import com.ibole.pojo.user.User;
 import com.ibole.pojo.user.UserRole;
@@ -13,15 +14,17 @@ import com.ibole.user.dao.RoleDao;
 import com.ibole.user.dao.UserDao;
 import com.ibole.user.dao.UserRoleDao;
 import com.ibole.utils.DateUtil;
+import com.ibole.utils.QuerydslUtil;
+import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Predicate;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,26 +35,28 @@ public class UserService {
 
 	private final UserDao userDao;
 	private final RoleDao roleDao;
-	private final ResourceDao resourceDao;
+    private final ResourceDao resourceDao;
 
-	private final RedisService redisService;
-	// 加密
-	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final RedisService redisService;
+    // 加密
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	private final LoginLogServiceRpc loginLogServiceRpc;
+    private final LoginLogServiceRpc loginLogServiceRpc;
 
-	private final UserRoleDao userRoleDao;
+    private final UserRoleDao userRoleDao;
 
+    @Autowired
+    JPAQueryFactory jpaQueryFactory;
 
-	@Autowired
-	public UserService(UserDao userDao, RedisService redisService,
-					   BCryptPasswordEncoder bCryptPasswordEncoder,
-					   LoginLogServiceRpc loginLogServiceRpc, UserRoleDao userRoleDao,
-					   RoleDao roleDao, ResourceDao resourceDao) {
-		this.userDao = userDao;
-		this.roleDao = roleDao;
-		this.resourceDao = resourceDao;
-		this.redisService = redisService;
+    @Autowired
+    public UserService(UserDao userDao, RedisService redisService,
+                       BCryptPasswordEncoder bCryptPasswordEncoder,
+                       LoginLogServiceRpc loginLogServiceRpc, UserRoleDao userRoleDao,
+                       RoleDao roleDao, ResourceDao resourceDao) {
+        this.userDao = userDao;
+        this.roleDao = roleDao;
+        this.resourceDao = resourceDao;
+        this.redisService = redisService;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.loginLogServiceRpc = loginLogServiceRpc;
 		this.userRoleDao = userRoleDao;
@@ -62,54 +67,60 @@ public class UserService {
 	 *
 	 * @param user
 	 */
-	public void registerUser(User user) {
-		user.setCreateAt(DateUtil.getTimestamp());
-		user.setUpdateAt(DateUtil.getTimestamp());
-		//加密后的密码
-		String bCryptPassword = bCryptPasswordEncoder.encode(user.getPassword());
-		user.setPassword(bCryptPassword);
-		userDao.save(user);
-	}
+    public void registerUser(User user) {
+        user.setCreateAt(DateUtil.getTimestamp());
+        user.setUpdateAt(DateUtil.getTimestamp());
+        //加密后的密码
+        String bCryptPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPassword(bCryptPassword);
+        userDao.save(user);
+    }
 
 
-	public Page<User> findByCondition(User user, QueryVO queryVO) {
-		Specification<User> condition = (root, query, builder) -> {
-			List<Predicate> predicates = new ArrayList<>();
-			if (StringUtils.isNotEmpty(user.getUserName())) {
-				predicates.add(builder.like(root.get("userName"), "%" + user.getUserName() + "%"));
-			}
-			if (user.getStatus() != null) {
-				predicates.add(builder.equal(root.get("status"), user.getStatus()));
-			}
-			if (StringUtils.isNotEmpty(user.getId())) {
-				predicates.add(builder.like(root.get("id"), "%" + user.getId() + "%"));
-			}
-			if (StringUtils.isNotEmpty(user.getUserName())) {
-				predicates.add(builder.like(root.get("userName"), "%" + user.getUserName() + "%"));
-			}
-			if (StringUtils.isNotEmpty(user.getAccount())) {
-				predicates.add(builder.like(root.get("account"), "%" + user.getAccount() + "%"));
-			}
-			if (StringUtils.isNotEmpty(user.getPhone())) {
-				predicates.add(builder.like(root.get("phone"), user.getPhone()));
-			}
-			Predicate[] ps = new Predicate[predicates.size()];
-			query.where(builder.and(predicates.toArray(ps)));
-			query.orderBy(builder.desc(root.get("createAt").as(Long.class)));
-			return null;
-		};
-		Page<User> userPage = userDao.findAll(condition, queryVO.getPageable());
-		userPage.getContent().forEach(
-				userResult -> userResult.setRoles(roleDao.findRolesOfUser(userResult.getId()))
-		);
-		return userPage;
-	}
+    public QueryResults<User> findByCondition(User user, QueryVO queryVO) {
 
-	public void deleteByIds(List<String> userId) {
-		userDao.deleteBatch(userId);
-	}
+        QUser qUser = QUser.user;
+        com.querydsl.core.types.Predicate predicate = null;
+        OrderSpecifier<?> sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qUser);
+        if (StringUtils.isNotEmpty(user.getUserName())) {
+            predicate = ExpressionUtils.and(predicate, qUser.userName.like(user.getUserName()));
+        }
+        if (user.getStatus() != null) {
+            predicate = ExpressionUtils.and(predicate, qUser.status.eq(user.getStatus()));
+        }
+        if (StringUtils.isNotEmpty(user.getId())) {
+            predicate = ExpressionUtils.and(predicate, qUser.status.eq(user.getStatus()));
+        }
+        if (StringUtils.isNotEmpty(user.getUserName())) {
+            predicate = ExpressionUtils.and(predicate, qUser.status.eq(user.getStatus()));
+        }
+        if (StringUtils.isNotEmpty(user.getAccount())) {
+            predicate = ExpressionUtils.and(predicate, qUser.account.eq(user.getAccount()));
+        }
+        if (StringUtils.isNotEmpty(user.getPhone())) {
+            predicate = ExpressionUtils.and(predicate, qUser.phone.eq(user.getPhone()));
+        }
+        if (StringUtils.isNotEmpty(queryVO.getFieldSort())) {
+            sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qUser, queryVO.getFieldSort());
+        }
+        QueryResults<User> queryResults = jpaQueryFactory
+                .selectFrom(qUser)
+                .where(predicate)
+                .offset(queryVO.getPageNum())
+                .limit(queryVO.getPageSize())
+                .orderBy(sortedColumn)
+                .fetchResults();
+        queryResults.getResults().forEach(
+                userResult -> userResult.setRoles(roleDao.findRolesOfUser(userResult.getId()))
+        );
+        return queryResults;
+    }
 
-	/**
+    public void deleteByIds(List<String> userId) {
+        userDao.deleteBatch(userId);
+    }
+
+    /**
 	 * 更新用户基础信息，关联的角色
 	 *
 	 * @param user 用户实体

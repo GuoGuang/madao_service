@@ -2,7 +2,6 @@ package com.ibole.article.controller.backstage;
 
 import com.ibole.annotation.OptLog;
 import com.ibole.article.service.blog.ApiTagsService;
-import com.ibole.config.CustomPageRequest;
 import com.ibole.constant.CommonConst;
 import com.ibole.enums.StatusEnum;
 import com.ibole.pojo.QueryVO;
@@ -41,9 +40,7 @@ public class TagsController {
      */
     @ApiOperation(value = "查询标签集合", notes = "tags")
     @GetMapping
-    public JsonData findArticleByCondition(Tags tags, QueryVO queryVO,
-                                           @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNumber, @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
-        queryVO.setPageable(new CustomPageRequest(pageNumber, pageSize));
+    public JsonData findArticleByCondition(Tags tags, QueryVO queryVO) {
         List<Tags> result = tagsService.findTagsByCondition(tags, queryVO);
         return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), result);
     }

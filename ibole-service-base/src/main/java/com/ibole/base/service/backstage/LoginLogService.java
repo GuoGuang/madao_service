@@ -5,15 +5,19 @@ import com.ibole.base.dao.LoginLogDao;
 import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.base.LoginLog;
+import com.ibole.pojo.base.QLoginLog;
 import com.ibole.pojo.user.User;
+import com.ibole.utils.QuerydslUtil;
+import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Predicate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,48 +27,54 @@ import java.util.Optional;
 @Service
 public class LoginLogService {
 
-	private final LoginLogDao loginLogDao;
+    private final LoginLogDao loginLogDao;
 
-	private final UserServiceRpc userServiceRpc;
+    private final UserServiceRpc userServiceRpc;
 
-	@Autowired
-	public LoginLogService(LoginLogDao loginLogDao,UserServiceRpc userServiceRpc) {
-		this.loginLogDao = loginLogDao;
-		this.userServiceRpc = userServiceRpc;
-	}
+    @Autowired
+    JPAQueryFactory jpaQueryFactory;
 
-	/**
-	 * 按照条件查询全部登录日志
-	 *
-	 * @return IPage<LoginLog>
-	 */
-	public Page<LoginLog> findLoginLogByCondition(LoginLog loginLog, QueryVO queryVO) {
+    @Autowired
+    public LoginLogService(LoginLogDao loginLogDao, UserServiceRpc userServiceRpc) {
+        this.loginLogDao = loginLogDao;
+        this.userServiceRpc = userServiceRpc;
+    }
 
-		Specification<LoginLog> condition = (root, query, builder) -> {
-			List<Predicate> predicates = new ArrayList<>();
-			if (StringUtils.isNotEmpty(loginLog.getClientIp())) {
-				predicates.add(builder.like(root.get("clientIp"), "%" + loginLog.getClientIp() + "%"));
-			}
-			Predicate[] ps = new Predicate[predicates.size()];
-			query.where(builder.and(predicates.toArray(ps)));
-			query.orderBy(builder.desc(root.get("createAt").as(Long.class)));
-			return null;
-		};
+    /**
+     * 按照条件查询全部登录日志
+     *
+     * @return IPage<LoginLog>
+     */
+    public QueryResults<LoginLog> findLoginLogByCondition(LoginLog loginLog, QueryVO queryVO) {
 
-		Page<LoginLog> loginLogPage = loginLogDao.findAll(condition, queryVO.getPageable());
-		List<User> userList = userServiceRpc.findUser().getData().getContent();
-		loginLogPage.getContent().forEach(
-				loginLogList -> userList.forEach(
-						user -> {
-							if (user.getId().equals(loginLogList.getUserId())) {
-								loginLogList.setUserName(user.getUserName());
-							}
-						}
-				)
-		);
-
-		return loginLogPage;
-	}
+        QLoginLog qLoginLog = QLoginLog.loginLog;
+        Predicate predicate = null;
+        OrderSpecifier<?> sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qLoginLog);
+        if (StringUtils.isNotEmpty(loginLog.getClientIp())) {
+            predicate = ExpressionUtils.and(predicate, qLoginLog.clientIp.like(loginLog.getClientIp()));
+        }
+        if (StringUtils.isNotEmpty(queryVO.getFieldSort())) {
+            sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qLoginLog, queryVO.getFieldSort());
+        }
+        QueryResults<LoginLog> queryResults = jpaQueryFactory
+                .selectFrom(qLoginLog)
+                .where(predicate)
+                .offset(queryVO.getPageNum())
+                .limit(queryVO.getPageSize())
+                .orderBy(sortedColumn)
+                .fetchResults();
+        List<User> userList = userServiceRpc.findUser().getData().getResults();
+        queryResults.getResults().forEach(
+                loginLogList -> userList.forEach(
+                        user -> {
+                            if (user.getId().equals(loginLogList.getUserId())) {
+                                loginLogList.setUserName(user.getUserName());
+                            }
+                        }
+                )
+        );
+        return queryResults;
+    }
 
 	/**
 	 * 根据ID查询登录日志

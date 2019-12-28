@@ -1,14 +1,13 @@
 package com.ibole.user.service;
 
-import com.ibole.config.CustomPageRequest;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.user.Role;
+import com.querydsl.core.QueryResults;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
@@ -23,9 +22,8 @@ public class RoleServiceTest {
     @Test
     public void findRuleByCondition() {
         QueryVO queryVO = new QueryVO();
-        queryVO.setPageable(new CustomPageRequest(1, 10));
-        Page<Role> dictByCondition = roleService.findRuleByCondition(new Role(), queryVO);
-        Assert.assertTrue(dictByCondition.getTotalElements() > 0);
+        QueryResults<Role> dictByCondition = roleService.findRuleByCondition(new Role(), queryVO);
+        Assert.assertTrue(dictByCondition.getTotal() > 0);
     }
 
     @Test
