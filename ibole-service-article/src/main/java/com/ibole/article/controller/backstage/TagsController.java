@@ -1,7 +1,7 @@
 package com.ibole.article.controller.backstage;
 
 import com.ibole.annotation.OptLog;
-import com.ibole.article.service.blog.ApiTagsService;
+import com.ibole.article.service.backstage.TagsService;
 import com.ibole.constant.CommonConst;
 import com.ibole.enums.StatusEnum;
 import com.ibole.pojo.QueryVO;
@@ -26,12 +26,12 @@ import java.util.List;
 @RequestMapping(value = "/tags",produces = "application/json")
 public class TagsController {
 
-    private final ApiTagsService tagsService;
+    private final TagsService tagsService;
 
-	@Autowired
-	public TagsController(ApiTagsService tagsService) {
-		this.tagsService = tagsService;
-	}
+    @Autowired
+    public TagsController(TagsService tagsService) {
+        this.tagsService = tagsService;
+    }
 
     /**
      * 查询全部标签

@@ -1,13 +1,15 @@
 package com.ibole.article.service.blog;
 
+import com.ibole.article.dao.backstage.ArticleTagsDao;
 import com.ibole.article.dao.backstage.TagsDao;
 import com.ibole.constant.CommonConst;
 import com.ibole.constant.RedisConstant;
 import com.ibole.db.redis.service.RedisService;
-import com.ibole.pojo.QueryVO;
+import com.ibole.pojo.article.QTags;
 import com.ibole.pojo.article.Tags;
 import com.ibole.utils.JsonUtil;
 import com.ibole.utils.LogBack;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,33 +21,34 @@ import java.util.List;
 @Service
 public class ApiTagsService {
 
-	private final TagsDao bgTagsDao;
+	private final TagsDao tagsDao;
+	private final ArticleTagsDao articleTagsDao;
 
 	private final RedisService redisService;
 
 	@Autowired
-	public ApiTagsService(TagsDao bgTagsDao, RedisService redisService) {
-		this.bgTagsDao = bgTagsDao;
+	JPAQueryFactory jpaQueryFactory;
+
+	@Autowired
+	public ApiTagsService(TagsDao tagsDao, ArticleTagsDao articleTagsDao, RedisService redisService) {
+		this.tagsDao = tagsDao;
+		this.articleTagsDao = articleTagsDao;
 		this.redisService = redisService;
 	}
 
-    /**
-     * 查询标签全部列表
-     *
-     * @return IPage<Tags>
-     */
-    public List<Tags> findTagsByCondition(Tags tags, QueryVO queryVO) {
-//		Page<Tags> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
-//		LambdaQueryWrapper<Tags> queryWrapper = new LambdaQueryWrapper<>();
-//		if (StringUtils.isNotEmpty(tags.getName())) {
-//			queryWrapper.like(Tags::getName, tags.getName());
-//		}
-//		if (StringUtils.isNotEmpty(tags.getState())) {
-//			queryWrapper.eq(Tags::getState, tags.getState());
-//		}
-//		return bgTagsDao.selectPage(pr, queryWrapper);
-        return null;
-    }
+	/**
+	 * 查询标签全部列表
+	 *
+	 * @return IPage<Tags>
+	 */
+	public List<Tags> findTagsByCondition() {
+		QTags qTags = QTags.tags;
+		List<Tags> tagsQueryResults = jpaQueryFactory
+				.selectFrom(qTags)
+				.fetch();
+		tagsQueryResults.forEach(tagsInfo -> tagsInfo.setTagsCount(articleTagsDao.findCountByTagsId(tagsInfo.getId())));
+		return tagsQueryResults;
+	}
 
 	/**
 	 * 根据ID查询标签

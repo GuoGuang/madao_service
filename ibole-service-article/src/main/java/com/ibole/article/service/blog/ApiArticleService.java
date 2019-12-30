@@ -50,9 +50,10 @@ public class ApiArticleService {
 		return queryResults;
 	}
 
-
 	public Article findArticleById(String articleId) {
-		return articleDao.findById(articleId).orElseThrow(ResourceNotFoundException::new);
+		Article article = articleDao.findById(articleId).orElseThrow(ResourceNotFoundException::new);
+		article.setRelated(articleDao.findRelatedByRand());
+		return article;
 	}
 
 	/**
