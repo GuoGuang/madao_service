@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  **/
 
 
-public interface ApiArticleDao extends JpaRepository<Article, Long>, JpaSpecificationExecutor<Article> {
+public interface ApiArticleDao extends JpaRepository<Article, String>, JpaSpecificationExecutor<Article> {
 
 //	@Query(value = "SELECT aa.*,ac.name,ac.id as cid FROM ar_article aa LEFT JOIN ar_category ac on aa.category_id = ac.id",
 //					nativeQuery = true)

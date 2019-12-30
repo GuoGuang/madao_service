@@ -1,9 +1,16 @@
 package com.ibole.article.service.blog;
 
 import com.ibole.article.dao.blog.ApiArticleDao;
+import com.ibole.article.service.backstage.CategoryService;
 import com.ibole.db.redis.service.RedisService;
+import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Article;
+import com.ibole.pojo.article.QArticle;
+import com.ibole.utils.QuerydslUtil;
+import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.Order;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,51 +20,39 @@ import java.util.List;
  * 文章板块:文章服务
  **/
 @Service
-public class ApiArticleService{
+public class ApiArticleService {
 
 	private final ApiArticleDao articleDao;
+	private final CategoryService categoryService;
 
 	private final RedisService redisService;
 
 	@Autowired
-	public ApiArticleService(ApiArticleDao articleDao, RedisService redisService) {
+	JPAQueryFactory jpaQueryFactory;
+
+	@Autowired
+	public ApiArticleService(ApiArticleDao articleDao, CategoryService categoryService, RedisService redisService) {
 		this.articleDao = articleDao;
+		this.categoryService = categoryService;
 		this.redisService = redisService;
 	}
 
-	/**
-     * 查询文章
-     *
-     * @return IPage<Article>
-     */
-    public List<Article> findArticleByCondition(Article article, QueryVO queryVO) {
-//		Page<Article> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
-//		LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
-//		if (StringUtils.isNotEmpty(article.getTitle())) {
-//			queryWrapper.like(Article::getTitle, article.getTitle());
-//		}
-//		if (StringUtils.isNotEmpty(article.getDescription())) {
-//			queryWrapper.like(Article::getDescription, article.getDescription());
-//		}
-//		return articleDao.selectPage(pr, queryWrapper);
-        return null;
-    }
 
-	/**
-	 * 根据ID查询实体
-	 * @param articleId 文章id
-	 * @return Article
-	 */
+	public QueryResults<Article> findArticleByCondition(QueryVO queryVO) {
+		QArticle qArticle = QArticle.article;
+		QueryResults<Article> queryResults = jpaQueryFactory
+				.selectFrom(qArticle)
+				.offset(queryVO.getPageNum())
+				.limit(queryVO.getPageSize())
+				.orderBy(QuerydslUtil.getSortedColumn(Order.DESC, qArticle))
+				.fetchResults();
+		queryResults.getResults().forEach(articleInfo -> articleInfo.setCategory(categoryService.findCategoryById(articleInfo.getCategoryId())));
+		return queryResults;
+	}
+
+
 	public Article findArticleById(String articleId) {
-//		Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + articleId);
-//		Article article = JsonUtil.jsonToPojo(mapJson.toString(), Article.class);
-//		// 如果缓存没有则到数据库查询并放入缓存,有效期一天
-//		if(article==null) {
-//			article = articleDao.selectById(articleId);
-//			redisService.set(RedisConstant.REDIS_KEY_ARTICLE+ articleId, article, CommonConst.TIME_OUT_DAY);
-//		}
-//		return article;
-        return null;
+		return articleDao.findById(articleId).orElseThrow(ResourceNotFoundException::new);
 	}
 
 	/**
