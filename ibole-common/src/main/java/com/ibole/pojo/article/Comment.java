@@ -1,6 +1,7 @@
 package com.ibole.pojo.article;
 
 import com.ibole.pojo.BasePojo;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -9,9 +10,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-/**
- * 文章的评论表
- */
 @Getter
 @Setter
 @Entity
@@ -22,17 +20,23 @@ public class Comment extends BasePojo implements Serializable {
     @GeneratedValue(generator = "idGenerator")
     @GenericGenerator(name = "idGenerator", strategy = "com.ibole.config.IdGeneratorConfig")
     @Column(name = "id", columnDefinition = "char")
-    private String id; // 评论表id
+    @ApiModelProperty("文章的评论表主键")
+    private String id;
 
     @NotNull(message = "文章ID不能为空")
-    private String articleId; // 外键文章表ID
+    @ApiModelProperty("外键文章表ID")
+    private String articleId;
 
     @NotNull(message = "评论内容不能为空")
-    private String content; // 评论内容
+    @ApiModelProperty("评论内容")
+    private String content;
 
-    private String userId; // 评论人ID
+    @ApiModelProperty("评论人ID")
+    private String userId;
 
-    private String parentId; // 父评论ID(如果为0表示文章的顶级评论,每一条评论都可以被评论)
+    @ApiModelProperty("父评论ID(如果为0表示文章的顶级评论,每一条评论都可以被评论)")
+    private String parentId;
 
-    private String publishDate; // 评论日期
+    @ApiModelProperty("评论日期")
+    private String publishDate;
 }

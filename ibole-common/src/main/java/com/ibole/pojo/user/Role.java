@@ -1,6 +1,7 @@
 package com.ibole.pojo.user;
 
 import com.ibole.pojo.BasePojo;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -10,10 +11,6 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * 角色实体
- **/
-
 @Getter
 @Setter
 @Entity
@@ -21,19 +18,24 @@ import java.util.List;
 public class Role extends BasePojo implements Serializable {
 
     @Transient
-    private List<Resource> resource; // 角色关联的资源
+    @ApiModelProperty("角色关联的资源")
+    private List<Resource> resource;
 
     @Id
     @GeneratedValue(generator = "idGenerator")
     @GenericGenerator(name = "idGenerator", strategy = "com.ibole.config.IdGeneratorConfig")
-    private String id; // 角色表主键
+    @ApiModelProperty("角色表主键")
+    private String id;
 
     @NotNull(message = "角色名称不能为空")
-    private String roleName; // 角色名称
+    @ApiModelProperty("角色名称")
+    private String roleName;
 
-    private String roleDesc; // 角色描述
+    @ApiModelProperty("角色描述")
+    private String roleDesc;
 
     @NotNull(message = "角色编码不能为空")
-    private String roleCode; // 角色编码
+    @ApiModelProperty("角色编码")
+    private String roleCode;
 
 }

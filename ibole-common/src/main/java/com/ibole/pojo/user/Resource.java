@@ -1,6 +1,7 @@
 package com.ibole.pojo.user;
 
 import com.ibole.pojo.BasePojo;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -20,35 +21,48 @@ import java.util.Objects;
 @Table(name = "us_resource")
 public class Resource extends BasePojo implements Serializable, Cloneable {
 
-    @Id
-    @GeneratedValue(generator = "idGenerator")
-    @GenericGenerator(name = "idGenerator", strategy = "com.ibole.config.IdGeneratorConfig")
-    private String id; // 资源表主键
+	@Id
+	@GeneratedValue(generator = "idGenerator")
+	@GenericGenerator(name = "idGenerator", strategy = "com.ibole.config.IdGeneratorConfig")
+	@ApiModelProperty("资源表主键")
+	private String id;
 
-    @NotNull(message = "名称不能为空")
-    @Pattern(regexp = "([a-zA-Z0-9\u4E00-\u9FA5]{2,10})", message = "必须是2到10位(字母，数字)名称！")
-    private String name; // 名称
+	@NotNull(message = "名称不能为空")
+	@Pattern(regexp = "([a-zA-Z0-9\u4E00-\u9FA5]{2,10})", message = "必须是2到10位(字母，数字)名称！")
+	@ApiModelProperty("名称")
+	private String name;
 
-    private String parentId; // 父资源id
+	@ApiModelProperty("父资源id")
+	private String parentId;
 
-    private String component; // vue组件名称/名称必须真实存在
+	@ApiModelProperty("vue组件名称/名称必须真实存在")
+	private String component;
 
-	private String icon; // 图标
+	@ApiModelProperty("图标")
+	private String icon;
 
-	private String path; // 路径
+	@ApiModelProperty("路径")
+	private String path;
 
-    @Column(precision = 30, scale = 1)
-    private float sort; // 排序
+	@ApiModelProperty("排序")
+	@Column(precision = 30, scale = 1)
+	private float sort;
 
-	private Integer isHidden; // 是否隐藏
+	@ApiModelProperty("是否隐藏")
+	private Integer isHidden;
 
-	@NotNull(message="描述不能为空")
-	private String description; // 描述
+	@ApiModelProperty("描述")
+	@NotNull(message = "描述不能为空")
+	private String description;
 
-	private String type; // btn 或resource
-	private String url; // 请求url，跟path不同，path为vue的组件请求路径，url是网络请求路径
-	private String method;  // 请求方法
-	private String code;  // 资源标识
+	@ApiModelProperty("btn 或resource")
+	private String type;
+	@ApiModelProperty("请求url，跟path不同，path为vue的组件请求路径，url是网络请求路径")
+	private String url;
+	@ApiModelProperty("请求方法")
+	private String method;
+	@ApiModelProperty("资源标识")
+	private String code;
 
 	@Override
 	public boolean equals(Object o) {
