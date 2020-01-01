@@ -9,17 +9,14 @@ import com.ibole.user.service.RoleService;
 import com.ibole.utils.JsonData;
 import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-/**
- * 角色管理
- **/
-
-@Api(tags = "角色")
+@Api(tags = "角色管理")
 @RestController
 @RequestMapping(value = "/su/role")
 public class RoleController {
@@ -31,74 +28,48 @@ public class RoleController {
 		this.roleService = roleService;
 	}
 
-    /**
-     * 条件查询角色
-     *
-     * @param role 查询参数
-     * @return JsonData
-     */
     @GetMapping
-    public JsonData findRuleByCondition(Role role, QueryVO queryVO) {
+    @ApiOperation(value = "条件查询角色", notes = "Role")
+    public JsonData<QueryResults<Role>> findRuleByCondition(Role role, QueryVO queryVO) {
         QueryResults<Role> result = roleService.findRuleByCondition(role, queryVO);
         return JsonData.success(result);
     }
 
-    /**
-     * 查询当前用户关联的角色
-     *
-     * @param role 查询参数
-     * @return JsonData
-	 */
-	@GetMapping("/user")
-	public JsonData fetchUsersList(Role role) {
-		List<User> result = roleService.findUsersOfRole(role);
-		return JsonData.success(result);
-	}
+    @GetMapping("/user")
+    @ApiOperation(value = "查询当前用户关联的角色", notes = "Role")
+    public JsonData<List<User>> fetchUsersList(Role role) {
+        List<User> result = roleService.findUsersOfRole(role);
+        return JsonData.success(result);
+    }
 
-	/**
-	 * 根据角色id查询匹配的资源
-	 * @param roleId 角色id
-	 * @return JsonData
-	 */
-	@GetMapping("/{roleId}")
-	public JsonData findRoleById(@PathVariable String roleId) {
-		Role result = roleService.findRoleById(roleId);
-		return JsonData.success(result);
-	}
+    @GetMapping("/{roleId}")
+    @ApiOperation(value = "根据角色id查询匹配的资源", notes = "Role")
+    public JsonData<Role> findRoleById(@PathVariable String roleId) {
+        Role result = roleService.findRoleById(roleId);
+        return JsonData.success(result);
+    }
 
-	/**
-	 * 添加一个角色
-	 * @param role 角色实体
-	 * @return JsonData
-	 */
-	@PostMapping
-	@OptLog(operationType= CommonConst.MODIFY,operationName="添加一个角色")
-	public JsonData insertSelective(@RequestBody @Valid Role role) {
-		roleService.saveOrUpdate(role);
-		return JsonData.success();
-	}
+    @PostMapping
+    @OptLog(operationType = CommonConst.MODIFY, operationName = "添加一个角色")
+    @ApiOperation(value = "添加一个角色", notes = "Role")
+    public JsonData<Void> insertSelective(@RequestBody @Valid Role role) {
+        roleService.saveOrUpdate(role);
+        return JsonData.success();
+    }
 
-	/**
-	 * 更新角色
-	 * @param role 角色实体
-	 * @return JsonData
-	 */
-	@PutMapping()
-	@OptLog(operationType= CommonConst.MODIFY,operationName="更新角色")
-	public JsonData updateByPrimaryKey(@RequestBody @Valid Role role) {
-		roleService.saveOrUpdate(role);
-		return JsonData.success();
-	}
+    @PutMapping()
+    @OptLog(operationType = CommonConst.MODIFY, operationName = "更新角色")
+    @ApiOperation(value = "更新角色", notes = "Role")
+    public JsonData<Void> updateByPrimaryKey(@RequestBody @Valid Role role) {
+        roleService.saveOrUpdate(role);
+        return JsonData.success();
+    }
 
-	/**
-	 * 删除角色
-	 * @param roleId 角色id数组
-	 * @return JsonData
-	 */
-	@DeleteMapping
-	@OptLog(operationType= CommonConst.DELETE,operationName="删除角色")
-	public JsonData deleteByIds(@RequestBody List<String> roleId) {
-		roleService.deleteByIds(roleId);
-		return JsonData.success();
-	}
+    @DeleteMapping
+    @OptLog(operationType = CommonConst.DELETE, operationName = "删除角色")
+    @ApiOperation(value = "删除角色", notes = "Role")
+    public JsonData<Void> deleteByIds(@RequestBody List<String> roleId) {
+        roleService.deleteByIds(roleId);
+        return JsonData.success();
+    }
 }

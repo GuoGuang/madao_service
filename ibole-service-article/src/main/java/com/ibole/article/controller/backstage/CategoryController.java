@@ -31,59 +31,41 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    /**
-     * 查询全部数据
-     *
-     * @return JsonData
-     */
+    @ApiOperation(value = "查询全部数据", notes = "id")
     @GetMapping
-    public JsonData findCategoryByCondition(Category category, QueryVO queryVO) {
+    public JsonData<QueryResults<Category>> findCategoryByCondition(Category category, QueryVO queryVO) {
         QueryResults<Category> result = categoryService.findCategoryByCondition(category, queryVO);
         return JsonData.success(result);
     }
 
-    /**
-     * 根据ID查询
-     *
-     * @param id ID
-     * @return JsonData
-     */
+    @ApiOperation(value = "根据ID查询", notes = "id")
     @GetMapping(value = "/{id}")
-    public JsonData findCategoryByPrimaryKey(@PathVariable String id) {
+    public JsonData<Category> findCategoryByPrimaryKey(@PathVariable String id) {
         Category result = categoryService.findCategoryById(id);
         return JsonData.success(result);
     }
 
 
-	/**
-	 * 增加
-	 */
-	@ApiOperation(value = "添加一条新的分类", notes = "id")
-	@PostMapping
-	@OptLog(operationType= CommonConst.ADD,operationName="添加文章分类")
-	public JsonData insertCategory(@RequestBody @Valid Category category) {
+    @ApiOperation(value = "添加一条新的分类", notes = "id")
+    @PostMapping
+    @OptLog(operationType = CommonConst.ADD, operationName = "添加文章分类")
+    public JsonData<Void> insertCategory(@RequestBody @Valid Category category) {
         categoryService.saveOrUpdate(category);
         return JsonData.success();
     }
 
-	/**
-	 * 修改
-	 */
-	@PutMapping
-	@OptLog(operationType= CommonConst.MODIFY,operationName="修改文章分类")
-	public JsonData updateByCategorySelective(@RequestBody @Valid Category category) {
+    @PutMapping
+    @OptLog(operationType = CommonConst.MODIFY, operationName = "修改文章分类")
+    @ApiOperation(value = "修改文章分类", notes = "id")
+    public JsonData<Void> updateByCategorySelective(@RequestBody @Valid Category category) {
         categoryService.saveOrUpdate(category);
         return JsonData.success();
     }
 
-	/**
-	 * 删除
-	 *
-	 * @param categoryIds :分类id数组
-	 */
-	@DeleteMapping
-	@OptLog(operationType= CommonConst.DELETE,operationName="删除文章分类")
-	public JsonData deleteCategoryByIds(@RequestBody List<String> categoryIds) {
+    @DeleteMapping
+    @OptLog(operationType = CommonConst.DELETE, operationName = "删除文章分类")
+    @ApiOperation(value = "删除文章分类", notes = "id")
+    public JsonData<Void> deleteCategoryByIds(@RequestBody List<String> categoryIds) {
         categoryService.deleteCategoryByIds(categoryIds);
         return JsonData.success();
     }
