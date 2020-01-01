@@ -42,6 +42,6 @@ public class Category extends BasePojo implements Serializable {
 	private String userId;
 
     @ApiModelProperty("状态")
-	private Integer state;
+    private Integer state = 1;
 
 }

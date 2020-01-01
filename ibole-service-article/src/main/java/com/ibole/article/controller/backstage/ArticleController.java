@@ -24,7 +24,7 @@ import java.util.Map;
  * /e 区分前后台 uri
  **/
 
-@Api(tags = "文章")
+@Api(tags = "文章管理")
 @RestController
 @RequestMapping(value = "/article",produces = "application/json")
 public class ArticleController extends BaseController {

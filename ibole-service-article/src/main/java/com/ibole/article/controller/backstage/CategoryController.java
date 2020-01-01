@@ -19,7 +19,7 @@ import java.util.List;
  * 文章分类
  **/
 
-@Api(tags = "文章分类")
+@Api(tags = "文章分类管理")
 @RestController
 @RequestMapping(value = "/article/category", produces = "application/json")
 public class CategoryController {
@@ -52,7 +52,7 @@ public class CategoryController {
     public JsonData findCategoryByPrimaryKey(@PathVariable String id) {
         Category result = categoryService.findCategoryById(id);
         return JsonData.success(result);
-	}
+    }
 
 
 	/**
@@ -64,7 +64,7 @@ public class CategoryController {
 	public JsonData insertCategory(@RequestBody @Valid Category category) {
         categoryService.saveOrUpdate(category);
         return JsonData.success();
-	}
+    }
 
 	/**
 	 * 修改
@@ -74,7 +74,7 @@ public class CategoryController {
 	public JsonData updateByCategorySelective(@RequestBody @Valid Category category) {
         categoryService.saveOrUpdate(category);
         return JsonData.success();
-	}
+    }
 
 	/**
 	 * 删除
@@ -86,6 +86,6 @@ public class CategoryController {
 	public JsonData deleteCategoryByIds(@RequestBody List<String> categoryIds) {
         categoryService.deleteCategoryByIds(categoryIds);
         return JsonData.success();
-	}
+    }
 
 }
