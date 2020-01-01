@@ -8,13 +8,6 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
-/**
- * 通用json返回类型
- * @author Administrator
- * @param <E>
- *
- */
-
 @ApiModel("api接口通用返回对象")
 @Getter
 @Setter
@@ -51,18 +44,7 @@ public class JsonData<T> implements Serializable {
 		return new JsonData<>(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
 	}
 
-	public JsonData ok() {
-		this.status = true;
-		this.code = StatusEnum.OK.getCode();
-		this.message = StatusEnum.OK.getMsg();
-		return new JsonData();
-	}
-
-	public static JsonData body(Object data) {
-		return new JsonData<>(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), data);
-	}
-
-	public static <T> JsonData<T> error(StatusEnum statusEnum) {
+	public static <T> JsonData<T> failed(StatusEnum statusEnum) {
 		return new JsonData<>(false, statusEnum.getCode(), statusEnum.getMsg(), null);
 	}
 
