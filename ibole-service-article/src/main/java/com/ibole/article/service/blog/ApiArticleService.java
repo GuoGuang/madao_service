@@ -9,8 +9,11 @@ import com.ibole.pojo.article.Article;
 import com.ibole.pojo.article.QArticle;
 import com.ibole.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Order;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,10 +41,17 @@ public class ApiArticleService {
 	}
 
 
-	public QueryResults<Article> findArticleByCondition(QueryVO queryVO) {
+	public QueryResults<Article> findArticleByCondition(Article article, QueryVO queryVO) {
 		QArticle qArticle = QArticle.article;
+		Predicate predicate = null;
+		// 默认首页
+		predicate = ExpressionUtils.and(predicate, qArticle.categoryId.eq("1"));
+		if (StringUtils.isNotEmpty(article.getCategoryId())) {
+			predicate = ExpressionUtils.and(predicate, qArticle.categoryId.eq(article.getCategoryId()));
+		}
 		QueryResults<Article> queryResults = jpaQueryFactory
 				.selectFrom(qArticle)
+				.where(predicate)
 				.offset(queryVO.getPageNum())
 				.limit(queryVO.getPageSize())
 				.orderBy(QuerydslUtil.getSortedColumn(Order.DESC, qArticle))
