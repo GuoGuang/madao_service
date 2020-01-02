@@ -217,8 +217,8 @@ pipeline {
                         sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
                         echo '-->> #本机构建成功-->>'
                     }else {
-                        
-                        echo "else"
+                        sh "apt-get update"
+                        sh "apt-get install sshpass"
                         // https://www.cnblogs.com/kaishirenshi/p/7921308.html
                         sh "sshpass -p ${REMOTE_IP_PASSWORD} ssh root@${REMOTE_IP}"
                         sh "pwd"
