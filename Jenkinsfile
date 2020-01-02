@@ -212,7 +212,7 @@ pipeline {
             steps {
                 echo "开始部署到----> ${serviceName}......"
                 script {
-                    if ("${serviceName}" == "ibole-server-eureka" || "${serviceName}" == "ibole-server-config"){
+                    if ("${serviceName}".toString() == "ibole-server-eureka" || "${serviceName}".toString() == "ibole-server-config"){
                         sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
                         echo '-->> #本机构建成功-->>'
                     }else {
