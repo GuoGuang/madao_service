@@ -211,7 +211,6 @@ pipeline {
         stage('部署测试环境') {
             steps {
                 echo "开始部署到----> ${serviceName}......"
-                archiveArtifacts warLocation
                 script {
                     wrap([$class: 'BuildUser']) {
                         if (${serviceName} == "ibole-server-eureka" || ${serviceName} == "ibole-server-config"){
