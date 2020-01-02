@@ -133,7 +133,7 @@ pipeline {
             steps {
                 echo "构建--->${serviceName}"
                 sh "pwd"
-                sh "mvn -B -DskipTests compile -f ibole_service/ibole-parent"
+                sh "mvn -B -DskipTests compile -f ibole_service/ibole-common-parent"
                 sh "mvn -B -DskipTests clean package install  -f ibole_service/${serviceName}"
                 sh "pwd"
                 sh "/bin/cp /var/jenkins_home/config-server.jks ibole_service/ibole-server-config/src/main/resources/"
