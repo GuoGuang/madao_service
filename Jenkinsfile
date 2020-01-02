@@ -212,28 +212,26 @@ pipeline {
             steps {
                 echo "开始部署到----> ${serviceName}......"
                 script {
-                    wrap([$class: 'BuildUser']) {
-                        if (${serviceName} == "ibole-server-eureka" || ${serviceName} == "ibole-server-config"){
-                            sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
-                            echo '-->> #本机构建成功-->>'
-                        }else {
-                            // https://www.cnblogs.com/kaishirenshi/p/7921308.html
-                            sh "sshpass -p ${REMOTE_IP_Passwd} root@${REMOTE_IP}"
-                            sh "pwd"
-                            sh "docker pull guoguang0536/${serviceName}:${env.BUILD_ID}"
-                            // 运行容器
-                            sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
-                            echo '-->> #远程主机构建成功-->>'
-                         }
-                        //这里增加了一个小功能，在服务器上记录了基本部署信息，方便多人使用一套环境时问题排查，storge in {WORKSPACE}/deploy.log  & remoteServer:htdocs/war
-                        Date date = new Date()
-                        def deploylog="${date.toString()},${BUILD_USER} use pipeline  '${JOB_NAME}(${BUILD_NUMBER})' deploy branch ${params.repoBranch} to server ${serverIP}"
-                        println deploylog
-                        sh "echo ${deploylog} >>${WORKSPACE}/deploy.log"
-                        sh "sshpass -p ${serverPasswd} scp ${WORKSPACE}/deploy.log ${serverName}@${serverIP}:htdocs/war"
-                        //jetty restart，重启jetty
-                        sh "sshpass -p ${serverPasswd} ssh ${serverName}@${serverIP} 'bin/jettyrestart.sh' "
-                    }
+                    if (${serviceName} == "ibole-server-eureka" || ${serviceName} == "ibole-server-config"){
+                        sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
+                        echo '-->> #本机构建成功-->>'
+                    }else {
+                        // https://www.cnblogs.com/kaishirenshi/p/7921308.html
+                        sh "sshpass -p ${REMOTE_IP_Passwd} root@${REMOTE_IP}"
+                        sh "pwd"
+                        sh "docker pull guoguang0536/${serviceName}:${env.BUILD_ID}"
+                        // 运行容器
+                        sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
+                        echo '-->> #远程主机构建成功-->>'
+                     }
+                    //这里增加了一个小功能，在服务器上记录了基本部署信息，方便多人使用一套环境时问题排查，storge in {WORKSPACE}/deploy.log  & remoteServer:htdocs/war
+                    Date date = new Date()
+                    def deploylog="${date.toString()},${BUILD_USER} use pipeline  '${JOB_NAME}(${BUILD_NUMBER})' deploy branch ${params.repoBranch} to server ${serverIP}"
+                    println deploylog
+                    sh "echo ${deploylog} >>${WORKSPACE}/deploy.log"
+                    sh "sshpass -p ${serverPasswd} scp ${WORKSPACE}/deploy.log ${serverName}@${serverIP}:htdocs/war"
+                    //jetty restart，重启jetty
+                    sh "sshpass -p ${serverPasswd} ssh ${serverName}@${serverIP} 'bin/jettyrestart.sh' "
                 }
             }
         }
