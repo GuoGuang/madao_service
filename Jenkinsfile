@@ -171,7 +171,8 @@ pipeline {
                     // 构建镜像
                     sh "docker build -t ${serviceName}:${env.BUILD_ID} ."
                     sh "docker login --username=guoguang0536 --password ${DOCKER_HUB_PASSWORD}" // registry.cn-qingdao.aliyuncs.com
-                    sh "docker tag ${serviceName} guoguang0536/${serviceName}"sh "docker push guoguang0536/${serviceName}:${env.BUILD_ID}"
+                    sh "docker tag ${serviceName} guoguang0536/${serviceName}"
+                    sh "docker push guoguang0536/${serviceName}:${env.BUILD_ID}"
                     sh "构建并推送到远程服务器成功--->"
                 }
             }
