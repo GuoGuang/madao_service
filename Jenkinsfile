@@ -208,24 +208,24 @@ pipeline {
 
         stage('部署测试环境') {
             steps {
-                echo "starting deploy to ${serviceName}......"
-//                //编译和打包
-//                sh "mvn  -f ${params.pomPath} clean package -Dautoconfig.skip=true -Dmaven.test.skip=true"
-//                archiveArtifacts warLocation
-//                script {
-//                    wrap([$class: 'BuildUser']) {
-//                    //发布war包到指定服务器，虚拟机文件目录通过shell脚本初始化建立，所以目录是固定的
-//                    sh "sshpass -p ${serverPasswd} scp ${params.warLocation} ${serverName}@${serverIP}:htdocs/war"
-//                    //这里增加了一个小功能，在服务器上记录了基本部署信息，方便多人使用一套环境时问题排查，storge in {WORKSPACE}/deploy.log  & remoteServer:htdocs/war
-//                    Date date = new Date()
-//                    def deploylog="${date.toString()},${BUILD_USER} use pipeline  '${JOB_NAME}(${BUILD_NUMBER})' deploy branch ${params.repoBranch} to server ${serverIP}"
-//                    println deploylog
-//                    sh "echo ${deploylog} >>${WORKSPACE}/deploy.log"
-//                    sh "sshpass -p ${serverPasswd} scp ${WORKSPACE}/deploy.log ${serverName}@${serverIP}:htdocs/war"
-//                    //jetty restart，重启jetty
-//                    sh "sshpass -p ${serverPasswd} ssh ${serverName}@${serverIP} 'bin/jettyrestart.sh' "
-//                    }
-//                }
+                echo "开始部署到----> ${serviceName}......"
+                sh "${serverPasswd}"
+                archiveArtifacts warLocation
+                script {
+                    wrap([$class: 'BuildUser']) {
+                    //发布war包到指定服务器，虚拟机文件目录通过shell脚本初始化建立，所以目录是固定的
+                    sh "sshpass -p ${serverPasswd} scp ${params.warLocation} ${serverName}@${serverIP}:htdocs/war"
+                    sh "pwd"
+                    //这里增加了一个小功能，在服务器上记录了基本部署信息，方便多人使用一套环境时问题排查，storge in {WORKSPACE}/deploy.log  & remoteServer:htdocs/war
+                    Date date = new Date()
+                    def deploylog="${date.toString()},${BUILD_USER} use pipeline  '${JOB_NAME}(${BUILD_NUMBER})' deploy branch ${params.repoBranch} to server ${serverIP}"
+                    println deploylog
+                    sh "echo ${deploylog} >>${WORKSPACE}/deploy.log"
+                    sh "sshpass -p ${serverPasswd} scp ${WORKSPACE}/deploy.log ${serverName}@${serverIP}:htdocs/war"
+                    //jetty restart，重启jetty
+                    sh "sshpass -p ${serverPasswd} ssh ${serverName}@${serverIP} 'bin/jettyrestart.sh' "
+                    }
+                }
             }
         }
 
