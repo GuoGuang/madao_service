@@ -212,12 +212,15 @@ pipeline {
             steps {
                 echo "开始部署到----> ${serviceName}......"
                 script {
-                    if ("${serviceName}".toString() == "ibole-server-eureka" || "${serviceName}".toString() == "ibole-server-config"){
+                    echo "即将进入"
+                    if ("${serviceName}" == "ibole-server-eureka" || "${serviceName}" == "ibole-server-config"){
                         sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
                         echo '-->> #本机构建成功-->>'
                     }else {
+                        
+                        echo "else"
                         // https://www.cnblogs.com/kaishirenshi/p/7921308.html
-                        sh "sshpass -p ${REMOTE_IP_Passwd} root@${REMOTE_IP}"
+                        sh "sshpass -p ${REMOTE_IP_PASSWORD} ssh root@${REMOTE_IP}"
                         sh "pwd"
                         sh "docker pull guoguang0536/${serviceName}:${env.BUILD_ID}"
                         // 运行容器
