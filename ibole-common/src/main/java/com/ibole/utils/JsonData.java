@@ -37,26 +37,30 @@ public class JsonData<T> implements Serializable {
 	 * @return Result
 	 */
 	public static <T> JsonData<T> success(T data) {
-		return new JsonData<>(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), data);
-	}
+        return new JsonData<>(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), data);
+    }
 
-	public static <T> JsonData<T> success() {
-		return new JsonData<>(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
-	}
+    public static <T> JsonData<T> success() {
+        return new JsonData<>(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
+    }
 
-	public static <T> JsonData<T> failed(StatusEnum statusEnum) {
-		return new JsonData<>(false, statusEnum.getCode(), statusEnum.getMsg(), null);
-	}
+    public static <T> JsonData<T> failed(StatusEnum statusEnum) {
+        return new JsonData<>(false, statusEnum.getCode(), statusEnum.getMsg(), null);
+    }
 
-	public JsonData(StatusEnum statusEnum) {
-		this(false, statusEnum.getCode(), statusEnum.getMsg());
-	}
+    public static <T> JsonData<T> failed(StatusEnum statusEnum, String customMsg) {
+        return new JsonData<>(false, statusEnum.getCode(), customMsg, null);
+    }
 
-	public JsonData(boolean status, int code, String message, T data) {
-		this.status = status;
-		this.code = code;
-		this.message = message;
-		this.data = data;
+    public JsonData(StatusEnum statusEnum) {
+        this(false, statusEnum.getCode(), statusEnum.getMsg());
+    }
+
+    public JsonData(boolean status, int code, String message, T data) {
+        this.status = status;
+        this.code = code;
+        this.message = message;
+        this.data = data;
 	}
 
 	public JsonData(boolean state, Integer code, String msg) {

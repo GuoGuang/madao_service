@@ -18,7 +18,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
-
 @Api(tags = "文章管理")
 @RestController
 @RequestMapping(value = "/article",produces = "application/json")

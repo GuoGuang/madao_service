@@ -1,7 +1,7 @@
 package com.ibole.auth.handler;
 
-import com.ibole.enums.StatusEnum;
 import com.ibole.auth.exception.ValidateCodeException;
+import com.ibole.enums.StatusEnum;
 import com.ibole.utils.JsonData;
 import com.ibole.utils.JsonUtil;
 import org.springframework.security.core.AuthenticationException;
@@ -21,12 +21,12 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-		JsonData errorResult = new JsonData(StatusEnum.SYSTEM_ERROR);
-		if(e instanceof ValidateCodeException){
-			errorResult = new JsonData(false,StatusEnum.LOGIN_ERROR.getCode(),e.getMessage());
-		}
-		httpServletResponse.setContentType("application/json;charset=UTF-8");
-		httpServletResponse.getWriter().write(JsonUtil.toJsonString(errorResult));
-	}
+        JsonData<Void> errorResult = JsonData.failed(StatusEnum.SYSTEM_ERROR);
+        if (e instanceof ValidateCodeException) {
+            errorResult = JsonData.failed(StatusEnum.LOGIN_ERROR, e.getMessage());
+        }
+        httpServletResponse.setContentType("application/json;charset=UTF-8");
+        httpServletResponse.getWriter().write(JsonUtil.toJsonString(errorResult));
+    }
 }
 

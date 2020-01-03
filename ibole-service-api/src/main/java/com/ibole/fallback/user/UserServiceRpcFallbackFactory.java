@@ -1,6 +1,7 @@
 package com.ibole.fallback.user;
 
 import com.ibole.api.user.UserServiceRpc;
+import com.ibole.config.CustomQueryResults;
 import com.ibole.enums.StatusEnum;
 import com.ibole.pojo.user.User;
 import com.ibole.utils.JsonData;
@@ -23,20 +24,20 @@ public class UserServiceRpcFallbackFactory implements FallbackFactory<UserServic
 		return new UserServiceRpc() {
 
             @Override
-            public JsonData findUserByUser(User user) {
+            public JsonData<CustomQueryResults<User>> findUserByUser(User user) {
                 LogBack.error(ERROR_INFO, "findUserByUser", user, throwable);
-                return new JsonData<User>(false, StatusEnum.RPC_ERROR.getCode(), StatusEnum.RPC_ERROR.getMsg());
+                return JsonData.failed(StatusEnum.RPC_ERROR);
             }
 
             @Override
             public JsonData<User> findUserByAccount(User account) {
                 LogBack.error(ERROR_INFO, "findUserByAccount", account, throwable);
-                return new JsonData<User>(false, StatusEnum.RPC_ERROR.getCode(), StatusEnum.RPC_ERROR.getMsg());
+                return JsonData.failed(StatusEnum.RPC_ERROR);
             }
 
             @Override
-            public JsonData findUser() {
-                return new JsonData<User>(false, StatusEnum.RPC_ERROR.getCode(), StatusEnum.RPC_ERROR.getMsg());
+            public JsonData<CustomQueryResults<User>> findUser() {
+                return JsonData.failed(StatusEnum.RPC_ERROR);
             }
         };
 	}

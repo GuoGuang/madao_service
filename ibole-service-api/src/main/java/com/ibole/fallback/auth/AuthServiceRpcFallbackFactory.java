@@ -25,7 +25,7 @@ public class AuthServiceRpcFallbackFactory implements FallbackFactory<AuthServic
 			@Override
 			public JsonData authPermission(String url,String method,String authentication) {
 				LogBack.error(ERROR_INFO, "login", authentication, throwable);
-				return new JsonData(false, StatusEnum.RPC_ERROR.getCode(), StatusEnum.RPC_ERROR.getMsg());
+				return JsonData.failed(StatusEnum.RPC_ERROR);
 			}
 		};
 	}

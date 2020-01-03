@@ -18,9 +18,9 @@ public class AuthExceptionHandler {
      * @param ex ValidateCodeException
      */
     @ExceptionHandler(ValidateCodeException.class)
-    public JsonData validateCodeException(ValidateCodeException ex) {
+    public JsonData<Void> validateCodeException(ValidateCodeException ex) {
         LogBack.error(ex.getMessage(), ex);
-        return new JsonData(StatusEnum.PARAM_ILLEGAL);
+        return JsonData.failed(StatusEnum.PARAM_ILLEGAL);
     }
 
 }

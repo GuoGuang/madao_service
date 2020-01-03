@@ -15,10 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-/**
- * 文章分类
- **/
-
 @Api(tags = "文章分类管理")
 @RestController
 @RequestMapping(value = "/article/category", produces = "application/json")

@@ -23,10 +23,10 @@ public class OptLogServiceRpcFallbackFactory implements FallbackFactory<OptLogSe
 		return new OptLogServiceRpc() {
 
 			@Override
-			public JsonData insertOptLog(OptLog optLog) {
-				LogBack.error(ERROR_INFO,"insertOptLog",optLog,throwable);
-				return new JsonData(false, StatusEnum.RPC_ERROR.getCode(), StatusEnum.RPC_ERROR.getMsg());
-			}
+            public JsonData<Void> insertOptLog(OptLog optLog) {
+                LogBack.error(ERROR_INFO, "insertOptLog", optLog, throwable);
+                return JsonData.failed(StatusEnum.RPC_ERROR);
+            }
 		};
 	}
 }

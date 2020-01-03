@@ -17,7 +17,7 @@ public class AdminController {
 
     @GetMapping
     @ApiOperation(value = "条件查询资源", notes = "Admin")
-    public JsonData findAdminInfo() {
+    public JsonData<Map<String, Object>> findAdminInfo() {
         String tempInfo = "{\"status\":\"success\",\"message\":\"获取管理员信息成功\",\"result\":{\"name\":\"Surmon\",\"slogan\":\"山河入梦\",\"gravatar\":\"https://static.surmon.me/nodepress/image/WechatIMG8_Fotor_Fotor2.jpg\"}}\n";
         Map<String, Object> objectMap = JsonUtil.jsonToMap(tempInfo);
         return JsonData.success(objectMap);
