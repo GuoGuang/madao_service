@@ -221,9 +221,10 @@ pipeline {
                         sh "apt-get install sshpass"
                         // https://www.cnblogs.com/kaishirenshi/p/7921308.html
 //                        sh "sshpass -p ${REMOTE_IP_PASSWORD} ssh root@${REMOTE_IP}"
-                        sh "sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${REMOTE_IP}"
-                        sh "pwd"
-                        sh "docker pull guoguang0536/${serviceName}:${env.BUILD_ID}"
+                        sh "sshpass -f /var/jenkins_home/password.txt ssh root@${REMOTE_IP} pwd "
+                        sh "sshpass -f /var/jenkins_home/password.txt ssh root@${REMOTE_IP} docker pull guoguang0536/${serviceName}:${env.BUILD_ID} "
+                        sh "sshpass -f /var/jenkins_home/password.txt ssh root@${REMOTE_IP} docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
+                        
                         // 运行容器
                         sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
                         echo '-->> #远程主机构建成功-->>'
