@@ -228,9 +228,6 @@ pipeline {
                         sh "sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${REMOTE_IP} docker -v "
                         sh "sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${REMOTE_IP} docker pull guoguang0536/${serviceName}:${env.BUILD_ID} "
                         sh "sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${REMOTE_IP} docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d guoguang0536/${serviceName}:${env.BUILD_ID}"
-                        
-                        // 运行容器
-                        sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
                         echo '-->> #远程主机构建成功-->>'
                      }
                     //这里增加了一个小功能，在服务器上记录了基本部署信息，方便多人使用一套环境时问题排查，storge in {WORKSPACE}/deploy.log  & remoteServer:htdocs/war
