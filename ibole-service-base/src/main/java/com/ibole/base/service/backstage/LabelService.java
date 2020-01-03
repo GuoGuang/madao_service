@@ -4,6 +4,7 @@ import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.base.Label;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ public class LabelService {
 	 *
 	 * @return IPage<Label>
 	 */
-	public List findLabelByCondition(Label label, QueryVO queryVO) {
+	public ArrayList<Label> findLabelByCondition(Label label, QueryVO queryVO) {
 //		Page<Label> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
 //		LambdaQueryWrapper<Label> queryWrapper = new LambdaQueryWrapper<>();
 //		if (StringUtils.isNotEmpty(label.getLabelName())) {

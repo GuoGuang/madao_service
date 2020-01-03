@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ibole.api.base.LoginLogServiceRpc;
 import com.ibole.constant.CommonConst;
 import com.ibole.db.redis.service.RedisService;
-import com.ibole.enums.StatusEnum;
 import com.ibole.pojo.base.LoginLog;
 import com.ibole.pojo.user.AuthToken;
 import com.ibole.utils.DateUtil;
@@ -117,20 +116,19 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 		authToken.setRefresh_token(refreshToken.getValue());
 		authToken.setJwt_token(jti.toString());
 
-		// 插入登录日志
-		Map<String, String> stringStringMap = JWTAuthentication.parseJwtToClaims(accessToken);
-		insertLoginLog(accessToken,stringStringMap.get("id"),request);
+        // 插入登录日志
+        Map<String, String> stringStringMap = JWTAuthentication.parseJwtToClaims(accessToken);
+        insertLoginLog(accessToken, stringStringMap.get("id"), request);
 
-		// 更新用户相关信息：更新last_date字段
-		// rabbitUtil.sendMessageToExchange();
+        // 更新用户相关信息：更新last_date字段
+        // rabbitUtil.sendMessageToExchange();
 
-		String jsonString = JsonUtil.toJsonString(authToken);
-		JsonData jsonData = new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), jti);
-		saveToken(jti.toString(), jsonString, CommonConst.TIME_OUT_DAY);
-		response.setContentType("application/json;charset=UTF-8");
-		response.getWriter().write(objectMapper.writeValueAsString(jsonData));
+        String jsonString = JsonUtil.toJsonString(authToken);
+        saveToken(jti.toString(), jsonString, CommonConst.TIME_OUT_DAY);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(objectMapper.writeValueAsString(JsonData.success(jti)));
 
-	}
+    }
 
 	/**
 	 * 添加登录日志

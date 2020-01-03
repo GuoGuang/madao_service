@@ -18,12 +18,12 @@ public class CustomWebResponseExceptionTranslator implements WebResponseExceptio
 
 	@Override
 	public ResponseEntity translate(Exception e) throws Exception {
-		JsonData jsonData = new JsonData(false, StatusEnum.SYSTEM_ERROR.getCode(), StatusEnum.SYSTEM_ERROR.getMsg());
-		if (e instanceof InternalAuthenticationServiceException){
-			jsonData = new JsonData(false, StatusEnum.SYSTEM_ERROR.getCode(), StatusEnum.SYSTEM_ERROR.getMsg());
-		}else if (e instanceof InvalidGrantException){
-			jsonData = new JsonData(false, StatusEnum.LOGIN_ERROR.getCode(), StatusEnum.LOGIN_ERROR.getMsg());
-		}
-		return new ResponseEntity<>(jsonData,HttpStatus.OK);
-	}
+        JsonData<Void> jsonData = JsonData.failed(StatusEnum.SYSTEM_ERROR);
+        if (e instanceof InternalAuthenticationServiceException) {
+            jsonData = JsonData.failed(StatusEnum.SYSTEM_ERROR);
+        } else if (e instanceof InvalidGrantException) {
+            jsonData = JsonData.failed(StatusEnum.LOGIN_ERROR);
+        }
+        return new ResponseEntity<>(jsonData, HttpStatus.OK);
+    }
 }

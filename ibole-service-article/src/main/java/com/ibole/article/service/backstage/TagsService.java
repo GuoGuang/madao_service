@@ -1,11 +1,10 @@
-package com.ibole.article.service.blog;
+package com.ibole.article.service.backstage;
 
-import com.ibole.article.dao.backstage.ArticleTagsDao;
 import com.ibole.article.dao.backstage.TagsDao;
 import com.ibole.constant.CommonConst;
 import com.ibole.constant.RedisConstant;
 import com.ibole.db.redis.service.RedisService;
-import com.ibole.pojo.article.QTags;
+import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Tags;
 import com.ibole.utils.JsonUtil;
 import com.ibole.utils.LogBack;
@@ -16,13 +15,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * 前台标签
+ * 后台标签
  **/
 @Service
-public class ApiTagsService {
+public class TagsService {
 
-	private final TagsDao tagsDao;
-	private final ArticleTagsDao articleTagsDao;
+	private final TagsDao bgTagsDao;
 
 	private final RedisService redisService;
 
@@ -30,9 +28,8 @@ public class ApiTagsService {
 	JPAQueryFactory jpaQueryFactory;
 
 	@Autowired
-	public ApiTagsService(TagsDao tagsDao, ArticleTagsDao articleTagsDao, RedisService redisService) {
-		this.tagsDao = tagsDao;
-		this.articleTagsDao = articleTagsDao;
+	public TagsService(TagsDao bgTagsDao, RedisService redisService) {
+		this.bgTagsDao = bgTagsDao;
 		this.redisService = redisService;
 	}
 
@@ -41,17 +38,22 @@ public class ApiTagsService {
 	 *
 	 * @return IPage<Tags>
 	 */
-	public List<Tags> findTagsByCondition() {
-		QTags qTags = QTags.tags;
-		List<Tags> tagsQueryResults = jpaQueryFactory
-				.selectFrom(qTags)
-				.fetch();
-		tagsQueryResults.forEach(tagsInfo -> tagsInfo.setTagsCount(articleTagsDao.findCountByTagsId(tagsInfo.getId())));
-		return tagsQueryResults;
+	public List<Tags> findTagsByCondition(Tags tags, QueryVO queryVO) {
+//		Page<Tags> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
+//		LambdaQueryWrapper<Tags> queryWrapper = new LambdaQueryWrapper<>();
+//		if (StringUtils.isNotEmpty(tags.getName())) {
+//			queryWrapper.like(Tags::getName, tags.getName());
+//		}
+//		if (StringUtils.isNotEmpty(tags.getState())) {
+//			queryWrapper.eq(Tags::getState, tags.getState());
+//		}
+//		return bgTagsDao.selectPage(pr, queryWrapper);
+		return null;
 	}
 
 	/**
 	 * 根据ID查询标签
+	 *
 	 * @param id 标签id
 	 * @return Tags
 	 */
@@ -64,13 +66,13 @@ public class ApiTagsService {
 			}
 		} catch (Exception e) {
 			LogBack.error("findTagsById->查询标签异常，参数为：{}", id, e);
-        }
+		}
 
 //		tags = bgTagsDao.selectById(id);
 		try {
 			redisService.set(RedisConstant.REDIS_KEY_ARTICLE + id, tags, CommonConst.TIME_OUT_DAY);
 		} catch (Exception e) {
-			LogBack.error("findTagsById->查询标签异常，参数为：{}",id,e);
+			LogBack.error("findTagsById->查询标签异常，参数为：{}", id, e);
 		}
 		return tags;
 
@@ -78,6 +80,7 @@ public class ApiTagsService {
 
 	/**
 	 * 增加
+	 *
 	 * @param tags 实体
 	 */
 	public void insertTags(Tags tags) {
@@ -86,19 +89,21 @@ public class ApiTagsService {
 
 	/**
 	 * 修改
+	 *
 	 * @param tags 实体
 	 */
 	public void updateTagsById(Tags tags) {
-		redisService.del( "tags_" + tags.getId());
+		redisService.del("tags_" + tags.getId());
 //		bgTagsDao.updateById(tags);
 	}
 
 	/**
 	 * 删除
+	 *
 	 * @param tagsIds:文章id集合
 	 */
 	public void deleteByIds(List tagsIds) {
-		redisService.del( "tags_" + tagsIds);
+		redisService.del("tags_" + tagsIds);
 //		bgTagsDao.deleteBatchIds(tagsIds);
 	}
 

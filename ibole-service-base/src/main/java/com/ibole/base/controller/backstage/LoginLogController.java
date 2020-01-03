@@ -6,14 +6,11 @@ import com.ibole.pojo.base.LoginLog;
 import com.ibole.utils.JsonData;
 import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-/**
- * 登录日志
- **/
 
 @Api(tags = "登录日志")
 @RestController
@@ -27,50 +24,32 @@ public class LoginLogController {
 		this.loginLogService = loginLogService;
 	}
 
-    /**
-     * 按照条件查询全部列表
-     *
-     * @return Result
-     */
     @GetMapping
-    public JsonData findLoginLogByCondition(LoginLog loginLog, QueryVO queryVO) {
+    @ApiOperation(value = "按照条件查询全部列表", notes = "LoginLog")
+    public JsonData<QueryResults<LoginLog>> findLoginLogByCondition(LoginLog loginLog, QueryVO queryVO) {
         QueryResults<LoginLog> result = loginLogService.findLoginLogByCondition(loginLog, queryVO);
         return JsonData.success(result);
 
     }
 
-	/**
-	 * 根据ID查询登录日志
-	 *
-	 * @param id
-	 * @return Result
-	 */
-	@GetMapping(value = "/{id}")
-	public JsonData findById(@PathVariable String id) {
-		LoginLog result = loginLogService.findById(id);
-		return JsonData.success(result);
-	}
+    @GetMapping(value = "/{id}")
+    @ApiOperation(value = "根据ID查询登录日志", notes = "LoginLog")
+    public JsonData<LoginLog> findById(@PathVariable String id) {
+        LoginLog result = loginLogService.findById(id);
+        return JsonData.success(result);
+    }
 
-	/**
-	 * 增加登录日志
-	 * @param loginLog 登录日志实体
-	 * @return JsonData
-	 */
-	@PostMapping()
-	public JsonData insertLoginLog(@RequestBody LoginLog loginLog) {
-		loginLogService.save(loginLog);
-		return JsonData.success();
-	}
+    @PostMapping()
+    @ApiOperation(value = "增加登录日志", notes = "LoginLog")
+    public JsonData<Void> insertLoginLog(@RequestBody LoginLog loginLog) {
+        loginLogService.save(loginLog);
+        return JsonData.success();
+    }
 
-
-	/**
-	 * 删除登录日志
-	 * @param loginLogIds 要删除的id数组
-	 * @return JsonData
-	 */
-	@DeleteMapping
-	public JsonData deleteById(@RequestBody List<String> loginLogIds) {
-		loginLogService.deleteBatch(loginLogIds);
-		return JsonData.success();
-	}
+    @DeleteMapping
+    @ApiOperation(value = "删除登录日志", notes = "LoginLog")
+    public JsonData<Void> deleteById(@RequestBody List<String> loginLogIds) {
+        loginLogService.deleteBatch(loginLogIds);
+        return JsonData.success();
+    }
 }

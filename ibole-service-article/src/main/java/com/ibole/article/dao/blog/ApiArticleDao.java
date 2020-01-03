@@ -3,13 +3,25 @@ package com.ibole.article.dao.blog;
 import com.ibole.pojo.article.Article;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * 文章数据处理层
  **/
 
 
-public interface ApiArticleDao extends JpaRepository<Article, Long>, JpaSpecificationExecutor<Article> {
+public interface ApiArticleDao extends JpaRepository<Article, String>, JpaSpecificationExecutor<Article> {
+
+	/**
+	 * 获取随机六条文章作为推荐数据
+	 */
+	@Modifying
+	@Query(value = "SELECT id,title,upvote,description,create_at,update_at FROM ar_article ORDER BY rand() LIMIT 6",
+			nativeQuery = true)
+	List<Article> findRelatedByRand();
 
 //	@Query(value = "SELECT aa.*,ac.name,ac.id as cid FROM ar_article aa LEFT JOIN ar_category ac on aa.category_id = ac.id",
 //					nativeQuery = true)

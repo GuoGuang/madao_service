@@ -23,9 +23,9 @@ public class LoginLogServiceRpcFallbackFactory implements FallbackFactory<LoginL
 		return new LoginLogServiceRpc() {
 
 			@Override
-			public JsonData insertLoginLog(String auth,LoginLog loginLog) {
-				LogBack.error(ERROR_INFO,"insertLoginLog",loginLog,throwable);
-				return new JsonData(false, StatusEnum.RPC_ERROR.getCode(), StatusEnum.RPC_ERROR.getMsg());
+			public JsonData<Void> insertLoginLog(String auth, LoginLog loginLog) {
+				LogBack.error(ERROR_INFO, "insertLoginLog", loginLog, throwable);
+				return JsonData.failed(StatusEnum.RPC_ERROR);
 			}
 		};
 	}

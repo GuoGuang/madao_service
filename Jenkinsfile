@@ -15,6 +15,8 @@ pipeline {
         //服务器参数采用了组合方式，避免多次选择，使用docker为更佳实践【参数值对外隐藏】
         choice(name: 'server', choices: '192.168.1.107,9090,*****,*****\n192.168.1.60,9090,*****,*****', description: '测试服务器列表选择(IP,JettyPort,Name,Passwd)')
         choice(name: 'project', choices: [
+            
+                'ibole-service-user:9007',
                 'ibole-server-eureka:5000',
                 'ibole-server-config:9009',
                 'ibole-service-user:9007',
@@ -44,6 +46,7 @@ pipeline {
 //        BUILD_NUMBER = credentials('aliyun-docker')
         // 仓库docker 地址、镜像名、容器名称
         FRESH_HOST = "registry.cn-hongkong.aliyuncs.com"
+        REMOTE_IP = "207.148.76.64"
         DOCKER_IMAGE = "${params.project}"
         DOCKER_CONTAINER = "${params.project}"
         //测试人员邮箱地址【参数值对外隐藏】
@@ -132,8 +135,8 @@ pipeline {
             steps {
                 echo "构建--->${serviceName}"
                 sh "pwd"
-                sh "mvn -B -DskipTests compile -f ibole_service/ibole-common"
-                sh "mvn -B -DskipTests clean package install  -f ibole_service/${serviceName}"
+                sh "mvn -B -DskipTests install -f ibole_service/ibole-common-parent"
+                sh "mvn -B -DskipTests clean package install -f ibole_service/${serviceName}"
                 sh "pwd"
                 sh "/bin/cp /var/jenkins_home/config-server.jks ibole_service/ibole-server-config/src/main/resources/"
                 sh "/bin/cp /var/jenkins_home/bootstrap.yml ibole_service/ibole-server-config/src/main/resources/"
@@ -156,7 +159,7 @@ pipeline {
                     // 删除列表中有 ${DOCKER_IMAGE} 的镜像
                     def image = sh(returnStdout: true, script: "docker images | grep $serviceName | awk '{print \$3}'").trim()
                     if (image.size() > 0) {
-                        sh "docker images | grep $serviceName | awk '{print \$3}' | xargs docker rmi"
+                        sh "docker images | grep $serviceName | awk '{print \$3}' | xargs docker rmi -f"
                         echo '-->> 2#停止并删除镜像 -->>'
                     }
                 }
@@ -169,9 +172,10 @@ pipeline {
                     sh "pwd"
                     // 构建镜像
                     sh "docker build -t ${serviceName}:${env.BUILD_ID} ."
-                    // 运行容器
-                    sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
-                    echo '-->> 3#构建成功-->>'
+                    sh "docker login --username=guoguang0536 --password ${DOCKER_HUB_PASSWORD}" // registry.cn-qingdao.aliyuncs.com
+                    sh "docker tag ${serviceName}:${env.BUILD_ID} guoguang0536/${serviceName}:${env.BUILD_ID}"
+                    sh "docker push guoguang0536/${serviceName}:${env.BUILD_ID}"
+                    echo "构建并推送到远程服务器成功--->"
                 }
             }
         }
@@ -208,15 +212,26 @@ pipeline {
 
         stage('部署测试环境') {
             steps {
-                echo "starting deploy to ${serviceName}......"
-//                //编译和打包
-//                sh "mvn  -f ${params.pomPath} clean package -Dautoconfig.skip=true -Dmaven.test.skip=true"
-//                archiveArtifacts warLocation
-//                script {
-//                    wrap([$class: 'BuildUser']) {
-//                    //发布war包到指定服务器，虚拟机文件目录通过shell脚本初始化建立，所以目录是固定的
-//                    sh "sshpass -p ${serverPasswd} scp ${params.warLocation} ${serverName}@${serverIP}:htdocs/war"
-//                    //这里增加了一个小功能，在服务器上记录了基本部署信息，方便多人使用一套环境时问题排查，storge in {WORKSPACE}/deploy.log  & remoteServer:htdocs/war
+                echo "开始部署到----> ${serviceName}......"
+                script {
+                    echo "即将进入"
+                    if ("${serviceName}" == "ibole-server-eureka" || "${serviceName}" == "ibole-server-config"){
+                        sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
+                        echo '-->> #本机构建成功-->>'
+                    }else {
+                        sh "apt-get update"
+                        sh "apt-get install sshpass"
+                        // https://www.cnblogs.com/kaishirenshi/p/7921308.html
+//                        sh "sshpass -p ${REMOTE_IP_PASSWORD} ssh root@${REMOTE_IP}"
+                        // TODO 删除远程服务器docker镜像
+                        sh "pwd"
+                        sh "sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${REMOTE_IP} pwd "
+                        sh "sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${REMOTE_IP} docker -v "
+                        sh "sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${REMOTE_IP} docker pull guoguang0536/${serviceName}:${env.BUILD_ID} "
+                        sh "sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${REMOTE_IP} docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d guoguang0536/${serviceName}:${env.BUILD_ID}"
+                        echo '-->> #远程主机构建成功-->>'
+                     }
+                    //这里增加了一个小功能，在服务器上记录了基本部署信息，方便多人使用一套环境时问题排查，storge in {WORKSPACE}/deploy.log  & remoteServer:htdocs/war
 //                    Date date = new Date()
 //                    def deploylog="${date.toString()},${BUILD_USER} use pipeline  '${JOB_NAME}(${BUILD_NUMBER})' deploy branch ${params.repoBranch} to server ${serverIP}"
 //                    println deploylog
@@ -224,8 +239,7 @@ pipeline {
 //                    sh "sshpass -p ${serverPasswd} scp ${WORKSPACE}/deploy.log ${serverName}@${serverIP}:htdocs/war"
 //                    //jetty restart，重启jetty
 //                    sh "sshpass -p ${serverPasswd} ssh ${serverName}@${serverIP} 'bin/jettyrestart.sh' "
-//                    }
-//                }
+                }
             }
         }
 

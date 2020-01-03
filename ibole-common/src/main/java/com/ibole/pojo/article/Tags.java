@@ -2,6 +2,7 @@ package com.ibole.pojo.article;
 
 import com.ibole.pojo.BasePojo;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -26,20 +27,26 @@ public class Tags extends BasePojo implements Serializable {
     @Id
     @GeneratedValue(generator = "idGenerator")
     @GenericGenerator(name = "idGenerator", strategy = "com.ibole.config.IdGeneratorConfig")
-    private String id; // ID
+    @ApiModelProperty("标签主键表ID")
+    private String id;
 
+    @ApiModelProperty("标签名称")
     @NotNull(message = "标签名称不能为空")
-    private String name; // 标签名称
+    private String name;
 
+    @ApiModelProperty("英文名称")
     @NotNull(message = "英文名称不能为空")
-    private String slug; // 英文名称
+    private String slug;
 
+    @ApiModelProperty("描述")
     @NotNull(message = "描述不能为空")
     private String description;
 
-    private String icon; // 标签图标
+    @ApiModelProperty("标签图标")
+    private String icon;
 
-    private String state; // 状态
+    @ApiModelProperty("状态")
+    private String state;
 
 
 }

@@ -1,10 +1,10 @@
 package com.ibole.exception;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.ibole.exception.custom.RemoteRpcException;
-import com.ibole.exception.custom.ParamException;
-import com.ibole.exception.custom.ValidFieldError;
 import com.ibole.enums.StatusEnum;
+import com.ibole.exception.custom.ParamException;
+import com.ibole.exception.custom.RemoteRpcException;
+import com.ibole.exception.custom.ValidFieldError;
 import com.ibole.utils.JsonData;
 import com.ibole.utils.LogBack;
 import com.netflix.client.ClientException;
@@ -36,69 +36,74 @@ import java.util.List;
 @RestControllerAdvice
 public class SystemExceptionHandler {
 
-	/**
-	 * 参数不合法错误
-	 * @param ex IllegalArgumentException
-	 */
-	@ExceptionHandler(IllegalArgumentException.class)
-	public JsonData illegalArgumentException(IllegalArgumentException ex) {
-		LogBack.error(ex.getMessage(),ex);
-		return new JsonData(StatusEnum.PARAM_ILLEGAL);
-	}
+    /**
+     * 参数不合法错误
+     *
+     * @param ex IllegalArgumentException
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    public JsonData<Void> illegalArgumentException(IllegalArgumentException ex) {
+        LogBack.error(ex.getMessage(), ex);
+        return JsonData.failed(StatusEnum.PARAM_ILLEGAL);
+    }
 
-	/**
-	 * 缺少请求参数错误
-	 * @param ex MissingServletRequestParameterException
-	 */
-	@ExceptionHandler(MissingServletRequestParameterException.class)
-	public JsonData missingServletRequestParameterException(MissingServletRequestParameterException ex) {
-		LogBack.error(ex.getMessage(),ex);
-		return new JsonData(StatusEnum.PARAM_MISSING);
-	}
+    /**
+     * 缺少请求参数错误
+     *
+     * @param ex MissingServletRequestParameterException
+     */
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public JsonData<Void> missingServletRequestParameterException(MissingServletRequestParameterException ex) {
+        LogBack.error(ex.getMessage(), ex);
+        return JsonData.failed(StatusEnum.PARAM_MISSING);
+    }
 
-	/**
-	 * 请求类型错误
-	 * @param ex HttpRequestMethodNotSupportedException
-	 */
-	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-	public JsonData httpRequestMethodNotSupportedException(Exception ex) {
-		LogBack.error(ex.getMessage(),ex);
-		return new JsonData(StatusEnum.REQUEST_ERROR);
-	}
+    /**
+     * 请求类型错误
+     *
+     * @param ex HttpRequestMethodNotSupportedException
+     */
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public JsonData<Void> httpRequestMethodNotSupportedException(Exception ex) {
+        LogBack.error(ex.getMessage(), ex);
+        return JsonData.failed(StatusEnum.REQUEST_ERROR);
+    }
 
-	/**
-	 * JSR303参数校验错误
-	 * @param ex BindException
-	 */
-	@ExceptionHandler(BindException.class)
-	public JsonData bindException(Exception ex) {
-		LogBack.error(ex.getMessage(),ex);
-		BindingResult bindingResult = (ex instanceof BindException) ? ((BindException)ex).getBindingResult()
-				: ((MethodArgumentNotValidException)ex).getBindingResult();
-		if (bindingResult.hasErrors()) {
-			List<FieldError> errors = bindingResult.getFieldErrors();
-			List<ValidFieldError> validList = new ArrayList<>();
-			if (!(CollectionUtils.isEmpty(errors))) {
-				for (FieldError fe : errors) {
-					validList.add(new ValidFieldError(fe));
-				}
-			}
-			LogBack.error("参数校验错误："+validList.toString(),ex);
-            return new JsonData(false, StatusEnum.PARAM_INVALID, validList.toString());
-		}
-		return new JsonData(StatusEnum.PARAM_INVALID);
-	}
+    /**
+     * JSR303参数校验错误
+     *
+     * @param ex BindException
+     */
+    @ExceptionHandler(BindException.class)
+    public JsonData<Void> bindException(Exception ex) {
+        LogBack.error(ex.getMessage(), ex);
+        BindingResult bindingResult = (ex instanceof BindException) ? ((BindException) ex).getBindingResult()
+                : ((MethodArgumentNotValidException) ex).getBindingResult();
+        if (bindingResult.hasErrors()) {
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            List<ValidFieldError> validList = new ArrayList<>();
+            if (!(CollectionUtils.isEmpty(errors))) {
+                for (FieldError fe : errors) {
+                    validList.add(new ValidFieldError(fe));
+                }
+            }
+            LogBack.error("参数校验错误：" + validList.toString(), ex);
+            return JsonData.failed(StatusEnum.PARAM_INVALID, validList.toString());
+        }
+        return JsonData.failed(StatusEnum.PARAM_INVALID);
+    }
 
-	/**
-	 * 参数异常
-	 * @param ex Exception
-	 */
-	@ExceptionHandler(ParamException.class)
-	@ResponseBody
-	public JsonData paramException(ParamException ex) {
-		LogBack.error(ex.getMessage(),ex);
-		return new JsonData(StatusEnum.PARAM_ILLEGAL);
-	}
+    /**
+     * 参数异常
+     *
+     * @param ex Exception
+     */
+    @ExceptionHandler(ParamException.class)
+    @ResponseBody
+    public JsonData<Void> paramException(ParamException ex) {
+        LogBack.error(ex.getMessage(), ex);
+        return JsonData.failed(StatusEnum.PARAM_ILLEGAL);
+    }
 
     /**
      * 远程RPC调用异常
@@ -106,10 +111,9 @@ public class SystemExceptionHandler {
      * @param ex IllegalArgumentException
      */
     @ExceptionHandler(RemoteRpcException.class)
-    public JsonData remoteRpcException(RemoteRpcException ex) {
-        String message = ex.getMessage();
+    public JsonData<Void> remoteRpcException(RemoteRpcException ex) {
         LogBack.error(ex.getMessage(), ex);
-        return new JsonData(StatusEnum.RPC_ERROR);
+        return JsonData.failed(StatusEnum.RPC_ERROR);
     }
 
     /**
@@ -118,43 +122,46 @@ public class SystemExceptionHandler {
      * @param ex AccessDeniedException
      */
     @ExceptionHandler(AccessDeniedException.class)
-    public JsonData missingServletRequestParameterException(AccessDeniedException ex) {
+    public JsonData<Void> missingServletRequestParameterException(AccessDeniedException ex) {
         LogBack.error(ex.getMessage(), ex);
-        return new JsonData(StatusEnum.ACCESS_DENIED);
+        return JsonData.failed(StatusEnum.ACCESS_DENIED);
     }
 
-	/**
-	 * JWT失效异常
-	 * @param ex Exception
-	 */
-	@ExceptionHandler(TokenExpiredException.class)
-	public JsonData tokenExpiredException(TokenExpiredException ex) {
-		LogBack.error(ex.getMessage(),ex);
-		return new JsonData(StatusEnum.LOGIN_EXPIRED);
-	}
-
-	/**
-	 * Load balancer does not have available server for client
-	 * @param ex Exception
-	 */
-	@ExceptionHandler(ClientException.class)
-    public JsonData clientException(ClientException ex) {
-        LogBack.error(ex.getMessage(),ex);
-        return new JsonData(StatusEnum.SERVICE_OFF);
+    /**
+     * JWT失效异常
+     *
+     * @param ex Exception
+     */
+    @ExceptionHandler(TokenExpiredException.class)
+    public JsonData<Void> tokenExpiredException(TokenExpiredException ex) {
+        LogBack.error(ex.getMessage(), ex);
+        return JsonData.failed(StatusEnum.LOGIN_EXPIRED);
     }
 
-	/**
-	 * 其他异常
-	 * @param ex Exception
-	 */
-	@ExceptionHandler(Exception.class)
-	@ResponseBody
-	public JsonData defaultException(Exception ex) {
-		LogBack.error(ex.getMessage(),ex);
-		if ((ex instanceof BindException) || (ex instanceof MethodArgumentNotValidException) || (ex instanceof UnexpectedTypeException)) {
+    /**
+     * Load balancer does not have available server for client
+     *
+     * @param ex Exception
+     */
+    @ExceptionHandler(ClientException.class)
+    public JsonData<Void> clientException(ClientException ex) {
+        LogBack.error(ex.getMessage(), ex);
+        return JsonData.failed(StatusEnum.SERVICE_OFF);
+    }
+
+    /**
+     * 其他异常
+     *
+     * @param ex Exception
+     */
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public JsonData<Void> defaultException(Exception ex) {
+        LogBack.error(ex.getMessage(), ex);
+        if ((ex instanceof BindException) || (ex instanceof MethodArgumentNotValidException) || (ex instanceof UnexpectedTypeException)) {
 			return bindException(ex);
 		}
-		return new JsonData(StatusEnum.SYSTEM_ERROR);
+		return JsonData.failed(StatusEnum.SYSTEM_ERROR);
 	}
 
 

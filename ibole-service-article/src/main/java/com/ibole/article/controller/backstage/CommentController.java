@@ -8,17 +8,14 @@ import com.ibole.pojo.article.Comment;
 import com.ibole.utils.JsonData;
 import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-/**
- * 文章的评论
- **/
-
-@Api(tags = "文章评论")
+@Api(tags = "文章评论管理")
 @RestController
 @RequestMapping(value = "/comment",produces = "application/json")
 
@@ -31,65 +28,40 @@ public class CommentController {
 		this.commentService = commentService;
 	}
 
-
-    /**
-     * 查询文章评论
-     *
-     * @param comment 实体
-     * @param queryVO 查询条件
-     * @return JsonData
-     */
-    @GetMapping()
-    public JsonData findCommentByCondition(Comment comment, QueryVO queryVO) {
-        QueryResults<Comment> result = commentService.findCommentByCondition(comment, queryVO);
-        return JsonData.success(result);
-    }
-
-    /**
-     * 根据ID查询
-     *
-     * @param id ID
-     * @return JsonData
-     */
-    @GetMapping(value = "/{id}")
-    public JsonData findCommentByPrimaryKey(@PathVariable String id) {
-        Comment result = commentService.findCommentByPrimaryKey(id);
-        return JsonData.success(result);
+	@GetMapping()
+	@ApiOperation(value = "查询文章评论", notes = "Comment")
+	public JsonData<QueryResults<Comment>> findCommentByCondition(Comment comment, QueryVO queryVO) {
+		QueryResults<Comment> result = commentService.findCommentByCondition(comment, queryVO);
+		return JsonData.success(result);
 	}
 
+	@GetMapping(value = "/{id}")
+	@ApiOperation(value = "根据ID查询", notes = "Comment")
+	public JsonData<Comment> findCommentByPrimaryKey(@PathVariable String id) {
+		Comment result = commentService.findCommentByPrimaryKey(id);
+		return JsonData.success(result);
+	}
 
-	/**
-	 * 增加
-	 * @param comment 实体
-	 * @return JsonData
-	 */
 	@PostMapping()
-	@OptLog(operationType= CommonConst.ADD,operationName="增加文章评论")
-	public JsonData insertComment(@RequestBody @Valid Comment comment) {
+	@OptLog(operationType = CommonConst.ADD, operationName = "增加文章评论")
+	@ApiOperation(value = "增加文章评论", notes = "Comment")
+	public JsonData<Void> insertComment(@RequestBody @Valid Comment comment) {
 		commentService.saveOrUpdate(comment);
 		return JsonData.success();
 	}
 
-	/**
-	 * 修改
-	 * @param comment 实体
-	 * @return JsonData
-	 */
 	@PutMapping
-	@OptLog(operationType= CommonConst.MODIFY,operationName="修改文章评论")
-	public JsonData updateByCommentSelective(@RequestBody @Valid Comment comment) {
+	@OptLog(operationType = CommonConst.MODIFY, operationName = "修改文章评论")
+	@ApiOperation(value = "修改文章评论", notes = "Comment")
+	public JsonData<Void> updateByCommentSelective(@RequestBody @Valid Comment comment) {
 		commentService.saveOrUpdate(comment);
 		return JsonData.success();
 	}
 
-	/**
-	 * 删除
-	 * @param commentIds 删除的id
-	 * @return JsonData
-	 */
 	@DeleteMapping
-	@OptLog(operationType= CommonConst.DELETE,operationName="添加文章评论")
-	public JsonData deleteByIds(List<String> commentIds) {
+	@OptLog(operationType = CommonConst.DELETE, operationName = "删除评论")
+	@ApiOperation(value = "删除", notes = "Comment")
+	public JsonData<Void> deleteByIds(List<String> commentIds) {
 		commentService.deleteCommentByIds(commentIds);
 		return JsonData.success();
 	}

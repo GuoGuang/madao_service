@@ -67,6 +67,10 @@ public class OptLogAspect {
 		}*/
 		//请求的IP
 		final String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+		if (token == null) {
+			LogBack.error("token为空，结束AOP前置通知");
+			return;
+		}
 		Map<String, String> user = JWTAuthentication.parseJwtToClaims(JWTAuthentication.getFullAuthorization(token));
 		String ipAddr = HttpServletUtil.getIpAddr(request);
 		try {
@@ -99,7 +103,7 @@ public class OptLogAspect {
 			log.setOsInfo(userAgent.getOperatingSystem().getName());
 			String argumentParam = "";
 			for (Object argument : arguments) {
-				if (!(argument instanceof ServletRequest)){
+				if (!(argument instanceof ServletRequest)) {
 					argumentParam += JsonUtil.toJsonString(argument);
 				}
 
@@ -108,7 +112,7 @@ public class OptLogAspect {
 			log.setCreateAt(DateUtil.getTimestamp());
 			log.setUpdateAt(DateUtil.getTimestamp());
 			optLogServiceRpc.insertOptLog(log);
-			System.out.println("=====controller前置通知结束=====");
+			LogBack.info("=====controller前置通知结束=====");
 		} catch (Exception e) {
 			//记录本地异常日志
 			LogBack.error("==前置通知异常==");

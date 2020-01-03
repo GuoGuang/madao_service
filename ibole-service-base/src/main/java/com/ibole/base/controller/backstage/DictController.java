@@ -9,18 +9,14 @@ import com.ibole.utils.DateUtil;
 import com.ibole.utils.JsonData;
 import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-
-/**
- *  字典管理
- **/
-
-@Api(tags = "字典")
+@Api(tags = "字典管理")
 @RestController
 @RequestMapping(value = "/dict")
 public class DictController {
@@ -33,90 +29,57 @@ public class DictController {
 		this.dictService = dictService;
 	}
 
-
-    /**
-     * 条件查询资源
-     *
-     * @param dict    查询参数
-     * @param queryVO 查询参数
-     * @return JsonData
-     */
     @GetMapping
-    public JsonData findResByCondition(Dict dict, QueryVO queryVO) {
+    @ApiOperation(value = "条件查询资源", notes = "Dict")
+    public JsonData<QueryResults<Dict>> findResByCondition(Dict dict, QueryVO queryVO) {
         QueryResults<Dict> resData = dictService.findDictByCondition(dict, queryVO);
         return JsonData.success(resData);
     }
 
-    /**
-     * 获取组字典类型，所有根节点
-     *
-     * @param dict 资源实体
-     * @return JsonData
-	 */
-	@GetMapping("/type")
-	public JsonData fetchDictType(Dict dict) {
-		List<Dict> dictTypes = dictService.findIdNameTypeByParentId(dict);
-		return JsonData.success(dictTypes);
-	}
+    @GetMapping("/type")
+    @ApiOperation(value = "获取组字典类型，所有根节点", notes = "Dict")
+    public JsonData<List<Dict>> fetchDictType(Dict dict) {
+        List<Dict> dictTypes = dictService.findIdNameTypeByParentId(dict);
+        return JsonData.success(dictTypes);
+    }
 
-	/**
-	 * 按照字典类型获取树形字典
-	 * 返回满足转换为tree的列表
-	 * @param dict 资源实体
-	 * @return JsonData
-	 */
-	@GetMapping("/tree")
-	public JsonData fetchDictTreeList(Dict dict) {
-		List<Dict> dictTypes = dictService.fetchDictTreeList(dict);
-		return JsonData.success(dictTypes);
-	}
+    @GetMapping("/tree")
+    @ApiOperation(value = "按照字典类型获取树形字典，返回满足转换为tree的列表", notes = "Dict")
+    public JsonData<List<Dict>> fetchDictTreeList(Dict dict) {
+        List<Dict> dictTypes = dictService.fetchDictTreeList(dict);
+        return JsonData.success(dictTypes);
+    }
 
-	/**
-	 * 根据id查询单条
-	 * @param dictId:字典id
-	 * @return  JsonData
-	 */
-	@GetMapping(value = "/{dictId}")
-	public JsonData findById(@PathVariable String dictId) {
-		Dict resData = dictService.findDictById(dictId);
-		return JsonData.success(resData);
-	}
+    @GetMapping(value = "/{dictId}")
+    @ApiOperation(value = "根据id查询单条", notes = "Dict")
+    public JsonData<Dict> findById(@PathVariable String dictId) {
+        Dict resData = dictService.findDictById(dictId);
+        return JsonData.success(resData);
+    }
 
-	/**
-	 * 更新字典项
-	 * @param  dict 资源
-	 * @return JsonData
-	 */
-	@PutMapping
-	@OptLog(operationType= CommonConst.MODIFY,operationName="更新字典项")
-	public JsonData updateByPrimaryKey(@RequestBody @Valid Dict dict) {
-		dictService.saveOrUpdate(dict);
-		return JsonData.success();
-	}
+    @PutMapping
+    @OptLog(operationType = CommonConst.MODIFY, operationName = "更新字典项")
+    @ApiOperation(value = "更新字典项", notes = "Dict")
+    public JsonData<Void> updateByPrimaryKey(@RequestBody @Valid Dict dict) {
+        dictService.saveOrUpdate(dict);
+        return JsonData.success();
+    }
 
-	/**
-	 * 添加一条数据
-	 * @param dict 资源
-	 * @return JsonData
-	 */
-	@PostMapping
-	@OptLog(operationType= CommonConst.ADD,operationName="插入字典项")
-	public JsonData insertSelective(@RequestBody @Valid Dict dict) {
-		dict.setCreateAt(DateUtil.getTimestamp());
-		dict.setUpdateAt(DateUtil.getTimestamp());
-		dictService.saveOrUpdate(dict);
-		return JsonData.success();
-	}
+    @PostMapping
+    @OptLog(operationType = CommonConst.ADD, operationName = "插入字典项")
+    @ApiOperation(value = "添加一条数据", notes = "Dict")
+    public JsonData<Void> insertSelective(@RequestBody @Valid Dict dict) {
+        dict.setCreateAt(DateUtil.getTimestamp());
+        dict.setUpdateAt(DateUtil.getTimestamp());
+        dictService.saveOrUpdate(dict);
+        return JsonData.success();
+    }
 
-	/**
-	 * 删除字典项
-	 * @param resId 资源id数组
-	 * @return JsonData
-	 */
-	@DeleteMapping()
-	@OptLog(operationType= CommonConst.DELETE,operationName="删除字典项")
-	public JsonData deleteByIds(@RequestBody List<String> resId) {
-		dictService.deleteBatch(resId);
-		return JsonData.success();
-	}
+    @DeleteMapping()
+    @OptLog(operationType = CommonConst.DELETE, operationName = "删除字典项")
+    @ApiOperation(value = "删除字典项", notes = "Dict")
+    public JsonData<Void> deleteByIds(@RequestBody List<String> resId) {
+        dictService.deleteBatch(resId);
+        return JsonData.success();
+    }
 }

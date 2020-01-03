@@ -1,22 +1,18 @@
 package com.ibole.base.controller.backstage;
 
 import com.ibole.base.service.backstage.LabelService;
-import com.ibole.enums.StatusEnum;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.base.Label;
 import com.ibole.utils.JsonData;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-/**
- * 标签控制层
- **/
-
-@Api(tags = "标签")
+@Api(tags = "标签管理")
 @RestController
 @RequestMapping("/label")
 public class LabelController {
@@ -28,58 +24,39 @@ public class LabelController {
 		this.labelService = labelService;
 	}
 
-	/**
-	 * 按照条件查询全部列表
-	 * @return Result
-	 */
-	@GetMapping
-	public JsonData findLabelByCondition(Label label, QueryVO queryVO){
+    @GetMapping
+    @ApiOperation(value = "按照条件查询全部列表", notes = "Label")
+    public JsonData<List<Label>> findLabelByCondition(Label label, QueryVO queryVO) {
         List<Label> result = labelService.findLabelByCondition(label, queryVO);
-        return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), result);
+        return JsonData.success(result);
 
     }
 
-	/**
-	 * 根据ID查询标签
-	 * @param id
-	 * @return Result
-	 */
-	@GetMapping(value="/{id}")
-	public JsonData findLabelByPrimaryKey(@PathVariable String id){
-		Label label = labelService.findLabelByPrimaryKey(id);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),label);
-	}
+    @GetMapping(value = "/{id}")
+    @ApiOperation(value = "根据ID查询标签", notes = "Label")
+    public JsonData<Label> findLabelByPrimaryKey(@PathVariable String id) {
+        Label result = labelService.findLabelByPrimaryKey(id);
+        return JsonData.success(result);
+    }
 
-	/**
-	 * 增加标签
-	 * @param label 标签实体
-	 * @return JsonData
-	 */
-	@PostMapping()
-	public JsonData insertLabel(@RequestBody @Valid Label label){
-		labelService.insertLabel(label);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
-	}
+    @PostMapping()
+    @ApiOperation(value = "增加标签", notes = "Label")
+    public JsonData<Void> insertLabel(@RequestBody @Valid Label label) {
+        labelService.insertLabel(label);
+        return JsonData.success();
+    }
 
-	/**
-	 * 修改标签
-	 * @param label 标签实体
-	 * @return JsonData
-	 */
-	@PutMapping
-	public JsonData updateLabel(@RequestBody @Valid Label label){
-		labelService.updateLabel(label);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
-	}
+    @PutMapping
+    @ApiOperation(value = "修改标签", notes = "Label")
+    public JsonData<Void> updateLabel(@RequestBody @Valid Label label) {
+        labelService.updateLabel(label);
+        return JsonData.success();
+    }
 
-	/**
-	 * 删除标签
-	 * @param labelIds 要删除的id数组
-	 * @return JsonData
-	 */
-	@DeleteMapping
-	public JsonData deleteById(@RequestBody List<String> labelIds){
-		labelService.deleteById(labelIds);
-		return new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg());
-	}
+    @DeleteMapping
+    @ApiOperation(value = "删除标签", notes = "Label")
+    public JsonData<Void> deleteById(@RequestBody List<String> labelIds) {
+        labelService.deleteById(labelIds);
+        return JsonData.success();
+    }
 }

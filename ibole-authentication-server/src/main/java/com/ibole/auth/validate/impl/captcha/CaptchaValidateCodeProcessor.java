@@ -2,7 +2,6 @@ package com.ibole.auth.validate.impl.captcha;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ibole.auth.validate.AbstractValidateCodeProcessor;
-import com.ibole.enums.StatusEnum;
 import com.ibole.utils.JsonData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,17 +32,15 @@ public class CaptchaValidateCodeProcessor extends AbstractValidateCodeProcessor<
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-		ImageIO.write(captcha.getImage(),"JPEG", outputStream);
+		ImageIO.write(captcha.getImage(), "JPEG", outputStream);
 		String base64Code = Base64.getEncoder().encodeToString(outputStream.toByteArray());
 
 		HashMap<Object, Object> map = new HashMap<>();
-		map.put("deviceId",request.getHeader("DEVICE-ID"));
-		map.put("base64Code",base64Code);
-
-		JsonData jsonData = new JsonData(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), map);
+		map.put("deviceId", request.getHeader("DEVICE-ID"));
+		map.put("base64Code", base64Code);
 
 		request.getResponse().setContentType("application/json;charset=UTF-8");
-		request.getResponse().getWriter().write(objectMapper.writeValueAsString(jsonData));
+		request.getResponse().getWriter().write(objectMapper.writeValueAsString(JsonData.success(map)));
 
 	}
 

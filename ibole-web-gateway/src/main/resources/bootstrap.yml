@@ -19,5 +19,5 @@ spring:
     config:
       name: gateway
       label: master
-      uri: http://39.108.191.56:9009
+      uri: http://114.55.104.203:9009
       profile: prod

@@ -14,7 +14,7 @@ import java.util.ArrayList;
  **/
 
 
-public interface ApiTagsDao extends JpaRepository<Tags, Long>, JpaSpecificationExecutor<Tags> {
+public interface ApiTagsDao extends JpaRepository<Tags, String>, JpaSpecificationExecutor<Tags> {
 
     @Query(value = "SELECT *  FROM ar_tags at LEFT JOIN ( SELECT tags_id, count( * ) AS  tags_count FROM ar_article_tags  GROUP BY  tags_id ) aat ON at.id = aat.tags_id"
             , nativeQuery = true)

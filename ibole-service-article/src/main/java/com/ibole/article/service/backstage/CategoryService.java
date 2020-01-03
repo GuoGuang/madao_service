@@ -7,6 +7,7 @@ import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Category;
 import com.ibole.pojo.article.QCategory;
+import com.ibole.utils.DateUtil;
 import com.ibole.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.ExpressionUtils;
@@ -39,11 +40,6 @@ public class CategoryService {
         this.redisService = redisService;
     }
 
-    /**
-     * 查询全部列表
-     *
-     * @return IPage<Category>
-     */
     public QueryResults<Category> findCategoryByCondition(Category category, QueryVO queryVO) {
 
         QCategory qCategory = QCategory.category;
@@ -69,25 +65,18 @@ public class CategoryService {
 
     }
 
-    /**
-     * 根据ID查询实体
-     *
-     * @param categoryId 分类id
-     * @return Category
-     */
     public Category findCategoryById(String categoryId) {
         return categoryDao.findById(categoryId).orElseThrow(ResourceNotFoundException::new);
     }
 
     public void saveOrUpdate(Category category) {
+        category.setUpdateAt(DateUtil.getTimestamp());
+        if (category.getId() == null) {
+            category.setCreateAt(DateUtil.getTimestamp());
+        }
         categoryDao.save(category);
     }
 
-    /**
-     * 删除
-     *
-	 * @param categoryIds:分类id
-	 */
 	public void deleteCategoryByIds(List<String> categoryIds) {
 		categoryDao.deleteBatch(categoryIds);
 	}
