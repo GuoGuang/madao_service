@@ -223,6 +223,7 @@ pipeline {
                         sh "apt-get install sshpass"
                         // https://www.cnblogs.com/kaishirenshi/p/7921308.html
 //                        sh "sshpass -p ${REMOTE_IP_PASSWORD} ssh root@${REMOTE_IP}"
+                        // TODO 删除远程服务器docker镜像
                         sh "pwd"
                         sh "sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${REMOTE_IP} pwd "
                         sh "sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${REMOTE_IP} docker -v "
