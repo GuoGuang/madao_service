@@ -15,8 +15,6 @@ pipeline {
         //服务器参数采用了组合方式，避免多次选择，使用docker为更佳实践【参数值对外隐藏】
         choice(name: 'server', choices: '192.168.1.107,9090,*****,*****\n192.168.1.60,9090,*****,*****', description: '测试服务器列表选择(IP,JettyPort,Name,Passwd)')
         choice(name: 'project', choices: [
-            
-                'ibole-service-user:9007',
                 'ibole-server-eureka:5000',
                 'ibole-server-config:9009',
                 'ibole-service-user:9007',
