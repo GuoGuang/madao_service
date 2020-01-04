@@ -212,7 +212,6 @@ pipeline {
             steps {
                 echo "开始部署到----> ${serviceName}......"
                 script {
-                    echo "即将进入"
                     if ("${serviceName}" == "ibole-server-eureka" || "${serviceName}" == "ibole-server-config"){
                         sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
                         echo '-->> #本机构建成功-->>'
