@@ -172,8 +172,10 @@ pipeline {
                     sh "docker build -t ${serviceName}:${env.BUILD_ID} ."
                     sh "docker login --username=guoguang0536 --password ${DOCKER_HUB_PASSWORD}" // registry.cn-qingdao.aliyuncs.com
                     sh "docker tag ${serviceName}:${env.BUILD_ID} guoguang0536/${serviceName}:${env.BUILD_ID}"
-                    sh "docker push guoguang0536/${serviceName}:${env.BUILD_ID}"
-                    echo "构建并推送到远程服务器成功--->"
+                    if("${serviceName}" != "ibole-server-eureka" && "${serviceName}" != "ibole-server-config"){
+                        sh "docker push guoguang0536/${serviceName}:${env.BUILD_ID}"
+                        echo "构建并推送到远程服务器成功--->"
+                    }
                 }
             }
         }
