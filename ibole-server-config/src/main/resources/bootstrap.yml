@@ -8,7 +8,7 @@ spring:
         encrypt:
           enabled: true # 启用config加密功能
         git:
-          uri: https://github.com/GuoGuang0536/youyd_config.git
+          uri: https://github.com/GuoGuang/ibole_config.git
           searchPaths: ${spring.profiles.active}
           default-label: master
           username: GuoGuang0536@gmail.com
