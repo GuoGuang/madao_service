@@ -42,7 +42,7 @@ public class GateWayConfig {
 				// 微博服务
 				.route("tweet_route", r -> r.path("/ts/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-TWEETS"))
 				// 文章服务
-				.route("article_route", a -> a.path("/article/**").uri("lb://SERVICE-ARTICLE"))
+				.route("article_route", a -> a.path("/ar/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-ARTICLE"))
 
 				// 授权、鉴权、第三方登录
 				.route("auth_route", a -> a.path("/oauth/**").filters(f -> f.stripPrefix(0)).uri("lb://AUTHENTICATION-SERVER"))
