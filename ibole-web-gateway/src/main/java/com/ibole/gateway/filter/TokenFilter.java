@@ -59,13 +59,13 @@ public class TokenFilter implements GlobalFilter, Ordered {
 		String url = request.getPath().value();
 		LogBack.info("url:{},method:{},headers:{}", url, method, request.getHeaders());
 		//不需要网关签权的url
-		if (authService.ignoreAuthentication(url)) {
+		if (authService.ignoreAuthentication(url) || StringUtils.startsWith(url, "/api")) {
 			return chain.filter(exchange);
 		}
 		// 如果请求未携带token信息, 直接跳出
 		if (StringUtils.isBlank(authentication) || !authentication.contains(BEARER)) {
 			LogBack.error("url:{},method:{},headers:{}, 请求未携带token信息", url, method, request.getHeaders());
-			return unAuthorized(exchange,StatusEnum.PARAM_ILLEGAL);
+			return unAuthorized(exchange, StatusEnum.PARAM_ILLEGAL);
 		}
 
 		long expire = authService.getExpire(authentication);

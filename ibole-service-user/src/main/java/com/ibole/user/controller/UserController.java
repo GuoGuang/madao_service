@@ -23,7 +23,7 @@ import java.util.Map;
 
 @Api(tags = "用户管理")
 @RestController
-@RequestMapping(value = "/su/user", produces = "application/json")
+@RequestMapping(value = "/user", produces = "application/json")
 public class UserController {
 
 	private final UserService userService;

@@ -19,7 +19,7 @@ import java.util.Set;
 
 @Api(tags = "资源管理")
 @RestController
-@RequestMapping(value = "/su/resource")
+@RequestMapping(value = "/resource")
 public class ResourceController {
 
 

@@ -8,5 +8,5 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 public interface ArticleTagsDao extends JpaRepository<ArticleTags, String>,
 		JpaSpecificationExecutor<ArticleTags>, QuerydslPredicateExecutor<ArticleTags> {
 
-	Integer findCountByTagsId(String tagsId);
+	Integer countByTagsId(String tagsId);
 }

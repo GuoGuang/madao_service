@@ -5,12 +5,14 @@ import com.ibole.article.dao.backstage.TagsDao;
 import com.ibole.constant.CommonConst;
 import com.ibole.constant.RedisConstant;
 import com.ibole.db.redis.service.RedisService;
+import com.ibole.pojo.article.ArticleTags;
 import com.ibole.pojo.article.QTags;
 import com.ibole.pojo.article.Tags;
 import com.ibole.utils.JsonUtil;
 import com.ibole.utils.LogBack;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,7 +40,6 @@ public class ApiTagsService {
 
 	/**
 	 * 查询标签全部列表
-	 *
 	 * @return IPage<Tags>
 	 */
 	public List<Tags> findTagsByCondition() {
@@ -46,7 +47,11 @@ public class ApiTagsService {
 		List<Tags> tagsQueryResults = jpaQueryFactory
 				.selectFrom(qTags)
 				.fetch();
-		tagsQueryResults.forEach(tagsInfo -> tagsInfo.setTagsCount(articleTagsDao.findCountByTagsId(tagsInfo.getId())));
+		tagsQueryResults.forEach(tagsInfo -> {
+			ArticleTags articleTags = new ArticleTags();
+			articleTags.setTagsId(tagsInfo.getId());
+			tagsInfo.setArticlesOfTag(articleTagsDao.count(Example.of(articleTags)));
+		});
 		return tagsQueryResults;
 	}
 

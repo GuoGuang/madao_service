@@ -22,7 +22,7 @@ import java.util.List;
 
 @Api(tags = "前台网站文章")
 @RestController
-@RequestMapping(value = "/api/article", produces = "application/json")
+@RequestMapping(value = "/api/ar", produces = "application/json")
 public class ApiArticleController {
 
     @Autowired

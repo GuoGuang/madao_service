@@ -19,7 +19,7 @@ import java.io.IOException;
 
 @Api(tags = "用户画像")
 @RestController
-@RequestMapping(value = "/su/profile", produces = "application/json")
+@RequestMapping(value = "/profile", produces = "application/json")
 public class ProfileController {
 
     private final UserService userService;
