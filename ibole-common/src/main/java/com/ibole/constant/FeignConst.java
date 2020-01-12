@@ -16,8 +16,8 @@ public final class FeignConst {
 
 	/* 用户微服务 */
 	public static final String SERVICE_USER  = "service-user";
-	public static final String SERVICE_USER_PATH  = "/su/user";
-	public static final String SERVICE_RESOURCE_PATH  = "/su/resource";
+	public static final String SERVICE_USER_PATH  = "/user";
+	public static final String SERVICE_RESOURCE_PATH  = "/resource";
 
 	/* 认证微服务 */
 	public static final String SERVICE_AUTHENTICATION_AUTH  = "authentication-server";
