@@ -35,9 +35,10 @@ public class ProfileController {
     @PutMapping("avatar")
     @ApiOperation(value = "用户上传头像", notes = "用户上传头像")
     @ApiImplicitParam(name = "User", value = "用户上传头像", dataType = "Map", paramType = "query")
-    public JsonData<Void> updateUserAvatar(MultipartFile file, User user) throws IOException {
-        String fileUrl = ossClientUtil.uploadFile(file);
-        user.setAvatar(fileUrl);
+    public JsonData<Void> updateUserAvatar(MultipartFile file, User user) {
+    	// 暂无可用图床，自行对接图床
+		// String fileUrl = ossClientUtil.uploadFile(file);
+        user.setAvatar("https://vue-admin-guoguang.oss-cn-shanghai.aliyuncs.com/a.png");
         userService.updateUserProfile(user);
         return JsonData.success();
     }
