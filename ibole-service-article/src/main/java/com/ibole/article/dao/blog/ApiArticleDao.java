@@ -19,7 +19,7 @@ public interface ApiArticleDao extends JpaRepository<Article, String>, JpaSpecif
 	 * 获取随机六条文章作为推荐数据
 	 */
 	@Modifying
-	@Query(value = "SELECT id,title,upvote,description,create_at,update_at FROM ar_article ORDER BY rand() LIMIT 6",
+	@Query(value = "SELECT * FROM ar_article ORDER BY rand() LIMIT 6",
 			nativeQuery = true)
 	List<Article> findRelatedByRand();
 

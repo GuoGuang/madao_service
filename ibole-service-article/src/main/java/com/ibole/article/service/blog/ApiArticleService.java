@@ -7,6 +7,7 @@ import com.ibole.exception.custom.ResourceNotFoundException;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Article;
 import com.ibole.pojo.article.QArticle;
+import com.ibole.utils.JsonUtil;
 import com.ibole.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.ExpressionUtils;
@@ -49,7 +50,7 @@ public class ApiArticleService {
 		if (StringUtils.isNotEmpty(article.getCategoryId())) {
 			predicate = ExpressionUtils.and(predicate, qArticle.categoryId.eq(article.getCategoryId()));
 		}
-		QueryResults<Article> queryResults = jpaQueryFactory
+			QueryResults<Article> queryResults = jpaQueryFactory
 				.selectFrom(qArticle)
 				.where(predicate)
 				.offset(queryVO.getPageNum())
@@ -62,7 +63,7 @@ public class ApiArticleService {
 
 	public Article findArticleById(String articleId) {
 		Article article = articleDao.findById(articleId).orElseThrow(ResourceNotFoundException::new);
-		article.setRelated(articleDao.findRelatedByRand());
+		article.setRelated(JsonUtil.toJsonString(articleDao.findRelatedByRand()));
 		return article;
 	}
 

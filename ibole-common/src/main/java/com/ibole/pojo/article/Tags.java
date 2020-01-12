@@ -23,7 +23,7 @@ public class Tags extends BasePojo implements Serializable {
      */
     @Transient
     @ApiModelProperty("标签下文章数量")
-    private Long articlesOfTag;
+    private Long tagsCount;
 
     @Id
     @GeneratedValue(generator = "idGenerator")

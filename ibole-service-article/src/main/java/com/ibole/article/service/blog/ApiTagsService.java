@@ -50,7 +50,7 @@ public class ApiTagsService {
 		tagsQueryResults.forEach(tagsInfo -> {
 			ArticleTags articleTags = new ArticleTags();
 			articleTags.setTagsId(tagsInfo.getId());
-			tagsInfo.setArticlesOfTag(articleTagsDao.count(Example.of(articleTags)));
+			tagsInfo.setTagsCount(articleTagsDao.count(Example.of(articleTags)));
 		});
 		return tagsQueryResults;
 	}
