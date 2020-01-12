@@ -2,6 +2,7 @@ package com.ibole.auth.service;
 
 import com.ibole.api.user.UserServiceRpc;
 import com.ibole.config.CustomQueryResults;
+import com.ibole.exception.custom.RemoteRpcException;
 import com.ibole.pojo.user.Role;
 import com.ibole.pojo.user.User;
 import com.ibole.utils.JsonData;
@@ -42,7 +43,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 //		Page<User> defUser = userService.findUserByUser(user).getData();
 		JsonData<CustomQueryResults<User>> userByUser = userService.findUserByUser(user);
 		if (!userByUser.isStatus()) {
-			return null;
+			throw new RemoteRpcException(userByUser);
 		}
 		List<User> records = userByUser.getData().getResults();
 		if (records.size() != 1) {
