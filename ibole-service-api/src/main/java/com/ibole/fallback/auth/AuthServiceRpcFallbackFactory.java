@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * 接口调用失败处理
- *
  **/
 
 @Component
