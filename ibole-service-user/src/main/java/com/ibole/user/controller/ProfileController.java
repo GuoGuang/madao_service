@@ -15,15 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-
 @Api(tags = "用户画像")
 @RestController
 @RequestMapping(value = "/profile", produces = "application/json")
 public class ProfileController {
 
     private final UserService userService;
-    // 对象存储工具
+    // 对象存储工具OØ
     private final OssClientUtil ossClientUtil;
 
     @Autowired
