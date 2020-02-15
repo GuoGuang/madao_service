@@ -126,7 +126,7 @@ pipeline {
             agent {
                 docker {
                     image 'maven:3-alpine' 
-                    args '-v /root/.m2:/root/.m2 -v /root/maven-conf/settings.xml:/root/.m2/settings.xml '  //持载到本地，减少重复下载量，使用ali源
+                    args '-v /root/.m2:/root/.m2 '  //持载到本地，减少重复下载量，使用ali源
                 }
             }
             // maven打包命令
