@@ -33,9 +33,9 @@ pipeline {
         booleanParam(name: 'isCommitQA', description: '是否邮件通知测试人员进行人工验收', defaultValue: false)
     }
     //环境变量，初始确定后一般不需更改
-     tools {
+//     tools {
       //  maven 'maven3'
-     }
+    // }
     //常量参数，初始确定后一般不需更改
     environment {
 
