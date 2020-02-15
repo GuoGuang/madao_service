@@ -34,7 +34,7 @@ pipeline {
     }
     //环境变量，初始确定后一般不需更改
      tools {
-        maven 'maven3'
+      //  maven 'maven3'
      }
     //常量参数，初始确定后一般不需更改
     environment {
