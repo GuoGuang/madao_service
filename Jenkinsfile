@@ -123,12 +123,12 @@ pipeline {
         }
 
         stage("Maven构建") {
-          //  agent {
-           //     docker {
-          //          image 'maven:3.6'
-           //         args '-u root -v /data/jenkins:/root/.m2'  //持载到本地，减少重复下载量，使用ali源
-           //     }
-           // }
+            agent {
+                docker {
+                    image 'maven:3.6'
+                    args '-v /root/.m2:/root/.m2'  //持载到本地，减少重复下载量，使用ali源
+                }
+            }
             // maven打包命令
             steps {
                 echo "构建--->${serviceName}"
