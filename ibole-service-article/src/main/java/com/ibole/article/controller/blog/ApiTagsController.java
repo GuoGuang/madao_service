@@ -15,7 +15,7 @@ import java.util.List;
 
 @Api(tags = "前台标签管理")
 @RestController
-@RequestMapping(value = "/api/article/tags")
+@RequestMapping(value = "/api/ar/tags")
 public class ApiTagsController {
 
     private final ApiTagsService apiTagsService;

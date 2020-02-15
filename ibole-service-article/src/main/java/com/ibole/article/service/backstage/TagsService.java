@@ -5,22 +5,28 @@ import com.ibole.constant.CommonConst;
 import com.ibole.constant.RedisConstant;
 import com.ibole.db.redis.service.RedisService;
 import com.ibole.pojo.QueryVO;
+import com.ibole.pojo.article.QTags;
 import com.ibole.pojo.article.Tags;
+import com.ibole.utils.DateUtil;
 import com.ibole.utils.JsonUtil;
 import com.ibole.utils.LogBack;
+import com.ibole.utils.QuerydslUtil;
+import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * 后台标签
- **/
 @Service
 public class TagsService {
 
-	private final TagsDao bgTagsDao;
+	private final TagsDao tagsDao;
 
 	private final RedisService redisService;
 
@@ -28,35 +34,34 @@ public class TagsService {
 	JPAQueryFactory jpaQueryFactory;
 
 	@Autowired
-	public TagsService(TagsDao bgTagsDao, RedisService redisService) {
-		this.bgTagsDao = bgTagsDao;
+	public TagsService(TagsDao tagsDao, RedisService redisService) {
+		this.tagsDao = tagsDao;
 		this.redisService = redisService;
 	}
 
-	/**
-	 * 查询标签全部列表
-	 *
-	 * @return IPage<Tags>
-	 */
-	public List<Tags> findTagsByCondition(Tags tags, QueryVO queryVO) {
-//		Page<Tags> pr = new Page<>(queryVO.getPageNum(),queryVO.getPageSize());
-//		LambdaQueryWrapper<Tags> queryWrapper = new LambdaQueryWrapper<>();
-//		if (StringUtils.isNotEmpty(tags.getName())) {
-//			queryWrapper.like(Tags::getName, tags.getName());
-//		}
-//		if (StringUtils.isNotEmpty(tags.getState())) {
-//			queryWrapper.eq(Tags::getState, tags.getState());
-//		}
-//		return bgTagsDao.selectPage(pr, queryWrapper);
-		return null;
+	public QueryResults<Tags> findTagsByCondition(Tags tags, QueryVO queryVO) {
+
+		QTags qTags = QTags.tags;
+		Predicate predicate = null;
+		OrderSpecifier<?> sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qTags);
+		if (StringUtils.isNotEmpty(tags.getName())) {
+			predicate = ExpressionUtils.and(predicate, qTags.name.like(tags.getName()));
+		}
+		if (tags.getState() != null) {
+			predicate = ExpressionUtils.and(predicate, qTags.state.eq(tags.getState()));
+		}
+		if (StringUtils.isNotEmpty(queryVO.getFieldSort())) {
+			sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qTags, queryVO.getFieldSort());
+		}
+		return jpaQueryFactory
+				.selectFrom(qTags)
+				.where(predicate)
+				.offset(queryVO.getPageNum())
+				.limit(queryVO.getPageSize())
+				.orderBy(sortedColumn)
+				.fetchResults();
 	}
 
-	/**
-	 * 根据ID查询标签
-	 *
-	 * @param id 标签id
-	 * @return Tags
-	 */
 	public Tags findTagsById(String id) {
 		Tags tags = null;
 		try {
@@ -67,8 +72,6 @@ public class TagsService {
 		} catch (Exception e) {
 			LogBack.error("findTagsById->查询标签异常，参数为：{}", id, e);
 		}
-
-//		tags = bgTagsDao.selectById(id);
 		try {
 			redisService.set(RedisConstant.REDIS_KEY_ARTICLE + id, tags, CommonConst.TIME_OUT_DAY);
 		} catch (Exception e) {
@@ -78,33 +81,16 @@ public class TagsService {
 
 	}
 
-	/**
-	 * 增加
-	 *
-	 * @param tags 实体
-	 */
-	public void insertTags(Tags tags) {
-//		bgTagsDao.insert(tags);
+	public void saveOrUpdate(Tags tags) {
+		tags.setUpdateAt(DateUtil.getTimestamp());
+		if (tags.getId() == null) {
+			tags.setCreateAt(DateUtil.getTimestamp());
+		}
+		tagsDao.save(tags);
 	}
 
-	/**
-	 * 修改
-	 *
-	 * @param tags 实体
-	 */
-	public void updateTagsById(Tags tags) {
-		redisService.del("tags_" + tags.getId());
-//		bgTagsDao.updateById(tags);
-	}
-
-	/**
-	 * 删除
-	 *
-	 * @param tagsIds:文章id集合
-	 */
-	public void deleteByIds(List tagsIds) {
-		redisService.del("tags_" + tagsIds);
-//		bgTagsDao.deleteBatchIds(tagsIds);
+	public void deleteBatch(List<String> tagsIds) {
+		tagsDao.deleteBatch(tagsIds);
 	}
 
 

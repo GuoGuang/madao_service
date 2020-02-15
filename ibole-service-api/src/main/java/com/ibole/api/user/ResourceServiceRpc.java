@@ -15,7 +15,8 @@ import java.util.List;
  * 资源服务api
  **/
 
-@FeignClient(contextId = "resourceClient", value = FeignConst.SERVICE_USER,
+@FeignClient(contextId = "resourceClient",
+		value = FeignConst.SERVICE_USER,
 		path = FeignConst.SERVICE_RESOURCE_PATH,
 		fallbackFactory = ResourceServiceRpcFallbackFactory.class,
 		configuration = {FeignClientConfig.class})

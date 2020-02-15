@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * 鉴权服务api
  **/
-
 @FeignClient(contextId = "authClient",
 		value = FeignConst.SERVICE_AUTHORIZATION_AUTH,
 		path = FeignConst.SERVICE_AUTHORIZATION_AUTH_PATH,

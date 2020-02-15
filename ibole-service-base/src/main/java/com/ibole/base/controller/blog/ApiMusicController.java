@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Api(tags = "音乐")
 @RestController
-@RequestMapping(value = "/api/base/music")
+@RequestMapping(value = "/api/ba/music")
 public class ApiMusicController {
 
 	private final ApiMusicService apiMusicService;

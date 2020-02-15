@@ -73,9 +73,12 @@ public class JsonUtil {
 	 * @param clazz 类型
 	 * @return java对象
 	 */
-	public static synchronized <T> T jsonToPojo(String jsonStr, Class<T> clazz) {
+	public static synchronized <T> T jsonToPojo(Object jsonStr, Class<T> clazz) {
+		if (jsonStr == null){
+			return null;
+		}
 		try {
-			return objectMapper.readValue(jsonStr, clazz);
+			return objectMapper.readValue(jsonStr.toString(), clazz);
 		} catch (IOException e) {
             LogBack.error(JACKSON_ERROR, e.getMessage());
 			e.printStackTrace();

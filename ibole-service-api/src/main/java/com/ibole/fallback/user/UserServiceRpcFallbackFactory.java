@@ -22,19 +22,16 @@ public class UserServiceRpcFallbackFactory implements FallbackFactory<UserServic
 	@Override
 	public UserServiceRpc create(Throwable throwable) {
 		return new UserServiceRpc() {
-
             @Override
             public JsonData<CustomQueryResults<User>> findUserByUser(User user) {
                 LogBack.error(ERROR_INFO, "findUserByUser", user, throwable);
                 return JsonData.failed(StatusEnum.RPC_ERROR);
             }
-
             @Override
             public JsonData<User> findUserByAccount(User account) {
                 LogBack.error(ERROR_INFO, "findUserByAccount", account, throwable);
                 return JsonData.failed(StatusEnum.RPC_ERROR);
             }
-
             @Override
             public JsonData<CustomQueryResults<User>> findUser() {
                 return JsonData.failed(StatusEnum.RPC_ERROR);

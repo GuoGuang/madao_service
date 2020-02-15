@@ -21,6 +21,8 @@ public class CorsConfig {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		//在生产环境上最好指定域名，以免产生跨域安全问题
 		corsConfiguration.addAllowedOrigin("http://localhost:9527");
+		// 前台博客
+		corsConfiguration.addAllowedOrigin("http://localhost:3000");
 		corsConfiguration.addAllowedHeader("*");
 		corsConfiguration.addAllowedMethod("*");
 		return corsConfiguration;

@@ -15,7 +15,6 @@ pipeline {
         //服务器参数采用了组合方式，避免多次选择，使用docker为更佳实践【参数值对外隐藏】
         choice(name: 'server', choices: '192.168.1.107,9090,*****,*****\n192.168.1.60,9090,*****,*****', description: '测试服务器列表选择(IP,JettyPort,Name,Passwd)')
         choice(name: 'project', choices: [
-            
                 'ibole-server-config:9009',
                 'ibole-server-eureka:5000',
                 'ibole-service-user:9007',
@@ -134,15 +133,14 @@ pipeline {
             steps {
                 echo "构建--->${serviceName}"
                 sh "pwd"
-                //sh "mvn -B -DskipTests install -f ibole_service/ibole-common-parent"
-                //sh "mvn -B -DskipTests clean package install -f ibole_service/${serviceName}"
+                sh "/bin/cp /var/jenkins_home/service-config/config-server.jks ibole_service/ibole-server-config/src/main/resources/"
+                sh "/bin/cp /var/jenkins_home/service-config/bootstrap.yml ibole_service/ibole-server-config/src/main/resources/"
+                // sh "mvn -B -DskipTests install -f ibole_service/ibole-common-parent"
+                // sh "mvn -B -DskipTests clean package install -f ibole_service/${serviceName}"
                 sh "mvn -B -DskipTests install -f ibole_service/ibole-common"
-                sh "mvn -B -DskipTests install -f ibole_service/ibole-service-api"
                 sh "mvn -B -DskipTests install -f ibole_service/ibole-common-db"
+                sh "mvn -B -DskipTests install -f ibole_service/ibole-service-api"
                 sh "mvn -B -DskipTests install -f ibole_service/${serviceName}"
-                sh "pwd"
-                sh "/bin/cp /var/jenkins_home/config-server.jks ibole_service/ibole-server-config/src/main/resources/"
-                sh "/bin/cp /var/jenkins_home/bootstrap.yml ibole_service/ibole-server-config/src/main/resources/"
                 echo '-->> -->>maven打包构建完成!'
 
             }
@@ -177,11 +175,12 @@ pipeline {
                     sh "docker build -t ${serviceName}:${env.BUILD_ID} ."
                     sh "docker login --username=guoguang0536 --password ${DOCKER_HUB_PASSWORD}" // registry.cn-qingdao.aliyuncs.com
                     sh "docker tag ${serviceName}:${env.BUILD_ID} guoguang0536/${serviceName}:${env.BUILD_ID}"
-                    if("${serviceName}" != "ibole-server-eureka" && "${serviceName}" != "ibole-server-config"){
-                        sh "docker push guoguang0536/${serviceName}:${env.BUILD_ID}"
-                        echo "构建并推送到远程服务器成功--->"
+                    script {
+                        if("${serviceName}" != "ibole-server-eureka" && "${serviceName}" != "ibole-server-config"){
+                            sh "docker push guoguang0536/${serviceName}:${env.BUILD_ID}"
+                            echo "构建并推送到远程服务器成功--->"
+                        }
                     }
-                   
                 }
             }
         }

@@ -15,15 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-
 @Api(tags = "用户画像")
 @RestController
-@RequestMapping(value = "/su/profile", produces = "application/json")
+@RequestMapping(value = "/profile", produces = "application/json")
 public class ProfileController {
 
     private final UserService userService;
-    // 对象存储工具
+    // 对象存储工具OØ
     private final OssClientUtil ossClientUtil;
 
     @Autowired
@@ -35,9 +33,10 @@ public class ProfileController {
     @PutMapping("avatar")
     @ApiOperation(value = "用户上传头像", notes = "用户上传头像")
     @ApiImplicitParam(name = "User", value = "用户上传头像", dataType = "Map", paramType = "query")
-    public JsonData<Void> updateUserAvatar(MultipartFile file, User user) throws IOException {
-        String fileUrl = ossClientUtil.uploadFile(file);
-        user.setAvatar(fileUrl);
+    public JsonData<Void> updateUserAvatar(MultipartFile file, User user) {
+    	// 暂无可用图床，自行对接图床
+		// String fileUrl = ossClientUtil.uploadFile(file);
+        user.setAvatar("https://vue-admin-guoguang.oss-cn-shanghai.aliyuncs.com/a.png");
         userService.updateUserProfile(user);
         return JsonData.success();
     }

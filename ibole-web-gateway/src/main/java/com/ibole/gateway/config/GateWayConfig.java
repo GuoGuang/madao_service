@@ -36,22 +36,21 @@ public class GateWayConfig {
 	@Bean
 	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
 		return builder.routes()
-				.route("user_route", r -> r.path("/su/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-USER"))
+				// 用户服务
+				.route("user_route", r -> r.path("/su/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-USER"))
 				// 基础服务
-				.route("base_route", r -> r.path("/base/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-BASE"))
-				// 微博服务
-				.route("tweet_route", r -> r.path("/ts/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-TWEETS"))
+				.route("base_route", r -> r.path("/ba/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-BASE"))
 				// 文章服务
-				.route("article_route", a -> a.path("/article/**").uri("lb://SERVICE-ARTICLE"))
+				.route("article_route", a -> a.path("/ar/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-ARTICLE"))
 
 				// 授权、鉴权、第三方登录
 				.route("auth_route", a -> a.path("/oauth/**").filters(f -> f.stripPrefix(0)).uri("lb://AUTHENTICATION-SERVER"))
 				.route("social_route", a -> a.path("/social/**").filters(f -> f.stripPrefix(1)).uri("lb://AUTHENTICATION-SERVER"))
 
 				// API
-				.route("api_base_route", r -> r.path("/api/base/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-BASE"))
-				.route("api_article_route", a -> a.path("/api/article/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-ARTICLE"))
-				.route("api_article_route", a -> a.path("/api/user/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-USER"))
+				.route("api_base_route", r -> r.path("/api/ba/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-BASE"))
+				.route("api_article_route", a -> a.path("/api/ar/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-ARTICLE"))
+				.route("api_user_route", a -> a.path("/api/su/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-USER"))
 
 				.build();
 	}

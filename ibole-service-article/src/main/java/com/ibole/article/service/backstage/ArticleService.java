@@ -97,17 +97,7 @@ public class ArticleService {
 	 * @return Article
 	 */
 	public Article findArticleById(String articleId) {
-		Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + articleId);
-		Article article;
-		if (mapJson == null) {
-			Article byId = articleDao.findById(articleId).orElseThrow(ResourceNotFoundException::new);
-			redisService.set(RedisConstant.REDIS_KEY_ARTICLE + articleId, byId, CommonConst.TIME_OUT_DAY);
-			return byId;
-		} else {
-			article = JsonUtil.jsonToPojo(mapJson.toString(), Article.class);
-			article = (Article)mapJson;
-		}
-		return article;
+		return articleDao.findById(articleId).orElseThrow(ResourceNotFoundException::new);
 	}
 
 	/**

@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Api(tags = "管理员信息")
 @RestController
-@RequestMapping(value = "/api/user/admin")
+@RequestMapping(value = "/api/su/admin")
 public class AdminController {
 
     @GetMapping

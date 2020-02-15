@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Api(tags = "前台分类")
 @RestController
-@RequestMapping(value = "/api/article/category")
+@RequestMapping(value = "/api/ar/category")
 public class ApiCategoryController {
 
     @ApiOperation(value = "查询分类集合", notes = "Category")

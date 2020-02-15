@@ -32,7 +32,7 @@ public class Article extends BasePojo implements Serializable {
 
     @ApiModelProperty("推荐阅读")
     @Transient
-    private List<Article> related;
+    private String related;
 
     @ApiModelProperty("用户名")
     @Transient

@@ -17,7 +17,7 @@ import java.util.List;
 
 @Api(tags = "文章分类管理")
 @RestController
-@RequestMapping(value = "/article/category", produces = "application/json")
+@RequestMapping(value = "/category", produces = "application/json")
 public class CategoryController {
 
     private final CategoryService categoryService;

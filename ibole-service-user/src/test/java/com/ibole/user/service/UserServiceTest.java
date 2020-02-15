@@ -33,8 +33,8 @@ import java.util.List;
 public class UserServiceTest {
 	@Autowired
 	private UserService userService;
-	@Autowired(required = false)
-	private OSSClient ossClient; // 阿里云OSS对象存储
+//	@Autowired(required = false)
+//	private OSSClient ossClient; // 阿里云OSS对象存储
 
 
 	@Autowired
@@ -55,10 +55,10 @@ public class UserServiceTest {
         final String localFile = "D:/6.png";
         final String downloadFile = "demo.jpg";
         File file = new File(localFile);
-        PutObjectResult putObjectResult = ossClient.putObject(bucketName, fileKey, file);
-        final InputStream inputStream = ossClient.getObject(bucketName, fileKey).getObjectContent();
-        StreamUtils.copy(inputStream, new FileOutputStream(downloadFile));
-        System.out.println(ossClient.generatePresignedUrl(bucketName, fileKey, new Date(System.currentTimeMillis() + (1000 * 30)), HttpMethod.GET).toString());
+//        PutObjectResult putObjectResult = ossClient.putObject(bucketName, fileKey, file);
+//        final InputStream inputStream = ossClient.getObject(bucketName, fileKey).getObjectContent();
+//        StreamUtils.copy(inputStream, new FileOutputStream(downloadFile));
+//        System.out.println(ossClient.generatePresignedUrl(bucketName, fileKey, new Date(System.currentTimeMillis() + (1000 * 30)), HttpMethod.GET).toString());
     }
 
     @Test

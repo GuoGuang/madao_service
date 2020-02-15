@@ -6,6 +6,7 @@ import com.ibole.constant.CommonConst;
 import com.ibole.pojo.QueryVO;
 import com.ibole.pojo.article.Tags;
 import com.ibole.utils.JsonData;
+import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ public class TagsController {
 
     @ApiOperation(value = "查询标签集合", notes = "tags")
     @GetMapping
-    public JsonData<List<Tags>> findArticleByCondition(Tags tags, QueryVO queryVO) {
-        List<Tags> result = tagsService.findTagsByCondition(tags, queryVO);
+    public JsonData<QueryResults<Tags>> findArticleByCondition(Tags tags, QueryVO queryVO) {
+        QueryResults<Tags> result = tagsService.findTagsByCondition(tags, queryVO);
         return JsonData.success(result);
     }
 
@@ -44,7 +45,7 @@ public class TagsController {
     @PostMapping
     @OptLog(operationType = CommonConst.ADD, operationName = "增加文章标签")
     public JsonData<Void> insertArticle(@RequestBody @Valid Tags tags) {
-        tagsService.insertTags(tags);
+        tagsService.saveOrUpdate(tags);
         return JsonData.success();
     }
 
@@ -52,7 +53,7 @@ public class TagsController {
     @PutMapping
     @OptLog(operationType = CommonConst.MODIFY, operationName = "修改文章标签")
     public JsonData<Void> updateTagsById(@RequestBody @Valid Tags tags) {
-        tagsService.updateTagsById(tags);
+        tagsService.saveOrUpdate(tags);
         return JsonData.success();
     }
 
@@ -60,7 +61,7 @@ public class TagsController {
     @DeleteMapping
     @OptLog(operationType = CommonConst.DELETE, operationName = "删除文章标签")
     public JsonData<Void> delete(@RequestBody List<String> articleIds) {
-        tagsService.deleteByIds(articleIds);
+        tagsService.deleteBatch(articleIds);
         return JsonData.success();
     }
 

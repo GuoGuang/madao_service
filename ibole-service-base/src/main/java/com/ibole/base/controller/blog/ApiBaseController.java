@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Api(tags = "基础接口")
 @RestController
-@RequestMapping(value = "/api/base")
+@RequestMapping(value = "/api/ba")
 public class ApiBaseController {
 
     @GetMapping("/announcement")
