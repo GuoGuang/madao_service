@@ -125,7 +125,7 @@ pipeline {
         stage("Maven构建") {
             agent {
                 docker {
-                    image 'maven:3.6'
+                    image 'maven:3-alpine' 
                     args '-v /root/.m2:/root/.m2'  //持载到本地，减少重复下载量，使用ali源
                 }
             }
