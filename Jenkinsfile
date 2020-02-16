@@ -170,7 +170,7 @@ pipeline {
                 // dir(path: "../ibole_service_develop@2/${params.project}") {
                 //dir(path: "../ibole_service_develop@2/${serviceName}") {
                     
-                dir(path: "../${WORKSPACE}@2/${serviceName}") {
+                dir(path: "/${WORKSPACE}@2/${serviceName}") {
                     sh "pwd"
                     // 构建镜像
                     sh "docker build -t ${serviceName}:${env.BUILD_ID} ."
