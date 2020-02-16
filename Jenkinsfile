@@ -33,9 +33,9 @@ pipeline {
         booleanParam(name: 'isCommitQA', description: '是否邮件通知测试人员进行人工验收', defaultValue: false)
     }
     //环境变量，初始确定后一般不需更改
-     tools {
-        maven 'maven3'
-     }
+//     tools {
+      //  maven 'maven3'
+    // }
     //常量参数，初始确定后一般不需更改
     environment {
 
@@ -123,24 +123,23 @@ pipeline {
         }
 
         stage("Maven构建") {
-          //  agent {
-           //     docker {
-          //          image 'maven:3.6'
-           //         args '-u root -v /data/jenkins:/root/.m2'  //持载到本地，减少重复下载量，使用ali源
-           //     }
-           // }
+            agent {
+                docker {
+                    image 'maven:3-alpine' 
+                    args '-v /root/.m2:/root/.m2 '  //持载到本地，减少重复下载量，使用ali源
+                }
+            }
             // maven打包命令
             steps {
                 echo "构建--->${serviceName}"
                 sh "pwd"
-                sh "/bin/cp /var/jenkins_home/service-config/config-server.jks ibole_service/ibole-server-config/src/main/resources/"
-                sh "/bin/cp /var/jenkins_home/service-config/bootstrap.yml ibole_service/ibole-server-config/src/main/resources/"
-                // sh "mvn -B -DskipTests install -f ibole_service/ibole-common-parent"
-                // sh "mvn -B -DskipTests clean package install -f ibole_service/${serviceName}"
-                sh "mvn -B -DskipTests install -f ibole_service/ibole-common"
-                sh "mvn -B -DskipTests install -f ibole_service/ibole-common-db"
-                sh "mvn -B -DskipTests install -f ibole_service/ibole-service-api"
-                sh "mvn -B -DskipTests install -f ibole_service/${serviceName}"
+                sh "/bin/cp /var/jenkins_home/service-config/config-server.jks ibole-server-config/src/main/resources/"
+                sh "/bin/cp /var/jenkins_home/service-config/bootstrap.yml ibole-server-config/src/main/resources/"
+                sh "mvn -B -DskipTests install -f ibole-common-parent"
+                sh "mvn -B -DskipTests install -f ibole-common"
+                sh "mvn -B -DskipTests install -f ibole-common-db"
+                sh "mvn -B -DskipTests install -f ibole-service-api"
+                sh "mvn -B -DskipTests install -f ${serviceName}"
                 echo '-->> -->>maven打包构建完成!'
 
             }
@@ -169,7 +168,9 @@ pipeline {
                 // 直接的构建是在容器里，这个是在 Jenkins 容器里，所以空间不一样 容器的空间是原空间路径后面多了 @2
                 // 或者说在 Maven构建 步骤把 'cd ${WORKSPACE}/ibole-server-eureka' 替换为'cd ${WORKSPACE}@2/ibole-server-eureka'
                 // dir(path: "../ibole_service_develop@2/${params.project}") {
-                dir(path: "ibole_service/${serviceName}") {
+                //dir(path: "../ibole_service_develop@2/${serviceName}") {
+                    
+                dir(path: "/${WORKSPACE}@2/${serviceName}") {
                     sh "pwd"
                     // 构建镜像
                     sh "docker build -t ${serviceName}:${env.BUILD_ID} ."

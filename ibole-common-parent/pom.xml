@@ -158,23 +158,23 @@
 
         </dependencies>
     </dependencyManagement>
-    <modules>
-        <module>../ibole-common</module>
-        <module>../ibole-common-db</module>
-        <module>../ibole-server-eureka</module>
-        <module>../ibole-server-config</module>
-        <module>../ibole-server-monitor</module>
-        <module>../ibole-service-base</module>
-        <module>../ibole-service-article</module>
-        <module>../ibole-service-tweets</module>
-        <module>../ibole-service-search</module>
-        <module>../ibole-service-api</module>
-        <module>../ibole-service-user</module>
-        <module>../ibole-web-gateway</module>
-        <module>../ibole-web-platform</module>
-        <module>../ibole-authorization-server</module>
-        <module>../ibole-authentication-server</module>
-    </modules>
+   <!--    <modules>-->
+<!--        <module>../ibole-common</module>-->
+<!--        <module>../ibole-common-db</module>-->
+<!--        <module>../ibole-server-eureka</module>-->
+<!--        <module>../ibole-server-config</module>-->
+<!--        <module>../ibole-server-monitor</module>-->
+<!--        <module>../ibole-service-base</module>-->
+<!--        <module>../ibole-service-article</module>-->
+<!--        <module>../ibole-service-tweets</module>-->
+<!--        <module>../ibole-service-search</module>-->
+<!--        <module>../ibole-service-api</module>-->
+<!--        <module>../ibole-service-user</module>-->
+<!--        <module>../ibole-web-gateway</module>-->
+<!--        <module>../ibole-web-platform</module>-->
+<!--        <module>../ibole-authorization-server</module>-->
+<!--        <module>../ibole-authentication-server</module>-->
+<!--    </modules>-->
     <packaging>pom</packaging>
 
     <build>

@@ -6,7 +6,7 @@
         <artifactId>ibole-common-parent</artifactId>
         <groupId>com.ibole</groupId>
         <version>1.0.0</version>
-        <relativePath>../ibole-common-parent/pom.xml</relativePath>
+<!--        <relativePath>./ibole-common-parent/pom.xml</relativePath>-->
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
