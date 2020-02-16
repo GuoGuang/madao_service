@@ -137,6 +137,7 @@ pipeline {
                 sh "/bin/cp /var/jenkins_home/service-config/bootstrap.yml ibole-server-config/src/main/resources/"
                 sh "mvn -B -DskipTests install -f ibole-common"
                 sh "mvn -B -DskipTests install -f ibole-common-db"
+                sh "mvn -B -DskipTests install -f ibole-service-api"
                 sh "mvn -B -DskipTests install -f ${serviceName}"
                 echo '-->> -->>maven打包构建完成!'
 
