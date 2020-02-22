@@ -34,7 +34,7 @@ import java.util.Arrays;
  **/
 @Configuration
 @EnableAuthorizationServer
-class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
     private DruidDataSource dataSource;
@@ -60,7 +60,6 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     @Resource(name = "keyProp")
     private KeyProperties keyProperties;
 
-
     //客户端配置
     @Bean
     public ClientDetailsService clientDetails() {
@@ -68,9 +67,7 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     }
 
 	/**
-	 * 指定token存储在数据库还是内存
-	 * @param clients
-	 * @throws Exception
+	 * 配置客户端应用
 	 */
 	@Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -86,7 +83,37 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
                 .scopes("app");//客户端范围，名称自定义，必填
     }
 
-    //token的存储方法
+
+	/**
+	 * 端点配置
+	 * 配置用户认证
+	 * 所有的用户认证逻辑，由authenticationManager统一管理
+	 */
+	@Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+        endpoints.accessTokenConverter(jwtAccessTokenConverter)
+                .authenticationManager(authenticationManager)//认证管理器
+                .tokenStore(tokenStore)//令牌存储
+		        .tokenEnhancer(tokenEnhancerChain())
+		        .exceptionTranslator(customWebResponseExceptionTranslator)
+                .userDetailsService(userDetailsService);//用户信息service
+    }
+
+	/**
+	 * 配置 checkTokenAccess 允许哪些请求
+	 */
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
+        oauthServer.allowFormAuthenticationForClients()
+                .passwordEncoder(new BCryptPasswordEncoder())
+                .tokenKeyAccess("permitAll()")
+                .checkTokenAccess("isAuthenticated()");
+    }
+
+
+
+
+	//token的存储方法
 //    @Bean
 //    public InMemoryTokenStore tokenStore() {
 //        //将令牌存储到内存
@@ -108,57 +135,29 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 		return tokenEnhancerChain;
 	}
 
-    @Bean
-    @Autowired
-    public TokenStore tokenStore(JwtAccessTokenConverter jwtAccessTokenConverter) {
-        return new JwtTokenStore(jwtAccessTokenConverter);
-    }
+	@Bean
+	@Autowired
+	public TokenStore tokenStore(JwtAccessTokenConverter jwtAccessTokenConverter) {
+		return new JwtTokenStore(jwtAccessTokenConverter);
+	}
 
 	/**
 	 * 配置AccessToken加密方式
 	 */
 	@Bean
-    public JwtAccessTokenConverter jwtAccessTokenConverter(CustomUserAuthenticationConverter customUserAuthenticationConverter) {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        KeyPair keyPair = new KeyStoreKeyFactory(
-        		        keyProperties.getKeyStore().getLocation(),
-		                keyProperties.getKeyStore().getSecret().toCharArray()).getKeyPair(
-		                		keyProperties.getKeyStore().getAlias(),
-		                        keyProperties.getKeyStore().getPassword().toCharArray());
-        converter.setKeyPair(keyPair);
-        //配置自定义的CustomUserAuthenticationConverter
-        DefaultAccessTokenConverter accessTokenConverter = (DefaultAccessTokenConverter) converter.getAccessTokenConverter();
-        accessTokenConverter.setUserTokenConverter(customUserAuthenticationConverter);
-        return converter;
-    }
-
-	/**
-	 * 授权服务器端点配置
-	 */
-	@Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        endpoints.accessTokenConverter(jwtAccessTokenConverter)
-                .authenticationManager(authenticationManager)//认证管理器
-                .tokenStore(tokenStore)//令牌存储
-		        .tokenEnhancer(tokenEnhancerChain())
-		        .exceptionTranslator(customWebResponseExceptionTranslator)
-                .userDetailsService(userDetailsService);//用户信息service
-    }
-
-
-	/**
-	 * 授权服务器的安全配置
-	 * https://codeday.me/bug/20181222/463600.html
-	 * @param oauthServer
-	 */
-    @Override
-    public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
-        oauthServer.allowFormAuthenticationForClients()
-                .passwordEncoder(new BCryptPasswordEncoder())
-                .tokenKeyAccess("permitAll()")
-                .checkTokenAccess("isAuthenticated()");
-    }
-
+	public JwtAccessTokenConverter jwtAccessTokenConverter(CustomUserAuthenticationConverter customUserAuthenticationConverter) {
+		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+		KeyPair keyPair = new KeyStoreKeyFactory(
+				keyProperties.getKeyStore().getLocation(),
+				keyProperties.getKeyStore().getSecret().toCharArray()).getKeyPair(
+				keyProperties.getKeyStore().getAlias(),
+				keyProperties.getKeyStore().getPassword().toCharArray());
+		converter.setKeyPair(keyPair);
+		//配置自定义的CustomUserAuthenticationConverter
+		DefaultAccessTokenConverter accessTokenConverter = (DefaultAccessTokenConverter) converter.getAccessTokenConverter();
+		accessTokenConverter.setUserTokenConverter(customUserAuthenticationConverter);
+		return converter;
+	}
 
 
 }

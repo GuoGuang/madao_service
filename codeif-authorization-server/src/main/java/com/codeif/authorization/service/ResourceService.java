@@ -26,8 +26,6 @@ public class ResourceService {
     }
 
     public Set<Resource> queryByRoleIds(String[] roleIds) {
-	    HashSet<Resource> resources = new HashSet<>();
-	    resources.add(new Resource());
 	    JsonData<List<Resource>> resourceOfRole = resourceServiceRpc.findResourceByRoleIds(roleIds);
 	    if (!JsonData.isSuccess(resourceOfRole)){
 		    throw new RemoteRpcException(resourceOfRole);

@@ -6,6 +6,7 @@ import com.codeif.auth.filter.SmsCodeAuthenticationFilter;
 import com.codeif.auth.handler.CustomAuthenticationFailureHandler;
 import com.codeif.auth.handler.CustomAuthenticationSuccessHandler;
 import com.codeif.auth.provider.CaptchaAuthenticationProvider;
+import com.codeif.auth.provider.SmsCodeAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +28,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 @Configuration
 @EnableWebSecurity
 @Order(-1)
-public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
+public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 	@Autowired
@@ -36,6 +37,11 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 	// 短信验证码
 	//@Autowired
 	//private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
+	@Autowired
+	private SmsCodeAuthenticationProvider SmsCodeAuthenticationProvider;
+	@Autowired
+	private CaptchaAuthenticationProvider captchaAuthenticationProvider;
 
 	// 全局过滤器校验码
 	@Autowired
@@ -47,11 +53,11 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
-
 	@Override
 	public void configure(WebSecurity web){
 		web.ignoring().antMatchers("/oauth/**","/connect/**");
 	}
+
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -111,10 +117,11 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 		return captchaAuthenticationFilter;
 	}
 
-	@Autowired
-	com.codeif.auth.provider.SmsCodeAuthenticationProvider SmsCodeAuthenticationProvider;
-	@Autowired
-	CaptchaAuthenticationProvider captchaAuthenticationProvider;
+	/**
+	 * 构建AuthorizationServerConfig.configure(AuthorizationServerEndpointsConfigurer endpoints)
+	 * 所需的authenticationManager
+	 * 目前支持验证码和手机验证码登录
+	 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(SmsCodeAuthenticationProvider)

@@ -18,35 +18,34 @@ import java.util.Map;
  **/
 @Component
 public class CustomUserAuthenticationConverter extends DefaultUserAuthenticationConverter {
-    @Autowired
-    UserDetailsService userDetailsService;
 
-    @Override
-    public Map<String, ?> convertUserAuthentication(Authentication authentication) {
-        LinkedHashMap response = new LinkedHashMap();
-        String name = authentication.getName();
-        Object principal = authentication.getPrincipal();
-        UserJwt userJwt = null;
-        if(principal instanceof  UserJwt){
-            userJwt = (UserJwt) principal;
-        }else{
-            //refresh_token默认不去调用userdetailService获取用户信息，手动去调用，得到 UserJwt
-            UserDetails userDetails = userDetailsService.loadUserByUsername(name);
-            userJwt = (UserJwt) userDetails;
-        }
-        response.put("name", userJwt.getName());
-        response.put("id", userJwt.getId());
-        response.put("account",userJwt.getAccount());
-        response.put("nickName",userJwt.getNickName());
-        response.put("email",userJwt.getEmail());
-        response.put("phone",userJwt.getPhone());
-        response.put("avatar",userJwt.getAvatar());
-        if (authentication.getAuthorities() != null && !authentication.getAuthorities().isEmpty()) {
-            response.put("authorities", AuthorityUtils.authorityListToSet(authentication.getAuthorities()));
-        }
+	@Autowired
+	UserDetailsService userDetailsService;
 
-        return response;
-    }
+	/**
+	 * 定义access_token内容，JWT谁都可读
+	 * 不应该在载荷里面加入任何敏感的数据
+	 */
+	@Override
+	public Map<String, ?> convertUserAuthentication(Authentication authentication) {
+		LinkedHashMap<String,Object> response = new LinkedHashMap<>();
+		String name = authentication.getName();
+		Object principal = authentication.getPrincipal();
+		UserJwt userJwt = null;
+		if(principal instanceof  UserJwt){
+			userJwt = (UserJwt) principal;
+		}else{
+			//refresh_token默认不去调用userdetailService获取用户信息，手动去调用，得到 UserJwt
+			UserDetails userDetails = userDetailsService.loadUserByUsername(name);
+			userJwt = (UserJwt) userDetails;
+		}
+		if (authentication.getAuthorities() != null && !authentication.getAuthorities().isEmpty()) {
+			response.put("authorities", AuthorityUtils.authorityListToSet(authentication.getAuthorities()));
+		}
+		response.put("id", userJwt.getId());
+		return response;
+	}
 
 
 }
+

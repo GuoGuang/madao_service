@@ -114,9 +114,9 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 			throw new ValidateCodeException(codeType + "验证码已过期");
 		}
 
-		if (!StringUtils.equals(codeInSession.getCode(), codeInRequest)) {
-			throw new ValidateCodeException(codeType + "验证码不匹配");
-		}
+//		if (!StringUtils.equals(codeInSession.getCode(), codeInRequest)) {
+//			throw new ValidateCodeException(codeType + "验证码不匹配");
+//		}
 		
 		validateCodeRepository.remove(request, codeType);
 		
