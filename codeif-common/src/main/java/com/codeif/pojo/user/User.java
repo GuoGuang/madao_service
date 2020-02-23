@@ -57,7 +57,7 @@ public class User extends BasePojo implements Serializable {
 	@NotNull(message = "性别不能为空")
 	@ApiModelProperty("性别")
 	private String sex;
-	@ApiModelProperty("出生年月日")
+	@ApiModelProperty(value = "出生年月日",example = "1")
 	private Long birthday;
 	@ApiModelProperty("头像")
 	private String avatar;
@@ -67,17 +67,17 @@ public class User extends BasePojo implements Serializable {
 	@ApiModelProperty("E-Mail")
 	private String email;
 
-	@ApiModelProperty("最后登陆日期")
+	@ApiModelProperty(value = "最后登陆日期",example = "1")
 	private Long lastDate;
-	@ApiModelProperty("在线时长（分钟）")
+	@ApiModelProperty(value = "在线时长（分钟）",example = "1")
 	private Long onlineTime;
 	@ApiModelProperty("兴趣")
 	private String interest;
 	@ApiModelProperty("个性")
 	private String personality;
-	@ApiModelProperty("粉丝数")
+	@ApiModelProperty(value = "粉丝数",example = "123")
 	private Integer fansCount;
-	@ApiModelProperty("关注数")
+	@ApiModelProperty(value = "关注数",example = "123")
 	private Integer followCount;
 
 	@ApiModelProperty("手机")
@@ -87,7 +87,7 @@ public class User extends BasePojo implements Serializable {
 	private String contactAddress;
 	@ApiModelProperty("注册类型/方式")
 	private String registeredType;
-	@ApiModelProperty("是否锁定(0:未锁定,1已锁定)")
+	@ApiModelProperty(value = "是否锁定(0:未锁定,1已锁定)",example = "0")
 	private Integer status;
 
 }

@@ -25,9 +25,9 @@ public class Label extends BasePojo implements Serializable {
     private String labelName;
     @ApiModelProperty("状态")
     private String state;
-    @ApiModelProperty("使用数量")
+    @ApiModelProperty(value = "使用数量",example = "1")
     private Long count;
-    @ApiModelProperty("关注数")
+    @ApiModelProperty(value = "关注数",example = "1")
     private Long fans;
     @ApiModelProperty("是否推荐")
     private String recommend;

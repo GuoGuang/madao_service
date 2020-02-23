@@ -48,7 +48,7 @@ public class Resource extends BasePojo implements Serializable, Cloneable {
 	@Column(precision = 30, scale = 1)
 	private float sort;
 
-	@ApiModelProperty("是否隐藏")
+	@ApiModelProperty(value = "是否隐藏",example = "1")
 	private Integer isHidden;
 
 	@ApiModelProperty("描述")

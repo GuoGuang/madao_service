@@ -42,7 +42,7 @@ public class Dict extends BasePojo implements Serializable {
     @NotNull(message = "描述不能为空")
     private String description;
 
-    @ApiModelProperty("状态")
+    @ApiModelProperty(value = "状态",example = "1")
     private Integer state;
 
     @ApiModelProperty("类型")

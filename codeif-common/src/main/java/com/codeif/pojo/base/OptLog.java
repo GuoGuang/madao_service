@@ -31,7 +31,7 @@ public class OptLog extends BasePojo implements Serializable {
     @ApiModelProperty("操作ip")
     private String clientIp;
 
-    @ApiModelProperty("操作类型（1：增，2：删，3：改）")
+    @ApiModelProperty(value = "操作类型（1：增，2：删，3：改）",example = "1")
     private Integer type;
 
     @ApiModelProperty("操作方法名称")

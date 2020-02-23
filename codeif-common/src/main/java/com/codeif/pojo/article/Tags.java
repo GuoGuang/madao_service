@@ -22,7 +22,7 @@ public class Tags extends BasePojo implements Serializable {
      * 接收连接查询结果专用字段
      */
     @Transient
-    @ApiModelProperty("标签下文章数量")
+    @ApiModelProperty(value = "标签下文章数量",example = "1")
     private Long tagsCount;
 
     @Id

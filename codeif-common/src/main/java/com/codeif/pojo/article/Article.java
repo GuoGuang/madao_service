@@ -25,11 +25,11 @@ import java.io.Serializable;
 public class Article extends BasePojo implements Serializable {
 
 
-    @ApiModelProperty("文章分类")
+    @ApiModelProperty(value = "文章分类")
     @Transient
     private Category category;
 
-    @ApiModelProperty("推荐阅读")
+    @ApiModelProperty(value = "推荐阅读",example = "1")
     @Transient
     private String related;
 
@@ -61,22 +61,22 @@ public class Article extends BasePojo implements Serializable {
     @ApiModelProperty("文章封面")
     private String image;
 
-    @ApiModelProperty("是否公开")
+    @ApiModelProperty(value = "是否公开",example = "1")
     private Integer isPublic;
 
-    @ApiModelProperty("是否置顶")
+    @ApiModelProperty(value = "是否置顶",example = "1")
     private Integer isTop;
 
-    @ApiModelProperty("浏览量")
+    @ApiModelProperty(value = "浏览量",example = "1")
     private Integer visits;
 
-    @ApiModelProperty("点赞数")
+    @ApiModelProperty(value = "点赞数",example = "1")
     private Integer upvote;
 
     @ApiModelProperty("评论数")
     private Integer comment;
 
-    @ApiModelProperty("审核状态")
+    @ApiModelProperty(value = "审核状态",example = "1")
     private Integer reviewState;
 
     @ApiModelProperty("URL")
