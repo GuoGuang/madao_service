@@ -1,4 +1,4 @@
-package com.codeif.user.config;
+package com.codeif.base.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,7 @@ public class Swagger2Config {
     @Bean
     public Docket createRestApi() {
     return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
-    .apis(RequestHandlerSelectors.basePackage("com.codeif.user.controller")).paths(PathSelectors.any()).build();
+    .apis(RequestHandlerSelectors.basePackage("com.codeif.base.controller")).paths(PathSelectors.any()).build();
     }
 
     private ApiInfo apiInfo() {
