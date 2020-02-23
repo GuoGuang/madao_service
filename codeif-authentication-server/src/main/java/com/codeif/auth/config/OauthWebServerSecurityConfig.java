@@ -55,7 +55,10 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web){
-		web.ignoring().antMatchers("/oauth/**","/connect/**");
+		web.ignoring().antMatchers("/oauth/**","/connect/**","/v2/api-docs", "/swagger-resources/configuration/ui",
+				"/swagger-resources","/swagger-resources/configuration/security",
+				"/swagger-ui.html","/css/**", "/js/**","/images/**", "/webjars/**", "**/favicon.ico", "/index");
+
 	}
 
 	@Bean
@@ -77,6 +80,15 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 				.authorizeRequests()
 				.antMatchers(HttpMethod.OPTIONS).permitAll()
+				.antMatchers("/v2/api-docs",
+						"/configuration/ui",
+						"/swagger-resources",
+						"/configuration/security",
+						"/swagger-ui.html",
+						"/webjars/**",
+						"/swagger-resources/configuration/ui",
+						"/swagger-ui.html",
+						"/swagger-resources/configuration/security").permitAll()
 			.anyRequest().authenticated()
 				.and()
 				.csrf().disable();

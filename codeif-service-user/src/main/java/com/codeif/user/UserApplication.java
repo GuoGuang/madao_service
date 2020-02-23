@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.persistence.EntityManager;
 
@@ -28,7 +27,6 @@ import javax.persistence.EntityManager;
 @EntityScan("com.codeif.pojo")
 @SpringBootApplication
 @EnableEurekaClient
-@EnableSwagger2
 @EnableJpaRepositories("com.codeif.user.dao")
 @EnableFeignClients(basePackages = "com.codeif.api")
 //@EnableWebSecurity

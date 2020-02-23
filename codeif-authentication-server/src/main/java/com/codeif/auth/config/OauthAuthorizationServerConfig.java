@@ -106,7 +106,7 @@ class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapte
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
         oauthServer.allowFormAuthenticationForClients()
                 .passwordEncoder(new BCryptPasswordEncoder())
-                .tokenKeyAccess("permitAll()")
+                .tokenKeyAccess("permitAll()") // 允许所有请求访问校验令牌的接口
                 .checkTokenAccess("isAuthenticated()");
     }
 
