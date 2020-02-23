@@ -9,7 +9,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.persistence.EntityManager;
 
@@ -25,7 +24,6 @@ import javax.persistence.EntityManager;
 @SpringBootApplication
 @EntityScan("com.codeif.pojo")
 @EnableEurekaClient
-@EnableSwagger2
 @EnableJpaRepositories("com.codeif.article.dao")
 @EnableFeignClients("com.codeif.api")
 @ComponentScan(basePackages = {"com.codeif"})

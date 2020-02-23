@@ -1,4 +1,7 @@
 spring:
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+
   cloud:
     config:
       name: application #需要从github上读取的资源名称，注意没有yml后缀名

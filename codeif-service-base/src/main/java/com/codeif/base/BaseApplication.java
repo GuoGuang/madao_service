@@ -9,7 +9,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.persistence.EntityManager;
 
@@ -19,7 +18,6 @@ import javax.persistence.EntityManager;
 @EntityScan("com.codeif.pojo")
 @SpringBootApplication
 @EnableEurekaClient //本服务启动后会自动注册进eureka服务中
-@EnableSwagger2 // 接口文档自动生成
 @EnableJpaRepositories("com.codeif.base.dao")
 @EnableFeignClients(basePackages = "com.codeif.api")// 开启Feign的功能
 // SpringBoot主配置类只会扫描自己所在的包及其子包下面,如果不加此扫描codeif-common里的公用包则扫描不到
