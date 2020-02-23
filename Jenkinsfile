@@ -5,7 +5,7 @@ pipeline {
     //参数化变量，目前只支持[booleanParam, choice, credentials, file, text, password, run, string]这几种参数类型，其他高级参数化类型还需等待社区支持。
     parameters {
         //git代码路径【参数值对外隐藏】
-        string(name: 'repoUrl', defaultValue: 'https://github.com/GuoGuang/ibole_service.git', description: 'git代码路径')
+        string(name: 'repoUrl', defaultValue: 'https://github.com/GuoGuang/codeif_service.git', description: 'git代码路径')
         //repoBranch参数后续替换成git parameter不再依赖手工输入,JENKINS-46451【git parameters目前还不支持pipeline】
         string(name: 'repoBranch', defaultValue: 'develop', description: 'git分支名称')
         //pom.xml的相对路径
@@ -15,14 +15,14 @@ pipeline {
         //服务器参数采用了组合方式，避免多次选择，使用docker为更佳实践【参数值对外隐藏】
         choice(name: 'server', choices: '192.168.1.107,9090,*****,*****\n192.168.1.60,9090,*****,*****', description: '测试服务器列表选择(IP,JettyPort,Name,Passwd)')
         choice(name: 'project', choices: [
-                'ibole-server-config:9009',
-                'ibole-server-eureka:5000',
-                'ibole-service-user:9007',
-                'ibole-web-gateway:8080',
-                'ibole-service-base:9008',
-                'ibole-service-article:9003',
-                'ibole-authorization-server:8091',
-                'ibole-authentication-server:8090',
+                'codeif-server-config:9009',
+                'codeif-server-eureka:5000',
+                'codeif-service-user:9007',
+                'codeif-web-gateway:8080',
+                'codeif-service-base:9008',
+                'codeif-service-article:9003',
+                'codeif-authorization-server:8091',
+                'codeif-authentication-server:8090',
 
         ], description: '选择微服务')
         //测试服务器的dubbo服务端口
@@ -118,7 +118,7 @@ pipeline {
                 // git credentialsId: CRED_ID, url: params.repoUrl, branch: params.repoBranch
                 sh "rm -rf ./*"
                 // 只获取最近一次提交的
-                sh "git clone -b develop https://github.com/GuoGuang/ibole_service.git "
+                sh "git clone -b develop https://github.com/GuoGuang/codeif_service.git "
             }
         }
 
@@ -133,12 +133,12 @@ pipeline {
             steps {
                 echo "构建--->${serviceName}"
                 sh "pwd"
-                sh "/bin/cp /var/jenkins_home/service-config/config-server.jks ibole-server-config/src/main/resources/"
-                sh "/bin/cp /var/jenkins_home/service-config/bootstrap.yml ibole-server-config/src/main/resources/"
-                sh "mvn -B -DskipTests install -f ibole-common-parent"
-                sh "mvn -B -DskipTests install -f ibole-common"
-                sh "mvn -B -DskipTests install -f ibole-common-db"
-                sh "mvn -B -DskipTests install -f ibole-service-api"
+                sh "/bin/cp /var/jenkins_home/service-config/config-server.jks codeif-server-config/src/main/resources/"
+                sh "/bin/cp /var/jenkins_home/service-config/bootstrap.yml codeif-server-config/src/main/resources/"
+                sh "mvn -B -DskipTests install -f codeif-common-parent"
+                sh "mvn -B -DskipTests install -f codeif-common"
+                sh "mvn -B -DskipTests install -f codeif-common-db"
+                sh "mvn -B -DskipTests install -f codeif-service-api"
                 sh "mvn -B -DskipTests install -f ${serviceName}"
                 echo '-->> -->>maven打包构建完成!'
 
@@ -166,9 +166,9 @@ pipeline {
                 sh "pwd"
                 // 切换到某目录下执行，执行完steps会回退到原来所在目录
                 // 直接的构建是在容器里，这个是在 Jenkins 容器里，所以空间不一样 容器的空间是原空间路径后面多了 @2
-                // 或者说在 Maven构建 步骤把 'cd ${WORKSPACE}/ibole-server-eureka' 替换为'cd ${WORKSPACE}@2/ibole-server-eureka'
-                // dir(path: "../ibole_service_develop@2/${params.project}") {
-                //dir(path: "../ibole_service_develop@2/${serviceName}") {
+                // 或者说在 Maven构建 步骤把 'cd ${WORKSPACE}/codeif-server-eureka' 替换为'cd ${WORKSPACE}@2/codeif-server-eureka'
+                // dir(path: "../codeif_service_develop@2/${params.project}") {
+                //dir(path: "../codeif_service_develop@2/${serviceName}") {
                     
                 dir(path: "/${WORKSPACE}@2/${serviceName}") {
                     sh "pwd"
@@ -177,7 +177,7 @@ pipeline {
                     sh "docker login --username=guoguang0536 --password ${DOCKER_HUB_PASSWORD}" // registry.cn-qingdao.aliyuncs.com
                     sh "docker tag ${serviceName}:${env.BUILD_ID} guoguang0536/${serviceName}:${env.BUILD_ID}"
                     script {
-                        if("${serviceName}" != "ibole-server-eureka" && "${serviceName}" != "ibole-server-config"){
+                        if("${serviceName}" != "codeif-server-eureka" && "${serviceName}" != "codeif-server-config"){
                             sh "docker push guoguang0536/${serviceName}:${env.BUILD_ID}"
                             echo "构建并推送到远程服务器成功--->"
                         }
@@ -221,7 +221,7 @@ pipeline {
                 echo "开始部署到----> ${serviceName}......"
                 script {
                     echo "即将进入"
-                    if ("${serviceName}" == "ibole-server-eureka" || "${serviceName}" == "ibole-server-config"){
+                    if ("${serviceName}" == "codeif-server-eureka" || "${serviceName}" == "codeif-server-config"){
                         sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
                         echo '-->> #本机构建成功-->>'
                     }else {
