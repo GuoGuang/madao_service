@@ -123,6 +123,7 @@ pipeline {
         }
 
         stage("Maven构建") {
+            // 指定当前管道的执行环境，无需外界额外配置Maven
             agent {
                 docker {
                     image 'maven:3-alpine' 
