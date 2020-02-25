@@ -145,13 +145,13 @@ public class UserService {
 	 * @param user        当前用户
 	 * @param oldPassword 老密码
 	 */
-	public void changePassword(User user, String oldPassword) {
-		User userInfo = userDao.findById(user.getId()).orElseThrow(() -> new ResourceNotFoundException("用户不存在！"));
+	public void changePassword(String userId, String oldPassword, String newOnePass) {
+		User userInfo = userDao.findById(userId).orElseThrow(() -> new ResourceNotFoundException("用户不存在！"));
 		if (!bCryptPasswordEncoder.matches(oldPassword, userInfo.getPassword())) {
 			throw new UserException("密码不匹配！");
 		}
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		userDao.save(user);
+		userInfo.setPassword(bCryptPasswordEncoder.encode(newOnePass));
+		userDao.save(userInfo);
 	}
 
 	/**

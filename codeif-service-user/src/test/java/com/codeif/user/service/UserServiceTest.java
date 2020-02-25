@@ -91,7 +91,7 @@ public class UserServiceTest {
     public void changePassword() {
         User user = new User();
         user.setId("1200706394064556032");
-        userService.changePassword(user, "6666666666666666");
+//        userService.changePassword(user, "6666666666666666");
     }
 
     @Test

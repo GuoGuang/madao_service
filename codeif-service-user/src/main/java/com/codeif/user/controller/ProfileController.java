@@ -10,7 +10,9 @@ import com.codeif.utils.JsonData;
 import com.codeif.utils.OssClientUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,14 +60,19 @@ public class ProfileController {
         return JsonData.success(result);
     }
 
-    @PutMapping("password")
+    @PutMapping("/password/{userId}")
     @OptLog(operationType = CommonConst.MODIFY, operationName = "修改用户密码")
     @ApiOperation(value = "修改密码", notes = "User")
-    public JsonData<Void> changePassword(@RequestBody User user, String oldPassword) {
-        if (oldPassword == null || !oldPassword.equals(user.getPassword())) {
+    @ApiImplicitParams({
+		    @ApiImplicitParam(name = "newOnePassword", value = "第一次密码", required = true),
+		    @ApiImplicitParam(name = "newTwoPassword", value = "第二次密码", required = true)
+    })
+    public JsonData<Void> changePassword(@PathVariable String userId, @RequestParam String oldPassword,
+                                         @RequestParam String newOnePassword, @RequestParam String newTwoPassword) {
+    	if (!StringUtils.equals(newOnePassword,newTwoPassword)) {
             return JsonData.failed(StatusEnum.TWICE_PASSWORD_NOT_MATCH);
         }
-        userService.changePassword(user, oldPassword);
+        userService.changePassword(userId,oldPassword,newOnePassword);
         return JsonData.success();
     }
 

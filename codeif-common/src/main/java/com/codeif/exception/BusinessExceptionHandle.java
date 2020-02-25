@@ -1,5 +1,9 @@
 package com.codeif.exception;
 
+import com.codeif.exception.custom.UserException;
+import com.codeif.utils.JsonData;
+import com.codeif.utils.LogBack;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
@@ -7,4 +11,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  **/
 @RestControllerAdvice
 public class BusinessExceptionHandle {
+	/**
+	 * 用户相关异常
+	 *
+	 * @param ex IllegalArgumentException
+	 */
+	@ExceptionHandler(UserException.class)
+	public JsonData<Void> userException(UserException ex) {
+		LogBack.error(ex.getMessage(), ex);
+		return JsonData.failed(ex);
+	}
 }
