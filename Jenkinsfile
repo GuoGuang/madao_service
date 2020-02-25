@@ -44,7 +44,7 @@ pipeline {
 //        BUILD_NUMBER = credentials('aliyun-docker')
         // 仓库docker 地址、镜像名、容器名称
         FRESH_HOST = "registry.cn-hongkong.aliyuncs.com"
-        REMOTE_IP = "207.148.76.64"
+        REMOTE_IP = "139.9.155.54"
         DOCKER_IMAGE = "${params.project}"
         DOCKER_CONTAINER = "${params.project}"
         //测试人员邮箱地址【参数值对外隐藏】

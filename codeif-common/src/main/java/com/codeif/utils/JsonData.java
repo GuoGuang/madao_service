@@ -48,6 +48,10 @@ public class JsonData<T> implements Serializable {
         return new JsonData<>(false, statusEnum.getCode(), statusEnum.getMsg(), null);
     }
 
+    public static <T> JsonData<T> failed(Exception exception) {
+        return new JsonData<>(false, StatusEnum.ERROR.getCode(), exception.getMessage(), null);
+    }
+
     public static <T> JsonData<T> failed(StatusEnum statusEnum, String customMsg) {
         return new JsonData<>(false, statusEnum.getCode(), customMsg, null);
     }
