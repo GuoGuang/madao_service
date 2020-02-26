@@ -1,7 +1,7 @@
 package com.codeif.user;
 
-import com.aliyuncs.exceptions.ClientException;
 import com.codeif.utils.third.SmsUtil;
+import com.codeif.utils.third.Smsbao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +12,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class SmsTest {
 
-	@Autowired
+	@Autowired(required = false)
 	private SmsUtil smsUtil;
+	@Autowired
+	private Smsbao smsbao;
 
 	//@Value("${aliyun.sms.template_code}")
 	//private String template_code;// 模板编号
@@ -26,11 +28,13 @@ public class SmsTest {
 	@Test
 	public void sendSms(){
 		try {
-			 smsUtil.sendSms("18901607027",
-					  "SMS_168587174",
-					 	 "探索云",
-							"{'code':'66666'}");
-		} catch (ClientException e) {
+//			 smsUtil.sendSms("18901607027",
+//					  "SMS_168587174",
+//					 	 "xx",
+//							"{'code':'66666'}");
+			String phone = "13105648403";
+			smsbao.sendSms(phone, "123");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
