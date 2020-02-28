@@ -179,8 +179,8 @@ pipeline {
                     sh "pwd"
                     // 构建镜像
                     sh "docker build -t ${serviceName}:${env.BUILD_ID} ."
-                    sh "docker login --username=guoguang0536 --password ${DOCKER_HUB_PASSWORD}" // registry.cn-qingdao.aliyuncs.com
-                    sh "docker tag ${serviceName}:${env.BUILD_ID} guoguang0536/${serviceName}:${env.BUILD_ID}"
+//                    sh "docker login --username=guoguang0536 --password ${DOCKER_HUB_PASSWORD}" 
+//                    sh "docker tag ${serviceName}:${env.BUILD_ID} guoguang0536/${serviceName}:${env.BUILD_ID}"
                     script {
                         if("${serviceName}" != "codeif-server-eureka" && "${serviceName}" != "codeif-server-config"){
                             sh "docker login --username=1831682775@qq.com --password ${DOCKER_HUB_PASSWORD} registry.cn-hangzhou.aliyuncs.com"
