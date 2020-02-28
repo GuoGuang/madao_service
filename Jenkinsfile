@@ -232,6 +232,21 @@ pipeline {
                         sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
                         echo '-->> #本机构建成功-->>'
                     }else {
+
+
+                        def container = sh(returnStdout: true, script: "${REMOTE_SCRIPT} docker ps -a | grep $serviceName | awk '{print \$1}'").trim()
+                        if (container.size() > 0) {
+                            sh "${REMOTE_SCRIPT} docker ps -a | grep $serviceName | awk  '{print \$1}' | xargs ${REMOTE_SCRIPT} docker stop"
+                            sh "${REMOTE_SCRIPT} docker ps -a | grep $serviceName | awk '{print \$1}' | xargs ${REMOTE_SCRIPT} docker rm"
+                            echo '-->> 1#停止并删除远程服务器容器 -->>'
+                        }
+                        // 删除列表中有 ${DOCKER_IMAGE} 的镜像
+                        def image = sh(returnStdout: true, script: "${REMOTE_SCRIPT} docker images | grep $serviceName | awk '{print \$3}'").trim()
+                        if (image.size() > 0) {
+                            sh "${REMOTE_SCRIPT} docker images | grep $serviceName | awk '{print \$3}' | xargs ${REMOTE_SCRIPT} docker rmi -f"
+                            echo '-->> 2#停止并删除远程服务器镜像 -->>'
+                        }
+
                         sh "apt-get update"
                         sh "apt-get install sshpass"
                         // https://www.cnblogs.com/kaishirenshi/p/7921308.html
