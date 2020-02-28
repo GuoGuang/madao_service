@@ -184,8 +184,8 @@ pipeline {
                     script {
                         if("${serviceName}" != "codeif-server-eureka" && "${serviceName}" != "codeif-server-config"){
                             sh "docker login --username=1831682775@qq.com --password ${DOCKER_HUB_PASSWORD} registry.cn-hangzhou.aliyuncs.com"
-                            sh "docker tag ${serviceName}:${env.BUILD_ID} registry.cn-hangzhou.aliyuncs.com/codeif/codeif_service:${env.BUILD_ID}"
-                            sh "docker push registry.cn-hangzhou.aliyuncs.com/codeif/codeif_service:${env.BUILD_ID}"
+                            sh "docker tag ${serviceName}:${env.BUILD_ID} registry.cn-hangzhou.aliyuncs.com/codeif/${serviceName}:${env.BUILD_ID}"
+                            sh "docker push registry.cn-hangzhou.aliyuncs.com/codeif/${serviceName}:${env.BUILD_ID}"
                             echo "构建并推送到远程服务器成功--->"
                         }
                     }
@@ -232,6 +232,21 @@ pipeline {
                         sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
                         echo '-->> #本机构建成功-->>'
                     }else {
+
+
+                        def container = sh(returnStdout: true, script: "${REMOTE_SCRIPT} docker ps -a | grep $serviceName | awk '{print \$1}'").trim()
+                        if (container.size() > 0) {
+                            sh "${REMOTE_SCRIPT} docker ps -a | grep $serviceName | awk  '{print \$1}' | xargs ${REMOTE_SCRIPT} docker stop"
+                            sh "${REMOTE_SCRIPT} docker ps -a | grep $serviceName | awk '{print \$1}' | xargs ${REMOTE_SCRIPT} docker rm"
+                            echo '-->> 1#停止并删除远程服务器容器 -->>'
+                        }
+                        // 删除列表中有 ${DOCKER_IMAGE} 的镜像
+                        def image = sh(returnStdout: true, script: "${REMOTE_SCRIPT} docker images | grep $serviceName | awk '{print \$3}'").trim()
+                        if (image.size() > 0) {
+                            sh "${REMOTE_SCRIPT} docker images | grep $serviceName | awk '{print \$3}' | xargs ${REMOTE_SCRIPT} docker rmi -f"
+                            echo '-->> 2#停止并删除远程服务器镜像 -->>'
+                        }
+
                         sh "apt-get update"
                         sh "apt-get install sshpass"
                         // https://www.cnblogs.com/kaishirenshi/p/7921308.html
@@ -241,8 +256,8 @@ pipeline {
                         sh "${REMOTE_SCRIPT} pwd "
                         sh "${REMOTE_SCRIPT} docker -v "
                         sh "${REMOTE_SCRIPT} docker login --username=1831682775@qq.com --password ${DOCKER_HUB_PASSWORD} registry.cn-hangzhou.aliyuncs.com"
-                        sh "${REMOTE_SCRIPT} docker pull registry.cn-hangzhou.aliyuncs.com/codeif/codeif_service:${env.BUILD_ID}"
-                        sh "${REMOTE_SCRIPT} docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d registry.cn-hangzhou.aliyuncs.com/codeif/codeif_service:${env.BUILD_ID}"
+                        sh "${REMOTE_SCRIPT} docker pull registry.cn-hangzhou.aliyuncs.com/codeif/${serviceName}:${env.BUILD_ID}"
+                        sh "${REMOTE_SCRIPT} docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d registry.cn-hangzhou.aliyuncs.com/codeif/${serviceName}:${env.BUILD_ID}"
                         echo '-->> #远程主机构建成功-->>'
                      }
                     //这里增加了一个小功能，在服务器上记录了基本部署信息，方便多人使用一套环境时问题排查，storge in {WORKSPACE}/deploy.log  & remoteServer:htdocs/war
