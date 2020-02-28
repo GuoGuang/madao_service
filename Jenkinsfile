@@ -232,6 +232,10 @@ pipeline {
                         echo '-->> #本机构建成功-->>'
                     }else {
 
+                        sh "apt-get update"
+                        sh "apt-get install sshpass"
+                        // https://www.cnblogs.com/kaishirenshi/p/7921308.html
+//                        sh "sshpass -p ${REMOTE_IP_PASSWORD} ssh root@${REMOTE_IP}"
 
                         def container = sh(returnStdout: true, script: "${REMOTE_SCRIPT} docker ps -a | grep $serviceName | awk '{print \$1}'").trim()
                         if (container.size() > 0) {
@@ -246,10 +250,7 @@ pipeline {
                             echo '-->> 2#停止并删除远程服务器镜像 -->>'
                         }
 
-                        sh "apt-get update"
-                        sh "apt-get install sshpass"
-                        // https://www.cnblogs.com/kaishirenshi/p/7921308.html
-//                        sh "sshpass -p ${REMOTE_IP_PASSWORD} ssh root@${REMOTE_IP}"
+                        
                         // TODO 删除远程服务器docker镜像
                         sh "pwd"
                         sh "${REMOTE_SCRIPT} pwd "
