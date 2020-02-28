@@ -184,7 +184,7 @@ pipeline {
                     script {
                         if("${serviceName}" != "codeif-server-eureka" && "${serviceName}" != "codeif-server-config"){
                             sh "docker login --username=1831682775@qq.com --password ${DOCKER_HUB_PASSWORD} registry.cn-hangzhou.aliyuncs.com"
-                            sh "docker tag codeif_service:${env.BUILD_ID} registry.cn-hangzhou.aliyuncs.com/codeif/codeif_service:${env.BUILD_ID}"
+                            sh "docker tag ${serviceName}:${env.BUILD_ID} registry.cn-hangzhou.aliyuncs.com/codeif/codeif_service:${env.BUILD_ID}"
                             sh "docker push registry.cn-hangzhou.aliyuncs.com/codeif/codeif_service:${env.BUILD_ID}"
                             echo "构建并推送到远程服务器成功--->"
                         }
