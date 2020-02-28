@@ -184,8 +184,8 @@ pipeline {
                     script {
                         if("${serviceName}" != "codeif-server-eureka" && "${serviceName}" != "codeif-server-config"){
                             sh "docker login --username=1831682775@qq.com --password ${DOCKER_HUB_PASSWORD} registry.cn-hangzhou.aliyuncs.com"
-                            sh "docker tag ${serviceName}:${env.BUILD_ID} registry.cn-hangzhou.aliyuncs.com/codeif/codeif_service:${env.BUILD_ID}"
-                            sh "docker push registry.cn-hangzhou.aliyuncs.com/codeif/codeif_service:${env.BUILD_ID}"
+                            sh "docker tag ${serviceName}:${env.BUILD_ID} registry.cn-hangzhou.aliyuncs.com/codeif/${serviceName}:${env.BUILD_ID}"
+                            sh "docker push registry.cn-hangzhou.aliyuncs.com/codeif/${serviceName}:${env.BUILD_ID}"
                             echo "构建并推送到远程服务器成功--->"
                         }
                     }
@@ -241,8 +241,8 @@ pipeline {
                         sh "${REMOTE_SCRIPT} pwd "
                         sh "${REMOTE_SCRIPT} docker -v "
                         sh "${REMOTE_SCRIPT} docker login --username=1831682775@qq.com --password ${DOCKER_HUB_PASSWORD} registry.cn-hangzhou.aliyuncs.com"
-                        sh "${REMOTE_SCRIPT} docker pull registry.cn-hangzhou.aliyuncs.com/codeif/codeif_service:${env.BUILD_ID}"
-                        sh "${REMOTE_SCRIPT} docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d registry.cn-hangzhou.aliyuncs.com/codeif/codeif_service:${env.BUILD_ID}"
+                        sh "${REMOTE_SCRIPT} docker pull registry.cn-hangzhou.aliyuncs.com/codeif/${serviceName}:${env.BUILD_ID}"
+                        sh "${REMOTE_SCRIPT} docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d registry.cn-hangzhou.aliyuncs.com/codeif/${serviceName}:${env.BUILD_ID}"
                         echo '-->> #远程主机构建成功-->>'
                      }
                     //这里增加了一个小功能，在服务器上记录了基本部署信息，方便多人使用一套环境时问题排查，storge in {WORKSPACE}/deploy.log  & remoteServer:htdocs/war
