@@ -44,6 +44,7 @@ pipeline {
 //        BUILD_NUMBER = credentials('aliyun-docker')
         // 仓库docker 地址、镜像名、容器名称
         FRESH_HOST = "registry.cn-hongkong.aliyuncs.com"
+        REMOTE_SCRIPT = 'sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@139.9.155.54'
         REMOTE_IP = "139.9.155.54"
         DOCKER_IMAGE = "${params.project}"
         DOCKER_CONTAINER = "${params.project}"
@@ -182,7 +183,9 @@ pipeline {
                     sh "docker tag ${serviceName}:${env.BUILD_ID} guoguang0536/${serviceName}:${env.BUILD_ID}"
                     script {
                         if("${serviceName}" != "codeif-server-eureka" && "${serviceName}" != "codeif-server-config"){
-                            sh "docker push guoguang0536/${serviceName}:${env.BUILD_ID}"
+                            sh "docker login --username=1831682775@qq.com --password ${DOCKER_HUB_PASSWORD} registry.cn-hangzhou.aliyuncs.com"
+                            sh "docker tag codeif_service:${env.BUILD_ID} registry.cn-hangzhou.aliyuncs.com/codeif/codeif_service:${env.BUILD_ID}"
+                            sh "docker push registry.cn-hangzhou.aliyuncs.com/codeif/codeif_service:${env.BUILD_ID}"
                             echo "构建并推送到远程服务器成功--->"
                         }
                     }
@@ -220,7 +223,7 @@ pipeline {
             }
         }
 
-        stage('部署测试环境') {
+        stage('部署正式环境') {
             steps {
                 echo "开始部署到----> ${serviceName}......"
                 script {
@@ -235,10 +238,11 @@ pipeline {
 //                        sh "sshpass -p ${REMOTE_IP_PASSWORD} ssh root@${REMOTE_IP}"
                         // TODO 删除远程服务器docker镜像
                         sh "pwd"
-                        sh "sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${REMOTE_IP} pwd "
-                        sh "sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${REMOTE_IP} docker -v "
-                        sh "sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${REMOTE_IP} docker pull guoguang0536/${serviceName}:${env.BUILD_ID} "
-                        sh "sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${REMOTE_IP} docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d guoguang0536/${serviceName}:${env.BUILD_ID}"
+                        sh "${REMOTE_SCRIPT} pwd "
+                        sh "${REMOTE_SCRIPT} docker -v "
+                        sh "${REMOTE_SCRIPT} docker login --username=1831682775@qq.com --password ${DOCKER_HUB_PASSWORD} registry.cn-hangzhou.aliyuncs.com"
+                        sh "${REMOTE_SCRIPT} docker pull registry.cn-hangzhou.aliyuncs.com/codeif/codeif_service:${env.BUILD_ID}"
+                        sh "${REMOTE_SCRIPT} docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d registry.cn-hangzhou.aliyuncs.com/codeif/codeif_service:${env.BUILD_ID}"
                         echo '-->> #远程主机构建成功-->>'
                      }
                     //这里增加了一个小功能，在服务器上记录了基本部署信息，方便多人使用一套环境时问题排查，storge in {WORKSPACE}/deploy.log  & remoteServer:htdocs/war
