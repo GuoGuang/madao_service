@@ -18,7 +18,7 @@ spring:
         corsConfigurations:
           '[/**]':
             allowedHeaders: "x-token"
-            allowedOrigins: "http://localhost:9527"
+            allowedOrigins: "http://139.9.155.54:9527"
             allowedMethods:
             - OPTIONS
             - GET
