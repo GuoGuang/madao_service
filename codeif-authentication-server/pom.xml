@@ -96,7 +96,7 @@
                 <directory>src/main/resources</directory>
                 <!-- 解决服务器打包 Invalid Keystore format
                 https://stackoverflow.com/a/7050597 -->
-                <filtering>true</filtering>
+                <filtering>false</filtering>
             </resource>
         </resources>
         <plugins>
