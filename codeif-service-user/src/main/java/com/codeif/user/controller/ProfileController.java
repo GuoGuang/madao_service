@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @Api(tags = "用户画像")
 @RestController
 @RequestMapping(value = "/profile", produces = "application/json")
@@ -32,22 +34,24 @@ public class ProfileController {
         this.ossClientUtil = ossClientUtil;
     }
 
-    @PutMapping("avatar")
+    @PutMapping("/avatar")
     @ApiOperation(value = "用户上传头像", notes = "用户上传头像")
     @ApiImplicitParam(name = "User", value = "用户上传头像", dataType = "Map", paramType = "query")
-    public JsonData<Void> updateUserAvatar(MultipartFile file, User user) {
-    	// 暂无可用图床，自行对接图床
-		// String fileUrl = ossClientUtil.uploadFile(file);
-        user.setAvatar("https://vue-admin-guoguang.oss-cn-shanghai.aliyuncs.com/a.png");
-        userService.updateUserProfile(user);
-        return JsonData.success();
+    public JsonData<String> updateUserAvatar(MultipartFile file, @RequestParam String id) throws IOException {
+	    User userById = userService.findById(id);
+	    String fileUrl = ossClientUtil.uploadFile(file);
+	    userById.setAvatar(fileUrl);
+        userService.updateUserProfile(userById);
+        return JsonData.success(fileUrl);
     }
 
     @PutMapping
     @OptLog(operationType = CommonConst.MODIFY, operationName = "更新用户资料")
     @ApiOperation(value = "更新用户资料", notes = "User")
-    public JsonData<Void> updateByPrimaryKey(@RequestBody User user) {
-        userService.updateUserProfile(user);
+    public JsonData<Void> updateByPrimaryKey(@RequestParam String id, @RequestParam String avatar) {
+	    User user = userService.findById(id);
+	    user.setAvatar(avatar);
+	    userService.updateUserProfile(user);
         return JsonData.success();
     }
 
