@@ -9,7 +9,7 @@ spring:
     config:
       name: base #需要从github上读取的资源名称，注意没有yml后缀名
       label: master
-      uri: http://114.55.104.203:9009  #SpringCloudConfig获取的服务地址
+      uri: http://localhost:9009  #SpringCloudConfig获取的服务地址
       profile: dev
 
 ---
