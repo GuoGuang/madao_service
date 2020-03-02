@@ -1,16 +1,20 @@
 package com.codeif.pojo.article;
 
 import com.codeif.pojo.BasePojo;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -18,16 +22,29 @@ import java.io.Serializable;
  **/
 @Getter
 @Setter
-@ToString
 @ApiModel(value = "article", description = "文章类")
 @Entity
+@JsonIgnoreProperties(value = { "article" })
+
 @Table(name = "ar_article")
 public class Article extends BasePojo implements Serializable {
 
 
     @ApiModelProperty(value = "文章分类")
-    @Transient
-    private Category category;
+	@JoinColumn(name = "category_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+	private Category category;
+
+    @ApiModelProperty(value = "文章标签")
+    @JoinTable(
+		    name = "ar_article_tags",
+		    joinColumns = {@JoinColumn(name="article_id",referencedColumnName = "id",foreignKey=@ForeignKey(name="null"))},
+		    inverseJoinColumns = {@JoinColumn(name = "tag_id",referencedColumnName = "id",foreignKey=@ForeignKey(name="null"))}
+    )
+    @JsonManagedReference
+	@ManyToMany
+    private Set<Tags> tags = new HashSet<>();
 
     @ApiModelProperty(value = "推荐阅读",example = "1")
     @Transient
@@ -42,10 +59,8 @@ public class Article extends BasePojo implements Serializable {
     @Id
     @GeneratedValue(generator = "idGenerator")
     @GenericGenerator(name = "idGenerator", strategy = "com.codeif.config.IdGeneratorConfig")
+    @Column(name="id", unique=true, nullable=false, updatable=false, length = 20)
     private String id;
-
-    @ApiModelProperty("分类ID")
-    private String categoryId;
 
     @ApiModelProperty("用户ID")
     private String userId;
@@ -106,4 +121,30 @@ public class Article extends BasePojo implements Serializable {
     @Column(columnDefinition = "text")
     private String content;
 
+	@Override
+	public String toString() {
+		return "Article{" +
+				"category=" + category +
+				", related='" + related + '\'' +
+				", userName='" + userName + '\'' +
+				", id='" + id + '\'' +
+				", userId='" + userId + '\'' +
+				", label='" + label + '\'' +
+				", title='" + title + '\'' +
+				", image='" + image + '\'' +
+				", isPublic=" + isPublic +
+				", isTop=" + isTop +
+				", visits=" + visits +
+				", upvote=" + upvote +
+				", comment=" + comment +
+				", reviewState=" + reviewState +
+				", url='" + url + '\'' +
+				", type=" + type +
+				", importance=" + importance +
+				", description='" + description + '\'' +
+				", keywords='" + keywords + '\'' +
+				", origin=" + origin +
+				", content='" + content + '\'' +
+				'}';
+	}
 }
