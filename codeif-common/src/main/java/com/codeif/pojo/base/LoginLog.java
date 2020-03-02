@@ -19,6 +19,7 @@ public class LoginLog extends BasePojo implements Serializable {
     @GeneratedValue(generator = "idGenerator")
     @GenericGenerator(name = "idGenerator", strategy = "com.codeif.config.IdGeneratorConfig")
     @ApiModelProperty("登录日志表主键")
+    @Column(name="id", unique=true, nullable=false, updatable=false, length = 20)
     private String id;
 
     @ApiModelProperty("登录人")

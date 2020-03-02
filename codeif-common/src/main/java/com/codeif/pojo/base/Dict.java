@@ -7,10 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -25,6 +22,7 @@ public class Dict extends BasePojo implements Serializable {
     @GeneratedValue(generator = "idGenerator")
     @GenericGenerator(name = "idGenerator", strategy = "com.codeif.config.IdGeneratorConfig")
     @ApiModelProperty("字典表表主键")
+    @Column(name="id", unique=true, nullable=false, updatable=false, length = 20)
     private String id;
 
     @ApiModelProperty("父id")

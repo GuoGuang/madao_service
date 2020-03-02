@@ -24,6 +24,7 @@ public class Resource extends BasePojo implements Serializable, Cloneable {
 	@Id
 	@GeneratedValue(generator = "idGenerator")
 	@GenericGenerator(name = "idGenerator", strategy = "com.codeif.config.IdGeneratorConfig")
+	@Column(name="id", unique=true, nullable=false, updatable=false, length = 20)
 	@ApiModelProperty("资源表主键")
 	private String id;
 

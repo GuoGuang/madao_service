@@ -20,6 +20,8 @@ public class Tweets extends BasePojo implements Serializable {
 
     //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name="id", unique=true, nullable=false, updatable=false, length = 20)
+
     private String id; // 吐槽表ID
 
     @NotNull(message="标题不能为空")

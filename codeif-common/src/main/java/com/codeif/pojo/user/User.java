@@ -17,7 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "us_user", schema = "test")
+@Table(name = "us_user")
 public class User extends BasePojo implements Serializable {
 
 	@ApiModelProperty("角色集合")
@@ -36,6 +36,7 @@ public class User extends BasePojo implements Serializable {
 	@GeneratedValue(generator = "idGenerator")
 	@GenericGenerator(name = "idGenerator", strategy = "com.codeif.config.IdGeneratorConfig")
 	@ApiModelProperty("用户表主键")
+	@Column(name="id", unique=true, nullable=false, updatable=false, length = 20)
 	private String id;
 
 	@NotNull(message = "账号不能为空")
