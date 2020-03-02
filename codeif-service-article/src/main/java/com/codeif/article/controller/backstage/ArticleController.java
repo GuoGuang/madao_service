@@ -7,14 +7,17 @@ import com.codeif.constant.CommonConst;
 import com.codeif.pojo.QueryVO;
 import com.codeif.pojo.article.Article;
 import com.codeif.utils.JsonData;
+import com.codeif.utils.OssClientUtil;
 import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +27,9 @@ import java.util.Map;
 public class ArticleController extends BaseController {
 
     private final ArticleService articleService;
+
+	@Autowired
+	private OssClientUtil ossClientUtil;
 
 	@Autowired
 	public ArticleController(ArticleService articleService) {
@@ -51,6 +57,14 @@ public class ArticleController extends BaseController {
         Map<String, String> userInfo = getUserInfo(request);
         articleService.insertOrUpdateArticle(userInfo, article);
         return JsonData.success(userInfo);
+    }
+
+    @ApiOperation(value = "上传文章封面")
+    @PutMapping("/thumb")
+    @OptLog(operationType = CommonConst.ADD, operationName = "添加一条新的文章")
+    public JsonData<String> updateThumb(MultipartFile file) throws IOException {
+	    String fileUrl = ossClientUtil.uploadFile(file);
+        return JsonData.success(fileUrl);
     }
 
     @ApiOperation(value = "按照id修改", notes = "id")

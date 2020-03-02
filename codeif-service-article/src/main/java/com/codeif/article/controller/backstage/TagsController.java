@@ -17,7 +17,7 @@ import java.util.List;
 
 @Api(tags = "标签管理")
 @RestController
-@RequestMapping(value = "/tags",produces = "application/json")
+@RequestMapping(value = "/tags")
 public class TagsController {
 
     private final TagsService tagsService;

@@ -1,18 +1,15 @@
 package com.codeif.article.service.blog;
 
-import com.codeif.article.dao.backstage.ArticleTagsDao;
 import com.codeif.article.dao.backstage.TagsDao;
 import com.codeif.constant.CommonConst;
 import com.codeif.constant.RedisConstant;
 import com.codeif.db.redis.service.RedisService;
-import com.codeif.pojo.article.ArticleTags;
 import com.codeif.pojo.article.QTags;
 import com.codeif.pojo.article.Tags;
 import com.codeif.utils.JsonUtil;
 import com.codeif.utils.LogBack;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,17 +21,14 @@ import java.util.List;
 public class ApiTagsService {
 
 	private final TagsDao tagsDao;
-	private final ArticleTagsDao articleTagsDao;
-
 	private final RedisService redisService;
 
 	@Autowired
 	JPAQueryFactory jpaQueryFactory;
 
 	@Autowired
-	public ApiTagsService(TagsDao tagsDao, ArticleTagsDao articleTagsDao, RedisService redisService) {
+	public ApiTagsService(TagsDao tagsDao,  RedisService redisService) {
 		this.tagsDao = tagsDao;
-		this.articleTagsDao = articleTagsDao;
 		this.redisService = redisService;
 	}
 
@@ -47,11 +41,6 @@ public class ApiTagsService {
 		List<Tags> tagsQueryResults = jpaQueryFactory
 				.selectFrom(qTags)
 				.fetch();
-		tagsQueryResults.forEach(tagsInfo -> {
-			ArticleTags articleTags = new ArticleTags();
-			articleTags.setTagsId(tagsInfo.getId());
-			tagsInfo.setTagsCount(articleTagsDao.count(Example.of(articleTags)));
-		});
 		return tagsQueryResults;
 	}
 

@@ -31,7 +31,7 @@ public class Article extends BasePojo implements Serializable {
 
 
     @ApiModelProperty(value = "文章分类")
-	@JoinColumn(name = "category_id")
+	@JoinColumn(name = "category_id",foreignKey=@ForeignKey(name="null"))
 	@ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
 	private Category category;

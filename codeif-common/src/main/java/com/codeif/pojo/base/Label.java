@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +20,7 @@ public class Label extends BasePojo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty("标签主键")
+    @Column(name="id", unique=true, nullable=false, updatable=false, length = 20)
     private String id;
 
     @ApiModelProperty("标签名称")

@@ -20,7 +20,7 @@ public interface TagsDao extends JpaRepository<Tags, String>,
         JpaSpecificationExecutor<Tags>, QuerydslPredicateExecutor<Tags> {
 
     @Modifying
-    @Query("delete from Dict where id in (:ids)")
+    @Query("delete from Tags where id in (:ids)")
     void deleteBatch(@Param("ids") List<String> ids);
 
 //	ArrayList<Tags> findTagsByCondition(QueryVO queryVO);

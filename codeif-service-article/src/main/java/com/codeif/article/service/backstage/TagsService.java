@@ -1,15 +1,12 @@
 package com.codeif.article.service.backstage;
 
 import com.codeif.article.dao.backstage.TagsDao;
-import com.codeif.constant.CommonConst;
-import com.codeif.constant.RedisConstant;
 import com.codeif.db.redis.service.RedisService;
+import com.codeif.exception.custom.ResourceNotFoundException;
 import com.codeif.pojo.QueryVO;
 import com.codeif.pojo.article.QTags;
 import com.codeif.pojo.article.Tags;
 import com.codeif.utils.DateUtil;
-import com.codeif.utils.JsonUtil;
-import com.codeif.utils.LogBack;
 import com.codeif.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.ExpressionUtils;
@@ -63,22 +60,7 @@ public class TagsService {
 	}
 
 	public Tags findTagsById(String id) {
-		Tags tags = null;
-		try {
-			Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + id);
-			if (mapJson != null) {
-				return JsonUtil.jsonToPojo(mapJson.toString(), Tags.class);
-			}
-		} catch (Exception e) {
-			LogBack.error("findTagsById->查询标签异常，参数为：{}", id, e);
-		}
-		try {
-			redisService.set(RedisConstant.REDIS_KEY_ARTICLE + id, tags, CommonConst.TIME_OUT_DAY);
-		} catch (Exception e) {
-			LogBack.error("findTagsById->查询标签异常，参数为：{}", id, e);
-		}
-		return tags;
-
+		return tagsDao.findById(id).orElseThrow(ResourceNotFoundException::new);
 	}
 
 	public void saveOrUpdate(Tags tags) {

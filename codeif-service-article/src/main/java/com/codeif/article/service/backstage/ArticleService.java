@@ -2,12 +2,12 @@ package com.codeif.article.service.backstage;
 
 import com.codeif.api.user.UserServiceRpc;
 import com.codeif.article.dao.backstage.ArticleDao;
+import com.codeif.article.dao.backstage.TagsDao;
 import com.codeif.db.redis.service.RedisService;
 import com.codeif.exception.custom.ResourceNotFoundException;
 import com.codeif.pojo.QueryVO;
 import com.codeif.pojo.article.Article;
 import com.codeif.pojo.article.QArticle;
-import com.codeif.pojo.user.User;
 import com.codeif.utils.DateUtil;
 import com.codeif.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
@@ -37,6 +37,8 @@ public class ArticleService {
 
 	@Autowired
 	JPAQueryFactory jpaQueryFactory;
+	@Autowired
+	TagsDao tagsDao;
 
 	@Autowired
 	public ArticleService(ArticleDao articleDao, RedisService redisService, UserServiceRpc userServiceRpc) {
@@ -73,16 +75,16 @@ public class ArticleService {
 				.limit(queryVO.getPageSize())
 				.orderBy(sortedColumn)
 				.fetchResults();
-		List<User> userList = userServiceRpc.findUser().getData().getResults();
-		queryResults.getResults().forEach(
-				articleUser -> userList.forEach(
-						user -> {
-							if (user.getId().equals(articleUser.getUserId())) {
-								articleUser.setUserName(user.getUserName());
-							}
-						}
-				)
-		);
+//		List<User> userList = userServiceRpc.findUser().getData().getResults();
+//		queryResults.getResults().forEach(
+//				articleUser -> userList.forEach(
+//						user -> {
+//							if (user.getId().equals(articleUser.getUserId())) {
+//								articleUser.setUserName(user.getUserName());
+//							}
+//						}
+//				)
+//		);
 		return queryResults;
 	}
 
@@ -102,7 +104,7 @@ public class ArticleService {
 	 * @param article 实体
 	 */
 	public void insertOrUpdateArticle(Map<String, String> userInfo,Article article) {
-		article.setUserId(userInfo.get("id"));
+//		article.setUserId(userInfo.get("id"));
 		if (StringUtils.isBlank(article.getId())) {
 			article.setComment(0);
 			article.setUpvote(0);
@@ -114,6 +116,10 @@ public class ArticleService {
 			if (article.getIsPublic() == null) {
 				article.setIsPublic(0);
 			}
+//			Optional<Tags> byId = tagsDao.findById("1214844690118086656");
+//			HashSet<Tags> objects = new HashSet<>();
+//			objects.add(byId.get());
+//			article.setTags(objects);
 			articleDao.save(article);
 		} else {
 			redisService.del("ARTICLE_" + article.getId());
