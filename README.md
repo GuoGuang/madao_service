@@ -1,4 +1,4 @@
-# ibole-manage
+# codeif-manage
 
 ![springboot](https://img.shields.io/badge/springboot-2.0.2.RELEASE-brightgreen.svg)    ![springCloud](https://img.shields.io/badge/springcloud-Finchley.SR2-brightgreen.svg)     ![jdk](https://img.shields.io/badge/jdk->=1.8-blue.svg)    ![license](https://img.shields.io/badge/license-GPL%20(%3E%3D%202)-blue)
 
@@ -17,8 +17,8 @@
 10. 运维/集成/部署：Jenkins、Docker...
 
 ## 前台项目请移步 
-  -  (后台管理系统)[https://github.com/GuoGuang/ibole_admin_manage]
-  -  (前台博客)[https://github.com/GuoGuang/ibole]
+  -  (后台管理系统)[https://github.com/GuoGuang/codeif_admin_manage]
+  -  (前台博客)[https://github.com/GuoGuang/codeif]
 
 ## 平台目录结构说明
 ```
@@ -73,12 +73,12 @@ github clone 此工程 [配置中心](https://github.com/GuoGuang0536/youyd_spri
 3 . 启动微服务
 
 ## 架构图
-![架构图](https://github.com/GuoGuang/ibole_service/blob/develop/ibole-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE1.png)
-![架构图](https://github.com/GuoGuang/ibole_service/blob/develop/ibole-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE2.png)
+![架构图](https://github.com/GuoGuang/codeif_service/blob/develop/codeif-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE1.png)
+![架构图](https://github.com/GuoGuang/codeif_service/blob/develop/codeif-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE2.png)
 
 ## 服务监控平台
 启动 youyd-server-monitor 服务 
 访问 [地址](http://127.0.0.1:9002)
-![图1](https://github.com/GuoGuang/ibole_service/blob/develop/ibole-common-parent/image/Application.png)
-![图2](https://github.com/GuoGuang/ibole_service/blob/develop/ibole-common-parent/image/Wallboard.png)
-![图3](https://github.com/GuoGuang/ibole_service/blob/develop/ibole-common-parent/image/Details.png)
+![图1](https://github.com/GuoGuang/codeif_service/blob/develop/codeif-common-parent/image/Application.png)
+![图2](https://github.com/GuoGuang/codeif_service/blob/develop/codeif-common-parent/image/Wallboard.png)
+![图3](https://github.com/GuoGuang/codeif_service/blob/develop/codeif-common-parent/image/Details.png)

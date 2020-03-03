@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <parent>
+        <artifactId>codeif-common-parent</artifactId>
+        <groupId>com.codeif</groupId>
+        <version>1.0.0</version>
+        <!--relativePath表示父模块POM的相对路径
+            默认值是../pom.xml 也就是Maven默认父pom在上一层目录下,由于本工程跟parent工程同级,所以添加和这个-->
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>codeif-service-user</artifactId>
+    <description>用户微服务模块</description>
+    <name>codeif-service-user【用户服务】</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.codeif</groupId>
+            <artifactId>codeif-common-db</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.codeif</groupId>
+            <artifactId>codeif-service-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!--添加 SpringSecurity 依赖后，所有的地址都被 SpringSecurity 所控制了，我们目前只是需要用到BCrypt密码加密的部分，
+                        所以我们要添加一个配置类，配置为所有地址都可以匿名访问-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-security</artifactId>-->
+<!--        </dependency>-->
+
+
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <!--加载该路径下的资源文件 -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
