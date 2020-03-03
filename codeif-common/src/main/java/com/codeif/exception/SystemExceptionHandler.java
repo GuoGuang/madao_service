@@ -8,7 +8,6 @@ import com.codeif.exception.custom.ValidFieldError;
 import com.codeif.utils.JsonData;
 import com.codeif.utils.LogBack;
 import com.netflix.client.ClientException;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.servlet.Servlet;
-import javax.validation.UnexpectedTypeException;
 import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +29,7 @@ import java.util.List;
  * Add ConditionalOnBean(Servlet.class) fix Exception Caused by: java.lang.ClassNotFoundException: javax.servlet.ServletException
  * 	Because spring-cloud-starter-gateway conflicts with javax.servlet.Servlet
  **/
-@ConditionalOnBean(Servlet.class)
+//@ConditionalOnBean(Servlet.class)
 @RestControllerAdvice
 public class SystemExceptionHandler {
 
@@ -69,29 +66,27 @@ public class SystemExceptionHandler {
         return JsonData.failed(StatusEnum.REQUEST_ERROR);
     }
 
-    /**
-     * JSR303参数校验错误
-     *
-     * @param ex BindException
-     */
-    @ExceptionHandler(BindException.class)
-    public JsonData<Void> bindException(Exception ex) {
-        LogBack.error(ex.getMessage(), ex);
-        BindingResult bindingResult = (ex instanceof BindException) ? ((BindException) ex).getBindingResult()
-                : ((MethodArgumentNotValidException) ex).getBindingResult();
-        if (bindingResult.hasErrors()) {
-            List<FieldError> errors = bindingResult.getFieldErrors();
-            List<ValidFieldError> validList = new ArrayList<>();
-            if (!(CollectionUtils.isEmpty(errors))) {
-                for (FieldError fe : errors) {
-                    validList.add(new ValidFieldError(fe));
-                }
-            }
-            LogBack.error("参数校验错误：" + validList.toString(), ex);
-            return JsonData.failed(StatusEnum.PARAM_INVALID, validList.toString());
-        }
-        return JsonData.failed(StatusEnum.PARAM_INVALID);
-    }
+	/**
+	 * JSR303参数校验错误
+	 * @param ex BindException
+	 */
+	@ExceptionHandler({BindException.class,MethodArgumentNotValidException.class})
+	public JsonData<Void> bindException(MethodArgumentNotValidException ex) {
+		LogBack.error(ex.getMessage(), ex);
+		BindingResult bindingResult = ex.getBindingResult();
+		if (bindingResult.hasErrors()) {
+			List<FieldError> errors = bindingResult.getFieldErrors();
+			List<ValidFieldError> validList = new ArrayList<>();
+			if (!(CollectionUtils.isEmpty(errors))) {
+				for (FieldError fe : errors) {
+					validList.add(new ValidFieldError(fe));
+				}
+			}
+			LogBack.error("参数校验错误：" + validList.toString(), ex);
+			return JsonData.failed(StatusEnum.PARAM_INVALID, validList.toString());
+		}
+		return JsonData.failed(StatusEnum.PARAM_INVALID);
+	}
 
     /**
      * 参数异常
@@ -158,9 +153,6 @@ public class SystemExceptionHandler {
     @ResponseBody
     public JsonData<Void> defaultException(Exception ex) {
         LogBack.error(ex.getMessage(), ex);
-        if ((ex instanceof BindException) || (ex instanceof MethodArgumentNotValidException) || (ex instanceof UnexpectedTypeException)) {
-			return bindException(ex);
-		}
 		return JsonData.failed(StatusEnum.SYSTEM_ERROR);
 	}
 
