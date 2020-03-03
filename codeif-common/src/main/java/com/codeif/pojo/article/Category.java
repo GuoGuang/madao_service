@@ -2,7 +2,6 @@ package com.codeif.pojo.article;
 
 import com.codeif.pojo.BasePojo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -24,9 +23,9 @@ import java.util.Set;
 @Table(name = "ar_category")
 public class Category extends BasePojo implements Serializable {
 
-	@JsonManagedReference
-	@OneToMany(cascade = CascadeType.REMOVE,mappedBy = "category")
-	private Set<Article> articles = new HashSet<>();
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "category")
+	private Set<Article> article = new HashSet<>();
+
 
     @Id
     @GeneratedValue(generator = "idGenerator")

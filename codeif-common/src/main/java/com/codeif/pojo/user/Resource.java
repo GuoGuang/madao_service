@@ -1,6 +1,7 @@
 package com.codeif.pojo.user;
 
 import com.codeif.pojo.BasePojo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -20,6 +23,10 @@ import java.util.Objects;
 @Entity
 @Table(name = "us_resource")
 public class Resource extends BasePojo implements Serializable, Cloneable {
+
+	@ManyToMany(mappedBy = "resources")
+	@JsonIgnore
+	private List<Role> roles = new ArrayList<>();
 
 	@Id
 	@GeneratedValue(generator = "idGenerator")

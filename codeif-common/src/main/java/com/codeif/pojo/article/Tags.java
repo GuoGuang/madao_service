@@ -1,7 +1,7 @@
 package com.codeif.pojo.article;
 
 import com.codeif.pojo.BasePojo;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -32,11 +32,11 @@ public class Tags extends BasePojo implements Serializable {
     @ApiModelProperty(value = "标签下文章数量",example = "1")
     private Long tagsCount;
 
-    @JsonBackReference
-	@ManyToMany(mappedBy = "tags",fetch = FetchType.LAZY)
-	private Set<Article> article = new HashSet<>();
+    @ManyToMany(mappedBy = "tags")
+    @JsonIgnore
+    private Set<Article> articles = new HashSet<>();
 
-    @Id
+	@Id
     @GeneratedValue(generator = "idGenerator")
     @GenericGenerator(name = "idGenerator", strategy = "com.codeif.config.IdGeneratorConfig")
     @ApiModelProperty("标签主键表ID")

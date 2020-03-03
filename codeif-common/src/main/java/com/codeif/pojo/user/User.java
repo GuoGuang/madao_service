@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @ApiModel(value = "user", description = "用户实体类")
@@ -21,12 +22,12 @@ import java.util.List;
 public class User extends BasePojo implements Serializable {
 
 	@ApiModelProperty("角色集合")
-	@Transient
-	private List<Role> roles;
+	@ManyToMany
+	@JoinTable(name = "us_user_role",
+			joinColumns = @JoinColumn(name = "user_id",referencedColumnName="id",foreignKey=@ForeignKey(name="null") ),
+			inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName="id",foreignKey=@ForeignKey(name="null")))
+	private List<Role> roles = new ArrayList<>();
 
-	@ApiModelProperty("资源集合")
-	@Transient
-	private List<Resource> resource;
 
 	@ApiModelProperty("验证码")
 	@Transient

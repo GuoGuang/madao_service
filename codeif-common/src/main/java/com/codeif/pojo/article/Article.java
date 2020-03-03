@@ -1,9 +1,7 @@
 package com.codeif.pojo.article;
 
 import com.codeif.pojo.BasePojo;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -24,108 +22,102 @@ import java.util.Set;
 @Setter
 @ApiModel(value = "article", description = "文章类")
 @Entity
-@JsonIgnoreProperties(value = { "article" })
-
 @Table(name = "ar_article")
 public class Article extends BasePojo implements Serializable {
 
 
-    @ApiModelProperty(value = "文章分类")
-	@JoinColumn(name = "category_id",foreignKey=@ForeignKey(name="null"))
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
+	@ApiModelProperty(value = "文章分类")
+	@JoinColumn(name = "category_id")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonIgnore
 	private Category category;
 
-    @ApiModelProperty(value = "文章标签")
-    @JoinTable(
-		    name = "ar_article_tags",
-		    joinColumns = {@JoinColumn(name="article_id",referencedColumnName = "id",foreignKey=@ForeignKey(name="null"))},
-		    inverseJoinColumns = {@JoinColumn(name = "tag_id",referencedColumnName = "id",foreignKey=@ForeignKey(name="null"))}
-    )
-    @JsonManagedReference
+	@ApiModelProperty(value = "推荐阅读",example = "1")
+	@Transient
+	private String related;
+
+	@ApiModelProperty("用户名")
+	@Transient
+	private String userName;
+
+	@JoinTable(
+			name = "ar_article_tags",
+			joinColumns = @JoinColumn(name = "article_id",referencedColumnName="id",foreignKey=@ForeignKey(name="null") ),
+			inverseJoinColumns = @JoinColumn(name = "tags_id",referencedColumnName="id",foreignKey=@ForeignKey(name="null")))
 	@ManyToMany
-    private Set<Tags> tags = new HashSet<>();
+	private Set<Tags> tags = new HashSet<>();
 
-    @ApiModelProperty(value = "推荐阅读",example = "1")
-    @Transient
-    private String related;
+	@ApiModelProperty("ID")
+	@Id
+	@Column(name = "id", unique = true, nullable = false, updatable = false, length = 36)
+	@GeneratedValue(generator = "idGenerator")
+	@GenericGenerator(name = "idGenerator", strategy = "com.codeif.config.IdGeneratorConfig")
+	private String id;
 
-    @ApiModelProperty("用户名")
-    @Transient
-    private String userName;
+	@ApiModelProperty("用户ID")
+	private String userId;
 
+	@ApiModelProperty("标签")
+	@NotNull(message = "标签不能为空")
+	private String label;
 
-    @ApiModelProperty("ID")
-    @Id
-    @GeneratedValue(generator = "idGenerator")
-    @GenericGenerator(name = "idGenerator", strategy = "com.codeif.config.IdGeneratorConfig")
-    @Column(name="id", unique=true, nullable=false, updatable=false, length = 20)
-    private String id;
+	@ApiModelProperty("标题")
+	@NotNull(message = "标题不能为空")
+	private String title;
 
-    @ApiModelProperty("用户ID")
-    private String userId;
+	@ApiModelProperty("文章封面")
+	private String image;
 
-    @ApiModelProperty("标签")
-    @NotNull(message = "标签不能为空")
-    private String label;
+	@ApiModelProperty(value = "是否公开",example = "1")
+	private Integer isPublic;
 
-    @ApiModelProperty("标题")
-    @NotNull(message = "标题不能为空")
-    private String title;
+	@ApiModelProperty(value = "是否置顶",example = "1")
+	private Integer isTop;
 
-    @ApiModelProperty("文章封面")
-    private String image;
+	@ApiModelProperty(value = "浏览量",example = "1")
+	private Integer visits;
 
-    @ApiModelProperty(value = "是否公开",example = "1")
-    private Integer isPublic;
+	@ApiModelProperty(value = "点赞数",example = "1")
+	private Integer upvote;
 
-    @ApiModelProperty(value = "是否置顶",example = "1")
-    private Integer isTop;
+	@ApiModelProperty("评论数")
+	private Integer comment;
 
-    @ApiModelProperty(value = "浏览量",example = "1")
-    private Integer visits;
+	@ApiModelProperty(value = "审核状态",example = "1")
+	private Integer reviewState;
 
-    @ApiModelProperty(value = "点赞数",example = "1")
-    private Integer upvote;
+	@ApiModelProperty("URL")
+	private String url;
 
-    @ApiModelProperty("评论数")
-    private Integer comment;
+	@ApiModelProperty("类型")
+	private Integer type;
 
-    @ApiModelProperty(value = "审核状态",example = "1")
-    private Integer reviewState;
+	@ApiModelProperty("热度")
+	@Column(precision = 2, scale = 1)
+	private float importance;
 
-    @ApiModelProperty("URL")
-    private String url;
+	@ApiModelProperty("文章描述（概述）")
+	@NotNull(message = "概述不能为空")
+	private String description;
 
-    @ApiModelProperty("类型")
-    private Integer type;
+	@ApiModelProperty("关键字")
+	private String keywords;
 
-    @ApiModelProperty("热度")
-    @Column(precision = 2, scale = 1)
-    private float importance;
+	@ApiModelProperty("来源（1：原创，2：转载，3：混撰）")
+	@NotNull(message = "来源不能为空")
+	private Integer origin;
 
-    @ApiModelProperty("文章描述（概述）")
-    @NotNull(message = "概述不能为空")
-    private String description;
+	@ApiModelProperty("文章正文")
+	@NotNull(message = "内容不能为空")
+	@Lob
+	@Column(columnDefinition = "text")
+	private String content;
 
-    @ApiModelProperty("关键字")
-    private String keywords;
-
-    @ApiModelProperty("来源（1：原创，2：转载，3：混撰）")
-    @NotNull(message = "来源不能为空")
-    private Integer origin;
-
-    @ApiModelProperty("文章正文")
-    @NotNull(message = "内容不能为空")
-    @Lob
-    @Column(columnDefinition = "text")
-    private String content;
 
 	@Override
 	public String toString() {
 		return "Article{" +
-				"category=" + category +
-				", related='" + related + '\'' +
+				"related='" + related + '\'' +
 				", userName='" + userName + '\'' +
 				", id='" + id + '\'' +
 				", userId='" + userId + '\'' +
