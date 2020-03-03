@@ -8,11 +8,9 @@ import com.codeif.pojo.QueryVO;
 import com.codeif.pojo.user.QUser;
 import com.codeif.pojo.user.Role;
 import com.codeif.pojo.user.User;
-import com.codeif.pojo.user.UserRole;
 import com.codeif.user.dao.ResourceDao;
 import com.codeif.user.dao.RoleDao;
 import com.codeif.user.dao.UserDao;
-import com.codeif.user.dao.UserRoleDao;
 import com.codeif.utils.DateUtil;
 import com.codeif.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
@@ -26,6 +24,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户服务
@@ -43,15 +42,13 @@ public class UserService {
 
     private final LoginLogServiceRpc loginLogServiceRpc;
 
-    private final UserRoleDao userRoleDao;
-
     @Autowired
     JPAQueryFactory jpaQueryFactory;
 
     @Autowired
     public UserService(UserDao userDao, RedisService redisService,
                        BCryptPasswordEncoder bCryptPasswordEncoder,
-                       LoginLogServiceRpc loginLogServiceRpc, UserRoleDao userRoleDao,
+                       LoginLogServiceRpc loginLogServiceRpc,
                        RoleDao roleDao, ResourceDao resourceDao) {
         this.userDao = userDao;
         this.roleDao = roleDao;
@@ -59,7 +56,6 @@ public class UserService {
         this.redisService = redisService;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.loginLogServiceRpc = loginLogServiceRpc;
-		this.userRoleDao = userRoleDao;
 	}
 
 	/**
@@ -110,9 +106,6 @@ public class UserService {
                 .limit(queryVO.getPageSize())
                 .orderBy(sortedColumn)
                 .fetchResults();
-        queryResults.getResults().forEach(
-                userResult -> userResult.setRoles(roleDao.findRolesOfUser(userResult.getId()))
-        );
         return queryResults;
     }
 
@@ -122,27 +115,20 @@ public class UserService {
 
     /**
 	 * 更新用户基础信息，关联的角色
-	 *
 	 * @param user 用户实体
-	 * @return boolean
 	 */
 	public void updateByPrimaryKey(User user) {
+		List<String> ids = user.getRoles().stream()
+				.map(Role::getId)
+				.collect(Collectors.toList());
+		List<Role> allById = roleDao.findAllById(ids);
+		user.setRoles(allById);
 		userDao.save(user);
-		userRoleDao.deleteBytUsUserId(user.getId());
-		List<Role> roles = user.getRoles();
-		for (Role role : roles) {
-			UserRole userRole = new UserRole();
-			userRole.setUsUserId(user.getId());
-			userRole.setUsRoleId(role.getId());
-			userRoleDao.save(userRole);
-		}
 	}
 
 
 	/**
 	 * 修改密码
-	 *
-	 * @param user        当前用户
 	 * @param oldPassword 老密码
 	 */
 	public void changePassword(String userId, String oldPassword, String newOnePass) {
@@ -160,8 +146,8 @@ public class UserService {
 	 */
 	public User getUserPermission(String id) {
 		User user = userDao.findById(id).orElseThrow(ResourceNotFoundException::new);
-		user.setRoles(roleDao.findRolesOfUser(id));
-		user.setResource(resourceDao.findResourcesOfUser(id));
+//		user.setRoles(roleDao.findRolesOfUser(id));
+//		user.setResource(resourceDao.findResourcesOfUser(id));
 		return user;
 	}
 

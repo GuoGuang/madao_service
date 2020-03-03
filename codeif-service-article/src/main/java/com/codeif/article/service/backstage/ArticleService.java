@@ -75,16 +75,6 @@ public class ArticleService {
 				.limit(queryVO.getPageSize())
 				.orderBy(sortedColumn)
 				.fetchResults();
-//		List<User> userList = userServiceRpc.findUser().getData().getResults();
-//		queryResults.getResults().forEach(
-//				articleUser -> userList.forEach(
-//						user -> {
-//							if (user.getId().equals(articleUser.getUserId())) {
-//								articleUser.setUserName(user.getUserName());
-//							}
-//						}
-//				)
-//		);
 		return queryResults;
 	}
 

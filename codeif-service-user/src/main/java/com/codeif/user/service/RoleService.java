@@ -3,12 +3,14 @@ package com.codeif.user.service;
 
 import com.codeif.exception.custom.ResourceNotFoundException;
 import com.codeif.pojo.QueryVO;
-import com.codeif.pojo.user.*;
+import com.codeif.pojo.user.QRole;
+import com.codeif.pojo.user.Resource;
+import com.codeif.pojo.user.Role;
+import com.codeif.pojo.user.User;
 import com.codeif.user.dao.ResourceDao;
 import com.codeif.user.dao.RoleDao;
-import com.codeif.user.dao.RoleResourceDao;
 import com.codeif.user.dao.UserDao;
-import com.codeif.utils.DateUtil;
+import com.codeif.utils.BeanUtil;
 import com.codeif.utils.IdGenerate;
 import com.codeif.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
@@ -20,8 +22,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 角色接口实现
@@ -31,7 +33,6 @@ public class RoleService {
 
     private final RoleDao roleDao;
     private final UserDao userDao;
-    private final RoleResourceDao roleResourceDao;
     private final ResourceDao resourceDao;
     private final IdGenerate idGenerate;
 
@@ -39,12 +40,11 @@ public class RoleService {
     JPAQueryFactory jpaQueryFactory;
 
     @Autowired
-    public RoleService(RoleDao roleDao, RoleResourceDao roleResourceDao,
+    public RoleService(RoleDao roleDao,
                        IdGenerate idGenerate, ResourceDao resourceDao,
                        UserDao userDao) {
         this.roleDao = roleDao;
         this.userDao = userDao;
-        this.roleResourceDao = roleResourceDao;
         this.idGenerate = idGenerate;
         this.resourceDao = resourceDao;
     }
@@ -79,33 +79,26 @@ public class RoleService {
 
 	public Role findRoleById(String roleId) {
 		Role role = roleDao.findById(roleId).orElseThrow(ResourceNotFoundException::new);
-		List<Resource> resourcesOfRole = resourceDao.findResourcesOfRole(roleId);
-		role.setResource(resourcesOfRole);
 		return role;
 	}
+
 
 	/**
 	 * 更新角色、关联的资源
 	 * @param role 角色实体
 	 */
 	public void saveOrUpdate(Role role) {
-		if (StringUtils.isEmpty(role.getId())) {
-			role.setCreateAt(DateUtil.getTimestamp());
-			role.setUpdateAt(DateUtil.getTimestamp());
-			roleDao.save(role);
-		} else {
-			roleDao.save(role);
-			roleResourceDao.deleteByUsRoleId(role.getId());
+		List<String> ids = role.getResources().stream()
+				.map(Resource::getId)
+				.collect(Collectors.toList());
+		List<Resource> resourceList = resourceDao.findAllById(ids);
+		role.setResources(resourceList);
+		if (StringUtils.isNotBlank(role.getId())){
+			Role sourceRole = roleDao.findById(role.getId()).orElseThrow(ResourceNotFoundException::new);
+			BeanUtil.copyProperties(sourceRole, role);
 		}
-		List<RoleResource> roleResources = new ArrayList<>();
-		for (Resource resource : role.getResource()) {
-			RoleResource roleResource = new RoleResource();
-			roleResource.setId(String.valueOf(idGenerate.nextId()));
-			roleResource.setUsResourceId(resource.getId());
-			roleResource.setUsRoleId(role.getId());
-			roleResources.add(roleResource);
-		}
-		roleResourceDao.saveAll(roleResources);
+		roleDao.save(role);
+
 	}
 
 	public void deleteByIds(List<String> roleId) {
