@@ -10,9 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -26,7 +24,7 @@ public class Role extends BasePojo implements Serializable {
 	@JoinTable(name = "us_role_resource",
 			joinColumns = @JoinColumn(name = "role_id",referencedColumnName="id",foreignKey=@ForeignKey(name="null") ),
 			inverseJoinColumns = @JoinColumn(name = "resource_id",referencedColumnName="id",foreignKey=@ForeignKey(name="null")))
-	private List<Resource> resources = new ArrayList<>();
+	private Set<Resource> resources = new HashSet<>();
 
 	@ManyToMany(mappedBy = "roles")
 	@JsonIgnore
@@ -42,13 +40,16 @@ public class Role extends BasePojo implements Serializable {
 
     @NotNull(message = "角色名称不能为空")
     @ApiModelProperty("角色名称")
+    @Column(length = 20)
     private String roleName;
 
     @ApiModelProperty("角色描述")
+    @Column(length = 200)
     private String roleDesc;
 
     @NotNull(message = "角色编码不能为空")
     @ApiModelProperty("角色编码")
+    @Column(length = 20)
     private String roleCode;
 
 }

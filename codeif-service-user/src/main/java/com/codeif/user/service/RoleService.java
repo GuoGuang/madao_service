@@ -22,7 +22,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -92,7 +94,8 @@ public class RoleService {
 				.map(Resource::getId)
 				.collect(Collectors.toList());
 		List<Resource> resourceList = resourceDao.findAllById(ids);
-		role.setResources(resourceList);
+		Set<Resource> resourceSet = new HashSet<>(resourceList);
+		role.setResources(resourceSet);
 		if (StringUtils.isNotBlank(role.getId())){
 			Role sourceRole = roleDao.findById(role.getId()).orElseThrow(ResourceNotFoundException::new);
 			BeanUtil.copyProperties(sourceRole, role);

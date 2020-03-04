@@ -16,7 +16,7 @@ import java.util.List;
 
 public interface UserDao extends JpaRepository<User, String>, JpaSpecificationExecutor<User>, QuerydslPredicateExecutor<User> {
 
-    @Query(value = "SELECT * FROM us_user WHERE id in (SELECT us_user_id FROM us_user_role WHERE us_role_id = :roleId)"
+    @Query(value = "SELECT * FROM us_user WHERE id in (SELECT user_id FROM us_user_role WHERE role_id = :roleId)"
             , nativeQuery = true)
     List<User> findUsersOfRole(@Param("roleId") String roleId);
 

@@ -35,20 +35,25 @@ public class Category extends BasePojo implements Serializable {
     private String id;
 
     @ApiModelProperty("父ID")
+    @Column(length = 20)
     private String parentId;
 
     @ApiModelProperty("分类名称")
     @NotNull(message = "分类名称不能为空")
+    @Column(length = 20)
     private String name;
 
     @ApiModelProperty("分类简介")
     @NotNull(message = "分类简介不能为空")
+    @Column(length = 200)
     private String summary;
 
     @ApiModelProperty("用户ID")
+    @Column(length = 20)
 	private String userId;
 
     @ApiModelProperty(value = "状态",example = "1")
+    @Column(length = 1)
     private Integer state = 1;
 
 }

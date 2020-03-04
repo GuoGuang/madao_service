@@ -23,7 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -122,7 +124,8 @@ public class UserService {
 				.map(Role::getId)
 				.collect(Collectors.toList());
 		List<Role> allById = roleDao.findAllById(ids);
-		user.setRoles(allById);
+		Set<Role> rolesSet = new HashSet<>(allById);
+		user.setRoles(rolesSet);
 		userDao.save(user);
 	}
 
@@ -146,8 +149,6 @@ public class UserService {
 	 */
 	public User getUserPermission(String id) {
 		User user = userDao.findById(id).orElseThrow(ResourceNotFoundException::new);
-//		user.setRoles(roleDao.findRolesOfUser(id));
-//		user.setResource(resourceDao.findResourcesOfUser(id));
 		return user;
 	}
 
@@ -159,7 +160,9 @@ public class UserService {
 
 	public User findById(String userId) {
 		User user = userDao.findById(userId).orElseThrow(ResourceNotFoundException::new);
-		user.setRoles(roleDao.findRolesOfUser(user.getId()));
+		List<Role> rolesOfUser = roleDao.findRolesOfUser(user.getId());
+		Set<Role> rolesSet = new HashSet<>(rolesOfUser);
+		user.setRoles(rolesSet);
 		return user;
 	}
 

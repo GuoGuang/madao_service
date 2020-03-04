@@ -45,20 +45,25 @@ public class Tags extends BasePojo implements Serializable {
 
     @ApiModelProperty("标签名称")
     @NotNull(message = "标签名称不能为空")
+    @Column(length = 20)
     private String name;
 
     @ApiModelProperty("英文名称")
     @NotNull(message = "英文名称不能为空")
+    @Column(length = 20)
     private String slug;
 
     @ApiModelProperty("描述")
     @NotNull(message = "描述不能为空")
+    @Column(length = 200)
     private String description;
 
     @ApiModelProperty("标签图标")
+    @Column(length = 50)
     private String icon;
 
     @ApiModelProperty("状态")
-    private String state;
+    @Column(length = 1)
+    private Integer state;
 
 }

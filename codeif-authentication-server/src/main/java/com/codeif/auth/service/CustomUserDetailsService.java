@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 用户信息服务
@@ -52,7 +53,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		User defUser = records.get(0);
 		String password = defUser.getPassword();
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		List<Role> roles = records.get(0).getRoles();
+		Set<Role> roles = records.get(0).getRoles();
 		roles.forEach(role ->
 				authorities.add(new SimpleGrantedAuthority(role.getId())));
 		UserJwt userDetails = new UserJwt(defUser.getUserName(),

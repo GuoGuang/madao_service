@@ -23,19 +23,24 @@ public class LoginLog extends BasePojo implements Serializable {
     private String id;
 
     @ApiModelProperty("登录人")
+    @Column(length = 20)
     private String userId;
 
     @Transient
     @ApiModelProperty("登录人名称")
+    @Column(length = 20)
     private String userName;
 
     @ApiModelProperty("登录ip")
+    @Column(length = 20)
     private String clientIp;
 
     @ApiModelProperty("浏览器")
+    @Column(length = 50)
     private String browser;
 
     @ApiModelProperty("操作系统信息")
+    @Column(length = 100)
     private String osInfo;
 
 }
