@@ -49,62 +49,77 @@ public class Article extends BasePojo implements Serializable {
 
 	@ApiModelProperty("ID")
 	@Id
-	@Column(name = "id", unique = true, nullable = false, updatable = false, length = 36)
+	@Column(name = "id", unique = true, nullable = false, updatable = false, length = 20)
 	@GeneratedValue(generator = "idGenerator")
 	@GenericGenerator(name = "idGenerator", strategy = "com.codeif.config.IdGeneratorConfig")
 	private String id;
 
 	@ApiModelProperty("用户ID")
+	@Column(length = 20)
 	private String userId;
 
 	@ApiModelProperty("标签")
 	@NotNull(message = "标签不能为空")
+	@Column(length = 20)
 	private String label;
 
 	@ApiModelProperty("标题")
 	@NotNull(message = "标题不能为空")
+	@Column(length = 50)
 	private String title;
 
 	@ApiModelProperty("文章封面")
+	@Column(length = 200)
 	private String image;
 
 	@ApiModelProperty(value = "是否公开",example = "1")
+	@Column(length = 1)
 	private Integer isPublic;
 
 	@ApiModelProperty(value = "是否置顶",example = "1")
+	@Column(length = 1)
 	private Integer isTop;
 
 	@ApiModelProperty(value = "浏览量",example = "1")
+	@Column(length = 5)
 	private Integer visits;
 
 	@ApiModelProperty(value = "点赞数",example = "1")
+	@Column(length = 5)
 	private Integer upvote;
 
 	@ApiModelProperty("评论数")
+	@Column(length = 5)
 	private Integer comment;
 
 	@ApiModelProperty(value = "审核状态",example = "1")
+	@Column(length = 1)
 	private Integer reviewState;
 
 	@ApiModelProperty("URL")
+	@Column(length = 200)
 	private String url;
 
 	@ApiModelProperty("类型")
+	@Column(length = 1)
 	private Integer type;
 
 	@ApiModelProperty("热度")
-	@Column(precision = 2, scale = 1)
+	@Column(precision = 2, scale = 1,length = 5)
 	private float importance;
 
 	@ApiModelProperty("文章描述（概述）")
 	@NotNull(message = "概述不能为空")
+	@Column(length = 500)
 	private String description;
 
 	@ApiModelProperty("关键字")
+	@Column(length = 200)
 	private String keywords;
 
 	@ApiModelProperty("来源（1：原创，2：转载，3：混撰）")
 	@NotNull(message = "来源不能为空")
+	@Column(length = 1)
 	private Integer origin;
 
 	@ApiModelProperty("文章正文")
