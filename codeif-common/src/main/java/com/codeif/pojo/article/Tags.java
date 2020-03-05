@@ -62,6 +62,10 @@ public class Tags extends BasePojo implements Serializable {
     @Column(length = 50)
     private String icon;
 
+    @ApiModelProperty("标签颜色，前台显示")
+    @Column(length = 20)
+    private String color;
+
     @ApiModelProperty("状态")
     @Column(length = 1)
     private Integer state;
