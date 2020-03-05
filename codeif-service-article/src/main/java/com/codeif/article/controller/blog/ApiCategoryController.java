@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,5 +26,12 @@ public class ApiCategoryController {
     public JsonData<QueryResults<Category>> findCategoryByCondition(Category category, QueryVO queryVO) {
 	    QueryResults<Category> categoryByCondition = categoryService.findCategoryByCondition(category, queryVO);
         return JsonData.success(categoryByCondition);
+    }
+
+    @ApiOperation(value = "查询分类id集合", notes = "Category")
+    @GetMapping("/{id}")
+    public JsonData<Category> findCategoryById(@PathVariable String id) {
+	    Category result = categoryService.findCategoryById(id);
+        return JsonData.success(result);
     }
 }

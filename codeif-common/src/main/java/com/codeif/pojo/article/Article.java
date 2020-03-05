@@ -32,6 +32,9 @@ public class Article extends BasePojo implements Serializable {
 	@JsonIgnore
 	private Category category;
 
+	@Transient
+	private String articleCategory;
+
 	@ApiModelProperty(value = "推荐阅读",example = "1")
 	@Transient
 	private String related;
