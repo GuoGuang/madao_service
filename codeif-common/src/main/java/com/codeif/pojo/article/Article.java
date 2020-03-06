@@ -12,8 +12,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
-
 
 /**
  * 文章板块: 文章类
@@ -128,6 +128,38 @@ public class Article extends BasePojo implements Serializable {
 	@Column(columnDefinition = "text")
 	private String content;
 
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Article)) return false;
+		Article article = (Article) o;
+		return Float.compare(article.importance, importance) == 0 &&
+				Objects.equals(related, article.related) &&
+				Objects.equals(userName, article.userName) &&
+				id.equals(article.id) &&
+				Objects.equals(userId, article.userId) &&
+				Objects.equals(label, article.label) &&
+				Objects.equals(title, article.title) &&
+				Objects.equals(image, article.image) &&
+				Objects.equals(isPublic, article.isPublic) &&
+				Objects.equals(isTop, article.isTop) &&
+				Objects.equals(visits, article.visits) &&
+				Objects.equals(upvote, article.upvote) &&
+				Objects.equals(comment, article.comment) &&
+				Objects.equals(reviewState, article.reviewState) &&
+				Objects.equals(url, article.url) &&
+				Objects.equals(type, article.type) &&
+				Objects.equals(description, article.description) &&
+				Objects.equals(keywords, article.keywords) &&
+				Objects.equals(origin, article.origin) &&
+				Objects.equals(content, article.content);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(related, userName, id, userId, label, title, image, isPublic, isTop, visits, upvote, comment, reviewState, url, type, importance, description, keywords, origin, content);
+	}
 
 	@Override
 	public String toString() {

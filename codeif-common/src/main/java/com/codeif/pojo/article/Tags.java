@@ -15,14 +15,13 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-@JsonIgnoreProperties(value = { "tags" })
 
 @Getter
 @Setter
-@ApiModel(value = "article", description = "标签类")
 @Entity
 @ToString
 @Table(name = "ar_tags")
+@ApiModel(value = "article", description = "标签类")
 public class Tags extends BasePojo implements Serializable {
 
     /**
