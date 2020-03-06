@@ -66,8 +66,6 @@ public class UserService {
 	 * @param user
 	 */
     public void registerUser(User user) {
-        user.setCreateAt(DateUtil.getTimestamp());
-        user.setUpdateAt(DateUtil.getTimestamp());
         //加密后的密码
         String bCryptPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(bCryptPassword);
@@ -156,7 +154,6 @@ public class UserService {
 		List<Role> rolesOfUser = roleDao.findRolesOfUser(id);
 		return rolesOfUser;
 	}
-
 
 	public User findById(String userId) {
 		User user = userDao.findById(userId).orElseThrow(ResourceNotFoundException::new);

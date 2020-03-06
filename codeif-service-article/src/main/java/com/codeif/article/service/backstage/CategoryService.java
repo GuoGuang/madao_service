@@ -70,10 +70,6 @@ public class CategoryService {
     }
 
     public void saveOrUpdate(Category category) {
-        category.setUpdateAt(DateUtil.getTimestamp());
-        if (category.getId() == null) {
-            category.setCreateAt(DateUtil.getTimestamp());
-        }
         categoryDao.save(category);
     }
 

@@ -18,8 +18,6 @@ import java.util.Set;
 @Setter
 @ApiModel(value = "ar_category", description = "文章分类")
 @Entity
-@JsonIgnoreProperties(value = { "category" })
-
 @Table(name = "ar_category")
 public class Category extends BasePojo implements Serializable {
 

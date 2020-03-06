@@ -144,8 +144,6 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 		UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
 		loginLog.setBrowser(userAgent.getBrowser().getName());
 		loginLog.setOsInfo(userAgent.getOperatingSystem().getName());
-		loginLog.setCreateAt(DateUtil.getTimestamp());
-		loginLog.setUpdateAt(DateUtil.getTimestamp());
 		loginLogServiceRpc.insertLoginLog("Bearer "+auth,loginLog);
 
 	}

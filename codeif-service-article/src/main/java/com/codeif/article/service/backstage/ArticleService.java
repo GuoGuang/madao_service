@@ -101,8 +101,6 @@ public class ArticleService {
 			article.setVisits(0);
 			article.setReviewState(2);
 			article.setImportance(0);
-			article.setCreateAt(DateUtil.getTimestamp());
-			article.setUpdateAt(DateUtil.getTimestamp());
 			if (article.getIsPublic() == null) {
 				article.setIsPublic(0);
 			}
@@ -113,7 +111,6 @@ public class ArticleService {
 			articleDao.save(article);
 		} else {
 			redisService.del("ARTICLE_" + article.getId());
-			article.setUpdateAt(DateUtil.getTimestamp());
 			articleDao.save(article);
 		}
 	}

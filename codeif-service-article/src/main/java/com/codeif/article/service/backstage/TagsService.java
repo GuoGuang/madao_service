@@ -64,10 +64,6 @@ public class TagsService {
 	}
 
 	public void saveOrUpdate(Tags tags) {
-		tags.setUpdateAt(DateUtil.getTimestamp());
-		if (tags.getId() == null) {
-			tags.setCreateAt(DateUtil.getTimestamp());
-		}
 		tagsDao.save(tags);
 	}
 

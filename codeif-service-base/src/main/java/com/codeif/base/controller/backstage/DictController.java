@@ -69,8 +69,6 @@ public class DictController {
     @OptLog(operationType = CommonConst.ADD, operationName = "插入字典项")
     @ApiOperation(value = "添加一条数据", notes = "Dict")
     public JsonData<Void> insertSelective(@RequestBody @Valid Dict dict) {
-        dict.setCreateAt(DateUtil.getTimestamp());
-        dict.setUpdateAt(DateUtil.getTimestamp());
         dictService.saveOrUpdate(dict);
         return JsonData.success();
     }

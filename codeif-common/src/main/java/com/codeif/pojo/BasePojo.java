@@ -11,9 +11,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
-/**
- * 基础实体类,其他实体应继承此实体
- **/
 @Getter
 @Setter
 @MappedSuperclass

@@ -61,7 +61,7 @@ public class ArticleController extends BaseController {
 
     @ApiOperation(value = "上传文章封面")
     @PutMapping("/thumb")
-    @OptLog(operationType = CommonConst.ADD, operationName = "添加一条新的文章")
+//    @OptLog(operationType = CommonConst.ADD, operationName = "上传文章封面")
     public JsonData<String> updateThumb(MultipartFile file) throws IOException {
 	    String fileUrl = ossClientUtil.uploadFile(file);
         return JsonData.success(fileUrl);
