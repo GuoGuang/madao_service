@@ -52,7 +52,7 @@ public class ArticleController extends BaseController {
 
     @ApiOperation(value = "添加一条新的文章")
     @PostMapping
-    @OptLog(operationType = CommonConst.ADD, operationName = "添加一条新的文章")
+//    @OptLog(operationType = CommonConst.ADD, operationName = "添加一条新的文章")
     public JsonData<Map<String, String>> insertArticle(@RequestBody @Valid Article article, HttpServletRequest request) {
         Map<String, String> userInfo = getUserInfo(request);
         articleService.insertOrUpdateArticle(userInfo, article);

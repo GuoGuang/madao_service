@@ -40,7 +40,6 @@ public class ArticleServiceTest {
     public void insertOrUpdateArticle() {
         Article article = new Article();
         article.setUserName("666666666666");
-        article.setLabel("666666666666");
         article.setTitle("66666");
         article.setOrigin(1);
         article.setTitle("66666");

@@ -1,5 +1,6 @@
 package com.codeif.article.service.backstage;
 
+import com.codeif.article.dao.backstage.ArticleDao;
 import com.codeif.article.dao.backstage.TagsDao;
 import com.codeif.db.redis.service.RedisService;
 import com.codeif.exception.custom.ResourceNotFoundException;
@@ -23,6 +24,8 @@ import java.util.List;
 public class TagsService {
 
 	private final TagsDao tagsDao;
+	@Autowired
+	private ArticleDao articleDao;
 
 	private final RedisService redisService;
 
@@ -49,13 +52,17 @@ public class TagsService {
 		if (StringUtils.isNotEmpty(queryVO.getFieldSort())) {
 			sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qTags, queryVO.getFieldSort());
 		}
-		return jpaQueryFactory
+		QueryResults<Tags> tagsQueryResults = jpaQueryFactory
 				.selectFrom(qTags)
 				.where(predicate)
 				.offset(queryVO.getPageNum())
 				.limit(queryVO.getPageSize())
 				.orderBy(sortedColumn)
 				.fetchResults();
+		tagsQueryResults.getResults().forEach(
+				tag->tag.setTagsCount(Long.valueOf(tag.getArticles().size()))
+		);
+		return tagsQueryResults;
 	}
 
 	public Tags findTagsById(String id) {
