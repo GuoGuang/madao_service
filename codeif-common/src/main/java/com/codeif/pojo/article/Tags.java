@@ -2,7 +2,6 @@ package com.codeif.pojo.article;
 
 import com.codeif.pojo.BasePojo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -62,7 +61,7 @@ public class Tags extends BasePojo implements Serializable {
     private String icon;
 
     @ApiModelProperty("标签颜色，前台显示")
-    @Column(length = 20)
+    @Column(length = 30)
     private String color;
 
     @ApiModelProperty("状态")

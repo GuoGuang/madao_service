@@ -11,7 +11,6 @@ import com.codeif.pojo.user.User;
 import com.codeif.user.dao.ResourceDao;
 import com.codeif.user.dao.RoleDao;
 import com.codeif.user.dao.UserDao;
-import com.codeif.utils.DateUtil;
 import com.codeif.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.ExpressionUtils;
@@ -160,6 +159,11 @@ public class UserService {
 		List<Role> rolesOfUser = roleDao.findRolesOfUser(user.getId());
 		Set<Role> rolesSet = new HashSet<>(rolesOfUser);
 		user.setRoles(rolesSet);
+		return user;
+	}
+
+	public User findByAccount(String account) {
+		User user = userDao.findByAccount(account).orElseThrow(ResourceNotFoundException::new);
 		return user;
 	}
 
