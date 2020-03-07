@@ -48,19 +48,15 @@ public class ApiArticleService {
 	}
 
 
-	public QueryResults<Article> findArticleByCondition(Article article, String categoryId, QueryVO queryVO) {
+	public QueryResults<Article> findArticleByCondition(Article article,String categoryId, QueryVO queryVO) {
 		QArticle qArticle = QArticle.article;
 		Predicate predicate = null;
 		// 默认首页
-		if (StringUtils.isNotEmpty(article.getCategoryId())) {
-			predicate = ExpressionUtils.and(predicate, qArticle.category.id.eq(categoryId));
-		}
-		if (StringUtils.isNotEmpty(queryVO.getKeyword())) {
-			predicate = ExpressionUtils.and(predicate, qArticle.title.like(queryVO.getKeyword())
-					.or(qArticle.content.like(queryVO.getKeyword())));
-		}
-
-		QueryResults<Article> queryResults = jpaQueryFactory
+		predicate = ExpressionUtils.and(predicate,
+				StringUtils.isNotEmpty(categoryId) ?
+				qArticle.category.id.eq(categoryId) :
+				qArticle.category.id.eq("1"));
+			QueryResults<Article> queryResults = jpaQueryFactory
 				.selectFrom(qArticle)
 				.where(predicate)
 				.offset(queryVO.getPageNum())
@@ -76,10 +72,8 @@ public class ApiArticleService {
 		return article;
 	}
 
-
 	/**
 	 * 增加
-	 *
 	 * @param article 实体
 	 */
 	public void insertArticle(Article article) {
@@ -88,7 +82,6 @@ public class ApiArticleService {
 
 	/**
 	 * 修改
-	 *
 	 * @param article 实体
 	 */
 	public void updateByPrimaryKeySelective(Article article) {
@@ -98,7 +91,6 @@ public class ApiArticleService {
 
 	/**
 	 * 删除
-	 *
 	 * @param articleIds:文章id集合
 	 */
 	public void deleteArticleByIds(List<String> articleIds) {
@@ -108,7 +100,6 @@ public class ApiArticleService {
 
 	/**
 	 * 点赞
-	 *
 	 * @param id 文章ID
 	 * @return
 	 */

@@ -2,15 +2,12 @@ package com.codeif.article.service.backstage;
 
 import com.codeif.api.user.UserServiceRpc;
 import com.codeif.article.dao.backstage.ArticleDao;
-import com.codeif.article.dao.backstage.CategoryDao;
 import com.codeif.article.dao.backstage.TagsDao;
 import com.codeif.db.redis.service.RedisService;
 import com.codeif.exception.custom.ResourceNotFoundException;
 import com.codeif.pojo.QueryVO;
 import com.codeif.pojo.article.Article;
-import com.codeif.pojo.article.Category;
 import com.codeif.pojo.article.QArticle;
-import com.codeif.pojo.article.Tags;
 import com.codeif.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.ExpressionUtils;
@@ -22,7 +19,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 文章板块:文章服务
@@ -31,7 +29,6 @@ import java.util.*;
 public class ArticleService {
 
 	private final ArticleDao articleDao;
-	private final CategoryDao categoryDao;
 
 	private final RedisService redisService;
 
@@ -43,10 +40,8 @@ public class ArticleService {
 	TagsDao tagsDao;
 
 	@Autowired
-	public ArticleService(ArticleDao articleDao, RedisService redisService,
-	                      UserServiceRpc userServiceRpc,CategoryDao categoryDao) {
+	public ArticleService(ArticleDao articleDao, RedisService redisService, UserServiceRpc userServiceRpc) {
 		this.articleDao = articleDao;
-		this.categoryDao = categoryDao;
 		this.redisService = redisService;
 		this.userServiceRpc = userServiceRpc;
 	}
@@ -90,10 +85,7 @@ public class ArticleService {
 	 * @return Article
 	 */
 	public Article findArticleById(String articleId) {
-		Article article = articleDao.findById(articleId).orElseThrow(ResourceNotFoundException::new);
-		article.setCategoryId(article.getCategory().getId());
-		return article;
-
+		return articleDao.findById(articleId).orElseThrow(ResourceNotFoundException::new);
 	}
 
 	/**
@@ -104,7 +96,6 @@ public class ArticleService {
 //		article.setUserId(userInfo.get("id"));
 		if (StringUtils.isBlank(article.getId())) {
 			article.setComment(0);
-			article.setType(1);
 			article.setUpvote(0);
 			article.setVisits(0);
 			article.setReviewState(2);
@@ -116,18 +107,11 @@ public class ArticleService {
 //			HashSet<Tags> objects = new HashSet<>();
 //			objects.add(byId.get());
 //			article.setTags(objects);
+			articleDao.save(article);
 		} else {
 			redisService.del("ARTICLE_" + article.getId());
+			articleDao.save(article);
 		}
-
-
-		Optional<Category> byId = categoryDao.findById(article.getCategoryId());
-		article.setCategory(byId.get());
-		List<Tags> allById = tagsDao.findAllById(Arrays.asList(article.getTagsId().split(",")));
-		article.setCategory(byId.get());
-		HashSet<Tags> objects = new HashSet<>(allById);
-		article.setTags(objects);
-		articleDao.save(article);
 	}
 
 	/**

@@ -41,9 +41,6 @@ public class ApiTagsService {
 		List<Tags> tagsQueryResults = jpaQueryFactory
 				.selectFrom(qTags)
 				.fetch();
-		tagsQueryResults.forEach(
-				tag->tag.setTagsCount(Long.valueOf(tag.getArticles().size()))
-		);
 		return tagsQueryResults;
 	}
 

@@ -162,11 +162,6 @@ public class UserService {
 		return user;
 	}
 
-	public User findByAccount(String account) {
-		User user = userDao.findByAccount(account).orElseThrow(ResourceNotFoundException::new);
-		return user;
-	}
-
 	public void updateUserProfile(User user) {
 		userDao.save(user);
 	}

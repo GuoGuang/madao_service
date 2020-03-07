@@ -40,6 +40,7 @@ public class TagsController {
         Tags result = tagsService.findTagsById(id);
         return JsonData.success(result);
     }
+
     @ApiOperation(value = "增加文章标签", notes = "id")
     @PostMapping
     @OptLog(operationType = CommonConst.ADD, operationName = "增加文章标签")
