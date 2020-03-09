@@ -28,7 +28,7 @@ public class Article extends BasePojo implements Serializable {
 
 	@ApiModelProperty(value = "文章分类")
 	@JoinColumn(name = "category_id",foreignKey=@ForeignKey(name="null"))
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
 	private Category category;
 
@@ -57,11 +57,6 @@ public class Article extends BasePojo implements Serializable {
 	@ApiModelProperty("用户ID")
 	@Column(length = 20)
 	private String userId;
-
-	@ApiModelProperty("标签")
-	@NotNull(message = "标签不能为空")
-	@Column(length = 20)
-	private String label;
 
 	@ApiModelProperty("标题")
 	@NotNull(message = "标题不能为空")
@@ -139,7 +134,6 @@ public class Article extends BasePojo implements Serializable {
 				Objects.equals(userName, article.userName) &&
 				id.equals(article.id) &&
 				Objects.equals(userId, article.userId) &&
-				Objects.equals(label, article.label) &&
 				Objects.equals(title, article.title) &&
 				Objects.equals(image, article.image) &&
 				Objects.equals(isPublic, article.isPublic) &&
@@ -158,7 +152,7 @@ public class Article extends BasePojo implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(related, userName, id, userId, label, title, image, isPublic, isTop, visits, upvote, comment, reviewState, url, type, importance, description, keywords, origin, content);
+		return Objects.hash(related, userName, id, userId, title, image, isPublic, isTop, visits, upvote, comment, reviewState, url, type, importance, description, keywords, origin, content);
 	}
 
 	@Override
@@ -168,7 +162,6 @@ public class Article extends BasePojo implements Serializable {
 				", userName='" + userName + '\'' +
 				", id='" + id + '\'' +
 				", userId='" + userId + '\'' +
-				", label='" + label + '\'' +
 				", title='" + title + '\'' +
 				", image='" + image + '\'' +
 				", isPublic=" + isPublic +
