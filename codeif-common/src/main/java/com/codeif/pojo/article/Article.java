@@ -28,7 +28,7 @@ public class Article extends BasePojo implements Serializable {
 
 	@ApiModelProperty(value = "文章分类")
 	@JoinColumn(name = "category_id",foreignKey=@ForeignKey(name="null"))
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
 	private Category category;
 
