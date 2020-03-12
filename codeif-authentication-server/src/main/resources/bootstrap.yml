@@ -1,6 +1,10 @@
 spring:
   profiles:
     active: ${ACTIVE_PROFILE:dev}
+  social:
+    github:
+      app-id: d7b4d785014297b37d96
+      app-secret: b0b5ebf93371e5050b1b1898e040dbaf57cc7e23
 ---
 spring:
   profiles: dev
