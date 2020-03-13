@@ -102,7 +102,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
 	private Mono<Void> unAuthorized(ServerWebExchange serverWebExchange,StatusEnum statusEnum) {
 		ServerHttpResponse response = serverWebExchange.getResponse();
 		response.setStatusCode(response.getStatusCode());
-		response.getHeaders().add("Content-Type", "text/plain;charset=UTF-8");
+		response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
 		JsonData jsonData = new JsonData(statusEnum);
 		DataBuffer buffer = null;
 		try {

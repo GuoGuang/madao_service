@@ -17,7 +17,7 @@ import java.util.List;
 
 @Api(tags = "标签管理")
 @RestController
-@RequestMapping(value = "/tags",produces = "application/json")
+@RequestMapping(value = "/tags")
 public class TagsController {
 
     private final TagsService tagsService;
@@ -40,7 +40,6 @@ public class TagsController {
         Tags result = tagsService.findTagsById(id);
         return JsonData.success(result);
     }
-
     @ApiOperation(value = "增加文章标签", notes = "id")
     @PostMapping
     @OptLog(operationType = CommonConst.ADD, operationName = "增加文章标签")

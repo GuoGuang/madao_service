@@ -16,8 +16,8 @@ public class OssClientUtil {
 
 
 	private static final String BUCKET_NAME = "vue-admin-guoguang"; // Bucket名称
-	@Autowired(required = false)
-	private OSSClient ossClient; // 阿里云OSS对象存储
+	@Autowired
+	private OSSClient ossClient;
 
 
 

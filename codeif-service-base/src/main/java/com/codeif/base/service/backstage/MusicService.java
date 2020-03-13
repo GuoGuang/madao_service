@@ -62,8 +62,6 @@ public class MusicService {
 	}
 
 	public boolean insertMusicSelective(Music dict) {
-//		dict.setCreateAt(DateUtil.getTimestamp());
-//		dict.setUpdateAt(DateUtil.getTimestamp());
 //		int insert = musicDao.insert(dict);
 //		return SqlHelper.retBool(insert);
 

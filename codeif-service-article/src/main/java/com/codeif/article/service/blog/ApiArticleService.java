@@ -1,5 +1,6 @@
 package com.codeif.article.service.blog;
 
+import com.codeif.article.dao.backstage.TagsDao;
 import com.codeif.article.dao.blog.ApiArticleDao;
 import com.codeif.article.service.backstage.CategoryService;
 import com.codeif.db.redis.service.RedisService;
@@ -28,6 +29,7 @@ public class ApiArticleService {
 
 	private final ApiArticleDao articleDao;
 	private final CategoryService categoryService;
+	private final TagsDao tagsDao;
 
 	private final RedisService redisService;
 
@@ -35,29 +37,36 @@ public class ApiArticleService {
 	JPAQueryFactory jpaQueryFactory;
 
 	@Autowired
-	public ApiArticleService(ApiArticleDao articleDao, CategoryService categoryService, RedisService redisService) {
+	public ApiArticleService(ApiArticleDao articleDao,
+	                         CategoryService categoryService,
+	                         TagsDao tagsDao,
+	                         RedisService redisService) {
 		this.articleDao = articleDao;
+		this.tagsDao = tagsDao;
 		this.categoryService = categoryService;
 		this.redisService = redisService;
 	}
 
 
-	public QueryResults<Article> findArticleByCondition(Article article, QueryVO queryVO) {
+	public QueryResults<Article> findArticleByCondition(Article article, String categoryId, QueryVO queryVO) {
 		QArticle qArticle = QArticle.article;
 		Predicate predicate = null;
 		// 默认首页
-		predicate = ExpressionUtils.and(predicate, qArticle.categoryId.eq("1"));
 		if (StringUtils.isNotEmpty(article.getCategoryId())) {
-			predicate = ExpressionUtils.and(predicate, qArticle.categoryId.eq(article.getCategoryId()));
+			predicate = ExpressionUtils.and(predicate, qArticle.category.id.eq(categoryId));
 		}
-			QueryResults<Article> queryResults = jpaQueryFactory
+		if (StringUtils.isNotEmpty(queryVO.getKeyword())) {
+			predicate = ExpressionUtils.and(predicate, qArticle.title.like(queryVO.getKeyword())
+					.or(qArticle.content.like(queryVO.getKeyword())));
+		}
+
+		QueryResults<Article> queryResults = jpaQueryFactory
 				.selectFrom(qArticle)
 				.where(predicate)
 				.offset(queryVO.getPageNum())
 				.limit(queryVO.getPageSize())
 				.orderBy(QuerydslUtil.getSortedColumn(Order.DESC, qArticle))
 				.fetchResults();
-		queryResults.getResults().forEach(articleInfo -> articleInfo.setCategory(categoryService.findCategoryById(articleInfo.getCategoryId())));
 		return queryResults;
 	}
 
@@ -67,8 +76,10 @@ public class ApiArticleService {
 		return article;
 	}
 
+
 	/**
 	 * 增加
+	 *
 	 * @param article 实体
 	 */
 	public void insertArticle(Article article) {
@@ -77,6 +88,7 @@ public class ApiArticleService {
 
 	/**
 	 * 修改
+	 *
 	 * @param article 实体
 	 */
 	public void updateByPrimaryKeySelective(Article article) {
@@ -86,6 +98,7 @@ public class ApiArticleService {
 
 	/**
 	 * 删除
+	 *
 	 * @param articleIds:文章id集合
 	 */
 	public void deleteArticleByIds(List<String> articleIds) {
@@ -95,6 +108,7 @@ public class ApiArticleService {
 
 	/**
 	 * 点赞
+	 *
 	 * @param id 文章ID
 	 * @return
 	 */

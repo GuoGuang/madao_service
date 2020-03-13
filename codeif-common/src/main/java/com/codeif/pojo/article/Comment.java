@@ -25,18 +25,23 @@ public class Comment extends BasePojo implements Serializable {
 
     @NotNull(message = "文章ID不能为空")
     @ApiModelProperty("外键文章表ID")
+    @Column(length = 20)
     private String articleId;
 
     @NotNull(message = "评论内容不能为空")
     @ApiModelProperty("评论内容")
+    @Column(length = 200)
     private String content;
 
     @ApiModelProperty("评论人ID")
+    @Column(length = 20)
     private String userId;
 
     @ApiModelProperty("父评论ID(如果为0表示文章的顶级评论,每一条评论都可以被评论)")
+    @Column(length = 20)
     private String parentId;
 
     @ApiModelProperty("评论日期")
+    @Column(length = 13)
     private String publishDate;
 }

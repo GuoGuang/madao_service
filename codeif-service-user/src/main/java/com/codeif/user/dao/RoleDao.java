@@ -21,8 +21,7 @@ public interface RoleDao extends JpaRepository<Role, String>, JpaSpecificationEx
      * @param id 用户id
      * @return 角色数组
      */
-
-    @Query(value = "SELECT * FROM us_role WHERE id in (SELECT us_role_id FROM us_user_role WHERE us_user_id = :id)", nativeQuery = true)
+    @Query(value = "SELECT * FROM us_role WHERE id in (SELECT role_id FROM us_user_role WHERE user_id = :id)", nativeQuery = true)
     List<Role> findRolesOfUser(@Param("id") String id);
 
     @Modifying

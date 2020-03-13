@@ -62,9 +62,7 @@ public class ResourceController {
     @PostMapping
     @OptLog(operationType = CommonConst.MODIFY, operationName = "插入Resource")
     @ApiOperation(value = "添加一条数据", notes = "Resource")
-    public JsonData<Void> insertSelective(@RequestBody Resource resource) {
-        resource.setCreateAt(DateUtil.getTimestamp());
-        resource.setUpdateAt(DateUtil.getTimestamp());
+    public JsonData<Void> insertSelective(@RequestBody @Valid Resource resource) {
         resourceService.saveOrUpdate(resource);
         return JsonData.success();
     }

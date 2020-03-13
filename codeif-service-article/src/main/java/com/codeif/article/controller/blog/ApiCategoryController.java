@@ -1,28 +1,37 @@
 package com.codeif.article.controller.blog;
 
+import com.codeif.article.service.backstage.CategoryService;
 import com.codeif.pojo.QueryVO;
-import com.codeif.pojo.article.Tags;
+import com.codeif.pojo.article.Category;
 import com.codeif.utils.JsonData;
-import com.codeif.utils.JsonUtil;
+import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @Api(tags = "前台分类")
 @RestController
 @RequestMapping(value = "/api/ar/category")
 public class ApiCategoryController {
 
+	@Autowired
+	private CategoryService categoryService;
+
     @ApiOperation(value = "查询分类集合", notes = "Category")
     @GetMapping
-    public JsonData<Map<String, Object>> findCategoryByCondition(Tags tags, QueryVO queryVO) {
-        // ArrayList<Tags> result = tagsService.findTagsByCondition(tags,queryVO);
-        String objMap = "{\"status\":\"success\",\"message\":\"获取文章成功\",\"result\":{\"data\":[],\"params\":{\"querys\":{\"state\":1,\"public\":1},\"options\":{\"sort\":{\"_id\":-1},\"page\":1,\"populate\":[\"category\",\"tag\"],\"select\":\"-password -content\"},\"params\":{\"url\":\"/article\"},\"isAuthenticated\":false},\"pagination\":{\"total\":0,\"current_page\":1,\"total_page\":1,\"per_page\":16}}}";
-        Map<String, Object> objectMap = JsonUtil.jsonToMap(objMap);
-        return JsonData.success(objectMap);
+    public JsonData<QueryResults<Category>> findCategoryByCondition(Category category, QueryVO queryVO) {
+	    QueryResults<Category> categoryByCondition = categoryService.findCategoryByCondition(category, queryVO);
+        return JsonData.success(categoryByCondition);
+    }
+
+    @ApiOperation(value = "查询分类id集合", notes = "Category")
+    @GetMapping("/{id}")
+    public JsonData<Category> findCategoryById(@PathVariable String id) {
+	    Category result = categoryService.findCategoryById(id);
+        return JsonData.success(result);
     }
 }

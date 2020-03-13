@@ -17,7 +17,7 @@ import java.util.List;
 
 @Api(tags = "文章分类管理")
 @RestController
-@RequestMapping(value = "/category", produces = "application/json")
+@RequestMapping(value = "/category")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -59,7 +59,7 @@ public class CategoryController {
     }
 
     @DeleteMapping
-    @OptLog(operationType = CommonConst.DELETE, operationName = "删除文章分类")
+//    @OptLog(operationType = CommonConst.DELETE, operationName = "删除文章分类")
     @ApiOperation(value = "删除文章分类", notes = "id")
     public JsonData<Void> deleteCategoryByIds(@RequestBody List<String> categoryIds) {
         categoryService.deleteCategoryByIds(categoryIds);

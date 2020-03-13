@@ -18,7 +18,7 @@ import java.util.Set;
 
 public interface ResourceDao extends JpaRepository<Resource, String>, JpaSpecificationExecutor<Resource>, QuerydslPredicateExecutor<Resource> {
 
-    @Query(value = "SELECT * FROM us_resource WHERE id IN (SELECT us_resource_id FROM us_role_resource WHERE us_role_id in (:resId))", nativeQuery = true)
+    @Query(value = "SELECT * FROM us_resource WHERE id IN (SELECT resource_id FROM us_role_resource WHERE role_id in (:resId))", nativeQuery = true)
     Set<Resource> findResourceByRoleIds(@Param("resId") List<String> resId);
 
     /**

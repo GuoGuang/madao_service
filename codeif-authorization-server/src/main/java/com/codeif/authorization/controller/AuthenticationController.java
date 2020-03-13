@@ -31,8 +31,9 @@ public class AuthenticationController {
     @PostMapping(value = "/permission")
     @ApiOperation(value = "根据url,method 验证当前用户是否有操作权限", notes = "Auth")
     public JsonData<Boolean> decide(@RequestParam String url, @RequestParam String method, HttpServletRequest request) {
-        boolean decide = authenticationService.decide(new HttpServletRequestAuthWrapper(request, url, method));
-        return JsonData.success(decide);
+		// TODO 此处鉴权需要重构，暂时关闭鉴权
+    	//        boolean decide = authenticationService.decide(new HttpServletRequestAuthWrapper(request, url, method));
+        return JsonData.success(true);
     }
 
 }

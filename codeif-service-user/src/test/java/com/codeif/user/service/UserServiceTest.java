@@ -61,7 +61,7 @@ public class UserServiceTest {
         user.setPassword("mima");
         user.setUserName("zhangsan");
         user.setNickName("zhangsan");
-        user.setSex("1");
+        user.setSex(1);
         user.setEmail("ddddd@qq.com");
         user.setPhone("1");
         userService.registerUser(user);

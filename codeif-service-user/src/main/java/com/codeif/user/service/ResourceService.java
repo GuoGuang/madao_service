@@ -65,8 +65,6 @@ public class ResourceService {
 
 	public void saveOrUpdate(Resource resource) {
 		if (StringUtils.isEmpty(resource.getId())) {
-			resource.setCreateAt(DateUtil.getTimestamp());
-			resource.setUpdateAt(DateUtil.getTimestamp());
 			resourceDao.save(resource);
 		} else {
 			resourceDao.save(resource);

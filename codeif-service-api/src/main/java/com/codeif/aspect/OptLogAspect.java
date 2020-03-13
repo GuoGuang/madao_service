@@ -109,8 +109,6 @@ public class OptLogAspect {
 
 			}
 			//log.setParams(argumentParam);
-			log.setCreateAt(DateUtil.getTimestamp());
-			log.setUpdateAt(DateUtil.getTimestamp());
 			optLogServiceRpc.insertOptLog(log);
 			LogBack.info("=====controller前置通知结束=====");
 		} catch (Exception e) {
@@ -187,8 +185,6 @@ public class OptLogAspect {
 
 			}
 			//log.setParams(argumentParam);
-			log.setCreateAt(DateUtil.getTimestamp());
-			log.setUpdateAt(DateUtil.getTimestamp());
 			/*SysLog log = new SysLog();
 			log.setDescription(operationName);
 			log.setExceptionCode(e.getClass().getName());

@@ -20,6 +20,7 @@ public class Music extends BasePojo implements Serializable {
 
     //  @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name="id", unique=true, nullable=false, updatable=false, length = 20)
     private String id;
 
     /**

@@ -2,13 +2,15 @@ package com.codeif.article.service.backstage;
 
 import com.codeif.api.user.UserServiceRpc;
 import com.codeif.article.dao.backstage.ArticleDao;
+import com.codeif.article.dao.backstage.CategoryDao;
+import com.codeif.article.dao.backstage.TagsDao;
 import com.codeif.db.redis.service.RedisService;
 import com.codeif.exception.custom.ResourceNotFoundException;
 import com.codeif.pojo.QueryVO;
 import com.codeif.pojo.article.Article;
+import com.codeif.pojo.article.Category;
 import com.codeif.pojo.article.QArticle;
-import com.codeif.pojo.user.User;
-import com.codeif.utils.DateUtil;
+import com.codeif.pojo.article.Tags;
 import com.codeif.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.ExpressionUtils;
@@ -20,8 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 文章板块:文章服务
@@ -30,6 +31,7 @@ import java.util.Map;
 public class ArticleService {
 
 	private final ArticleDao articleDao;
+	private final CategoryDao categoryDao;
 
 	private final RedisService redisService;
 
@@ -37,10 +39,14 @@ public class ArticleService {
 
 	@Autowired
 	JPAQueryFactory jpaQueryFactory;
+	@Autowired
+	TagsDao tagsDao;
 
 	@Autowired
-	public ArticleService(ArticleDao articleDao, RedisService redisService, UserServiceRpc userServiceRpc) {
+	public ArticleService(ArticleDao articleDao, RedisService redisService,
+	                      UserServiceRpc userServiceRpc,CategoryDao categoryDao) {
 		this.articleDao = articleDao;
+		this.categoryDao = categoryDao;
 		this.redisService = redisService;
 		this.userServiceRpc = userServiceRpc;
 	}
@@ -73,16 +79,6 @@ public class ArticleService {
 				.limit(queryVO.getPageSize())
 				.orderBy(sortedColumn)
 				.fetchResults();
-		List<User> userList = userServiceRpc.findUser().getData().getResults();
-		queryResults.getResults().forEach(
-				articleUser -> userList.forEach(
-						user -> {
-							if (user.getId().equals(articleUser.getUserId())) {
-								articleUser.setUserName(user.getUserName());
-							}
-						}
-				)
-		);
 		return queryResults;
 	}
 
@@ -94,7 +90,10 @@ public class ArticleService {
 	 * @return Article
 	 */
 	public Article findArticleById(String articleId) {
-		return articleDao.findById(articleId).orElseThrow(ResourceNotFoundException::new);
+		Article article = articleDao.findById(articleId).orElseThrow(ResourceNotFoundException::new);
+		article.setCategoryId(article.getCategory().getId());
+		return article;
+
 	}
 
 	/**
@@ -102,24 +101,33 @@ public class ArticleService {
 	 * @param article 实体
 	 */
 	public void insertOrUpdateArticle(Map<String, String> userInfo,Article article) {
-		article.setUserId(userInfo.get("id"));
+//		article.setUserId(userInfo.get("id"));
 		if (StringUtils.isBlank(article.getId())) {
 			article.setComment(0);
+			article.setType(1);
 			article.setUpvote(0);
 			article.setVisits(0);
 			article.setReviewState(2);
 			article.setImportance(0);
-			article.setCreateAt(DateUtil.getTimestamp());
-			article.setUpdateAt(DateUtil.getTimestamp());
 			if (article.getIsPublic() == null) {
 				article.setIsPublic(0);
 			}
-			articleDao.save(article);
+//			Optional<Tags> byId = tagsDao.findById("1214844690118086656");
+//			HashSet<Tags> objects = new HashSet<>();
+//			objects.add(byId.get());
+//			article.setTags(objects);
 		} else {
 			redisService.del("ARTICLE_" + article.getId());
-			article.setUpdateAt(DateUtil.getTimestamp());
-			articleDao.save(article);
 		}
+
+
+		Optional<Category> byId = categoryDao.findById(article.getCategoryId());
+		article.setCategory(byId.get());
+		List<Tags> allById = tagsDao.findAllById(Arrays.asList(article.getTagsId().split(",")));
+		article.setCategory(byId.get());
+		HashSet<Tags> objects = new HashSet<>(allById);
+		article.setTags(objects);
+		articleDao.save(article);
 	}
 
 	/**
