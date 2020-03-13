@@ -1,6 +1,25 @@
-# codeif-manage
 
-![springboot](https://img.shields.io/badge/springboot-2.0.2.RELEASE-brightgreen.svg)    ![springCloud](https://img.shields.io/badge/springcloud-Finchley.SR2-brightgreen.svg)     ![jdk](https://img.shields.io/badge/jdk->=1.8-blue.svg)    ![license](https://img.shields.io/badge/license-GPL%20(%3E%3D%202)-blue)
+<p align="center">
+<a href="https://github.com/GuoGuang/codeif" target="blank">
+    <img src="https://yd-note.oss-cn-beijing.aliyuncs.com/favicon.ico" height="90" alt="codeif.me logo" />
+</a>
+</p>
+
+<p align="center">
+  <a href="#">
+    <img src="https://img.shields.io/badge/jdk->=1.8-blue.svg" alt="vue">
+  </a>
+  <a href="#">
+    <img src="https://img.shields.io/badge/license-GPL%20(%3E%3D%202)-blue" alt="vue">
+  </a>
+  <a href="#">
+    <img src="https://img.shields.io/badge/springcloud-Finchley.SR2-brightgreen.svg" alt="element-ui">
+  </a>
+  <a href="#">
+    <img src="https://img.shields.io/badge/springboot-2.0.2.RELEASE-brightgreen.svg" alt="license">
+  </a>
+</p>
+
 
 本仓库基于spring、spring-boot、spring-cloud等全家桶模块搭建
 
