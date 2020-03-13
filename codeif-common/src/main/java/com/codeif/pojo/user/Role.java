@@ -21,13 +21,15 @@ public class Role extends BasePojo implements Serializable {
 
 	@ApiModelProperty("角色关联的资源")
 	@ManyToMany
+    @org.hibernate.annotations.ForeignKey(name = "none")
 	@JoinTable(name = "us_role_resource",
-			joinColumns = @JoinColumn(name = "role_id",referencedColumnName="id",foreignKey=@ForeignKey(name="null") ),
-			inverseJoinColumns = @JoinColumn(name = "resource_id",referencedColumnName="id",foreignKey=@ForeignKey(name="null")))
+			joinColumns = @JoinColumn(name = "role_id",referencedColumnName="id",foreignKey=@ForeignKey(name="none",value = ConstraintMode.NO_CONSTRAINT) ),
+			inverseJoinColumns = @JoinColumn(name = "resource_id",referencedColumnName="id",foreignKey=@ForeignKey(name="none",value = ConstraintMode.NO_CONSTRAINT)))
 	private Set<Resource> resources = new HashSet<>();
 
 	@ManyToMany(mappedBy = "roles")
 	@JsonIgnore
+    @org.hibernate.annotations.ForeignKey(name = "none")
 	private Set<User> users = new HashSet<>();
 
 

@@ -23,9 +23,10 @@ public class User extends BasePojo implements Serializable {
 
 	@ApiModelProperty("角色集合")
 	@JoinTable(name = "us_user_role",
-			joinColumns = @JoinColumn(name = "user_id",referencedColumnName="id",foreignKey=@ForeignKey(name="null") ),
-			inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName="id",foreignKey=@ForeignKey(name="null")))
+			joinColumns = @JoinColumn(name = "user_id",referencedColumnName="id",foreignKey=@ForeignKey(name="none",value = ConstraintMode.NO_CONSTRAINT) ),
+			inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName="id",foreignKey=@ForeignKey(name="none",value = ConstraintMode.NO_CONSTRAINT)))
 	@ManyToMany
+	@org.hibernate.annotations.ForeignKey(name = "none")
 	private Set<Role> roles = new HashSet<>();
 
 

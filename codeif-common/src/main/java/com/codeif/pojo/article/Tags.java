@@ -32,6 +32,7 @@ public class Tags extends BasePojo implements Serializable {
 
     @ManyToMany(mappedBy = "tags")
     @JsonIgnore
+    @org.hibernate.annotations.ForeignKey(name = "none")
     private Set<Article> articles = new HashSet<>();
 
 	@Id

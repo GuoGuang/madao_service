@@ -27,7 +27,7 @@ public class Article extends BasePojo implements Serializable {
 
 
 	@ApiModelProperty(value = "文章分类")
-	@JoinColumn(name = "category_id",foreignKey=@ForeignKey(name="null"))
+	@JoinColumn(name = "category_id",foreignKey=@ForeignKey(name="none",value = ConstraintMode.NO_CONSTRAINT))
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
 	private Category category;
@@ -50,8 +50,8 @@ public class Article extends BasePojo implements Serializable {
 
 	@JoinTable(
 			name = "ar_article_tags",
-			joinColumns = @JoinColumn(name = "article_id",referencedColumnName="id",foreignKey=@ForeignKey(name="null") ),
-			inverseJoinColumns = @JoinColumn(name = "tags_id",referencedColumnName="id",foreignKey=@ForeignKey(name="null")))
+			joinColumns = @JoinColumn(name = "article_id",referencedColumnName="id",foreignKey=@ForeignKey(name="none",value = ConstraintMode.NO_CONSTRAINT) ),
+			inverseJoinColumns = @JoinColumn(name = "tags_id",referencedColumnName="id",foreignKey=@ForeignKey(name="none",value = ConstraintMode.NO_CONSTRAINT)))
 	@ManyToMany
 	private Set<Tags> tags = new HashSet<>();
 

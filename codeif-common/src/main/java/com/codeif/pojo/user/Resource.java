@@ -26,6 +26,7 @@ public class Resource extends BasePojo implements Serializable, Cloneable {
 
 	@ManyToMany(mappedBy = "resources")
 	@JsonIgnore
+	@org.hibernate.annotations.ForeignKey(name = "none")
 	private Set<Role> roles = new HashSet<>();
 
 	@Id

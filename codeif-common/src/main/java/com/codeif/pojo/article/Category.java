@@ -22,6 +22,7 @@ import java.util.Set;
 public class Category extends BasePojo implements Serializable {
 
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "category")
+    @org.hibernate.annotations.ForeignKey(name = "none")
 	private Set<Article> article = new HashSet<>();
 
 
