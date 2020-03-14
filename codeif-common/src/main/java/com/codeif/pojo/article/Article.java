@@ -73,7 +73,7 @@ public class Article extends BasePojo implements Serializable {
 
 	@ApiModelProperty("文章封面")
 	@Column(length = 200)
-	private String image;
+	private String thumb;
 
 	@ApiModelProperty(value = "是否公开",example = "1")
 	@Column(length = 1)
@@ -143,7 +143,7 @@ public class Article extends BasePojo implements Serializable {
 				id.equals(article.id) &&
 				Objects.equals(userId, article.userId) &&
 				Objects.equals(title, article.title) &&
-				Objects.equals(image, article.image) &&
+				Objects.equals(thumb, article.thumb) &&
 				Objects.equals(isPublic, article.isPublic) &&
 				Objects.equals(isTop, article.isTop) &&
 				Objects.equals(visits, article.visits) &&
@@ -160,7 +160,7 @@ public class Article extends BasePojo implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(related, userName, id, userId, title, image, isPublic, isTop, visits, upvote, comment, reviewState, url, type, importance, description, keywords, origin, content);
+		return Objects.hash(related, userName, id, userId, title, thumb, isPublic, isTop, visits, upvote, comment, reviewState, url, type, importance, description, keywords, origin, content);
 	}
 
 	@Override
@@ -171,7 +171,7 @@ public class Article extends BasePojo implements Serializable {
 				", id='" + id + '\'' +
 				", userId='" + userId + '\'' +
 				", title='" + title + '\'' +
-				", image='" + image + '\'' +
+				", thumb='" + thumb + '\'' +
 				", isPublic=" + isPublic +
 				", isTop=" + isTop +
 				", visits=" + visits +
