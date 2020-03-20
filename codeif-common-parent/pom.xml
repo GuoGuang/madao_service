@@ -81,6 +81,13 @@
             <version>3.5</version>
         </dependency>
 
+        <!-- logstash 日志收集器  -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>6.3</version>
+        </dependency>
+        <!--  logback  -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
