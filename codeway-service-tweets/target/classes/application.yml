@@ -6,5 +6,5 @@ spring:
 
 # 配置织入点
 com:
-  codeif:
-    aopPointcutExpression: execution (* com.codeif.tweets..*.*(..))
+  codeway:
+    aopPointcutExpression: execution (* com.codeway.tweets..*.*(..))

@@ -5,8 +5,8 @@ spring:
     name: service-article #指定服务名
 
 com:
-  codeif:
-    aopPointcutExpression: execution (* com.codeif.article..*.*(..))
+  codeway:
+    aopPointcutExpression: execution (* com.codeway.article..*.*(..))
 
 
 

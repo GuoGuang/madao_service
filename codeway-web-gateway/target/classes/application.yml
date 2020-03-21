@@ -43,35 +43,35 @@ auth:
 #
 #zuul:
 #  routes:
-#    codeif-service-user:           # 用户服务
+#    codeway-service-user:           # 用户服务
 #      path: /user/**              # 配置请求URL的请求规则 所有/user 开头的请求都转发到 serviceId 服务上
-#      serviceId: codeif-service-user  # 指定Eureka注册中心中的服务id
+#      serviceId: codeway-service-user  # 指定Eureka注册中心中的服务id
 #      # 是否将路径/user去除 比如访问路径是localhost:8080/user/find/1 如果设置为true,那么路径就是localhost:8080/find/1
 #      stripPrefix: false
 #
-#    codeif-service-tweets:           # 吐槽服务
+#    codeway-service-tweets:           # 吐槽服务
 #          path: /tweets/**
-#          serviceId: codeif-service-tweets
+#          serviceId: codeway-service-tweets
 #
-#    codeif-service-search:         # 搜索服务
+#    codeway-service-search:         # 搜索服务
 #          path: /search/**
-#          serviceId: codeif-service-search
+#          serviceId: codeway-service-search
 #
-#    codeif-service-question:       # 问题服务
+#    codeway-service-question:       # 问题服务
 #          path: /question/**
-#          serviceId: codeif-service-question
+#          serviceId: codeway-service-question
 #
-#    codeif-service-gathering:      # 活动服务
+#    codeway-service-gathering:      # 活动服务
 #          path: /tweets/**
-#          serviceId: codeif-service-gathering
+#          serviceId: codeway-service-gathering
 #
-#    codeif-service-base:            # 基础服务
+#    codeway-service-base:            # 基础服务
 #          path: /base/**
-#          serviceId: codeif-service-base
+#          serviceId: codeway-service-base
 #
-#    codeif-service-article:         # 文章服务
+#    codeway-service-article:         # 文章服务
 #          path: /article/**
-#          serviceId: codeif-service-article
+#          serviceId: codeway-service-article
 #
 
 #
