@@ -1,0 +1,15 @@
+server:
+  port: 5000
+
+eureka:
+  instance:
+    hostname: ${spring.cloud.client.ip-address} #eureka服务端的实例名称
+  client:
+    register-with-eureka: false     #false表示不向注册中心注册自己。
+    fetch-registry: false     #是否需要从Eureka中获取注册信息
+    service-url:
+         #单机 defaultZone:http://${eureka.instance.hostname}:${server.port}/eureka/  注册中心的地址
+         # 高可用分布式注册中心集群,容灾部署,7001与其他注册中心绑定
+         #defaultZone: http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+         defaultZone: http://127.0.0.1:${server.port}/eureka/
+

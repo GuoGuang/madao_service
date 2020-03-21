@@ -1,0 +1,14 @@
+server:
+  port: 8091
+spring:
+  application:
+    name: authorization-server
+
+
+# 需要网关拦截但鉴权服务不需要拦截的公共urls
+permission:
+  common:
+    resource:
+      - url: /su/user/permission
+        method: post
+        code: common:permission
