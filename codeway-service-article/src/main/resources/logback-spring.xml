@@ -3,13 +3,25 @@
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <jmxConfigurator/>
 
-    <!--  ELK 收集日志到Logstash  -->
-    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>121.36.158.84:5000</destination>
-         <encoder>
+    <!--  ELK 收集日志到Logstash,不使用kafka推送消息  -->
+    <!--    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+           <destination>121.36.158.84:5000</destination>
+             <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}  -  %msg%n</pattern>
+                <charset>UTF-8</charset>
+            </encoder>
+        </appender>-->
+
+    <!-- 使用kafka推送消息到Logstash  -->
+    <appender name="KAFKA" class="com.github.danielwegener.logback.kafka.KafkaAppender">
+        <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}  -  %msg%n</pattern>
-            <charset>UTF-8</charset>
         </encoder>
+        <topic>test</topic>
+        <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy"/>
+        <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>
+        <producerConfig>bootstrap.servers=121.36.158.84:9092</producerConfig>
+        <appender-ref ref="CONSOLE"/>
     </appender>
 
 
@@ -41,7 +53,9 @@
     </appender>
     <!-- 控制台输出日志级别 -->
     <root level="info">
-        <appender-ref ref="LOGSTASH"/>
+
+<!--        <appender-ref ref="LOGSTASH"/>-->
+        <appender-ref ref="KAFKA"/>
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration> 
