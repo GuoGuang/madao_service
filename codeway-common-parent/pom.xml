@@ -87,6 +87,12 @@
             <artifactId>logstash-logback-encoder</artifactId>
             <version>6.3</version>
         </dependency>
+        <!-- Kafka 往kafka推送消息 -->
+        <dependency>
+            <groupId>com.github.danielwegener</groupId>
+            <artifactId>logback-kafka-appender</artifactId>
+            <version>0.2.0-RC2</version>
+        </dependency>
         <!--  logback  -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
