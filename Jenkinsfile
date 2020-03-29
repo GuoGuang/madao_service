@@ -44,7 +44,7 @@ pipeline {
 //        BUILD_NUMBER = credentials('aliyun-docker')
         // 仓库docker 地址、镜像名、容器名称
         FRESH_HOST = "registry.cn-hongkong.aliyuncs.com"
-        REMOTE_SCRIPT = 'sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@121.36.158.84'
+        REMOTE_SCRIPT = 'sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${INSTANCE_IP}'
         REMOTE_IP = "121.36.158.84"
         DOCKER_IMAGE = "${params.project}"
         DOCKER_CONTAINER = "${params.project}"
@@ -184,8 +184,8 @@ pipeline {
                     script {
                         if("${serviceName}" != "codeway-server-eureka" && "${serviceName}" != "codeway-server-config"){
                             sh "docker login --username=1831682775@qq.com --password ${DOCKER_HUB_PASSWORD} registry.cn-hangzhou.aliyuncs.com"
-                            sh "docker tag ${serviceName}:${env.BUILD_ID} registry.cn-hangzhou.aliyuncs.com/codeway/${serviceName}:${env.BUILD_ID}"
-                            sh "docker push registry.cn-hangzhou.aliyuncs.com/codeway/${serviceName}:${env.BUILD_ID}"
+                            sh "docker tag ${serviceName}:${env.BUILD_ID} registry.cn-hangzhou.aliyuncs.com/codeway_me/${serviceName}:${env.BUILD_ID}"
+                            sh "docker push registry.cn-hangzhou.aliyuncs.com/codeway_me/${serviceName}:${env.BUILD_ID}"
                             echo "构建并推送到远程服务器成功--->"
                         }
                     }
@@ -257,8 +257,8 @@ pipeline {
                         sh "${REMOTE_SCRIPT} pwd "
                         sh "${REMOTE_SCRIPT} docker -v "
                         sh "${REMOTE_SCRIPT} docker login --username=1831682775@qq.com --password ${DOCKER_HUB_PASSWORD} registry.cn-hangzhou.aliyuncs.com"
-                        sh "${REMOTE_SCRIPT} docker pull registry.cn-hangzhou.aliyuncs.com/codeway/${serviceName}:${env.BUILD_ID}"
-                        sh "${REMOTE_SCRIPT} docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d registry.cn-hangzhou.aliyuncs.com/codeway/${serviceName}:${env.BUILD_ID}"
+                        sh "${REMOTE_SCRIPT} docker pull registry.cn-hangzhou.aliyuncs.com/codeway_me/${serviceName}:${env.BUILD_ID}"
+                        sh "${REMOTE_SCRIPT} docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d registry.cn-hangzhou.aliyuncs.com/codeway_me/${serviceName}:${env.BUILD_ID}"
                         echo '-->> #远程主机构建成功-->>'
                      }
                     //这里增加了一个小功能，在服务器上记录了基本部署信息，方便多人使用一套环境时问题排查，storge in {WORKSPACE}/deploy.log  & remoteServer:htdocs/war
