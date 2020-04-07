@@ -72,6 +72,3 @@ auth:
 #    codeway-service-article:         # 文章服务
 #          path: /article/**
 #          serviceId: codeway-service-article
-#
-
-#
