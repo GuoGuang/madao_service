@@ -8,10 +8,15 @@ import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Api(tags = "前台分类")
 @RestController
@@ -23,8 +28,9 @@ public class ApiCategoryController {
 
     @ApiOperation(value = "查询分类集合", notes = "Category")
     @GetMapping
-    public JsonData<QueryResults<Category>> findCategoryByCondition(Category category, QueryVO queryVO) {
-	    QueryResults<Category> categoryByCondition = categoryService.findCategoryByCondition(category, queryVO);
+    public JsonData<Page<Category>> findCategoryByCondition(Category category,
+                                                                    @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
+	    Page<Category> categoryByCondition = categoryService.findCategoryByCondition(category, pageable);
         return JsonData.success(categoryByCondition);
     }
 

@@ -12,6 +12,9 @@ import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +23,8 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Api(tags = "文章管理")
 @RestController
@@ -38,8 +43,9 @@ public class ArticleController extends BaseController {
 
     @ApiOperation(value = "查询文章集合", notes = "Article")
     @GetMapping
-    public JsonData<QueryResults<Article>> findArticleByCondition(Article article, QueryVO queryVO) {
-        QueryResults<Article> result = articleService.findArticleByCondition(article, queryVO);
+    public JsonData<Page<Article>> findArticleByCondition(Article article,
+                                                                  @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
+        Page<Article> result = articleService.findArticleByCondition(article, pageable);
         return JsonData.success(result);
     }
 
