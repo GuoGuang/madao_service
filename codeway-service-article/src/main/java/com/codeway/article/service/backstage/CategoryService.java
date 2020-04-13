@@ -4,20 +4,17 @@ package com.codeway.article.service.backstage;
 import com.codeway.article.dao.backstage.CategoryDao;
 import com.codeway.db.redis.service.RedisService;
 import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.pojo.QueryVO;
 import com.codeway.pojo.article.Category;
-import com.codeway.pojo.article.QCategory;
-import com.codeway.utils.QuerydslUtil;
-import com.querydsl.core.QueryResults;
-import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,29 +36,18 @@ public class CategoryService {
         this.redisService = redisService;
     }
 
-    public QueryResults<Category> findCategoryByCondition(Category category, QueryVO queryVO) {
-
-        QCategory qCategory = QCategory.category;
-        Predicate predicate = null;
-        OrderSpecifier<?> sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qCategory);
-        if (StringUtils.isNotEmpty(category.getName())) {
-            predicate = ExpressionUtils.and(predicate, qCategory.name.like(category.getName()));
-        }
-        if (category.getState() != null) {
-            predicate = ExpressionUtils.and(predicate, qCategory.state.eq(category.getState()));
-        }
-        if (StringUtils.isNotEmpty(queryVO.getFieldSort())) {
-            sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qCategory, queryVO.getFieldSort());
-        }
-        QueryResults<Category> queryResults = jpaQueryFactory
-                .selectFrom(qCategory)
-                .where(predicate)
-                .offset(queryVO.getPageNum())
-                .limit(queryVO.getPageSize())
-                .orderBy(sortedColumn)
-                .fetchResults();
-        return queryResults;
-
+    public Page<Category> findCategoryByCondition(Category category, Pageable pageable) {
+        Specification<Category> condition = (root, query, builder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (StringUtils.isNotEmpty(category.getName())) {
+                predicates.add(builder.like(root.get("name"), "%" + category.getName() + "%"));
+            }
+            if (category.getState() != null) {
+                predicates.add(builder.equal(root.get("state"), category.getState()));
+            }
+            return query.where(predicates.toArray(new Predicate[0])).getRestriction();
+        };
+        return categoryDao.findAll(condition, pageable);
     }
 
     public Category findCategoryById(String categoryId) {

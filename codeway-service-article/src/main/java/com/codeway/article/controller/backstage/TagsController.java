@@ -10,10 +10,15 @@ import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Api(tags = "标签管理")
 @RestController
@@ -29,8 +34,9 @@ public class TagsController {
 
     @ApiOperation(value = "查询标签集合", notes = "tags")
     @GetMapping
-    public JsonData<QueryResults<Tags>> findArticleByCondition(Tags tags, QueryVO queryVO) {
-        QueryResults<Tags> result = tagsService.findTagsByCondition(tags, queryVO);
+    public JsonData<Page<Tags>> findArticleByCondition(Tags tags,
+                                                       @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
+        Page<Tags> result = tagsService.findTagsByCondition(tags, pageable);
         return JsonData.success(result);
     }
 

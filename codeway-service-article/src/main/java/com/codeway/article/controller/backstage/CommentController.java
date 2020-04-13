@@ -10,10 +10,15 @@ import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Api(tags = "文章评论管理")
 @RestController
@@ -30,8 +35,9 @@ public class CommentController {
 
 	@GetMapping()
 	@ApiOperation(value = "查询文章评论", notes = "Comment")
-	public JsonData<QueryResults<Comment>> findCommentByCondition(Comment comment, QueryVO queryVO) {
-		QueryResults<Comment> result = commentService.findCommentByCondition(comment, queryVO);
+	public JsonData<Page<Comment>> findCommentByCondition(Comment comment,
+														 @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
+		Page<Comment> result = commentService.findCommentByCondition(comment,pageable);
 		return JsonData.success(result);
 	}
 

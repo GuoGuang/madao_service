@@ -5,6 +5,7 @@ import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.QueryVO;
 import com.codeway.pojo.article.Comment;
 import com.codeway.pojo.article.QComment;
+import com.codeway.pojo.user.Resource;
 import com.codeway.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.ExpressionUtils;
@@ -13,8 +14,13 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,29 +42,17 @@ public class CommentService {
 
     /**
      * 查询全部列表
-     *
-     * @param comment 实体
-     * @param queryVO 查询条件
+     * @param comment 查询实体
      */
-    public QueryResults<Comment> findCommentByCondition(Comment comment, QueryVO queryVO) {
-
-        QComment qComment = QComment.comment;
-        com.querydsl.core.types.Predicate predicate = null;
-        OrderSpecifier<?> sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qComment);
-        if (StringUtils.isNotEmpty(comment.getContent())) {
-            predicate = ExpressionUtils.and(predicate, qComment.content.like(comment.getContent()));
-        }
-        if (StringUtils.isNotEmpty(queryVO.getFieldSort())) {
-            sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qComment, queryVO.getFieldSort());
-        }
-        QueryResults<Comment> queryResults = jpaQueryFactory
-                .selectFrom(qComment)
-                .where(predicate)
-                .offset(queryVO.getPageNum())
-                .limit(queryVO.getPageSize())
-                .orderBy(sortedColumn)
-                .fetchResults();
-        return queryResults;
+    public Page<Comment> findCommentByCondition(Comment comment, Pageable pageable) {
+        Specification<Comment> condition = (root, query, builder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (StringUtils.isNotEmpty(comment.getContent())) {
+                predicates.add(builder.like(root.get("content"), "%" + comment.getContent() + "%"));
+            }
+            return query.where(predicates.toArray(new Predicate[0])).getRestriction();
+        };
+        return commentDao.findAll(condition,pageable);
     }
 
     /**

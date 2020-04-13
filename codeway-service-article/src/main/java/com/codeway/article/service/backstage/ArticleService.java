@@ -20,6 +20,9 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -56,30 +59,21 @@ public class ArticleService {
 	 *
 	 * @return IPage<Article>
 	 */
-	public QueryResults<Article> findArticleByCondition(Article article, QueryVO queryVO) {
-		QArticle qArticle = QArticle.article;
-		Predicate predicate = null;
-		OrderSpecifier<?> sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qArticle);
-		if (StringUtils.isNotEmpty(article.getTitle())) {
-			predicate = ExpressionUtils.and(predicate, qArticle.title.like(article.getTitle()));
-		}
-		if (article.getReviewState() != null) {
-			predicate = ExpressionUtils.and(predicate, qArticle.reviewState.eq(article.getReviewState()));
-		}
-		if (StringUtils.isNotEmpty(article.getDescription())) {
-			predicate = ExpressionUtils.and(predicate, qArticle.description.like(article.getDescription()));
-		}
-		if (StringUtils.isNotEmpty(queryVO.getFieldSort())) {
-			sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qArticle, queryVO.getFieldSort());
-		}
-		QueryResults<Article> queryResults = jpaQueryFactory
-				.selectFrom(qArticle)
-				.where(predicate)
-				.offset(queryVO.getPageNum())
-				.limit(queryVO.getPageSize())
-				.orderBy(sortedColumn)
-				.fetchResults();
-		return queryResults;
+	public Page<Article> findArticleByCondition(Article article, Pageable pageable) {
+		Specification<Article> condition = (root, query, builder) -> {
+			List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
+			if (StringUtils.isNotEmpty(article.getTitle())) {
+				predicates.add(builder.like(root.get("title"), "%" + article.getTitle() + "%"));
+			}
+			if (article.getReviewState() != null) {
+				predicates.add(builder.equal(root.get("reviewState"), article.getReviewState()));
+			}
+			if (StringUtils.isNotEmpty(article.getDescription())) {
+				predicates.add(builder.like(root.get("description"), "%" + article.getDescription() + "%"));
+			}
+			return query.where(predicates.toArray(new javax.persistence.criteria.Predicate[0])).getRestriction();
+		};
+		return articleDao.findAll(condition, pageable);
 	}
 
 
