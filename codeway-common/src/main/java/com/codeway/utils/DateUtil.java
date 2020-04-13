@@ -23,6 +23,15 @@ public class DateUtil {
 	}
 
 	/**
+	 * 时间戳转日期
+	 * @return ： Long
+	 */
+	public static String timeStampToDate(Long timestamp) {
+		DateTimeFormatter ftf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		return ftf.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.systemDefault()));
+	}
+
+	/**
 	 * 获取当前时间
 	 * @return ： Long
 	 */
