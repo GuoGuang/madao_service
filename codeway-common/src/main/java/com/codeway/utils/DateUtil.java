@@ -147,10 +147,10 @@ public class DateUtil {
 
 	/**
 	 * 获取两个日期的差  field参数为ChronoUnit.*
-	 * @param startTime
-	 * @param endTime
+	 * @param startTime：开始时间
+	 * @param endTime：结束时间
 	 * @param field  单位(年月日时分秒)
-	 * @return
+	 * @return 间隔
 	 */
 	public static long betweenTwoTime(LocalDateTime startTime, LocalDateTime endTime, ChronoUnit field) {
 		Period period = Period.between(LocalDate.from(startTime), LocalDate.from(endTime));
@@ -161,7 +161,6 @@ public class DateUtil {
 
 	/**
 	 * 获取一天的开始时间，2017,7,22 00:00
-	 * @param time
 	 */
 	public static LocalDateTime getDayStart(LocalDateTime time) {
 		return time.withHour(0)
@@ -173,7 +172,6 @@ public class DateUtil {
 	/**
 	 * 获取一天的结束时间，2017,7,22 23:59:59.999999999
 	 * @param time
-	 * @return
 	 */
 	public static LocalDateTime getDayEnd(LocalDateTime time) {
 		return time.withHour(23)
