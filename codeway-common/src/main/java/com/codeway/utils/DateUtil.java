@@ -10,7 +10,7 @@ import java.util.Date;
  * LocalDate LocalTime LocalDateTime日期工具类
  * @see https://blog.csdn.net/kingboyworld/article/details/75808108
  * @see https://www.cnblogs.com/qingyunfc/p/10236734.html
- * @version 1.0.0
+ * @version 2.0.0
  */
 public class DateUtil {
 
