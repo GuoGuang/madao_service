@@ -10,12 +10,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-
-/**
- * 文章分类
- **/
-
-
 public interface CategoryDao extends JpaRepository<Category, String>,
         JpaSpecificationExecutor<Category>, QuerydslPredicateExecutor<Category> {
 

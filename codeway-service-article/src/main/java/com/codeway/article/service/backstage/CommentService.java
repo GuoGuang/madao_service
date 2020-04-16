@@ -23,10 +23,6 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 文章的评论服务
- **/
-
 @Service
 public class CommentService {
 

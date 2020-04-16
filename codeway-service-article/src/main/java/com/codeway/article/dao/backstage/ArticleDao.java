@@ -10,11 +10,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-/**
- * 文章数据处理层
- **/
-
-
 public interface ArticleDao extends JpaRepository<Article, String>,
         JpaSpecificationExecutor<Article>, QuerydslPredicateExecutor<Article> {
 

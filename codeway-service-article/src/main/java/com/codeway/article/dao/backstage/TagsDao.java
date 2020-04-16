@@ -10,12 +10,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-
-/**
- * 标签
- **/
-
-
 public interface TagsDao extends JpaRepository<Tags, String>,
         JpaSpecificationExecutor<Tags>, QuerydslPredicateExecutor<Tags> {
 
@@ -23,5 +17,4 @@ public interface TagsDao extends JpaRepository<Tags, String>,
     @Query("delete from Tags where id in (:ids)")
     void deleteBatch(@Param("ids") List<String> ids);
 
-//	ArrayList<Tags> findTagsByCondition(QueryVO queryVO);
 }

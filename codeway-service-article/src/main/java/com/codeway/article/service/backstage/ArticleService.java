@@ -27,9 +27,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-/**
- * 文章板块:文章服务
- **/
 @Service
 public class ArticleService {
 

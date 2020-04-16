@@ -14,9 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * 前台标签
- **/
 @Service
 public class ApiTagsService {
 

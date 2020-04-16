@@ -8,11 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-/**
- * 文章数据处理层
- **/
-
-
 public interface ApiArticleDao extends JpaRepository<Article, String>, JpaSpecificationExecutor<Article> {
 
 	/**

@@ -17,9 +17,6 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 文章分类
- **/
 @Service
 public class CategoryService {
 

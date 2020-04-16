@@ -10,11 +10,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-/**
- * 文章评论
- **/
-
-
 public interface CommentDao extends JpaRepository<Comment, String>,
         JpaSpecificationExecutor<Comment>, QuerydslPredicateExecutor<Comment> {
     @Modifying
