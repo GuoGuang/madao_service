@@ -2,22 +2,20 @@ package com.codeway.base.service.backstage;
 
 import com.codeway.api.user.UserServiceRpc;
 import com.codeway.base.dao.LoginLogDao;
+import com.codeway.config.CustomQueryResults;
 import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.pojo.QueryVO;
 import com.codeway.pojo.base.LoginLog;
-import com.codeway.pojo.base.QLoginLog;
 import com.codeway.pojo.user.User;
-import com.codeway.utils.QuerydslUtil;
-import com.querydsl.core.QueryResults;
-import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Predicate;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.codeway.utils.JsonData;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,9 +30,6 @@ public class LoginLogService {
     private final UserServiceRpc userServiceRpc;
 
     @Autowired
-    JPAQueryFactory jpaQueryFactory;
-
-    @Autowired
     public LoginLogService(LoginLogDao loginLogDao, UserServiceRpc userServiceRpc) {
         this.loginLogDao = loginLogDao;
         this.userServiceRpc = userServiceRpc;
@@ -42,43 +37,26 @@ public class LoginLogService {
 
     /**
      * 按照条件查询全部登录日志
-     *
      * @return IPage<LoginLog>
      */
-    public QueryResults<LoginLog> findLoginLogByCondition(LoginLog loginLog, QueryVO queryVO) {
-
-        QLoginLog qLoginLog = QLoginLog.loginLog;
-        Predicate predicate = null;
-        OrderSpecifier<?> sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qLoginLog);
-        if (StringUtils.isNotEmpty(loginLog.getClientIp())) {
-            predicate = ExpressionUtils.and(predicate, qLoginLog.clientIp.like(loginLog.getClientIp()));
-        }
-        if (StringUtils.isNotEmpty(queryVO.getFieldSort())) {
-            sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qLoginLog, queryVO.getFieldSort());
-        }
-        QueryResults<LoginLog> queryResults = jpaQueryFactory
-                .selectFrom(qLoginLog)
-                .where(predicate)
-                .offset(queryVO.getPageNum())
-                .limit(queryVO.getPageSize())
-                .orderBy(sortedColumn)
-                .fetchResults();
-        List<User> userList = userServiceRpc.findUser().getData().getResults();
-        queryResults.getResults().forEach(
-                loginLogList -> userList.forEach(
-                        user -> {
-                            if (user.getId().equals(loginLogList.getUserId())) {
-                                loginLogList.setUserName(user.getUserName());
-                            }
-                        }
-                )
-        );
+    public Page<LoginLog> findLoginLogByCondition(LoginLog loginLog, Pageable pageable) {
+        Specification<LoginLog> condition = (root, query, builder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (StringUtils.isNotEmpty(loginLog.getClientIp())) {
+                predicates.add(builder.like(root.get("clientIp"), "%" + loginLog.getClientIp()));
+            }
+            return query.where(predicates.toArray(new Predicate[0])).getRestriction();
+        };
+        Page<LoginLog> queryResults = loginLogDao.findAll(condition, pageable);
+        JsonData<CustomQueryResults<User>> userList = userServiceRpc.findUser();
+        List<User> results = userList.getData().getResults();
+        System.out.println(results);
         return queryResults;
+
     }
 
 	/**
 	 * 根据ID查询登录日志
-	 *
 	 * @param logId 登录日志id
 	 * @return LoginLog
 	 */

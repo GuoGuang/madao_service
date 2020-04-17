@@ -4,6 +4,7 @@ package com.codeway.base.service.backstage;
 import com.codeway.base.dao.DictDao;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.QueryVO;
+import com.codeway.pojo.article.Category;
 import com.codeway.pojo.base.Dict;
 import com.codeway.pojo.base.QDict;
 import com.codeway.utils.QuerydslUtil;
@@ -15,8 +16,12 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,45 +34,30 @@ public class DictService {
     private final DictDao dictDao;
 
     @Autowired
-    JPAQueryFactory jpaQueryFactory;
-
-    @Autowired
     public DictService(DictDao dictDao) {
         this.dictDao = dictDao;
     }
 
     /**
      * 条件查询字典
-     *
      * @param dict    字典实体
-     * @param queryVO 查询参数
      * @return List
      */
-    public QueryResults<Dict> findDictByCondition(Dict dict, QueryVO queryVO) {
-
-        QDict qDict = QDict.dict;
-        Predicate predicate = null;
-        OrderSpecifier<?> sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qDict);
-        if (StringUtils.isNotEmpty(dict.getName())) {
-            predicate = ExpressionUtils.and(predicate, qDict.name.like(dict.getName()));
-        }
-        if (StringUtils.isNotEmpty(dict.getParentId())) {
-            predicate = ExpressionUtils.and(predicate, qDict.parentId.like(dict.getParentId()));
-        }
-        if (dict.getState() != null) {
-            predicate = ExpressionUtils.and(predicate, qDict.state.eq(dict.getState()));
-        }
-        if (StringUtils.isNotEmpty(queryVO.getFieldSort())) {
-            sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qDict, queryVO.getFieldSort());
-        }
-        QueryResults<Dict> queryResults = jpaQueryFactory
-                .selectFrom(qDict)
-                .where(predicate)
-                .offset(queryVO.getPageNum())
-                .limit(queryVO.getPageSize())
-                .orderBy(sortedColumn)
-                .fetchResults();
-        return queryResults;
+    public Page<Dict> findDictByCondition(Dict dict, Pageable pageable) {
+        Specification<Dict> condition = (root, query, builder) -> {
+            List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
+            if (StringUtils.isNotEmpty(dict.getName())) {
+                predicates.add(builder.like(root.get("name"), "%" + dict.getName() + "%"));
+            }
+            if (StringUtils.isNotEmpty(dict.getParentId())) {
+                predicates.add(builder.equal(root.get("parentId"), dict.getParentId()));
+            }
+            if (dict.getState() != null) {
+                predicates.add(builder.equal(root.get("state"), dict.getState()));
+            }
+            return query.where(predicates.toArray(new javax.persistence.criteria.Predicate[0])).getRestriction();
+        };
+        return dictDao.findAll(condition, pageable);
     }
 
     /**

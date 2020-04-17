@@ -8,9 +8,14 @@ import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Api(tags = "登录日志")
 @RestController
@@ -26,8 +31,9 @@ public class LoginLogController {
 
     @GetMapping
     @ApiOperation(value = "按照条件查询全部列表", notes = "LoginLog")
-    public JsonData<QueryResults<LoginLog>> findLoginLogByCondition(LoginLog loginLog, QueryVO queryVO) {
-        QueryResults<LoginLog> result = loginLogService.findLoginLogByCondition(loginLog, queryVO);
+    public JsonData<Page<LoginLog>> findLoginLogByCondition(LoginLog loginLog,
+                                                                    @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
+        Page<LoginLog> result = loginLogService.findLoginLogByCondition(loginLog, pageable);
         return JsonData.success(result);
 
     }
