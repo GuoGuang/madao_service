@@ -10,10 +10,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-/**
- * 操作日志
- **/
-
 public interface OptLogDao extends JpaRepository<OptLog, String>, JpaSpecificationExecutor<OptLog>, QuerydslPredicateExecutor<OptLog> {
 
 

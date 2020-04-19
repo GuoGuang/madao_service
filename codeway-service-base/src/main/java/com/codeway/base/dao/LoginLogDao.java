@@ -9,10 +9,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-/**
- * 登录日志
- **/
-
 public interface LoginLogDao extends JpaRepository<LoginLog, String>, JpaSpecificationExecutor<LoginLog>{
     @Modifying
     @Query("delete from LoginLog where id in (:ids)")

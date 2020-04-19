@@ -12,10 +12,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Set;
 
-/**
- * 资源管理
- **/
-
 public interface ResourceDao extends JpaRepository<Resource, String>, JpaSpecificationExecutor<Resource>, QuerydslPredicateExecutor<Resource> {
 
     @Query(value = "SELECT * FROM us_resource WHERE id IN (SELECT resource_id FROM us_role_resource WHERE role_id in (:resId))", nativeQuery = true)

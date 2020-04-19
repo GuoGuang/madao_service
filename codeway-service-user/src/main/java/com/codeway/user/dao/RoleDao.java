@@ -10,10 +10,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-/**
- * 角色管理
- **/
-
 public interface RoleDao extends JpaRepository<Role, String>, JpaSpecificationExecutor<Role>, QuerydslPredicateExecutor<Role> {
     /**
      * 查询当前用户的角色
