@@ -10,10 +10,15 @@ import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Api(tags = "字典管理")
 @RestController
@@ -30,8 +35,9 @@ public class DictController {
 
     @GetMapping
     @ApiOperation(value = "条件查询资源", notes = "Dict")
-    public JsonData<QueryResults<Dict>> findResByCondition(Dict dict, QueryVO queryVO) {
-        QueryResults<Dict> resData = dictService.findDictByCondition(dict, queryVO);
+    public JsonData<Page<Dict>> findResByCondition(Dict dict,
+                                                           @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
+        Page<Dict> resData = dictService.findDictByCondition(dict, pageable);
         return JsonData.success(resData);
     }
 

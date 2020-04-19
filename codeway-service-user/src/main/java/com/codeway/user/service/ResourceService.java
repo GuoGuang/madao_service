@@ -47,9 +47,7 @@ public class ResourceService {
 				predicates.add(builder.like(root.get("name"), "%" + resource.getName() + "%"));
 			}
 			Predicate[] ps = new Predicate[predicates.size()];
-			query.where(builder.and(predicates.toArray(ps)));
-			query.orderBy(builder.desc(root.get("createAt").as(Long.class)));
-			return null;
+			return query.where(builder.and(predicates.toArray(ps))).getRestriction();
 		};
 		return resourceDao.findAll(condition);
 	}

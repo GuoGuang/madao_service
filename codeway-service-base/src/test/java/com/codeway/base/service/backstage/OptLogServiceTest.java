@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
@@ -24,8 +25,8 @@ public class OptLogServiceTest {
     @Test
     public void findOptLogByCondition() {
         QueryVO queryVO = new QueryVO();
-        QueryResults<OptLog> dictByCondition = optLogService.findOptLogByCondition(new OptLog(), queryVO);
-        Assert.assertTrue(dictByCondition.getTotal() > 0);
+        Page<OptLog> dictByCondition = optLogService.findOptLogByCondition(new OptLog(), null);
+        Assert.assertTrue(dictByCondition.getTotalElements() > 0);
     }
 
     @Test

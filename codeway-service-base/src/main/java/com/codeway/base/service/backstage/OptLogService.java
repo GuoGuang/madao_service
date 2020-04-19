@@ -4,6 +4,7 @@ import com.codeway.api.user.UserServiceRpc;
 import com.codeway.base.dao.OptLogDao;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.QueryVO;
+import com.codeway.pojo.article.Category;
 import com.codeway.pojo.base.OptLog;
 import com.codeway.pojo.base.QOptLog;
 import com.codeway.pojo.user.User;
@@ -16,8 +17,12 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,29 +45,19 @@ public class OptLogService {
 
     /**
      * 按照条件查询全部操作日志
-     *
      * @return IPage<OptLog>
      */
-    public QueryResults<OptLog> findOptLogByCondition(OptLog optLog, QueryVO queryVO) {
-        QOptLog qOptLog = QOptLog.optLog;
-        Predicate predicate = null;
-        OrderSpecifier<?> sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qOptLog);
-        if (StringUtils.isNotEmpty(optLog.getClientIp())) {
-            predicate = ExpressionUtils.and(predicate, qOptLog.clientIp.like(optLog.getClientIp()));
-        }
-        if (StringUtils.isNotEmpty(queryVO.getFieldSort())) {
-            sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qOptLog, queryVO.getFieldSort());
-        }
-        QueryResults<OptLog> queryResults = jpaQueryFactory
-                .selectFrom(qOptLog)
-                .where(predicate)
-                .offset(queryVO.getPageNum())
-                .limit(queryVO.getPageSize())
-                .orderBy(sortedColumn)
-                .fetchResults();
-
+    public Page<OptLog> findOptLogByCondition(OptLog optLog, Pageable pageable) {
+        Specification<OptLog> condition = (root, query, builder) -> {
+            List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
+            if (StringUtils.isNotEmpty(optLog.getClientIp())) {
+                predicates.add(builder.like(root.get("clientIp"), "%" + optLog.getClientIp()));
+            }
+            return query.where(predicates.toArray(new javax.persistence.criteria.Predicate[0])).getRestriction();
+        };
+        Page<OptLog> queryResults = optLogDao.findAll(condition, pageable);
         List<User> userList = userServiceRpc.findUser().getData().getResults();
-        queryResults.getResults().forEach(
+        queryResults.getContent().forEach(
                 optLogList -> userList.forEach(
                         user -> {
                             if (user.getId().equals(optLogList.getUserId())) {
