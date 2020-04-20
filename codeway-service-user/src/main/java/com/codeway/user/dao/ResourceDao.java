@@ -23,7 +23,6 @@ public interface ResourceDao extends JpaRepository<Resource, String>, JpaSpecifi
      * @param id 用户id
      * @return 角色数组
      */
-
     @Query(value = "SELECT * FROM us_resource WHERE id in (SELECT us_resource_id FROM us_role_resource WHERE us_role_id in (SELECT id FROM us_role WHERE id in (SELECT us_role_id FROM us_user_role  WHERE us_user_id = :userId)))order by sort Asc"
             , nativeQuery = true)
     List<Resource> findResourcesOfUser(@Param("userId") String userId);
@@ -31,11 +30,8 @@ public interface ResourceDao extends JpaRepository<Resource, String>, JpaSpecifi
 
     /**
      * 根据此角色id查询匹配的资源列表
-     *
      * @param roleId 角色id
-     * @return
      */
-
     @Query(value = "SELECT * FROM us_resource WHERE id in (SELECT us_resource_id FROM us_role_resource WHERE us_role_id in (SELECT id FROM us_role WHERE id = :roleId ))"
             , nativeQuery = true)
     List<Resource> findResourcesOfRole(@Param("roleId") String roleId);

@@ -13,7 +13,6 @@ import java.util.List;
 public interface RoleDao extends JpaRepository<Role, String>, JpaSpecificationExecutor<Role>, QuerydslPredicateExecutor<Role> {
     /**
      * 查询当前用户的角色
-     *
      * @param id 用户id
      * @return 角色数组
      */
