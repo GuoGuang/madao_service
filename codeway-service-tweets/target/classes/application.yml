@@ -1,0 +1,10 @@
+server:
+  port: 9005
+spring:
+  application:
+    name: service-tweets #指定服务名
+
+# 配置织入点
+com:
+  codeway:
+    aopPointcutExpression: execution (* com.codeway.tweets..*.*(..))

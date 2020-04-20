@@ -1,0 +1,13 @@
+D:\ideaWorkspace\codeif_service\codeif-service-api\src\main\java\com\codeif\fallback\user\ResourceServiceRpcFallbackFactory.java
+D:\ideaWorkspace\codeif_service\codeif-service-api\src\main\java\com\codeif\fallback\base\LoginLogServiceRpcFallbackFactory.java
+D:\ideaWorkspace\codeif_service\codeif-service-api\src\main\java\com\codeif\fallback\auth\AuthServiceRpcFallbackFactory.java
+D:\ideaWorkspace\codeif_service\codeif-service-api\src\main\java\com\codeif\fallback\user\UserServiceRpcFallbackFactory.java
+D:\ideaWorkspace\codeif_service\codeif-service-api\src\main\java\com\codeif\api\user\UserServiceRpc.java
+D:\ideaWorkspace\codeif_service\codeif-service-api\src\main\java\com\codeif\aspect\OptLogAspect.java
+D:\ideaWorkspace\codeif_service\codeif-service-api\src\main\java\com\codeif\api\base\OptLogServiceRpc.java
+D:\ideaWorkspace\codeif_service\codeif-service-api\src\main\java\com\codeif\api\base\LoginLogServiceRpc.java
+D:\ideaWorkspace\codeif_service\codeif-service-api\src\main\java\com\codeif\api\user\ResourceServiceRpc.java
+D:\ideaWorkspace\codeif_service\codeif-service-api\src\main\java\com\codeif\api\auth\AuthServiceRpc.java
+D:\ideaWorkspace\codeif_service\codeif-service-api\src\main\java\com\codeif\fallback\base\OptLogServiceRpcFallbackFactory.java
+D:\ideaWorkspace\codeif_service\codeif-service-api\src\main\java\com\codeif\FeignClientConfig.java
+D:\ideaWorkspace\codeif_service\codeif-service-api\src\main\java\com\codeif\FeignConfiguration.java

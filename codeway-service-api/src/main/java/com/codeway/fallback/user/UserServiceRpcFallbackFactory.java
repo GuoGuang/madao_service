@@ -1,0 +1,42 @@
+package com.codeway.fallback.user;
+
+import com.codeway.api.user.UserServiceRpc;
+import com.codeway.config.CustomQueryResults;
+import com.codeway.enums.StatusEnum;
+import com.codeway.pojo.user.User;
+import com.codeway.utils.JsonData;
+import com.codeway.utils.LogBack;
+import feign.hystrix.FallbackFactory;
+import org.springframework.stereotype.Component;
+
+
+/**
+ * 接口调用失败处理
+ **/
+
+@Component
+public class UserServiceRpcFallbackFactory implements FallbackFactory<UserServiceRpc> {
+
+	private static final String ERROR_INFO = "接口UserServiceRpc.{}远程调用失败，该服务已经停止或者不可访问,参数为:{}";
+
+	@Override
+	public UserServiceRpc create(Throwable throwable) {
+		return new UserServiceRpc() {
+            @Override
+            public JsonData<CustomQueryResults<User>> findUserByUser(User user) {
+                LogBack.error(ERROR_INFO, "findUserByUser", user, throwable);
+                return JsonData.failed(StatusEnum.RPC_ERROR);
+            }
+            @Override
+            public JsonData<User> findUserByAccount(User account) {
+                LogBack.error(ERROR_INFO, "findUserByAccount", account, throwable);
+                return JsonData.failed(StatusEnum.RPC_ERROR);
+            }
+            @Override
+            public JsonData<CustomQueryResults<User>> findUser() {
+                LogBack.error(ERROR_INFO, "findUser",null, throwable);
+                return JsonData.failed(StatusEnum.RPC_ERROR);
+            }
+        };
+	}
+}

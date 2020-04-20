@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+  social:
+    github:
+      app-id: d7b4d785014297b37d96
+      app-secret: b0b5ebf93371e5050b1b1898e040dbaf57cc7e23
+---
+spring:
+  profiles: dev
+  cloud:
+    config:
+      name: application #需要从github上读取的资源名称，注意没有yml后缀名
+      label: master
+      uri: http://localhost:9009  #SpringCloudConfig获取的服务地址
+      profile: dev
+
+---
+spring:
+  profiles: prod
+  cloud:
+    config:
+      name: application
+      label: master
+      uri: http://114.55.104.203:9009
+      profile: prod

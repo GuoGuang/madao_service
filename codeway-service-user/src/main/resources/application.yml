@@ -1,0 +1,12 @@
+server:
+  port: 9007
+spring:
+  application:
+    name: service-user  #指定服务名
+
+
+# 配置织入点
+com:
+  codeway:
+    aopPointcutExpression: execution (* com.codeway.user..*.*(..))
+

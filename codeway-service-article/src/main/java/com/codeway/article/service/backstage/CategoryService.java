@@ -1,0 +1,61 @@
+package com.codeway.article.service.backstage;
+
+
+import com.codeway.article.dao.backstage.CategoryDao;
+import com.codeway.db.redis.service.RedisService;
+import com.codeway.exception.custom.ResourceNotFoundException;
+import com.codeway.pojo.article.Category;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class CategoryService {
+
+    private final CategoryDao categoryDao;
+
+    private final RedisService redisService;
+
+    @Autowired
+    JPAQueryFactory jpaQueryFactory;
+
+    @Autowired
+    public CategoryService(CategoryDao sacategoryDao, RedisService redisService) {
+        this.categoryDao = sacategoryDao;
+        this.redisService = redisService;
+    }
+
+    public Page<Category> findCategoryByCondition(Category category, Pageable pageable) {
+        Specification<Category> condition = (root, query, builder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (StringUtils.isNotEmpty(category.getName())) {
+                predicates.add(builder.like(root.get("name"), "%" + category.getName() + "%"));
+            }
+            if (category.getState() != null) {
+                predicates.add(builder.equal(root.get("state"), category.getState()));
+            }
+            return query.where(predicates.toArray(new Predicate[0])).getRestriction();
+        };
+        return categoryDao.findAll(condition, pageable);
+    }
+
+    public Category findCategoryById(String categoryId) {
+        return categoryDao.findById(categoryId).orElseThrow(ResourceNotFoundException::new);
+    }
+
+    public void saveOrUpdate(Category category) {
+        categoryDao.save(category);
+    }
+
+	public void deleteCategoryByIds(List<String> categoryIds) {
+		categoryDao.deleteBatch(categoryIds);
+	}
+}
