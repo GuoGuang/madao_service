@@ -5,6 +5,7 @@ import com.codeway.article.dao.backstage.CategoryDao;
 import com.codeway.db.redis.service.RedisService;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.article.Category;
+import com.codeway.utils.BeanUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,10 @@ public class CategoryService {
     }
 
     public void saveOrUpdate(Category category) {
+	    if (StringUtils.isNotBlank(category.getId())){
+		    Category tempCategory = categoryDao.findById(category.getId()).orElseThrow(ResourceNotFoundException::new);
+		    BeanUtil.copyProperties(tempCategory, category);
+	    }
         categoryDao.save(category);
     }
 

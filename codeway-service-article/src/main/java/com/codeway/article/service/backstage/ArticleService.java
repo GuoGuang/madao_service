@@ -113,7 +113,6 @@ public class ArticleService {
 
 
 		Optional<Category> byId = categoryDao.findById(article.getCategoryId());
-		article.setCategory(byId.get());
 		List<Tags> allById = tagsDao.findAllById(Arrays.asList(article.getTagsId().split(",")));
 		article.setCategory(byId.get());
 		HashSet<Tags> objects = new HashSet<>(allById);

@@ -5,9 +5,11 @@ import com.codeway.base.dao.OptLogDao;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.QueryVO;
 import com.codeway.pojo.article.Category;
+import com.codeway.pojo.base.LoginLog;
 import com.codeway.pojo.base.OptLog;
 import com.codeway.pojo.base.QOptLog;
 import com.codeway.pojo.user.User;
+import com.codeway.utils.BeanUtil;
 import com.codeway.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.ExpressionUtils;
@@ -82,10 +84,13 @@ public class OptLogService {
 
 	/**
 	 * 添加操作日志
-	 *
 	 * @param optLog 操作日志实体
 	 */
 	public void insertOptLog(OptLog optLog) {
+		if (StringUtils.isNotBlank(optLog.getId())){
+			OptLog tempOptLog = optLogDao.findById(optLog.getId()).orElseThrow(ResourceNotFoundException::new);
+			BeanUtil.copyProperties(tempOptLog, optLog);
+		}
 		optLogDao.save(optLog);
 	}
 
