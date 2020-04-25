@@ -54,7 +54,7 @@ public class ApiArticleService {
 		}
 		if (StringUtils.isNotEmpty(queryVO.getKeyword())) {
 			predicate = ExpressionUtils.and(predicate, qArticle.title.like(queryVO.getKeyword())
-					.or(qArticle.content.like(queryVO.getKeyword())));
+					.or(qArticle.content.like("%"+queryVO.getKeyword()+"%")));
 		}
 
 		QueryResults<Article> queryResults = jpaQueryFactory
@@ -70,6 +70,7 @@ public class ApiArticleService {
 	public Article findArticleById(String articleId) {
 		Article article = articleDao.findById(articleId).orElseThrow(ResourceNotFoundException::new);
 		article.setRelated(JsonUtil.toJsonString(articleDao.findRelatedByRand()));
+		article.setCategoryId(article.getCategory().getName());
 		return article;
 	}
 
@@ -105,13 +106,16 @@ public class ApiArticleService {
 
 	/**
 	 * 点赞
-	 *
-	 * @param id 文章ID
-	 * @return
 	 */
-	public int updateThumbUp(String id) {
-//		return articleDao.updateThumbUp(id);
-		return 1;
+	public void updateUpVote(String id) {
+		articleDao.updateUpVote(id);
+	}
+
+	/**
+	 * 取消点赞
+	 */
+	public void updateUnUpVote(String id) {
+		articleDao.updateUnUpVote(id);
 	}
 
 }

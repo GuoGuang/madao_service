@@ -13,10 +13,7 @@ import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,7 +29,7 @@ public class ApiArticleController {
 
     @ApiOperation(value = "查询集合", notes = "Article")
     @GetMapping
-    public JsonData<Object> findArticleByCondition(Article article,String categoryId ,QueryVO queryVO) {
+    public JsonData<Object> findArticleByCondition(Article article,String categoryId,QueryVO queryVO) {
         if (ArticleConst.SORT_TYPE_HOT.equals(queryVO.getSortType())) {
             List<Object> hotList = redisService.lGet("1", 1, 1);
             return JsonData.success(hotList);
@@ -44,7 +41,7 @@ public class ApiArticleController {
     @GetMapping(value = "/{articleId}")
     public JsonData<Article> findArticleByPrimaryKey(@PathVariable String articleId) {
         Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + articleId);
-        if (true) {
+        if (mapJson == null) {
 	        Article articleResult = articleService.findArticleById(articleId);
 	        redisService.set(RedisConstant.REDIS_KEY_ARTICLE + articleId, JsonUtil.toJsonString(articleResult), CommonConst.TIME_OUT_DAY);
             return JsonData.success(articleResult);
@@ -53,5 +50,20 @@ public class ApiArticleController {
         return JsonData.success(article);
     }
 
+	@ApiOperation(value = "点赞", notes = "id")
+	@PutMapping(value = "/like/{articleId}")
+	public JsonData<Void> upVote(@PathVariable String articleId) {
+		articleService.updateUpVote(articleId);
+		redisService.del(RedisConstant.REDIS_KEY_ARTICLE + articleId);
+		return JsonData.success();
+	}
+
+	@ApiOperation(value = "取消点赞", notes = "id")
+	@DeleteMapping(value = "/like/{articleId}")
+	public JsonData<Void> unUpVote(@PathVariable String articleId) {
+		articleService.updateUnUpVote(articleId);
+		redisService.del(RedisConstant.REDIS_KEY_ARTICLE + articleId);
+		return JsonData.success();
+	}
 
 }
