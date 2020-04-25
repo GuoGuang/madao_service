@@ -50,9 +50,16 @@ public class LoginLogService {
             return query.where(predicates.toArray(new Predicate[0])).getRestriction();
         };
         Page<LoginLog> queryResults = loginLogDao.findAll(condition, pageable);
-        JsonData<CustomQueryResults<User>> userList = userServiceRpc.findUser();
-        List<User> results = userList.getData().getResults();
-        System.out.println(results);
+	    List<User> userList = userServiceRpc.findUser().getData().getResults();
+	    queryResults.getContent().forEach(
+			    userLogList -> userList.forEach(
+					    user -> {
+						    if (user.getId().equals(userLogList.getUserId())) {
+							    userLogList.setUserName(user.getUserName());
+						    }
+					    }
+			    )
+	    );
         return queryResults;
 
     }
