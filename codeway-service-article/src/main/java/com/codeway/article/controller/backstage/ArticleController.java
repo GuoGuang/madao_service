@@ -97,10 +97,4 @@ public class ArticleController extends BaseController {
         return JsonData.success();
     }
 
-    @ApiOperation(value = "点赞", notes = "id")
-    @PutMapping(value = "/thumbUp/{id}")
-    public JsonData<Void> updateThumbUp(@PathVariable String id) {
-        articleService.updateThumbUp(id);
-        return JsonData.success();
-    }
 }

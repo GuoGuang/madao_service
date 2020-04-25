@@ -26,10 +26,4 @@ public interface ArticleDao extends JpaRepository<Article, String>,
 	@Query("update Article set state='1' where id=:id")
 	void examine(@Param("id") String id);
 
-	/**
-	 * 点赞
-	 */
-	@Modifying
-	@Query("update Article a set upvote = upvote+1 where id=:id")
-	void updateThumbUp(@Param("id") String id);
 }

@@ -11,6 +11,7 @@ import com.codeway.pojo.article.Article;
 import com.codeway.pojo.article.Category;
 import com.codeway.pojo.article.QArticle;
 import com.codeway.pojo.article.Tags;
+import com.codeway.pojo.user.User;
 import com.codeway.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.ExpressionUtils;
@@ -70,7 +71,19 @@ public class ArticleService {
 			}
 			return query.where(predicates.toArray(new javax.persistence.criteria.Predicate[0])).getRestriction();
 		};
-		return articleDao.findAll(condition, pageable);
+		Page<Article> queryResults = articleDao.findAll(condition, pageable);
+		List<User> userList = userServiceRpc.findUser().getData().getResults();
+		queryResults.getContent().forEach(
+
+				articleParam -> userList.forEach(
+						user -> {
+							if (user.getId().equals(articleParam.getUserId())) {
+								articleParam.setUserName(user.getUserName());
+							}
+						}
+				)
+		);
+		return queryResults;
 	}
 
 
@@ -134,15 +147,6 @@ public class ArticleService {
 	 */
 	public void examine(String id){
 		articleDao.examine(id);
-	}
-
-	/**
-	 * 点赞
-	 *
-	 * @param id 文章ID
-	 */
-	public void updateThumbUp(String id) {
-		articleDao.updateThumbUp(id);
 	}
 
 }
