@@ -19,5 +19,5 @@ spring:
     config:
       name: user
       label: master
-      uri: http://114.55.104.203:9009
+      uri: http://121.36.158.84:9009
       profile: prod
