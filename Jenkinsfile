@@ -182,12 +182,12 @@ pipeline {
 //                    sh "docker login --username=guoguang0536 --password ${DOCKER_HUB_PASSWORD}" 
 //                    sh "docker tag ${serviceName}:${env.BUILD_ID} guoguang0536/${serviceName}:${env.BUILD_ID}"
                     script {
-                        if("${serviceName}" != "codeway-server-eureka" && "${serviceName}" != "codeway-server-config"){
+                    //    if("${serviceName}" != "codeway-server-eureka" && "${serviceName}" != "codeway-server-config"){
                             sh "docker login --username=1831682775@qq.com --password ${DOCKER_HUB_PASSWORD} registry-vpc.cn-hangzhou.aliyuncs.com"
                             sh "docker tag ${serviceName}:${env.BUILD_ID} registry-vpc.cn-hangzhou.aliyuncs.com/codeway_me/${serviceName}:${env.BUILD_ID}"
                             sh "docker push registry-vpc.cn-hangzhou.aliyuncs.com/codeway_me/${serviceName}:${env.BUILD_ID}"
                             echo "构建并推送到远程服务器成功--->"
-                        }
+                     //   }
                     }
                 }
             }
