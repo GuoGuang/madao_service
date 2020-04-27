@@ -228,10 +228,10 @@ pipeline {
                 echo "开始部署到----> ${serviceName}......"
                 script {
                     echo "即将进入"
-                    if ("${serviceName}" == "codeway-server-eureka" || "${serviceName}" == "codeway-server-config"){
-                        sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
-                        echo '-->> #本机构建成功-->>'
-                    }else {
+                   // if ("${serviceName}" == "codeway-server-eureka" || "${serviceName}" == "codeway-server-config"){
+                   //     sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
+                   //     echo '-->> #本机构建成功-->>'
+                   // }else {
 
                         sh "apt-get update"
                         sh "apt-get install sshpass"
@@ -260,7 +260,8 @@ pipeline {
                         sh "${REMOTE_SCRIPT} docker pull registry.cn-hangzhou.aliyuncs.com/codeway_me/${serviceName}:${env.BUILD_ID}"
                         sh "${REMOTE_SCRIPT} docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d registry.cn-hangzhou.aliyuncs.com/codeway_me/${serviceName}:${env.BUILD_ID}"
                         echo '-->> #远程主机构建成功-->>'
-                     }
+                     //}
+                    
                     //这里增加了一个小功能，在服务器上记录了基本部署信息，方便多人使用一套环境时问题排查，storge in {WORKSPACE}/deploy.log  & remoteServer:htdocs/war
 //                    Date date = new Date()
 //                    def deploylog="${date.toString()},${BUILD_USER} use pipeline  '${JOB_NAME}(${BUILD_NUMBER})' deploy branch ${params.repoBranch} to server ${serverIP}"
