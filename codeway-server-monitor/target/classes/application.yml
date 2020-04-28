@@ -1,7 +1,0 @@
-server:
-  port: 9090
-spring:
-  application:
-    name: server-monitor  #指定服务名
-
-

@@ -1,4 +1,0 @@
-com\codeif\db\redis\service\RedisServiceImpl.class
-com\codeif\db\redis\config\RedisConfig.class
-com\codeif\db\config\DruidConfig.class
-com\codeif\db\redis\service\RedisService.class
