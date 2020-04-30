@@ -25,6 +25,7 @@ public class CorsConfig {
 		// 前台博客
 		corsConfiguration.addAllowedOrigin("http://localhost:3000");
 		corsConfiguration.addAllowedOrigin("http://121.36.158.84:3000");
+		corsConfiguration.addAllowedOrigin("http://202.182.114.223:3000");
 		corsConfiguration.addAllowedHeader("*");
 		corsConfiguration.addAllowedMethod("*");
 		return corsConfiguration;
