@@ -4,8 +4,10 @@ import com.codeway.api.user.UserServiceRpc;
 import com.codeway.base.dao.LoginLogDao;
 import com.codeway.config.CustomQueryResults;
 import com.codeway.exception.custom.ResourceNotFoundException;
+import com.codeway.pojo.base.Dict;
 import com.codeway.pojo.base.LoginLog;
 import com.codeway.pojo.user.User;
+import com.codeway.utils.BeanUtil;
 import com.codeway.utils.JsonData;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +50,16 @@ public class LoginLogService {
             return query.where(predicates.toArray(new Predicate[0])).getRestriction();
         };
         Page<LoginLog> queryResults = loginLogDao.findAll(condition, pageable);
-        JsonData<CustomQueryResults<User>> userList = userServiceRpc.findUser();
-        List<User> results = userList.getData().getResults();
-        System.out.println(results);
+	    List<User> userList = userServiceRpc.findUser().getData().getResults();
+	    queryResults.getContent().forEach(
+			    userLogList -> userList.forEach(
+					    user -> {
+						    if (user.getId().equals(userLogList.getUserId())) {
+							    userLogList.setUserName(user.getUserName());
+						    }
+					    }
+			    )
+	    );
         return queryResults;
 
     }
@@ -67,10 +76,13 @@ public class LoginLogService {
 
 	/**
 	 * 添加登录日志
-	 *
 	 * @param loginLog 登录日志实体
 	 */
 	public void save(LoginLog loginLog) {
+		if (StringUtils.isNotBlank(loginLog.getId())){
+			LoginLog tempLoginLog = loginLogDao.findById(loginLog.getId()).orElseThrow(ResourceNotFoundException::new);
+			BeanUtil.copyProperties(tempLoginLog, loginLog);
+		}
 		loginLogDao.save(loginLog);
 	}
 

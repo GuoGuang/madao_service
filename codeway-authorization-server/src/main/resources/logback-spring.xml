@@ -55,7 +55,7 @@
     <root level="info">
 
 <!--        <appender-ref ref="LOGSTASH"/>-->
-        <appender-ref ref="KAFKA"/>
+        <!--        <appender-ref ref="KAFKA"/>-->
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration> 

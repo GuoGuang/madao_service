@@ -1,9 +1,0 @@
-server:
-  port: 9006
-spring:
-  application:
-    name: service-search #指定服务名
-  data:
-    elasticsearch:
-      cluster-name: elasticsearch
-      cluster-nodes: 114.55.104.203:9300

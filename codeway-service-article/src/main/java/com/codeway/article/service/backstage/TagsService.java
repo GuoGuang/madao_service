@@ -8,6 +8,7 @@ import com.codeway.pojo.QueryVO;
 import com.codeway.pojo.article.Comment;
 import com.codeway.pojo.article.QTags;
 import com.codeway.pojo.article.Tags;
+import com.codeway.utils.BeanUtil;
 import com.codeway.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.ExpressionUtils;
@@ -66,6 +67,10 @@ public class TagsService {
 	}
 
 	public void saveOrUpdate(Tags tags) {
+		if (StringUtils.isNotBlank(tags.getId())){
+			Tags tempTags = tagsDao.findById(tags.getId()).orElseThrow(ResourceNotFoundException::new);
+			BeanUtil.copyProperties(tempTags, tags);
+		}
 		tagsDao.save(tags);
 	}
 

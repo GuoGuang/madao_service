@@ -3,9 +3,11 @@ package com.codeway.article.service.backstage;
 import com.codeway.article.dao.backstage.CommentDao;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.QueryVO;
+import com.codeway.pojo.article.Category;
 import com.codeway.pojo.article.Comment;
 import com.codeway.pojo.article.QComment;
 import com.codeway.pojo.user.Resource;
+import com.codeway.utils.BeanUtil;
 import com.codeway.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.ExpressionUtils;
@@ -62,6 +64,10 @@ public class CommentService {
     }
 
     public void saveOrUpdate(Comment comment) {
+	    if (StringUtils.isNotBlank(comment.getId())){
+		    Comment tempComment = commentDao.findById(comment.getId()).orElseThrow(ResourceNotFoundException::new);
+		    BeanUtil.copyProperties(tempComment, comment);
+	    }
         commentDao.save(comment);
     }
 

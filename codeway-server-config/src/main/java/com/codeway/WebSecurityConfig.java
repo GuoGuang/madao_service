@@ -18,6 +18,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/actuator/**").authenticated()
                 .antMatchers("/key/**").authenticated()
+                .antMatchers("/decrypt").authenticated()
                 .anyRequest().permitAll();
     }
   /*  @Override

@@ -10,9 +10,12 @@ import com.codeway.utils.JsonUtil;
 import com.codeway.utils.LogBack;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ApiTagsService {
@@ -33,15 +36,12 @@ public class ApiTagsService {
 	 * 查询标签全部列表
 	 * @return IPage<Tags>
 	 */
-	public List<Tags> findTagsByCondition() {
-		QTags qTags = QTags.tags;
-		List<Tags> tagsQueryResults = jpaQueryFactory
-				.selectFrom(qTags)
-				.fetch();
+	public List<Tags> findTagsByCondition(Tags tags, Pageable pageable) {
+		Page<Tags> tagsQueryResults = tagsDao.findAll(pageable);
 		tagsQueryResults.forEach(
 				tag->tag.setTagsCount(Long.valueOf(tag.getArticles().size()))
 		);
-		return tagsQueryResults;
+		return tagsQueryResults.getContent();
 	}
 
 	/**
@@ -51,16 +51,16 @@ public class ApiTagsService {
 	 */
 	public Tags findTagsById(String id) {
 		Tags tags = null;
-		try {
-			Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + id);
-			if (mapJson != null) {
-				return JsonUtil.jsonToPojo(mapJson.toString(), Tags.class);
-			}
-		} catch (Exception e) {
-			LogBack.error("findTagsById->查询标签异常，参数为：{}", id, e);
-        }
+//		try {
+//			Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + id);
+//			if (mapJson != null) {
+//				return JsonUtil.jsonToPojo(mapJson.toString(), Tags.class);
+//			}
+//		} catch (Exception e) {
+//			LogBack.error("findTagsById->查询标签异常，参数为：{}", id, e);
+//        }
 
-//		tags = bgTagsDao.selectById(id);
+		tags = tagsDao.findById(id).orElse(null);
 		try {
 			redisService.set(RedisConstant.REDIS_KEY_ARTICLE + id, tags, CommonConst.TIME_OUT_DAY);
 		} catch (Exception e) {

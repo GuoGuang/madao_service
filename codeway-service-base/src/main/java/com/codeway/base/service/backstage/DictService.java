@@ -5,8 +5,10 @@ import com.codeway.base.dao.DictDao;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.QueryVO;
 import com.codeway.pojo.article.Category;
+import com.codeway.pojo.article.Comment;
 import com.codeway.pojo.base.Dict;
 import com.codeway.pojo.base.QDict;
+import com.codeway.utils.BeanUtil;
 import com.codeway.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.ExpressionUtils;
@@ -76,6 +78,10 @@ public class DictService {
     }
 
     public void saveOrUpdate(Dict dict) {
+	    if (StringUtils.isNotBlank(dict.getId())){
+		    Dict tempDict = dictDao.findById(dict.getId()).orElseThrow(ResourceNotFoundException::new);
+		    BeanUtil.copyProperties(tempDict, dict);
+	    }
         dictDao.save(dict);
     }
 

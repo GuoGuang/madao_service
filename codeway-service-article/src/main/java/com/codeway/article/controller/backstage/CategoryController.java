@@ -36,7 +36,7 @@ public class CategoryController {
     @GetMapping
     public JsonData<Page<Category>> findCategoryByCondition(Category category,
                                                                     @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
-        Page<Category> result = categoryService.findCategoryByCondition(null, pageable);
+        Page<Category> result = categoryService.findCategoryByCondition(category, pageable);
         return JsonData.success(result);
     }
 
