@@ -131,6 +131,8 @@ public class ArticleService {
 		HashSet<Tags> objects = new HashSet<>(allById);
 		article.setTags(objects);
 		articleDao.save(article);
+		redisService.lSet("ARTICLE_HOT", article);
+
 	}
 
 	/**

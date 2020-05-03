@@ -1,6 +1,8 @@
 package com.codeway.article.dao.blog;
 
 import com.codeway.pojo.article.Article;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -38,4 +40,7 @@ public interface ApiArticleDao extends JpaRepository<Article, String>, JpaSpecif
 	@Modifying
 	@Query("update Article a set upvote = upvote-1 where id=:id")
 	void updateUnUpVote(@Param("id") String id);
+
+	@Query(value = "SELECT * FROM ar_article WHERE id in (SELECT article_id FROM ar_article_tags WHERE tags_id = :tagId)", nativeQuery = true)
+	Page<Article> findArticleByTagId(String tagId, Pageable pageable);
 }

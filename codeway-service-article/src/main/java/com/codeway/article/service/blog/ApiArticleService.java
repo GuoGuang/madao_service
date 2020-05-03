@@ -17,8 +17,12 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -45,26 +49,23 @@ public class ApiArticleService {
 	}
 
 
-	public QueryResults<Article> findArticleByCondition(Article article, String categoryId, QueryVO queryVO) {
-		QArticle qArticle = QArticle.article;
-		Predicate predicate = null;
+	public Page<Article> findArticleByCondition(Article article, String keyword, Pageable pageable) {
 		// 默认首页
-		if (StringUtils.isNotEmpty(article.getCategoryId())) {
-			predicate = ExpressionUtils.and(predicate, qArticle.category.id.eq(categoryId));
-		}
-		if (StringUtils.isNotEmpty(queryVO.getKeyword())) {
-			predicate = ExpressionUtils.and(predicate, qArticle.title.like(queryVO.getKeyword())
-					.or(qArticle.content.like("%"+queryVO.getKeyword()+"%")));
-		}
+		Specification<Article> condition = (root, query, builder) -> {
+			List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
+			if (StringUtils.isNotEmpty(article.getCategoryId())) {
+				predicates.add(builder.equal(root.get("categoryId"), article.getTitle()));
+			}
+			if (StringUtils.isNotEmpty(keyword)) {
+				predicates.add(builder.like(root.get("title"), "%" + keyword + "%"));
+			}
+			return query.where(predicates.toArray(new javax.persistence.criteria.Predicate[0])).getRestriction();
+		};
+		return articleDao.findAll(condition, pageable);
+	}
 
-		QueryResults<Article> queryResults = jpaQueryFactory
-				.selectFrom(qArticle)
-				.where(predicate)
-				.offset(queryVO.getPageNum())
-				.limit(queryVO.getPageSize())
-				.orderBy(QuerydslUtil.getSortedColumn(Order.DESC, qArticle))
-				.fetchResults();
-		return queryResults;
+	public Page<Article> findArticleByTagId(String tagId, Pageable pageable) {
+		return articleDao.findArticleByTagId(tagId, pageable);
 	}
 
 	public Article findArticleById(String articleId) {

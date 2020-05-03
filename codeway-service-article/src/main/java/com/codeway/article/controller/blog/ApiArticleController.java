@@ -13,9 +13,14 @@ import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Api(tags = "前台网站文章")
 @RestController
@@ -29,12 +34,22 @@ public class ApiArticleController {
 
     @ApiOperation(value = "查询集合", notes = "Article")
     @GetMapping
-    public JsonData<Object> findArticleByCondition(Article article,String categoryId,QueryVO queryVO) {
-        if (ArticleConst.SORT_TYPE_HOT.equals(queryVO.getSortType())) {
-            List<Object> hotList = redisService.lGet("1", 1, 1);
+    public JsonData<Object> findArticleByCondition(Article article, String keyword,String sortType,
+                                                   @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
+        // 最热文章
+    	if (ArticleConst.SORT_TYPE_HOT.equals(sortType)) {
+            List<Object> hotList = redisService.lGet("ARTICLE_HOT", 0, 10);
             return JsonData.success(hotList);
         }
-	    QueryResults<Article> result = articleService.findArticleByCondition(article,categoryId,queryVO);
+	    Page<Article> result = articleService.findArticleByCondition(article,keyword,pageable);
+        return JsonData.success(result);
+    }
+
+    @ApiOperation(value = "根据标签id查询文章", notes = "根据标签id查询文章")
+    @GetMapping("/tag/{tagId}")
+    public JsonData<Page<Article>> findArticleByTagId(@PathVariable String tagId,
+                                               @PageableDefault(sort = "create_at", direction = DESC) Pageable pageable) {
+	    Page<Article> result = articleService.findArticleByTagId(tagId,pageable);
         return JsonData.success(result);
     }
 
