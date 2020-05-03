@@ -45,6 +45,13 @@ public class ApiArticleController {
         return JsonData.success(result);
     }
 
+    @ApiOperation(value = "最热列表", notes = "最热列表")
+    @GetMapping
+    public JsonData<Object> findArticleHot(String sortType) {
+        List<Object> hotList = redisService.lGet("ARTICLE_HOT", 0, 10);
+        return JsonData.success(hotList);
+    }
+
     @ApiOperation(value = "根据标签id查询文章", notes = "根据标签id查询文章")
     @GetMapping("/tag/{tagId}")
     public JsonData<Page<Article>> findArticleByTagId(@PathVariable String tagId,
