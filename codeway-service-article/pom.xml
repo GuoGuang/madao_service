@@ -16,6 +16,12 @@
     <name>codeway-service-article【文章服务】</name>
 
     <dependencies>
+        <!--oauth2认证-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-security</artifactId>
+            <version>2.0.0.RELEASE</version>
+        </dependency>
 
         <dependency>
             <groupId>com.codeway</groupId>
