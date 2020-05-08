@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
  * 鉴权服务api
  **/
 @FeignClient(contextId = "authClient",
-		value = FeignConst.SERVICE_AUTHORIZATION_AUTH,
-		path = FeignConst.SERVICE_AUTHORIZATION_AUTH_PATH,
+		value = FeignConst.SERVICE_AUTHENTICATION_AUTH,
+		path = FeignConst.SERVICE_AUTHENTICATION_AUTH_PATH,
 		fallbackFactory = AuthServiceRpcFallbackFactory.class)
 public interface AuthServiceRpc {
 
 	/**
 	 * 调用签权服务，判断用户是否有权限
 	 */
-	@PostMapping(value = "auth/permission")
+	@PostMapping(value = "oauth/permission")
 	JsonData authPermission(@RequestParam("url") String url,
 	                        @RequestParam("method") String method,
 							@RequestHeader(HttpHeaders.AUTHORIZATION) String authentication);
