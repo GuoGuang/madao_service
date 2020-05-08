@@ -2,17 +2,8 @@ package com.codeway.article.service.backstage;
 
 import com.codeway.article.dao.backstage.CommentDao;
 import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.pojo.QueryVO;
-import com.codeway.pojo.article.Category;
 import com.codeway.pojo.article.Comment;
-import com.codeway.pojo.article.QComment;
-import com.codeway.pojo.user.Resource;
 import com.codeway.utils.BeanUtil;
-import com.codeway.utils.QuerydslUtil;
-import com.querydsl.core.QueryResults;
-import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,6 +3,7 @@ package com.codeway.auth.validate;
 import com.codeway.auth.exception.ValidateCodeException;
 import com.codeway.auth.validate.impl.ValidateCode;
 import com.codeway.auth.validate.impl.ValidateCodeGenerator;
+import com.codeway.enums.ValidateCodeType;
 import com.codeway.utils.JsonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,9 +115,9 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 			throw new ValidateCodeException(codeType + "验证码已过期");
 		}
 
-//		if (!StringUtils.equals(codeInSession.getCode(), codeInRequest)) {
-//			throw new ValidateCodeException(codeType + "验证码不匹配");
-//		}
+		if (!StringUtils.equals(codeInSession.getCode(), codeInRequest)) {
+			throw new ValidateCodeException(codeType + "验证码不匹配");
+		}
 		
 		validateCodeRepository.remove(request, codeType);
 		

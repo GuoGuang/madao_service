@@ -1,6 +1,8 @@
 package com.codeway.auth.validate;
 
+import com.codeway.auth.config.BodyReaderHttpServletRequestWrapper;
 import com.codeway.auth.exception.ValidateCodeException;
+import com.codeway.enums.ValidateCodeType;
 import com.codeway.properties.SecurityProperties;
 import com.codeway.utils.HttpHelper;
 import org.apache.commons.lang.StringUtils;

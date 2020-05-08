@@ -1,7 +1,4 @@
-/**
- * 
- */
-package com.codeway.auth.validate;
+package com.codeway.enums;
 
 
 import com.codeway.constant.CommonConst;

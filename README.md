@@ -36,8 +36,8 @@
 10. 运维/集成/部署：Jenkins、Docker...
 
 ## 前台项目请移步 
-  -  (后台管理系统)[https://github.com/GuoGuang/codeway_admin_manage]
-  -  (前台博客)[https://github.com/GuoGuang/codeway]
+- [后台管理系统](https://github.com/GuoGuang/codeway_admin_manage)
+- [前台博客](https://github.com/GuoGuang/codeway)
 
 ## 平台目录结构说明
 ```

@@ -12,6 +12,8 @@ public final class CommonConst {
 	public static final int MODIFY= 3;
 
 	/*超时时间*/
+	// 五分钟
+	public static final Integer TIME_OUT_FIVE_MINUTES = 60 * 5;
 	// 半小时
 	public static final Integer TIME_OUT_HALF_HOUR = 60 * 30;
 	// 三个月

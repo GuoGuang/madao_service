@@ -1,6 +1,6 @@
 package com.codeway.auth.controller;
 
-import com.codeway.auth.service.AuthService;
+import com.codeway.auth.service.AuthenticationService;
 import com.codeway.auth.validate.ValidateCodeProcessor;
 import com.codeway.auth.validate.ValidateCodeProcessorHolder;
 import com.codeway.utils.JsonData;
@@ -17,14 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 @Api("用户登录认证")
 @RestController
 @RequestMapping("/oauth")
-public class AuthController  {
+public class AuthenticationController {
 
-	private AuthService authService;
+	private AuthenticationService authenticationService;
 
 	private final ValidateCodeProcessorHolder validateCodeProcessorHolder;
 
-	public AuthController(AuthService authService, ValidateCodeProcessorHolder validateCodeProcessorHolder) {
-		this.authService = authService;
+	public AuthenticationController(AuthenticationService authenticationService, ValidateCodeProcessorHolder validateCodeProcessorHolder) {
+		this.authenticationService = authenticationService;
 		this.validateCodeProcessorHolder = validateCodeProcessorHolder;
 	}
 
@@ -34,7 +34,7 @@ public class AuthController  {
 			@ApiImplicitParam(name = "token", value = "令牌", dataType = "String", paramType = "header")
 	)
 	public JsonData<Void> logout(@RequestHeader("AUTH") String token) {
-		authService.logout(token);
+		authenticationService.logout(token);
 		return JsonData.success();
 	}
 

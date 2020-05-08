@@ -13,10 +13,8 @@ import org.springframework.web.client.RestTemplate;
  * 登录，认证
  **/
 @Service
-public class AuthService {
+public class AuthenticationService {
 
-    @Value("${auth.tokenValiditySeconds}")
-    int tokenValiditySeconds;
     @Autowired
     LoadBalancerClient loadBalancerClient;
 

@@ -1,4 +1,4 @@
-package com.codeway.auth.validate;
+package com.codeway.auth.config;
 
 import com.codeway.utils.HttpHelper;
 

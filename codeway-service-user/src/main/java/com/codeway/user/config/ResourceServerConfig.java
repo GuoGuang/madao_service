@@ -1,12 +1,12 @@
-package com.codeway.base.config;
+package com.codeway.user.config;
 
-
-import com.codeway.base.handler.CustomAccessDeniedHandler;
-import com.codeway.base.handler.CustomAuthenticationEntryPoint;
+import com.codeway.user.handler.CustomAccessDeniedHandler;
+import com.codeway.user.handler.CustomAuthenticationEntryPoint;
 import com.codeway.utils.security.JWTAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -38,7 +38,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .tokenStore(tokenStore())
                 .authenticationEntryPoint(customAuthenticationEntryPoint)
                 .accessDeniedHandler(customAccessDeniedHandler)
-                .resourceId("service-base");
+                .resourceId("service-user");
     }
 
     @Override
@@ -55,6 +55,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         .and()
             .authorizeRequests()
             .antMatchers("/management/health").permitAll()
+            .antMatchers(HttpMethod.GET,"/user").permitAll()
             .antMatchers("/api/**").permitAll()
             .antMatchers("/management/**").hasAuthority("ROLE_ADMIN")
             .antMatchers("/swagger-resources/configuration/ui").permitAll()

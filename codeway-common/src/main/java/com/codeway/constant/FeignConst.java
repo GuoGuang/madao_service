@@ -20,11 +20,8 @@ public final class FeignConst {
 	public static final String SERVICE_USER_PATH  = "/user";
 	public static final String SERVICE_RESOURCE_PATH  = "/resource";
 
-	/* 认证微服务 */
+	/* 认证微服务&授权微服务 */
 	public static final String SERVICE_AUTHENTICATION_AUTH  = "authentication-server";
 	public static final String SERVICE_AUTHENTICATION_AUTH_PATH  = "/";
 
-	/* 授权微服务 */
-	public static final String SERVICE_AUTHORIZATION_AUTH  = "authorization-server";
-	public static final String SERVICE_AUTHORIZATION_AUTH_PATH  = "/";
 }

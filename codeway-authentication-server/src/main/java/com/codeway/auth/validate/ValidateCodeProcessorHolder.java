@@ -1,6 +1,7 @@
 package com.codeway.auth.validate;
 
 import com.codeway.auth.exception.ValidateCodeException;
+import com.codeway.enums.ValidateCodeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
