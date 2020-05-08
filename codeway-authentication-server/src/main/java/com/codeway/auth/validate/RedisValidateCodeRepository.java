@@ -2,7 +2,9 @@ package com.codeway.auth.validate;
 
 import com.codeway.auth.exception.ValidateCodeException;
 import com.codeway.auth.validate.impl.ValidateCode;
+import com.codeway.constant.CommonConst;
 import com.codeway.db.redis.service.RedisService;
+import com.codeway.enums.ValidateCodeType;
 import com.codeway.utils.JsonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,7 @@ public class RedisValidateCodeRepository implements ValidateCodeRepository {
 	@Override
 	public void save(ServletWebRequest request, ValidateCode code, ValidateCodeType type) {
 		String validateCode = JsonUtil.toJsonString(code);
-		redisService.setKeyStr(buildKey(request, type), validateCode);
+		redisService.setKeyStr(buildKey(request, type), validateCode, CommonConst.TIME_OUT_FIVE_MINUTES.longValue());
 		//redisTemplate.opsForValue().set(buildKey(request, type), s, 30, TimeUnit.MINUTES);
 	}
 

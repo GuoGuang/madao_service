@@ -1,6 +1,7 @@
 package com.codeway.auth.validate;
 
 import com.codeway.auth.validate.impl.ValidateCode;
+import com.codeway.enums.ValidateCodeType;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**
