@@ -35,6 +35,6 @@ public class OssClientUtil {
 				fileName,
 				DateUtil.convertLdtToDate(DateUtil.getPlusMonths(99999)),
 				HttpMethod.GET);
-		return "http://"+url.getHost()+url.getPath();
+		return "https://"+url.getHost()+url.getPath();
 	}
 }
