@@ -73,6 +73,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
 		if(expire<0){
 			return unAuthorized(exchange,StatusEnum.LOGIN_EXPIRED);
 		}
+
 		AuthToken authToken = authService.getAuthToken(authentication);
 		String jwtToken = authToken.getAccess_token();
 		//调用签权服务看用户是否有权限，若有权限进入下一个filter
