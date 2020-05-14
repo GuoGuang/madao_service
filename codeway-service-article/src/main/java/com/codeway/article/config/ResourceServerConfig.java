@@ -53,18 +53,18 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
             .authorizeRequests()
-            .antMatchers("/management/health").permitAll()
-            .antMatchers("/api/**").permitAll()
-            .antMatchers("/management/**").hasAuthority("ROLE_ADMIN")
-            .antMatchers("/swagger-resources/configuration/ui").permitAll()
-            .antMatchers("/v2/api-docs",
-                "/configuration/ui",
-                "/swagger-resources",
-                "/configuration/security",
-                "/webjars/**",
-                "/swagger-resources/configuration/ui",
-                "/swagger-ui.html",
-                "/swagger-resources/configuration/security").permitAll()
+	        .antMatchers("/management/**").hasAuthority("ROLE_ADMIN")
+	        .antMatchers("/v2/api-docs",
+			        "/configuration/ui",
+			        "/api/**",
+			        "/management/health",
+			        "/swagger-resources/**",
+			        "/configuration/security",
+			        "/",
+			        "/csrf",
+			        "/webjars/**",
+			        "/swagger-resources/configuration/security",
+			        "/swagger-ui.html").permitAll()
                 .antMatchers("/**").authenticated();
     }
 
