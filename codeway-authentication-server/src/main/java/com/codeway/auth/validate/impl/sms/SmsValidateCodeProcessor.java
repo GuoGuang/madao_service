@@ -5,6 +5,7 @@ import com.codeway.auth.validate.impl.ValidateCode;
 import com.codeway.constant.CommonConst;
 import com.codeway.enums.StatusEnum;
 import com.codeway.utils.JsonData;
+import com.codeway.utils.LogBack;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,6 +36,7 @@ public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<Vali
 	        smsCodeSender.send(phone, validateCode.getCode());
 	        request.getResponse().getWriter().write(objectMapper.writeValueAsString(JsonData.success()));
         }catch (Exception ex){
+	        LogBack.error("向手机:{}，{},原因:{}",phone,StatusEnum.SMS_SEND_ERROR.getMsg(),ex.getCause(),ex);
 	        request.getResponse().getWriter().write(objectMapper.writeValueAsString(JsonData.failed(StatusEnum.SMS_SEND_ERROR)));
 
         }
