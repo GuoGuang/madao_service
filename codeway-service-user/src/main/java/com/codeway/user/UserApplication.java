@@ -30,7 +30,7 @@ import javax.persistence.EntityManager;
 @EnableJpaRepositories("com.codeway.user.dao")
 @EnableFeignClients(basePackages = "com.codeway.api")
 //@EnableWebSecurity
-@EnableAdminServer
+//@EnableAdminServer
 @ComponentScan(basePackages = {"com.codeway"})
 public class UserApplication {
 
