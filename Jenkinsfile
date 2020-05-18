@@ -233,6 +233,8 @@ pipeline {
                    //     echo '-->> #本机构建成功-->>'
                    // }else {
 
+                         sh "sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list"
+                        sh "apt-get clean"
                         sh "apt-get update"
                         sh "apt-get install sshpass"
                         // https://www.cnblogs.com/kaishirenshi/p/7921308.html
