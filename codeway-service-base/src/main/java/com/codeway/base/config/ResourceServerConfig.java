@@ -3,10 +3,12 @@ package com.codeway.base.config;
 
 import com.codeway.base.handler.CustomAccessDeniedHandler;
 import com.codeway.base.handler.CustomAuthenticationEntryPoint;
+import com.codeway.enums.AuthorityEnum;
 import com.codeway.utils.security.JWTAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -21,6 +23,8 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+
+    public static final String PARAM_NAME_ON_AUTHORITY = AuthorityEnum.ROLE_ADMIN.getParamNameOnAuthority();
 
     @Autowired
     private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
@@ -54,7 +58,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
             .authorizeRequests()
-	        .antMatchers("/management/**").hasAuthority("ROLE_ADMIN")
+            .antMatchers("/management/**").hasAuthority(PARAM_NAME_ON_AUTHORITY)
+            .antMatchers(HttpMethod.DELETE).hasAuthority(PARAM_NAME_ON_AUTHORITY)
+            .antMatchers(HttpMethod.PUT).hasAuthority(PARAM_NAME_ON_AUTHORITY)
 	        .antMatchers("/v2/api-docs",
 			        "/configuration/ui",
 			        "/api/**",

@@ -1,5 +1,6 @@
 package com.codeway.user.config;
 
+import com.codeway.enums.AuthorityEnum;
 import com.codeway.user.handler.CustomAccessDeniedHandler;
 import com.codeway.user.handler.CustomAuthenticationEntryPoint;
 import com.codeway.utils.security.JWTAuthentication;
@@ -21,6 +22,8 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+
+    public static final String PARAM_NAME_ON_AUTHORITY = AuthorityEnum.ROLE_ADMIN.getParamNameOnAuthority();
 
     @Autowired
     private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
@@ -55,7 +58,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         .and()
             .authorizeRequests()
             .antMatchers(HttpMethod.GET,"/user").permitAll()
-            .antMatchers("/management/**").hasAuthority("ROLE_ADMIN")
+            .antMatchers("/management/**").hasAuthority(PARAM_NAME_ON_AUTHORITY)
+            .antMatchers(HttpMethod.DELETE).hasAuthority(PARAM_NAME_ON_AUTHORITY)
+            .antMatchers(HttpMethod.PUT).hasAuthority(PARAM_NAME_ON_AUTHORITY)
             .antMatchers("/v2/api-docs",
 					                "/configuration/ui",
 							        "/api/**",
