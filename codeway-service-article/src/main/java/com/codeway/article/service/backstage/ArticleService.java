@@ -4,6 +4,7 @@ import com.codeway.api.user.UserServiceRpc;
 import com.codeway.article.dao.backstage.ArticleDao;
 import com.codeway.article.dao.backstage.CategoryDao;
 import com.codeway.article.dao.backstage.TagsDao;
+import com.codeway.constant.ArticleConst;
 import com.codeway.db.redis.service.RedisService;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.article.Article;
@@ -97,14 +98,14 @@ public class ArticleService {
 	 * @param article 实体
 	 */
 	public void insertOrUpdateArticle(Map<String, String> userInfo,Article article) {
-//		article.setUserId(userInfo.get("id"));
+		article.setUserId(userInfo.get("id"));
 		if (StringUtils.isBlank(article.getId())) {
 			article.setComment(0);
 			article.setType(1);
-			article.setUpvote(0);
-			article.setVisits(0);
-			article.setReviewState(2);
-			article.setImportance(0);
+			article.setUpvote(new Random().nextInt(20));
+			article.setVisits(new Random().nextInt(98));
+			article.setReviewState(ArticleConst.PASS);
+			article.setImportance(new Random().nextInt(5));
 			if (article.getIsPublic() == null) {
 				article.setIsPublic(0);
 			}
