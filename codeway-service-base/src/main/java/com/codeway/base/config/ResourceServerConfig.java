@@ -58,12 +58,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
             .authorizeRequests()
+		    .antMatchers("/api/**").permitAll()
             .antMatchers("/management/**").hasAuthority(PARAM_NAME_ON_AUTHORITY)
             .antMatchers(HttpMethod.DELETE).hasAuthority(PARAM_NAME_ON_AUTHORITY)
             .antMatchers(HttpMethod.PUT).hasAuthority(PARAM_NAME_ON_AUTHORITY)
 	        .antMatchers("/v2/api-docs",
 			        "/configuration/ui",
-			        "/api/**",
 			        "/management/health",
 			        "/swagger-resources/**",
 			        "/configuration/security",
