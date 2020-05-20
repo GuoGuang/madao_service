@@ -142,6 +142,7 @@ pipeline {
                 sh "/bin/cp -f /var/jenkins_home/service-config/JWT.keystore codeway-authentication-server/src/main/resources/"
                 sh "/bin/cp -f /var/jenkins_home/service-config/publickey.txt codeway-authentication-server/src/main/resources/"
                 sh "/bin/cp -f /var/jenkins_home/service-config/publickey.txt codeway-service-base/src/main/resources/"
+                sh "/bin/cp -f /var/jenkins_home/service-config/publickey.txt codeway-service-article/src/main/resources/"
                 sh "/bin/cp -f /var/jenkins_home/service-config/publickey.txt codeway-service-user/src/main/resources/"
                 sh "/bin/cp -f /var/jenkins_home/service-config/publickey.txt codeway-web-gateway/src/main/resources/"
                 sh "mvn -B -DskipTests install -f codeway-common-parent"
