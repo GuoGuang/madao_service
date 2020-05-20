@@ -15,13 +15,13 @@ import java.net.URL;
 @Component
 public class OssClientUtil {
 
+	/**
+	 * Bucket名称
+	 */
+	private static final String BUCKET_NAME = "vue-admin-guoguang";
 
-	private static final String BUCKET_NAME = "vue-admin-guoguang"; // Bucket名称
-	@Autowired
+	@Autowired(required = false)
 	private OSSClient ossClient;
-
-
-
 
 	/**
 	 * 上传文件
