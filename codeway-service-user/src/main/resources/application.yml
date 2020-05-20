@@ -3,7 +3,11 @@ server:
 spring:
   application:
     name: service-user  #指定服务名
-
+  boot:
+    admin:
+      client:
+        instance:
+          service-base-url: http://localhost:9007
 
 # 配置织入点
 com:

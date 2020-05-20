@@ -3,6 +3,11 @@ server:
 spring:
   application:
     name: service-article #指定服务名
+  boot:
+    admin:
+      client:
+        instance:
+          service-base-url: http://localhost:9003
 
 com:
   codeway:
