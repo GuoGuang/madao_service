@@ -207,7 +207,6 @@
 <!--        <module>../codeway-service-user</module>-->
 <!--        <module>../codeway-web-gateway</module>-->
 <!--        <module>../codeway-web-platform</module>-->
-<!--        <module>../codeway-authorization-server</module>-->
 <!--        <module>../codeway-authentication-server</module>-->
 <!--    </modules>-->
     <packaging>pom</packaging>
