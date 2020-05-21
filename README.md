@@ -70,32 +70,32 @@
 ## 快速开始
 > 本项目需要你有一定的开发经验，对SpringCloud有基础的认识，此项目仅提供学习使用，新手不建议使用。
 
-0. 导入服务
+1. 导入服务
 ![导入服务](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/service.png)
 点击 "import module" 将服务一一导入，如果你嫌一个个导入麻烦，可以在codeway-common-parent的pom.xml文件中最底下把<modules>标签放开，但是真正微服务开发一般一个团队或者一个人负责一个服务，没有一个人同时开发多个服务情况，毕竟是个人博客项目，导入方式可以自己定。
 
-1. 一个成熟的项目必然会依赖众多中间件，本项目也不例外，这里假设你会使用docker,如果你还没有接触到docker,那么可以参考我的另一篇文章[Docker入门](https://codeway.me/article/1263480522076721152)
+2. 一个成熟的项目必然会依赖众多中间件，本项目也不例外，这里假设你会使用docker,如果你还没有接触到docker,那么可以参考我的另一篇文章[Docker入门](https://codeway.me/article/1263480522076721152)
 
-使用docker启动mysql、redis
-```
-// mysql
-docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql --lower_case_table_names=1
+    使用docker启动mysql、redis
+    ```
+    // mysql
+    docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql --lower_case_table_names=1
+    
+    // redis
+    docker run --name myredis -d -p 6379:6379 -v /data/redis/redis.conf:/etc/redis/redis.conf -v /data/redis/data:/data redis  redis-server /etc/redis/redis.conf --requirepass "root" --appendonly yes
+    
+    // rebbitmq 暂时没有用到，可以先pass
+    docker run -d --name rabbit-server -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+    
+    ```
 
-// redis
-docker run --name myredis -d -p 6379:6379 -v /data/redis/redis.conf:/etc/redis/redis.conf -v /data/redis/data:/data redis  redis-server /etc/redis/redis.conf --requirepass "root" --appendonly yes
-
-// rebbitmq 暂时没有用到，可以先pass
-docker run -d --name rabbit-server -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin -p 5672:5672 -p 15672:15672 rabbitmq:3-management
-
-```
-
-2 . 配置注册中心远程仓库
-github fork此仓库 [配置中心](https://github.com/GuoGuang/codeway_config)
-
+3. 配置注册中心远程仓库
+github fork此仓库[配置中心](https://github.com/GuoGuang/codeway_config)
 将里面的配置文件更改为你的地址，阿里云oss地址没有的话可以注释掉
 
-3. 配置注册中心远程地址
+4.  配置注册中心远程地址
 在codeway-server-config服务中找到bootstrap.yml文件，配置如下
+
 ```
 spring:
   profiles:
@@ -122,8 +122,7 @@ spring:
 #     password: xxx
 #     secret: xxx
 ```
-
-4. 关于内存问题
+## 关于内存问题
 
 SpringCloud是比较吃内存的，如果你不指定内存大小，8G内存一般启3、4个就满了，所以这里需要配置下每个服务内存大小
 
@@ -135,12 +134,12 @@ SpringCloud是比较吃内存的，如果你不指定内存大小，8G内存一�
 
 以上配置请不要再生产使用，仅作为本地开发调试，为解决内存不足问题的，当然如果你的内存够大，可以忽略以上配置
 
-4. 启动微服务
-## 架构图
+## 启动微服务
+### 架构图
 ![架构图](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE1.png)
 ![架构图](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE2.png)
 
-## 服务监控平台
+### 服务监控平台
 启动 codeway-service-monitor 服务 
 访问 [地址](http://127.0.0.1:9002)
 ![图1](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/Application.png)
