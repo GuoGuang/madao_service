@@ -4,7 +4,6 @@ import com.codeway.api.base.LoginLogServiceRpc;
 import com.codeway.db.redis.service.RedisService;
 import com.codeway.utils.security.JWTAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

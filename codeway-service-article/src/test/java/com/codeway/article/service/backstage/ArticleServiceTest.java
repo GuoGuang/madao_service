@@ -1,10 +1,6 @@
 package com.codeway.article.service.backstage;
 
-import com.codeway.pojo.QueryVO;
 import com.codeway.pojo.article.Article;
-import com.codeway.utils.JsonUtil;
-import com.codeway.utils.LogBack;
-import com.querydsl.core.QueryResults;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

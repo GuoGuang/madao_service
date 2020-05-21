@@ -1,8 +1,6 @@
 package com.codeway.article.controller.blog;
 
 import com.codeway.article.service.blog.ApiTagsService;
-import com.codeway.pojo.QueryVO;
-import com.codeway.pojo.article.Article;
 import com.codeway.pojo.article.Tags;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Set;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
