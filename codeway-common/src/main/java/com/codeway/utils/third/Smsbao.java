@@ -17,7 +17,7 @@ import java.security.NoSuchAlgorithmException;
  * Smsbao api
  */
 @Component
-@ConditionalOnProperty("sms")
+@ConditionalOnProperty(name = "sms.account")
 public class Smsbao {
 
 	@Value("${sms.account}")

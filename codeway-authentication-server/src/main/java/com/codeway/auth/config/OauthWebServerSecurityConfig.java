@@ -84,12 +84,11 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 						"/configuration/ui",
 						"/swagger-resources",
 						"/configuration/security",
-						"/swagger-ui.html",
 						"/webjars/**",
 						"/swagger-resources/configuration/ui",
 						"/swagger-ui.html",
 						"/swagger-resources/configuration/security").permitAll()
-			.anyRequest().authenticated()
+//			.anyRequest().authenticated()
 				.and()
 				.csrf().disable();
 

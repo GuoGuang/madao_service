@@ -1,9 +1,8 @@
-package com.codeway.base.config;
+package com.codeway.user.config;
 
-
-import com.codeway.base.handler.CustomAccessDeniedHandler;
-import com.codeway.base.handler.CustomAuthenticationEntryPoint;
 import com.codeway.enums.AuthorityEnum;
+import com.codeway.user.handler.CustomAccessDeniedHandler;
+import com.codeway.user.handler.CustomAuthenticationEntryPoint;
 import com.codeway.utils.security.JWTAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -42,7 +41,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .tokenStore(tokenStore())
                 .authenticationEntryPoint(customAuthenticationEntryPoint)
                 .accessDeniedHandler(customAccessDeniedHandler)
-                .resourceId("service-base");
+                .resourceId("service-user");
     }
 
     @Override
@@ -59,19 +58,20 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         .and()
             .authorizeRequests()
 		    .antMatchers("/api/**").permitAll()
+            .antMatchers(HttpMethod.GET,"/user").permitAll()
             .antMatchers("/management/**").hasAuthority(PARAM_NAME_ON_AUTHORITY)
             .antMatchers(HttpMethod.DELETE).hasAuthority(PARAM_NAME_ON_AUTHORITY)
             .antMatchers(HttpMethod.PUT).hasAuthority(PARAM_NAME_ON_AUTHORITY)
-	        .antMatchers("/v2/api-docs",
-			        "/configuration/ui",
-			        "/management/health",
-			        "/swagger-resources/**",
-			        "/configuration/security",
-			        "/",
-			        "/csrf",
-			        "/webjars/**",
-			        "/swagger-resources/configuration/security",
-			        "/swagger-ui.html").permitAll()
+            .antMatchers("/v2/api-docs",
+					                "/configuration/ui",
+					                "/management/health",
+					                "/swagger-resources/**",
+					                "/configuration/security",
+					                "/",
+					                "/csrf",
+					                "/webjars/**",
+		                            "/swagger-resources/configuration/security",
+					                "/swagger-ui.html").permitAll()
                 .antMatchers("/**").authenticated();
     }
 

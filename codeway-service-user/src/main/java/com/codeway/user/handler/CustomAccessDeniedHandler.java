@@ -1,4 +1,4 @@
-package com.codeway.authorization.handler;
+package com.codeway.user.handler;
 
 import com.codeway.enums.StatusEnum;
 import com.codeway.utils.JsonData;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 无权访问
+ * 无权访问返回的 JSON 格式数据给前端（否则为 403 html 页面）
  **/
 
 @Component

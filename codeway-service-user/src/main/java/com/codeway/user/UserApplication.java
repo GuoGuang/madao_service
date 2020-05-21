@@ -1,7 +1,6 @@
 package com.codeway.user;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -30,7 +29,7 @@ import javax.persistence.EntityManager;
 @EnableJpaRepositories("com.codeway.user.dao")
 @EnableFeignClients(basePackages = "com.codeway.api")
 //@EnableWebSecurity
-@EnableAdminServer
+//@EnableAdminServer
 @ComponentScan(basePackages = {"com.codeway"})
 public class UserApplication {
 

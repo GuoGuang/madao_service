@@ -68,10 +68,11 @@ class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapte
 
 	/**
 	 * 配置客户端应用
+	 * 如果要实现类似GitHub、Google那种支持开发者申请APP或者有多个不同系统的可以将此处改为从数据库动态取数据加载。
 	 */
 	@Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-//        clients.jdbc(this.dataSource).clients(this.clientDetails());
+//        clients.jdbc(this.dataSource).clients(this.clientDetails()); // 从数据加载
         clients.inMemory()
                 .withClient("XcWebApp")//客户端id
                 .secret("XcWebApp")//密码，要保密

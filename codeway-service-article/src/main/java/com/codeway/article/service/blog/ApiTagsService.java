@@ -4,9 +4,7 @@ import com.codeway.article.dao.backstage.TagsDao;
 import com.codeway.constant.CommonConst;
 import com.codeway.constant.RedisConstant;
 import com.codeway.db.redis.service.RedisService;
-import com.codeway.pojo.article.QTags;
 import com.codeway.pojo.article.Tags;
-import com.codeway.utils.JsonUtil;
 import com.codeway.utils.LogBack;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ApiTagsService {

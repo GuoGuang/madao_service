@@ -1,8 +1,7 @@
-package com.codeway.base.config;
+package com.codeway.article.config;
 
-
-import com.codeway.base.handler.CustomAccessDeniedHandler;
-import com.codeway.base.handler.CustomAuthenticationEntryPoint;
+import com.codeway.article.handler.CustomAccessDeniedHandler;
+import com.codeway.article.handler.CustomAuthenticationEntryPoint;
 import com.codeway.enums.AuthorityEnum;
 import com.codeway.utils.security.JWTAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .tokenStore(tokenStore())
                 .authenticationEntryPoint(customAuthenticationEntryPoint)
                 .accessDeniedHandler(customAccessDeniedHandler)
-                .resourceId("service-base");
+                .resourceId("service-article");
     }
 
     @Override
@@ -58,10 +57,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
             .authorizeRequests()
-		    .antMatchers("/api/**").permitAll()
-            .antMatchers("/management/**").hasAuthority(PARAM_NAME_ON_AUTHORITY)
-            .antMatchers(HttpMethod.DELETE).hasAuthority(PARAM_NAME_ON_AUTHORITY)
-            .antMatchers(HttpMethod.PUT).hasAuthority(PARAM_NAME_ON_AUTHORITY)
+	        .antMatchers("/api/**").permitAll()
+	        .antMatchers("/management/**").hasAuthority(PARAM_NAME_ON_AUTHORITY)
+	        .antMatchers(HttpMethod.DELETE).hasAuthority(PARAM_NAME_ON_AUTHORITY)
+	        .antMatchers(HttpMethod.PUT).hasAuthority(PARAM_NAME_ON_AUTHORITY)
 	        .antMatchers("/v2/api-docs",
 			        "/configuration/ui",
 			        "/management/health",

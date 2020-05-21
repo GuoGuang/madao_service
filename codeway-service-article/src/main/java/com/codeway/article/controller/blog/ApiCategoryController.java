@@ -1,10 +1,8 @@
 package com.codeway.article.controller.blog;
 
 import com.codeway.article.service.backstage.CategoryService;
-import com.codeway.pojo.QueryVO;
 import com.codeway.pojo.article.Category;
 import com.codeway.utils.JsonData;
-import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

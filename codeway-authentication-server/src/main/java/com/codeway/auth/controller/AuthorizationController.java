@@ -1,6 +1,6 @@
-package com.codeway.authorization.controller;
+package com.codeway.auth.controller;
 
-import com.codeway.authorization.service.AuthenticationService;
+import com.codeway.auth.service.AuthenticationService;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 @Api("鉴权")
-@RequestMapping("/auth")
+@RequestMapping("/oauth")
 @RestController
-public class AuthenticationController {
+public class AuthorizationController {
 
     @Autowired
     private AuthenticationService authenticationService;

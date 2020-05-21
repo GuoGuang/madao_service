@@ -1,10 +1,8 @@
 package com.codeway.base.controller.backstage;
 
 import com.codeway.base.service.backstage.OptLogService;
-import com.codeway.pojo.QueryVO;
 import com.codeway.pojo.base.OptLog;
 import com.codeway.utils.JsonData;
-import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

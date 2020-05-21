@@ -1,4 +1,4 @@
-package com.codeway.authorization.handler;
+package com.codeway.base.handler;
 
 import com.codeway.enums.StatusEnum;
 import com.codeway.utils.JsonData;
@@ -15,6 +15,7 @@ import java.io.IOException;
 
 /**
  * 用户没有登录时返回给前端的数据
+ * 未登陆时返回 JSON 格式的数据给前端（否则为 html）
  **/
 
 @Component

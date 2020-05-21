@@ -2,7 +2,6 @@ package com.codeway.base.service.backstage;
 
 import com.codeway.pojo.QueryVO;
 import com.codeway.pojo.base.OptLog;
-import com.querydsl.core.QueryResults;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

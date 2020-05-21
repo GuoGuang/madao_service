@@ -1,7 +1,10 @@
-package com.codeway.authorization.service;
+package com.codeway.auth.service;
 
+import com.codeway.api.user.ResourceServiceRpc;
+import com.codeway.exception.custom.RemoteRpcException;
 import com.codeway.pojo.user.Resource;
 import com.codeway.utils.IdGenerate;
+import com.codeway.utils.JsonData;
 import com.codeway.utils.LogBack;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,23 +28,21 @@ import java.util.stream.Collectors;
  * 鉴权服务
  **/
 @Service
-public class AuthenticationService {
+public class AuthorizationService {
 
     // 未在资源库中的URL默认标识
     private static final String NONEXISTENT_URL = "NONEXISTENT_URL";
 
-    private final ResourceService resourceService;
+	@Autowired
+	private ResourceServiceRpc resourceServiceRpc;
 
     private final IdGenerate idGenerate;
-
 
     // 系统中所有权限集合
     private Map<RequestMatcher, ConfigAttribute> resourceConfigAttributes;
 
-    // 从数据库中加载注入
     @Autowired
-    public AuthenticationService(ResourceService resourceService, IdGenerate idGenerate) {
-	    this.resourceService = resourceService;
+    public AuthorizationService(IdGenerate idGenerate) {
 	    this.idGenerate = idGenerate;
     }
 
@@ -51,11 +52,10 @@ public class AuthenticationService {
 	/**
 	 * 所有资源列表
 	 * 一个页面的数组组装可能存在多个ajax，这里我使用逗号分隔的url字段来处理
-	 * @return
 	 */
 	public Map<RequestMatcher, ConfigAttribute> resourceConfigAttributes() {
 
-		Set<Resource> resources = resourceService.findResourceByCondition();
+		Set<Resource> resources = this.findResourceByCondition();
 
 		// 处理逗号分隔的url
 		Set<Resource> extendSets = new HashSet<>();
@@ -90,7 +90,6 @@ public class AuthenticationService {
 		return map;
 	}
 
-
 	/**
      * @param authRequest 访问的url,method
      * @return 有权限true, 无权限或全局资源中未找到请求url返回否
@@ -115,10 +114,8 @@ public class AuthenticationService {
 
     /**
      * url对应资源与用户拥有资源进行匹配
-     *
      * @param urlConfigAttribute
      * @param userResources
-     * @return
      */
     public boolean isMatch(ConfigAttribute urlConfigAttribute, Set<Resource> userResources) {
 	    boolean isMatchBool = userResources.stream().anyMatch(
@@ -150,7 +147,6 @@ public class AuthenticationService {
     /**
      * 根据用户所被授予的角色，查询到用户所拥有的资源
      * @param authorityRoles
-     * @return
      */
     private Set<Resource> findResourcesByAuthorityRoles(Collection<? extends GrantedAuthority> authorityRoles) {
         //用户被授予的角色
@@ -159,8 +155,37 @@ public class AuthenticationService {
 									                .map(GrantedAuthority::getAuthority)
 									                .collect(Collectors.toList())
 									                .toArray(new String[authorityRoles.size()]);
-        Set<Resource> resources = resourceService.queryByRoleIds(authorityRoleIds);
+        Set<Resource> resources = this.queryByRoleIds(authorityRoleIds);
 	    LogBack.info("用户被授予角色的资源数量是:{}, 资源集合信息为:{}", resources.size(), resources);
         return resources;
     }
+
+	/**
+	 * 条件查询资源
+	 */
+	public Set<Resource> findResourceByCondition() {
+		Resource resource = new Resource();
+		JsonData<List<Resource>> resourceByCondition = resourceServiceRpc.findResourceByCondition(resource);
+		if (!JsonData.isSuccess(resourceByCondition)){
+			throw new RemoteRpcException(resourceByCondition);
+		}
+		List<Resource> resources = resourceByCondition.getData();
+		return new HashSet<>(resources);
+	}
+
+	/**
+	 * 根据角色id查询资源
+	 * @param roleIds 角色id集合
+	 * @return Set<Resource>
+	 */
+	public Set<Resource> queryByRoleIds(String[] roleIds) {
+		JsonData<List<Resource>> resourceOfRole = resourceServiceRpc.findResourceByRoleIds(roleIds);
+		if (!JsonData.isSuccess(resourceOfRole)){
+			throw new RemoteRpcException(resourceOfRole);
+		}
+		List<Resource> data = resourceOfRole.getData();
+		Set<Resource> resourcesSet = new HashSet<>(data);
+		Optional<Set<Resource>> resourcesSetOpt = Optional.of(resourcesSet);
+		return resourcesSetOpt.orElseGet(Collections::emptySet);
+	}
 }

@@ -1,9 +1,5 @@
 package com.codeway.auth.validate.impl.sms;
 
-/**
- * @author zhailiang
- *
- */
 public interface SmsCodeSender {
 	
 	/**

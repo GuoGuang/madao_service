@@ -5,7 +5,7 @@ import com.codeway.utils.third.Smsbao;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- *
+ * 阿里验证码发送器
  */
 public class AliSmsCodeSender implements SmsCodeSender {
 

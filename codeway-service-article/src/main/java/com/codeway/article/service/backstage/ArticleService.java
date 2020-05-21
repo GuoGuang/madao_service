@@ -4,20 +4,13 @@ import com.codeway.api.user.UserServiceRpc;
 import com.codeway.article.dao.backstage.ArticleDao;
 import com.codeway.article.dao.backstage.CategoryDao;
 import com.codeway.article.dao.backstage.TagsDao;
+import com.codeway.constant.ArticleConst;
 import com.codeway.db.redis.service.RedisService;
 import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.pojo.QueryVO;
 import com.codeway.pojo.article.Article;
 import com.codeway.pojo.article.Category;
-import com.codeway.pojo.article.QArticle;
 import com.codeway.pojo.article.Tags;
 import com.codeway.pojo.user.User;
-import com.codeway.utils.QuerydslUtil;
-import com.querydsl.core.QueryResults;
-import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,14 +98,14 @@ public class ArticleService {
 	 * @param article 实体
 	 */
 	public void insertOrUpdateArticle(Map<String, String> userInfo,Article article) {
-//		article.setUserId(userInfo.get("id"));
+		article.setUserId(userInfo.get("id"));
 		if (StringUtils.isBlank(article.getId())) {
 			article.setComment(0);
 			article.setType(1);
-			article.setUpvote(0);
-			article.setVisits(0);
-			article.setReviewState(2);
-			article.setImportance(0);
+			article.setUpvote(new Random().nextInt(20));
+			article.setVisits(new Random().nextInt(98));
+			article.setReviewState(ArticleConst.PASS);
+			article.setImportance(new Random().nextInt(5));
 			if (article.getIsPublic() == null) {
 				article.setIsPublic(0);
 			}

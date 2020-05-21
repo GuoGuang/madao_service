@@ -1,8 +1,11 @@
-package com.codeway.authorization.controller;
+package com.codeway.auth.config;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
+/**
+ * HttpServletRequest包装为鉴权专用类
+ */
 public class HttpServletRequestAuthWrapper extends HttpServletRequestWrapper {
 
     private String url;
