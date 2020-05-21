@@ -21,27 +21,26 @@ pipeline {
                 'codeway-web-gateway:8080',
                 'codeway-service-base:9008',
                 'codeway-service-article:9003',
-                'codeway-authorization-server:8091',
                 'codeway-authentication-server:8090',
 
         ], description: '选择微服务')
-        //测试服务器的dubbo服务端口
-        string(name: 'dubboPort', defaultValue: '31100', description: '测试服务器的dubbo服务端口')
         //单元测试代码覆盖率要求，各项目视要求调整参数
         string(name: 'lineCoverage', defaultValue: '20', description: '单元测试代码覆盖率要求(%)，小于此值pipeline将会失败！')
         //若勾选在pipelie完成后会邮件通知测试人员进行验收
         booleanParam(name: 'isCommitQA', description: '是否邮件通知测试人员进行人工验收', defaultValue: false)
     }
+
     //环境变量，初始确定后一般不需更改
-//     tools {
-      //  maven 'maven3'
-    // }
-    //常量参数，初始确定后一般不需更改
+    /*tools {
+      maven 'maven3'
+    }*/
+
+    //常量参数
     environment {
 
         // 阿里云docker仓库凭证 ：这是jenkins管理界面中定义的凭证名称为“aliyun-docker”
-//        FRESH_CREDS = credentials('aliyun-docker')
-//        BUILD_NUMBER = credentials('aliyun-docker')
+        // FRESH_CREDS = credentials('aliyun-docker')
+        // BUILD_NUMBER = credentials('aliyun-docker')
         // 仓库docker 地址、镜像名、容器名称
         FRESH_HOST = "registry.cn-hongkong.aliyuncs.com"
         REMOTE_SCRIPT = 'sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${INSTANCE_IP}'
@@ -183,8 +182,8 @@ pipeline {
                     sh "pwd"
                     // 构建镜像
                     sh "docker build -t ${serviceName}:${env.BUILD_ID} ."
-//                    sh "docker login --username=guoguang0536 --password ${DOCKER_HUB_PASSWORD}" 
-//                    sh "docker tag ${serviceName}:${env.BUILD_ID} guoguang0536/${serviceName}:${env.BUILD_ID}"
+                    // sh "docker login --username=guoguang0536 --password ${DOCKER_HUB_PASSWORD}"
+                    // sh "docker tag ${serviceName}:${env.BUILD_ID} guoguang0536/${serviceName}:${env.BUILD_ID}"
                     script {
                     //    if("${serviceName}" != "codeway-server-eureka" && "${serviceName}" != "codeway-server-config"){
                             sh "docker login --username=1831682775@qq.com --password ${DOCKER_HUB_PASSWORD} registry-vpc.cn-hangzhou.aliyuncs.com"
