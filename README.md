@@ -74,7 +74,7 @@
 ![导入服务](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/service.png)
 点击 "import module" 将服务一一导入，如果你嫌一个个导入麻烦，可以在codeway-common-parent的pom.xml文件中最底下把<modules>标签放开，但是真正微服务开发一般一个团队或者一个人负责一个服务，没有一个人同时开发多个服务情况，毕竟是个人博客项目，导入方式可以自己定。
 
-1. 一个成熟的项目必然会依赖众多中间件，本项目也不例外，这里假设你会使用docker,如果你还没有接触到docker,那么可以参考我的另一篇文章[Docker入门]()
+1. 一个成熟的项目必然会依赖众多中间件，本项目也不例外，这里假设你会使用docker,如果你还没有接触到docker,那么可以参考我的另一篇文章[Docker入门](https://codeway.me/article/1263480522076721152)
 
 使用docker启动mysql、redis
 ```
@@ -123,6 +123,17 @@ spring:
 #     secret: xxx
 ```
 
+4. 关于内存问题
+
+SpringCloud是比较吃内存的，如果你不指定内存大小，8G内存一般启3、4个就满了，所以这里需要配置下每个服务内存大小
+
+打开Environment config,如果你不指定在哪打开，参考https://www.jetbrains.com/help/idea/2019.3/run-debug-configuration-junit.html?utm_campaign=IU&utm_content=2019.3&utm_medium=link&utm_source=product#configTab 的VM options
+
+类似 config、gateway、eureka、 Oauth2Authentication、服务配置为 -Xmx128m -Xms128m -Xmn50m 
+
+其他的-Xmx236m -Xms236m -Xmn150m 
+
+以上配置请不要再生产使用，仅作为本地开发调试，为解决内存不足问题的，当然如果你的内存够大，可以忽略以上配置
 
 4. 启动微服务
 ## 架构图
