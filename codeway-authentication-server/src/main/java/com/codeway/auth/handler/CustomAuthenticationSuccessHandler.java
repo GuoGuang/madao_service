@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
@@ -30,14 +29,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * APP环境下认证成功处理器
- * 
- * @author zhailiang
- *
  */
 @Component("customAuthenticationSuccessHandler")
 public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
@@ -86,7 +83,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 			throw new UnapprovedClientAuthenticationException("请求头中无client信息");
 		}
 
-		String[] tokens = extractAndDecodeHeader(header, request);
+		String[] tokens = extractAndDecodeHeader(header);
 		assert tokens.length == 2;
 
 		String clientId = tokens[0];
@@ -152,7 +149,6 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 	 * @param access_token 用户身份令牌
 	 * @param content  内容就是AuthToken对象的内容
 	 * @param ttl 过期时间
-	 * @return
 	 */
 	private boolean saveToken(String access_token,String content,long ttl){
 		String key = "user_token:" + access_token;
@@ -161,20 +157,19 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 		return expire>0;
 	}
 
-	private String[] extractAndDecodeHeader(String header, HttpServletRequest request) throws IOException {
-
-		byte[] base64Token = header.substring(6).getBytes("UTF-8");
+	/**
+	 * 提取并解码头数据
+	 */
+	private static String[] extractAndDecodeHeader(String header) {
+		byte[] base64Token = header.substring(6).getBytes(StandardCharsets.UTF_8);
 		byte[] decoded;
 		try {
-			decoded = Base64.decode(base64Token);
+			decoded = java.util.Base64.getDecoder().decode(base64Token);
 		} catch (IllegalArgumentException e) {
 			throw new BadCredentialsException("Failed to decode basic authentication token");
 		}
-
-		String token = new String(decoded, "UTF-8");
-
+		String token = new String(decoded, StandardCharsets.UTF_8);
 		int delim = token.indexOf(":");
-
 		if (delim == -1) {
 			throw new BadCredentialsException("Invalid basic authentication token");
 		}

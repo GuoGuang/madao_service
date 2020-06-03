@@ -26,9 +26,6 @@ import java.util.Set;
 
 /**
  * 校验验证码的过滤器
- * 
- * @author zhailiang
- *
  */
 @Component("validateCodeFilter")
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
@@ -71,8 +68,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 	}
 
 	/**
-	 * 讲系统中配置的需要校验验证码的URL根据校验的类型放入map
-	 * 
+	 * 将系统中配置的需要校验验证码的URL根据校验的类型放入map
 	 * @param urlString
 	 * @param type
 	 */
@@ -111,7 +107,6 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 
 	/**
 	 * 获取校验码的类型，如果当前请求不需要校验，则返回null
-	 * 
 	 * @param request
 	 * @return
 	 */

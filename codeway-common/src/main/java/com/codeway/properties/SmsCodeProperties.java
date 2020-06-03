@@ -1,13 +1,9 @@
-/**
- * 
- */
 package com.codeway.properties;
 
 import com.codeway.constant.CommonConst;
 
 /**
- * @author zhailiang
- *
+ * 短信验证码配置
  */
 public class SmsCodeProperties {
 	

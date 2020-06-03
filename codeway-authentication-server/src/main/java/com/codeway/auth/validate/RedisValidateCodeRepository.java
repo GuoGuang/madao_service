@@ -12,10 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**
- * 基于redis的验证码存取器，避免由于没有session导致无法存取验证码的问题
- * 
- * @author zhailiang
- *
+ * redis验证码
+ * 将图片验证码或者短信验证码存在redis中
  */
 @Component
 public class RedisValidateCodeRepository implements ValidateCodeRepository {
@@ -46,9 +44,8 @@ public class RedisValidateCodeRepository implements ValidateCodeRepository {
 	}
 
 	/**
-	 * @param request
-	 * @param type
-	 * @return
+	 * 获取请求头中DEVICE-ID的值，此值与客户端绑定，一端一码
+	 * @param type 验证码类型：sms or captcha
 	 */
 	private String buildKey(ServletWebRequest request, ValidateCodeType type) {
 		String deviceId = request.getHeader("DEVICE-ID");
