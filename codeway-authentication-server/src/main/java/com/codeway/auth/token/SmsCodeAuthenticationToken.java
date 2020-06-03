@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.codeway.auth.token;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -11,9 +8,6 @@ import java.util.Collection;
 
 /**
  * 短信登录验证信息封装类
- * 
- * @author zhailiang
- *
  */
 public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
 
@@ -36,11 +30,11 @@ public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
 	 * @param principal
 	 * @param authorities
 	 */
-	public SmsCodeAuthenticationToken(Object principal,
-			Collection<? extends GrantedAuthority> authorities) {
+	public SmsCodeAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
 		super(authorities);
 		this.principal = principal;
-		super.setAuthenticated(true); // must use super, as we override
+		// must use super, as we override
+		super.setAuthenticated(true);
 	}
 
 	public Object getCredentials() {
