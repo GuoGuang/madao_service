@@ -70,7 +70,9 @@
 ## 快速开始
 > 本项目需要你有一定的开发经验，对SpringCloud有基础的认识，此项目仅提供学习使用，新手不建议使用。
 
-1. 导入服务
+> 开源不易，如果此项目对您有帮助，麻烦点个star给作者一点动力，不胜感激。:sparkles:
+
+0. 导入服务
 ![导入服务](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/service.png)
 点击 "import module" 将服务一一导入，如果你嫌一个个导入麻烦，可以在codeway-common-parent的pom.xml文件中最底下把<modules>标签放开，但是真正微服务开发一般一个团队或者一个人负责一个服务，没有一个人同时开发多个服务情况，毕竟是个人博客项目，导入方式可以自己定。
 
