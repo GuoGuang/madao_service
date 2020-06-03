@@ -26,14 +26,6 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 	@Autowired
 	private ValidateCodeRepository validateCodeRepository;
 	
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.imooc.security.core.validate.code.ValidateCodeProcessor#create(org.
-	 * springframework.web.context.request.ServletWebRequest)
-	 */
 	@Override
 	public void create(ServletWebRequest request) throws Exception {
 		C validateCode = generate(request);
@@ -43,9 +35,6 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 
 	/**
 	 * 生成校验码
-	 * 
-	 * @param request
-	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	private C generate(ServletWebRequest request) {
@@ -60,9 +49,6 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 
 	/**
 	 * 保存校验码
-	 * 
-	 * @param request
-	 * @param validateCode
 	 */
 	private void save(ServletWebRequest request, C validateCode) {
 		ValidateCode code = new ValidateCode(validateCode.getCode(), validateCode.getExpireTime());
@@ -71,24 +57,23 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 
 	/**
 	 * 发送校验码，由子类实现
-	 * 
-	 * @param request
 	 * @param validateCode
-	 * @throws Exception
 	 */
 	protected abstract void send(ServletWebRequest request, C validateCode) throws Exception;
 
 	/**
 	 * 根据请求的url获取校验码的类型
-	 * 
 	 * @param request
-	 * @return
 	 */
 	private ValidateCodeType getValidateCodeType(ServletWebRequest request) {
 		String type = StringUtils.substringBefore(getClass().getSimpleName(), "ValidateCodeProcessor");
 		return ValidateCodeType.valueOf(type.toUpperCase());
 	}
 
+	/**
+	 * 校验验证码实现
+	 * @param bodyString 请求体
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void validate(ServletWebRequest request, String bodyString) {

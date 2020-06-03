@@ -14,9 +14,6 @@ import java.util.HashMap;
 
 /**
  * 图片验证码处理器
- * 
- * @author zhailiang
- *
  */
 @Component
 public class CaptchaValidateCodeProcessor extends AbstractValidateCodeProcessor<Captcha> {

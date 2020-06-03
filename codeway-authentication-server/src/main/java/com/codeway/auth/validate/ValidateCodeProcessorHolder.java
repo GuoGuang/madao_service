@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
- * 校验码处理器管理器
+ * 校验码处理器管理类
  * 校验码处理器，封装不同校验码的处理逻辑
- * 使用Spring中常用的 依赖搜索 技巧
+ * 使用Spring中常用的 策略模式+依赖搜索 实现
  **/
 @Component
 public class ValidateCodeProcessorHolder {
@@ -27,8 +27,7 @@ public class ValidateCodeProcessorHolder {
 	}
 
 	/**
-	 * @param type
-	 * @return
+	 * 获取type类型的校验码处理器
 	 */
 	public ValidateCodeProcessor findValidateCodeProcessor(String type) {
 		String name = type.toLowerCase() + ValidateCodeProcessor.class.getSimpleName();

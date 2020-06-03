@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.codeway.auth.validate.impl.captcha;
 
 import com.codeway.auth.validate.impl.ValidateCodeGenerator;
@@ -15,8 +12,6 @@ import java.util.Random;
 
 /**
  * 默认的图片验证码生成器
- * @author zhailiang
- *
  */
 public class CaptchaValidateCodeGenerator implements ValidateCodeGenerator {
 
@@ -25,14 +20,7 @@ public class CaptchaValidateCodeGenerator implements ValidateCodeGenerator {
 	 */
 	@Autowired
 	private SecurityProperties securityProperties;
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.imooc.security.core.validate.code.ValidateCodeGenerator#generate(org.
-	 * springframework.web.context.request.ServletWebRequest)
-	 */
+
 	@Override
 	public Captcha generate(ServletWebRequest request) {
 		int width = ServletRequestUtils.getIntParameter(request.getRequest(), "width",
@@ -72,10 +60,8 @@ public class CaptchaValidateCodeGenerator implements ValidateCodeGenerator {
 	
 	/**
 	 * 生成随机背景条纹
-	 * 
 	 * @param fc
 	 * @param bc
-	 * @return
 	 */
 	private Color getRandColor(int fc, int bc) {
 		Random random = new Random();

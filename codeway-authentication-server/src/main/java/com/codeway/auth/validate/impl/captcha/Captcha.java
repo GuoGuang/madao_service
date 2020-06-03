@@ -5,17 +5,11 @@ import com.codeway.auth.validate.impl.ValidateCode;
 import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 
-
 /**
  * 图片验证码
- * @author zhailiang
- *
  */
 public class Captcha extends ValidateCode {
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -6020470039852318468L;
 	
 	private BufferedImage image; 
