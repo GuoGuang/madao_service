@@ -1,9 +1,6 @@
 package com.codeway.article.service.blog;
 
-import com.codeway.article.dao.backstage.TagsDao;
 import com.codeway.article.dao.blog.ApiArticleDao;
-import com.codeway.article.service.backstage.CategoryService;
-import com.codeway.db.redis.service.RedisService;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.article.Article;
 import com.codeway.utils.JsonUtil;
@@ -22,25 +19,14 @@ import java.util.List;
 public class ApiArticleService {
 
 	private final ApiArticleDao articleDao;
-	private final CategoryService categoryService;
-	private final TagsDao tagsDao;
-
-	private final RedisService redisService;
 
 	@Autowired
 	JPAQueryFactory jpaQueryFactory;
 
 	@Autowired
-	public ApiArticleService(ApiArticleDao articleDao,
-	                         CategoryService categoryService,
-	                         TagsDao tagsDao,
-	                         RedisService redisService) {
+	public ApiArticleService(ApiArticleDao articleDao) {
 		this.articleDao = articleDao;
-		this.tagsDao = tagsDao;
-		this.categoryService = categoryService;
-		this.redisService = redisService;
 	}
-
 
 	public Page<Article> findArticleByCondition(Article article, String keyword, Pageable pageable) {
 		// 默认首页
