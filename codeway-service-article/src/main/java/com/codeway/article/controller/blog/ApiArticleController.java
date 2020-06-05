@@ -71,7 +71,7 @@ public class ApiArticleController {
     @ApiOperation(value = "点赞", notes = "id")
     @PutMapping(value = "/like/{articleId}")
     public JsonData<Void> upVote(@PathVariable String articleId) {
-        articleService.updateUpVote(articleId);
+        articleService.upVote(articleId);
         redisService.del(RedisConstant.REDIS_KEY_ARTICLE + articleId);
         return JsonData.success();
     }
@@ -79,7 +79,7 @@ public class ApiArticleController {
     @ApiOperation(value = "取消点赞", notes = "id")
     @DeleteMapping(value = "/like/{articleId}")
     public JsonData<Void> unUpVote(@PathVariable String articleId) {
-        articleService.updateUnUpVote(articleId);
+        articleService.unUpVote(articleId);
         redisService.del(RedisConstant.REDIS_KEY_ARTICLE + articleId);
         return JsonData.success();
     }

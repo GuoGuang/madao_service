@@ -29,10 +29,6 @@ public class CommentService {
         this.commentDao = commentDao;
     }
 
-    /**
-     * 查询全部列表
-     * @param comment 查询实体
-     */
     public Page<Comment> findCommentByCondition(Comment comment, Pageable pageable) {
         Specification<Comment> condition = (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -44,12 +40,6 @@ public class CommentService {
         return commentDao.findAll(condition,pageable);
     }
 
-    /**
-     * 根据评论表ID查询评论
-     *
-     * @param commentId 评论表ID
-     * @return Comment
-     */
     public Comment findCommentByPrimaryKey(String commentId) {
         return commentDao.findById(commentId).orElseThrow(ResourceNotFoundException::new);
     }

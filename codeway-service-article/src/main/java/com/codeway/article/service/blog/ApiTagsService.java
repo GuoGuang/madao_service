@@ -29,10 +29,6 @@ public class ApiTagsService {
 		this.redisService = redisService;
 	}
 
-	/**
-	 * 查询标签全部列表
-	 * @return IPage<Tags>
-	 */
 	public List<Tags> findTagsByCondition(Tags tags, Pageable pageable) {
 		Page<Tags> tagsQueryResults = tagsDao.findAll(pageable);
 		tagsQueryResults.forEach(
@@ -41,11 +37,6 @@ public class ApiTagsService {
 		return tagsQueryResults.getContent();
 	}
 
-	/**
-	 * 根据ID查询标签
-	 * @param id 标签id
-	 * @return Tags
-	 */
 	public Tags findTagsById(String id) {
 		Tags tags = null;
 //		try {
@@ -67,27 +58,15 @@ public class ApiTagsService {
 
 	}
 
-	/**
-	 * 增加
-	 * @param tags 实体
-	 */
 	public void insertTags(Tags tags) {
 //		bgTagsDao.insert(tags);
 	}
 
-	/**
-	 * 修改
-	 * @param tags 实体
-	 */
 	public void updateTagsById(Tags tags) {
 		redisService.del( "tags_" + tags.getId());
 //		bgTagsDao.updateById(tags);
 	}
 
-	/**
-	 * 删除
-	 * @param tagsIds:文章id集合
-	 */
 	public void deleteByIds(List tagsIds) {
 		redisService.del( "tags_" + tagsIds);
 //		bgTagsDao.deleteBatchIds(tagsIds);

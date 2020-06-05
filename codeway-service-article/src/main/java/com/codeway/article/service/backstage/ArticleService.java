@@ -45,11 +45,6 @@ public class ArticleService {
 		this.userServiceRpc = userServiceRpc;
 	}
 
-	/**
-	 * 查询文章
-	 *
-	 * @return IPage<Article>
-	 */
 	public Page<Article> findArticleByCondition(Article article, Pageable pageable) {
 		Specification<Article> condition = (root, query, builder) -> {
 			List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
@@ -79,13 +74,6 @@ public class ArticleService {
 		return queryResults;
 	}
 
-
-
-	/**
-	 * 根据ID查询实体
-	 * @param articleId 文章id
-	 * @return Article
-	 */
 	public Article findArticleById(String articleId) {
 		Article article = articleDao.findById(articleId).orElseThrow(ResourceNotFoundException::new);
 		article.setCategoryId(article.getCategory().getId());
@@ -93,10 +81,6 @@ public class ArticleService {
 
 	}
 
-	/**
-	 * 增加
-	 * @param article 实体
-	 */
 	public void insertOrUpdateArticle(Map<String, String> userInfo,Article article) {
 		article.setUserId(userInfo.get("id"));
 		if (StringUtils.isBlank(article.getId())) {
@@ -128,10 +112,6 @@ public class ArticleService {
 
 	}
 
-	/**
-	 * 删除
-	 * @param articleIds:文章id集合
-	 */
 	public void deleteArticleByIds(List<String> articleIds) {
 		articleDao.deleteBatch(articleIds);
 	}
