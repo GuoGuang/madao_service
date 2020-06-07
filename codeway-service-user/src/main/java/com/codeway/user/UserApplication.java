@@ -14,13 +14,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.persistence.EntityManager;
 
 /**
- * 用户服务启动类
- *
- * @EnableEurekaClient 本服务启动后会自动注册进eureka服务中
- * @EnableSwagger2 接口文档自动生成
- * @EnableFeignClients 开启Feign的功能
- * // SpringBoot主配置类只会扫描自己所在的包及其子包下面,如果不加此扫描codeway-common里的公用包则扫描不到
- * // @ComponentScan(basePackages = {"com.codeway"})
+ * EnableEurekaClient 本服务启动后会自动注册进eureka服务中
+ * EnableSwagger2 接口文档自动生成
+ * EnableFeignClients 开启Feign的功能
+ * SpringBoot主配置类只会扫描自己所在的包及其子包下面,如果不加此扫描codeway-common里的公用包则扫描不到
+ * ComponentScan(basePackages = {"com.codeway"})
  **/
 
 @EntityScan("com.codeway.pojo")
@@ -39,7 +37,6 @@ public class UserApplication {
 
     /**
      * BCrypt加密算法
-     *
      * @return : BCryptPasswordEncoder
      */
     @Bean
@@ -47,11 +44,11 @@ public class UserApplication {
         return new BCryptPasswordEncoder();
     }
 
-    /**
-     * @param entityManager
-     * @return
-     * @see https://www.cnblogs.com/jpfss/p/11003964.html
-     */
+	/**
+	 * 配置querydsl
+	 *
+	 * @see https://www.cnblogs.com/jpfss/p/11003964.html
+	 */
     @Bean
     public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
         return new JPAQueryFactory(entityManager);
