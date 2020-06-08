@@ -20,8 +20,8 @@ public interface ResourceDao extends JpaRepository<Resource, String>, JpaSpecifi
     /**
      * 查询当前用户的资源列表
      *
-     * @param id 用户id
-     * @return 角色数组
+     * @param userId 用户id
+     * @return 资源数组
      */
     @Query(value = "SELECT * FROM us_resource WHERE id in (SELECT us_resource_id FROM us_role_resource WHERE us_role_id in (SELECT id FROM us_role WHERE id in (SELECT us_role_id FROM us_user_role  WHERE us_user_id = :userId)))order by sort Asc"
             , nativeQuery = true)
