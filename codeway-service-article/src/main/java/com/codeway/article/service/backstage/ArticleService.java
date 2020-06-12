@@ -11,7 +11,6 @@ import com.codeway.pojo.article.Article;
 import com.codeway.pojo.article.Category;
 import com.codeway.pojo.article.Tags;
 import com.codeway.pojo.user.User;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,18 +30,16 @@ public class ArticleService {
 
 	private final UserServiceRpc userServiceRpc;
 
-	@Autowired
-	JPAQueryFactory jpaQueryFactory;
-	@Autowired
-	TagsDao tagsDao;
+	private final TagsDao tagsDao;
 
 	@Autowired
 	public ArticleService(ArticleDao articleDao, RedisService redisService,
-	                      UserServiceRpc userServiceRpc,CategoryDao categoryDao) {
+						  UserServiceRpc userServiceRpc, CategoryDao categoryDao, TagsDao tagsDao) {
 		this.articleDao = articleDao;
 		this.categoryDao = categoryDao;
 		this.redisService = redisService;
 		this.userServiceRpc = userServiceRpc;
+		this.tagsDao = tagsDao;
 	}
 
 	/**

@@ -4,7 +4,6 @@ import com.codeway.article.dao.backstage.CommentDao;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.article.Comment;
 import com.codeway.utils.BeanUtil;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,9 +19,6 @@ import java.util.List;
 public class CommentService {
 
     private final CommentDao commentDao;
-
-    @Autowired
-    JPAQueryFactory jpaQueryFactory;
 
     @Autowired
     public CommentService(CommentDao commentDao) {

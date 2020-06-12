@@ -2,11 +2,9 @@ package com.codeway.article.service.backstage;
 
 
 import com.codeway.article.dao.backstage.CategoryDao;
-import com.codeway.db.redis.service.RedisService;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.article.Category;
 import com.codeway.utils.BeanUtil;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,15 +21,9 @@ public class CategoryService {
 
     private final CategoryDao categoryDao;
 
-    private final RedisService redisService;
-
     @Autowired
-    JPAQueryFactory jpaQueryFactory;
-
-    @Autowired
-    public CategoryService(CategoryDao sacategoryDao, RedisService redisService) {
+    public CategoryService(CategoryDao sacategoryDao) {
         this.categoryDao = sacategoryDao;
-        this.redisService = redisService;
     }
 
     public Page<Category> findCategoryByCondition(Category category, Pageable pageable) {

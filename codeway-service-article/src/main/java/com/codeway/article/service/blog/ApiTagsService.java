@@ -6,7 +6,6 @@ import com.codeway.constant.RedisConstant;
 import com.codeway.db.redis.service.RedisService;
 import com.codeway.pojo.article.Tags;
 import com.codeway.utils.LogBack;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,9 +18,6 @@ public class ApiTagsService {
 
 	private final TagsDao tagsDao;
 	private final RedisService redisService;
-
-	@Autowired
-	JPAQueryFactory jpaQueryFactory;
 
 	@Autowired
 	public ApiTagsService(TagsDao tagsDao,  RedisService redisService) {

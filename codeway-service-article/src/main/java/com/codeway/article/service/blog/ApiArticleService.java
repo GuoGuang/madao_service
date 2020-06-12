@@ -7,7 +7,6 @@ import com.codeway.db.redis.service.RedisService;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.article.Article;
 import com.codeway.utils.JsonUtil;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,9 +25,6 @@ public class ApiArticleService {
 	private final TagsDao tagsDao;
 
 	private final RedisService redisService;
-
-	@Autowired
-	JPAQueryFactory jpaQueryFactory;
 
 	@Autowired
 	public ApiArticleService(ApiArticleDao articleDao,
