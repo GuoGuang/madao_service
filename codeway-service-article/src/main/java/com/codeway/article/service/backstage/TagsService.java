@@ -1,12 +1,9 @@
 package com.codeway.article.service.backstage;
 
-import com.codeway.article.dao.backstage.ArticleDao;
 import com.codeway.article.dao.backstage.TagsDao;
-import com.codeway.db.redis.service.RedisService;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.article.Tags;
 import com.codeway.utils.BeanUtil;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,18 +19,10 @@ import java.util.List;
 public class TagsService {
 
 	private final TagsDao tagsDao;
-	@Autowired
-	private ArticleDao articleDao;
-
-	private final RedisService redisService;
 
 	@Autowired
-	JPAQueryFactory jpaQueryFactory;
-
-	@Autowired
-	public TagsService(TagsDao tagsDao, RedisService redisService) {
+	public TagsService(TagsDao tagsDao) {
 		this.tagsDao = tagsDao;
-		this.redisService = redisService;
 	}
 
 	public Page<Tags> findTagsByCondition(Tags tags, Pageable pageable) {

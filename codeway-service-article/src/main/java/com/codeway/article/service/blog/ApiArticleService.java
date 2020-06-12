@@ -1,10 +1,12 @@
 package com.codeway.article.service.blog;
 
+import com.codeway.article.dao.backstage.TagsDao;
 import com.codeway.article.dao.blog.ApiArticleDao;
+import com.codeway.article.service.backstage.CategoryService;
+import com.codeway.db.redis.service.RedisService;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.article.Article;
 import com.codeway.utils.JsonUtil;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,14 +21,22 @@ import java.util.List;
 public class ApiArticleService {
 
 	private final ApiArticleDao articleDao;
+	private final CategoryService categoryService;
+	private final TagsDao tagsDao;
+
+	private final RedisService redisService;
 
 	@Autowired
-	JPAQueryFactory jpaQueryFactory;
-
-	@Autowired
-	public ApiArticleService(ApiArticleDao articleDao) {
+	public ApiArticleService(ApiArticleDao articleDao,
+	                         CategoryService categoryService,
+	                         TagsDao tagsDao,
+	                         RedisService redisService) {
 		this.articleDao = articleDao;
+		this.tagsDao = tagsDao;
+		this.categoryService = categoryService;
+		this.redisService = redisService;
 	}
+
 
 	public Page<Article> findArticleByCondition(Article article, String keyword, Pageable pageable) {
 		// 默认首页
@@ -54,31 +64,47 @@ public class ApiArticleService {
 		return article;
 	}
 
+
+	/**
+	 * 增加
+	 *
+	 * @param article 实体
+	 */
 	public void insertArticle(Article article) {
 //		articleDao.insert(article);
 	}
 
-
+	/**
+	 * 修改
+	 *
+	 * @param article 实体
+	 */
 	public void updateByPrimaryKeySelective(Article article) {
 //		redisService.del( "article_" + article.getId());
 //		articleDao.updateById(article);
 	}
 
+	/**
+	 * 删除
+	 *
+	 * @param articleIds:文章id集合
+	 */
 	public void deleteArticleByIds(List<String> articleIds) {
 //		articleDao.deleteBatchIds(articleIds);
 	}
 
+
 	/**
 	 * 点赞
 	 */
-	public void upVote(String id) {
+	public void updateUpVote(String id) {
 		articleDao.updateUpVote(id);
 	}
 
 	/**
 	 * 取消点赞
 	 */
-	public void unUpVote(String id) {
+	public void updateUnUpVote(String id) {
 		articleDao.updateUnUpVote(id);
 	}
 

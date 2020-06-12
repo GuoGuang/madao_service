@@ -1,53 +1,78 @@
 package com.codeway.article.service.backstage;
 
+import com.codeway.api.user.UserServiceRpc;
+import com.codeway.article.dao.backstage.ArticleDao;
+import com.codeway.article.dao.backstage.CategoryDao;
+import com.codeway.article.dao.backstage.TagsDao;
+import com.codeway.config.CustomQueryResults;
+import com.codeway.db.redis.service.RedisService;
 import com.codeway.pojo.article.Article;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import com.codeway.pojo.user.User;
+import com.codeway.utils.JsonData;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
 
 import java.util.Arrays;
 import java.util.HashMap;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class ArticleServiceTest {
+import static org.mockito.Mockito.*;
 
-    @Autowired
-    private ArticleService articleService;
+class ArticleServiceTest {
+    @Mock
+    ArticleDao articleDao;
+    @Mock
+    CategoryDao categoryDao;
+    @Mock
+    RedisService redisService;
+    @Mock
+    UserServiceRpc userServiceRpc;
+    @Mock
+    TagsDao tagsDao;
+    @InjectMocks
+    ArticleService articleService;
 
-    @Test
-    public void findArticleByCondition() {
-//        QueryVO queryVO = new QueryVO();
-//        QueryResults<Article> result = articleService.findArticleByCondition(new Article(), queryVO);
-//        LogBack.info(JsonUtil.toJsonString(result));
-//        Assert.assertTrue(result.getTotal() > 0);
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void findArticleById() {
-        Article articleById = articleService.findArticleById("1157518139778985985");
-        Assert.assertNotNull(articleById);
+    void testFindArticleByCondition() {
+        when(userServiceRpc.findUser()).thenReturn(new JsonData<CustomQueryResults<User>>(true, 0, null, any()));
+
+        Page<Article> result = articleService.findArticleByCondition(new Article(), null);
+        Assertions.assertEquals(null, result);
     }
 
     @Test
-    public void insertOrUpdateArticle() {
-        Article article = new Article();
-        article.setUserName("666666666666");
-        article.setTitle("66666");
-        article.setOrigin(1);
-        article.setTitle("66666");
-        article.setContent("66666");
-        article.setDescription("66666");
-        HashMap<String, String> objectObjectHashMap = new HashMap<>();
-        articleService.insertOrUpdateArticle(objectObjectHashMap, article);
+    void testFindArticleById() {
+        Article result = articleService.findArticleById("articleId");
+        Assertions.assertEquals(new Article(), result);
     }
 
     @Test
-    public void deleteArticleByIds() {
-        articleService.deleteArticleByIds(Arrays.asList("1170303530789548034", "1157770104106725378"));
+    void testInsertOrUpdateArticle() {
+        when(redisService.lSet(anyString(), any())).thenReturn(true);
+
+        articleService.insertOrUpdateArticle(new HashMap<String, String>() {{
+            put("String", "String");
+        }}, new Article());
     }
 
+    @Test
+    void testDeleteArticleByIds() {
+        articleService.deleteArticleByIds(Arrays.<String>asList("String"));
+    }
+
+    @Test
+    void testExamine() {
+        articleService.examine("id");
+    }
 }
+
+//Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme
