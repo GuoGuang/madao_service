@@ -73,12 +73,12 @@ class ApiArticleServiceTest {
 
     @Test
     void testUpdateUpVote() {
-        apiArticleService.updateUpVote("id");
+        apiArticleService.upVote("id");
     }
 
     @Test
     void testUpdateUnUpVote() {
-        apiArticleService.updateUnUpVote("id");
+	    apiArticleService.unUpVote("id");
     }
 }
 
