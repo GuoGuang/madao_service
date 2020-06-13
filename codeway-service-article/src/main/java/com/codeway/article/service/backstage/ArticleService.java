@@ -106,6 +106,7 @@ public class ArticleService {
 			if (article.getIsPublic() == null) {
 				article.setIsPublic(0);
 			}
+			redisService.lSet("ARTICLE_HOT", article);
 //			Optional<Tags> byId = tagsDao.findById("1214844690118086656");
 //			HashSet<Tags> objects = new HashSet<>();
 //			objects.add(byId.get());
@@ -121,7 +122,6 @@ public class ArticleService {
 		HashSet<Tags> objects = new HashSet<>(allById);
 		article.setTags(objects);
 		articleDao.save(article);
-		redisService.lSet("ARTICLE_HOT", article);
 
 	}
 
