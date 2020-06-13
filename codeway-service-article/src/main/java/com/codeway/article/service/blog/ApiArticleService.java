@@ -43,7 +43,7 @@ public class ApiArticleService {
 		Specification<Article> condition = (root, query, builder) -> {
 			List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
 			if (StringUtils.isNotEmpty(article.getCategoryId())) {
-				predicates.add(builder.equal(root.get("categoryId"), article.getTitle()));
+				predicates.add(builder.equal(root.get("category").get("id"), article.getCategoryId()));
 			}
 			if (StringUtils.isNotEmpty(keyword)) {
 				predicates.add(builder.like(root.get("title"), "%" + keyword + "%"));
@@ -97,14 +97,14 @@ public class ApiArticleService {
 	/**
 	 * 点赞
 	 */
-	public void updateUpVote(String id) {
+	public void upVote(String id) {
 		articleDao.updateUpVote(id);
 	}
 
 	/**
 	 * 取消点赞
 	 */
-	public void updateUnUpVote(String id) {
+	public void unUpVote(String id) {
 		articleDao.updateUnUpVote(id);
 	}
 
