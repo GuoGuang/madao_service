@@ -52,6 +52,8 @@ public class GateWayConfig {
 				.route("api_article_route", a -> a.path("/api/ar/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-ARTICLE"))
 				.route("api_user_route", a -> a.path("/api/su/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-USER"))
 
+				// python
+				.route("api_movie_route", r -> r.path("/api/movie/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-MOVIE"))
 				.build();
 	}
 
