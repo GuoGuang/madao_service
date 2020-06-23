@@ -24,13 +24,10 @@ public class CorsConfig {
 		corsConfiguration.addAllowedOrigin("http://121.36.158.84:9527");
 		// 前台博客
 		corsConfiguration.addAllowedOrigin("http://localhost:3000");
-		corsConfiguration.addAllowedOrigin("http://202.182.114.223:3000");
 		corsConfiguration.addAllowedOrigin("http://codeway.me");
 		corsConfiguration.addAllowedOrigin("https://codeway.me");
 		corsConfiguration.addAllowedOrigin("http://codeway.fun");
 		corsConfiguration.addAllowedOrigin("https://codeway.fun");
-		corsConfiguration.addAllowedOrigin("http://www.codeway.me");
-		corsConfiguration.addAllowedOrigin("https://www.codeway.me");
 		corsConfiguration.addAllowedHeader("*");
 		corsConfiguration.addAllowedMethod("*");
 		return corsConfiguration;
