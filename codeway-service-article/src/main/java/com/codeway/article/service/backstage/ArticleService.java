@@ -49,6 +49,17 @@ public class ArticleService {
 	 */
 	public Page<Article> findArticleByCondition(Article article, Pageable pageable) {
 		Specification<Article> condition = (root, query, builder) -> {
+
+			/* OR查询
+			List<Predicate> predicates = new ArrayList<>();
+			Predicate name = null;
+			if (StringUtils.isNotEmpty(article.getTitle())) {
+				name = builder.like(root.get("name"), "%" + article.getTitle() + "%");
+			}
+			Predicate address = root.get("address").in(Arrays.asList("John", "Raj"));
+			predicates.add(builder.or(address, name));
+			return query.where(predicates.toArray(new Predicate[0])).getRestriction();*/
+
 			List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
 			if (StringUtils.isNotEmpty(article.getTitle())) {
 				predicates.add(builder.like(root.get("title"), "%" + article.getTitle() + "%"));
