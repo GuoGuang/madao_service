@@ -3,6 +3,7 @@ package com.codeway.gateway.execption;
 import com.codeway.enums.StatusEnum;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.JsonUtil;
+import com.codeway.utils.LogBack;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.DefaultErrorWebExceptionHandler;
@@ -29,6 +30,7 @@ public class GlobalExceptionHandler extends DefaultErrorWebExceptionHandler {
 	 */
 	@Override
 	protected Map<String, Object> getErrorAttributes(ServerRequest request, boolean includeStackTrace) {
+		LogBack.error("Gateway获取自定义异常--------->{}",super.getError(request).getMessage());
 		boolean isJson = JsonUtil.isJson(super.getError(request).getMessage());
 		if (isJson){
 			Map<String, Object> errorAttributes = JsonUtil.jsonToMap(super.getError(request).getMessage());
