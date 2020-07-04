@@ -1,7 +1,7 @@
 
 <p align="center">
 <a href="https://github.com/GuoGuang/codeway" target="blank">
-    <img src="https://yd-note.oss-cn-beijing.aliyuncs.com/favicon.ico" height="90" alt="codeway.me logo" />
+    <img src="https://yd-note.oss-cn-beijing.aliyuncs.com/favicon.ico" height="90" alt="codeway.fun logo" />
 </a>
 </p>
 
@@ -76,7 +76,7 @@
 ![导入服务](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/service.png)
 点击 "import module" 将服务一一导入，如果你嫌一个个导入麻烦，可以在codeway-common-parent的pom.xml文件中最底下把<modules>标签放开，但是真正微服务开发一般一个团队或者一个人负责一个服务，没有一个人同时开发多个服务情况，毕竟是个人博客项目，导入方式可以自己定。
 
-2. 一个成熟的项目必然会依赖众多中间件，本项目也不例外，这里假设你会使用docker,如果你还没有接触到docker,那么可以参考我的另一篇文章[Docker入门](https://codeway.me/article/1263480522076721152)
+2. 一个成熟的项目必然会依赖众多中间件，本项目也不例外，这里假设你会使用docker,如果你还没有接触到docker,那么可以参考我的另一篇文章[Docker入门](https://codeway.fun/article/1263480522076721152)
 
     使用docker启动mysql、redis
     ```
