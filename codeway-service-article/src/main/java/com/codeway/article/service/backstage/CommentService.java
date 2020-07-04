@@ -4,7 +4,6 @@ import com.codeway.article.dao.backstage.CommentDao;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.article.Comment;
 import com.codeway.utils.BeanUtil;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,17 +21,10 @@ public class CommentService {
     private final CommentDao commentDao;
 
     @Autowired
-    JPAQueryFactory jpaQueryFactory;
-
-    @Autowired
     public CommentService(CommentDao commentDao) {
         this.commentDao = commentDao;
     }
 
-    /**
-     * 查询全部列表
-     * @param comment 查询实体
-     */
     public Page<Comment> findCommentByCondition(Comment comment, Pageable pageable) {
         Specification<Comment> condition = (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -44,12 +36,6 @@ public class CommentService {
         return commentDao.findAll(condition,pageable);
     }
 
-    /**
-     * 根据评论表ID查询评论
-     *
-     * @param commentId 评论表ID
-     * @return Comment
-     */
     public Comment findCommentByPrimaryKey(String commentId) {
         return commentDao.findById(commentId).orElseThrow(ResourceNotFoundException::new);
     }

@@ -1,8 +1,9 @@
 package com.codeway.article.service.backstage;
 
-import com.codeway.article.dao.backstage.CategoryDao;
+import com.codeway.article.dao.backstage.ArticleDao;
+import com.codeway.article.dao.backstage.TagsDao;
 import com.codeway.db.redis.service.RedisService;
-import com.codeway.pojo.article.Category;
+import com.codeway.pojo.article.Tags;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,13 +14,15 @@ import org.springframework.data.domain.Page;
 
 import java.util.Arrays;
 
-class CategoryServiceTest {
+class TagsServiceTest {
     @Mock
-    CategoryDao categoryDao;
+    TagsDao tagsDao;
+    @Mock
+    ArticleDao articleDao;
     @Mock
     RedisService redisService;
     @InjectMocks
-    CategoryService categoryService;
+    TagsService tagsService;
 
     @BeforeEach
     void setUp() {
@@ -27,25 +30,25 @@ class CategoryServiceTest {
     }
 
     @Test
-    void testFindCategoryByCondition() {
-        Page<Category> result = categoryService.findCategoryByCondition(new Category(), null);
+    void testFindTagsByCondition() {
+        Page<Tags> result = tagsService.findTagsByCondition(new Tags(), null);
         Assertions.assertEquals(null, result);
     }
 
     @Test
-    void testFindCategoryById() {
-        Category result = categoryService.findCategoryById("categoryId");
-        Assertions.assertEquals(new Category(), result);
+    void testFindTagsById() {
+        Tags result = tagsService.findTagsById("id");
+        Assertions.assertEquals(new Tags(), result);
     }
 
     @Test
     void testSaveOrUpdate() {
-        categoryService.saveOrUpdate(new Category());
+        tagsService.saveOrUpdate(new Tags());
     }
 
     @Test
-    void testDeleteCategoryByIds() {
-        categoryService.deleteCategoryByIds(Arrays.<String>asList("String"));
+    void testDeleteBatch() {
+        tagsService.deleteBatch(Arrays.<String>asList("String"));
     }
 }
 

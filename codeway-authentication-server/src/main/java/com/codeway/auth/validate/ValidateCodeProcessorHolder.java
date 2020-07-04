@@ -19,6 +19,8 @@ public class ValidateCodeProcessorHolder {
 	private Map<String, ValidateCodeProcessor> validateCodeProcessors;
 
 	/**
+	 * 根据验证码类型获取对应的处理器
+	 *
 	 * @param type
 	 * @return
 	 */

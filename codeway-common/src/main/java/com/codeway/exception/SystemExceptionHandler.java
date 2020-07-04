@@ -146,13 +146,12 @@ public class SystemExceptionHandler {
 
     /**
      * 其他异常
-     *
      * @param ex Exception
      */
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public JsonData<Void> defaultException(Exception ex) {
-        LogBack.error(ex.getMessage(), ex);
+        LogBack.error("其他异常--------->{}",ex.getMessage(), ex);
 		return JsonData.failed(StatusEnum.SYSTEM_ERROR);
 	}
 

@@ -12,9 +12,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.persistence.EntityManager;
 
-/**
- * 启动类
- **/
 @EntityScan("com.codeway.pojo")
 @SpringBootApplication
 @EnableEurekaClient //本服务启动后会自动注册进eureka服务中
@@ -28,8 +25,8 @@ public class BaseApplication {
     }
 
     /**
-     * @param entityManager
-     * @return
+     * 配置querydsl
+     *
      * @see https://www.cnblogs.com/jpfss/p/11003964.html
      */
     @Bean

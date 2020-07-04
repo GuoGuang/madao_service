@@ -10,7 +10,6 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.util.Enumeration;
 
 public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapper {
@@ -18,7 +17,7 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
 
 	public BodyReaderHttpServletRequestWrapper(HttpServletRequest request) throws IOException {
 		super(request);
-		body = HttpHelper.getBodyString(request).getBytes(Charset.forName("UTF-8"));
+		body = HttpHelper.getBodyString(request).getBytes();
 	}
 
 	@Override

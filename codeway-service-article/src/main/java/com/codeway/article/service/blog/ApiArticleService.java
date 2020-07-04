@@ -6,8 +6,6 @@ import com.codeway.article.service.backstage.CategoryService;
 import com.codeway.db.redis.service.RedisService;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.article.Article;
-import com.codeway.utils.JsonUtil;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,9 +26,6 @@ public class ApiArticleService {
 	private final RedisService redisService;
 
 	@Autowired
-	JPAQueryFactory jpaQueryFactory;
-
-	@Autowired
 	public ApiArticleService(ApiArticleDao articleDao,
 	                         CategoryService categoryService,
 	                         TagsDao tagsDao,
@@ -47,7 +42,7 @@ public class ApiArticleService {
 		Specification<Article> condition = (root, query, builder) -> {
 			List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
 			if (StringUtils.isNotEmpty(article.getCategoryId())) {
-				predicates.add(builder.equal(root.get("categoryId"), article.getTitle()));
+				predicates.add(builder.equal(root.get("category").get("id"), article.getCategoryId()));
 			}
 			if (StringUtils.isNotEmpty(keyword)) {
 				predicates.add(builder.like(root.get("title"), "%" + keyword + "%"));
@@ -63,7 +58,7 @@ public class ApiArticleService {
 
 	public Article findArticleById(String articleId) {
 		Article article = articleDao.findById(articleId).orElseThrow(ResourceNotFoundException::new);
-		article.setRelated(JsonUtil.toJsonString(articleDao.findRelatedByRand()));
+		article.setRelated(articleDao.findRelatedByRand());
 		article.setCategoryId(article.getCategory().getName());
 		return article;
 	}
@@ -101,14 +96,14 @@ public class ApiArticleService {
 	/**
 	 * 点赞
 	 */
-	public void updateUpVote(String id) {
+	public void upVote(String id) {
 		articleDao.updateUpVote(id);
 	}
 
 	/**
 	 * 取消点赞
 	 */
-	public void updateUnUpVote(String id) {
+	public void unUpVote(String id) {
 		articleDao.updateUnUpVote(id);
 	}
 

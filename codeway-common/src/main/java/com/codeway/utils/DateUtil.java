@@ -48,6 +48,17 @@ public class DateUtil {
 		return LocalDate.now().plusDays(days).atTime(LocalTime.now());
 	}
 
+
+	/**
+	 * 当前日期减几天
+	 * @param days 天
+	 * @return LocalDateTime
+	 */
+	public static LocalDateTime getMinusDays(Integer days){
+		return LocalDate.now().minusDays(days).atTime(LocalTime.now());
+	}
+
+
 	/**
 	 * 当前日期加几周
 	 * @param weeks 周
@@ -58,12 +69,30 @@ public class DateUtil {
 	}
 
 	/**
+	 * 当前日期减几周
+	 * @param weeks 周
+	 * @return LocalDate
+	 */
+	public static LocalDateTime getMinusWeeks(Integer weeks){
+		return LocalDate.now().minusWeeks(weeks).atTime(LocalTime.now());
+	}
+
+	/**
 	 * 当前日期加几月
 	 * @param months 月
 	 * @return LocalDate
 	 */
 	public static LocalDateTime getPlusMonths(Integer months){
 		return LocalDate.now().plusMonths(months).atTime(LocalTime.now());
+	}
+
+	/**
+	 * 当前日期减几月
+	 * @param months 月
+	 * @return LocalDate
+	 */
+	public static LocalDateTime getMinusMonths(Integer months){
+		return LocalDate.now().minusMonths(months).atTime(LocalTime.now());
 	}
 
 	/**

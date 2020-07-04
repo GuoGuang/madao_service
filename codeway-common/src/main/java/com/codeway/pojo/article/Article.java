@@ -2,6 +2,7 @@ package com.codeway.pojo.article;
 
 import com.codeway.pojo.BasePojo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -32,9 +34,10 @@ public class Article extends BasePojo implements Serializable {
 	@JsonIgnore
 	private Category category;
 
-	@ApiModelProperty(value = "推荐阅读",example = "1")
+	@ApiModelProperty(value = "推荐阅读", example = "1")
 	@Transient
-	private String related;
+	@JsonIgnoreProperties("related")
+	private List<Article> related;
 
 	@ApiModelProperty(value = "分类id",example = "1")
 	@Transient
@@ -138,7 +141,6 @@ public class Article extends BasePojo implements Serializable {
 		if (!(o instanceof Article)) return false;
 		Article article = (Article) o;
 		return Float.compare(article.importance, importance) == 0 &&
-				Objects.equals(related, article.related) &&
 				Objects.equals(userName, article.userName) &&
 				id.equals(article.id) &&
 				Objects.equals(userId, article.userId) &&
@@ -160,13 +162,12 @@ public class Article extends BasePojo implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(related, userName, id, userId, title, thumb, isPublic, isTop, visits, upvote, comment, reviewState, url, type, importance, description, keywords, origin, content);
+		return Objects.hash(userName, id, userId, title, thumb, isPublic, isTop, visits, upvote, comment, reviewState, url, type, importance, description, keywords, origin, content);
 	}
 
 	@Override
 	public String toString() {
 		return "Article{" +
-				"related='" + related + '\'' +
 				", userName='" + userName + '\'' +
 				", id='" + id + '\'' +
 				", userId='" + userId + '\'' +

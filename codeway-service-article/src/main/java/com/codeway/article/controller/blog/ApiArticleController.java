@@ -57,21 +57,20 @@ public class ApiArticleController {
     }
 
     @GetMapping(value = "/{articleId}")
-    public JsonData<Article> findArticleByPrimaryKey(@PathVariable String articleId) {
-        Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + articleId);
-        if (mapJson == null) {
-            Article articleResult = articleService.findArticleById(articleId);
-            redisService.set(RedisConstant.REDIS_KEY_ARTICLE + articleId, JsonUtil.toJsonString(articleResult), CommonConst.TIME_OUT_DAY);
-            return JsonData.success(articleResult);
-        }
-        Article article = JsonUtil.jsonToPojo(mapJson, Article.class);
-        return JsonData.success(article);
+    public JsonData<Object> findArticleByPrimaryKey(@PathVariable String articleId) {
+	    Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + articleId);
+	    if (mapJson == null) {
+		    Article articleResult = articleService.findArticleById(articleId);
+		    redisService.set(RedisConstant.REDIS_KEY_ARTICLE + articleId, JsonUtil.jsonToMap(JsonUtil.toJsonString(articleResult)), CommonConst.TIME_OUT_DAY);
+		    return JsonData.success(articleResult);
+	    }
+	    return JsonData.success(mapJson);
     }
 
     @ApiOperation(value = "点赞", notes = "id")
     @PutMapping(value = "/like/{articleId}")
     public JsonData<Void> upVote(@PathVariable String articleId) {
-        articleService.updateUpVote(articleId);
+        articleService.upVote(articleId);
         redisService.del(RedisConstant.REDIS_KEY_ARTICLE + articleId);
         return JsonData.success();
     }
@@ -79,7 +78,7 @@ public class ApiArticleController {
     @ApiOperation(value = "取消点赞", notes = "id")
     @DeleteMapping(value = "/like/{articleId}")
     public JsonData<Void> unUpVote(@PathVariable String articleId) {
-        articleService.updateUnUpVote(articleId);
+        articleService.unUpVote(articleId);
         redisService.del(RedisConstant.REDIS_KEY_ARTICLE + articleId);
         return JsonData.success();
     }

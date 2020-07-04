@@ -61,11 +61,7 @@ public class ResourceService {
 	}
 
 	public void saveOrUpdate(Resource resource) {
-		if (StringUtils.isEmpty(resource.getId())) {
-			resourceDao.save(resource);
-		} else {
-			resourceDao.save(resource);
-		}
+		resourceDao.save(resource);
 	}
 
 	public void deleteByIds(List<String> resId) {

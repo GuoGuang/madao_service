@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -27,12 +28,12 @@ public class Smsbao {
 	String httpUrl = "http://api.smsbao.com/sms";
 
 	public String sendSms(String phone,String code) {
-		String content = "【codeway】您的验证码为"+code+"，在10分钟内有效。";
+		String content = "【codeway】您的验证码为" + code + "，在10分钟内有效。";
 		StringBuffer httpArg = new StringBuffer();
 		httpArg.append("u=").append(account).append("&");
 		httpArg.append("p=").append(md5(password)).append("&");
 		httpArg.append("m=").append(phone).append("&");
-		httpArg.append("c=").append(encodeUrlString(content, "UTF-8"));
+		httpArg.append("c=").append(encodeUrlString(content, StandardCharsets.UTF_8.toString()));
 
 		BufferedReader reader = null;
 		String result = null;
@@ -45,7 +46,7 @@ public class Smsbao {
 			connection.setRequestMethod("GET");
 			connection.connect();
 			InputStream is = connection.getInputStream();
-			reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+			reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
 			String strRead = reader.readLine();
 			if (strRead != null) {
 				sbf.append(strRead);

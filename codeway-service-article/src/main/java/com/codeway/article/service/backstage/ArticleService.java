@@ -11,7 +11,6 @@ import com.codeway.pojo.article.Article;
 import com.codeway.pojo.article.Category;
 import com.codeway.pojo.article.Tags;
 import com.codeway.pojo.user.User;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,18 +30,16 @@ public class ArticleService {
 
 	private final UserServiceRpc userServiceRpc;
 
-	@Autowired
-	JPAQueryFactory jpaQueryFactory;
-	@Autowired
-	TagsDao tagsDao;
+	private final TagsDao tagsDao;
 
 	@Autowired
 	public ArticleService(ArticleDao articleDao, RedisService redisService,
-	                      UserServiceRpc userServiceRpc,CategoryDao categoryDao) {
+						  UserServiceRpc userServiceRpc, CategoryDao categoryDao, TagsDao tagsDao) {
 		this.articleDao = articleDao;
 		this.categoryDao = categoryDao;
 		this.redisService = redisService;
 		this.userServiceRpc = userServiceRpc;
+		this.tagsDao = tagsDao;
 	}
 
 	/**
@@ -52,6 +49,17 @@ public class ArticleService {
 	 */
 	public Page<Article> findArticleByCondition(Article article, Pageable pageable) {
 		Specification<Article> condition = (root, query, builder) -> {
+
+			/* OR查询
+			List<Predicate> predicates = new ArrayList<>();
+			Predicate name = null;
+			if (StringUtils.isNotEmpty(article.getTitle())) {
+				name = builder.like(root.get("name"), "%" + article.getTitle() + "%");
+			}
+			Predicate address = root.get("address").in(Arrays.asList("John", "Raj"));
+			predicates.add(builder.or(address, name));
+			return query.where(predicates.toArray(new Predicate[0])).getRestriction();*/
+
 			List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
 			if (StringUtils.isNotEmpty(article.getTitle())) {
 				predicates.add(builder.like(root.get("title"), "%" + article.getTitle() + "%"));
@@ -109,6 +117,7 @@ public class ArticleService {
 			if (article.getIsPublic() == null) {
 				article.setIsPublic(0);
 			}
+			redisService.lSet("ARTICLE_HOT", article);
 //			Optional<Tags> byId = tagsDao.findById("1214844690118086656");
 //			HashSet<Tags> objects = new HashSet<>();
 //			objects.add(byId.get());
@@ -124,7 +133,6 @@ public class ArticleService {
 		HashSet<Tags> objects = new HashSet<>(allById);
 		article.setTags(objects);
 		articleDao.save(article);
-		redisService.lSet("ARTICLE_HOT", article);
 
 	}
 
