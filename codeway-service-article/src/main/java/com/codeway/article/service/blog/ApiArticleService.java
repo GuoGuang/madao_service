@@ -6,7 +6,6 @@ import com.codeway.article.service.backstage.CategoryService;
 import com.codeway.db.redis.service.RedisService;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.article.Article;
-import com.codeway.utils.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -59,7 +58,7 @@ public class ApiArticleService {
 
 	public Article findArticleById(String articleId) {
 		Article article = articleDao.findById(articleId).orElseThrow(ResourceNotFoundException::new);
-		article.setRelated(JsonUtil.toJsonString(articleDao.findRelatedByRand()));
+		article.setRelated(articleDao.findRelatedByRand());
 		article.setCategoryId(article.getCategory().getName());
 		return article;
 	}

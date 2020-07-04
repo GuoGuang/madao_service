@@ -60,7 +60,7 @@ class ApiArticleControllerTest {
         when(redisService.get(anyString())).thenReturn("getResponse");
         when(redisService.set(anyString(), any(), anyLong())).thenReturn(true);
 
-        JsonData<Article> result = apiArticleController.findArticleByPrimaryKey("articleId");
+        JsonData<Object> result = apiArticleController.findArticleByPrimaryKey("articleId");
 	    Assertions.assertEquals(new JsonData<Article>(true, 0, "message", any()), result);
     }
 
