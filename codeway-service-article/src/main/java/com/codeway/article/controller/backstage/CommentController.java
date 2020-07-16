@@ -20,7 +20,7 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Api(tags = "文章评论管理")
 @RestController
-@RequestMapping(value = "/comment",produces = "application/json")
+@RequestMapping(value = "/comment")
 
 public class CommentController {
 
