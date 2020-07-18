@@ -4,8 +4,6 @@ import com.codeway.article.dao.backstage.CommentDao;
 import com.codeway.pojo.article.Comment;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,11 +20,9 @@ public class ApiCommentService {
 		this.commentDao = commentDao;
 	}
 
-	public List<Comment> findCommentByCondition(Pageable pageable) {
-		Page<Comment> all = commentDao.findAll(pageable);
-		List<Comment> content = all.getContent();
+	public List<Comment> findCommentByCondition(String articleId) {
+		List<Comment> content = commentDao.findByArticleIdOrderByCreateAtDesc(articleId);
 		Map<String, List<Comment>> subComment = content.stream().filter(o -> StringUtils.isNotEmpty(o.getParentId())).collect(Collectors.groupingBy(Comment::getParentId));
-
 		return content.stream().filter(o -> StringUtils.isEmpty(o.getParentId())).map(cm -> {
 					if (subComment.containsKey(cm.getId())) {
 						cm.setReply(subComment.get(cm.getId()));
@@ -42,14 +38,17 @@ public class ApiCommentService {
 	 * @param commentId
 	 */
 	public void upVote(String commentId) {
-		commentDao.upVote(commentId);
+		commentDao.updateUpVote(commentId);
 	}
 	public void unUpVote(String commentId) {
-		commentDao.unUpVote(commentId);
+		commentDao.updateUnUpVote(commentId);
 	}
 
 
 	public void addComment(Comment comment) {
+		if (StringUtils.isBlank(comment.getId())) {
+			comment.setUpvote(0);
+		}
 		commentDao.save(comment);
 	}
 }

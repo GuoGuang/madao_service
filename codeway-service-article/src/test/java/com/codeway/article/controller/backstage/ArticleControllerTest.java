@@ -33,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@org.springframework.transaction.annotation.Transactional
 class ArticleControllerTest {
 	@Mock
 	ArticleService articleService;
@@ -74,6 +75,9 @@ class ArticleControllerTest {
 		String attributeNames = response.getContentAsString();
 		JsonData jsonData = JsonUtil.jsonToPojo(attributeNames, JsonData.class);
 		System.out.println(jsonData);
+
+		String a = "hahaha";
+		int aValue = 9;
 
 		verify(articleService, times(1)).findArticleByCondition(any(), any());
 		verifyNoMoreInteractions(articleService);

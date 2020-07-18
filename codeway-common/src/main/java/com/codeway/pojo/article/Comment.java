@@ -27,7 +27,7 @@ public class Comment extends BasePojo implements Serializable {
     @ApiModelProperty("文章的评论表主键")
     private String id;
 
-    @ApiModelProperty("评论人ID")
+    @ApiModelProperty("评论人ID，未接入用户系统，暂时使用用户qq号作为唯一id")
     @Column(length = 20)
     private String userId;
 
@@ -45,9 +45,9 @@ public class Comment extends BasePojo implements Serializable {
     @Column(length = 200)
     private String content;
 
-    @ApiModelProperty("点赞量")
-    @Column(length = 200)
-    private String upvote;
+	@ApiModelProperty("点赞量")
+	@Column(length = 200)
+	private Integer upvote;
 
     @NotNull(message = "头像不能为空")
     @ApiModelProperty("头像")
@@ -71,8 +71,8 @@ public class Comment extends BasePojo implements Serializable {
     @Column(length = 300)
     private String toAvatar;
 
-    @ApiModelProperty("")
-    @Transient
+	@ApiModelProperty("回复")
+	@Transient
     @JsonIgnoreProperties("reply")
     private List<Comment> reply;
 

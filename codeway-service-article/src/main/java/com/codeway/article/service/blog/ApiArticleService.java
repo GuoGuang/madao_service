@@ -1,11 +1,12 @@
 package com.codeway.article.service.blog;
 
-import com.codeway.article.dao.backstage.TagsDao;
+import com.codeway.article.dao.backstage.CommentDao;
 import com.codeway.article.dao.blog.ApiArticleDao;
 import com.codeway.article.service.backstage.CategoryService;
 import com.codeway.db.redis.service.RedisService;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.article.Article;
+import com.codeway.pojo.article.Comment;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,23 +16,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ApiArticleService {
 
 	private final ApiArticleDao articleDao;
 	private final CategoryService categoryService;
-	private final TagsDao tagsDao;
+	private final CommentDao commentDao;
 
 	private final RedisService redisService;
 
 	@Autowired
 	public ApiArticleService(ApiArticleDao articleDao,
 	                         CategoryService categoryService,
-	                         TagsDao tagsDao,
+	                         CommentDao commentDao,
 	                         RedisService redisService) {
 		this.articleDao = articleDao;
-		this.tagsDao = tagsDao;
+		this.commentDao = commentDao;
 		this.categoryService = categoryService;
 		this.redisService = redisService;
 	}
@@ -49,7 +52,15 @@ public class ApiArticleService {
 			}
 			return query.where(predicates.toArray(new javax.persistence.criteria.Predicate[0])).getRestriction();
 		};
-		return articleDao.findAll(condition, pageable);
+		Page<Article> pageContent = articleDao.findAll(condition, pageable);
+		List<String> articleIds = pageContent.getContent().stream().map(Article::getId).collect(Collectors.toList());
+		Map<String, List<Comment>> collect1 = commentDao.findByArticleIdIn(articleIds).stream().collect(Collectors.groupingBy(Comment::getArticleId));
+		pageContent.forEach(aa -> {
+			if (collect1.get(aa.getId()) != null) {
+				aa.setComment(collect1.get(aa.getId()).size());
+			}
+		});
+		return pageContent;
 	}
 
 	public Page<Article> findArticleByTagId(String tagId, Pageable pageable) {
