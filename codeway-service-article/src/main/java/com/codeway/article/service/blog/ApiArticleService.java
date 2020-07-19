@@ -74,36 +74,6 @@ public class ApiArticleService {
 		return article;
 	}
 
-
-	/**
-	 * 增加
-	 *
-	 * @param article 实体
-	 */
-	public void insertArticle(Article article) {
-//		articleDao.insert(article);
-	}
-
-	/**
-	 * 修改
-	 *
-	 * @param article 实体
-	 */
-	public void updateByPrimaryKeySelective(Article article) {
-//		redisService.del( "article_" + article.getId());
-//		articleDao.updateById(article);
-	}
-
-	/**
-	 * 删除
-	 *
-	 * @param articleIds:文章id集合
-	 */
-	public void deleteArticleByIds(List<String> articleIds) {
-//		articleDao.deleteBatchIds(articleIds);
-	}
-
-
 	/**
 	 * 点赞
 	 */
