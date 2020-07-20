@@ -53,20 +53,4 @@ public class ApiTagsService {
 		return tags;
 
 	}
-
-	public void insertTags(Tags tags) {
-//		bgTagsDao.insert(tags);
-	}
-
-	public void updateTagsById(Tags tags) {
-		redisService.del( "tags_" + tags.getId());
-//		bgTagsDao.updateById(tags);
-	}
-
-	public void deleteByIds(List tagsIds) {
-		redisService.del( "tags_" + tagsIds);
-//		bgTagsDao.deleteBatchIds(tagsIds);
-	}
-
-
 }
