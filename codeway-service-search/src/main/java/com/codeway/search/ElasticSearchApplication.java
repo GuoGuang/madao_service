@@ -1,11 +1,14 @@
 package com.codeway.search;
 
+import com.codeway.utils.DateUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import javax.annotation.PostConstruct;
 
 /**
  * 搜索服务启动类
@@ -19,8 +22,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ComponentScan(basePackages = {"com.codeway"})
 public class ElasticSearchApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(ElasticSearchApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(ElasticSearchApplication.class, args);
+	}
+
+	@PostConstruct
+	void started() {
+		DateUtil.setDefaultZone();
+	}
 
 }

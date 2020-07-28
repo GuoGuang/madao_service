@@ -1,5 +1,6 @@
 package com.codeway.user;
 
+import com.codeway.utils.DateUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
 /**
@@ -31,18 +33,24 @@ import javax.persistence.EntityManager;
 @ComponentScan(basePackages = {"com.codeway"})
 public class UserApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(UserApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(UserApplication.class, args);
+	}
 
-    /**
-     * BCrypt加密算法
-     * @return : BCryptPasswordEncoder
-     */
-    @Bean
-    public BCryptPasswordEncoder bcryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@PostConstruct
+	void started() {
+		DateUtil.setDefaultZone();
+	}
+
+	/**
+	 * BCrypt加密算法
+	 *
+	 * @return : BCryptPasswordEncoder
+	 */
+	@Bean
+	public BCryptPasswordEncoder bcryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 	/**
 	 * 配置querydsl

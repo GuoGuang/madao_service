@@ -5,20 +5,28 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * LocalDate LocalTime LocalDateTime日期工具类
+ *
+ * @version 2.0.0
  * @see https://blog.csdn.net/kingboyworld/article/details/75808108
  * @see https://www.cnblogs.com/qingyunfc/p/10236734.html
- * @version 2.0.0
  */
 public class DateUtil {
+
+	private static final ZoneId CHINA_ZONE = ZoneId.of("+8");
+
+	public static void setDefaultZone() {
+		TimeZone.setDefault(TimeZone.getTimeZone(CHINA_ZONE));
+	}
 
 	/**
 	 * 获取时间戳，时区加8
 	 * @return ： Long
 	 */
-	public static Long getTimestamp(){
+	public static Long getTimestamp() {
 		return LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
 	}
 

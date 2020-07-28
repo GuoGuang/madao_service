@@ -1,6 +1,7 @@
 package com.codeway.auth;
 
 import com.codeway.properties.SecurityProperties;
+import com.codeway.utils.DateUtil;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,6 +13,8 @@ import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Oauth2授权服务
@@ -25,15 +28,22 @@ public class Oauth2AuthenticationApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(Oauth2AuthenticationApplication.class, args);
 	}
+
 	@Bean
 	public RestTemplate restTemplate() {
 		return new RestTemplate(new OkHttp3ClientHttpRequestFactory());
+	}
+
+	@PostConstruct
+	void started() {
+		DateUtil.setDefaultZone();
 	}
 
 	@Bean
 	public SecurityProperties securityProperties() {
 		return new SecurityProperties();
 	}
+
 	//采用bcrypt对密码进行编码
 	@Bean
 	public PasswordEncoder passwordEncoder() {
