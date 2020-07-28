@@ -55,9 +55,9 @@ public class ApiArticleService {
 		Page<Article> pageContent = articleDao.findAll(condition, pageable);
 		List<String> articleIds = pageContent.getContent().stream().map(Article::getId).collect(Collectors.toList());
 		Map<String, List<Comment>> idKeysAndComments = commentDao.findByArticleIdIn(articleIds).stream().collect(Collectors.groupingBy(Comment::getArticleId));
-		pageContent.forEach(aa -> {
-			if (idKeysAndComments.get(aa.getId()) != null) {
-				aa.setComment(idKeysAndComments.get(aa.getId()).size());
+		pageContent.forEach(articleInfo -> {
+			if (idKeysAndComments.get(articleInfo.getId()) != null) {
+				articleInfo.setComment(idKeysAndComments.get(articleInfo.getId()).size());
 			}
 		});
 		return pageContent;
