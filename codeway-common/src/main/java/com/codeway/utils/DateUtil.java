@@ -23,11 +23,12 @@ public class DateUtil {
 	}
 
 	/**
-	 * 获取时间戳，时区加8
+	 * 获取时间戳
+	 *
 	 * @return ： Long
 	 */
 	public static Long getTimestamp() {
-		return LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
+		return Instant.now().toEpochMilli();
 	}
 
 	/**
