@@ -23,7 +23,7 @@ import javax.annotation.PostConstruct;
 @EnableFeignClients(basePackages = "com.codeway.api")
 @ComponentScan(basePackages = {"com.codeway"})
 @EnableDiscoveryClient
-@EnableRabbit // 启用RabbitMQ
+@EnableRabbit
 public class Oauth2AuthenticationApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(Oauth2AuthenticationApplication.class, args);
