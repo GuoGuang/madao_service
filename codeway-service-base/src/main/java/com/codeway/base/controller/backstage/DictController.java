@@ -23,10 +23,8 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 @RequestMapping(value = "/dict")
 public class DictController {
 
-
 	private final DictService dictService;
 
-	@Autowired
 	public DictController(DictService dictService) {
 		this.dictService = dictService;
 	}

@@ -26,10 +26,7 @@ public class OptLogService {
 
     private final OptLogDao optLogDao;
     private final UserServiceRpc userServiceRpc;
-    @Autowired
-    JPAQueryFactory jpaQueryFactory;
 
-    @Autowired
     public OptLogService(OptLogDao optLogDao, UserServiceRpc userServiceRpc) {
         this.optLogDao = optLogDao;
         this.userServiceRpc = userServiceRpc;

@@ -1,6 +1,5 @@
 package com.codeway.article.service.backstage;
 
-
 import com.codeway.article.dao.backstage.CategoryDao;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.article.Category;
@@ -21,7 +20,6 @@ public class CategoryService {
 
     private final CategoryDao categoryDao;
 
-    @Autowired
     public CategoryService(CategoryDao sacategoryDao) {
         this.categoryDao = sacategoryDao;
     }

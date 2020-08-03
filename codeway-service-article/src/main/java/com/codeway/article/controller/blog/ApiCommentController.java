@@ -21,7 +21,6 @@ public class ApiCommentController {
 
     private final ApiCommentService apiCommentService;
 
-    @Autowired
     public ApiCommentController(ApiCommentService apiCommentService) {
         this.apiCommentService = apiCommentService;
     }

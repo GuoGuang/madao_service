@@ -17,7 +17,6 @@ public class ApiCommentService {
 
 	private final CommentDao commentDao;
 
-	@Autowired
 	public ApiCommentService(CommentDao commentDao) {
 		this.commentDao = commentDao;
 	}

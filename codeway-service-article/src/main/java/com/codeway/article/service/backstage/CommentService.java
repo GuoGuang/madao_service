@@ -20,7 +20,6 @@ public class CommentService {
 
     private final CommentDao commentDao;
 
-    @Autowired
     public CommentService(CommentDao commentDao) {
         this.commentDao = commentDao;
     }

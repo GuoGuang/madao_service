@@ -24,13 +24,13 @@ public class ResourceService {
 
     private final ResourceDao resourceDao;
 
-    @Autowired
-    JPAQueryFactory jpaQueryFactory;
+	private final JPAQueryFactory jpaQueryFactory;
 
     @Autowired
-    public ResourceService(ResourceDao resourceDao) {
+    public ResourceService(ResourceDao resourceDao, JPAQueryFactory jpaQueryFactory) {
         this.resourceDao = resourceDao;
-    }
+		this.jpaQueryFactory = jpaQueryFactory;
+	}
 
     /**
      * 条件查询资源

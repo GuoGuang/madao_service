@@ -5,7 +5,6 @@ import com.codeway.pojo.article.Category;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -21,8 +20,11 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 @RequestMapping(value = "/api/ar/category")
 public class ApiCategoryController {
 
-	@Autowired
-	private CategoryService categoryService;
+	private final CategoryService categoryService;
+
+    public ApiCategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     @ApiOperation(value = "查询分类集合", notes = "Category")
     @GetMapping

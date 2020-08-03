@@ -21,10 +21,8 @@ import java.util.Set;
 @RequestMapping(value = "/resource")
 public class ResourceController {
 
-
 	private final ResourceService resourceService;
 
-	@Autowired
 	public ResourceController(ResourceService resourceService) {
 		this.resourceService = resourceService;
 	}

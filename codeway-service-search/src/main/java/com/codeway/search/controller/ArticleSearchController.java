@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/article")
 public class ArticleSearchController {
 
-    @Autowired
-    private ArticleSearchService articleSearchService;
+    private final ArticleSearchService articleSearchService;
 
+    public ArticleSearchController(ArticleSearchService articleSearchService) {
+        this.articleSearchService = articleSearchService;
+    }
 
     /**
      * 查询全部数据

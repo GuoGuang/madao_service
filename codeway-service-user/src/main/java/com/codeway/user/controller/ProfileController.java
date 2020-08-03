@@ -25,10 +25,8 @@ import java.io.IOException;
 public class ProfileController {
 
     private final UserService userService;
-    // 对象存储工具OØ
     private final OssClientUtil ossClientUtil;
 
-    @Autowired
     public ProfileController(UserService userService, OssClientUtil ossClientUtil) {
         this.userService = userService;
         this.ossClientUtil = ossClientUtil;
