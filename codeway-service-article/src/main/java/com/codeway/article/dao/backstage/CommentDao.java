@@ -13,15 +13,19 @@ import java.util.List;
 public interface CommentDao extends JpaRepository<Comment, String>,
         JpaSpecificationExecutor<Comment>, QuerydslPredicateExecutor<Comment> {
 
-    @Modifying
-    @Query("delete from Dict where id in (:ids)")
-    void deleteBatch(@Param("ids") List<String> ids);
+	@Modifying
+	@Query("delete from Dict where id in (:ids)")
+	void deleteBatch(@Param("ids") List<String> ids);
 
-    @Modifying
-    @Query("update Comment a set upvote = upvote+1 where id=:commentId")
-    void upVote(@Param("commentId") String commentId);
+	@Modifying
+	@Query("update Comment set upvote = upvote+1 where id=:commentId")
+	void updateUpVote(@Param("commentId") String commentId);
 
-    @Modifying
-    @Query("update Comment a set upvote = upvote-1 where id=:commentId")
-    void unUpVote(@Param("id") String commentId);
+	@Modifying
+	@Query("update Comment set upvote = upvote-1 where id=:commentId")
+	void updateUnUpVote(@Param("commentId") String commentId);
+
+	List<Comment> findByArticleIdOrderByCreateAtDesc(String articleId);
+
+	List<Comment> findByArticleIdIn(List<String> commentDao);
 }

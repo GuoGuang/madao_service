@@ -58,7 +58,7 @@ public class ArticleController extends BaseController {
     public JsonData<Map<String, String>> insertArticle(@RequestBody @Valid Article article, HttpServletRequest request) {
         Map<String, String> userInfo = getUserInfo(request);
         articleService.insertOrUpdateArticle(userInfo, article);
-        return JsonData.success(userInfo);
+        return JsonData.success();
     }
 
     @ApiOperation(value = "上传文章封面")

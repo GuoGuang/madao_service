@@ -106,7 +106,9 @@ public class ArticleService {
 	 */
 	public void insertOrUpdateArticle(Map<String, String> userInfo,Article article) {
 		article.setUserId(userInfo.get("id"));
+		boolean isCreate = false;
 		if (StringUtils.isBlank(article.getId())) {
+			isCreate = true;
 			article.setComment(0);
 			article.setType(1);
 			article.setUpvote(new Random().nextInt(20));
@@ -116,7 +118,6 @@ public class ArticleService {
 			if (article.getIsPublic() == null) {
 				article.setIsPublic(0);
 			}
-			redisService.lSet("ARTICLE_HOT", article);
 //			Optional<Tags> byId = tagsDao.findById("1214844690118086656");
 //			HashSet<Tags> objects = new HashSet<>();
 //			objects.add(byId.get());
@@ -133,6 +134,9 @@ public class ArticleService {
 		article.setTags(objects);
 		articleDao.save(article);
 
+		if (isCreate) {
+			redisService.lSet("ARTICLE_HOT", article);
+		}
 	}
 
 	/**
