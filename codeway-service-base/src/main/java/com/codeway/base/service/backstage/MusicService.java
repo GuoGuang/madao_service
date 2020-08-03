@@ -15,7 +15,6 @@ public class MusicService {
 
 //	private final MusicDao musicDao;
 //
-//	@Autowired
 //	public MusicService(MusicDao musicDao) {
 //		this.musicDao = musicDao;
 //	}

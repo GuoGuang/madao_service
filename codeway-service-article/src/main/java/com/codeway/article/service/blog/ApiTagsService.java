@@ -19,7 +19,6 @@ public class ApiTagsService {
 	private final TagsDao tagsDao;
 	private final RedisService redisService;
 
-	@Autowired
 	public ApiTagsService(TagsDao tagsDao,  RedisService redisService) {
 		this.tagsDao = tagsDao;
 		this.redisService = redisService;

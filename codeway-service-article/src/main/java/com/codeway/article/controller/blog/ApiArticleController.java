@@ -9,7 +9,6 @@ import com.codeway.pojo.article.Article;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.JsonUtil;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -23,10 +22,13 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 @RequestMapping(value = "/api/ar/article", produces = "application/json")
 public class ApiArticleController {
 
-    @Autowired
-    private ApiArticleService articleService;
-    @Autowired
-    private RedisService redisService;
+    private final ApiArticleService articleService;
+    private final RedisService redisService;
+
+    public ApiArticleController(ApiArticleService articleService, RedisService redisService) {
+        this.articleService = articleService;
+        this.redisService = redisService;
+    }
 
     @ApiOperation(value = "查询集合", notes = "Article")
     @GetMapping

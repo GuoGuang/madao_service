@@ -28,7 +28,6 @@ public class LoginLogService {
 
     private final UserServiceRpc userServiceRpc;
 
-    @Autowired
     public LoginLogService(LoginLogDao loginLogDao, UserServiceRpc userServiceRpc) {
         this.loginLogDao = loginLogDao;
         this.userServiceRpc = userServiceRpc;

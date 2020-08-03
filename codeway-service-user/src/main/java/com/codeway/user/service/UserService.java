@@ -38,25 +38,23 @@ public class UserService {
     private final ResourceDao resourceDao;
 
     private final RedisService redisService;
-    // 加密
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final LoginLogServiceRpc loginLogServiceRpc;
 
-    @Autowired
-    JPAQueryFactory jpaQueryFactory;
+	private final JPAQueryFactory jpaQueryFactory;
 
-    @Autowired
     public UserService(UserDao userDao, RedisService redisService,
-                       BCryptPasswordEncoder bCryptPasswordEncoder,
-                       LoginLogServiceRpc loginLogServiceRpc,
-                       RoleDao roleDao, ResourceDao resourceDao) {
+					   BCryptPasswordEncoder bCryptPasswordEncoder,
+					   LoginLogServiceRpc loginLogServiceRpc,
+					   RoleDao roleDao, ResourceDao resourceDao, JPAQueryFactory jpaQueryFactory) {
         this.userDao = userDao;
         this.roleDao = roleDao;
         this.resourceDao = resourceDao;
         this.redisService = redisService;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.loginLogServiceRpc = loginLogServiceRpc;
+		this.jpaQueryFactory = jpaQueryFactory;
 	}
 
 	/**

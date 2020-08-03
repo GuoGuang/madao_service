@@ -32,7 +32,6 @@ public class ArticleService {
 
 	private final TagsDao tagsDao;
 
-	@Autowired
 	public ArticleService(ArticleDao articleDao, RedisService redisService,
 						  UserServiceRpc userServiceRpc, CategoryDao categoryDao, TagsDao tagsDao) {
 		this.articleDao = articleDao;

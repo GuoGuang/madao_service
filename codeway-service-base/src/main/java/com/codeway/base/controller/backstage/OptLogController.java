@@ -5,7 +5,6 @@ import com.codeway.pojo.base.OptLog;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -22,7 +21,6 @@ public class OptLogController {
 
 	private final OptLogService optLogService;
 
-	@Autowired
 	public OptLogController(OptLogService optLogService) {
 		this.optLogService = optLogService;
 	}

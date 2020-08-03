@@ -28,7 +28,6 @@ public class ApiArticleService {
 
 	private final RedisService redisService;
 
-	@Autowired
 	public ApiArticleService(ApiArticleDao articleDao,
 	                         CategoryService categoryService,
 	                         CommentDao commentDao,

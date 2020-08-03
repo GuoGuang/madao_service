@@ -9,7 +9,6 @@ import com.codeway.utils.JsonData;
 import com.codeway.utils.OssClientUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -31,13 +30,12 @@ public class ArticleController extends BaseController {
 
     private final ArticleService articleService;
 
-	@Autowired
-	private OssClientUtil ossClientUtil;
+	private final OssClientUtil ossClientUtil;
 
-	@Autowired
-	public ArticleController(ArticleService articleService) {
+	public ArticleController(ArticleService articleService, OssClientUtil ossClientUtil) {
 		this.articleService = articleService;
-	}
+        this.ossClientUtil = ossClientUtil;
+    }
 
     @ApiOperation(value = "查询文章集合", notes = "Article")
     @GetMapping

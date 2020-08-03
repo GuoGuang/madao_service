@@ -5,7 +5,6 @@ import com.codeway.pojo.base.LoginLog;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -22,7 +21,6 @@ public class LoginLogController {
 
 	private final LoginLogService loginLogService;
 
-	@Autowired
 	public LoginLogController(LoginLogService loginLogService) {
 		this.loginLogService = loginLogService;
 	}

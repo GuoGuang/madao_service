@@ -36,20 +36,15 @@ public class RoleService {
     private final RoleDao roleDao;
     private final UserDao userDao;
     private final ResourceDao resourceDao;
-    private final IdGenerate idGenerate;
+	private final JPAQueryFactory jpaQueryFactory;
 
-    @Autowired
-    JPAQueryFactory jpaQueryFactory;
-
-    @Autowired
-    public RoleService(RoleDao roleDao,
-                       IdGenerate idGenerate, ResourceDao resourceDao,
-                       UserDao userDao) {
+    public RoleService(RoleDao roleDao,ResourceDao resourceDao,
+					   UserDao userDao, JPAQueryFactory jpaQueryFactory) {
         this.roleDao = roleDao;
         this.userDao = userDao;
-        this.idGenerate = idGenerate;
         this.resourceDao = resourceDao;
-    }
+		this.jpaQueryFactory = jpaQueryFactory;
+	}
 
 
     /**

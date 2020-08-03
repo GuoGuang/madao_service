@@ -27,15 +27,11 @@ import java.util.regex.Pattern;
 @RequestMapping(value = "/api/ar/comment")
 public class ApiCommentController {
 
-	private final ApiCommentService apiCommentService;
+    private final ApiCommentService apiCommentService;
 
-	@Autowired
-	private RestTemplate restTemplate;
-
-	@Autowired
-	public ApiCommentController(ApiCommentService apiCommentService) {
-		this.apiCommentService = apiCommentService;
-	}
+    public ApiCommentController(ApiCommentService apiCommentService) {
+        this.apiCommentService = apiCommentService;
+    }
 
 	@ApiOperation(value = "查询评论列表", notes = "查询评论列表")
 	@GetMapping("/{articleId}")

@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/su/admin")
 public class AdminController {
-	@Autowired
-	private UserService userService;
+
+	private final UserService userService;
+
+    public AdminController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
     @ApiOperation(value = "查询账号", notes = "Admin")

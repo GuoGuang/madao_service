@@ -13,8 +13,11 @@ import java.util.List;
 @Service
 public class ArticleSearchService {
 
-	@Autowired
-	private ArticleSearchDao articleSearchDao;
+	private final ArticleSearchDao articleSearchDao;
+
+	public ArticleSearchService(ArticleSearchDao articleSearchDao) {
+		this.articleSearchDao = articleSearchDao;
+	}
 
 	/**
 	 * 按照文章标题文章内容搜索

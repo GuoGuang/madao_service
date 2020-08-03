@@ -24,7 +24,6 @@ public class DictService {
 
     private final DictDao dictDao;
 
-    @Autowired
     public DictService(DictDao dictDao) {
         this.dictDao = dictDao;
     }

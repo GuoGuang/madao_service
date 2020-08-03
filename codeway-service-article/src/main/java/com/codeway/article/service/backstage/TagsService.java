@@ -20,7 +20,6 @@ public class TagsService {
 
 	private final TagsDao tagsDao;
 
-	@Autowired
 	public TagsService(TagsDao tagsDao) {
 		this.tagsDao = tagsDao;
 	}
