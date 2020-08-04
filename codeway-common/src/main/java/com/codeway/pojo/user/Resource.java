@@ -90,14 +90,27 @@ public class Resource extends BasePojo implements Serializable, Cloneable {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (!(o instanceof Resource)) return false;
+		if (!super.equals(o)) return false;
 		Resource resource = (Resource) o;
-		return id.equals(resource.id);
+		return Float.compare(resource.sort, sort) == 0 &&
+				id.equals(resource.id) &&
+				Objects.equals(name, resource.name) &&
+				Objects.equals(parentId, resource.parentId) &&
+				Objects.equals(component, resource.component) &&
+				Objects.equals(icon, resource.icon) &&
+				Objects.equals(path, resource.path) &&
+				Objects.equals(isHidden, resource.isHidden) &&
+				Objects.equals(description, resource.description) &&
+				Objects.equals(type, resource.type) &&
+				Objects.equals(url, resource.url) &&
+				Objects.equals(method, resource.method) &&
+				Objects.equals(code, resource.code);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(super.hashCode(), id, name, parentId, component, icon, path, sort, isHidden, description, type, url, method, code);
 	}
 
 	@Override

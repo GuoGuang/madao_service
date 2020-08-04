@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * 音乐实体
@@ -40,13 +41,32 @@ public class Music extends BasePojo implements Serializable {
     @NotNull(message = "描述不能为空")
     private String description;
 
-    @ApiModelProperty(value = "状态",example = "1")
-    private Integer state;
+	@ApiModelProperty(value = "状态", example = "1")
+	private Integer state;
 
-    @ApiModelProperty("类型")
-    @NotNull(message = "类型不能为空")
-    private String type;
+	@ApiModelProperty("类型")
+	@NotNull(message = "类型不能为空")
+	private String type;
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Music)) return false;
+		if (!super.equals(o)) return false;
+		Music music = (Music) o;
+		return id.equals(music.id) &&
+				Objects.equals(parentId, music.parentId) &&
+				Objects.equals(code, music.code) &&
+				Objects.equals(name, music.name) &&
+				Objects.equals(description, music.description) &&
+				Objects.equals(state, music.state) &&
+				Objects.equals(type, music.type);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), id, parentId, code, name, description, state, type);
+	}
 }

@@ -13,6 +13,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -61,12 +62,32 @@ public class Tags extends BasePojo implements Serializable {
     @Column(length = 50)
     private String icon;
 
-    @ApiModelProperty("标签颜色，前台显示")
-    @Column(length = 30)
-    private String color;
+	@ApiModelProperty("标签颜色，前台显示")
+	@Column(length = 30)
+	private String color;
 
-    @ApiModelProperty("状态")
-    @Column(length = 1)
-    private Integer state;
+	@ApiModelProperty("状态")
+	@Column(length = 1)
+	private Integer state;
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Tags)) return false;
+		if (!super.equals(o)) return false;
+		Tags tags = (Tags) o;
+		return Objects.equals(tagsCount, tags.tagsCount) &&
+				id.equals(tags.id) &&
+				Objects.equals(name, tags.name) &&
+				Objects.equals(slug, tags.slug) &&
+				Objects.equals(description, tags.description) &&
+				Objects.equals(icon, tags.icon) &&
+				Objects.equals(color, tags.color) &&
+				Objects.equals(state, tags.state);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), tagsCount, id, name, slug, description, icon, color, state);
+	}
 }

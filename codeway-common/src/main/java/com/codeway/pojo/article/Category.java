@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -46,12 +47,30 @@ public class Category extends BasePojo implements Serializable {
     @Column(length = 200)
     private String summary;
 
-    @ApiModelProperty("用户ID")
-    @Column(length = 20)
+	@ApiModelProperty("用户ID")
+	@Column(length = 20)
 	private String userId;
 
-    @ApiModelProperty(value = "状态",example = "1")
-    @Column(length = 1)
-    private Integer state = 1;
+	@ApiModelProperty(value = "状态", example = "1")
+	@Column(length = 1)
+	private Integer state = 1;
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Category)) return false;
+		if (!super.equals(o)) return false;
+		Category category = (Category) o;
+		return id.equals(category.id) &&
+				Objects.equals(parentId, category.parentId) &&
+				Objects.equals(name, category.name) &&
+				Objects.equals(summary, category.summary) &&
+				Objects.equals(userId, category.userId) &&
+				Objects.equals(state, category.state);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), id, parentId, name, summary, userId, state);
+	}
 }

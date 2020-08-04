@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @ApiModel(value = "user", description = "用户实体类")
@@ -117,9 +118,42 @@ public class User extends BasePojo implements Serializable {
 	@Column(length = 10)
 	private String registeredType;
 
-	@ApiModelProperty(value = "是否锁定(0:未锁定,1已锁定)",example = "0")
+	@ApiModelProperty(value = "是否锁定(0:未锁定,1已锁定)", example = "0")
 	@Column(length = 1)
 	private Integer status;
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof User)) return false;
+		if (!super.equals(o)) return false;
+		User user = (User) o;
+		return sex == user.sex &&
+				Objects.equals(captcha, user.captcha) &&
+				id.equals(user.id) &&
+				Objects.equals(account, user.account) &&
+				Objects.equals(userName, user.userName) &&
+				Objects.equals(nickName, user.nickName) &&
+				Objects.equals(password, user.password) &&
+				Objects.equals(birthday, user.birthday) &&
+				Objects.equals(avatar, user.avatar) &&
+				Objects.equals(email, user.email) &&
+				Objects.equals(lastDate, user.lastDate) &&
+				Objects.equals(onlineTime, user.onlineTime) &&
+				Objects.equals(interest, user.interest) &&
+				Objects.equals(personality, user.personality) &&
+				Objects.equals(fansCount, user.fansCount) &&
+				Objects.equals(followCount, user.followCount) &&
+				Objects.equals(phone, user.phone) &&
+				Objects.equals(contactAddress, user.contactAddress) &&
+				Objects.equals(registeredType, user.registeredType) &&
+				Objects.equals(status, user.status);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), captcha, id, account, userName, nickName, password, sex, birthday, avatar, email, lastDate, onlineTime, interest, personality, fansCount, followCount, phone, contactAddress, registeredType, status);
+	}
 
 	@Override
 	public String toString() {

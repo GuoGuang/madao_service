@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -45,13 +46,29 @@ public class Role extends BasePojo implements Serializable {
     @Column(length = 20)
     private String roleName;
 
-    @ApiModelProperty("角色描述")
-    @Column(length = 200)
-    private String roleDesc;
+	@ApiModelProperty("角色描述")
+	@Column(length = 200)
+	private String roleDesc;
 
-    @NotNull(message = "角色编码不能为空")
-    @ApiModelProperty("角色编码")
-    @Column(length = 20)
-    private String roleCode;
+	@NotNull(message = "角色编码不能为空")
+	@ApiModelProperty("角色编码")
+	@Column(length = 20)
+	private String roleCode;
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Role)) return false;
+		if (!super.equals(o)) return false;
+		Role role = (Role) o;
+		return id.equals(role.id) &&
+				Objects.equals(roleName, role.roleName) &&
+				Objects.equals(roleDesc, role.roleDesc) &&
+				Objects.equals(roleCode, role.roleCode);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), id, roleName, roleDesc, roleCode);
+	}
 }

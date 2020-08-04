@@ -12,6 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -67,13 +68,36 @@ public class Comment extends BasePojo implements Serializable {
     @Column(length = 200)
     private String toName;
 
-    @ApiModelProperty("被评论人头像")
-    @Column(length = 300)
-    private String toAvatar;
+	@ApiModelProperty("被评论人头像")
+	@Column(length = 300)
+	private String toAvatar;
 
 	@ApiModelProperty("回复")
 	@Transient
-    @JsonIgnoreProperties("reply")
-    private List<Comment> reply;
+	@JsonIgnoreProperties("reply")
+	private List<Comment> reply;
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Comment)) return false;
+		if (!super.equals(o)) return false;
+		Comment comment = (Comment) o;
+		return id.equals(comment.id) &&
+				Objects.equals(userId, comment.userId) &&
+				Objects.equals(parentId, comment.parentId) &&
+				Objects.equals(articleId, comment.articleId) &&
+				Objects.equals(content, comment.content) &&
+				Objects.equals(upvote, comment.upvote) &&
+				Objects.equals(avatar, comment.avatar) &&
+				Objects.equals(userName, comment.userName) &&
+				Objects.equals(toId, comment.toId) &&
+				Objects.equals(toName, comment.toName) &&
+				Objects.equals(toAvatar, comment.toAvatar);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), id, userId, parentId, articleId, content, upvote, avatar, userName, toId, toName, toAvatar);
+	}
 }
