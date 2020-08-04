@@ -11,8 +11,6 @@ import java.util.TimeZone;
  * LocalDate LocalTime LocalDateTime日期工具类
  *
  * @version 2.0.0
- * @see https://blog.csdn.net/kingboyworld/article/details/75808108
- * @see https://www.cnblogs.com/qingyunfc/p/10236734.html
  */
 public class DateUtil {
 
