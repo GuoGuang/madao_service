@@ -27,8 +27,8 @@ import java.util.Map;
 
 
 /**
- * 操作日志切点类
- * https://blog.csdn.net/m0_37556444/article/details/83791651
+ * 操作日志切面
+ * use: @OptLog(operationType = CommonConst.ADD, operationName = "注册用户")
  **/
 
 @Aspect
