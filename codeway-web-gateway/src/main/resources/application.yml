@@ -54,10 +54,6 @@ auth:
 #      # 是否将路径/user去除 比如访问路径是localhost:8080/user/find/1 如果设置为true,那么路径就是localhost:8080/find/1
 #      stripPrefix: false
 #
-#    codeway-service-tweets:           # 吐槽服务
-#          path: /tweets/**
-#          serviceId: codeway-service-tweets
-#
 #    codeway-service-search:         # 搜索服务
 #          path: /search/**
 #          serviceId: codeway-service-search
