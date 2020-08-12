@@ -34,7 +34,7 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
-        <!-- 消息总线:实现配置文件自动更新 -->
+        <!-- 消息总线:实现配置文件自动更新
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-bus</artifactId>
@@ -42,7 +42,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.codeway</groupId>
             <artifactId>codeway-service-api</artifactId>
