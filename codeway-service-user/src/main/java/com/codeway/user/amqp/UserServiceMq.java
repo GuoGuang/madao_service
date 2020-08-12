@@ -1,6 +1,5 @@
 package com.codeway.user.amqp;
 
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,8 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceMq {
 
-   @RabbitListener(queues = "user")
+  /* @RabbitListener(queues = "user")
     public void listenerFanout(Object o){
         System.out.println("监听到的消息:"+o);
-    }
+    }*/
 }

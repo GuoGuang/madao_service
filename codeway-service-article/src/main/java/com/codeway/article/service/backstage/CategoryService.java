@@ -5,7 +5,6 @@ import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.article.Category;
 import com.codeway.utils.BeanUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -29,9 +28,6 @@ public class CategoryService {
             List<Predicate> predicates = new ArrayList<>();
             if (StringUtils.isNotEmpty(category.getName())) {
                 predicates.add(builder.like(root.get("name"), "%" + category.getName() + "%"));
-            }
-            if (category.getState() != null) {
-                predicates.add(builder.equal(root.get("state"), category.getState()));
             }
             return query.where(predicates.toArray(new Predicate[0])).getRestriction();
         };

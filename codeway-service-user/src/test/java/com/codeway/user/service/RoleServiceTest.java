@@ -39,10 +39,10 @@ public class RoleServiceTest {
 
     @Test
     public void saveOrUpdate() {
-        Role role = new Role();
-        role.setRoleName("bar");
-        role.setRoleCode("bar");
-        roleService.saveOrUpdate(role);
+	    Role role = new Role();
+	    role.setRoleName("bar");
+	    role.setCode("bar");
+	    roleService.saveOrUpdate(role);
     }
 
     @Test
