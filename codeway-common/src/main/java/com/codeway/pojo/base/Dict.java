@@ -16,7 +16,12 @@ import java.util.Objects;
 @Setter
 @ToString
 @Entity
-@Table(name = "ba_dict")
+@Table(name = "ba_dict",
+		indexes = {
+				@Index(name = "dict_code", columnList = "code"),
+				@Index(name = "dict_parent_id", columnList = "parent_id"),
+				@Index(name = "dict_create_at", columnList = "create_at")
+		})
 public class Dict extends BasePojo implements Serializable {
 
     @Id

@@ -20,19 +20,19 @@ import java.util.Set;
 @Setter
 @Entity
 @ToString
-@Table(name = "ar_tags")
+@Table(name = "ar_tag", indexes = {@Index(name = "tag_name", columnList = "name")})
 @ApiModel(value = "article", description = "标签类")
-public class Tags extends BasePojo implements Serializable {
+public class Tag extends BasePojo implements Serializable {
 
-    /**
-     * 接收连接查询结果专用字段
-     */
-    @Transient
-    @ApiModelProperty(value = "标签下文章数量",example = "1")
-    private Long tagsCount;
+	/**
+	 * 接收连接查询结果专用字段
+	 */
+	@Transient
+	@ApiModelProperty(value = "标签下文章数量", example = "1")
+	private Long tagsCount;
 
-    @ManyToMany(mappedBy = "tags")
-    @JsonIgnore
+	@ManyToMany(mappedBy = "tags")
+	@JsonIgnore
     @org.hibernate.annotations.ForeignKey(name = "none")
     private Set<Article> articles = new HashSet<>();
 
@@ -73,9 +73,9 @@ public class Tags extends BasePojo implements Serializable {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof Tags)) return false;
+		if (!(o instanceof Tag)) return false;
 		if (!super.equals(o)) return false;
-		Tags tags = (Tags) o;
+		Tag tags = (Tag) o;
 		return Objects.equals(tagsCount, tags.tagsCount) &&
 				id.equals(tags.id) &&
 				Objects.equals(name, tags.name) &&

@@ -21,7 +21,12 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "us_resource")
+@Table(name = "us_resource",
+		indexes = {
+				@Index(name = "resource_type", columnList = "type"),
+				@Index(name = "resource_code", columnList = "code"),
+				@Index(name = "resource_create_at", columnList = "create_at")
+		})
 public class Resource extends BasePojo implements Serializable, Cloneable {
 
 	@ManyToMany(mappedBy = "resources")

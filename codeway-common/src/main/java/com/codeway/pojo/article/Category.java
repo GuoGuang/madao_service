@@ -18,7 +18,11 @@ import java.util.Set;
 @Setter
 @ApiModel(value = "ar_category", description = "文章分类")
 @Entity
-@Table(name = "ar_category")
+@Table(name = "ar_category",
+		indexes = {
+				@Index(name = "categories_name", columnList = "name"),
+				@Index(name = "categories_parent_id", columnList = "parent_id")
+		})
 public class Category extends BasePojo implements Serializable {
 
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "category")
@@ -51,10 +55,6 @@ public class Category extends BasePojo implements Serializable {
 	@Column(length = 20)
 	private String userId;
 
-	@ApiModelProperty(value = "状态", example = "1")
-	@Column(length = 1)
-	private Integer state = 1;
-
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -65,12 +65,11 @@ public class Category extends BasePojo implements Serializable {
 				Objects.equals(parentId, category.parentId) &&
 				Objects.equals(name, category.name) &&
 				Objects.equals(summary, category.summary) &&
-				Objects.equals(userId, category.userId) &&
-				Objects.equals(state, category.state);
+				Objects.equals(userId, category.userId);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(super.hashCode(), id, parentId, name, summary, userId, state);
+		return Objects.hash(super.hashCode(), id, parentId, name, summary, userId);
 	}
 }

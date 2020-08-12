@@ -12,7 +12,12 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-@Table(name = "ba_login_log")
+@Table(name = "ba_login_log",
+		indexes = {
+				@Index(name = "login_log_client_ip", columnList = "client_ip"),
+				@Index(name = "login_log_user_id", columnList = "user_id"),
+				@Index(name = "login_log_create_at", columnList = "create_at")
+		})
 public class LoginLog extends BasePojo implements Serializable {
 
     @Id

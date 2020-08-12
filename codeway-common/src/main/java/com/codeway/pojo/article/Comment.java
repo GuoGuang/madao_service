@@ -4,7 +4,6 @@ import com.codeway.pojo.BasePojo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -15,10 +14,13 @@ import java.util.List;
 import java.util.Objects;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Entity
-@Table(name = "ar_comment")
+@Table(name = "ar_comment",
+		indexes = {
+				@Index(name = "comments_article_id", columnList = "article_d"),
+				@Index(name = "comments_parent_id", columnList = "parent_id")
+		})
 public class Comment extends BasePojo implements Serializable {
 
     @Id

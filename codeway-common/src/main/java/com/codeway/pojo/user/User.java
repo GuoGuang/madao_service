@@ -19,7 +19,15 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "us_user")
+@Table(name = "us_user",
+		indexes = {
+				@Index(name = "user_user_name", columnList = "user_name"),
+				@Index(name = "user_account", columnList = "account"),
+				@Index(name = "user_email", columnList = "email"),
+				@Index(name = "user_status", columnList = "status"),
+				@Index(name = "user_phone", columnList = "phone"),
+				@Index(name = "user_create_at", columnList = "create_at")
+		})
 public class User extends BasePojo implements Serializable {
 
 	@ApiModelProperty("角色集合")

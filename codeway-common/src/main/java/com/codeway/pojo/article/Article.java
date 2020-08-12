@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -17,14 +18,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-/**
- * 文章板块: 文章类
- **/
 @Getter
 @Setter
 @ApiModel(value = "article", description = "文章类")
 @Entity
-@Table(name = "ar_article")
+@ToString
+@Table(name = "ar_article",
+		indexes = {
+				@Index(name = "article_keywords", columnList = "keywords"),
+				@Index(name = "article_tags_id", columnList = "tags_id"),
+				@Index(name = "article_title", columnList = "title"),
+				@Index(name = "article_create_at", columnList = "create_at")})
 public class Article extends BasePojo implements Serializable {
 
 
@@ -53,10 +57,10 @@ public class Article extends BasePojo implements Serializable {
 
 	@JoinTable(
 			name = "ar_article_tags",
-			joinColumns = @JoinColumn(name = "article_id",referencedColumnName="id",foreignKey=@ForeignKey(name="none",value = ConstraintMode.NO_CONSTRAINT) ),
-			inverseJoinColumns = @JoinColumn(name = "tags_id",referencedColumnName="id",foreignKey=@ForeignKey(name="none",value = ConstraintMode.NO_CONSTRAINT)))
+			joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT)),
+			inverseJoinColumns = @JoinColumn(name = "tags_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT)))
 	@ManyToMany
-	private Set<Tags> tags = new HashSet<>();
+	private Set<Tag> tags = new HashSet<>();
 
 	@ApiModelProperty("ID")
 	@Id
@@ -106,10 +110,6 @@ public class Article extends BasePojo implements Serializable {
 	@Column(length = 200)
 	private String url;
 
-	@ApiModelProperty("类型")
-	@Column(length = 1)
-	private Integer type;
-
 	@ApiModelProperty("热度")
 	@Column(precision = 2, scale = 1,length = 5)
 	private float importance;
@@ -153,7 +153,6 @@ public class Article extends BasePojo implements Serializable {
 				Objects.equals(comment, article.comment) &&
 				Objects.equals(reviewState, article.reviewState) &&
 				Objects.equals(url, article.url) &&
-				Objects.equals(type, article.type) &&
 				Objects.equals(description, article.description) &&
 				Objects.equals(keywords, article.keywords) &&
 				Objects.equals(origin, article.origin) &&
@@ -162,30 +161,7 @@ public class Article extends BasePojo implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(userName, id, userId, title, thumb, isPublic, isTop, visits, upvote, comment, reviewState, url, type, importance, description, keywords, origin, content);
+		return Objects.hash(userName, id, userId, title, thumb, isPublic, isTop, visits, upvote, comment, reviewState, url, importance, description, keywords, origin, content);
 	}
 
-	@Override
-	public String toString() {
-		return "Article{" +
-				", userName='" + userName + '\'' +
-				", id='" + id + '\'' +
-				", userId='" + userId + '\'' +
-				", title='" + title + '\'' +
-				", thumb='" + thumb + '\'' +
-				", isPublic=" + isPublic +
-				", isTop=" + isTop +
-				", visits=" + visits +
-				", upvote=" + upvote +
-				", comment=" + comment +
-				", reviewState=" + reviewState +
-				", url='" + url + '\'' +
-				", type=" + type +
-				", importance=" + importance +
-				", description='" + description + '\'' +
-				", keywords='" + keywords + '\'' +
-				", origin=" + origin +
-				", content='" + content + '\'' +
-				'}';
-	}
 }

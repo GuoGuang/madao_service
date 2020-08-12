@@ -17,7 +17,11 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "us_role")
+@Table(name = "us_role",
+		indexes = {
+				@Index(name = "role_code", columnList = "code"),
+				@Index(name = "role_create_at", columnList = "create_at")
+		})
 public class Role extends BasePojo implements Serializable {
 
 	@ApiModelProperty("角色关联的资源")
@@ -53,7 +57,7 @@ public class Role extends BasePojo implements Serializable {
 	@NotNull(message = "角色编码不能为空")
 	@ApiModelProperty("角色编码")
 	@Column(length = 20)
-	private String roleCode;
+	private String code;
 
 	@Override
 	public boolean equals(Object o) {
@@ -64,11 +68,11 @@ public class Role extends BasePojo implements Serializable {
 		return id.equals(role.id) &&
 				Objects.equals(roleName, role.roleName) &&
 				Objects.equals(roleDesc, role.roleDesc) &&
-				Objects.equals(roleCode, role.roleCode);
+				Objects.equals(code, role.code);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(super.hashCode(), id, roleName, roleDesc, roleCode);
+		return Objects.hash(super.hashCode(), id, roleName, roleDesc, code);
 	}
 }
