@@ -1,5 +1,5 @@
 /*
-package com.codeway.pojo;
+package com.codeway.model.pojo;
 
 import com.codeway.enums.StatusEnum;
 import lombok.Getter;

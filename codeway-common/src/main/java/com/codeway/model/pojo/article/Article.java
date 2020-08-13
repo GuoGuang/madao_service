@@ -1,25 +1,56 @@
-package com.codeway.model.dto;
+package com.codeway.model.pojo.article;
 
-import com.codeway.pojo.BasePojo;
-import com.codeway.pojo.article.Category;
-import com.codeway.pojo.article.Tag;
+import com.codeway.enums.ArticleAuditStatus;
+import com.codeway.enums.ArticleOriginStatus;
+import com.codeway.model.BasePojo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-public class ArticleDto extends BasePojo implements Serializable {
+@Getter
+@Setter
+@ApiModel(value = "article", description = "文章类")
+@Entity
+@ToString
+@Table(name = "ar_article",
+		indexes = {
+				@Index(name = "article_keywords", columnList = "keywords"),
+				@Index(name = "article_title", columnList = "title"),
+				@Index(name = "article_create_at", columnList = "createAt")})
+public class Article extends BasePojo implements Serializable {
 
+
+	@ApiModelProperty(value = "文章分类")
+	@JoinColumn(name = "category_id",foreignKey=@ForeignKey(name="none",value = ConstraintMode.NO_CONSTRAINT))
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	private Category category;
 
-	@ApiModelProperty(value = "推荐阅读",example = "1")
+	@ApiModelProperty(value = "推荐阅读", example = "1")
 	@Transient
-	private String related;
+	@JsonIgnoreProperties("related")
+	private List<Article> related;
+
+	@ApiModelProperty(value = "分类id",example = "1")
+	@Transient
+	private String categoryId;
+
+	@ApiModelProperty(value = "标签id",example = "1")
+	@Transient
+	private String tagsId;
 
 	@ApiModelProperty("用户名")
 	@Transient
@@ -50,15 +81,15 @@ public class ArticleDto extends BasePojo implements Serializable {
 
 	@ApiModelProperty("文章封面")
 	@Column(length = 200)
-	private String image;
+	private String thumb;
 
-	@ApiModelProperty(value = "是否公开",example = "1")
+	@ApiModelProperty(value = "是否公开", example = "1")
 	@Column(length = 1)
-	private Integer isPublic;
+	private Boolean isPublic;
 
-	@ApiModelProperty(value = "是否置顶",example = "1")
+	@ApiModelProperty(value = "是否置顶", example = "1")
 	@Column(length = 1)
-	private Integer isTop;
+	private Boolean isTop;
 
 	@ApiModelProperty(value = "浏览量",example = "1")
 	@Column(length = 5)
@@ -72,17 +103,13 @@ public class ArticleDto extends BasePojo implements Serializable {
 	@Column(length = 5)
 	private Integer comment;
 
-	@ApiModelProperty(value = "审核状态",example = "1")
+	@ApiModelProperty(value = "审核状态", example = "1")
 	@Column(length = 1)
-	private Integer reviewState;
+	private ArticleAuditStatus reviewState;
 
 	@ApiModelProperty("URL")
 	@Column(length = 200)
 	private String url;
-
-	@ApiModelProperty("类型")
-	@Column(length = 1)
-	private Integer type;
 
 	@ApiModelProperty("热度")
 	@Column(precision = 2, scale = 1,length = 5)
@@ -97,10 +124,10 @@ public class ArticleDto extends BasePojo implements Serializable {
 	@Column(length = 200)
 	private String keywords;
 
-	@ApiModelProperty("来源（1：原创，2：转载，3：混撰）")
+	@ApiModelProperty("来源")
 	@NotNull(message = "来源不能为空")
 	@Column(length = 1)
-	private Integer origin;
+	private ArticleOriginStatus origin;
 
 	@ApiModelProperty("文章正文")
 	@NotNull(message = "内容不能为空")
@@ -112,15 +139,14 @@ public class ArticleDto extends BasePojo implements Serializable {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof ArticleDto)) return false;
-		ArticleDto article = (ArticleDto) o;
+		if (!(o instanceof Article)) return false;
+		Article article = (Article) o;
 		return Float.compare(article.importance, importance) == 0 &&
-				Objects.equals(related, article.related) &&
 				Objects.equals(userName, article.userName) &&
 				id.equals(article.id) &&
 				Objects.equals(userId, article.userId) &&
 				Objects.equals(title, article.title) &&
-				Objects.equals(image, article.image) &&
+				Objects.equals(thumb, article.thumb) &&
 				Objects.equals(isPublic, article.isPublic) &&
 				Objects.equals(isTop, article.isTop) &&
 				Objects.equals(visits, article.visits) &&
@@ -128,7 +154,6 @@ public class ArticleDto extends BasePojo implements Serializable {
 				Objects.equals(comment, article.comment) &&
 				Objects.equals(reviewState, article.reviewState) &&
 				Objects.equals(url, article.url) &&
-				Objects.equals(type, article.type) &&
 				Objects.equals(description, article.description) &&
 				Objects.equals(keywords, article.keywords) &&
 				Objects.equals(origin, article.origin) &&
@@ -137,31 +162,7 @@ public class ArticleDto extends BasePojo implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(related, userName, id, userId, title, image, isPublic, isTop, visits, upvote, comment, reviewState, url, type, importance, description, keywords, origin, content);
+		return Objects.hash(userName, id, userId, title, thumb, isPublic, isTop, visits, upvote, comment, reviewState, url, importance, description, keywords, origin, content);
 	}
 
-	@Override
-	public String toString() {
-		return "Article{" +
-				"related='" + related + '\'' +
-				", userName='" + userName + '\'' +
-				", id='" + id + '\'' +
-				", userId='" + userId + '\'' +
-				", title='" + title + '\'' +
-				", image='" + image + '\'' +
-				", isPublic=" + isPublic +
-				", isTop=" + isTop +
-				", visits=" + visits +
-				", upvote=" + upvote +
-				", comment=" + comment +
-				", reviewState=" + reviewState +
-				", url='" + url + '\'' +
-				", type=" + type +
-				", importance=" + importance +
-				", description='" + description + '\'' +
-				", keywords='" + keywords + '\'' +
-				", origin=" + origin +
-				", content='" + content + '\'' +
-				'}';
-	}
 }

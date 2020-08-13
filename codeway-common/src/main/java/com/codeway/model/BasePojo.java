@@ -1,4 +1,4 @@
-package com.codeway.pojo;
+package com.codeway.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;

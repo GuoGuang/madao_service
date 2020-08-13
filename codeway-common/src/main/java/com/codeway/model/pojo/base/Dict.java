@@ -1,6 +1,6 @@
-package com.codeway.pojo.base;
+package com.codeway.model.pojo.base;
 
-import com.codeway.pojo.BasePojo;
+import com.codeway.model.BasePojo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

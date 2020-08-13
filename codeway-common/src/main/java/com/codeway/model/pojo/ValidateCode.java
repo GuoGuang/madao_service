@@ -1,5 +1,5 @@
 /*
-package com.codeway.pojo;
+package com.codeway.model.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;

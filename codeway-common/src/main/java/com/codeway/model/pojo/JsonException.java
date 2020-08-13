@@ -1,4 +1,4 @@
-package com.codeway.pojo;
+package com.codeway.model.pojo;
 
 /**
  * 自定义异常：Json序列化异常

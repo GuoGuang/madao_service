@@ -1,4 +1,4 @@
-package com.codeway.pojo;
+package com.codeway.model;
 
 import lombok.Getter;
 import lombok.Setter;

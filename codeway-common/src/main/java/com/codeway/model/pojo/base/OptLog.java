@@ -1,7 +1,7 @@
-package com.codeway.pojo.base;
+package com.codeway.model.pojo.base;
 
 import com.codeway.enums.OptLogType;
-import com.codeway.pojo.BasePojo;
+import com.codeway.model.BasePojo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;

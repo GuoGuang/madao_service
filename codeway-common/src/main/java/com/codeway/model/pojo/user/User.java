@@ -1,6 +1,6 @@
-package com.codeway.pojo.user;
+package com.codeway.model.pojo.user;
 
-import com.codeway.pojo.BasePojo;
+import com.codeway.model.BasePojo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
