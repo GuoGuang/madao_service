@@ -1,5 +1,7 @@
 package com.codeway.pojo.article;
 
+import com.codeway.enums.ArticleAuditStatus;
+import com.codeway.enums.ArticleOriginStatus;
 import com.codeway.pojo.BasePojo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -26,9 +28,8 @@ import java.util.Set;
 @Table(name = "ar_article",
 		indexes = {
 				@Index(name = "article_keywords", columnList = "keywords"),
-				@Index(name = "article_tags_id", columnList = "tags_id"),
 				@Index(name = "article_title", columnList = "title"),
-				@Index(name = "article_create_at", columnList = "create_at")})
+				@Index(name = "article_create_at", columnList = "createAt")})
 public class Article extends BasePojo implements Serializable {
 
 
@@ -58,7 +59,7 @@ public class Article extends BasePojo implements Serializable {
 	@JoinTable(
 			name = "ar_article_tags",
 			joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT)),
-			inverseJoinColumns = @JoinColumn(name = "tags_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT)))
+			inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT)))
 	@ManyToMany
 	private Set<Tag> tags = new HashSet<>();
 
@@ -82,13 +83,13 @@ public class Article extends BasePojo implements Serializable {
 	@Column(length = 200)
 	private String thumb;
 
-	@ApiModelProperty(value = "是否公开",example = "1")
+	@ApiModelProperty(value = "是否公开", example = "1")
 	@Column(length = 1)
-	private Integer isPublic;
+	private Boolean isPublic;
 
-	@ApiModelProperty(value = "是否置顶",example = "1")
+	@ApiModelProperty(value = "是否置顶", example = "1")
 	@Column(length = 1)
-	private Integer isTop;
+	private Boolean isTop;
 
 	@ApiModelProperty(value = "浏览量",example = "1")
 	@Column(length = 5)
@@ -102,9 +103,9 @@ public class Article extends BasePojo implements Serializable {
 	@Column(length = 5)
 	private Integer comment;
 
-	@ApiModelProperty(value = "审核状态",example = "1")
+	@ApiModelProperty(value = "审核状态", example = "1")
 	@Column(length = 1)
-	private Integer reviewState;
+	private ArticleAuditStatus reviewState;
 
 	@ApiModelProperty("URL")
 	@Column(length = 200)
@@ -123,10 +124,10 @@ public class Article extends BasePojo implements Serializable {
 	@Column(length = 200)
 	private String keywords;
 
-	@ApiModelProperty("来源（1：原创，2：转载，3：混撰）")
+	@ApiModelProperty("来源")
 	@NotNull(message = "来源不能为空")
 	@Column(length = 1)
-	private Integer origin;
+	private ArticleOriginStatus origin;
 
 	@ApiModelProperty("文章正文")
 	@NotNull(message = "内容不能为空")

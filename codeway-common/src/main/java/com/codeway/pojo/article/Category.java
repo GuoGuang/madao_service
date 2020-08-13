@@ -21,7 +21,7 @@ import java.util.Set;
 @Table(name = "ar_category",
 		indexes = {
 				@Index(name = "categories_name", columnList = "name"),
-				@Index(name = "categories_parent_id", columnList = "parent_id")
+				@Index(name = "categories_parent_id", columnList = "parentId")
 		})
 public class Category extends BasePojo implements Serializable {
 

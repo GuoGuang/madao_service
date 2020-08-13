@@ -18,8 +18,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "ar_comment",
 		indexes = {
-				@Index(name = "comments_article_id", columnList = "article_d"),
-				@Index(name = "comments_parent_id", columnList = "parent_id")
+				@Index(name = "comments_article_id", columnList = "articleId"),
+				@Index(name = "comments_parent_id", columnList = "parentId")
 		})
 public class Comment extends BasePojo implements Serializable {
 

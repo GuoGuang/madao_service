@@ -21,12 +21,12 @@ import java.util.Set;
 @Entity
 @Table(name = "us_user",
 		indexes = {
-				@Index(name = "user_user_name", columnList = "user_name"),
+				@Index(name = "user_user_name", columnList = "userName"),
 				@Index(name = "user_account", columnList = "account"),
 				@Index(name = "user_email", columnList = "email"),
 				@Index(name = "user_status", columnList = "status"),
 				@Index(name = "user_phone", columnList = "phone"),
-				@Index(name = "user_create_at", columnList = "create_at")
+				@Index(name = "user_create_at", columnList = "createAt")
 		})
 public class User extends BasePojo implements Serializable {
 
@@ -128,7 +128,7 @@ public class User extends BasePojo implements Serializable {
 
 	@ApiModelProperty(value = "是否锁定(0:未锁定,1已锁定)", example = "0")
 	@Column(length = 1)
-	private Integer status;
+	private Boolean status;
 
 	@Override
 	public boolean equals(Object o) {

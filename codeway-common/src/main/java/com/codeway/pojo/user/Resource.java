@@ -25,7 +25,7 @@ import java.util.Set;
 		indexes = {
 				@Index(name = "resource_type", columnList = "type"),
 				@Index(name = "resource_code", columnList = "code"),
-				@Index(name = "resource_create_at", columnList = "create_at")
+				@Index(name = "resource_create_at", columnList = "createAt")
 		})
 public class Resource extends BasePojo implements Serializable, Cloneable {
 

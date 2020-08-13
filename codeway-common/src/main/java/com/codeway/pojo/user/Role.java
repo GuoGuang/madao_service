@@ -20,7 +20,7 @@ import java.util.Set;
 @Table(name = "us_role",
 		indexes = {
 				@Index(name = "role_code", columnList = "code"),
-				@Index(name = "role_create_at", columnList = "create_at")
+				@Index(name = "role_create_at", columnList = "createAt")
 		})
 public class Role extends BasePojo implements Serializable {
 

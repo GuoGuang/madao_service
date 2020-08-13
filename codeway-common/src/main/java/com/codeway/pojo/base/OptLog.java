@@ -1,5 +1,6 @@
 package com.codeway.pojo.base;
 
+import com.codeway.enums.OptLogType;
 import com.codeway.pojo.BasePojo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -14,9 +15,9 @@ import java.io.Serializable;
 @Entity
 @Table(name = "ba_opt_log",
 		indexes = {
-				@Index(name = "opt_log_client_ip", columnList = "client_ip"),
-				@Index(name = "opt_log_user_id", columnList = "user_id"),
-				@Index(name = "opt_log_create_at", columnList = "create_at")
+				@Index(name = "opt_log_client_ip", columnList = "clientIp"),
+				@Index(name = "opt_log_user_id", columnList = "userId"),
+				@Index(name = "opt_log_create_at", columnList = "createAt")
 		})
 public class OptLog extends BasePojo implements Serializable {
 
@@ -39,9 +40,9 @@ public class OptLog extends BasePojo implements Serializable {
     @Column(length = 20)
     private String clientIp;
 
-    @ApiModelProperty(value = "操作类型（1：增，2：删，3：改）",example = "1")
-    @Column(length = 1)
-    private Integer type;
+	@ApiModelProperty(value = "操作类型", example = "1")
+	@Column(length = 1)
+	private OptLogType type;
 
     @ApiModelProperty("操作方法名称")
     @Column(length = 100)
