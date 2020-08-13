@@ -3,7 +3,7 @@ package com.codeway.article.controller.backstage;
 import com.codeway.annotation.OptLog;
 import com.codeway.article.controller.BaseController;
 import com.codeway.article.service.backstage.ArticleService;
-import com.codeway.constant.CommonConst;
+import com.codeway.enums.OptLogType;
 import com.codeway.pojo.article.Article;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.OssClientUtil;
@@ -54,7 +54,7 @@ public class ArticleController extends BaseController {
 
     @ApiOperation(value = "添加一条新的文章")
     @PostMapping
-//    @OptLog(operationType = CommonConst.ADD, operationName = "添加一条新的文章")
+//    @OptLog(operationType = OptLogType.ADD, operationName = "添加一条新的文章")
     public JsonData<Map<String, String>> insertArticle(@RequestBody @Valid Article article, HttpServletRequest request) {
         Map<String, String> userInfo = getUserInfo(request);
         articleService.insertOrUpdateArticle(userInfo, article);
@@ -63,7 +63,7 @@ public class ArticleController extends BaseController {
 
     @ApiOperation(value = "上传文章封面")
     @PutMapping("/thumb")
-//    @OptLog(operationType = CommonConst.ADD, operationName = "上传文章封面")
+//    @OptLog(operationType = OptLogType.ADD, operationName = "上传文章封面")
     public JsonData<String> updateThumb(MultipartFile file) throws IOException {
 	    String fileUrl = ossClientUtil.uploadFile(file);
         return JsonData.success(fileUrl);
@@ -71,7 +71,7 @@ public class ArticleController extends BaseController {
 
     @ApiOperation(value = "按照id修改", notes = "id")
     @PutMapping
-    @OptLog(operationType = CommonConst.MODIFY, operationName = "修改文章")
+    @OptLog(operationType = OptLogType.MODIFY, operationName = "修改文章")
     public JsonData<Void> updateByPrimaryKeySelective(@RequestBody @Valid Article article, HttpServletRequest request) {
         Map<String, String> userInfo = getUserInfo(request);
         articleService.insertOrUpdateArticle(userInfo, article);
@@ -80,7 +80,7 @@ public class ArticleController extends BaseController {
 
     @ApiOperation(value = "删除", notes = "id")
     @DeleteMapping
-    @OptLog(operationType = CommonConst.DELETE, operationName = "删除文章")
+    @OptLog(operationType = OptLogType.DELETE, operationName = "删除文章")
     public JsonData<Void> deleteArticleByIds(@RequestBody List<String> articleIds) {
         articleService.deleteArticleByIds(articleIds);
         return JsonData.success();

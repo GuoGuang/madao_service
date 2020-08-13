@@ -1,7 +1,7 @@
 package com.codeway.user.controller;
 
 import com.codeway.annotation.OptLog;
-import com.codeway.constant.CommonConst;
+import com.codeway.enums.OptLogType;
 import com.codeway.enums.StatusEnum;
 import com.codeway.pojo.user.User;
 import com.codeway.user.service.UserService;
@@ -13,7 +13,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,9 +42,9 @@ public class ProfileController {
         return JsonData.success(fileUrl);
     }
 
-    @PutMapping
-    @OptLog(operationType = CommonConst.MODIFY, operationName = "更新用户资料")
-    @ApiOperation(value = "更新用户资料", notes = "User")
+	@PutMapping
+	@OptLog(operationType = OptLogType.MODIFY, operationName = "更新用户资料")
+	@ApiOperation(value = "更新用户资料", notes = "User")
     public JsonData<Void> updateByPrimaryKey(@RequestParam String id, @RequestParam String avatar) {
 	    User user = userService.findById(id);
 	    user.setAvatar(avatar);
@@ -62,9 +61,9 @@ public class ProfileController {
         return JsonData.success(result);
     }
 
-    @PutMapping("/password/{userId}")
-    @OptLog(operationType = CommonConst.MODIFY, operationName = "修改用户密码")
-    @ApiOperation(value = "修改密码", notes = "User")
+	@PutMapping("/password/{userId}")
+	@OptLog(operationType = OptLogType.MODIFY, operationName = "修改用户密码")
+	@ApiOperation(value = "修改密码", notes = "User")
     @ApiImplicitParams({
 		    @ApiImplicitParam(name = "newOnePassword", value = "第一次密码", required = true),
 		    @ApiImplicitParam(name = "newTwoPassword", value = "第二次密码", required = true)

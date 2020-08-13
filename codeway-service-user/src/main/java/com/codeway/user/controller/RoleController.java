@@ -1,7 +1,7 @@
 package com.codeway.user.controller;
 
 import com.codeway.annotation.OptLog;
-import com.codeway.constant.CommonConst;
+import com.codeway.enums.OptLogType;
 import com.codeway.pojo.QueryVO;
 import com.codeway.pojo.user.Role;
 import com.codeway.pojo.user.User;
@@ -10,7 +10,6 @@ import com.codeway.utils.JsonData;
 import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -48,25 +47,25 @@ public class RoleController {
         return JsonData.success(result);
     }
 
-    @PostMapping
-    @OptLog(operationType = CommonConst.MODIFY, operationName = "添加一个角色")
-    @ApiOperation(value = "添加一个角色", notes = "Role")
+	@PostMapping
+	@OptLog(operationType = OptLogType.MODIFY, operationName = "添加一个角色")
+	@ApiOperation(value = "添加一个角色", notes = "Role")
     public JsonData<Void> insertSelective(@RequestBody @Valid Role role) {
         roleService.saveOrUpdate(role);
         return JsonData.success();
     }
 
-    @PutMapping()
-    @OptLog(operationType = CommonConst.MODIFY, operationName = "更新角色")
-    @ApiOperation(value = "更新角色", notes = "Role")
+	@PutMapping()
+	@OptLog(operationType = OptLogType.MODIFY, operationName = "更新角色")
+	@ApiOperation(value = "更新角色", notes = "Role")
     public JsonData<Void> updateByPrimaryKey(@RequestBody @Valid Role role) {
         roleService.saveOrUpdate(role);
         return JsonData.success();
     }
 
-    @DeleteMapping
-    @OptLog(operationType = CommonConst.DELETE, operationName = "删除角色")
-    @ApiOperation(value = "删除角色", notes = "Role")
+	@DeleteMapping
+	@OptLog(operationType = OptLogType.DELETE, operationName = "删除角色")
+	@ApiOperation(value = "删除角色", notes = "Role")
     public JsonData<Void> deleteByIds(@RequestBody List<String> roleId) {
         roleService.deleteByIds(roleId);
         return JsonData.success();

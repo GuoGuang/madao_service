@@ -2,10 +2,9 @@ package com.codeway.article.service.backstage;
 
 import com.codeway.article.dao.backstage.TagsDao;
 import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.pojo.article.Tags;
+import com.codeway.pojo.article.Tag;
 import com.codeway.utils.BeanUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -24,8 +23,8 @@ public class TagsService {
 		this.tagsDao = tagsDao;
 	}
 
-	public Page<Tags> findTagsByCondition(Tags tags, Pageable pageable) {
-		Specification<Tags> condition = (root, query, builder) -> {
+	public Page<Tag> findTagsByCondition(Tag tags, Pageable pageable) {
+		Specification<Tag> condition = (root, query, builder) -> {
 			List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
 			if (StringUtils.isNotEmpty(tags.getName())) {
 				predicates.add(builder.like(root.get("name"), "%" + tags.getName() + "%"));
@@ -35,20 +34,20 @@ public class TagsService {
 			}
 			return query.where(predicates.toArray(new Predicate[0])).getRestriction();
 		};
-		Page<Tags> tagsQueryResults = tagsDao.findAll(condition, pageable);
+		Page<Tag> tagsQueryResults = tagsDao.findAll(condition, pageable);
 		tagsQueryResults.getContent().forEach(
-				tag->tag.setTagsCount(Long.valueOf(tag.getArticles().size()))
+				tag -> tag.setTagsCount(Long.valueOf(tag.getArticles().size()))
 		);
 		return tagsQueryResults;
 	}
 
-	public Tags findTagsById(String id) {
+	public Tag findTagsById(String id) {
 		return tagsDao.findById(id).orElseThrow(ResourceNotFoundException::new);
 	}
 
-	public void saveOrUpdate(Tags tags) {
-		if (StringUtils.isNotBlank(tags.getId())){
-			Tags tempTags = tagsDao.findById(tags.getId()).orElseThrow(ResourceNotFoundException::new);
+	public void saveOrUpdate(Tag tags) {
+		if (StringUtils.isNotBlank(tags.getId())) {
+			Tag tempTags = tagsDao.findById(tags.getId()).orElseThrow(ResourceNotFoundException::new);
 			BeanUtil.copyProperties(tempTags, tags);
 		}
 		tagsDao.save(tags);

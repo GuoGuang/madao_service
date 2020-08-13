@@ -2,7 +2,7 @@ package com.codeway.model.dto;
 
 import com.codeway.pojo.BasePojo;
 import com.codeway.pojo.article.Category;
-import com.codeway.pojo.article.Tags;
+import com.codeway.pojo.article.Tag;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -27,10 +27,10 @@ public class ArticleDto extends BasePojo implements Serializable {
 
 	@JoinTable(
 			name = "ar_article_tags",
-			joinColumns = @JoinColumn(name = "article_id",referencedColumnName="id",foreignKey=@ForeignKey(name="none",value = ConstraintMode.NO_CONSTRAINT) ),
-			inverseJoinColumns = @JoinColumn(name = "tags_id",referencedColumnName="id",foreignKey=@ForeignKey(name="none",value = ConstraintMode.NO_CONSTRAINT)))
+			joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT)),
+			inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT)))
 	@ManyToMany
-	private Set<Tags> tags = new HashSet<>();
+	private Set<Tag> tags = new HashSet<>();
 
 	@ApiModelProperty("ID")
 	@Id

@@ -18,7 +18,6 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -82,10 +81,10 @@ public class UserService {
             predicate = ExpressionUtils.and(predicate, qUser.status.eq(user.getStatus()));
         }
         if (StringUtils.isNotEmpty(user.getId())) {
-            predicate = ExpressionUtils.and(predicate, qUser.status.eq(user.getStatus()));
+            predicate = ExpressionUtils.and(predicate, qUser.id.eq(user.getId()));
         }
         if (StringUtils.isNotEmpty(user.getUserName())) {
-            predicate = ExpressionUtils.and(predicate, qUser.status.eq(user.getStatus()));
+	        predicate = ExpressionUtils.and(predicate, qUser.userName.eq(user.getUserName()));
         }
         if (StringUtils.isNotEmpty(user.getAccount())) {
             predicate = ExpressionUtils.and(predicate, qUser.account.eq(user.getAccount()));

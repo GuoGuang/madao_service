@@ -2,12 +2,11 @@ package com.codeway.article.controller.backstage;
 
 import com.codeway.annotation.OptLog;
 import com.codeway.article.service.backstage.CategoryService;
-import com.codeway.constant.CommonConst;
+import com.codeway.enums.OptLogType;
 import com.codeway.pojo.article.Category;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -47,22 +46,22 @@ public class CategoryController {
 
     @ApiOperation(value = "添加一条新的分类", notes = "id")
     @PostMapping
-    @OptLog(operationType = CommonConst.ADD, operationName = "添加文章分类")
+    @OptLog(operationType = OptLogType.ADD, operationName = "添加文章分类")
     public JsonData<Void> insertCategory(@RequestBody @Valid Category category) {
         categoryService.saveOrUpdate(category);
         return JsonData.success();
     }
 
-    @PutMapping
-    @OptLog(operationType = CommonConst.MODIFY, operationName = "修改文章分类")
-    @ApiOperation(value = "修改文章分类", notes = "id")
+	@PutMapping
+	@OptLog(operationType = OptLogType.MODIFY, operationName = "修改文章分类")
+	@ApiOperation(value = "修改文章分类", notes = "id")
     public JsonData<Void> updateByCategorySelective(@RequestBody @Valid Category category) {
         categoryService.saveOrUpdate(category);
         return JsonData.success();
     }
 
     @DeleteMapping
-//    @OptLog(operationType = CommonConst.DELETE, operationName = "删除文章分类")
+//    @OptLog(operationType = OptLogType.DELETE, operationName = "删除文章分类")
     @ApiOperation(value = "删除文章分类", notes = "id")
     public JsonData<Void> deleteCategoryByIds(@RequestBody List<String> categoryIds) {
         categoryService.deleteCategoryByIds(categoryIds);

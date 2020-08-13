@@ -1,7 +1,7 @@
 package com.codeway.article.controller.blog;
 
 import com.codeway.article.service.blog.ApiTagsService;
-import com.codeway.pojo.article.Tags;
+import com.codeway.pojo.article.Tag;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,18 +27,18 @@ public class ApiTagsController {
         this.apiTagsService = apiTagsService;
     }
 
-    @ApiOperation(value = "查询标签集合", notes = "Article")
-    @GetMapping
-    public JsonData<List<Tags>> findArticleByCondition(Tags tags,
-                                                       @PageableDefault(sort = "createAt", direction = DESC, value = 1000) Pageable pageable) {
-        List<Tags> result = apiTagsService.findTagsByCondition(tags, pageable);
-        return JsonData.success(result);
-    }
+	@ApiOperation(value = "查询标签集合", notes = "Article")
+	@GetMapping
+	public JsonData<List<Tag>> findArticleByCondition(Tag tags,
+	                                                  @PageableDefault(sort = "createAt", direction = DESC, value = 1000) Pageable pageable) {
+		List<Tag> result = apiTagsService.findTagsByCondition(tags, pageable);
+		return JsonData.success(result);
+	}
 
-    @ApiOperation(value = "根据id查询标签", notes = "根据id查询标签")
-    @GetMapping("/{tagId}")
-    public JsonData<Tags> findTagsById(@PathVariable String tagId) {
-        Tags result = apiTagsService.findTagsById(tagId);
-        return JsonData.success(result);
-    }
+	@ApiOperation(value = "根据id查询标签", notes = "根据id查询标签")
+	@GetMapping("/{tagId}")
+	public JsonData<Tag> findTagsById(@PathVariable String tagId) {
+		Tag result = apiTagsService.findTagsById(tagId);
+		return JsonData.success(result);
+	}
 }

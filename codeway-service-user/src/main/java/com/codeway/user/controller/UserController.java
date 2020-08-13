@@ -1,7 +1,7 @@
 package com.codeway.user.controller;
 
 import com.codeway.annotation.OptLog;
-import com.codeway.constant.CommonConst;
+import com.codeway.enums.OptLogType;
 import com.codeway.pojo.QueryVO;
 import com.codeway.pojo.user.Role;
 import com.codeway.pojo.user.User;
@@ -12,7 +12,6 @@ import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,9 +31,9 @@ public class UserController {
 		this.userService = userService;
 	}
 
-    @PostMapping()
-    @OptLog(operationType = CommonConst.ADD, operationName = "注册用户")
-    @ApiOperation(value = "注册用户", notes = "User")
+	@PostMapping()
+	@OptLog(operationType = OptLogType.ADD, operationName = "注册用户")
+	@ApiOperation(value = "注册用户", notes = "User")
     public JsonData<Void> insertUser(@RequestBody @Valid User user) {
 		userService.registerUser(user);
 		return JsonData.success();
@@ -91,17 +90,17 @@ public class UserController {
 		return JsonData.success(result);
 	}
 
-    @PutMapping()
-    @OptLog(operationType = CommonConst.MODIFY, operationName = "更新用户资料")
-    @ApiOperation(value = "更新用户资料", notes = "User")
+	@PutMapping()
+	@OptLog(operationType = OptLogType.MODIFY, operationName = "更新用户资料")
+	@ApiOperation(value = "更新用户资料", notes = "User")
     public JsonData<Void> updateByPrimaryKey(@RequestBody @Valid User user) {
 		userService.updateByPrimaryKey(user);
 		return JsonData.success();
 	}
 
-    @DeleteMapping
-    @OptLog(operationType = CommonConst.DELETE, operationName = "删除用户")
-    @ApiOperation(value = "删除用户;必须拥有管理员权限，否则不能删除，请求时需要添加头信息Authorization ,内容为Bearer-token", notes = "User")
+	@DeleteMapping
+	@OptLog(operationType = OptLogType.DELETE, operationName = "删除用户")
+	@ApiOperation(value = "删除用户;必须拥有管理员权限，否则不能删除，请求时需要添加头信息Authorization ,内容为Bearer-token", notes = "User")
     public JsonData<Void> deleteByIds(@RequestBody List<String> userId) {
 		userService.deleteByIds(userId);
 		return JsonData.success();

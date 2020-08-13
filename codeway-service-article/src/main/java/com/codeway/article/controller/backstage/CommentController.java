@@ -2,12 +2,11 @@ package com.codeway.article.controller.backstage;
 
 import com.codeway.annotation.OptLog;
 import com.codeway.article.service.backstage.CommentService;
-import com.codeway.constant.CommonConst;
+import com.codeway.enums.OptLogType;
 import com.codeway.pojo.article.Comment;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -46,7 +45,7 @@ public class CommentController {
 	}
 
 	@PostMapping()
-	@OptLog(operationType = CommonConst.ADD, operationName = "增加文章评论")
+	@OptLog(operationType = OptLogType.ADD, operationName = "增加文章评论")
 	@ApiOperation(value = "增加文章评论", notes = "Comment")
 	public JsonData<Void> insertComment(@RequestBody @Valid Comment comment) {
 		commentService.saveOrUpdate(comment);
@@ -54,7 +53,7 @@ public class CommentController {
 	}
 
 	@PutMapping
-	@OptLog(operationType = CommonConst.MODIFY, operationName = "修改文章评论")
+	@OptLog(operationType = OptLogType.MODIFY, operationName = "修改文章评论")
 	@ApiOperation(value = "修改文章评论", notes = "Comment")
 	public JsonData<Void> updateByCommentSelective(@RequestBody @Valid Comment comment) {
 		commentService.saveOrUpdate(comment);
@@ -62,7 +61,7 @@ public class CommentController {
 	}
 
 	@DeleteMapping
-	@OptLog(operationType = CommonConst.DELETE, operationName = "删除评论")
+	@OptLog(operationType = OptLogType.DELETE, operationName = "删除评论")
 	@ApiOperation(value = "删除", notes = "Comment")
 	public JsonData<Void> deleteByIds(List<String> commentIds) {
 		commentService.deleteCommentByIds(commentIds);

@@ -2,6 +2,7 @@ package com.codeway.aspect;
 
 import com.codeway.annotation.OptLog;
 import com.codeway.api.base.OptLogServiceRpc;
+import com.codeway.enums.OptLogType;
 import com.codeway.utils.HttpServletUtil;
 import com.codeway.utils.JsonUtil;
 import com.codeway.utils.LogBack;
@@ -28,7 +29,7 @@ import java.util.Map;
 
 /**
  * 操作日志切面
- * use: @OptLog(operationType = CommonConst.ADD, operationName = "注册用户")
+ * use: @OptLog(operationType = OptLogType.ADD, operationName = "注册用户")
  **/
 
 @Aspect
@@ -78,7 +79,7 @@ public class OptLogAspect {
 			Object[] arguments = joinPoint.getArgs();
 			Class targetClass = Class.forName(targetName);
 			Method[] methods = targetClass.getMethods();
-			Integer operationType = 0;
+			OptLogType operationType = null;
 			String operationName = "";
 			for (Method method : methods) {
 				if (method.getName().equals(methodName)) {
@@ -147,7 +148,7 @@ public class OptLogAspect {
 			Object[] arguments = joinPoint.getArgs();
 			Class targetClass = Class.forName(targetName);
 			Method[] methods = targetClass.getMethods();
-			int operationType = 0;
+			OptLogType operationType = null;
 			String operationName = "";
 			for (Method method : methods) {
 				if (method.getName().equals(methodName)) {

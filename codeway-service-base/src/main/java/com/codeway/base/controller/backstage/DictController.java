@@ -2,12 +2,11 @@ package com.codeway.base.controller.backstage;
 
 import com.codeway.annotation.OptLog;
 import com.codeway.base.service.backstage.DictService;
-import com.codeway.constant.CommonConst;
+import com.codeway.enums.OptLogType;
 import com.codeway.pojo.base.Dict;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -58,25 +57,25 @@ public class DictController {
         return JsonData.success(resData);
     }
 
-    @PutMapping
-    @OptLog(operationType = CommonConst.MODIFY, operationName = "更新字典项")
-    @ApiOperation(value = "更新字典项", notes = "Dict")
+	@PutMapping
+	@OptLog(operationType = OptLogType.MODIFY, operationName = "更新字典项")
+	@ApiOperation(value = "更新字典项", notes = "Dict")
     public JsonData<Void> updateByPrimaryKey(@RequestBody @Valid Dict dict) {
         dictService.saveOrUpdate(dict);
         return JsonData.success();
     }
 
-    @PostMapping
-    @OptLog(operationType = CommonConst.ADD, operationName = "插入字典项")
-    @ApiOperation(value = "添加一条数据", notes = "Dict")
+	@PostMapping
+	@OptLog(operationType = OptLogType.ADD, operationName = "插入字典项")
+	@ApiOperation(value = "添加一条数据", notes = "Dict")
     public JsonData<Void> insertSelective(@RequestBody @Valid Dict dict) {
         dictService.saveOrUpdate(dict);
         return JsonData.success();
     }
 
-    @DeleteMapping()
-    @OptLog(operationType = CommonConst.DELETE, operationName = "删除字典项")
-    @ApiOperation(value = "删除字典项", notes = "Dict")
+	@DeleteMapping()
+	@OptLog(operationType = OptLogType.DELETE, operationName = "删除字典项")
+	@ApiOperation(value = "删除字典项", notes = "Dict")
     public JsonData<Void> deleteByIds(@RequestBody List<String> resId) {
         dictService.deleteBatch(resId);
         return JsonData.success();

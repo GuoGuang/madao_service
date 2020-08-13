@@ -3,7 +3,7 @@ package com.codeway.article.service.backstage;
 import com.codeway.article.dao.backstage.ArticleDao;
 import com.codeway.article.dao.backstage.TagsDao;
 import com.codeway.db.redis.service.RedisService;
-import com.codeway.pojo.article.Tags;
+import com.codeway.pojo.article.Tag;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,19 +31,19 @@ class TagsServiceTest {
 
     @Test
     void testFindTagsByCondition() {
-        Page<Tags> result = tagsService.findTagsByCondition(new Tags(), null);
+	    Page<Tag> result = tagsService.findTagsByCondition(new Tag(), null);
         Assertions.assertEquals(null, result);
     }
 
     @Test
     void testFindTagsById() {
-        Tags result = tagsService.findTagsById("id");
-        Assertions.assertEquals(new Tags(), result);
+	    Tag result = tagsService.findTagsById("id");
+	    Assertions.assertEquals(new Tag(), result);
     }
 
     @Test
     void testSaveOrUpdate() {
-        tagsService.saveOrUpdate(new Tags());
+	    tagsService.saveOrUpdate(new Tag());
     }
 
     @Test

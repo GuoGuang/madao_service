@@ -4,15 +4,14 @@ import com.codeway.api.user.UserServiceRpc;
 import com.codeway.article.dao.backstage.ArticleDao;
 import com.codeway.article.dao.backstage.CategoryDao;
 import com.codeway.article.dao.backstage.TagsDao;
-import com.codeway.constant.ArticleConst;
 import com.codeway.db.redis.service.RedisService;
+import com.codeway.enums.ArticleAuditStatus;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.pojo.article.Article;
 import com.codeway.pojo.article.Category;
-import com.codeway.pojo.article.Tags;
+import com.codeway.pojo.article.Tag;
 import com.codeway.pojo.user.User;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -110,16 +109,15 @@ public class ArticleService {
 		if (StringUtils.isBlank(article.getId())) {
 			isCreate = true;
 			article.setComment(0);
-			article.setType(1);
 			article.setUpvote(new Random().nextInt(20));
 			article.setVisits(new Random().nextInt(98));
-			article.setReviewState(ArticleConst.PASS);
+			article.setReviewState(ArticleAuditStatus.PASS);
 			article.setImportance(new Random().nextInt(5));
 			if (article.getIsPublic() == null) {
-				article.setIsPublic(0);
+				article.setIsPublic(false);
 			}
-//			Optional<Tags> byId = tagsDao.findById("1214844690118086656");
-//			HashSet<Tags> objects = new HashSet<>();
+//			Optional<Tag> byId = tagsDao.findById("1214844690118086656");
+//			HashSet<Tag> objects = new HashSet<>();
 //			objects.add(byId.get());
 //			article.setTags(objects);
 		} else {
@@ -128,9 +126,9 @@ public class ArticleService {
 
 
 		Optional<Category> byId = categoryDao.findById(article.getCategoryId());
-		List<Tags> allById = tagsDao.findAllById(Arrays.asList(article.getTagsId().split(",")));
+		List<Tag> allById = tagsDao.findAllById(Arrays.asList(article.getTagsId().split(",")));
 		article.setCategory(byId.get());
-		HashSet<Tags> objects = new HashSet<>(allById);
+		HashSet<Tag> objects = new HashSet<>(allById);
 		article.setTags(objects);
 		articleDao.save(article);
 

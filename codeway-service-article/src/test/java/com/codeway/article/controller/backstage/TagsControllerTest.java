@@ -1,7 +1,7 @@
 package com.codeway.article.controller.backstage;
 
 import com.codeway.article.service.backstage.TagsService;
-import com.codeway.pojo.article.Tags;
+import com.codeway.pojo.article.Tag;
 import com.codeway.utils.JsonData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,29 +28,29 @@ class TagsControllerTest {
 
     @Test
     void testFindArticleByCondition() {
-        when(tagsService.findTagsByCondition(any(), any())).thenReturn(null);
+	    when(tagsService.findTagsByCondition(any(), any())).thenReturn(null);
 
-        JsonData<Page<Tags>> result = tagsController.findArticleByCondition(new Tags(), null);
-        Assertions.assertEquals(new JsonData<Page<Tags>>(true, 0, "message", any()), result);
+	    JsonData<Page<Tag>> result = tagsController.findArticleByCondition(new Tag(), null);
+	    Assertions.assertEquals(new JsonData<Page<Tag>>(true, 0, "message", any()), result);
     }
 
     @Test
     void testFindArticleByPrimaryKey() {
-        when(tagsService.findTagsById(anyString())).thenReturn(new Tags());
+	    when(tagsService.findTagsById(anyString())).thenReturn(new Tag());
 
-        JsonData<Tags> result = tagsController.findArticleByPrimaryKey("id");
-        Assertions.assertEquals(new JsonData<Tags>(true, 0, "message", any()), result);
+	    JsonData<Tag> result = tagsController.findArticleByPrimaryKey("id");
+	    Assertions.assertEquals(new JsonData<Tag>(true, 0, "message", any()), result);
     }
 
     @Test
     void testInsertArticle() {
-        JsonData<Void> result = tagsController.insertArticle(new Tags());
+	    JsonData<Void> result = tagsController.insertArticle(new Tag());
         Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
     }
 
     @Test
     void testUpdateTagsById() {
-        JsonData<Void> result = tagsController.updateTagsById(new Tags());
+	    JsonData<Void> result = tagsController.updateTagsById(new Tag());
         Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
     }
 
