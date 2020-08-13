@@ -2,7 +2,7 @@ package com.codeway.article.controller.blog;
 
 import com.codeway.article.service.blog.ApiCommentService;
 import com.codeway.enums.StatusEnum;
-import com.codeway.pojo.article.Comment;
+import com.codeway.model.pojo.article.Comment;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.JsonUtil;
 import io.swagger.annotations.Api;
@@ -13,9 +13,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.List;

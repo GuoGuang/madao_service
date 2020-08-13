@@ -5,7 +5,7 @@ import com.codeway.constant.ArticleConst;
 import com.codeway.constant.CommonConst;
 import com.codeway.constant.RedisConstant;
 import com.codeway.db.redis.service.RedisService;
-import com.codeway.pojo.article.Article;
+import com.codeway.model.pojo.article.Article;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.JsonUtil;
 import io.swagger.annotations.ApiOperation;

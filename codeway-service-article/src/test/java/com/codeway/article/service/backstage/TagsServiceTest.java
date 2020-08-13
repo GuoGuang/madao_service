@@ -3,7 +3,7 @@ package com.codeway.article.service.backstage;
 import com.codeway.article.dao.backstage.ArticleDao;
 import com.codeway.article.dao.backstage.TagsDao;
 import com.codeway.db.redis.service.RedisService;
-import com.codeway.pojo.article.Tag;
+import com.codeway.model.pojo.article.Tag;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

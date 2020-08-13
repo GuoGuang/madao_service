@@ -4,7 +4,7 @@ package com.codeway.gateway.service;
 import com.codeway.api.auth.AuthServiceRpc;
 import com.codeway.db.redis.service.RedisService;
 import com.codeway.exception.custom.RemoteRpcException;
-import com.codeway.pojo.user.AuthToken;
+import com.codeway.model.pojo.user.AuthToken;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.JsonUtil;
 import com.codeway.utils.security.JWTAuthentication;

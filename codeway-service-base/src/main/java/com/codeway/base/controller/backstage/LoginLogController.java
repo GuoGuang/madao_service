@@ -1,7 +1,7 @@
 package com.codeway.base.controller.backstage;
 
 import com.codeway.base.service.backstage.LoginLogService;
-import com.codeway.pojo.base.LoginLog;
+import com.codeway.model.pojo.base.LoginLog;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

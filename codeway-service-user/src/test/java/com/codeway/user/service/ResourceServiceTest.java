@@ -1,7 +1,7 @@
 package com.codeway.user.service;
 
-import com.codeway.pojo.QueryVO;
-import com.codeway.pojo.user.Resource;
+import com.codeway.model.QueryVO;
+import com.codeway.model.pojo.user.Resource;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

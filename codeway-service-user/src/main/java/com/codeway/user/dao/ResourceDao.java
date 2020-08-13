@@ -1,7 +1,7 @@
 package com.codeway.user.dao;
 
 
-import com.codeway.pojo.user.Resource;
+import com.codeway.model.pojo.user.Resource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;

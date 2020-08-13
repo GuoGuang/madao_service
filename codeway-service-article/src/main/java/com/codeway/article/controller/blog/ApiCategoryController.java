@@ -1,7 +1,7 @@
 package com.codeway.article.controller.blog;
 
 import com.codeway.article.service.backstage.CategoryService;
-import com.codeway.pojo.article.Category;
+import com.codeway.model.pojo.article.Category;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

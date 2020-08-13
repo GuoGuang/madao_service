@@ -2,7 +2,7 @@ package com.codeway.article.service.backstage;
 
 import com.codeway.article.dao.backstage.CategoryDao;
 import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.pojo.article.Category;
+import com.codeway.model.pojo.article.Category;
 import com.codeway.utils.BeanUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;

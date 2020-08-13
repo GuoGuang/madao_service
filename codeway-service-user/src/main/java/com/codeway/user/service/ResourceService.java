@@ -2,8 +2,8 @@ package com.codeway.user.service;
 
 
 import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.pojo.QueryVO;
-import com.codeway.pojo.user.Resource;
+import com.codeway.model.QueryVO;
+import com.codeway.model.pojo.user.Resource;
 import com.codeway.user.dao.ResourceDao;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;

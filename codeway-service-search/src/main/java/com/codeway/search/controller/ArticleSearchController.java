@@ -1,9 +1,8 @@
 package com.codeway.search.controller;
 
 import com.codeway.enums.StatusEnum;
-import com.codeway.pojo.Result;
+import com.codeway.model.Result;
 import com.codeway.search.service.ArticleSearchService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

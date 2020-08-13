@@ -2,7 +2,7 @@ package com.codeway.gateway.filter;
 
 import com.codeway.enums.StatusEnum;
 import com.codeway.gateway.service.AuthService;
-import com.codeway.pojo.user.AuthToken;
+import com.codeway.model.pojo.user.AuthToken;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.JsonUtil;
 import com.codeway.utils.LogBack;

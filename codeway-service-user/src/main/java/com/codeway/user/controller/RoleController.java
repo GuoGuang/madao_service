@@ -2,9 +2,9 @@ package com.codeway.user.controller;
 
 import com.codeway.annotation.OptLog;
 import com.codeway.enums.OptLogType;
-import com.codeway.pojo.QueryVO;
-import com.codeway.pojo.user.Role;
-import com.codeway.pojo.user.User;
+import com.codeway.model.QueryVO;
+import com.codeway.model.pojo.user.Role;
+import com.codeway.model.pojo.user.User;
 import com.codeway.user.service.RoleService;
 import com.codeway.utils.JsonData;
 import com.querydsl.core.QueryResults;

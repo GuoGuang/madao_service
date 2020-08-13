@@ -3,7 +3,7 @@ package com.codeway.user.controller;
 import com.codeway.annotation.OptLog;
 import com.codeway.enums.OptLogType;
 import com.codeway.enums.StatusEnum;
-import com.codeway.pojo.user.User;
+import com.codeway.model.pojo.user.User;
 import com.codeway.user.service.UserService;
 import com.codeway.utils.DesensitizedUtil;
 import com.codeway.utils.JsonData;

@@ -4,7 +4,7 @@ import com.codeway.article.dao.backstage.TagsDao;
 import com.codeway.constant.CommonConst;
 import com.codeway.constant.RedisConstant;
 import com.codeway.db.redis.service.RedisService;
-import com.codeway.pojo.article.Tag;
+import com.codeway.model.pojo.article.Tag;
 import com.codeway.utils.LogBack;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

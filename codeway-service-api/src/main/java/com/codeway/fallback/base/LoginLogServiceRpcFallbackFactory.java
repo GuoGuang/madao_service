@@ -2,7 +2,7 @@ package com.codeway.fallback.base;
 
 import com.codeway.api.base.LoginLogServiceRpc;
 import com.codeway.enums.StatusEnum;
-import com.codeway.pojo.base.LoginLog;
+import com.codeway.model.pojo.base.LoginLog;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.LogBack;
 import feign.hystrix.FallbackFactory;

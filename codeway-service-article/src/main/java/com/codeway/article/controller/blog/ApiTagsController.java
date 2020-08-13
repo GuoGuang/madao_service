@@ -1,7 +1,7 @@
 package com.codeway.article.controller.blog;
 
 import com.codeway.article.service.blog.ApiTagsService;
-import com.codeway.pojo.article.Tag;
+import com.codeway.model.pojo.article.Tag;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

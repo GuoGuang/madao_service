@@ -4,7 +4,7 @@ import com.codeway.FeignClientConfig;
 import com.codeway.config.CustomQueryResults;
 import com.codeway.constant.FeignConst;
 import com.codeway.fallback.user.UserServiceRpcFallbackFactory;
-import com.codeway.pojo.user.User;
+import com.codeway.model.pojo.user.User;
 import com.codeway.utils.JsonData;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

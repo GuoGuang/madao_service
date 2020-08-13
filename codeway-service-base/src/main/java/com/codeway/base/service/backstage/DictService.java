@@ -3,7 +3,7 @@ package com.codeway.base.service.backstage;
 
 import com.codeway.base.dao.DictDao;
 import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.pojo.base.Dict;
+import com.codeway.model.pojo.base.Dict;
 import com.codeway.utils.BeanUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;

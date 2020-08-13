@@ -3,7 +3,7 @@ package com.codeway.article.controller.backstage;
 import com.codeway.annotation.OptLog;
 import com.codeway.article.service.backstage.TagsService;
 import com.codeway.enums.OptLogType;
-import com.codeway.pojo.article.Tag;
+import com.codeway.model.pojo.article.Tag;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

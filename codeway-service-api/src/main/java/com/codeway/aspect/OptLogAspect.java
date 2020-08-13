@@ -93,7 +93,7 @@ public class OptLogAspect {
 			}
 
 			//*========数据库日志=========*//
-			com.codeway.pojo.base.OptLog log = new com.codeway.pojo.base.OptLog();
+			com.codeway.model.pojo.base.OptLog log = new com.codeway.model.pojo.base.OptLog();
 			log.setClientIp(HttpServletUtil.getIpAddr(request));
 			log.setUserId(user.get("id"));
 			UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
@@ -164,22 +164,22 @@ public class OptLogAspect {
 			System.out.println("=====异常通知开始=====");
 			System.out.println("异常代码:" + e.getClass().getName());
 			System.out.println("异常信息:" + e.getMessage());
-			System.out.println("异常方法:" + (joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()")+"."+operationType);
+			System.out.println("异常方法:" + (joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()") + "." + operationType);
 			System.out.println("方法描述:" + operationName);
 			System.out.println("请求人:" + "临时");
 			System.out.println("请求IP:" + ipAddr);
 			//==========数据库日志=========
-			com.codeway.pojo.base.OptLog log = new com.codeway.pojo.base.OptLog();
+			com.codeway.model.pojo.base.OptLog log = new com.codeway.model.pojo.base.OptLog();
 			log.setClientIp(HttpServletUtil.getIpAddr(request));
 			log.setUserId("临时用户");
 			UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
 			log.setBrowser(userAgent.getBrowser().getName());
 			log.setOsInfo(userAgent.getOperatingSystem().getName());
 			log.setMethod(joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()");
-			log.setExceptionDetail(e.getClass().getName() + ":--->" +e.getMessage());
+			log.setExceptionDetail(e.getClass().getName() + ":--->" + e.getMessage());
 			String argumentParam = "";
 			for (Object argument : arguments) {
-				if (!(argument instanceof ServletRequest)){
+				if (!(argument instanceof ServletRequest)) {
 					argumentParam += JsonUtil.toJsonString(argument);
 				}
 

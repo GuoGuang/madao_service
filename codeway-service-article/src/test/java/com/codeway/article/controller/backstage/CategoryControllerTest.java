@@ -1,7 +1,7 @@
 package com.codeway.article.controller.backstage;
 
 import com.codeway.article.service.backstage.CategoryService;
-import com.codeway.pojo.article.Category;
+import com.codeway.model.pojo.article.Category;
 import com.codeway.utils.JsonData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

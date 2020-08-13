@@ -2,7 +2,7 @@ package com.codeway.article.controller.blog;
 
 import com.codeway.article.service.blog.ApiArticleService;
 import com.codeway.db.redis.service.RedisService;
-import com.codeway.pojo.article.Article;
+import com.codeway.model.pojo.article.Article;
 import com.codeway.utils.JsonData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

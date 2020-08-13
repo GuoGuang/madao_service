@@ -23,7 +23,7 @@ import javax.persistence.EntityManager;
  * ComponentScan(basePackages = {"com.codeway"})
  **/
 
-@EntityScan("com.codeway.pojo")
+@EntityScan("com.codeway.model.pojo")
 @SpringBootApplication
 @EnableEurekaClient
 @EnableJpaRepositories("com.codeway.user.dao")

@@ -2,8 +2,8 @@ package com.codeway.user.controller;
 
 import com.codeway.annotation.OptLog;
 import com.codeway.enums.OptLogType;
-import com.codeway.pojo.QueryVO;
-import com.codeway.pojo.user.Resource;
+import com.codeway.model.QueryVO;
+import com.codeway.model.pojo.user.Resource;
 import com.codeway.user.service.ResourceService;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;

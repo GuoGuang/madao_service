@@ -2,10 +2,9 @@ package com.codeway.article.service.backstage;
 
 import com.codeway.article.dao.backstage.CommentDao;
 import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.pojo.article.Comment;
+import com.codeway.model.pojo.article.Comment;
 import com.codeway.utils.BeanUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

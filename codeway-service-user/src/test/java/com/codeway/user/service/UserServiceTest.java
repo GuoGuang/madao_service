@@ -1,9 +1,9 @@
 package com.codeway.user.service;
 
 import com.codeway.db.redis.service.RedisService;
-import com.codeway.pojo.QueryVO;
-import com.codeway.pojo.user.Role;
-import com.codeway.pojo.user.User;
+import com.codeway.model.QueryVO;
+import com.codeway.model.pojo.user.Role;
+import com.codeway.model.pojo.user.User;
 import com.querydsl.core.QueryResults;
 import org.junit.Assert;
 import org.junit.Test;

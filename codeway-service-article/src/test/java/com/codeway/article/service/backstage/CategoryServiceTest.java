@@ -2,7 +2,7 @@ package com.codeway.article.service.backstage;
 
 import com.codeway.article.dao.backstage.CategoryDao;
 import com.codeway.db.redis.service.RedisService;
-import com.codeway.pojo.article.Category;
+import com.codeway.model.pojo.article.Category;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

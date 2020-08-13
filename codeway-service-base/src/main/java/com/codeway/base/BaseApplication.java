@@ -14,7 +14,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
-@EntityScan("com.codeway.pojo")
+@EntityScan("com.codeway.model.pojo")
 @SpringBootApplication
 @EnableEurekaClient
 @EnableJpaRepositories("com.codeway.base.dao")

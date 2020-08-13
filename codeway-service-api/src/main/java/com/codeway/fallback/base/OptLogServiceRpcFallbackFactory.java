@@ -2,7 +2,7 @@ package com.codeway.fallback.base;
 
 import com.codeway.api.base.OptLogServiceRpc;
 import com.codeway.enums.StatusEnum;
-import com.codeway.pojo.base.OptLog;
+import com.codeway.model.pojo.base.OptLog;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.LogBack;
 import feign.hystrix.FallbackFactory;

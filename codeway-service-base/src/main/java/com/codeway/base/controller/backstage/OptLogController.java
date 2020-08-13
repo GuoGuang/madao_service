@@ -1,7 +1,7 @@
 package com.codeway.base.controller.backstage;
 
 import com.codeway.base.service.backstage.OptLogService;
-import com.codeway.pojo.base.OptLog;
+import com.codeway.model.pojo.base.OptLog;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

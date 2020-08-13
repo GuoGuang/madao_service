@@ -4,7 +4,7 @@ import com.codeway.annotation.OptLog;
 import com.codeway.article.controller.BaseController;
 import com.codeway.article.service.backstage.ArticleService;
 import com.codeway.enums.OptLogType;
-import com.codeway.pojo.article.Article;
+import com.codeway.model.pojo.article.Article;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.OssClientUtil;
 import io.swagger.annotations.Api;

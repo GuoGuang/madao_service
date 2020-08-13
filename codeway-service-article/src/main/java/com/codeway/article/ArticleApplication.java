@@ -24,7 +24,7 @@ import javax.annotation.PostConstruct;
  * // @ComponentScan(basePackages = {"com.codeway"})
  **/
 @SpringBootApplication
-@EntityScan("com.codeway.pojo")
+@EntityScan("com.codeway.model.pojo")
 @EnableEurekaClient
 @EnableJpaRepositories("com.codeway.article.dao")
 @EnableFeignClients("com.codeway.api")

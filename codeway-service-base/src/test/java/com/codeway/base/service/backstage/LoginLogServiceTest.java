@@ -1,6 +1,6 @@
 package com.codeway.base.service.backstage;
 
-import com.codeway.pojo.base.LoginLog;
+import com.codeway.model.pojo.base.LoginLog;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

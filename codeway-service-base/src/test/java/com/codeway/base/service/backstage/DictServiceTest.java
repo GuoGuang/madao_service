@@ -1,7 +1,7 @@
 package com.codeway.base.service.backstage;
 
-import com.codeway.pojo.QueryVO;
-import com.codeway.pojo.base.Dict;
+import com.codeway.model.QueryVO;
+import com.codeway.model.pojo.base.Dict;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

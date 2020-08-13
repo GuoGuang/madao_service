@@ -1,7 +1,7 @@
 package com.codeway.article.service.backstage;
 
 import com.codeway.article.dao.backstage.CommentDao;
-import com.codeway.pojo.article.Comment;
+import com.codeway.model.pojo.article.Comment;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

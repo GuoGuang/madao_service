@@ -3,7 +3,7 @@ package com.codeway.auth.provider;
 import com.codeway.auth.exception.ValidateCodeException;
 import com.codeway.auth.service.CustomUserDetailsService;
 import com.codeway.auth.token.SmsCodeAuthenticationToken;
-import com.codeway.pojo.user.User;
+import com.codeway.model.pojo.user.User;
 import com.codeway.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;

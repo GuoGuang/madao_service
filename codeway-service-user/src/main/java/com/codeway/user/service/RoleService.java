@@ -2,16 +2,15 @@ package com.codeway.user.service;
 
 
 import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.pojo.QueryVO;
-import com.codeway.pojo.user.QRole;
-import com.codeway.pojo.user.Resource;
-import com.codeway.pojo.user.Role;
-import com.codeway.pojo.user.User;
+import com.codeway.model.QueryVO;
+import com.codeway.model.pojo.user.QRole;
+import com.codeway.model.pojo.user.Resource;
+import com.codeway.model.pojo.user.Role;
+import com.codeway.model.pojo.user.User;
 import com.codeway.user.dao.ResourceDao;
 import com.codeway.user.dao.RoleDao;
 import com.codeway.user.dao.UserDao;
 import com.codeway.utils.BeanUtil;
-import com.codeway.utils.IdGenerate;
 import com.codeway.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.ExpressionUtils;
@@ -19,7 +18,6 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;

@@ -2,7 +2,7 @@ package com.codeway.api.base;
 
 import com.codeway.constant.FeignConst;
 import com.codeway.fallback.base.OptLogServiceRpcFallbackFactory;
-import com.codeway.pojo.base.OptLog;
+import com.codeway.model.pojo.base.OptLog;
 import com.codeway.utils.JsonData;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;

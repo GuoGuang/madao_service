@@ -1,9 +1,8 @@
 package com.codeway.article.service.blog;
 
 import com.codeway.article.dao.backstage.CommentDao;
-import com.codeway.pojo.article.Comment;
+import com.codeway.model.pojo.article.Comment;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

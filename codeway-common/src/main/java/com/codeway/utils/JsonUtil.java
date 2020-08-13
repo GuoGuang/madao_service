@@ -1,7 +1,7 @@
 package com.codeway.utils;
 
 
-import com.codeway.pojo.JsonException;
+import com.codeway.model.pojo.JsonException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;

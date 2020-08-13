@@ -1,6 +1,6 @@
 package com.codeway.article.dao.backstage;
 
-import com.codeway.pojo.article.Tag;
+import com.codeway.model.pojo.article.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;

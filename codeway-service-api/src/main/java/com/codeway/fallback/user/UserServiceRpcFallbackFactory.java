@@ -3,7 +3,7 @@ package com.codeway.fallback.user;
 import com.codeway.api.user.UserServiceRpc;
 import com.codeway.config.CustomQueryResults;
 import com.codeway.enums.StatusEnum;
-import com.codeway.pojo.user.User;
+import com.codeway.model.pojo.user.User;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.LogBack;
 import feign.hystrix.FallbackFactory;

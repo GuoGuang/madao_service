@@ -3,7 +3,7 @@ package com.codeway.base.controller.backstage;
 import com.codeway.annotation.OptLog;
 import com.codeway.base.service.backstage.DictService;
 import com.codeway.enums.OptLogType;
-import com.codeway.pojo.base.Dict;
+import com.codeway.model.pojo.base.Dict;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -2,7 +2,7 @@ package com.codeway.auth.service;
 
 import com.codeway.api.user.ResourceServiceRpc;
 import com.codeway.exception.custom.RemoteRpcException;
-import com.codeway.pojo.user.Resource;
+import com.codeway.model.pojo.user.Resource;
 import com.codeway.utils.IdGenerate;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.LogBack;

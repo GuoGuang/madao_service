@@ -2,7 +2,7 @@ package com.codeway.article.controller.backstage;
 
 import com.codeway.article.filter.CustomFilter;
 import com.codeway.article.service.backstage.ArticleService;
-import com.codeway.pojo.article.Article;
+import com.codeway.model.pojo.article.Article;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.JsonUtil;
 import com.codeway.utils.OssClientUtil;
