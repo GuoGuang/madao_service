@@ -66,6 +66,13 @@
 │  ├─codeway-web-gateway---------------------------微服务网关中心
 
 ```
+### 前置环境
+1. IDE：IntelliJ IDEA
+2. JDK：1.8+ 
+3. 工具：Maven，Lombok 插件
+
+> 本项目使用了 Lombok，运行之前请检查 IDE 是否已经安装好了 Lombok 插件。
+
 
 ## 快速开始
 > 本项目需要你有一定的开发经验，对SpringCloud有基础的认识，此项目仅提供学习使用，新手不建议使用。
@@ -126,6 +133,7 @@ spring:
 #     password: xxx
 #     secret: xxx
 ```
+
 ## 关于内存问题
 
 SpringCloud是比较吃内存的，如果你不指定内存大小，8G内存一般启3、4个就满了，所以这里需要配置下每个服务内存大小
