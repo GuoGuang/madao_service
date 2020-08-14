@@ -1,5 +1,6 @@
 package com.codeway.model.dto.user;
 
+import com.codeway.enums.RegisteredType;
 import com.codeway.model.BasePojo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -87,9 +88,9 @@ public class UserDto extends BasePojo implements Serializable {
 	private String contactAddress;
 
 	@ApiModelProperty("注册类型/方式")
-	private String registeredType;
+	private RegisteredType registeredType;
 
 	@ApiModelProperty(value = "是否锁定(0:未锁定,1已锁定)", example = "0")
-	private Integer status;
+	private Boolean status;
 
 }

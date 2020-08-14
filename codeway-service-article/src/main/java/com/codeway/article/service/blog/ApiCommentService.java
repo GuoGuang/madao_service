@@ -1,33 +1,31 @@
 package com.codeway.article.service.blog;
 
 import com.codeway.article.dao.backstage.CommentDao;
+import com.codeway.article.mapper.CommentMapper;
+import com.codeway.model.dto.article.CommentDto;
 import com.codeway.model.pojo.article.Comment;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class ApiCommentService {
 
 	private final CommentDao commentDao;
+	private final CommentMapper commentMapper;
 
-	public ApiCommentService(CommentDao commentDao) {
+
+	public ApiCommentService(CommentDao commentDao, CommentMapper commentMapper) {
 		this.commentDao = commentDao;
+		this.commentMapper = commentMapper;
 	}
 
 	public List<Comment> findCommentByCondition(String articleId) {
-		List<Comment> content = commentDao.findByArticleIdOrderByCreateAtDesc(articleId);
-		Map<String, List<Comment>> subComment = content.stream().filter(o -> StringUtils.isNotEmpty(o.getParentId())).collect(Collectors.groupingBy(Comment::getParentId));
-		return content.stream().filter(o -> StringUtils.isEmpty(o.getParentId())).map(cm -> {
-					if (subComment.containsKey(cm.getId())) {
-						cm.setReply(subComment.get(cm.getId()));
-					}
-					return cm;
-				}
-		).collect(Collectors.toList());
+		Comment byId = commentDao.findById("comment0001").get();
+		CommentDto commentDto = commentMapper.toDto(byId);
+		System.out.println(commentDto);
+		return null;
 	}
 
 	/**
