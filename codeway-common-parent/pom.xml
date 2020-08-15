@@ -134,6 +134,10 @@
                     <groupId>io.swagger</groupId>
                     <artifactId>swagger-models</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.mapstruct</groupId>
+                    <artifactId>mapstruct</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <!--解决进入swagger页面报类型转换错误，排除2.9.2中的引用，手动增加1.5.21版本-->
@@ -199,21 +203,21 @@
 
         </dependencies>
     </dependencyManagement>
-   <!--    <modules>-->
-<!--        <module>../codeway-common</module>-->
-<!--        <module>../codeway-common-db</module>-->
-<!--        <module>../codeway-server-eureka</module>-->
-<!--        <module>../codeway-server-config</module>-->
-<!--        <module>../codeway-server-monitor</module>-->
-<!--        <module>../codeway-service-base</module>-->
-<!--        <module>../codeway-service-article</module>-->
-<!--        <module>../codeway-service-search</module>-->
-<!--        <module>../codeway-service-api</module>-->
-<!--        <module>../codeway-service-user</module>-->
-<!--        <module>../codeway-web-gateway</module>-->
-<!--        <module>../codeway-web-platform</module>-->
-<!--        <module>../codeway-authentication-server</module>-->
-<!--    </modules>-->
+    <modules>
+        <module>../codeway-common</module>
+        <module>../codeway-common-db</module>
+        <module>../codeway-server-eureka</module>
+        <module>../codeway-server-config</module>
+        <module>../codeway-server-monitor</module>
+        <module>../codeway-service-base</module>
+        <module>../codeway-service-article</module>
+        <module>../codeway-service-search</module>
+        <module>../codeway-service-api</module>
+        <module>../codeway-service-user</module>
+        <module>../codeway-web-gateway</module>
+        <module>../codeway-web-platform</module>
+        <module>../codeway-authentication-server</module>
+    </modules>
     <packaging>pom</packaging>
 
     <build>
