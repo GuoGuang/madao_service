@@ -203,7 +203,7 @@
 
         </dependencies>
     </dependencyManagement>
-    <modules>
+   <!-- <modules>
         <module>../codeway-common</module>
         <module>../codeway-common-db</module>
         <module>../codeway-server-eureka</module>
@@ -217,7 +217,7 @@
         <module>../codeway-web-gateway</module>
         <module>../codeway-web-platform</module>
         <module>../codeway-authentication-server</module>
-    </modules>
+    </modules>-->
     <packaging>pom</packaging>
 
     <build>
