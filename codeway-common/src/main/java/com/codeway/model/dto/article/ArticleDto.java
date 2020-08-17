@@ -1,5 +1,7 @@
 package com.codeway.model.dto.article;
 
+import com.codeway.enums.ArticleAuditStatus;
+import com.codeway.enums.ArticleOriginType;
 import com.codeway.model.BasePojo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
@@ -21,6 +23,9 @@ public class ArticleDto extends BasePojo implements Serializable {
 	@ApiModelProperty(value = "推荐阅读", example = "1")
 	@JsonIgnoreProperties("related")
 	private List<ArticleDto> related;
+
+	private List<TagDto> tags;
+
 
 	@ApiModelProperty(value = "分类id", example = "1")
 	private String categoryId;
@@ -60,7 +65,7 @@ public class ArticleDto extends BasePojo implements Serializable {
 	private Integer comment;
 
 	@ApiModelProperty(value = "审核状态", example = "1")
-	private Integer reviewState;
+	private ArticleAuditStatus reviewState;
 
 	@ApiModelProperty("URL")
 	private String url;
@@ -77,7 +82,7 @@ public class ArticleDto extends BasePojo implements Serializable {
 
 	@ApiModelProperty("来源")
 	@NotNull(message = "来源不能为空")
-	private Integer origin;
+	private ArticleOriginType origin;
 
 	@ApiModelProperty("文章正文")
 	@NotNull(message = "内容不能为空")

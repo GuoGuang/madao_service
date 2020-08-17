@@ -1,7 +1,7 @@
 package com.codeway.base.service.backstage;
 
 import com.codeway.model.QueryVO;
-import com.codeway.model.pojo.base.Dict;
+import com.codeway.model.dto.base.DictDto;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,24 +22,24 @@ public class DictServiceTest {
 
     @Test
     public void findDictByCondition() {
-        QueryVO queryVO = new QueryVO();
-        Page<Dict> dictByCondition = dictService.findDictByCondition(new Dict(), null);
+	    QueryVO queryVO = new QueryVO();
+	    Page<DictDto> dictByCondition = dictService.findDictByCondition(new DictDto(), null);
         Assert.assertTrue(dictByCondition.getTotalElements() > 0);
     }
 
     @Test
     public void findDictById() {
-        Dict dictByCondition = dictService.findDictById("1133978689470599168");
+	    DictDto dictByCondition = dictService.findDictById("1133978689470599168");
         System.out.println(dictByCondition);
     }
 
     @Test
     public void saveOrUpdate() {
-//        Dict dictById = dictService.findDictById("1");
+//        DictDto dictById = dictService.findDictById("1");
 //        dictById.setName("foo");
 //        dictService.saveOrUpdate(dictById);
 
-        Dict insertDict = new Dict();
+	    DictDto insertDict = new DictDto();
         insertDict.setName("bar");
         insertDict.setCode("001");
         insertDict.setParentId("0");
@@ -56,9 +56,9 @@ public class DictServiceTest {
     @Test
     public void findIdNameTypeByParentId() {
 
-        Dict dict = new Dict();
+	    DictDto dict = new DictDto();
         dict.setId("1133978877252415931");
-        List<Dict> idNameTypeByParentId = dictService.findIdNameTypeByParentId(dict);
+	    List<DictDto> idNameTypeByParentId = dictService.findIdNameTypeByParentId(dict);
 
         Assert.assertNotNull(idNameTypeByParentId);
     }

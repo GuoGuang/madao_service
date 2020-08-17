@@ -1,7 +1,6 @@
 package com.codeway.model.pojo.article;
 
 import com.codeway.model.BasePojo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -9,8 +8,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -18,14 +15,6 @@ import java.util.Set;
 @Entity
 @Table(name = "ar_tag", indexes = {@Index(name = "tag_name", columnList = "name")})
 public class Tag extends BasePojo implements Serializable {
-
-	@Transient
-	private Long tagsCount;
-
-	@ManyToMany(mappedBy = "tags")
-	@JsonIgnore
-	@org.hibernate.annotations.ForeignKey(name = "none")
-	private Set<Article> articles = new HashSet<>();
 
 	@Id
 	@GeneratedValue(generator = "idGenerator")

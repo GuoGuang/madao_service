@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ApiCommentService {
@@ -21,16 +23,29 @@ public class ApiCommentService {
 		this.commentMapper = commentMapper;
 	}
 
-	public List<Comment> findCommentByCondition(String articleId) {
-		Comment byId = commentDao.findById("comment0001").get();
-		CommentDto commentDto = commentMapper.toDto(byId);
-		System.out.println(commentDto);
-		return null;
+	public List<CommentDto> findCommentByCondition(String articleId) {
+		List<Comment> content = commentDao.findByArticleIdOrderByCreateAtDesc(articleId);
+		List<CommentDto> commentDto = commentMapper.toDto(content);
+
+		Map<String, List<CommentDto>> subComment = commentDto.stream()
+				.filter(o -> StringUtils.isNotEmpty(o.getParentId()))
+				.collect(Collectors.groupingBy(CommentDto::getParentId));
+
+		return commentDto.stream()
+				.filter(o -> StringUtils.isEmpty(o.getParentId()))
+				.map(cm -> {
+							if (subComment.containsKey(cm.getId())) {
+								cm.setReply(subComment.get(cm.getId()));
+							}
+							return cm;
+						}
+				).collect(Collectors.toList());
 	}
 
 	/**
 	 * 非幂等
 	 * TODO 使用点赞表解决
+	 *
 	 * @param commentId
 	 */
 	public void upVote(String commentId) {

@@ -1,7 +1,6 @@
 package com.codeway.model.dto.article;
 
 import com.codeway.model.BasePojo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,6 +18,7 @@ public class CommentDto extends BasePojo implements Serializable {
 	@ApiModelProperty("文章的评论表主键")
 	private String id;
 
+	@NotNull(message = "ID不能为空")
 	@ApiModelProperty("评论人ID，未接入用户系统，暂时使用用户qq号作为唯一id")
 	private String userId;
 
@@ -43,10 +43,10 @@ public class CommentDto extends BasePojo implements Serializable {
 	@ApiModelProperty("评论人名称")
 	private String userName;
 
+	@NotNull(message = "被评论人不能为空")
 	@ApiModelProperty("被评论人id")
 	private String toId;
 
-	@NotNull(message = "被评论人")
 	@ApiModelProperty("头像")
 	private String toName;
 
@@ -54,7 +54,6 @@ public class CommentDto extends BasePojo implements Serializable {
 	private String toAvatar;
 
 	@ApiModelProperty("回复")
-	@JsonIgnoreProperties("reply")
 	private List<CommentDto> reply;
 
 }

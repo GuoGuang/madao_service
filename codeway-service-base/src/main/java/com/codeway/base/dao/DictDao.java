@@ -9,14 +9,15 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DictDao extends JpaRepository<Dict, String>, JpaSpecificationExecutor<Dict>, QuerydslPredicateExecutor<Dict> {
 
-    @Modifying
-    @Query("delete from Dict where id in (:ids)")
-    void deleteBatch(@Param("ids") List<String> ids);
+	@Modifying
+	@Query("delete from Dict where id in (:ids)")
+	void deleteBatch(@Param("ids") List<String> ids);
 
-    List<Dict> findAllByType(String type);
+	Optional<List<Dict>> findAllByType(String type);
 
-    List<Dict> findByParentId(String parentId);
+	Optional<List<Dict>> findByParentId(String parentId);
 }

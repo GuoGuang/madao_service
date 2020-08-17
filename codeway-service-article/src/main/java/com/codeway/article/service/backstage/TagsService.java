@@ -1,7 +1,11 @@
 package com.codeway.article.service.backstage;
 
-import com.codeway.article.dao.backstage.TagsDao;
+import com.codeway.article.dao.backstage.ArticleTagDao;
+import com.codeway.article.dao.backstage.TagDao;
+import com.codeway.article.mapper.TagMapper;
 import com.codeway.exception.custom.ResourceNotFoundException;
+import com.codeway.model.dto.article.TagDto;
+import com.codeway.model.pojo.article.ArticleTag;
 import com.codeway.model.pojo.article.Tag;
 import com.codeway.utils.BeanUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -13,49 +17,63 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class TagsService {
 
-	private final TagsDao tagsDao;
+	private final TagDao tagDao;
+	private final ArticleTagDao articleTagDao;
+	private final TagMapper tagMapper;
 
-	public TagsService(TagsDao tagsDao) {
-		this.tagsDao = tagsDao;
+	public TagsService(TagDao tagDao, ArticleTagDao articleTagDao, TagMapper tagMapper) {
+		this.tagDao = tagDao;
+		this.articleTagDao = articleTagDao;
+		this.tagMapper = tagMapper;
 	}
 
-	public Page<Tag> findTagsByCondition(Tag tags, Pageable pageable) {
+	public Page<TagDto> findTagsByCondition(TagDto tagDto, Pageable pageable) {
 		Specification<Tag> condition = (root, query, builder) -> {
 			List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
-			if (StringUtils.isNotEmpty(tags.getName())) {
-				predicates.add(builder.like(root.get("name"), "%" + tags.getName() + "%"));
+			if (StringUtils.isNotEmpty(tagDto.getName())) {
+				predicates.add(builder.like(root.get("name"), "%" + tagDto.getName() + "%"));
 			}
-			if (tags.getState() != null) {
-				predicates.add(builder.equal(root.get("state"), tags.getState()));
+			if (tagDto.getState() != null) {
+				predicates.add(builder.equal(root.get("state"), tagDto.getState()));
 			}
 			return query.where(predicates.toArray(new Predicate[0])).getRestriction();
 		};
-		Page<Tag> tagsQueryResults = tagsDao.findAll(condition, pageable);
-		tagsQueryResults.getContent().forEach(
-				tag -> tag.setTagsCount(Long.valueOf(tag.getArticles().size()))
-		);
+		Page<TagDto> tagsQueryResults = tagDao.findAll(condition, pageable)
+				.map(tagMapper::toDto);
+
+		List<ArticleTag> articleTags = articleTagDao.findAllByTagIdIn(tagsQueryResults.getContent().stream().map(TagDto::getId).collect(Collectors.toList()));
+
+		Map<String, List<ArticleTag>> tagIds = articleTags.stream()
+				.collect(Collectors.groupingBy(ArticleTag::getTagId));
+
+		tagsQueryResults.forEach(tag -> {
+			if (tagIds.get(tag.getId()) != null) {
+				tag.setTagsCount(tagIds.get(tag.getId()).size());
+			}
+		});
 		return tagsQueryResults;
 	}
 
-	public Tag findTagsById(String id) {
-		return tagsDao.findById(id).orElseThrow(ResourceNotFoundException::new);
+	public TagDto findTagsById(String id) {
+		return tagDao.findById(id).map(tagMapper::toDto).orElseThrow(ResourceNotFoundException::new);
 	}
 
-	public void saveOrUpdate(Tag tags) {
-		if (StringUtils.isNotBlank(tags.getId())) {
-			Tag tempTags = tagsDao.findById(tags.getId()).orElseThrow(ResourceNotFoundException::new);
-			BeanUtil.copyProperties(tempTags, tags);
+	public void saveOrUpdate(TagDto tagDto) {
+		if (StringUtils.isNotBlank(tagDto.getId())) {
+			Tag tempTags = tagDao.findById(tagDto.getId()).orElseThrow(ResourceNotFoundException::new);
+			BeanUtil.copyProperties(tempTags, tagDto);
 		}
-		tagsDao.save(tags);
+		tagDao.save(tagMapper.toEntity(tagDto));
 	}
 
-	public void deleteBatch(List<String> tagsIds) {
-		tagsDao.deleteBatch(tagsIds);
+	public void deleteBatch(List<String> tagIds) {
+		tagDao.deleteBatch(tagIds);
+		articleTagDao.deleteByTagIdIn(tagIds);
 	}
-
-
 }

@@ -41,6 +41,6 @@ public interface ApiArticleDao extends JpaRepository<Article, String>, JpaSpecif
 	@Query("update Article a set upvote = upvote-1 where id=:id")
 	void updateUnUpVote(@Param("id") String id);
 
-	@Query(value = "SELECT * FROM ar_article WHERE id in (SELECT article_id FROM ar_article_tags WHERE tag_id = :tagId)", nativeQuery = true)
+	@Query(value = "SELECT * FROM ar_article WHERE id in (SELECT article_id FROM ar_article_tag WHERE tag_id = :tagId)", nativeQuery = true)
 	Page<Article> findArticleByTagId(String tagId, Pageable pageable);
 }

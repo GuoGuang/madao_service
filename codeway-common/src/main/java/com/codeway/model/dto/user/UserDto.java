@@ -49,7 +49,7 @@ public class UserDto extends BasePojo implements Serializable {
 
 	@NotNull(message = "性别不能为空")
 	@ApiModelProperty("性别")
-	private int sex;
+	private Boolean sex;
 
 	@ApiModelProperty(value = "出生年月日", example = "1")
 	private Long birthday;
@@ -93,4 +93,7 @@ public class UserDto extends BasePojo implements Serializable {
 	@ApiModelProperty(value = "是否锁定(0:未锁定,1已锁定)", example = "0")
 	private Boolean status;
 
+	public UserDto(String userId) {
+		this.id = userId;
+	}
 }

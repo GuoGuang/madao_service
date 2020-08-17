@@ -1,7 +1,7 @@
 package com.codeway.article.controller.backstage;
 
 import com.codeway.article.service.backstage.TagsService;
-import com.codeway.model.pojo.article.Tag;
+import com.codeway.model.dto.article.TagDto;
 import com.codeway.utils.JsonData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,28 +30,28 @@ class TagsControllerTest {
     void testFindArticleByCondition() {
 	    when(tagsService.findTagsByCondition(any(), any())).thenReturn(null);
 
-	    JsonData<Page<Tag>> result = tagsController.findArticleByCondition(new Tag(), null);
-	    Assertions.assertEquals(new JsonData<Page<Tag>>(true, 0, "message", any()), result);
+	    JsonData<Page<TagDto>> result = tagsController.findArticleByCondition(new TagDto(), null);
+	    Assertions.assertEquals(new JsonData<Page<TagDto>>(true, 0, "message", any()), result);
     }
 
     @Test
     void testFindArticleByPrimaryKey() {
-	    when(tagsService.findTagsById(anyString())).thenReturn(new Tag());
+	    when(tagsService.findTagsById(anyString())).thenReturn(new TagDto());
 
-	    JsonData<Tag> result = tagsController.findArticleByPrimaryKey("id");
-	    Assertions.assertEquals(new JsonData<Tag>(true, 0, "message", any()), result);
+	    JsonData<TagDto> result = tagsController.findArticleByPrimaryKey("id");
+	    Assertions.assertEquals(new JsonData<TagDto>(true, 0, "message", any()), result);
     }
 
     @Test
     void testInsertArticle() {
-	    JsonData<Void> result = tagsController.insertArticle(new Tag());
-        Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
+	    JsonData<Void> result = tagsController.insertArticle(new TagDto());
+	    Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
     }
 
     @Test
     void testUpdateTagsById() {
-	    JsonData<Void> result = tagsController.updateTagsById(new Tag());
-        Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
+	    JsonData<Void> result = tagsController.updateTagsById(new TagDto());
+	    Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
     }
 
     @Test

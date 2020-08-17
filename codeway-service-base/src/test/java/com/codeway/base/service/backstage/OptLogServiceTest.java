@@ -1,7 +1,7 @@
 package com.codeway.base.service.backstage;
 
 import com.codeway.model.QueryVO;
-import com.codeway.model.pojo.base.OptLog;
+import com.codeway.model.dto.base.OptLogDto;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,23 +20,22 @@ public class OptLogServiceTest {
     @Autowired
     private OptLogService optLogService;
 
-
     @Test
     public void findOptLogByCondition() {
-        QueryVO queryVO = new QueryVO();
-        Page<OptLog> dictByCondition = optLogService.findOptLogByCondition(new OptLog(), null);
+	    QueryVO queryVO = new QueryVO();
+	    Page<OptLogDto> dictByCondition = optLogService.findOptLogByCondition(new OptLogDto(), null);
         Assert.assertTrue(dictByCondition.getTotalElements() > 0);
     }
 
     @Test
     public void findOptLogByPrimaryKey() {
-        OptLog byId = optLogService.findById("1157967746300456962");
+	    OptLogDto byId = optLogService.findById("1157967746300456962");
         Assert.assertNotNull(byId);
     }
 
     @Test
     public void insertOptLog() {
-        OptLog optLog = new OptLog();
+	    OptLogDto optLog = new OptLogDto();
         optLog.setId("1200629646627049472");
         optLog.setBrowser("maxxxxx");
         optLogService.insertOptLog(optLog);

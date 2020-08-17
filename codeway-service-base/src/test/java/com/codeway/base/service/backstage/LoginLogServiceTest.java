@@ -1,6 +1,6 @@
 package com.codeway.base.service.backstage;
 
-import com.codeway.model.pojo.base.LoginLog;
+import com.codeway.model.dto.base.LoginLogDto;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,19 +21,19 @@ public class LoginLogServiceTest {
 
     @Test
     public void findLoginLogByCondition() {
-        Page<LoginLog> dictByCondition = loginLogService.findLoginLogByCondition(new LoginLog(), null);
+	    Page<LoginLogDto> dictByCondition = loginLogService.findLoginLogByCondition(new LoginLogDto(), null);
         Assert.assertTrue(dictByCondition.getTotalElements() > 0);
     }
 
     @Test
     public void findById() {
-        LoginLog byId = loginLogService.findById("1141704085730828289");
+	    LoginLogDto byId = loginLogService.findById("1141704085730828289");
         Assert.assertNotNull(byId);
     }
 
     @Test
     public void save() {
-        LoginLog loginLog = new LoginLog();
+	    LoginLogDto loginLog = new LoginLogDto();
         loginLog.setId("1200629646627049472");
         loginLog.setBrowser("maxxxxx");
         loginLogService.save(loginLog);

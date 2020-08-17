@@ -1,6 +1,6 @@
 package com.codeway.user.controller.blog;
 
-import com.codeway.model.pojo.user.User;
+import com.codeway.model.dto.user.UserDto;
 import com.codeway.user.service.UserService;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
@@ -20,12 +20,14 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping
-    @ApiOperation(value = "查询账号", notes = "Admin")
-    public JsonData<User> findAdminInfo() {
-	    User byId = userService.findByAccount("admin");
-	    return JsonData.success(byId);
-    }
+	@GetMapping
+	@ApiOperation(value = "查询账号", notes = "Admin")
+	public JsonData<UserDto> findAdminInfo() {
+		UserDto userDto = new UserDto();
+		userDto.setAccount("admin");
+		UserDto byId = userService.findByCondition(userDto);
+		return JsonData.success(byId);
+	}
 
     @GetMapping("/repo")
     @ApiOperation(value = "查询Github库", notes = "Admin")

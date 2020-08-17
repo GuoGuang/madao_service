@@ -1,8 +1,9 @@
 package com.codeway.article.controller.blog;
 
+import com.codeway.article.mapper.CommentMapper;
 import com.codeway.article.service.blog.ApiCommentService;
 import com.codeway.enums.StatusEnum;
-import com.codeway.model.pojo.article.Comment;
+import com.codeway.model.dto.article.CommentDto;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.JsonUtil;
 import io.swagger.annotations.Api;
@@ -13,6 +14,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -25,16 +27,18 @@ import java.util.regex.Pattern;
 @RequestMapping(value = "/api/ar/comment")
 public class ApiCommentController {
 
-    private final ApiCommentService apiCommentService;
+	private final ApiCommentService apiCommentService;
+	private final CommentMapper commentMapper;
 
-    public ApiCommentController(ApiCommentService apiCommentService) {
-        this.apiCommentService = apiCommentService;
-    }
+	public ApiCommentController(ApiCommentService apiCommentService, CommentMapper commentMapper) {
+		this.apiCommentService = apiCommentService;
+		this.commentMapper = commentMapper;
+	}
 
 	@ApiOperation(value = "查询评论列表", notes = "查询评论列表")
-	@GetMapping("/{articleId}")
-	public JsonData<List<Comment>> findArticleByCondition(@PathVariable String articleId) {
-		List<Comment> result = apiCommentService.findCommentByCondition(articleId);
+	@GetMapping("/{articleId:\\d+}")
+	public JsonData<List<CommentDto>> findArticleByCondition(@PathVariable String articleId) {
+		List<CommentDto> result = apiCommentService.findCommentByCondition(articleId);
 		return JsonData.success(result);
 	}
 
@@ -73,8 +77,8 @@ public class ApiCommentController {
 
 	@ApiOperation(value = "回复评论/添加新评论", notes = "回复评论/添加新评论")
 	@PostMapping
-	public JsonData<Void> addComment(@RequestBody Comment comment) {
-		apiCommentService.addComment(comment);
+	public JsonData<Void> addComment(@RequestBody @Validated CommentDto commentDto) {
+		apiCommentService.addComment(commentMapper.toEntity(commentDto));
 		return JsonData.success();
 	}
 

@@ -8,8 +8,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -21,11 +19,6 @@ import java.util.Set;
 				@Index(name = "categories_parent_id", columnList = "parentId")
 		})
 public class Category extends BasePojo implements Serializable {
-
-	@OneToMany(fetch = FetchType.EAGER,mappedBy = "category")
-    @org.hibernate.annotations.ForeignKey(name = "none")
-	private Set<Article> article = new HashSet<>();
-
 
     @Id
     @GeneratedValue(generator = "idGenerator")

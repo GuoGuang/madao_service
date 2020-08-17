@@ -36,4 +36,6 @@ public class CategoryDto extends BasePojo implements Serializable {
 	@ApiModelProperty(value = "状态", example = "1")
 	private Integer state = 1;
 
+	@ApiModelProperty(value = "文章数量", example = "1")
+	private Integer articleCount;
 }

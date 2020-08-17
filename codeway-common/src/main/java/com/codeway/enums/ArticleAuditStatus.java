@@ -13,17 +13,17 @@ public enum ArticleAuditStatus {
 	/**
 	 * Pass status
 	 */
-	PASS(1),
+	PASS(0),
 
 	/**
 	 * Auditing status.
 	 */
-	AUDITING(2),
+	AUDITING(1),
 
 	/**
 	 * Refuse status
 	 */
-	REFUSE(3);
+	REFUSE(2);
 
 	private final Integer value;
 

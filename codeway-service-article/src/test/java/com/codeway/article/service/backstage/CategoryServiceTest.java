@@ -2,7 +2,7 @@ package com.codeway.article.service.backstage;
 
 import com.codeway.article.dao.backstage.CategoryDao;
 import com.codeway.db.redis.service.RedisService;
-import com.codeway.model.pojo.article.Category;
+import com.codeway.model.dto.article.CategoryDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,19 +28,19 @@ class CategoryServiceTest {
 
     @Test
     void testFindCategoryByCondition() {
-        Page<Category> result = categoryService.findCategoryByCondition(new Category(), null);
+	    Page<CategoryDto> result = categoryService.findCategoryByCondition(new CategoryDto(), null);
         Assertions.assertEquals(null, result);
     }
 
     @Test
     void testFindCategoryById() {
-        Category result = categoryService.findCategoryById("categoryId");
-        Assertions.assertEquals(new Category(), result);
+	    CategoryDto result = categoryService.findCategoryById("categoryId");
+	    Assertions.assertEquals(new CategoryDto(), result);
     }
 
     @Test
     void testSaveOrUpdate() {
-        categoryService.saveOrUpdate(new Category());
+	    categoryService.saveOrUpdate(new CategoryDto());
     }
 
     @Test

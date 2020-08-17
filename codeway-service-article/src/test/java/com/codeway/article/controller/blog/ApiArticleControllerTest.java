@@ -2,7 +2,7 @@ package com.codeway.article.controller.blog;
 
 import com.codeway.article.service.blog.ApiArticleService;
 import com.codeway.db.redis.service.RedisService;
-import com.codeway.model.pojo.article.Article;
+import com.codeway.model.dto.article.ArticleDto;
 import com.codeway.utils.JsonData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +34,7 @@ class ApiArticleControllerTest {
         when(articleService.findArticleByCondition(any(), anyString(), any())).thenReturn(null);
         when(redisService.lGet(anyString(), anyLong(), anyLong())).thenReturn(Arrays.<Object>asList("lGetResponse"));
 
-        JsonData<Object> result = apiArticleController.findArticleByCondition(new Article(), "keyword", "sortType", null);
+	    JsonData<Object> result = apiArticleController.findArticleByCondition(new ArticleDto(), "keyword", "sortType", null);
         Assertions.assertEquals(new JsonData<Object>(true, 0, "message", any()), result);
     }
 
@@ -48,20 +48,20 @@ class ApiArticleControllerTest {
 
     @Test
     void testFindArticleByTagId() {
-        when(articleService.findArticleByTagId(anyString(), any())).thenReturn(null);
+	    when(articleService.findArticleByTagId(anyString(), any())).thenReturn(null);
 
-        JsonData<Page<Article>> result = apiArticleController.findArticleByTagId("tagId", null);
-	    Assertions.assertEquals(new JsonData<Page<Article>>(true, 0, "message", any()), result);
+	    JsonData<Page<ArticleDto>> result = apiArticleController.findArticleByTagId("tagId", null);
+	    Assertions.assertEquals(new JsonData<Page<ArticleDto>>(true, 0, "message", any()), result);
     }
 
     @Test
     void testFindArticleByPrimaryKey() {
-        when(articleService.findArticleById(anyString())).thenReturn(new Article());
-        when(redisService.get(anyString())).thenReturn("getResponse");
-        when(redisService.set(anyString(), any(), anyLong())).thenReturn(true);
+	    when(articleService.findArticleById(anyString())).thenReturn(new ArticleDto());
+	    when(redisService.get(anyString())).thenReturn("getResponse");
+	    when(redisService.set(anyString(), any(), anyLong())).thenReturn(true);
 
-        JsonData<Object> result = apiArticleController.findArticleByPrimaryKey("articleId");
-	    Assertions.assertEquals(new JsonData<Article>(true, 0, "message", any()), result);
+	    JsonData<Object> result = apiArticleController.findArticleByPrimaryKey("articleId");
+	    Assertions.assertEquals(new JsonData<ArticleDto>(true, 0, "message", any()), result);
     }
 
     @Test

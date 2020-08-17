@@ -1,7 +1,6 @@
 package com.codeway.model.pojo.article;
 
 import com.codeway.model.BasePojo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -9,7 +8,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -63,9 +61,5 @@ public class Comment extends BasePojo implements Serializable {
 
 	@Column(length = 300)
 	private String toAvatar;
-
-	@Transient
-	@JsonIgnoreProperties("reply")
-	private List<Comment> reply;
 
 }

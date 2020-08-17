@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -20,7 +19,6 @@ public class RoleDto extends BasePojo implements Serializable {
 	@ApiModelProperty("角色关联的资源")
 	private Set<ResourceDto> resources = new HashSet<>();
 
-	@ManyToMany(mappedBy = "roles")
 	private Set<UserDto> users = new HashSet<>();
 
 	private String id;
@@ -34,6 +32,6 @@ public class RoleDto extends BasePojo implements Serializable {
 
 	@NotNull(message = "角色编码不能为空")
 	@ApiModelProperty("角色编码")
-	private String roleCode;
+	private String code;
 
 }

@@ -3,7 +3,7 @@ package com.codeway.article.controller.backstage;
 import com.codeway.annotation.OptLog;
 import com.codeway.article.service.backstage.CategoryService;
 import com.codeway.enums.OptLogType;
-import com.codeway.model.pojo.article.Category;
+import com.codeway.model.dto.article.CategoryDto;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,37 +28,37 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @ApiOperation(value = "查询全部数据", notes = "id")
-    @GetMapping
-    public JsonData<Page<Category>> findCategoryByCondition(Category category,
-                                                                    @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
-        Page<Category> result = categoryService.findCategoryByCondition(category, pageable);
-        return JsonData.success(result);
-    }
+	@ApiOperation(value = "查询全部数据", notes = "id")
+	@GetMapping
+	public JsonData<Page<CategoryDto>> findCategoryByCondition(CategoryDto categoryDto,
+	                                                           @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
+		Page<CategoryDto> result = categoryService.findCategoryByCondition(categoryDto, pageable);
+		return JsonData.success(result);
+	}
 
-    @ApiOperation(value = "根据ID查询", notes = "id")
-    @GetMapping(value = "/{id}")
-    public JsonData<Category> findCategoryByPrimaryKey(@PathVariable String id) {
-        Category result = categoryService.findCategoryById(id);
-        return JsonData.success(result);
-    }
+	@ApiOperation(value = "根据ID查询", notes = "id")
+	@GetMapping(value = "/{id}")
+	public JsonData<CategoryDto> findCategoryByPrimaryKey(@PathVariable String id) {
+		CategoryDto result = categoryService.findCategoryById(id);
+		return JsonData.success(result);
+	}
 
 
-    @ApiOperation(value = "添加一条新的分类", notes = "id")
-    @PostMapping
-    @OptLog(operationType = OptLogType.ADD, operationName = "添加文章分类")
-    public JsonData<Void> insertCategory(@RequestBody @Valid Category category) {
-        categoryService.saveOrUpdate(category);
-        return JsonData.success();
-    }
+	@ApiOperation(value = "添加一条新的分类", notes = "id")
+	@PostMapping
+	@OptLog(operationType = OptLogType.ADD, operationName = "添加文章分类")
+	public JsonData<Void> insertCategory(@RequestBody @Valid CategoryDto categoryDto) {
+		categoryService.saveOrUpdate(categoryDto);
+		return JsonData.success();
+	}
 
 	@PutMapping
 	@OptLog(operationType = OptLogType.MODIFY, operationName = "修改文章分类")
 	@ApiOperation(value = "修改文章分类", notes = "id")
-    public JsonData<Void> updateByCategorySelective(@RequestBody @Valid Category category) {
-        categoryService.saveOrUpdate(category);
-        return JsonData.success();
-    }
+	public JsonData<Void> updateByCategorySelective(@RequestBody @Valid CategoryDto categoryDto) {
+		categoryService.saveOrUpdate(categoryDto);
+		return JsonData.success();
+	}
 
     @DeleteMapping
 //    @OptLog(operationType = OptLogType.DELETE, operationName = "删除文章分类")

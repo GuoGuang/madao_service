@@ -1,5 +1,6 @@
 package com.codeway.model.dto.base;
 
+import com.codeway.enums.OptLogType;
 import com.codeway.model.BasePojo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -26,7 +27,7 @@ public class OptLogDto extends BasePojo implements Serializable {
 	private String clientIp;
 
 	@ApiModelProperty(value = "操作类型（1：增，2：删，3：改）", example = "1")
-	private Integer type;
+	private OptLogType type;
 
 	@ApiModelProperty("操作方法名称")
 	private String method;

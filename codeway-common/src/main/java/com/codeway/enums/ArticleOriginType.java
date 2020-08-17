@@ -8,26 +8,26 @@ import lombok.Getter;
  * @author GuoGuang
  */
 @Getter
-public enum ArticleOriginStatus {
+public enum ArticleOriginType {
 
 	/**
 	 * Original status.
 	 */
-	ORIGINAL(1),
+	ORIGINAL(0),
 
 	/**
 	 * Reprint status.
 	 */
-	REPRINT(2),
+	REPRINT(1),
 
 	/**
 	 * Mixed status.
 	 */
-	MIXED(3);
+	MIXED(2);
 
 	private final int value;
 
-	ArticleOriginStatus(int value) {
+	ArticleOriginType(int value) {
 		this.value = value;
 	}
 

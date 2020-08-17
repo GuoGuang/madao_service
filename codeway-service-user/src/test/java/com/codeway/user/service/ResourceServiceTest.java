@@ -1,7 +1,7 @@
 package com.codeway.user.service;
 
 import com.codeway.model.QueryVO;
-import com.codeway.model.pojo.user.Resource;
+import com.codeway.model.dto.user.ResourceDto;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,27 +22,27 @@ public class ResourceServiceTest {
 
     @Test
     public void findResourceByCondition() {
-        QueryVO queryVO = new QueryVO();
-        List<Resource> dictByCondition = resourceService.findResourceByCondition(new Resource(), queryVO);
+	    QueryVO queryVO = new QueryVO();
+	    List<ResourceDto> dictByCondition = resourceService.findResourceByCondition(new ResourceDto(), queryVO);
         Assert.assertTrue(dictByCondition.size() > 0);
 
     }
 
     @Test
     public void findResourceById() {
-        Resource resourceById = resourceService.findResourceById("1136504053649920002");
+	    ResourceDto resourceById = resourceService.findResourceById("1136504053649920002");
         Assert.assertNotNull(resourceById);
     }
 
     @Test
     public void findResourceByRoleIds() {
-        Set<Resource> resourceByRoleIds = resourceService.findResourceByRoleIds(Arrays.asList("1119477963140296706"));
+	    Set<ResourceDto> resourceByRoleIds = resourceService.findResourceByRoleIds(Arrays.asList("1119477963140296706"));
         Assert.assertNotNull(resourceByRoleIds);
     }
 
     @Test
     public void saveOrUpdate() {
-        Resource resource = new Resource();
+	    ResourceDto resource = new ResourceDto();
         resource.setName("1234");
         resource.setDescription("描述");
         resourceService.saveOrUpdate(resource);

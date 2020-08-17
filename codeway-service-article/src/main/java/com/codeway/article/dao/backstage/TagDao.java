@@ -8,13 +8,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public interface TagsDao extends JpaRepository<Tag, String>,
+public interface TagDao extends JpaRepository<Tag, String>,
 		JpaSpecificationExecutor<Tag>, QuerydslPredicateExecutor<Tag> {
 
 	@Modifying
 	@Query("delete from Tag where id in (:ids)")
 	void deleteBatch(@Param("ids") List<String> ids);
+
+	@Query(value = "SELECT * FROM ar_tag WHERE id in (SELECT tag_id FROM ar_article_tag WHERE article_id = :articleId)", nativeQuery = true)
+	Optional<ArrayList<Tag>> findTagsByArticleId(String articleId);
 
 }

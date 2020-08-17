@@ -9,8 +9,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Data
@@ -27,16 +25,6 @@ import java.util.Set;
 				@Index(name = "user_create_at", columnList = "createAt")
 		})
 public class User extends BasePojo implements Serializable {
-
-	@JoinTable(name = "us_user_role",
-			joinColumns = @JoinColumn(name = "user_id",referencedColumnName="id",foreignKey=@ForeignKey(name="none",value = ConstraintMode.NO_CONSTRAINT) ),
-			inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName="id",foreignKey=@ForeignKey(name="none",value = ConstraintMode.NO_CONSTRAINT)))
-	@ManyToMany
-	@org.hibernate.annotations.ForeignKey(name = "none")
-	private Set<Role> roles = new HashSet<>();
-
-	@Transient
-	private String captcha;
 
 	@Id
 	@GeneratedValue(generator = "idGenerator")
@@ -57,7 +45,7 @@ public class User extends BasePojo implements Serializable {
 	private String password;
 
 	@Column(length = 1)
-	private int sex;
+	private Boolean sex;
 
 	@Column(length = 13)
 	private Long birthday;

@@ -4,7 +4,7 @@ import com.codeway.annotation.OptLog;
 import com.codeway.article.controller.BaseController;
 import com.codeway.article.service.backstage.ArticleService;
 import com.codeway.enums.OptLogType;
-import com.codeway.model.pojo.article.Article;
+import com.codeway.model.dto.article.ArticleDto;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.OssClientUtil;
 import io.swagger.annotations.Api;
@@ -37,29 +37,29 @@ public class ArticleController extends BaseController {
         this.ossClientUtil = ossClientUtil;
     }
 
-    @ApiOperation(value = "查询文章集合", notes = "Article")
-    @GetMapping
-    public JsonData<Page<Article>> findArticleByCondition(Article article,
-                                                                  @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
-        Page<Article> result = articleService.findArticleByCondition(article, pageable);
-        return JsonData.success(result);
-    }
+	@ApiOperation(value = "查询文章集合", notes = "Article")
+	@GetMapping
+	public JsonData<Page<ArticleDto>> findArticleByCondition(ArticleDto articleDto,
+	                                                         @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
+		Page<ArticleDto> result = articleService.findArticleByCondition(articleDto, pageable);
+		return JsonData.success(result);
+	}
 
-    @ApiOperation(value = "按照id查询文章", notes = "id")
-    @GetMapping(value = "/{id}")
-    public JsonData<Article> findArticleById(@PathVariable String id) {
-        Article result = articleService.findArticleById(id);
-        return JsonData.success(result);
-    }
+	@ApiOperation(value = "按照id查询文章", notes = "id")
+	@GetMapping(value = "/{id}")
+	public JsonData<ArticleDto> findArticleById(@PathVariable String id) {
+		ArticleDto result = articleService.findArticleById(id);
+		return JsonData.success(result);
+	}
 
-    @ApiOperation(value = "添加一条新的文章")
-    @PostMapping
+	@ApiOperation(value = "添加一条新的文章")
+	@PostMapping
 //    @OptLog(operationType = OptLogType.ADD, operationName = "添加一条新的文章")
-    public JsonData<Map<String, String>> insertArticle(@RequestBody @Valid Article article, HttpServletRequest request) {
-        Map<String, String> userInfo = getUserInfo(request);
-        articleService.insertOrUpdateArticle(userInfo, article);
-        return JsonData.success();
-    }
+	public JsonData<Map<String, String>> insertArticle(@RequestBody @Valid ArticleDto articleDto, HttpServletRequest request) {
+		Map<String, String> userInfo = getUserInfo(request);
+		articleService.insertOrUpdateArticle(userInfo, articleDto);
+		return JsonData.success();
+	}
 
     @ApiOperation(value = "上传文章封面")
     @PutMapping("/thumb")
@@ -69,14 +69,14 @@ public class ArticleController extends BaseController {
         return JsonData.success(fileUrl);
     }
 
-    @ApiOperation(value = "按照id修改", notes = "id")
-    @PutMapping
-    @OptLog(operationType = OptLogType.MODIFY, operationName = "修改文章")
-    public JsonData<Void> updateByPrimaryKeySelective(@RequestBody @Valid Article article, HttpServletRequest request) {
-        Map<String, String> userInfo = getUserInfo(request);
-        articleService.insertOrUpdateArticle(userInfo, article);
-        return JsonData.success();
-    }
+	@ApiOperation(value = "按照id修改", notes = "id")
+	@PutMapping
+	@OptLog(operationType = OptLogType.MODIFY, operationName = "修改文章")
+	public JsonData<Void> updateByPrimaryKeySelective(@RequestBody @Valid ArticleDto articleDto, HttpServletRequest request) {
+		Map<String, String> userInfo = getUserInfo(request);
+		articleService.insertOrUpdateArticle(userInfo, articleDto);
+		return JsonData.success();
+	}
 
     @ApiOperation(value = "删除", notes = "id")
     @DeleteMapping

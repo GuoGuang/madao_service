@@ -13,17 +13,17 @@ public enum OptLogType {
 	/**
 	 * Add status
 	 */
-	ADD(1),
+	ADD(0),
 
 	/**
 	 * Delete status.
 	 */
-	DELETE(2),
+	DELETE(1),
 
 	/**
 	 * Modify status
 	 */
-	MODIFY(3);
+	MODIFY(2);
 
 	private final Integer value;
 

@@ -3,7 +3,7 @@ package com.codeway.article.controller.backstage;
 import com.codeway.annotation.OptLog;
 import com.codeway.article.service.backstage.CommentService;
 import com.codeway.enums.OptLogType;
-import com.codeway.model.pojo.article.Comment;
+import com.codeway.model.dto.article.CommentDto;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,32 +31,32 @@ public class CommentController {
 
 	@GetMapping()
 	@ApiOperation(value = "查询文章评论", notes = "Comment")
-	public JsonData<Page<Comment>> findCommentByCondition(Comment comment,
-														 @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
-		Page<Comment> result = commentService.findCommentByCondition(comment,pageable);
+	public JsonData<Page<CommentDto>> findCommentByCondition(CommentDto commentDto,
+	                                                         @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
+		Page<CommentDto> result = commentService.findCommentByCondition(commentDto, pageable);
 		return JsonData.success(result);
 	}
 
 	@GetMapping(value = "/{id}")
 	@ApiOperation(value = "根据ID查询", notes = "Comment")
-	public JsonData<Comment> findCommentByPrimaryKey(@PathVariable String id) {
-		Comment result = commentService.findCommentByPrimaryKey(id);
+	public JsonData<CommentDto> findCommentByPrimaryKey(@PathVariable String id) {
+		CommentDto result = commentService.findCommentByPrimaryKey(id);
 		return JsonData.success(result);
 	}
 
 	@PostMapping()
 	@OptLog(operationType = OptLogType.ADD, operationName = "增加文章评论")
 	@ApiOperation(value = "增加文章评论", notes = "Comment")
-	public JsonData<Void> insertComment(@RequestBody @Valid Comment comment) {
-		commentService.saveOrUpdate(comment);
+	public JsonData<Void> insertComment(@RequestBody @Valid CommentDto commentDto) {
+		commentService.saveOrUpdate(commentDto);
 		return JsonData.success();
 	}
 
 	@PutMapping
 	@OptLog(operationType = OptLogType.MODIFY, operationName = "修改文章评论")
 	@ApiOperation(value = "修改文章评论", notes = "Comment")
-	public JsonData<Void> updateByCommentSelective(@RequestBody @Valid Comment comment) {
-		commentService.saveOrUpdate(comment);
+	public JsonData<Void> updateByCommentSelective(@RequestBody @Valid CommentDto commentDto) {
+		commentService.saveOrUpdate(commentDto);
 		return JsonData.success();
 	}
 

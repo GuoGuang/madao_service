@@ -1,7 +1,7 @@
 package com.codeway.article.controller.blog;
 
 import com.codeway.article.service.blog.ApiTagsService;
-import com.codeway.model.pojo.article.Tag;
+import com.codeway.model.dto.article.TagDto;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,27 +18,27 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Api(tags = "前台标签管理")
 @RestController
-@RequestMapping(value = "/api/ar/tags")
+@RequestMapping(value = "/api/ar/tag")
 public class ApiTagsController {
 
-    private final ApiTagsService apiTagsService;
+	private final ApiTagsService apiTagsService;
 
-    public ApiTagsController(ApiTagsService apiTagsService) {
-        this.apiTagsService = apiTagsService;
-    }
+	public ApiTagsController(ApiTagsService apiTagsService) {
+		this.apiTagsService = apiTagsService;
+	}
 
-	@ApiOperation(value = "查询标签集合", notes = "Article")
+	@ApiOperation(value = "查询标签集合", notes = "Tag")
 	@GetMapping
-	public JsonData<List<Tag>> findArticleByCondition(Tag tags,
-	                                                  @PageableDefault(sort = "createAt", direction = DESC, value = 1000) Pageable pageable) {
-		List<Tag> result = apiTagsService.findTagsByCondition(tags, pageable);
+	public JsonData<List<TagDto>> findArticleByCondition(TagDto tagDto,
+	                                                     @PageableDefault(sort = "createAt", direction = DESC, value = 1000) Pageable pageable) {
+		List<TagDto> result = apiTagsService.findTagsByCondition(tagDto, pageable);
 		return JsonData.success(result);
 	}
 
 	@ApiOperation(value = "根据id查询标签", notes = "根据id查询标签")
 	@GetMapping("/{tagId}")
-	public JsonData<Tag> findTagsById(@PathVariable String tagId) {
-		Tag result = apiTagsService.findTagsById(tagId);
+	public JsonData<TagDto> findTagsById(@PathVariable String tagId) {
+		TagDto result = apiTagsService.findTagsById(tagId);
 		return JsonData.success(result);
 	}
 }
