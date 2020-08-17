@@ -317,29 +317,29 @@ pipeline {
             }
         }
 
-        //stage('通知人工验收') {
-        //    steps {
-        //      script {
-         //            wrap([$class: 'BuildUser']) {
-          //               if (params.isCommitQA == false) {
-          //                   echo "不需要通知测试人员人工验收"
-          //              } else {
-           //                  //邮件通知测试人员人工验收
-           //                  mail to: "${QA_EMAIL}",
-           //                          subject: "PineLine '${JOB_NAME}' (${BUILD_NUMBER})人工验收通知",
-             //                        body: "${BUILD_USER}提交的PineLine '${JOB_NAME}' (${BUILD_NUMBER})进入人工验收环节\n请及时前往${env.BUILD_URL}进行测试验收"
-           //              }
- //
-              //       }
-             //    }
-          //   }
-       //  }
+        /*stage('通知人工验收') {
+            steps {
+              script {
+                     wrap([$class: 'BuildUser']) {
+                         if (params.isCommitQA == false) {
+                             echo "不需要通知测试人员人工验收"
+                        } else {
+                             //邮件通知测试人员人工验收
+                             mail to: "${QA_EMAIL}",
+                                     subject: "PineLine '${JOB_NAME}' (${BUILD_NUMBER})人工验收通知",
+                                     body: "${BUILD_USER}提交的PineLine '${JOB_NAME}' (${BUILD_NUMBER})进入人工验收环节\n请及时前往${env.BUILD_URL}进行测试验收"
+                         }
 
-        // stage('发布系统') {
-        //     steps{
-        //         echo "starting deploy......"
-        //     //    TODO发布环节后续专题阐述
-        //     }
-        // }
+                     }
+                 }
+             }
+         }
+
+         stage('发布系统') {
+             steps{
+                 echo "starting deploy......"
+             //    TODO发布环节后续专题阐述
+             }
+         }*/
     }
 }
