@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 数据池连接
+ * Data pool connection
  */
 @Configuration
 public class DruidConfig {
