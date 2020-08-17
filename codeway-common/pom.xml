@@ -15,6 +15,11 @@
     <name>codeway-common【工具类】</name>
 
     <dependencies>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.3.10</version>
+        </dependency>
         <!--导入配置文件处理器，配置文件进行绑定就会有提示-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
