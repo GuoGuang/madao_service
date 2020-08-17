@@ -10,9 +10,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
@@ -47,7 +47,7 @@ public class CategoryController {
 	@ApiOperation(value = "添加一条新的分类", notes = "id")
 	@PostMapping
 	@OptLog(operationType = OptLogType.ADD, operationName = "添加文章分类")
-	public JsonData<Void> insertCategory(@RequestBody @Valid CategoryDto categoryDto) {
+	public JsonData<Void> insertCategory(@RequestBody @Validated CategoryDto categoryDto) {
 		categoryService.saveOrUpdate(categoryDto);
 		return JsonData.success();
 	}
@@ -55,7 +55,7 @@ public class CategoryController {
 	@PutMapping
 	@OptLog(operationType = OptLogType.MODIFY, operationName = "修改文章分类")
 	@ApiOperation(value = "修改文章分类", notes = "id")
-	public JsonData<Void> updateByCategorySelective(@RequestBody @Valid CategoryDto categoryDto) {
+	public JsonData<Void> updateByCategorySelective(@RequestBody @Validated CategoryDto categoryDto) {
 		categoryService.saveOrUpdate(categoryDto);
 		return JsonData.success();
 	}

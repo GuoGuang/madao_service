@@ -10,9 +10,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
@@ -46,7 +46,7 @@ public class TagsController {
 	@ApiOperation(value = "增加文章标签", notes = "id")
 	@PostMapping
 	@OptLog(operationType = OptLogType.ADD, operationName = "增加文章标签")
-	public JsonData<Void> insertArticle(@RequestBody @Valid TagDto tagDto) {
+	public JsonData<Void> insertArticle(@RequestBody @Validated TagDto tagDto) {
 		tagsService.saveOrUpdate(tagDto);
 		return JsonData.success();
 	}
@@ -54,7 +54,7 @@ public class TagsController {
 	@ApiOperation(value = "按照id修改", notes = "id")
 	@PutMapping
 	@OptLog(operationType = OptLogType.MODIFY, operationName = "修改文章标签")
-	public JsonData<Void> updateTagsById(@RequestBody @Valid TagDto tagDto) {
+	public JsonData<Void> updateTagsById(@RequestBody @Validated TagDto tagDto) {
 		tagsService.saveOrUpdate(tagDto);
 		return JsonData.success();
 	}

@@ -10,9 +10,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
@@ -60,7 +60,7 @@ public class DictController {
 	@PutMapping
 	@OptLog(operationType = OptLogType.MODIFY, operationName = "更新字典项")
 	@ApiOperation(value = "更新字典项", notes = "DictDto")
-	public JsonData<Void> updateByPrimaryKey(@RequestBody @Valid DictDto dictDto) {
+	public JsonData<Void> updateByPrimaryKey(@RequestBody @Validated DictDto dictDto) {
 		dictService.saveOrUpdate(dictDto);
 		return JsonData.success();
 	}
@@ -68,7 +68,7 @@ public class DictController {
 	@PostMapping
 	@OptLog(operationType = OptLogType.ADD, operationName = "插入字典项")
 	@ApiOperation(value = "添加一条数据", notes = "DictDto")
-	public JsonData<Void> insertSelective(@RequestBody @Valid DictDto dictDto) {
+	public JsonData<Void> insertSelective(@RequestBody @Validated DictDto dictDto) {
 		dictService.saveOrUpdate(dictDto);
 		return JsonData.success();
 	}

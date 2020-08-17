@@ -10,9 +10,9 @@ import com.codeway.utils.JsonData;
 import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = "角色管理")
@@ -50,7 +50,7 @@ public class RoleController {
 	@PostMapping
 	@OptLog(operationType = OptLogType.MODIFY, operationName = "添加一个角色")
 	@ApiOperation(value = "添加一个角色", notes = "Role")
-	public JsonData<Void> insertSelective(@RequestBody @Valid RoleDto roleDto) {
+	public JsonData<Void> insertSelective(@RequestBody @Validated RoleDto roleDto) {
 		roleService.saveOrUpdate(roleDto);
 		return JsonData.success();
 	}
@@ -58,7 +58,7 @@ public class RoleController {
 	@PutMapping()
 	@OptLog(operationType = OptLogType.MODIFY, operationName = "更新角色")
 	@ApiOperation(value = "更新角色", notes = "Role")
-	public JsonData<Void> updateByPrimaryKey(@RequestBody @Valid RoleDto roleDto) {
+	public JsonData<Void> updateByPrimaryKey(@RequestBody @Validated RoleDto roleDto) {
 		roleService.saveOrUpdate(roleDto);
 		return JsonData.success();
 	}

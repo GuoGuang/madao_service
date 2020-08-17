@@ -12,11 +12,11 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +55,7 @@ public class ArticleController extends BaseController {
 	@ApiOperation(value = "添加一条新的文章")
 	@PostMapping
 //    @OptLog(operationType = OptLogType.ADD, operationName = "添加一条新的文章")
-	public JsonData<Map<String, String>> insertArticle(@RequestBody @Valid ArticleDto articleDto, HttpServletRequest request) {
+	public JsonData<Map<String, String>> insertArticle(@RequestBody @Validated ArticleDto articleDto, HttpServletRequest request) {
 		Map<String, String> userInfo = getUserInfo(request);
 		articleService.insertOrUpdateArticle(userInfo, articleDto);
 		return JsonData.success();
@@ -72,7 +72,7 @@ public class ArticleController extends BaseController {
 	@ApiOperation(value = "按照id修改", notes = "id")
 	@PutMapping
 	@OptLog(operationType = OptLogType.MODIFY, operationName = "修改文章")
-	public JsonData<Void> updateByPrimaryKeySelective(@RequestBody @Valid ArticleDto articleDto, HttpServletRequest request) {
+	public JsonData<Void> updateByPrimaryKeySelective(@RequestBody @Validated ArticleDto articleDto, HttpServletRequest request) {
 		Map<String, String> userInfo = getUserInfo(request);
 		articleService.insertOrUpdateArticle(userInfo, articleDto);
 		return JsonData.success();

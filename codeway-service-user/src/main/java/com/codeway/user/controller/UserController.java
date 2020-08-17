@@ -13,9 +13,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +37,7 @@ public class UserController {
 	@PostMapping()
 	@OptLog(operationType = OptLogType.ADD, operationName = "注册用户")
 	@ApiOperation(value = "注册用户", notes = "User")
-	public JsonData<Void> insertUser(@RequestBody @Valid UserDto userDto) {
+	public JsonData<Void> insertUser(@RequestBody @Validated UserDto userDto) {
 		userService.registerUser(userDto);
 		return JsonData.success();
 	}
@@ -104,7 +104,7 @@ public class UserController {
 	@PutMapping()
 	@OptLog(operationType = OptLogType.MODIFY, operationName = "更新用户资料")
 	@ApiOperation(value = "更新用户资料", notes = "User")
-	public JsonData<Void> updateByPrimaryKey(@RequestBody @Valid UserDto userDto) {
+	public JsonData<Void> updateByPrimaryKey(@RequestBody @Validated UserDto userDto) {
 		userService.updateByPrimaryKey(userDto);
 		return JsonData.success();
 	}

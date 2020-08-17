@@ -10,9 +10,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
@@ -47,7 +47,7 @@ public class CommentController {
 	@PostMapping()
 	@OptLog(operationType = OptLogType.ADD, operationName = "增加文章评论")
 	@ApiOperation(value = "增加文章评论", notes = "Comment")
-	public JsonData<Void> insertComment(@RequestBody @Valid CommentDto commentDto) {
+	public JsonData<Void> insertComment(@RequestBody @Validated CommentDto commentDto) {
 		commentService.saveOrUpdate(commentDto);
 		return JsonData.success();
 	}
@@ -55,7 +55,7 @@ public class CommentController {
 	@PutMapping
 	@OptLog(operationType = OptLogType.MODIFY, operationName = "修改文章评论")
 	@ApiOperation(value = "修改文章评论", notes = "Comment")
-	public JsonData<Void> updateByCommentSelective(@RequestBody @Valid CommentDto commentDto) {
+	public JsonData<Void> updateByCommentSelective(@RequestBody @Validated CommentDto commentDto) {
 		commentService.saveOrUpdate(commentDto);
 		return JsonData.success();
 	}

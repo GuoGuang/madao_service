@@ -8,9 +8,9 @@ import com.codeway.user.service.ResourceService;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -50,7 +50,7 @@ public class ResourceController {
 	@PutMapping
 	@OptLog(operationType = OptLogType.MODIFY, operationName = "更新Resource")
 	@ApiOperation(value = "更新资源", notes = "Resource")
-	public JsonData<Void> updateByPrimaryKey(@RequestBody @Valid ResourceDto resourceDto) {
+	public JsonData<Void> updateByPrimaryKey(@RequestBody @Validated ResourceDto resourceDto) {
 		resourceService.saveOrUpdate(resourceDto);
 		return JsonData.success();
 	}
@@ -58,7 +58,7 @@ public class ResourceController {
 	@PostMapping
 	@OptLog(operationType = OptLogType.MODIFY, operationName = "插入Resource")
 	@ApiOperation(value = "添加一条数据", notes = "Resource")
-	public JsonData<Void> insertSelective(@RequestBody @Valid ResourceDto resourceDto) {
+	public JsonData<Void> insertSelective(@RequestBody @Validated ResourceDto resourceDto) {
 		resourceService.saveOrUpdate(resourceDto);
 		return JsonData.success();
 	}
