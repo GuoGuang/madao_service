@@ -7,5 +7,7 @@ gen
 
 ### Java template
 # Compiled class file
-*.class
+
+### after hiding the class file cannot be seen
+#*.class
 *.log
