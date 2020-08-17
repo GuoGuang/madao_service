@@ -1,8 +1,8 @@
 package com.codeway.base.service.backstage;
 
 
-import com.codeway.pojo.QueryVO;
-import com.codeway.pojo.base.Music;
+import com.codeway.model.QueryVO;
+import com.codeway.model.pojo.base.Music;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +15,6 @@ public class MusicService {
 
 //	private final MusicDao musicDao;
 //
-//	@Autowired
 //	public MusicService(MusicDao musicDao) {
 //		this.musicDao = musicDao;
 //	}

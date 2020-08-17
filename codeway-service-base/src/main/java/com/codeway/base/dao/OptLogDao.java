@@ -1,6 +1,6 @@
 package com.codeway.base.dao;
 
-import com.codeway.pojo.base.OptLog;
+import com.codeway.model.pojo.base.OptLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;

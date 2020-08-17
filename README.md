@@ -1,7 +1,7 @@
 
 <p align="center">
 <a href="https://github.com/GuoGuang/codeway" target="blank">
-    <img src="https://yd-note.oss-cn-beijing.aliyuncs.com/favicon.ico" height="90" alt="codeway.me logo" />
+    <img src="https://yd-note.oss-cn-beijing.aliyuncs.com/favicon.ico" height="90" alt="codeway.fun logo" />
 </a>
 </p>
 
@@ -66,6 +66,13 @@
 │  ├─codeway-web-gateway---------------------------微服务网关中心
 
 ```
+### 前置环境
+1. IDE：IntelliJ IDEA
+2. JDK：1.8+ 
+3. 工具：Maven，Lombok 插件
+
+> 本项目使用了 Lombok，运行之前请检查 IDE 是否已经安装好了 Lombok 插件。
+
 
 ## 快速开始
 > 本项目需要你有一定的开发经验，对SpringCloud有基础的认识，此项目仅提供学习使用，新手不建议使用。
@@ -76,7 +83,9 @@
 ![导入服务](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/service.png)
 点击 "import module" 将服务一一导入，如果你嫌一个个导入麻烦，可以在codeway-common-parent的pom.xml文件中最底下把<modules>标签放开，但是真正微服务开发一般一个团队或者一个人负责一个服务，没有一个人同时开发多个服务情况，毕竟是个人博客项目，导入方式可以自己定。
 
-2. 一个成熟的项目必然会依赖众多中间件，本项目也不例外，这里假设你会使用docker,如果你还没有接触到docker,那么可以参考我的另一篇文章[Docker入门](https://codeway.me/article/1263480522076721152)
+1. 初始化数据库：导入系统根路径下codeway.sql文件到数据库中
+
+2. 一个成熟的项目必然会依赖众多中间件，本项目也不例外，这里假设你会使用docker,如果你还没有接触到docker,那么可以参考我的另一篇文章[Docker入门](https://codeway.fun/article/1263480522076721152)
 
     使用docker启动mysql、redis
     ```
@@ -124,6 +133,7 @@ spring:
 #     password: xxx
 #     secret: xxx
 ```
+
 ## 关于内存问题
 
 SpringCloud是比较吃内存的，如果你不指定内存大小，8G内存一般启3、4个就满了，所以这里需要配置下每个服务内存大小

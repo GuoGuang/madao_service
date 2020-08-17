@@ -2,7 +2,7 @@ package com.codeway.article.controller.backstage;
 
 import com.codeway.article.filter.CustomFilter;
 import com.codeway.article.service.backstage.ArticleService;
-import com.codeway.pojo.article.Article;
+import com.codeway.model.dto.article.ArticleDto;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.JsonUtil;
 import com.codeway.utils.OssClientUtil;
@@ -33,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@org.springframework.transaction.annotation.Transactional
 class ArticleControllerTest {
 	@Mock
 	ArticleService articleService;
@@ -58,11 +59,11 @@ class ArticleControllerTest {
 	@Test
 	void testFindArticleByCondition() throws Exception {
 
-		Article article = new Article();
-		article.setUserName("foo");
+		ArticleDto article = new ArticleDto();
+//		article.setUserName("foo");
 		article.setId("1");
 
-		Page<Article> page = new PageImpl<>(Arrays.asList(article));
+		Page<ArticleDto> page = new PageImpl<>(Arrays.asList(article));
 
 		when(articleService.findArticleByCondition(any(), any())).thenReturn(page);
 
@@ -75,6 +76,9 @@ class ArticleControllerTest {
 		JsonData jsonData = JsonUtil.jsonToPojo(attributeNames, JsonData.class);
 		System.out.println(jsonData);
 
+		String a = "hahaha";
+		int aValue = 9;
+
 		verify(articleService, times(1)).findArticleByCondition(any(), any());
 		verifyNoMoreInteractions(articleService);
 
@@ -82,21 +86,21 @@ class ArticleControllerTest {
 
 	@Test
 	void testFindArticleById() {
-		when(articleService.findArticleById(anyString())).thenReturn(new Article());
+		when(articleService.findArticleById(anyString())).thenReturn(new ArticleDto());
 
-		JsonData<Article> result = articleController.findArticleById("id");
-		Assertions.assertEquals(new JsonData<Article>(true, 0, "message", any()), result);
+		JsonData<ArticleDto> result = articleController.findArticleById("id");
+		Assertions.assertEquals(new JsonData<ArticleDto>(true, 0, "message", any()), result);
 	}
 
 	@Test
 	void testInsertArticle() {
-		JsonData<Map<String, String>> result = articleController.insertArticle(new Article(), null);
+		JsonData<Map<String, String>> result = articleController.insertArticle(new ArticleDto(), null);
 		Assertions.assertEquals(new JsonData<Map<String, String>>(true, 0, "message", any()), result);
 	}
 
 	@Test
 	void testUpdateByPrimaryKeySelective() {
-		JsonData<Void> result = articleController.updateByPrimaryKeySelective(new Article(), null);
+		JsonData<Void> result = articleController.updateByPrimaryKeySelective(new ArticleDto(), null);
 		Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
 	}
 

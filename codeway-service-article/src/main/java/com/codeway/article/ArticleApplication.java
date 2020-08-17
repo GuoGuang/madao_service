@@ -1,12 +1,18 @@
 package com.codeway.article;
 
+import com.codeway.utils.DateUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
+
+import javax.annotation.PostConstruct;
 
 /**
  * 用户服务启动类
@@ -18,15 +24,24 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * // @ComponentScan(basePackages = {"com.codeway"})
  **/
 @SpringBootApplication
-@EntityScan("com.codeway.pojo")
+@EntityScan("com.codeway.model.pojo")
 @EnableEurekaClient
 @EnableJpaRepositories("com.codeway.article.dao")
 @EnableFeignClients("com.codeway.api")
 @ComponentScan(basePackages = {"com.codeway"})
 public class ArticleApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(ArticleApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(ArticleApplication.class, args);
+	}
 
+	@PostConstruct
+	void started() {
+		DateUtil.setDefaultZone();
+	}
+
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate(new OkHttp3ClientHttpRequestFactory());
+	}
 }

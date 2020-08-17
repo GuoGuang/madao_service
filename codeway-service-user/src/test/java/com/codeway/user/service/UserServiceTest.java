@@ -1,22 +1,20 @@
 package com.codeway.user.service;
 
 import com.codeway.db.redis.service.RedisService;
-import com.codeway.pojo.QueryVO;
-import com.codeway.pojo.user.Role;
-import com.codeway.pojo.user.User;
-import com.querydsl.core.QueryResults;
+import com.codeway.model.dto.user.UserDto;
+import com.codeway.model.pojo.user.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * 测试mybatis-plus
@@ -56,22 +54,21 @@ public class UserServiceTest {
 
     @Test
     public void registerUser() {
-        User user = new User();
+	    UserDto user = new UserDto();
         user.setAccount("6666666666");
         user.setPassword("mima");
         user.setUserName("zhangsan");
-        user.setNickName("zhangsan");
-        user.setSex(1);
-        user.setEmail("ddddd@qq.com");
+	    user.setNickName("zhangsan");
+	    user.setSex(true);
+	    user.setEmail("ddddd@qq.com");
         user.setPhone("1");
         userService.registerUser(user);
     }
 
     @Test
     public void findByCondition() {
-        QueryVO queryVO = new QueryVO();
-        QueryResults<User> dictByCondition = userService.findByCondition(new User(), queryVO);
-        Assert.assertTrue(dictByCondition.getTotal() > 0);
+	    Page<UserDto> dictByCondition = userService.findByCondition(new UserDto(), null);
+	    Assert.assertTrue(dictByCondition.getTotalElements() > 0);
     }
 
     @Test
@@ -81,10 +78,10 @@ public class UserServiceTest {
 
     @Test
     public void updateByPrimaryKey() {
-        User user = new User();
-        user.setId("1135559244600856578");
-        user.setNickName("测试");
-        userService.updateByPrimaryKey(user);
+	    UserDto user = new UserDto();
+	    user.setId("1135559244600856578");
+	    user.setNickName("测试");
+	    userService.updateByPrimaryKey(user);
     }
 
     @Test
@@ -96,25 +93,19 @@ public class UserServiceTest {
 
     @Test
     public void getUserPermission() {
-        User userPermission = userService.getUserPermission("1353259235236756534");
-        Assert.assertNotNull(userPermission);
-    }
-
-    @Test
-    public void getUseRoles() {
-        List<Role> useRoles = userService.getUseRoles("1119477949450088449");
-        Assert.assertTrue(useRoles.size() > 0);
+	    UserDto userPermission = userService.getUserPermission("1353259235236756534");
+	    Assert.assertNotNull(userPermission);
     }
 
     @Test
     public void findById() {
-        User userByUserId = userService.findById("1200706394064556032");
-        Assert.assertNotNull(userByUserId);
+	    UserDto userByUserId = userService.findById("1200706394064556032");
+	    Assert.assertNotNull(userByUserId);
     }
 
     @Test
     public void updateUserProfile() {
-        User user = new User();
-        userService.updateUserProfile(user);
+	    UserDto user = new UserDto();
+	    userService.updateUserProfile(user);
     }
 }

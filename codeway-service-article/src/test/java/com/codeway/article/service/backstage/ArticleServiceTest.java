@@ -3,11 +3,10 @@ package com.codeway.article.service.backstage;
 import com.codeway.api.user.UserServiceRpc;
 import com.codeway.article.dao.backstage.ArticleDao;
 import com.codeway.article.dao.backstage.CategoryDao;
-import com.codeway.article.dao.backstage.TagsDao;
-import com.codeway.config.CustomQueryResults;
+import com.codeway.article.dao.backstage.TagDao;
 import com.codeway.db.redis.service.RedisService;
-import com.codeway.pojo.article.Article;
-import com.codeway.pojo.user.User;
+import com.codeway.model.dto.article.ArticleDto;
+import com.codeway.model.dto.user.UserDto;
 import com.codeway.utils.JsonData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,12 +28,12 @@ class ArticleServiceTest {
     CategoryDao categoryDao;
     @Mock
     RedisService redisService;
-    @Mock
-    UserServiceRpc userServiceRpc;
-    @Mock
-    TagsDao tagsDao;
-    @InjectMocks
-    ArticleService articleService;
+	@Mock
+	UserServiceRpc userServiceRpc;
+	@Mock
+	TagDao tagDao;
+	@InjectMocks
+	ArticleService articleService;
 
     @BeforeEach
     void setUp() {
@@ -43,25 +42,25 @@ class ArticleServiceTest {
 
     @Test
     void testFindArticleByCondition() {
-        when(userServiceRpc.findUser()).thenReturn(new JsonData<CustomQueryResults<User>>(true, 0, null, any()));
+	    when(userServiceRpc.getUserInfo(new UserDto("111"))).thenReturn(new JsonData<>(true, 0, null, any()));
 
-        Page<Article> result = articleService.findArticleByCondition(new Article(), null);
+	    Page<ArticleDto> result = articleService.findArticleByCondition(new ArticleDto(), null);
         Assertions.assertEquals(null, result);
     }
 
     @Test
     void testFindArticleById() {
-        Article result = articleService.findArticleById("articleId");
-        Assertions.assertEquals(new Article(), result);
+	    ArticleDto result = articleService.findArticleById("articleId");
+	    Assertions.assertEquals(new ArticleDto(), result);
     }
 
     @Test
     void testInsertOrUpdateArticle() {
         when(redisService.lSet(anyString(), any())).thenReturn(true);
 
-        articleService.insertOrUpdateArticle(new HashMap<String, String>() {{
-            put("String", "String");
-        }}, new Article());
+	    articleService.insertOrUpdateArticle(new HashMap<String, String>() {{
+		    put("String", "String");
+	    }}, new ArticleDto());
     }
 
     @Test

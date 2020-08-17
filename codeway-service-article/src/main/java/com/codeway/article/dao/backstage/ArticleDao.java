@@ -1,6 +1,6 @@
 package com.codeway.article.dao.backstage;
 
-import com.codeway.pojo.article.Article;
+import com.codeway.model.pojo.article.Article;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -17,13 +17,14 @@ public interface ArticleDao extends JpaRepository<Article, String>,
     @Query("delete from Article where id in (:ids)")
     void deleteBatch(@Param("ids") List<String> ids);
 
-    /**
-     * 审核文章
-     *
-     * @param id
-     */
+	/**
+	 * 审核文章
+	 *
+	 * @param id
+	 */
 	@Modifying
 	@Query("update Article set state='1' where id=:id")
 	void examine(@Param("id") String id);
 
+	List<Article> findByCategoryIdIn(List<String> ids);
 }

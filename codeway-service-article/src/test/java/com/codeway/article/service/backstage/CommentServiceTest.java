@@ -1,7 +1,7 @@
 package com.codeway.article.service.backstage;
 
 import com.codeway.article.dao.backstage.CommentDao;
-import com.codeway.pojo.article.Comment;
+import com.codeway.model.dto.article.CommentDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,19 +25,19 @@ class CommentServiceTest {
 
     @Test
     void testFindCommentByCondition() {
-        Page<Comment> result = commentService.findCommentByCondition(new Comment(), null);
+	    Page<CommentDto> result = commentService.findCommentByCondition(new CommentDto(), null);
         Assertions.assertEquals(null, result);
     }
 
     @Test
     void testFindCommentByPrimaryKey() {
-        Comment result = commentService.findCommentByPrimaryKey("commentId");
-        Assertions.assertEquals(new Comment(), result);
+	    CommentDto result = commentService.findCommentByPrimaryKey("commentId");
+	    Assertions.assertEquals(new CommentDto(), result);
     }
 
     @Test
     void testSaveOrUpdate() {
-        commentService.saveOrUpdate(new Comment());
+	    commentService.saveOrUpdate(new CommentDto());
     }
 
     @Test

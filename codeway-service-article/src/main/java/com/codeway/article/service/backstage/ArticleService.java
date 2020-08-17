@@ -2,44 +2,51 @@ package com.codeway.article.service.backstage;
 
 import com.codeway.api.user.UserServiceRpc;
 import com.codeway.article.dao.backstage.ArticleDao;
-import com.codeway.article.dao.backstage.CategoryDao;
-import com.codeway.article.dao.backstage.TagsDao;
-import com.codeway.constant.ArticleConst;
+import com.codeway.article.dao.backstage.ArticleTagDao;
+import com.codeway.article.dao.backstage.TagDao;
+import com.codeway.article.mapper.ArticleMapper;
+import com.codeway.article.mapper.TagMapper;
 import com.codeway.db.redis.service.RedisService;
+import com.codeway.enums.ArticleAuditStatus;
 import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.pojo.article.Article;
-import com.codeway.pojo.article.Category;
-import com.codeway.pojo.article.Tags;
-import com.codeway.pojo.user.User;
+import com.codeway.model.dto.article.ArticleDto;
+import com.codeway.model.dto.user.UserDto;
+import com.codeway.model.pojo.article.Article;
+import com.codeway.model.pojo.article.ArticleTag;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleService {
 
 	private final ArticleDao articleDao;
-	private final CategoryDao categoryDao;
+	private final ArticleMapper articleMapper;
 
 	private final RedisService redisService;
 
+	private final ArticleTagDao articleTagDao;
+	private final TagDao tagDao;
+	private final TagMapper tagMapper;
 	private final UserServiceRpc userServiceRpc;
 
-	private final TagsDao tagsDao;
-
-	@Autowired
-	public ArticleService(ArticleDao articleDao, RedisService redisService,
-						  UserServiceRpc userServiceRpc, CategoryDao categoryDao, TagsDao tagsDao) {
+	public ArticleService(ArticleDao articleDao,
+	                      ArticleMapper articleMapper,
+	                      RedisService redisService,
+	                      ArticleTagDao articleTagDao,
+	                      TagDao tagDao, TagMapper tagMapper, UserServiceRpc userServiceRpc) {
 		this.articleDao = articleDao;
-		this.categoryDao = categoryDao;
+		this.articleMapper = articleMapper;
 		this.redisService = redisService;
+		this.articleTagDao = articleTagDao;
+		this.tagDao = tagDao;
+		this.tagMapper = tagMapper;
 		this.userServiceRpc = userServiceRpc;
-		this.tagsDao = tagsDao;
 	}
 
 	/**
@@ -47,7 +54,7 @@ public class ArticleService {
 	 *
 	 * @return IPage<Article>
 	 */
-	public Page<Article> findArticleByCondition(Article article, Pageable pageable) {
+	public Page<ArticleDto> findArticleByCondition(ArticleDto articleDto, Pageable pageable) {
 		Specification<Article> condition = (root, query, builder) -> {
 
 			/* OR查询
@@ -61,79 +68,80 @@ public class ArticleService {
 			return query.where(predicates.toArray(new Predicate[0])).getRestriction();*/
 
 			List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
-			if (StringUtils.isNotEmpty(article.getTitle())) {
-				predicates.add(builder.like(root.get("title"), "%" + article.getTitle() + "%"));
+			if (StringUtils.isNotEmpty(articleDto.getTitle())) {
+				predicates.add(builder.like(root.get("title"), "%" + articleDto.getTitle() + "%"));
 			}
-			if (article.getReviewState() != null) {
-				predicates.add(builder.equal(root.get("reviewState"), article.getReviewState()));
+			if (articleDto.getReviewState() != null) {
+				predicates.add(builder.equal(root.get("reviewState"), articleDto.getReviewState()));
 			}
-			if (StringUtils.isNotEmpty(article.getDescription())) {
-				predicates.add(builder.like(root.get("description"), "%" + article.getDescription() + "%"));
+			if (StringUtils.isNotEmpty(articleDto.getDescription())) {
+				predicates.add(builder.like(root.get("description"), "%" + articleDto.getDescription() + "%"));
 			}
 			return query.where(predicates.toArray(new javax.persistence.criteria.Predicate[0])).getRestriction();
 		};
-		Page<Article> queryResults = articleDao.findAll(condition, pageable);
-		List<User> userList = userServiceRpc.findUser().getData().getResults();
+		Page<ArticleDto> queryResults = articleDao.findAll(condition, pageable)
+				.map(articleMapper::toDto);
 		queryResults.getContent().forEach(
-
-				articleParam -> userList.forEach(
-						user -> {
-							if (user.getId().equals(articleParam.getUserId())) {
-								articleParam.setUserName(user.getUserName());
-							}
-						}
-				)
+				articleParam -> {
+					UserDto userInfo = userServiceRpc.getUserInfo(
+							new UserDto(articleParam.getUserId()))
+							.getData();
+					if (userInfo != null && userInfo.getId().equals(articleParam.getUserId())) {
+						articleParam.setUserName(userInfo.getUserName());
+					}
+				}
 		);
 		return queryResults;
 	}
 
 
-
 	/**
 	 * 根据ID查询实体
+	 *
 	 * @param articleId 文章id
 	 * @return Article
 	 */
-	public Article findArticleById(String articleId) {
-		Article article = articleDao.findById(articleId).orElseThrow(ResourceNotFoundException::new);
-		article.setCategoryId(article.getCategory().getId());
-		return article;
+	public ArticleDto findArticleById(String articleId) {
+		ArticleDto articleDto = articleDao.findById(articleId)
+				.map(articleMapper::toDto)
+				.orElseThrow(ResourceNotFoundException::new);
 
+		articleDto.setTags(tagDao.findTagsByArticleId(articleId)
+				.map(tagMapper::toDto)
+				.orElse(Collections.emptyList()));
+
+		return articleDto;
 	}
 
-	/**
-	 * 增加
-	 * @param article 实体
-	 */
-	public void insertOrUpdateArticle(Map<String, String> userInfo,Article article) {
-		article.setUserId(userInfo.get("id"));
-		if (StringUtils.isBlank(article.getId())) {
-			article.setComment(0);
-			article.setType(1);
-			article.setUpvote(new Random().nextInt(20));
-			article.setVisits(new Random().nextInt(98));
-			article.setReviewState(ArticleConst.PASS);
-			article.setImportance(new Random().nextInt(5));
-			if (article.getIsPublic() == null) {
-				article.setIsPublic(0);
+	public void insertOrUpdateArticle(Map<String, String> userInfo, ArticleDto articleDto) {
+		articleDto.setUserId(userInfo.get("id"));
+		boolean isCreate = false;
+		if (StringUtils.isBlank(articleDto.getId())) {
+			isCreate = true;
+			articleDto.setComment(0);
+			articleDto.setUpvote(new Random().nextInt(20));
+			articleDto.setVisits(new Random().nextInt(98));
+			articleDto.setReviewState(ArticleAuditStatus.PASS);
+			articleDto.setImportance(new Random().nextInt(5));
+			if (articleDto.getIsPublic() == null) {
+				articleDto.setIsPublic(false);
 			}
-			redisService.lSet("ARTICLE_HOT", article);
-//			Optional<Tags> byId = tagsDao.findById("1214844690118086656");
-//			HashSet<Tags> objects = new HashSet<>();
-//			objects.add(byId.get());
-//			article.setTags(objects);
 		} else {
-			redisService.del("ARTICLE_" + article.getId());
+			redisService.del("ARTICLE_" + articleDto.getId());
+			articleTagDao.deleteByArticleIdIn(Collections.singletonList(articleDto.getId()));
 		}
 
+		Article articleResult = articleDao.save(articleMapper.toEntity(articleDto));
 
-		Optional<Category> byId = categoryDao.findById(article.getCategoryId());
-		List<Tags> allById = tagsDao.findAllById(Arrays.asList(article.getTagsId().split(",")));
-		article.setCategory(byId.get());
-		HashSet<Tags> objects = new HashSet<>(allById);
-		article.setTags(objects);
-		articleDao.save(article);
+		List<ArticleTag> articleTags = Arrays.stream(articleDto.getTagsId().split(","))
+				.map(tagsId -> new ArticleTag(articleResult.getId(), tagsId))
+				.collect(Collectors.toList());
 
+		articleTagDao.saveAll(articleTags);
+
+		if (isCreate) {
+			redisService.lSet("ARTICLE_HOT", articleDto);
+		}
 	}
 
 	/**
@@ -142,6 +150,7 @@ public class ArticleService {
 	 */
 	public void deleteArticleByIds(List<String> articleIds) {
 		articleDao.deleteBatch(articleIds);
+		articleTagDao.deleteByArticleIdIn(articleIds);
 	}
 
 	/**

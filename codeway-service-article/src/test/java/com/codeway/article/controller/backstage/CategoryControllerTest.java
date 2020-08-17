@@ -1,7 +1,7 @@
 package com.codeway.article.controller.backstage;
 
 import com.codeway.article.service.backstage.CategoryService;
-import com.codeway.pojo.article.Category;
+import com.codeway.model.dto.article.CategoryDto;
 import com.codeway.utils.JsonData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,29 +28,29 @@ class CategoryControllerTest {
 
     @Test
     void testFindCategoryByCondition() {
-        when(categoryService.findCategoryByCondition(any(), any())).thenReturn(null);
+	    when(categoryService.findCategoryByCondition(any(), any())).thenReturn(null);
 
-        JsonData<Page<Category>> result = categoryController.findCategoryByCondition(new Category(), null);
-        Assertions.assertEquals(new JsonData<Page<Category>>(true, 0, "message", any()), result);
+	    JsonData<Page<CategoryDto>> result = categoryController.findCategoryByCondition(new CategoryDto(), null);
+	    Assertions.assertEquals(new JsonData<Page<CategoryDto>>(true, 0, "message", any()), result);
     }
 
     @Test
     void testFindCategoryByPrimaryKey() {
-        when(categoryService.findCategoryById(anyString())).thenReturn(new Category());
+	    when(categoryService.findCategoryById(anyString())).thenReturn(new CategoryDto());
 
-        JsonData<Category> result = categoryController.findCategoryByPrimaryKey("id");
-        Assertions.assertEquals(new JsonData<Category>(true, 0, "message", any()), result);
+	    JsonData<CategoryDto> result = categoryController.findCategoryByPrimaryKey("id");
+	    Assertions.assertEquals(new JsonData<CategoryDto>(true, 0, "message", any()), result);
     }
 
     @Test
     void testInsertCategory() {
-        JsonData<Void> result = categoryController.insertCategory(new Category());
+	    JsonData<Void> result = categoryController.insertCategory(new CategoryDto());
         Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
     }
 
     @Test
     void testUpdateByCategorySelective() {
-        JsonData<Void> result = categoryController.updateByCategorySelective(new Category());
+	    JsonData<Void> result = categoryController.updateByCategorySelective(new CategoryDto());
         Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
     }
 

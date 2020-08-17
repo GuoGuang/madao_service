@@ -12,9 +12,6 @@ import org.springframework.context.annotation.Primary;
 
 import java.io.IOException;
 
-/**
- * https://blog.csdn.net/kobejayandy/article/details/45869861
- */
 @Configuration
 public class JacksonConfig {
 

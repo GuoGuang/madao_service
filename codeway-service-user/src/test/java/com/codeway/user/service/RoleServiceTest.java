@@ -1,7 +1,8 @@
 package com.codeway.user.service;
 
-import com.codeway.pojo.QueryVO;
-import com.codeway.pojo.user.Role;
+import com.codeway.model.QueryVO;
+import com.codeway.model.dto.user.RoleDto;
+import com.codeway.model.pojo.user.Role;
 import com.querydsl.core.QueryResults;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,14 +22,14 @@ public class RoleServiceTest {
 
     @Test
     public void findRuleByCondition() {
-        QueryVO queryVO = new QueryVO();
-        QueryResults<Role> dictByCondition = roleService.findRuleByCondition(new Role(), queryVO);
+	    QueryVO queryVO = new QueryVO();
+	    QueryResults<Role> dictByCondition = roleService.findRuleByCondition(new RoleDto(), queryVO);
         Assert.assertTrue(dictByCondition.getTotal() > 0);
     }
 
     @Test
     public void findRoleById() {
-        Role roleById = roleService.findRoleById("1119477963140296706");
+	    RoleDto roleById = roleService.findRoleById("1119477963140296706");
         Assert.assertNotNull(roleById);
     }
 
@@ -39,10 +40,10 @@ public class RoleServiceTest {
 
     @Test
     public void saveOrUpdate() {
-        Role role = new Role();
-        role.setRoleName("bar");
-        role.setRoleCode("bar");
-        roleService.saveOrUpdate(role);
+	    RoleDto role = new RoleDto();
+	    role.setRoleName("bar");
+	    role.setCode("bar");
+	    roleService.saveOrUpdate(role);
     }
 
     @Test

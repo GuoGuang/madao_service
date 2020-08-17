@@ -2,7 +2,7 @@ package com.codeway.api.base;
 
 import com.codeway.constant.FeignConst;
 import com.codeway.fallback.base.LoginLogServiceRpcFallbackFactory;
-import com.codeway.pojo.base.LoginLog;
+import com.codeway.model.pojo.base.LoginLog;
 import com.codeway.utils.JsonData;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpHeaders;

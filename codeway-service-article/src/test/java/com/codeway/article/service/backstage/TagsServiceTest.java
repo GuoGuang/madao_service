@@ -1,9 +1,9 @@
 package com.codeway.article.service.backstage;
 
 import com.codeway.article.dao.backstage.ArticleDao;
-import com.codeway.article.dao.backstage.TagsDao;
+import com.codeway.article.dao.backstage.TagDao;
 import com.codeway.db.redis.service.RedisService;
-import com.codeway.pojo.article.Tags;
+import com.codeway.model.dto.article.TagDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,10 +15,10 @@ import org.springframework.data.domain.Page;
 import java.util.Arrays;
 
 class TagsServiceTest {
-    @Mock
-    TagsDao tagsDao;
-    @Mock
-    ArticleDao articleDao;
+	@Mock
+	TagDao tagDao;
+	@Mock
+	ArticleDao articleDao;
     @Mock
     RedisService redisService;
     @InjectMocks
@@ -31,19 +31,19 @@ class TagsServiceTest {
 
     @Test
     void testFindTagsByCondition() {
-        Page<Tags> result = tagsService.findTagsByCondition(new Tags(), null);
-        Assertions.assertEquals(null, result);
+	    Page<TagDto> result = tagsService.findTagsByCondition(new TagDto(), null);
+	    Assertions.assertEquals(null, result);
     }
 
     @Test
     void testFindTagsById() {
-        Tags result = tagsService.findTagsById("id");
-        Assertions.assertEquals(new Tags(), result);
+	    TagDto result = tagsService.findTagsById("id");
+	    Assertions.assertEquals(new TagDto(), result);
     }
 
     @Test
     void testSaveOrUpdate() {
-        tagsService.saveOrUpdate(new Tags());
+	    tagsService.saveOrUpdate(new TagDto());
     }
 
     @Test

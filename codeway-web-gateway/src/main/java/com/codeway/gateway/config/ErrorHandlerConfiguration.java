@@ -20,9 +20,7 @@ import java.util.List;
 
 /**
  * 覆盖默认的异常处理
- *
  * @author GuoGuang
- *
  */
 @Configuration
 @EnableConfigurationProperties({ServerProperties.class, ResourceProperties.class})

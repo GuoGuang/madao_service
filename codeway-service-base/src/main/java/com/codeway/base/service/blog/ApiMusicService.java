@@ -1,7 +1,7 @@
 package com.codeway.base.service.blog;
 
 
-import com.codeway.pojo.base.Music;
+import com.codeway.model.pojo.base.Music;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +14,6 @@ public class ApiMusicService {
 //
 //	private final MusicDao musicDao;
 //
-//	@Autowired
 //	public ApiMusicService(MusicDao musicDao) {
 //		this.musicDao = musicDao;
 //	}

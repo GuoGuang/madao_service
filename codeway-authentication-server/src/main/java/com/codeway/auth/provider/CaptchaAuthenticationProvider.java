@@ -4,7 +4,7 @@ import com.codeway.auth.exception.ValidateCodeException;
 import com.codeway.auth.service.CustomUserDetailsService;
 import com.codeway.auth.token.CaptchaAuthenticationToken;
 import com.codeway.db.redis.service.RedisService;
-import com.codeway.pojo.user.User;
+import com.codeway.model.pojo.user.User;
 import com.codeway.utils.JsonUtil;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;

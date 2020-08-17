@@ -1,6 +1,7 @@
 package com.codeway.config;
 
-import com.codeway.utils.IdGenerate;
+import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.util.IdUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.UUIDGenerator;
@@ -16,7 +17,7 @@ public class IdGeneratorConfig extends UUIDGenerator {
 
     @Override
     public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException {
-        IdGenerate idGenerate = new IdGenerate(1, 1);
-        return String.valueOf(idGenerate.nextId());
+	    Snowflake snowflake = IdUtil.getSnowflake(1, 1);
+	    return String.valueOf(snowflake.nextId());
     }
 }

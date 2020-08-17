@@ -1,7 +1,7 @@
 package com.codeway.article.controller.backstage;
 
 import com.codeway.article.service.backstage.CommentService;
-import com.codeway.pojo.article.Comment;
+import com.codeway.model.dto.article.CommentDto;
 import com.codeway.utils.JsonData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,29 +28,29 @@ class CommentControllerTest {
 
     @Test
     void testFindCommentByCondition() {
-        when(commentService.findCommentByCondition(any(), any())).thenReturn(null);
+	    when(commentService.findCommentByCondition(any(), any())).thenReturn(null);
 
-        JsonData<Page<Comment>> result = commentController.findCommentByCondition(new Comment(), null);
-        Assertions.assertEquals(new JsonData<Page<Comment>>(true, 0, "message", any()), result);
+	    JsonData<Page<CommentDto>> result = commentController.findCommentByCondition(new CommentDto(), null);
+	    Assertions.assertEquals(new JsonData<Page<CommentDto>>(true, 0, "message", any()), result);
     }
 
     @Test
     void testFindCommentByPrimaryKey() {
-        when(commentService.findCommentByPrimaryKey(anyString())).thenReturn(new Comment());
+	    when(commentService.findCommentByPrimaryKey(anyString())).thenReturn(new CommentDto());
 
-        JsonData<Comment> result = commentController.findCommentByPrimaryKey("id");
-        Assertions.assertEquals(new JsonData<Comment>(true, 0, "message", any()), result);
+	    JsonData<CommentDto> result = commentController.findCommentByPrimaryKey("id");
+	    Assertions.assertEquals(new JsonData<CommentDto>(true, 0, "message", any()), result);
     }
 
     @Test
     void testInsertComment() {
-        JsonData<Void> result = commentController.insertComment(new Comment());
+	    JsonData<Void> result = commentController.insertComment(new CommentDto());
         Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
     }
 
     @Test
     void testUpdateByCommentSelective() {
-        JsonData<Void> result = commentController.updateByCommentSelective(new Comment());
+	    JsonData<Void> result = commentController.updateByCommentSelective(new CommentDto());
         Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
     }
 

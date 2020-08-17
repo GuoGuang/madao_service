@@ -1,17 +1,16 @@
 package com.codeway.user.controller;
 
 import com.codeway.annotation.OptLog;
-import com.codeway.constant.CommonConst;
-import com.codeway.pojo.QueryVO;
-import com.codeway.pojo.user.Resource;
+import com.codeway.enums.OptLogType;
+import com.codeway.model.QueryVO;
+import com.codeway.model.dto.user.ResourceDto;
 import com.codeway.user.service.ResourceService;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -21,54 +20,52 @@ import java.util.Set;
 @RequestMapping(value = "/resource")
 public class ResourceController {
 
-
 	private final ResourceService resourceService;
 
-	@Autowired
 	public ResourceController(ResourceService resourceService) {
 		this.resourceService = resourceService;
 	}
 
-    @GetMapping
-    @ApiOperation(value = "条件查询资源", notes = "Resource")
-    public JsonData<List<Resource>> findResByCondition(Resource resource, QueryVO queryVO) {
-        List<Resource> result = resourceService.findResourceByCondition(resource, queryVO);
-        return JsonData.success(result);
-    }
+	@GetMapping
+	@ApiOperation(value = "条件查询资源", notes = "Resource")
+	public JsonData<List<ResourceDto>> findResByCondition(ResourceDto resourceDto, QueryVO queryVO) {
+		List<ResourceDto> result = resourceService.findResourceByCondition(resourceDto, queryVO);
+		return JsonData.success(result);
+	}
 
-    @GetMapping(value = "/{resId}")
-    @ApiOperation(value = "根据id查询单条", notes = "Resource")
-    public JsonData<Resource> findById(@PathVariable String resId) {
-        Resource result = resourceService.findResourceById(resId);
-        return JsonData.success(result);
-    }
+	@GetMapping(value = "/{resId}")
+	@ApiOperation(value = "根据id查询单条", notes = "Resource")
+	public JsonData<ResourceDto> findById(@PathVariable String resId) {
+		ResourceDto result = resourceService.findResourceById(resId);
+		return JsonData.success(result);
+	}
 
-    @GetMapping(value = "/roles")
-    @ApiOperation(value = "关联查询角色拥有的资源集合", notes = "Resource")
-    public JsonData<Set<Resource>> findResourceByRoleIds(String[] roleId) {
-        Set<Resource> result = resourceService.findResourceByRoleIds(Arrays.asList(roleId));
-        return JsonData.success(result);
-    }
+	@GetMapping(value = "/roles")
+	@ApiOperation(value = "关联查询角色拥有的资源集合", notes = "Resource")
+	public JsonData<Set<ResourceDto>> findResourceByRoleIds(String[] roleId) {
+		Set<ResourceDto> result = resourceService.findResourceByRoleIds(Arrays.asList(roleId));
+		return JsonData.success(result);
+	}
 
-    @PutMapping
-    @OptLog(operationType = CommonConst.MODIFY, operationName = "更新Resource")
-    @ApiOperation(value = "更新资源", notes = "Resource")
-    public JsonData<Void> updateByPrimaryKey(@RequestBody @Valid Resource resource) {
-        resourceService.saveOrUpdate(resource);
-        return JsonData.success();
-    }
+	@PutMapping
+	@OptLog(operationType = OptLogType.MODIFY, operationName = "更新Resource")
+	@ApiOperation(value = "更新资源", notes = "Resource")
+	public JsonData<Void> updateByPrimaryKey(@RequestBody @Validated ResourceDto resourceDto) {
+		resourceService.saveOrUpdate(resourceDto);
+		return JsonData.success();
+	}
 
-    @PostMapping
-    @OptLog(operationType = CommonConst.MODIFY, operationName = "插入Resource")
-    @ApiOperation(value = "添加一条数据", notes = "Resource")
-    public JsonData<Void> insertSelective(@RequestBody @Valid Resource resource) {
-        resourceService.saveOrUpdate(resource);
-        return JsonData.success();
-    }
+	@PostMapping
+	@OptLog(operationType = OptLogType.MODIFY, operationName = "插入Resource")
+	@ApiOperation(value = "添加一条数据", notes = "Resource")
+	public JsonData<Void> insertSelective(@RequestBody @Validated ResourceDto resourceDto) {
+		resourceService.saveOrUpdate(resourceDto);
+		return JsonData.success();
+	}
 
-    @DeleteMapping()
-    @OptLog(operationType = CommonConst.DELETE, operationName = "删除Resource")
-    @ApiOperation(value = "删除资源", notes = "Resource")
+	@DeleteMapping()
+	@OptLog(operationType = OptLogType.DELETE, operationName = "删除Resource")
+	@ApiOperation(value = "删除资源", notes = "Resource")
     public JsonData<Void> deleteByIds(@RequestBody List<String> resId) {
         resourceService.deleteByIds(resId);
         return JsonData.success();

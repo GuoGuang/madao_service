@@ -5,11 +5,10 @@ import com.codeway.constant.ArticleConst;
 import com.codeway.constant.CommonConst;
 import com.codeway.constant.RedisConstant;
 import com.codeway.db.redis.service.RedisService;
-import com.codeway.pojo.article.Article;
+import com.codeway.model.dto.article.ArticleDto;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.JsonUtil;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -23,23 +22,26 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 @RequestMapping(value = "/api/ar/article", produces = "application/json")
 public class ApiArticleController {
 
-    @Autowired
-    private ApiArticleService articleService;
-    @Autowired
-    private RedisService redisService;
+    private final ApiArticleService articleService;
+    private final RedisService redisService;
 
-    @ApiOperation(value = "查询集合", notes = "Article")
-    @GetMapping
-    public JsonData<Object> findArticleByCondition(Article article, String keyword, String sortType,
-                                                   @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
-        // 最热文章
-        if (ArticleConst.SORT_TYPE_HOT.equals(sortType)) {
-            List<Object> hotList = redisService.lGet("ARTICLE_HOT", 0, 10);
-            return JsonData.success(hotList);
-        }
-        Page<Article> result = articleService.findArticleByCondition(article, keyword, pageable);
-        return JsonData.success(result);
+    public ApiArticleController(ApiArticleService articleService, RedisService redisService) {
+        this.articleService = articleService;
+        this.redisService = redisService;
     }
+
+	@ApiOperation(value = "查询集合", notes = "Article")
+	@GetMapping
+	public JsonData<Object> findArticleByCondition(ArticleDto articleDto, String keyword, String sortType,
+	                                               @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
+		// 最热文章
+		if (ArticleConst.SORT_TYPE_HOT.equals(sortType)) {
+			List<Object> hotList = redisService.lGet("ARTICLE_HOT", 0, 10);
+			return JsonData.success(hotList);
+		}
+		Page<ArticleDto> result = articleService.findArticleByCondition(articleDto, keyword, pageable);
+		return JsonData.success(result);
+	}
 
     @ApiOperation(value = "最热列表", notes = "最热列表")
     @GetMapping("/hot")
@@ -48,19 +50,19 @@ public class ApiArticleController {
         return JsonData.success(hotList);
     }
 
-    @ApiOperation(value = "根据标签id查询文章", notes = "根据标签id查询文章")
-    @GetMapping("/tag/{tagId}")
-    public JsonData<Page<Article>> findArticleByTagId(@PathVariable String tagId,
-                                                      @PageableDefault(sort = "create_at", direction = DESC) Pageable pageable) {
-        Page<Article> result = articleService.findArticleByTagId(tagId, pageable);
-        return JsonData.success(result);
-    }
+	@ApiOperation(value = "根据标签id查询文章", notes = "根据标签id查询文章")
+	@GetMapping("/tag/{tagId}")
+	public JsonData<Page<ArticleDto>> findArticleByTagId(@PathVariable String tagId,
+	                                                     @PageableDefault(sort = "create_at", direction = DESC) Pageable pageable) {
+		Page<ArticleDto> result = articleService.findArticleByTagId(tagId, pageable);
+		return JsonData.success(result);
+	}
 
     @GetMapping(value = "/{articleId}")
     public JsonData<Object> findArticleByPrimaryKey(@PathVariable String articleId) {
 	    Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + articleId);
 	    if (mapJson == null) {
-		    Article articleResult = articleService.findArticleById(articleId);
+		    ArticleDto articleResult = articleService.findArticleById(articleId);
 		    redisService.set(RedisConstant.REDIS_KEY_ARTICLE + articleId, JsonUtil.jsonToMap(JsonUtil.toJsonString(articleResult)), CommonConst.TIME_OUT_DAY);
 		    return JsonData.success(articleResult);
 	    }
@@ -70,17 +72,17 @@ public class ApiArticleController {
     @ApiOperation(value = "点赞", notes = "id")
     @PutMapping(value = "/like/{articleId}")
     public JsonData<Void> upVote(@PathVariable String articleId) {
-        articleService.upVote(articleId);
-        redisService.del(RedisConstant.REDIS_KEY_ARTICLE + articleId);
-        return JsonData.success();
+	    articleService.upVote(articleId);
+	    redisService.del(RedisConstant.REDIS_KEY_ARTICLE + articleId);
+	    return JsonData.success();
     }
 
     @ApiOperation(value = "取消点赞", notes = "id")
     @DeleteMapping(value = "/like/{articleId}")
     public JsonData<Void> unUpVote(@PathVariable String articleId) {
-        articleService.unUpVote(articleId);
-        redisService.del(RedisConstant.REDIS_KEY_ARTICLE + articleId);
-        return JsonData.success();
+	    articleService.unUpVote(articleId);
+	    redisService.del(RedisConstant.REDIS_KEY_ARTICLE + articleId);
+	    return JsonData.success();
     }
 
 }

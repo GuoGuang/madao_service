@@ -2,19 +2,21 @@ package com.codeway.user.service;
 
 
 import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.pojo.QueryVO;
-import com.codeway.pojo.user.Resource;
+import com.codeway.model.QueryVO;
+import com.codeway.model.dto.user.ResourceDto;
+import com.codeway.model.pojo.user.Resource;
+import com.codeway.model.pojo.user.RoleResource;
 import com.codeway.user.dao.ResourceDao;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.codeway.user.dao.RoleResourceDao;
+import com.codeway.user.mapper.ResourceMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 资源接口实现
@@ -22,49 +24,65 @@ import java.util.Set;
 @Service
 public class ResourceService {
 
-    private final ResourceDao resourceDao;
+	private final ResourceDao resourceDao;
+	private final ResourceMapper resourceMapper;
+	private final RoleResourceDao roleResourceDao;
 
-    @Autowired
-    JPAQueryFactory jpaQueryFactory;
+	@Autowired
+	public ResourceService(ResourceDao resourceDao,
+	                       RoleResourceDao roleResourceDao,
+	                       ResourceMapper resourceMapper) {
+		this.resourceDao = resourceDao;
+		this.roleResourceDao = roleResourceDao;
+		this.resourceMapper = resourceMapper;
+	}
 
-    @Autowired
-    public ResourceService(ResourceDao resourceDao) {
-        this.resourceDao = resourceDao;
-    }
-
-    /**
-     * 条件查询资源
-     *
-     * @param resource 资源实体
-     * @param queryVO  查询参数
-     * @return List
-     */
-	public List<Resource> findResourceByCondition(Resource resource, QueryVO queryVO) {
+	/**
+	 * 条件查询资源
+	 *
+	 * @param resourceDto 资源实体
+	 * @param queryVO     查询参数
+	 * @return List
+	 */
+	public List<ResourceDto> findResourceByCondition(ResourceDto resourceDto, QueryVO queryVO) {
 
 		Specification<Resource> condition = (root, query, builder) -> {
 			List<Predicate> predicates = new ArrayList<>();
-			if (StringUtils.isNotEmpty(resource.getName())) {
-				predicates.add(builder.like(root.get("name"), "%" + resource.getName() + "%"));
+			if (StringUtils.isNotEmpty(resourceDto.getName())) {
+				predicates.add(builder.like(root.get("name"), "%" + resourceDto.getName() + "%"));
 			}
 			Predicate[] ps = new Predicate[predicates.size()];
 			return query.where(builder.and(predicates.toArray(ps))).getRestriction();
 		};
-		return resourceDao.findAll(condition);
+		List<Resource> result = resourceDao.findAll(condition);
+		return resourceMapper.toDto(result);
 	}
 
-	public Resource findResourceById(String resId) {
-        return resourceDao.findById(resId).orElseThrow(ResourceNotFoundException::new);
-    }
-
-	public Set<Resource> findResourceByRoleIds(List<String> resId) {
-		return resourceDao.findResourceByRoleIds(resId);
+	public ResourceDto findResourceById(String resId) {
+		return resourceDao.findById(resId)
+				.map(resourceMapper::toDto)
+				.orElseThrow(ResourceNotFoundException::new);
 	}
 
-	public void saveOrUpdate(Resource resource) {
-		resourceDao.save(resource);
+	public Set<ResourceDto> findResourceByRoleIds(List<String> resId) {
+		return Optional.ofNullable(resourceDao.findResourceByRoleIds(resId))
+				.map(resourceMapper::toDto)
+				.orElseThrow(ResourceNotFoundException::new);
+	}
+
+	public void saveOrUpdate(ResourceDto resourceDto) {
+		resourceDao.save(resourceMapper.toEntity(resourceDto));
+
+		List<RoleResource> roleResources = resourceDto.getRoles().stream()
+				.map(resource -> new RoleResource(resource.getId(), resourceDto.getId()))
+				.collect(Collectors.toList());
+
+		roleResourceDao.deleteByRoleIdIn(Collections.singletonList(resourceDto.getId()));
+		roleResourceDao.saveAll(roleResources);
 	}
 
 	public void deleteByIds(List<String> resId) {
 		resourceDao.deleteBatch(resId);
+		roleResourceDao.deleteByResourceIdIn(resId);
 	}
 }

@@ -1,11 +1,10 @@
 package com.codeway.user.controller.blog;
 
-import com.codeway.pojo.user.User;
+import com.codeway.model.dto.user.UserDto;
 import com.codeway.user.service.UserService;
 import com.codeway.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,15 +13,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/su/admin")
 public class AdminController {
-	@Autowired
-	private UserService userService;
 
-    @GetMapping
-    @ApiOperation(value = "查询账号", notes = "Admin")
-    public JsonData<User> findAdminInfo() {
-	    User byId = userService.findByAccount("admin");
-	    return JsonData.success(byId);
+	private final UserService userService;
+
+    public AdminController(UserService userService) {
+        this.userService = userService;
     }
+
+	@GetMapping
+	@ApiOperation(value = "查询账号", notes = "Admin")
+	public JsonData<UserDto> findAdminInfo() {
+		UserDto userDto = new UserDto();
+		userDto.setAccount("admin");
+		UserDto byId = userService.findByCondition(userDto);
+		return JsonData.success(byId);
+	}
 
     @GetMapping("/repo")
     @ApiOperation(value = "查询Github库", notes = "Admin")

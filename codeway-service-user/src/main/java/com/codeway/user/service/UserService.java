@@ -1,30 +1,30 @@
 package com.codeway.user.service;
 
 import com.codeway.api.base.LoginLogServiceRpc;
-import com.codeway.db.redis.service.RedisService;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.exception.custom.UserException;
-import com.codeway.pojo.QueryVO;
-import com.codeway.pojo.user.QUser;
-import com.codeway.pojo.user.Role;
-import com.codeway.pojo.user.User;
+import com.codeway.model.dto.user.ResourceDto;
+import com.codeway.model.dto.user.RoleDto;
+import com.codeway.model.dto.user.UserDto;
+import com.codeway.model.pojo.user.User;
+import com.codeway.model.pojo.user.UserRole;
 import com.codeway.user.dao.ResourceDao;
 import com.codeway.user.dao.RoleDao;
 import com.codeway.user.dao.UserDao;
-import com.codeway.utils.QuerydslUtil;
-import com.querydsl.core.QueryResults;
-import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
+import com.codeway.user.dao.UserRoleDao;
+import com.codeway.user.mapper.ResourceMapper;
+import com.codeway.user.mapper.RoleMapper;
+import com.codeway.user.mapper.UserMapper;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.persistence.criteria.Predicate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -34,96 +34,103 @@ import java.util.stream.Collectors;
 public class UserService {
 
 	private final UserDao userDao;
+	private final UserRoleDao userRoleDao;
+	private final UserMapper userMapper;
+	private final RoleMapper roleMapper;
 	private final RoleDao roleDao;
-    private final ResourceDao resourceDao;
+	private final ResourceDao resourceDao;
+	private final ResourceMapper resourceMapper;
 
-    private final RedisService redisService;
-    // 加密
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private final LoginLogServiceRpc loginLogServiceRpc;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    JPAQueryFactory jpaQueryFactory;
+	private final JPAQueryFactory jpaQueryFactory;
 
-    @Autowired
-    public UserService(UserDao userDao, RedisService redisService,
-                       BCryptPasswordEncoder bCryptPasswordEncoder,
-                       LoginLogServiceRpc loginLogServiceRpc,
-                       RoleDao roleDao, ResourceDao resourceDao) {
-        this.userDao = userDao;
-        this.roleDao = roleDao;
-        this.resourceDao = resourceDao;
-        this.redisService = redisService;
+	public UserService(UserDao userDao,
+	                   UserMapper userMapper,
+	                   BCryptPasswordEncoder bCryptPasswordEncoder,
+	                   LoginLogServiceRpc loginLogServiceRpc,
+	                   RoleDao roleDao,
+	                   ResourceDao resourceDao,
+	                   UserRoleDao userRoleDao,
+	                   RoleMapper roleMapper,
+	                   ResourceDao resourceDao1,
+	                   ResourceMapper resourceMapper, JPAQueryFactory jpaQueryFactory) {
+		this.userDao = userDao;
+		this.userMapper = userMapper;
+		this.roleDao = roleDao;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-		this.loginLogServiceRpc = loginLogServiceRpc;
+		this.userRoleDao = userRoleDao;
+		this.roleMapper = roleMapper;
+		this.resourceDao = resourceDao1;
+		this.resourceMapper = resourceMapper;
+		this.jpaQueryFactory = jpaQueryFactory;
 	}
 
 	/**
 	 * 注册用户
 	 *
-	 * @param user
+	 * @param userDto
 	 */
-    public void registerUser(User user) {
-        //加密后的密码
-        String bCryptPassword = bCryptPasswordEncoder.encode(user.getPassword());
-        user.setPassword(bCryptPassword);
-        userDao.save(user);
-    }
+	public void registerUser(UserDto userDto) {
+		//加密后的密码
+		String bCryptPassword = bCryptPasswordEncoder.encode(userDto.getPassword());
+		userDto.setPassword(bCryptPassword);
+		userDao.save(userMapper.toEntity(userDto));
+	}
 
 
-    public QueryResults<User> findByCondition(User user, QueryVO queryVO) {
+	public Page<UserDto> findByCondition(UserDto userDto, Pageable pageable) {
 
-        QUser qUser = QUser.user;
-        com.querydsl.core.types.Predicate predicate = null;
-        OrderSpecifier<?> sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qUser);
-        if (StringUtils.isNotEmpty(user.getUserName())) {
-            predicate = ExpressionUtils.and(predicate, qUser.userName.like(user.getUserName()));
-        }
-        if (user.getStatus() != null) {
-            predicate = ExpressionUtils.and(predicate, qUser.status.eq(user.getStatus()));
-        }
-        if (StringUtils.isNotEmpty(user.getId())) {
-            predicate = ExpressionUtils.and(predicate, qUser.status.eq(user.getStatus()));
-        }
-        if (StringUtils.isNotEmpty(user.getUserName())) {
-            predicate = ExpressionUtils.and(predicate, qUser.status.eq(user.getStatus()));
-        }
-        if (StringUtils.isNotEmpty(user.getAccount())) {
-            predicate = ExpressionUtils.and(predicate, qUser.account.eq(user.getAccount()));
-        }
-        if (StringUtils.isNotEmpty(user.getPhone())) {
-            predicate = ExpressionUtils.and(predicate, qUser.phone.eq(user.getPhone()));
-        }
-        if (StringUtils.isNotEmpty(queryVO.getFieldSort())) {
-            sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qUser, queryVO.getFieldSort());
-        }
-        QueryResults<User> queryResults = jpaQueryFactory
-                .selectFrom(qUser)
-                .where(predicate)
-                .offset(queryVO.getPageNum())
-                .limit(queryVO.getPageSize())
-                .orderBy(sortedColumn)
-                .fetchResults();
-        return queryResults;
-    }
+		Specification<User> condition = (root, query, builder) -> {
+			List<Predicate> predicates = new ArrayList<>();
+			if (StringUtils.isNotEmpty(userDto.getUserName())) {
+				predicates.add(builder.like(root.get("userName"), "%" + userDto.getUserName() + "%"));
+			}
+			if (userDto.getStatus() != null) {
+				predicates.add(builder.equal(root.get("status"), userDto.getStatus()));
+			}
+			if (StringUtils.isNotEmpty(userDto.getId())) {
+				predicates.add(builder.equal(root.get("id"), userDto.getId()));
+			}
+			if (StringUtils.isNotEmpty(userDto.getAccount())) {
+				predicates.add(builder.like(root.get("account"), "%" + userDto.getAccount() + "%"));
+			}
+			if (StringUtils.isNotEmpty(userDto.getPhone())) {
+				predicates.add(builder.like(root.get("phone"), "%" + userDto.getPhone() + "%"));
+			}
+			Predicate[] ps = new Predicate[predicates.size()];
+			return query.where(builder.and(predicates.toArray(ps))).getRestriction();
+		};
+		Page<UserDto> result = userDao.findAll(condition, pageable).map(userMapper::toDto);
 
-    public void deleteByIds(List<String> userId) {
-        userDao.deleteBatch(userId);
-    }
+		result.getContent().stream().map(this::assembleUserRoleData);
 
-    /**
+
+		return result;
+
+	}
+
+	public void deleteByIds(List<String> userIds) {
+		userDao.deleteBatch(userIds);
+		userRoleDao.deleteByUserIdIn(userIds);
+	}
+
+	/**
 	 * 更新用户基础信息，关联的角色
-	 * @param user 用户实体
+	 *
+	 * @param userDto 用户实体
 	 */
-	public void updateByPrimaryKey(User user) {
-		List<String> ids = user.getRoles().stream()
-				.map(Role::getId)
+	public void updateByPrimaryKey(UserDto userDto) {
+		List<UserRole> userRoles = userDto.getRoles().stream()
+				.map(user -> new UserRole(userDto.getId(), user.getId()))
 				.collect(Collectors.toList());
-		List<Role> allById = roleDao.findAllById(ids);
-		Set<Role> rolesSet = new HashSet<>(allById);
-		user.setRoles(rolesSet);
-		userDao.save(user);
+
+		userDao.save(userMapper.toEntity(userDto));
+
+		userRoleDao.deleteByUserIdIn(Collections.singletonList(userDto.getId()));
+
+		userRoleDao.saveAll(userRoles);
 	}
 
 
@@ -142,32 +149,94 @@ public class UserService {
 
 	/**
 	 * 获取用户角色权限
+	 *
 	 * @param id 用户id
 	 */
-	public User getUserPermission(String id) {
-		User user = userDao.findById(id).orElseThrow(ResourceNotFoundException::new);
-		return user;
+	public UserDto getUserPermission(String id) {
+		UserDto userDto = userDao.findById(id)
+				.map(userMapper::toDto)
+				.orElseThrow(ResourceNotFoundException::new);
+
+		List<RoleDto> roles = roleDao.findRolesOfUser(id).map(roleMapper::toDto).orElse(Collections.emptyList());
+
+		roles.forEach(
+				e -> {
+					Set<ResourceDto> resources = Optional.ofNullable(
+							resourceDao.findResourceByRoleIds(Collections.singletonList(e.getId())))
+							.map(resourceMapper::toDto)
+							.orElse(Collections.emptySet());
+					e.setResources(resources);
+				}
+		);
+
+		userDto.setRoles(new HashSet<>(roles));
+
+		return userDto;
 	}
 
-	public List<Role> getUseRoles(String id) {
-		List<Role> rolesOfUser = roleDao.findRolesOfUser(id);
-		return rolesOfUser;
+	/**
+	 * 查询当前角色的用户列表
+	 *
+	 * @param roleDto 角色
+	 * @return List<User>
+	 */
+	public List<UserDto> findUsersOfRole(RoleDto roleDto) {
+		return userDao.findUsersOfRole(roleDto.getId())
+				.map(userMapper::toDto)
+				.orElseThrow(ResourceNotFoundException::new);
 	}
 
-	public User findById(String userId) {
-		User user = userDao.findById(userId).orElseThrow(ResourceNotFoundException::new);
-		List<Role> rolesOfUser = roleDao.findRolesOfUser(user.getId());
-		Set<Role> rolesSet = new HashSet<>(rolesOfUser);
-		user.setRoles(rolesSet);
-		return user;
+	public UserDto findById(String userId) {
+		UserDto userDto = userDao.findById(userId)
+				.map(userMapper::toDto)
+				.orElseThrow(ResourceNotFoundException::new);
+
+		return assembleUserRoleData(userDto);
 	}
 
-	public User findByAccount(String account) {
-		User user = userDao.findByAccount(account).orElseThrow(ResourceNotFoundException::new);
-		return user;
+	public UserDto findByCondition(UserDto userDto) {
+
+		Specification<User> condition = (root, query, builder) -> {
+			List<Predicate> predicates = new ArrayList<>();
+			if (StringUtils.isNotEmpty(userDto.getId())) {
+				predicates.add(builder.equal(root.get("id"), userDto.getId()));
+			}
+			if (StringUtils.isNotEmpty(userDto.getAccount())) {
+				predicates.add(builder.equal(root.get("account"), userDto.getAccount()));
+			}
+			if (StringUtils.isNotEmpty(userDto.getPhone())) {
+				predicates.add(builder.equal(root.get("phone"), userDto.getPhone()));
+			}
+			Predicate[] ps = new Predicate[predicates.size()];
+			return query.where(builder.and(predicates.toArray(ps))).getRestriction();
+		};
+
+		UserDto userInfo = userDao.findOne(condition)
+				.map(userMapper::toDto)
+				.orElse(null);
+
+		return assembleUserRoleData(userInfo);
 	}
 
-	public void updateUserProfile(User user) {
-		userDao.save(user);
+	public void updateUserProfile(UserDto userDto) {
+		userDao.save(userMapper.toEntity(userDto));
+	}
+
+
+	/**
+	 * 组装用户角色数据
+	 *
+	 * @param userDto userDto
+	 * @return UserDto
+	 */
+	private UserDto assembleUserRoleData(UserDto userDto) {
+		if (userDto == null) {
+			return null;
+		}
+		List<RoleDto> rolesOfUser = roleDao.findRolesOfUser(userDto.getId())
+				.map(roleMapper::toDto)
+				.orElseThrow(ResourceNotFoundException::new);
+		userDto.setRoles(new HashSet<>(rolesOfUser));
+		return userDto;
 	}
 }

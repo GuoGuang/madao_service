@@ -2,7 +2,7 @@
 package com.codeway.gateway.handle;
 
 import com.codeway.enums.StatusEnum;
-import com.codeway.pojo.ErrotResult;
+import com.codeway.model.pojo.ErrotResult;
 import com.codeway.utils.JsonUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
