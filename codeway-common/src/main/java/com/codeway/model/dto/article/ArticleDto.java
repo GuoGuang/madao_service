@@ -73,7 +73,7 @@ public class ArticleDto extends BasePojo implements Serializable {
 	@ApiModelProperty("热度")
 	private float importance;
 
-	@ApiModelProperty("文章描述（概述）")
+	@ApiModelProperty("文章描述")
 	@NotNull(message = "概述不能为空")
 	private String description;
 
