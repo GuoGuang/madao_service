@@ -3,6 +3,7 @@ package com.codeway.gateway.filter;
 import com.codeway.db.redis.service.RedisService;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.JsonUtil;
+import com.codeway.utils.LogBack;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +97,7 @@ public class AuthFilter implements GatewayFilter, Ordered {
 		try {
 			return response.bufferFactory().wrap(JsonUtil.toJSONBytes(result));
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogBack.error(e.getMessage(), e);
 		}
 		return null;
 	}

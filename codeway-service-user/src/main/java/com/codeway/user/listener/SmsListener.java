@@ -39,8 +39,7 @@ public class SmsListener {
 			return smsUtil.sendSms(message.get("mobile"), template_code, sign_name,
 					"{\"code\":\"" + message.get("code") + "\"}");
         } catch (ClientException | NullPointerException e) {
-            LogBack.error("发送手机验证码失败：{}", e.getMessage());
-			e.printStackTrace();
+            LogBack.error("发送手机验证码失败：{}", e.getMessage(), e);
 		}
 
         return null;

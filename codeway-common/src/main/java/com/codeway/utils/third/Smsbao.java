@@ -1,5 +1,6 @@
 package com.codeway.utils.third;
 
+import com.codeway.utils.LogBack;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -58,7 +59,7 @@ public class Smsbao {
 			reader.close();
 			result = sbf.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogBack.error(e.getMessage(), e);
 		}
 		return result;
 	}
@@ -80,7 +81,7 @@ public class Smsbao {
 				buf.append(Integer.toHexString(i));
 			}
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			LogBack.error(e.getMessage(), e);
 		}
 		return buf.toString();
 	}
@@ -92,7 +93,7 @@ public class Smsbao {
 		try {
 			strret = java.net.URLEncoder.encode(str, charset);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogBack.error(e.getMessage(), e);
 			return null;
 		}
 		return strret;

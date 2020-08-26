@@ -2,6 +2,7 @@ package com.codeway.auth.filter;
 
 import com.codeway.auth.token.SmsCodeAuthenticationToken;
 import com.codeway.utils.JsonUtil;
+import com.codeway.utils.LogBack;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -68,7 +69,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
 		try {
 			body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogBack.error(e.getMessage(), e);
 		}
 		Map<String, Object> map = JsonUtil.jsonToMap(body);
 		String phone = map.get("phone")+"";

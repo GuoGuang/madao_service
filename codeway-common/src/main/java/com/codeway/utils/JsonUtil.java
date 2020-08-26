@@ -81,8 +81,7 @@ public class JsonUtil {
 		try {
 			return objectMapper.readValue(jsonStr.toString(), clazz);
 		} catch (IOException e) {
-            LogBack.error(JACKSON_ERROR, e.getMessage());
-			e.printStackTrace();
+            LogBack.error(JACKSON_ERROR, e.getMessage(), e);
             throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
 		}
 	}

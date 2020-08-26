@@ -291,13 +291,13 @@ public class CaptchaCode {
 			ImageIO.write(bi,"JPEG", outputStream);
 			return code;
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogBack.error(e.getMessage(),e);
 		} finally {
 			if(os != null)
 				try {
 					os.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					LogBack.error(e.getMessage(),e);
 				}
 		}
 		return null;

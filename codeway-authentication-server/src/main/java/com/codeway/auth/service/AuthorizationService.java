@@ -68,8 +68,7 @@ public class AuthorizationService {
 						resourceClone.setUrl(urlSplit);
 						extendSets.add(resourceClone);
 					} catch (CloneNotSupportedException e) {
-						LogBack.error(e.getMessage());
-						e.printStackTrace();
+						LogBack.error(e.getMessage(), e);
 					}
 
 				});

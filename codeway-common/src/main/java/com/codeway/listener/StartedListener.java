@@ -1,5 +1,6 @@
 package com.codeway.listener;
 
+import com.codeway.utils.LogBack;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ansi.AnsiColor;
@@ -33,7 +34,7 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
 		try {
 			this.printStartInfo();
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			LogBack.error(e.getMessage(), e);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package com.codeway.user;
 
+import com.codeway.utils.LogBack;
 import com.codeway.utils.third.SmsUtil;
 import com.codeway.utils.third.Smsbao;
 import org.junit.Test;
@@ -35,7 +36,7 @@ public class SmsTest {
 			String phone = "13105648403";
 			smsbao.sendSms(phone, "123");
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogBack.error(e.getMessage(), e);
 		}
 
 	}

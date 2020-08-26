@@ -110,8 +110,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
 			byte[] bytes = JsonUtil.toJSONBytes(jsonData);
 			 buffer = serverWebExchange.getResponse().bufferFactory().wrap(bytes);
 		} catch (IOException e) {
-			e.printStackTrace();
-			LogBack.error(e.getMessage());
+			LogBack.error(e.getMessage(), e);
 		}
 
 		return serverWebExchange.getResponse().writeWith(Flux.just(buffer));
