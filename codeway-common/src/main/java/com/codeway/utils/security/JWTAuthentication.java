@@ -122,7 +122,7 @@ public class JWTAuthentication {
 			jwt.verifySignature(rsaVerifier);
 			invalid = Boolean.FALSE;
 		} catch (InvalidSignatureException | IllegalArgumentException ex) {
-			LogBack.error("user token has expired or signature error");
+			LogBack.error("user token has expired or signature error", ex);
 		}
 		return invalid;
 	}
@@ -138,7 +138,7 @@ public class JWTAuthentication {
 			BufferedReader br = new BufferedReader(inputStreamReader);
 			return br.lines().collect(Collectors.joining("\n"));
 		} catch (IOException ioe) {
-			LogBack.error("getPubKey 异常："+ioe);
+			LogBack.error("getPubKey 异常：", ioe);
 			return null;
 		}
 	}

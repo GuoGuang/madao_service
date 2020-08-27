@@ -34,7 +34,7 @@ public class FeignConfiguration implements RequestInterceptor {
 				buildQuery(jsonNode, EMPTY, queries);
 				template.queries(queries);
 			} catch (IOException e) {
-				LogBack.error("IOException occurred while try to create http query");
+				LogBack.error("IOException occurred while try to create http query", e);
 			}
 		}
 	}
