@@ -8,7 +8,6 @@ import java.io.Serializable;
 /**
  * 封装的查询参数类
  **/
-
 @Getter
 @Setter
 public class QueryVO implements Serializable {

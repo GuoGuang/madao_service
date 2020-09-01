@@ -15,11 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class BusinessExceptionHandle {
-	/**
-	 * 用户相关异常
-	 *
-	 * @param ex IllegalArgumentException
-	 */
+
 	@ExceptionHandler(UserException.class)
 	public JsonData<Void> userException(UserException ex) {
 		LogBack.error(ex.getMessage(), ex);

@@ -11,10 +11,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-
-/**
- * <p>对Jackson进行一层封装</p>
- */
 public class JsonUtil {
 
 	private JsonUtil(){}

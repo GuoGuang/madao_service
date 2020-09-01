@@ -97,8 +97,6 @@ public class TokenFilter implements GlobalFilter, Ordered {
 
 	/**
 	 * 网关拒绝，返回401
-	 *
-	 * @param
 	 */
 	private Mono<Void> unAuthorized(ServerWebExchange serverWebExchange,StatusEnum statusEnum) {
 		ServerHttpResponse response = serverWebExchange.getResponse();

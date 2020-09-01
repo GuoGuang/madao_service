@@ -33,9 +33,6 @@ public class Music extends BasePojo implements Serializable {
 	 */
 	private String name;
 
-	/**
-	 *
-	 */
 	private String description;
 
 	/**

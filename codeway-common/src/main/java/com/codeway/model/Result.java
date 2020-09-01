@@ -6,9 +6,6 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
-/**
- * 返回结果类
- **/
 @Getter
 @Setter
 public class Result implements Serializable {

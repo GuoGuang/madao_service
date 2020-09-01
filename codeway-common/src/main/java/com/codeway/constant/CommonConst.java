@@ -1,10 +1,5 @@
 package com.codeway.constant;
 
-
-/**
- * 公共模块常量
- * @version 1.0.0
- */
 public final class CommonConst {
 
 	public static final int ADD = 1;

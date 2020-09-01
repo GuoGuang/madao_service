@@ -11,11 +11,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.annotation.PostConstruct;
 
-/**
- * 搜索服务启动类
- **/
-
-
 @EntityScan("com.codeway.model.pojo")
 @SpringBootApplication
 @EnableEurekaClient

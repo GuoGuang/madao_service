@@ -8,12 +8,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 public class HttpHelper {
-	/**
-	 * 获取请求Body
-	 *
-	 * @param request
-	 * @return
-	 */
+
 	public static String getBodyString(ServletRequest request) {
 		StringBuilder sb = new StringBuilder();
 		InputStream inputStream = null;

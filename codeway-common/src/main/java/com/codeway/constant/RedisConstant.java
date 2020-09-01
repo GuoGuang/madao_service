@@ -1,8 +1,5 @@
 package com.codeway.constant;
 
-/**
- * 定义redis常量
- */
 public class RedisConstant {
 
     /* 项目名_模块名_业务名 */

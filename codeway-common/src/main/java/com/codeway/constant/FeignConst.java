@@ -1,9 +1,5 @@
 package com.codeway.constant;
 
-
-/**
- * 定义一组Feign常量;
- **/
 public final class FeignConst {
 
 	private FeignConst() {
