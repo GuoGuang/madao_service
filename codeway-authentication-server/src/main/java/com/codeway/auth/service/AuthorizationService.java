@@ -1,13 +1,12 @@
 package com.codeway.auth.service;
 
+import cn.hutool.core.util.IdUtil;
 import com.codeway.api.user.ResourceServiceRpc;
 import com.codeway.exception.custom.RemoteRpcException;
 import com.codeway.model.pojo.user.Resource;
-import com.codeway.utils.IdGenerate;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.LogBack;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -30,24 +29,20 @@ import java.util.stream.Collectors;
 @Service
 public class AuthorizationService {
 
-    // 未在资源库中的URL默认标识
-    private static final String NONEXISTENT_URL = "NONEXISTENT_URL";
+	// 未在资源库中的URL默认标识
+	private static final String NONEXISTENT_URL = "NONEXISTENT_URL";
 
-	@Autowired
 	private ResourceServiceRpc resourceServiceRpc;
+	private HandlerMappingIntrospector handlerMappingIntrospector;
 
-    private final IdGenerate idGenerate;
+	// 系统中所有权限集合
+	private Map<RequestMatcher, ConfigAttribute> resourceConfigAttributes;
 
-    // 系统中所有权限集合
-    private Map<RequestMatcher, ConfigAttribute> resourceConfigAttributes;
+	public AuthorizationService(ResourceServiceRpc resourceServiceRpc, HandlerMappingIntrospector handlerMappingIntrospector) {
+		this.resourceServiceRpc = resourceServiceRpc;
+		this.handlerMappingIntrospector = handlerMappingIntrospector;
+	}
 
-    @Autowired
-    public AuthorizationService(IdGenerate idGenerate) {
-	    this.idGenerate = idGenerate;
-    }
-
-	@Autowired
-	private HandlerMappingIntrospector mvcHandlerMappingIntrospector;
 
 	/**
 	 * 所有资源列表
@@ -63,8 +58,8 @@ public class AuthorizationService {
 			if (StringUtils.isNotEmpty(resource.getUrl()) && resource.getUrl().contains(",")){
 				Arrays.asList(resource.getUrl().split(",")).forEach(urlSplit -> {
 					try {
-						Resource resourceClone = (Resource)resource.clone();
-						resourceClone.setId(String.valueOf(idGenerate.nextId()));
+						Resource resourceClone = (Resource) resource.clone();
+						resourceClone.setId(String.valueOf(IdUtil.getSnowflake(1, 1).nextId()));
 						resourceClone.setUrl(urlSplit);
 						extendSets.add(resourceClone);
 					} catch (CloneNotSupportedException e) {
@@ -77,16 +72,15 @@ public class AuthorizationService {
 		resources.removeIf(resource -> StringUtils.isNotEmpty(resource.getUrl()) && resource.getUrl().contains(","));
 		resources.addAll(extendSets);
 
-		Map<RequestMatcher, ConfigAttribute> map = resources.stream().collect(Collectors.toMap(
+		return resources.stream().collect(Collectors.toMap(
 				resource -> {
-					MvcRequestMatcher mvcRequestMatcher = new MvcRequestMatcher(mvcHandlerMappingIntrospector, resource.getUrl());
+					MvcRequestMatcher mvcRequestMatcher = new MvcRequestMatcher(handlerMappingIntrospector, resource.getUrl());
 					mvcRequestMatcher.setMethod(HttpMethod.resolve(resource.getMethod()));
 					return mvcRequestMatcher;
 				},
 				resource -> new SecurityConfig(resource.getCode())
 				)
 		);
-		return map;
 	}
 
 	/**
@@ -111,10 +105,10 @@ public class AuthorizationService {
         return isMatch(urlConfigAttribute, userResources);
     }
 
-    /**
-     * url对应资源与用户拥有资源进行匹配
-     * @param urlConfigAttribute
-     * @param userResources
+	/**
+	 * url对应资源与用户拥有资源进行匹配
+	 * @param urlConfigAttribute urlConfigAttribute
+	 * @param userResources 资源集合
      */
     public boolean isMatch(ConfigAttribute urlConfigAttribute, Set<Resource> userResources) {
 	    boolean isMatchBool = userResources.stream().anyMatch(
@@ -133,19 +127,18 @@ public class AuthorizationService {
      */
     public ConfigAttribute findConfigAttributesByUrl(HttpServletRequest authRequest) {
 
-		ConfigAttribute configAttribute = resourceConfigAttributes.keySet().stream()
-				.filter(requestMatcher -> requestMatcher.matches(authRequest))
-				.map(requestMatcher -> resourceConfigAttributes.get(requestMatcher))
-				.peek(urlConfigAttribute -> LogBack.info("url在资源池中配置：{}", urlConfigAttribute.getAttribute()))
-				.findFirst()
-				.orElse(new SecurityConfig(NONEXISTENT_URL));
-		return configAttribute;
-	}
+	    return resourceConfigAttributes.keySet().stream()
+			    .filter(requestMatcher -> requestMatcher.matches(authRequest))
+			    .map(requestMatcher -> resourceConfigAttributes.get(requestMatcher))
+			    .peek(urlConfigAttribute -> LogBack.info("url在资源池中配置：{}", urlConfigAttribute.getAttribute()))
+			    .findFirst()
+			    .orElse(new SecurityConfig(NONEXISTENT_URL));
+    }
 
 
-    /**
-     * 根据用户所被授予的角色，查询到用户所拥有的资源
-     * @param authorityRoles
+	/**
+	 * 根据用户所被授予的角色，查询到用户所拥有的资源
+	 * @param authorityRoles 角色集合
      */
     private Set<Resource> findResourcesByAuthorityRoles(Collection<? extends GrantedAuthority> authorityRoles) {
         //用户被授予的角色
