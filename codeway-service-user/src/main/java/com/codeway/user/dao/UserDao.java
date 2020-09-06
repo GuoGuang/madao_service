@@ -21,5 +21,4 @@ public interface UserDao extends JpaRepository<User, String>, JpaSpecificationEx
     @Query("delete from User where id in (:ids)")
     void deleteBatch(@Param("ids") List<String> ids);
 
-	Optional<User> findByAccount(String account);
 }
