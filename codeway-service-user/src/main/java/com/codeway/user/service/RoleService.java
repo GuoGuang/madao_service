@@ -59,7 +59,6 @@ public class RoleService {
 
 	/**
 	 * 条件查询角色
-	 *
 	 * @param roleDto : Role
 	 * @return IPage<Role>
 	 */
