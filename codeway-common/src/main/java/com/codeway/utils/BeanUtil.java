@@ -12,8 +12,12 @@ import java.util.Set;
  */
 public class BeanUtil {
 
+	private BeanUtil() {
+	}
+
 	/**
 	 * jpa更新时字段为null则不更新
+	 * note: 对于Boolean字段需要修改自动生成isxxx方法，BeanUtils寻找的是getxxx。
 	 */
 	public static void copyProperties(Object src, Object target) {
 		BeanUtils.copyProperties(src, target, getNullPropertyNames(target));
