@@ -17,7 +17,6 @@ public class ApiCommentService {
 	private final CommentDao commentDao;
 	private final CommentMapper commentMapper;
 
-
 	public ApiCommentService(CommentDao commentDao, CommentMapper commentMapper) {
 		this.commentDao = commentDao;
 		this.commentMapper = commentMapper;
@@ -46,7 +45,7 @@ public class ApiCommentService {
 	 * 非幂等
 	 * TODO 使用点赞表解决
 	 *
-	 * @param commentId
+	 * @param commentId 评论表id
 	 */
 	public void upVote(String commentId) {
 		commentDao.updateUpVote(commentId);
