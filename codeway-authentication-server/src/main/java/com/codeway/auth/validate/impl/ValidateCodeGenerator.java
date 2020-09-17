@@ -9,8 +9,9 @@ public interface ValidateCodeGenerator {
 
 	/**
 	 * 生成校验码
-	 * @param request
-	 * @return
+	 *
+	 * @param request ServletWebRequest
+	 * @return ValidateCode
 	 */
 	ValidateCode generate(ServletWebRequest request);
 	
