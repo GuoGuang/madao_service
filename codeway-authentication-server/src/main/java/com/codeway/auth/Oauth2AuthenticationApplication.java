@@ -44,7 +44,6 @@ public class Oauth2AuthenticationApplication {
 		return new SecurityProperties();
 	}
 
-	//采用bcrypt对密码进行编码
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
