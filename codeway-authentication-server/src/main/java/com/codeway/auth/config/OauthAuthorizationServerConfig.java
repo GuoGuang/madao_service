@@ -36,32 +36,33 @@ import java.util.Arrays;
 @EnableAuthorizationServer
 class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired
-    private DruidDataSource dataSource;
-    //jwt令牌转换器
-    @Autowired
-    private JwtAccessTokenConverter jwtAccessTokenConverter;
-    // 登录错误时执行
-    @Autowired
-    private CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
-    @Autowired
-    UserDetailsService userDetailsService;
-    @Autowired
-    AuthenticationManager authenticationManager;
-    @Autowired
-    TokenStore tokenStore;
+	private final DruidDataSource dataSource;
+	private final JwtAccessTokenConverter jwtAccessTokenConverter;
+	private final CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
+	private final UserDetailsService userDetailsService;
+	private final AuthenticationManager authenticationManager;
+	private final TokenStore tokenStore;
 
-    //读取密钥的配置
-    @Bean("keyProp")
-    public KeyProperties keyProperties(){
-        return new KeyProperties();
-    }
+	public OauthAuthorizationServerConfig(DruidDataSource dataSource, JwtAccessTokenConverter jwtAccessTokenConverter, CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator, UserDetailsService userDetailsService, AuthenticationManager authenticationManager, TokenStore tokenStore) {
+		this.dataSource = dataSource;
+		this.jwtAccessTokenConverter = jwtAccessTokenConverter;
+		this.customWebResponseExceptionTranslator = customWebResponseExceptionTranslator;
+		this.userDetailsService = userDetailsService;
+		this.authenticationManager = authenticationManager;
+		this.tokenStore = tokenStore;
+	}
 
-    @Resource(name = "keyProp")
-    private KeyProperties keyProperties;
+	//读取密钥的配置
+	@Bean("keyProp")
+	public KeyProperties keyProperties() {
+		return new KeyProperties();
+	}
 
-    //客户端配置
-    @Bean
+	@Resource(name = "keyProp")
+	private KeyProperties keyProperties;
+
+	//客户端配置
+	@Bean
     public ClientDetailsService clientDetails() {
         return new JdbcClientDetailsService(dataSource);
     }
@@ -105,34 +106,34 @@ class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapte
 	 */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
-        oauthServer.allowFormAuthenticationForClients()
-                .passwordEncoder(new BCryptPasswordEncoder())
-                .tokenKeyAccess("permitAll()") // 允许所有请求访问校验令牌的接口
-                .checkTokenAccess("isAuthenticated()");
+	    oauthServer.allowFormAuthenticationForClients()
+			    .passwordEncoder(new BCryptPasswordEncoder())
+			    .tokenKeyAccess("permitAll()") // 允许所有请求访问校验令牌的接口
+			    .checkTokenAccess("isAuthenticated()");
     }
 
 
-
-
 	//token的存储方法
-//    @Bean
-//    public InMemoryTokenStore tokenStore() {
-//        //将令牌存储到内存
-//        return new InMemoryTokenStore();
-//    }
-//    @Bean
-//    public TokenStore tokenStore(RedisConnectionFactory redisConnectionFactory){
-//        RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
-//        return redisTokenStore;
-//    }
+   /* @Bean
+    public InMemoryTokenStore tokenStore() {
+        //将令牌存储到内存
+        return new InMemoryTokenStore();
+    }
+    @Bean
+    public TokenStore tokenStore(RedisConnectionFactory redisConnectionFactory){
+        RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
+        return redisTokenStore;
+    }*/
+
 	/**
 	 * 自定义token
+	 *
 	 * @return tokenEnhancerChain
 	 */
 	@Bean
 	public TokenEnhancerChain tokenEnhancerChain() {
 		TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(new CustomTokenEnhancer(),jwtAccessTokenConverter));
+		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(new CustomTokenEnhancer(), jwtAccessTokenConverter));
 		return tokenEnhancerChain;
 	}
 
