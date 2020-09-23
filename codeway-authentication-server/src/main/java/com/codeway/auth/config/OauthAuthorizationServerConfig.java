@@ -36,21 +36,21 @@ import java.util.Arrays;
 @EnableAuthorizationServer
 class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-	private final DruidDataSource dataSource;
-	private final JwtAccessTokenConverter jwtAccessTokenConverter;
-	private final CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
-	private final UserDetailsService userDetailsService;
-	private final AuthenticationManager authenticationManager;
-	private final TokenStore tokenStore;
 
-	public OauthAuthorizationServerConfig(DruidDataSource dataSource, JwtAccessTokenConverter jwtAccessTokenConverter, CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator, UserDetailsService userDetailsService, AuthenticationManager authenticationManager, TokenStore tokenStore) {
-		this.dataSource = dataSource;
-		this.jwtAccessTokenConverter = jwtAccessTokenConverter;
-		this.customWebResponseExceptionTranslator = customWebResponseExceptionTranslator;
-		this.userDetailsService = userDetailsService;
-		this.authenticationManager = authenticationManager;
-		this.tokenStore = tokenStore;
-	}
+	@Autowired
+	private DruidDataSource dataSource;
+	//jwt令牌转换器
+	@Autowired
+	private JwtAccessTokenConverter jwtAccessTokenConverter;
+	// 登录错误时执行
+	@Autowired
+	private CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
+	@Autowired
+	UserDetailsService userDetailsService;
+	@Autowired
+	AuthenticationManager authenticationManager;
+	@Autowired
+	TokenStore tokenStore;
 
 	//读取密钥的配置
 	@Bean("keyProp")

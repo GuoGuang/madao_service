@@ -29,34 +29,33 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 @EnableWebSecurity
 @Order(-1)
 public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
-
-
-	private final DruidDataSource dataSource;
-	private final SmsCodeAuthenticationProvider smsCodeAuthenticationProvider;
-	private final CaptchaAuthenticationProvider captchaAuthenticationProvider;
-	// 全局过滤器校验码
-	private final ValidateCodeSecurityConfig validateCodeSecurityConfig;
-	private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-	private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+	@Autowired
+	private DruidDataSource dataSource;
 
 	// 短信验证码
 	//@Autowired
 	//private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
-	public OauthWebServerSecurityConfig(DruidDataSource dataSource, SmsCodeAuthenticationProvider smsCodeAuthenticationProvider, CaptchaAuthenticationProvider captchaAuthenticationProvider, ValidateCodeSecurityConfig validateCodeSecurityConfig, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler) {
-		this.dataSource = dataSource;
-		this.smsCodeAuthenticationProvider = smsCodeAuthenticationProvider;
-		this.captchaAuthenticationProvider = captchaAuthenticationProvider;
-		this.validateCodeSecurityConfig = validateCodeSecurityConfig;
-		this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
-		this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
-	}
+	@Autowired
+	private SmsCodeAuthenticationProvider SmsCodeAuthenticationProvider;
+	@Autowired
+	private CaptchaAuthenticationProvider captchaAuthenticationProvider;
+
+	// 全局过滤器校验码
+	@Autowired
+	private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+
+	@Autowired
+	private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+	@Autowired
+	private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
 	@Override
-	public void configure(WebSecurity web){
-		web.ignoring().antMatchers("/oauth/**","/connect/**","/v2/api-docs", "/swagger-resources/configuration/ui",
-				"/swagger-resources","/swagger-resources/configuration/security",
-				"/swagger-ui.html","/css/**", "/js/**","/images/**", "/webjars/**", "**/favicon.ico", "/index");
+	public void configure(WebSecurity web) {
+		web.ignoring().antMatchers("/oauth/**", "/connect/**", "/v2/api-docs", "/swagger-resources/configuration/ui",
+				"/swagger-resources", "/swagger-resources/configuration/security",
+				"/swagger-ui.html", "/css/**", "/js/**", "/images/**", "/webjars/**", "**/favicon.ico", "/index");
 
 	}
 
@@ -134,8 +133,8 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) {
-		auth.authenticationProvider(smsCodeAuthenticationProvider)
-			.authenticationProvider(captchaAuthenticationProvider);
+		auth.authenticationProvider(SmsCodeAuthenticationProvider)
+				.authenticationProvider(captchaAuthenticationProvider);
 	}
 
 	/*@Bean
