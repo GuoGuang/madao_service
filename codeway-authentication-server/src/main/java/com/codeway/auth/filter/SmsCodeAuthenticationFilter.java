@@ -3,9 +3,9 @@ package com.codeway.auth.filter;
 import com.codeway.auth.token.SmsCodeAuthenticationToken;
 import com.codeway.utils.JsonUtil;
 import com.codeway.utils.LogBack;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.Assert;
@@ -36,12 +36,12 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
 
 	public SmsCodeAuthenticationFilter() {
 		//要拦截的请求
-		super(new AntPathRequestMatcher("/oauth/phone", "POST"));
+		super(new AntPathRequestMatcher("/oauth/"+PHONE_KEY, "POST"));
 	}
 
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-		if (this.postOnly && !request.getMethod().equals("POST")) {
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
+		if (this.postOnly && !HttpMethod.POST.matches(request.getMethod())) {
 			throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
 		} else {
 			String phone = this.obtainPhone(request);
@@ -72,7 +72,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
 			LogBack.error(e.getMessage(), e);
 		}
 		Map<String, Object> map = JsonUtil.jsonToMap(body);
-		String phone = map.get("phone")+"";
+		String phone = map.get(PHONE_KEY)+"";
 
 		return phone;
 	}

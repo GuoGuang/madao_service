@@ -9,6 +9,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.imageio.ImageIO;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Base64;
 import java.util.HashMap;
 
@@ -25,7 +26,7 @@ public class CaptchaValidateCodeProcessor extends AbstractValidateCodeProcessor<
 	 * 发送图形验证码，将其写到响应中
 	 */
 	@Override
-	protected void send(ServletWebRequest request, Captcha captcha) throws Exception {
+	protected void send(ServletWebRequest request, Captcha captcha) throws IOException {
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 

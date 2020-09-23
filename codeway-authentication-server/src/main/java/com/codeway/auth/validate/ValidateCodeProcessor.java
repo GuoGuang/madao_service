@@ -1,6 +1,9 @@
 package com.codeway.auth.validate;
 
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.context.request.ServletWebRequest;
+
+import java.io.IOException;
 
 
 /**
@@ -13,7 +16,7 @@ public interface ValidateCodeProcessor {
 	 * 创建校验码
 	 * @param request request
 	 */
-	void create(ServletWebRequest request) throws Exception;
+	void create(ServletWebRequest request) throws ServletRequestBindingException, IOException;
 
 	/**
 	 * 校验验证码

@@ -32,7 +32,7 @@ public class CustomSocialAutoConfigurerAdapter  extends SocialConfigurerAdapter 
 
 	}
 
-	public ConnectionFactory<?> createConnectionFactory() {
+	public ConnectionFactory createConnectionFactory() {
 		return new GitHubConnectionFactory(
 				properties.getAppId(),
 				properties.getAppSecret());

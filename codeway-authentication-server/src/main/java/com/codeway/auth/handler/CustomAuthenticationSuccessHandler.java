@@ -8,11 +8,10 @@ import com.codeway.model.pojo.base.LoginLog;
 import com.codeway.utils.HttpServletUtil;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.JsonUtil;
+import com.codeway.utils.LogBack;
 import com.codeway.utils.security.JWTAuthentication;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.bitwalker.useragentutils.UserAgent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -38,8 +37,6 @@ import java.util.Map;
  */
 @Component("customAuthenticationSuccessHandler")
 public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
-
-	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private ObjectMapper objectMapper;
@@ -75,7 +72,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,Authentication authentication) throws IOException, ServletException {
 
-		logger.info("登录成功");
+		LogBack.info("登录成功");
 
 		String header = request.getHeader("Authorization");
 
@@ -87,7 +84,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 		assert tokens.length == 2;
 
 		String clientId = tokens[0];
-		String clientSecret = tokens[1];
+//		String clientSecret = tokens[1];
 
 		ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
 
@@ -146,12 +143,12 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 
 	/**
 	 *
-	 * @param access_token 用户身份令牌
+	 * @param accessToken 用户身份令牌
 	 * @param content  内容就是AuthToken对象的内容
 	 * @param ttl 过期时间
 	 */
-	private boolean saveToken(String access_token,String content,long ttl){
-		String key = "user_token:" + access_token;
+	private boolean saveToken(String accessToken,String content,long ttl){
+		String key = "user_token:" + accessToken;
 		redisService.setKeyStr(key,content,ttl);
 		Long expire = redisService.getExpire(key);
 		return expire>0;
@@ -169,7 +166,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 			throw new BadCredentialsException("Failed to decode basic authentication token");
 		}
 		String token = new String(decoded, StandardCharsets.UTF_8);
-		int delim = token.indexOf(":");
+		int delim = token.indexOf(':');
 		if (delim == -1) {
 			throw new BadCredentialsException("Invalid basic authentication token");
 		}

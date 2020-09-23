@@ -74,10 +74,12 @@ public class Smsbao {
 			buf = new StringBuffer("");
 			for (int offset = 0; offset < b.length; offset++) {
 				i = b[offset];
-				if (i < 0)
+				if (i < 0) {
 					i += 256;
-				if (i < 16)
+				}
+				if (i < 16) {
 					buf.append("0");
+				}
 				buf.append(Integer.toHexString(i));
 			}
 		} catch (NoSuchAlgorithmException e) {
@@ -88,8 +90,9 @@ public class Smsbao {
 
 	public static String encodeUrlString(String str, String charset) {
 		String strret = null;
-		if (str == null)
+		if (str == null) {
 			return str;
+		}
 		try {
 			strret = java.net.URLEncoder.encode(str, charset);
 		} catch (Exception e) {

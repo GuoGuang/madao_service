@@ -7,8 +7,10 @@ import com.codeway.enums.ValidateCodeType;
 import com.codeway.utils.JsonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.context.request.ServletWebRequest;
 
+import java.io.IOException;
 import java.util.Map;
 
 
@@ -27,7 +29,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 	private ValidateCodeRepository validateCodeRepository;
 	
 	@Override
-	public void create(ServletWebRequest request) throws Exception {
+	public void create(ServletWebRequest request) throws ServletRequestBindingException, IOException {
 		C validateCode = generate(request);
 		save(request, validateCode);
 		send(request, validateCode);
@@ -59,7 +61,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 	 * 发送校验码，由子类实现
 	 * @param validateCode
 	 */
-	protected abstract void send(ServletWebRequest request, C validateCode) throws Exception;
+	protected abstract void send(ServletWebRequest request, C validateCode) throws ServletRequestBindingException, IOException;
 
 	/**
 	 * 根据请求的url获取校验码的类型

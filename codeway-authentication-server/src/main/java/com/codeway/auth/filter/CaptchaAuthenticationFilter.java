@@ -2,6 +2,7 @@ package com.codeway.auth.filter;
 
 import com.codeway.auth.token.CaptchaAuthenticationToken;
 import com.codeway.utils.JsonUtil;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
  **/
 public class CaptchaAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 	// 是否开启验证码功能
-	private boolean isOpenValidateCode = true;
+	//  private boolean isOpenValidateCode = true;
 	private boolean postOnly = true;
 	public static final String VALIDATE_CODE = "validateCode";
 
@@ -31,8 +32,9 @@ public class CaptchaAuthenticationFilter extends AbstractAuthenticationProcessin
 	/**
 	 * 覆盖授权验证方法
 	 */
+	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		if (postOnly && !request.getMethod().equals("POST")) {
+		if (postOnly && !HttpMethod.POST.matches(request.getMethod())) {
 			throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
 		}
 		String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));

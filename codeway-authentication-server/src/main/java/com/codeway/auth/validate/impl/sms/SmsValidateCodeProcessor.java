@@ -9,8 +9,11 @@ import com.codeway.utils.LogBack;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
+
+import java.io.IOException;
 
 /**
  * 短信验证码处理器
@@ -28,7 +31,7 @@ public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<Vali
 	private SmsCodeSender smsCodeSender;
 	
 	@Override
-	protected void send(ServletWebRequest request, ValidateCode validateCode) throws Exception {
+	protected void send(ServletWebRequest request, ValidateCode validateCode) throws ServletRequestBindingException, IOException {
         String paramName = CommonConst.DEFAULT_PARAMETER_NAME_PHONE;
         String phone = ServletRequestUtils.getRequiredStringParameter(request.getRequest(), paramName);
 		request.getResponse().setContentType("application/json;charset=UTF-8");

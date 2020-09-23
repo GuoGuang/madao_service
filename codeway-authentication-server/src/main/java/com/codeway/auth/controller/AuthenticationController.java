@@ -8,11 +8,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Api("用户登录认证")
 @RestController
@@ -47,7 +49,7 @@ public class AuthenticationController {
 	@ApiImplicitParams(
 			@ApiImplicitParam(name = "type", value = "验证码类型，captcha：图片验证码，sms：手机验证码", dataType = "String", paramType = "path")
 	)
-	public void createCode(HttpServletRequest request, HttpServletResponse response, @PathVariable String type)throws Exception {
+	public void createCode(HttpServletRequest request, HttpServletResponse response, @PathVariable String type) throws IOException, ServletRequestBindingException {
 		ServletWebRequest servletWebRequest = new ServletWebRequest(request, response);
 		ValidateCodeProcessor validateCodeProcessor = validateCodeProcessorHolder.findValidateCodeProcessor(type);
 		validateCodeProcessor.create(servletWebRequest);

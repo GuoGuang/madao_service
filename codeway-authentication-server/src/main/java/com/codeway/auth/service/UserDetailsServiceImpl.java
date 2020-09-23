@@ -23,7 +23,7 @@ import java.util.Set;
  * 实现 Spring Security的UserDetailsService接口方法，用于身份认证
  **/
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
 	private UserServiceRpc userService;

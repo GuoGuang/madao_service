@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
  * 自定义异常，Spring Security异常之外的异常
  **/
 public class RewriteAccessDenyFilter extends GenericFilterBean {
-	private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
+//	private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		try {

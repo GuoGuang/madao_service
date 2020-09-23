@@ -8,6 +8,7 @@ import java.util.Collection;
 
 /**
  * 短信登录验证信息封装类
+ * @author LGG
  */
 public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
 
@@ -37,10 +38,12 @@ public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
 		super.setAuthenticated(true);
 	}
 
+	@Override
 	public Object getCredentials() {
 		return null;
 	}
 
+	@Override
 	public Object getPrincipal() {
 		return this.principal;
 	}

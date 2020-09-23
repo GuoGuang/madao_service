@@ -1,9 +1,5 @@
-/**
- * 
- *//*
-
 package com.codeway.auth.config;
-
+/**
 import com.codeway.auth.filter.SmsCodeAuthenticationFilter;
 import com.codeway.auth.handler.CustomAuthenticationFailureHandler;
 import com.codeway.auth.handler.CustomAuthenticationSuccessHandler;

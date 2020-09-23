@@ -31,27 +31,26 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-	@Autowired
-	private DruidDataSource dataSource;
+	private final DruidDataSource dataSource;
+	private final SmsCodeAuthenticationProvider smsCodeAuthenticationProvider;
+	private final CaptchaAuthenticationProvider captchaAuthenticationProvider;
+	// 全局过滤器校验码
+	private final ValidateCodeSecurityConfig validateCodeSecurityConfig;
+	private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+	private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
 	// 短信验证码
 	//@Autowired
 	//private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
-	@Autowired
-	private SmsCodeAuthenticationProvider SmsCodeAuthenticationProvider;
-	@Autowired
-	private CaptchaAuthenticationProvider captchaAuthenticationProvider;
-
-	// 全局过滤器校验码
-	@Autowired
-	private ValidateCodeSecurityConfig validateCodeSecurityConfig;
-
-	@Autowired
-	private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-
-	@Autowired
-	private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+	public OauthWebServerSecurityConfig(DruidDataSource dataSource, SmsCodeAuthenticationProvider smsCodeAuthenticationProvider, CaptchaAuthenticationProvider captchaAuthenticationProvider, ValidateCodeSecurityConfig validateCodeSecurityConfig, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler) {
+		this.dataSource = dataSource;
+		this.smsCodeAuthenticationProvider = smsCodeAuthenticationProvider;
+		this.captchaAuthenticationProvider = captchaAuthenticationProvider;
+		this.validateCodeSecurityConfig = validateCodeSecurityConfig;
+		this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
+		this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
+	}
 
 	@Override
 	public void configure(WebSecurity web){
@@ -134,8 +133,8 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 	 * 目前支持验证码和手机验证码登录
 	 */
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(SmsCodeAuthenticationProvider)
+	protected void configure(AuthenticationManagerBuilder auth) {
+		auth.authenticationProvider(smsCodeAuthenticationProvider)
 			.authenticationProvider(captchaAuthenticationProvider);
 	}
 

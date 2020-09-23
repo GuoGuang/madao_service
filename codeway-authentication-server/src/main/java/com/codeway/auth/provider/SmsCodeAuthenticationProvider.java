@@ -1,14 +1,13 @@
 package com.codeway.auth.provider;
 
 import com.codeway.auth.exception.ValidateCodeException;
-import com.codeway.auth.service.CustomUserDetailsService;
+import com.codeway.auth.service.UserDetailsServiceImpl;
 import com.codeway.auth.token.SmsCodeAuthenticationToken;
 import com.codeway.model.pojo.user.User;
 import com.codeway.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -20,16 +19,16 @@ import org.springframework.stereotype.Component;
 public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
 	@Autowired
-	private CustomUserDetailsService userDetailsService;
+	private UserDetailsServiceImpl userDetailsServiceImpl;
 
 	@Override
-	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+	public Authentication authenticate(Authentication authentication) {
 
 		SmsCodeAuthenticationToken authenticationToken = (SmsCodeAuthenticationToken) authentication;
 		String phone = (String) authenticationToken.getPrincipal();
 		User user = new User();
 		user.setPhone(phone);
-		UserDetails userInfo = userDetailsService.loadUserByUsername(JsonUtil.toJsonString(user));
+		UserDetails userInfo = userDetailsServiceImpl.loadUserByUsername(JsonUtil.toJsonString(user));
 		if (userInfo == null) {
 			throw new ValidateCodeException("手机号不存在！");
 		}

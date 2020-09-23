@@ -1,7 +1,7 @@
 package com.codeway.auth.provider;
 
 import com.codeway.auth.exception.ValidateCodeException;
-import com.codeway.auth.service.CustomUserDetailsService;
+import com.codeway.auth.service.UserDetailsServiceImpl;
 import com.codeway.auth.token.CaptchaAuthenticationToken;
 import com.codeway.db.redis.service.RedisService;
 import com.codeway.model.pojo.user.User;
@@ -10,7 +10,6 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,16 +31,16 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	private CustomUserDetailsService userDetailsService;
+	private UserDetailsServiceImpl userDetailsServiceImpl;
 
-
-	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+	@Override
+	public Authentication authenticate(Authentication authentication) {
 
 		CaptchaAuthenticationToken authenticationToken = (CaptchaAuthenticationToken) authentication;
 		String username = authenticationToken.getPrincipal().toString();
 		User user1 = new User();
 		user1.setAccount(username);
-		UserDetails user = userDetailsService.loadUserByUsername(JsonUtil.toJsonString(user1));
+		UserDetails user = userDetailsServiceImpl.loadUserByUsername(JsonUtil.toJsonString(user1));
 		if (user == null){
 			throw new ValidateCodeException("用户名或密码错误！");
 		}
@@ -69,6 +68,7 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
 	 * @param authorization 符合条件的类型
 	 * @return boolean
 	 */
+	@Override
 	public boolean supports(Class<?> authentication) {
 		//负责处理MyAuthentication类型登录认证，参考上一篇
 		return (CaptchaAuthenticationToken.class.isAssignableFrom(authentication));

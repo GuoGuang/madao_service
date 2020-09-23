@@ -6,7 +6,6 @@ import com.codeway.auth.validate.impl.sms.AliSmsCodeSender;
 import com.codeway.auth.validate.impl.sms.DefaultSmsCodeSender;
 import com.codeway.auth.validate.impl.sms.SmsCodeSender;
 import com.codeway.properties.SecurityProperties;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +17,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ValidateCodeBeanConfig {
 	
-	@Autowired
-	private SecurityProperties securityProperties;
-	
+	private final SecurityProperties securityProperties;
+
+	public ValidateCodeBeanConfig(SecurityProperties securityProperties) {
+		this.securityProperties = securityProperties;
+	}
+
 	/**
 	 * 图片验证码图片生成器
 	 * @return

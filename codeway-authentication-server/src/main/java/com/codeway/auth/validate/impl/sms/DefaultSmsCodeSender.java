@@ -1,19 +1,16 @@
 package com.codeway.auth.validate.impl.sms;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.codeway.utils.LogBack;
 
 /**
  * 默认的短信验证码发送器
  */
 public class DefaultSmsCodeSender implements SmsCodeSender {
-	
-	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public void send(String phone, String code) {
-		logger.warn("请配置真实的短信验证码发送器(SmsCodeSender)");
-		logger.info("向手机"+phone+"发送短信验证码"+code);
+		LogBack.warn("请配置真实的短信验证码发送器(SmsCodeSender)");
+		LogBack.info("向手机 {} 发送短信验证码: {}",phone,code);
 	}
 
 }
