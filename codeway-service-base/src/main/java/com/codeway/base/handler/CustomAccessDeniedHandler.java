@@ -24,7 +24,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 		httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		// 如果这里状态改为HttpServletResponse.SC_UNAUTHORIZED 会导致feign之间调用异常 see https://xujin.org/sc/sc-feign-4xx/
 //		httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-		JsonData jsonData =  new JsonData(StatusEnum.UN_AUTHORIZED);
+		JsonData<Object> jsonData =  new JsonData<>(StatusEnum.UN_AUTHORIZED);
 		httpServletResponse.getWriter().write(JsonUtil.toJsonString(jsonData));
 	}
 }

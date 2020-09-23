@@ -2,7 +2,6 @@ package com.codeway.fallback.base;
 
 import com.codeway.api.base.LoginLogServiceRpc;
 import com.codeway.enums.StatusEnum;
-import com.codeway.model.pojo.base.LoginLog;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.LogBack;
 import feign.hystrix.FallbackFactory;
@@ -20,13 +19,9 @@ public class LoginLogServiceRpcFallbackFactory implements FallbackFactory<LoginL
 
 	@Override
 	public LoginLogServiceRpc create(Throwable throwable) {
-		return new LoginLogServiceRpc() {
-
-			@Override
-			public JsonData<Void> insertLoginLog(String auth, LoginLog loginLog) {
-				LogBack.error(ERROR_INFO, "insertLoginLog", loginLog, throwable);
-				return JsonData.failed(StatusEnum.RPC_ERROR);
-			}
+		return (auth, loginLog) -> {
+			LogBack.error(ERROR_INFO, "insertLoginLog", loginLog, throwable);
+			return JsonData.failed(StatusEnum.RPC_ERROR);
 		};
 	}
 }

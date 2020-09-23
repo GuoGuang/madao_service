@@ -1,5 +1,6 @@
 package com.codeway.user.filter;
 
+import com.codeway.utils.LogBack;
 import com.codeway.utils.security.JWTAuthentication;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,8 @@ public class JwtFilter extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request,HttpServletResponse response, Object handler) throws Exception {
 		final String authorization = request.getHeader("Authorization");
 		if (StringUtils.isNotEmpty(authorization) && StringUtils.startsWith(authorization,"Bearer-")) {
-			final String token = authorization.substring(7); // The part after "Bearer "
-			/*Claims claims = jwtAuthentication.parseJWT(token);
+			/*final String token = authorization.substring(7); // The part after "Bearer "
+			Claims claims = jwtAuthentication.parseJWT(token);
 			if (claims != null) {
 				// 管理员角色
 				if(StringUtils.equals("admin",claims.get("roles").toString())){
@@ -55,6 +56,7 @@ public class JwtFilter extends HandlerInterceptorAdapter {
 	 */
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+		LogBack.info("postHandle invoke");
 		super.postHandle(request, response, handler, modelAndView);
 	}
 
@@ -68,6 +70,7 @@ public class JwtFilter extends HandlerInterceptorAdapter {
 	 */
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+		LogBack.info("afterCompletion invoke");
 		super.afterCompletion(request, response, handler, ex);
 	}
 }

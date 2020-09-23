@@ -24,5 +24,5 @@ public interface OptLogServiceRpc {
 	 * @return JsonData
 	 */
 	@PostMapping
-	JsonData insertOptLog(@RequestBody OptLog optLog);
+	JsonData<Object> insertOptLog(@RequestBody OptLog optLog);
 }

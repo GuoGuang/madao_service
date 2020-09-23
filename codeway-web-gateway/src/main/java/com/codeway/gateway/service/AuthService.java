@@ -42,11 +42,11 @@ public class AuthService {
 
     /**
      * jwt验签
-     */
     private MacSigner verifier;
+	 */
 
-    public JsonData authenticate(String authentication, String url, String method) {
-	    JsonData jsonData = authServiceRpc.authPermission(url,method,BEARER+authentication);
+    public JsonData<Object> authenticate(String authentication, String url, String method) {
+	    JsonData<Object> jsonData = authServiceRpc.authPermission(url,method,BEARER+authentication);
 	    if (!JsonData.isSuccess(jsonData)){
 		    throw new RemoteRpcException(jsonData);
 	    }
@@ -62,7 +62,7 @@ public class AuthService {
         		ignoreUrl -> url.startsWith(StringUtils.trim(ignoreUrl)));
     }
 
-    public boolean hasPermission(JsonData authJson) {
+    public boolean hasPermission(JsonData<Object> authJson) {
         return authJson.isStatus();
     }
 

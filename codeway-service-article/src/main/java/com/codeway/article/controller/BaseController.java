@@ -12,10 +12,9 @@ import java.util.Map;
  *
  * @author Vincent
  */
-public abstract class BaseController {
+public interface BaseController {
 
-
-	public Map<String, String> getUserInfo(HttpServletRequest request){
+	default Map<String, String> getUserInfo(HttpServletRequest request){
 		String fullAuthorization = JWTAuthentication.getFullAuthorization(request.getHeader(HttpHeaders.AUTHORIZATION));
 		Map<String, String> stringStringMap = JWTAuthentication.parseJwtToClaims(fullAuthorization);
 		return stringStringMap;

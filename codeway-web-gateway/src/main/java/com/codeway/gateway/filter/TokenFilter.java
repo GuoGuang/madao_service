@@ -13,6 +13,7 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -101,8 +102,8 @@ public class TokenFilter implements GlobalFilter, Ordered {
 	private Mono<Void> unAuthorized(ServerWebExchange serverWebExchange,StatusEnum statusEnum) {
 		ServerHttpResponse response = serverWebExchange.getResponse();
 		response.setStatusCode(response.getStatusCode());
-		response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
-		JsonData jsonData = new JsonData(statusEnum);
+		response.getHeaders().add("Content-Type",MediaType.APPLICATION_JSON_VALUE);
+		JsonData<Object> jsonData = new JsonData<>(statusEnum);
 		DataBuffer buffer = null;
 		try {
 			byte[] bytes = JsonUtil.toJSONBytes(jsonData);

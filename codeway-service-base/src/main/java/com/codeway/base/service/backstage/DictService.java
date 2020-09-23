@@ -7,6 +7,7 @@ import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.model.dto.base.DictDto;
 import com.codeway.model.pojo.base.Dict;
 import com.codeway.utils.BeanUtil;
+import com.codeway.utils.LogBack;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -83,11 +84,11 @@ public class DictService {
 
 	/**
 	 * 获取组字典类型，所有根节点
-	 *
-	 * @param dict 资源实体
+	 * @param dictDto 资源实体
 	 * @return JsonData
 	 */
 	public List<DictDto> findIdNameTypeByParentId(DictDto dictDto) {
+		LogBack.info("参数：{}",dictDto );
 		return dictDao.findByParentId("0")
 				.map(dictMapper::toDto)
 				.orElseThrow(ResourceNotFoundException::new);

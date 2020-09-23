@@ -24,9 +24,9 @@ public class SmsListener {
 	private SmsUtil smsUtil;
 
 	@Value("${aliyun.sms.template_code}")
-	private String template_code;// 模板编号
+	private String templateCode;// 模板编号
 	@Value("${aliyun.sms.sign_name}")
-	private String sign_name;// 签名 【阿里云】
+	private String signName;// 签名 【阿里云】
 
 	/**
 	 * 发送短信
@@ -36,7 +36,7 @@ public class SmsListener {
 	public SendSmsResponse sendSms(Map<String,String> message){
         LogBack.info("手机号：{}，验证码：{}；", message.get("mobile"), message.get("code"));
 		try {
-			return smsUtil.sendSms(message.get("mobile"), template_code, sign_name,
+			return smsUtil.sendSms(message.get("mobile"), templateCode, signName,
 					"{\"code\":\"" + message.get("code") + "\"}");
         } catch (ClientException | NullPointerException e) {
             LogBack.error("发送手机验证码失败：{}", e.getMessage(), e);

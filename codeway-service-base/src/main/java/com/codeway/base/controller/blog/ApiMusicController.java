@@ -1,6 +1,5 @@
 package com.codeway.base.controller.blog;
 
-import com.codeway.base.service.blog.ApiMusicService;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.JsonUtil;
 import io.swagger.annotations.Api;
@@ -17,12 +16,6 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/api/ba/music")
 public class ApiMusicController {
-
-	private final ApiMusicService apiMusicService;
-
-	public ApiMusicController(ApiMusicService apiMusicService) {
-		this.apiMusicService = apiMusicService;
-	}
 
     @GetMapping
     @ApiOperation(value = "查询所有音乐", notes = "ApiMusic")

@@ -33,6 +33,7 @@ public class ApiTagsService {
 	}
 
 	public List<TagDto> findTagsByCondition(TagDto tagDto, Pageable pageable) {
+		LogBack.info("查询参数---------->",tagDto);
 		Page<TagDto> tagsQueryResults = tagDao.findAll(pageable)
 				.map(tagMapper::toDto);
 

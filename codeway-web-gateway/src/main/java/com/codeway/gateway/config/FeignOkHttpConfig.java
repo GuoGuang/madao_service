@@ -1,6 +1,5 @@
-/*
 package com.codeway.gateway.config;
-
+/*
 import feign.Feign;
 import okhttp3.ConnectionPool;
 import org.springframework.beans.factory.annotation.Autowired;

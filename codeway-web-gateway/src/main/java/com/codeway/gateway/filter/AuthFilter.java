@@ -23,6 +23,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.TreeMap;
 
+/**
+ * @deprecated  {@link TokenFilter}
+ * @author LGG
+ */
 @Component
 @Deprecated
 public class AuthFilter implements GatewayFilter, Ordered {
@@ -33,9 +37,9 @@ public class AuthFilter implements GatewayFilter, Ordered {
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 		exchange.getResponse().setStatusCode(HttpStatus.OK);
 		exchange.getResponse().getHeaders().add("Content-Type", "application/json;charset=UTF-8");
-		JsonData result = new JsonData();
+		JsonData<Object> result = new JsonData<>();
 		//后端调用跳过验签
-		boolean skipAuth = Boolean.valueOf(exchange.getRequest().getQueryParams().getFirst("skipAuth"));
+		boolean skipAuth = Boolean.parseBoolean(exchange.getRequest().getQueryParams().getFirst("skipAuth"));
 		if (!skipAuth) {
 			String sign = exchange.getRequest().getQueryParams().getFirst("sign");
 			if (StringUtils.isEmpty(sign)) {
@@ -93,7 +97,7 @@ public class AuthFilter implements GatewayFilter, Ordered {
 	 * @param result
 	 * @return
 	 */
-	private DataBuffer getBodyBuffer(ServerHttpResponse response, JsonData result) {
+	private DataBuffer getBodyBuffer(ServerHttpResponse response, JsonData<Object> result) {
 		try {
 			return response.bufferFactory().wrap(JsonUtil.toJSONBytes(result));
 		} catch (IOException e) {

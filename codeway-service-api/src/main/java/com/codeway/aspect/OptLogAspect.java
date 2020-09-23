@@ -13,7 +13,6 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
@@ -46,8 +45,8 @@ public class OptLogAspect {
 	//@Pointcut("execution (* com.codeway.*.controller..*.*(..)) && !execution(* com.codeway.*.controller.UserController.login(..))  && !execution(* com.codeway.*.controller.UserController.logout(..))")
 	@Pointcut(value="@annotation(com.codeway.annotation.OptLog)")
 	public void controllerAspect() {
+		LogBack.info("切入点签名");
 	}
-	private static final ObjectMapper MAPPER = new ObjectMapper();
 	/**
 	 * 前置通知 用于拦截Controller层记录用户的操作
 	 * @param joinPoint 切点

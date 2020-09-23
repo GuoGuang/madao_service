@@ -2,7 +2,6 @@ package com.codeway.fallback.base;
 
 import com.codeway.api.base.OptLogServiceRpc;
 import com.codeway.enums.StatusEnum;
-import com.codeway.model.pojo.base.OptLog;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.LogBack;
 import feign.hystrix.FallbackFactory;
@@ -20,13 +19,9 @@ public class OptLogServiceRpcFallbackFactory implements FallbackFactory<OptLogSe
 
 	@Override
 	public OptLogServiceRpc create(Throwable throwable) {
-		return new OptLogServiceRpc() {
-
-			@Override
-            public JsonData<Void> insertOptLog(OptLog optLog) {
-                LogBack.error(ERROR_INFO, "insertOptLog", optLog, throwable);
-                return JsonData.failed(StatusEnum.RPC_ERROR);
-            }
-		};
+		return optLog -> {
+LogBack.error(ERROR_INFO, "insertOptLog", optLog, throwable);
+return JsonData.failed(StatusEnum.RPC_ERROR);
+};
 	}
 }

@@ -19,13 +19,9 @@ public class AuthServiceRpcFallbackFactory implements FallbackFactory<AuthServic
 
 	@Override
 	public AuthServiceRpc create(Throwable throwable) {
-		return new AuthServiceRpc() {
-
-			@Override
-			public JsonData authPermission(String url,String method,String authentication) {
-				LogBack.error(ERROR_INFO, "login", authentication, throwable);
-				return JsonData.failed(StatusEnum.RPC_ERROR);
-			}
+		return (url, method, authentication) -> {
+			LogBack.error(ERROR_INFO, "login", authentication, throwable);
+			return JsonData.failed(StatusEnum.RPC_ERROR);
 		};
 	}
 }

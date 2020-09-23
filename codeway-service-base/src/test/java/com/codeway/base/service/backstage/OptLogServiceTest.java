@@ -32,17 +32,4 @@ public class OptLogServiceTest {
 	    OptLogDto byId = optLogService.findById("1157967746300456962");
         Assert.assertNotNull(byId);
     }
-
-    @Test
-    public void insertOptLog() {
-	    OptLogDto optLog = new OptLogDto();
-        optLog.setId("1200629646627049472");
-        optLog.setBrowser("maxxxxx");
-        optLogService.insertOptLog(optLog);
-    }
-
-    @Test
-    public void deleteBatch() {
-        optLogService.deleteBatch(Arrays.asList("1157660486592466945", "1157672932308783105"));
-    }
 }

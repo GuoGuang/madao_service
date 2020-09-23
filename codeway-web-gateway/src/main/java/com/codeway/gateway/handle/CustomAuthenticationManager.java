@@ -1,5 +1,5 @@
-package com.codeway.gateway.handle;/*
-package com.codeway.gateway.handler;
+package com.codeway.gateway.handle;
+/*
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authorization.AuthenticationManager;

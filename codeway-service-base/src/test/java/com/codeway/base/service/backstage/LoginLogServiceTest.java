@@ -31,16 +31,4 @@ public class LoginLogServiceTest {
         Assert.assertNotNull(byId);
     }
 
-    @Test
-    public void save() {
-	    LoginLogDto loginLog = new LoginLogDto();
-        loginLog.setId("1200629646627049472");
-        loginLog.setBrowser("maxxxxx");
-        loginLogService.save(loginLog);
-    }
-
-    @Test
-    public void deleteBatch() {
-        loginLogService.deleteBatch(Arrays.asList("1171411986963582977", "1171314643899600897"));
-    }
 }

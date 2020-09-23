@@ -26,7 +26,7 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 @Api(tags = "文章管理")
 @RestController
 @RequestMapping(value = "/article",produces = "application/json")
-public class ArticleController extends BaseController {
+public class ArticleController implements BaseController {
 
     private final ArticleService articleService;
 

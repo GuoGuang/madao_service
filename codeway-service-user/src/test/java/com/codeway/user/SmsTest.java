@@ -1,5 +1,6 @@
 package com.codeway.user;
 
+import com.codeway.utils.DateUtil;
 import com.codeway.utils.LogBack;
 import com.codeway.utils.third.SmsUtil;
 import com.codeway.utils.third.Smsbao;
@@ -8,6 +9,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,7 +37,8 @@ public class SmsTest {
 //					 	 "xx",
 //							"{'code':'66666'}");
 			String phone = "13105648403";
-			smsbao.sendSms(phone, "123");
+			String result = smsbao.sendSms(phone, "123");
+			assertThat(result).isNotNull();
 		} catch (Exception e) {
 			LogBack.error(e.getMessage(), e);
 		}

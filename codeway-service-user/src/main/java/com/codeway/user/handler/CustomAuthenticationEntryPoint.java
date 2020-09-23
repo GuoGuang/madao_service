@@ -28,7 +28,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 		// 如果这里状态改为HttpServletResponse.SC_UNAUTHORIZED 会导致feign之间调用异常 see https://xujin.org/sc/sc-feign-4xx/
 		httpServletResponse.setStatus(HttpServletResponse.SC_OK);
 		LogBack.error("用户没有登录时返回给前端的数据");
-		JsonData jsonData =  new JsonData(StatusEnum.LOGIN_EXPIRED);
+		JsonData<Object> jsonData =  new JsonData<>(StatusEnum.LOGIN_EXPIRED);
 		httpServletResponse.getWriter().write(JsonUtil.toJsonString(jsonData));
 	}
 }

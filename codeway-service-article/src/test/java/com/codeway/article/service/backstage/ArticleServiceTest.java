@@ -54,24 +54,6 @@ class ArticleServiceTest {
 	    Assertions.assertEquals(new ArticleDto(), result);
     }
 
-    @Test
-    void testInsertOrUpdateArticle() {
-        when(redisService.lSet(anyString(), any())).thenReturn(true);
-
-	    articleService.insertOrUpdateArticle(new HashMap<String, String>() {{
-		    put("String", "String");
-	    }}, new ArticleDto());
-    }
-
-    @Test
-    void testDeleteArticleByIds() {
-        articleService.deleteArticleByIds(Arrays.<String>asList("String"));
-    }
-
-    @Test
-    void testExamine() {
-        articleService.examine("id");
-    }
 }
 
 //Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme

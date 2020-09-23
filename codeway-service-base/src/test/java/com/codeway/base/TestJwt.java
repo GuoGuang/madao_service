@@ -10,6 +10,9 @@ import org.springframework.security.jwt.Jwt;
 import org.springframework.security.jwt.JwtHelper;
 import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.Assert;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Administrator
@@ -31,13 +34,8 @@ public class TestJwt {
 
         //拿到jwt令牌中自定义的内容
         String claims = jwt.getClaims();
-        System.out.println(claims);
+        System.out.println();
+        assertThat(claims).isNotNull();
     }
 
-    @Test
-	public void aa(){
-	    JsonData jsonData =  new JsonData(StatusEnum.UN_AUTHORIZED);
-	    String s = JsonUtil.toJsonString(jsonData);
-	    System.out.println(s);
-    }
 }

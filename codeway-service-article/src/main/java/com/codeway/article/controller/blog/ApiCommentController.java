@@ -10,8 +10,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.springframework.validation.annotation.Validated;
@@ -58,21 +58,22 @@ public class ApiCommentController {
 
 	@ApiOperation(value = "", notes = "根据qq号获取用户信息")
 	@GetMapping(value = "/user/{qq}")
-	public JsonData<Map> findUserInfo(@PathVariable String qq) throws IOException {
+	public JsonData<Map<String, Object>> findUserInfo(@PathVariable String qq) throws IOException {
 
 		boolean matches = Pattern.matches("^[\\d]{4,10}", qq);
 		if (!matches) {
 			return JsonData.failed(StatusEnum.PARAM_INVALID, "QQ号格式不对啊，亲");
 		}
-		HttpClient client = HttpClients.createDefault();
-		String url = "https://api.uomg.com/api/qq.info?qq=" + qq;
-		HttpGet get = new HttpGet(url);
-		HttpResponse res = client.execute(get);
-		Map<String, Object> QqInfo = JsonUtil.jsonToMap(EntityUtils.toString(res.getEntity()));
-		if (!StringUtils.equals("1", QqInfo.get("code") + "")) {
-			return JsonData.failed(StatusEnum.PARAM_INVALID, "无效QQ!");
+		try (CloseableHttpClient client = HttpClients.createDefault()) {
+			String url = "https://api.uomg.com/api/qq.info?qq=" + qq;
+			HttpGet get = new HttpGet(url);
+			HttpResponse res = client.execute(get);
+			Map<String, Object> qqInfo = JsonUtil.jsonToMap(EntityUtils.toString(res.getEntity()));
+			if (!StringUtils.equals("1", qqInfo.get("code") + "")) {
+				return JsonData.failed(StatusEnum.PARAM_INVALID, "无效QQ!");
+			}
+			return JsonData.success(qqInfo);
 		}
-		return JsonData.success(QqInfo);
 	}
 
 	@ApiOperation(value = "回复评论/添加新评论", notes = "回复评论/添加新评论")

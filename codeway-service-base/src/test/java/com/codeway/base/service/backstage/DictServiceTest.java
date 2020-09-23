@@ -28,32 +28,6 @@ public class DictServiceTest {
     }
 
     @Test
-    public void findDictById() {
-	    DictDto dictByCondition = dictService.findDictById("1133978689470599168");
-        System.out.println(dictByCondition);
-    }
-
-    @Test
-    public void saveOrUpdate() {
-//        DictDto dictById = dictService.findDictById("1");
-//        dictById.setName("foo");
-//        dictService.saveOrUpdate(dictById);
-
-	    DictDto insertDict = new DictDto();
-        insertDict.setName("bar");
-        insertDict.setCode("001");
-        insertDict.setParentId("0");
-        insertDict.setDescription("0");
-        insertDict.setType("0");
-        dictService.saveOrUpdate(insertDict);
-    }
-
-    @Test
-    public void deleteBatch() {
-        dictService.deleteBatch(Arrays.asList("1133978690313654272", "1133978690737278976"));
-    }
-
-    @Test
     public void findIdNameTypeByParentId() {
 
 	    DictDto dict = new DictDto();

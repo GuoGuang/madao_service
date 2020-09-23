@@ -39,17 +39,4 @@ public class ResourceServiceTest {
 	    Set<ResourceDto> resourceByRoleIds = resourceService.findResourceByRoleIds(Arrays.asList("1119477963140296706"));
         Assert.assertNotNull(resourceByRoleIds);
     }
-
-    @Test
-    public void saveOrUpdate() {
-	    ResourceDto resource = new ResourceDto();
-        resource.setName("1234");
-        resource.setDescription("描述");
-        resourceService.saveOrUpdate(resource);
-    }
-
-    @Test
-    public void deleteByIds() {
-        resourceService.deleteByIds(Arrays.asList("1200696171232890880"));
-    }
 }

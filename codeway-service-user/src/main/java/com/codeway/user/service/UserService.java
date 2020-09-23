@@ -1,6 +1,5 @@
 package com.codeway.user.service;
 
-import com.codeway.api.base.LoginLogServiceRpc;
 import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.exception.custom.UserException;
 import com.codeway.model.dto.user.ResourceDto;
@@ -15,7 +14,6 @@ import com.codeway.user.dao.UserRoleDao;
 import com.codeway.user.mapper.ResourceMapper;
 import com.codeway.user.mapper.RoleMapper;
 import com.codeway.user.mapper.UserMapper;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,22 +38,16 @@ public class UserService {
 	private final RoleDao roleDao;
 	private final ResourceDao resourceDao;
 	private final ResourceMapper resourceMapper;
-
-
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-	private final JPAQueryFactory jpaQueryFactory;
 
 	public UserService(UserDao userDao,
 	                   UserMapper userMapper,
 	                   BCryptPasswordEncoder bCryptPasswordEncoder,
-	                   LoginLogServiceRpc loginLogServiceRpc,
 	                   RoleDao roleDao,
-	                   ResourceDao resourceDao,
 	                   UserRoleDao userRoleDao,
 	                   RoleMapper roleMapper,
 	                   ResourceDao resourceDao1,
-	                   ResourceMapper resourceMapper, JPAQueryFactory jpaQueryFactory) {
+	                   ResourceMapper resourceMapper) {
 		this.userDao = userDao;
 		this.userMapper = userMapper;
 		this.roleDao = roleDao;
@@ -64,7 +56,6 @@ public class UserService {
 		this.roleMapper = roleMapper;
 		this.resourceDao = resourceDao1;
 		this.resourceMapper = resourceMapper;
-		this.jpaQueryFactory = jpaQueryFactory;
 	}
 
 	/**

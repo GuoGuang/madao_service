@@ -45,7 +45,7 @@ public class UserController {
 	@PostMapping("/permission")
 	@ApiOperation(value = "获取用户角色、权限", notes = "User")
 	public JsonData<UserDto> getUserPermission(@RequestHeader("x-client-token-user") String userStr) {
-		Map user = JsonUtil.jsonToPojo(userStr, Map.class);
+		Map<String, Object> user = JsonUtil.jsonToPojo(userStr, Map.class);
 		UserDto result = userService.getUserPermission((String) user.get("id"));
 		return JsonData.success(result);
 	}
