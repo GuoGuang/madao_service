@@ -45,7 +45,7 @@ public class CommentService {
 	public void saveOrUpdate(CommentDto commentDto) {
 		if (StringUtils.isNotBlank(commentDto.getId())) {
 			Comment tempComment = commentDao.findById(commentDto.getId()).orElseThrow(ResourceNotFoundException::new);
-			BeanUtil.copyProperties(tempComment, commentDto);
+				BeanUtil.copyProperties(tempComment, commentDto);
 		}
 		commentDao.save(commentMapper.toEntity(commentDto));
 	}

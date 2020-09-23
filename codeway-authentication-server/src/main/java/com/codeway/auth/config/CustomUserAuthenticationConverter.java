@@ -19,8 +19,11 @@ import java.util.Map;
 @Component
 public class CustomUserAuthenticationConverter extends DefaultUserAuthenticationConverter {
 
-	@Autowired
-	UserDetailsService userDetailsService;
+	private final UserDetailsService userDetailsServiceImpl;
+
+	public CustomUserAuthenticationConverter(UserDetailsService userDetailsServiceImpl) {
+		this.userDetailsServiceImpl = userDetailsServiceImpl;
+	}
 
 	/**
 	 * 定义access_token内容，JWT谁都可读
@@ -36,7 +39,7 @@ public class CustomUserAuthenticationConverter extends DefaultUserAuthentication
 			userJwt = (UserJwt) principal;
 		}else{
 			//refresh_token默认不去调用userdetailService获取用户信息，手动去调用，得到 UserJwt
-			UserDetails userDetails = userDetailsService.loadUserByUsername(name);
+			UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(name);
 			userJwt = (UserJwt) userDetails;
 		}
 		if (authentication.getAuthorities() != null && !authentication.getAuthorities().isEmpty()) {
