@@ -23,7 +23,7 @@ public class Swagger2Config {
     }
 
     private ApiInfo apiInfo() {
-    return new ApiInfoBuilder().title("项目接口API").version("0.0.1").build();
+    return new ApiInfoBuilder().title("项目接口API").version("6.2.3").build();
     }
 
 }
