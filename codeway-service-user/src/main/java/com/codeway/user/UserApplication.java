@@ -22,7 +22,6 @@ import javax.persistence.EntityManager;
  * SpringBoot主配置类只会扫描自己所在的包及其子包下面,如果不加此扫描codeway-common里的公用包则扫描不到
  * ComponentScan(basePackages = {"com.codeway"})
  **/
-
 @EntityScan("com.codeway.model.pojo")
 @SpringBootApplication
 @EnableEurekaClient
@@ -44,7 +43,6 @@ public class UserApplication {
 
 	/**
 	 * BCrypt加密算法
-	 *
 	 * @return : BCryptPasswordEncoder
 	 */
 	@Bean
@@ -54,7 +52,6 @@ public class UserApplication {
 
 	/**
 	 * 配置querydsl
-	 *
 	 * @see https://www.cnblogs.com/jpfss/p/11003964.html
 	 */
     @Bean
