@@ -5,7 +5,7 @@
 
     <!--  ELK 收集日志到Logstash,不使用kafka推送消息  -->
 <!--    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-       <destination>121.36.158.84:5000</destination>
+       <destination>45.77.16.230:5000</destination>
          <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}  -  %msg%n</pattern>
             <charset>UTF-8</charset>
@@ -15,7 +15,7 @@
     <!-- 使用kafka推送消息到Logstash  -->
     <appender name="KAFKA" class="com.github.danielwegener.logback.kafka.KafkaAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}  -  %msg%n</pattern>
+            <pattern>Config %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
         </encoder>
         <topic>test</topic>
         <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy"/>
@@ -53,7 +53,7 @@
     <!-- 控制台输出日志级别 -->
     <root level="info">
 <!--        <appender-ref ref="LOGSTASH"/>-->
-<!--        <appender-ref ref="KAFKA"/>-->
+        <appender-ref ref="KAFKA"/>
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration> 
