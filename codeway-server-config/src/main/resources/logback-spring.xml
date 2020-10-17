@@ -20,7 +20,7 @@
         <topic>test</topic>
         <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy"/>
         <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>
-        <producerConfig>bootstrap.servers=45.76.215.59:9092</producerConfig>
+        <producerConfig>bootstrap.servers=45.77.16.230:9092</producerConfig>
         <appender-ref ref="CONSOLE"/>
     </appender>
 
