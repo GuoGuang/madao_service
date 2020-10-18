@@ -33,7 +33,7 @@ spring:
 
 
 auth:
-  ignoreUrls: /oauth,/auth,/social,/api
+  ignoreUrls: /oauth,/auth,/social
   commonUrls: /su/user/permission
 
 #      routes:
