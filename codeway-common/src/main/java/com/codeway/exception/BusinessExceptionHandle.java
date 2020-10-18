@@ -1,7 +1,6 @@
 package com.codeway.exception;
 
-import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.exception.custom.UserException;
+import com.codeway.exception.custom.*;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.LogBack;
 import org.springframework.core.Ordered;
@@ -24,6 +23,24 @@ public class BusinessExceptionHandle {
 
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public JsonData<Void> resourceNotFoundException(ResourceNotFoundException ex) {
+		LogBack.error(ex.getMessage(), ex);
+		return JsonData.failed(ex);
+	}
+
+	@ExceptionHandler(PhoneExistingException.class)
+	public JsonData<Void> phoneExistingException(PhoneExistingException ex) {
+		LogBack.error(ex.getMessage(), ex);
+		return JsonData.failed(ex);
+	}
+
+	@ExceptionHandler(CaptchaNotMatchException.class)
+	public JsonData<Void> captchaNotMatchException(CaptchaNotMatchException ex) {
+		LogBack.error(ex.getMessage(), ex);
+		return JsonData.failed(ex);
+	}
+
+	@ExceptionHandler(CaptchaExpiredException.class)
+	public JsonData<Void> captchaExpiredException(CaptchaExpiredException ex) {
 		LogBack.error(ex.getMessage(), ex);
 		return JsonData.failed(ex);
 	}
