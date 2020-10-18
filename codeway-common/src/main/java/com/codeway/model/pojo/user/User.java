@@ -95,4 +95,6 @@ public class User extends BasePojo implements Serializable {
 	@Column(length = 1)
 	private Boolean status;
 
+	@Column(length = 1)
+	private Boolean origin;
 }

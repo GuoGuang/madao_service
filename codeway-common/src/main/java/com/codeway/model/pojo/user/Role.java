@@ -4,6 +4,7 @@ import com.codeway.model.BasePojo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Entity
+@Accessors(chain = true)
 @Table(name = "us_role",
 		indexes = {
 				@Index(name = "role_code", columnList = "code"),

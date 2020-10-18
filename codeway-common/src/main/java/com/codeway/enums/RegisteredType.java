@@ -18,7 +18,12 @@ public enum RegisteredType {
 	/**
 	 * GITHUB
 	 */
-	GITHUB(3);
+	GITHUB(3),
+
+	/**
+	 * Phone
+	 */
+	PHONE(4);
 
 	private final Integer value;
 

@@ -7,25 +7,27 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+@Accessors(chain = true)
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "user", description = "用户实体类")
+
 public class UserDto extends BasePojo implements Serializable {
 
 	@ApiModelProperty("角色集合")
 	private Set<RoleDto> roles = new HashSet<>();
 
 	@ApiModelProperty("验证码")
-	@Transient
+	@NotNull(groups = {UserDto.Register.class})
 	private String captcha;
 
 	@ApiModelProperty("用户表主键")
@@ -81,7 +83,7 @@ public class UserDto extends BasePojo implements Serializable {
 	private Integer followCount;
 
 	@ApiModelProperty("手机")
-	@NotNull(message = "手机不能为空")
+	@NotNull(message = "手机不能为空", groups = {UserDto.Register.class})
 	private String phone;
 
 	@ApiModelProperty("联系地址")
@@ -93,7 +95,14 @@ public class UserDto extends BasePojo implements Serializable {
 	@ApiModelProperty(value = "是否锁定(0:未锁定,1已锁定)", example = "0")
 	private Boolean status;
 
+	@ApiModelProperty(value = "1前台用户，0后台用户", example = "0")
+	private Boolean origin;
+
 	public UserDto(String userId) {
 		this.id = userId;
 	}
+
+	public interface Register {
+	}
+
 }
