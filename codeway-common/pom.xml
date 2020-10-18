@@ -15,6 +15,14 @@
     <name>codeway-common【工具类】</name>
 
     <dependencies>
+
+        <!--  https://github.com/DiUS/java-faker Mock Data -->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
