@@ -60,7 +60,6 @@ public class UserService {
 
 	/**
 	 * 注册用户
-	 *
 	 * @param userDto
 	 */
 	public void registerUser(UserDto userDto) {
@@ -185,19 +184,13 @@ public class UserService {
 		return assembleUserRoleData(userDto);
 	}
 
-	public UserDto findByCondition(UserDto userDto) {
+	public UserDto findByCondition(String account) {
 
 		Specification<User> condition = (root, query, builder) -> {
 			List<Predicate> predicates = new ArrayList<>();
-			if (StringUtils.isNotEmpty(userDto.getId())) {
-				predicates.add(builder.equal(root.get("id"), userDto.getId()));
-			}
-			if (StringUtils.isNotEmpty(userDto.getAccount())) {
-				predicates.add(builder.equal(root.get("account"), userDto.getAccount()));
-			}
-			if (StringUtils.isNotEmpty(userDto.getPhone())) {
-				predicates.add(builder.equal(root.get("phone"), userDto.getPhone()));
-			}
+			Predicate accountParam = builder.equal(root.get("account"), account);
+			Predicate phone = builder.equal(root.get("phone"), account);
+			predicates.add(builder.or(accountParam, phone));
 			Predicate[] ps = new Predicate[predicates.size()];
 			return query.where(builder.and(predicates.toArray(ps))).getRestriction();
 		};

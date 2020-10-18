@@ -89,7 +89,7 @@ public class UserController {
 
 	@GetMapping(value = "/info")
 	@ApiOperation(value = "微服务间调用，获取用户信息", notes = "User")
-	public JsonData<UserDto> getUserAccount(UserDto account) {
+	public JsonData<UserDto> getUserAccount(@RequestParam("account") String account) {
 		UserDto result = userService.findByCondition(account);
 		return JsonData.success(result);
 	}
