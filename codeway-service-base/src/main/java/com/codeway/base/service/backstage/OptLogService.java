@@ -49,8 +49,7 @@ public class OptLogService {
 				.map(optLogMapper::toDto);
 		queryResults.getContent().forEach(
 				optLogList -> {
-					UserDto userInfo = userServiceRpc.getUserInfo(
-							new UserDto(optLogList.getUserId()))
+					UserDto userInfo = userServiceRpc.getUserInfoById(optLogList.getUserId())
 							.getData();
 					if (userInfo.getId().equals(optLogList.getUserId())) {
 						optLogList.setUserName(userInfo.getUserName());

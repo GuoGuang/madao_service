@@ -6,7 +6,6 @@ import com.codeway.article.dao.backstage.CategoryDao;
 import com.codeway.article.dao.backstage.TagDao;
 import com.codeway.db.redis.service.RedisService;
 import com.codeway.model.dto.article.ArticleDto;
-import com.codeway.model.dto.user.UserDto;
 import com.codeway.utils.JsonData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,10 +15,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 
-import java.util.Arrays;
-import java.util.HashMap;
-
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 
 class ArticleServiceTest {
     @Mock
@@ -42,10 +39,10 @@ class ArticleServiceTest {
 
     @Test
     void testFindArticleByCondition() {
-	    when(userServiceRpc.getUserInfo(new UserDto("111"))).thenReturn(new JsonData<>(true, 0, null, any()));
+	    when(userServiceRpc.getUserInfo("admin")).thenReturn(new JsonData<>(true, 0, null, any()));
 
 	    Page<ArticleDto> result = articleService.findArticleByCondition(new ArticleDto(), null);
-        Assertions.assertEquals(null, result);
+	    Assertions.assertEquals(null, result);
     }
 
     @Test

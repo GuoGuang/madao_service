@@ -83,8 +83,7 @@ public class ArticleService {
 				.map(articleMapper::toDto);
 		queryResults.getContent().forEach(
 				articleParam -> {
-					UserDto userInfo = userServiceRpc.getUserInfo(
-							new UserDto(articleParam.getUserId()))
+					UserDto userInfo = userServiceRpc.getUserInfoById(articleParam.getUserId())
 							.getData();
 					if (userInfo != null && userInfo.getId().equals(articleParam.getUserId())) {
 						articleParam.setUserName(userInfo.getUserName());

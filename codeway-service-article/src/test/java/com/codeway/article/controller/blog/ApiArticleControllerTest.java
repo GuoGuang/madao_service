@@ -57,7 +57,7 @@ class ApiArticleControllerTest {
     @Test
     void testFindArticleByPrimaryKey() {
 	    when(articleService.findArticleById(anyString())).thenReturn(new ArticleDto());
-	    when(redisService.get(anyString())).thenReturn("getResponse");
+	    when(redisService.get(anyString())).thenReturn(null);
 	    when(redisService.set(anyString(), any(), anyLong())).thenReturn(true);
 
 	    JsonData<Object> result = apiArticleController.findArticleByPrimaryKey("articleId");
