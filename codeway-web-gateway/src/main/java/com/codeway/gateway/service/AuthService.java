@@ -3,6 +3,7 @@ package com.codeway.gateway.service;
 
 import com.codeway.api.auth.AuthServiceRpc;
 import com.codeway.db.redis.service.RedisService;
+import com.codeway.exception.custom.CaptchaNotMatchException;
 import com.codeway.exception.custom.RemoteRpcException;
 import com.codeway.model.dto.user.AuthToken;
 import com.codeway.utils.JsonData;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.jwt.Jwt;
 import org.springframework.security.jwt.JwtHelper;
-import org.springframework.security.jwt.crypto.sign.MacSigner;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Stream;
@@ -97,11 +97,13 @@ public class AuthService {
 	 * @param authentication
 	 * @return
 	 */
-	public AuthToken getAuthToken(String authentication){
+	public AuthToken getAuthToken(String authentication) {
 		//key
-		String key = "user_token:"+JWTAuthentication.getFullAuthorization(authentication);
-		Object expire = redisService.getKeyStr(key);
-		AuthToken authToken = JsonUtil.jsonToPojo(expire.toString(), AuthToken.class);
+		String key = "user_token:" + JWTAuthentication.getFullAuthorization(authentication);
+		String expire = redisService.getKeyStr(key)
+				.orElseThrow(CaptchaNotMatchException::new)
+				.toString();
+		AuthToken authToken = JsonUtil.jsonToPojo(expire, AuthToken.class);
 		return authToken;
 	}
 }

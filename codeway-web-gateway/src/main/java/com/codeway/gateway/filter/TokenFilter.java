@@ -60,7 +60,31 @@ public class TokenFilter implements GlobalFilter, Ordered {
 		String url = request.getPath().value();
 		LogBack.info("url:{},method:{},headers:{}", url, method, request.getHeaders());
 		//不需要网关签权的url
-		if (authService.ignoreAuthentication(url) || StringUtils.startsWith(url, "/api")) {
+		if (authService.ignoreAuthentication(url) || StringUtils.equalsAny(url,
+				"/api/oauth/token",
+				"/api/oauth/code/sms",
+				"/api/bilibili/list",
+				"/api/oauth/code/captcha",
+				"/api/su/register",
+				"/api/oauth/token",
+				"/api/ar/tag",
+				"/api/article",
+				"/api/su/admin/repo",
+				"/api/movie",
+				"/api/option",
+				"/api/expansion/constant",
+				"/api/events",
+				"/api/like/site",
+				"/api/ar/comment/like",
+				"/api/ar/comment/user",
+				"/api/ar/comment",
+				"/api/ar/article/category",
+				"/api/ar/article/like",
+				"/api/ar/article",
+				"/api/ar/article/hot",
+				"/api/ar/article/tag",
+				"/api/ba/announcement"
+		)) {
 			return chain.filter(exchange);
 		}
 		// 如果请求未携带token信息, 直接跳出

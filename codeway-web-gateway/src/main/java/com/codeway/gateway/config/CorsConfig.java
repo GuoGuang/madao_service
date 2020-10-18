@@ -20,11 +20,9 @@ public class CorsConfig {
 	private CorsConfiguration buildConfig(){
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		//在生产环境上最好指定域名，以免产生跨域安全问题
-		corsConfiguration.addAllowedOrigin("http://localhost:9527");
-		corsConfiguration.addAllowedOrigin("http://121.36.158.84:9527");
 		corsConfiguration.addAllowedOrigin("http://admin.codeway.fun");
 		// 前台博客
-		corsConfiguration.addAllowedOrigin("http://localhost:3000");
+		corsConfiguration.addAllowedOrigin("http://127.0.0.1:3000");
 		corsConfiguration.addAllowedOrigin("http://codeway.me");
 		corsConfiguration.addAllowedOrigin("https://codeway.me");
 		corsConfiguration.addAllowedOrigin("http://codeway.fun");

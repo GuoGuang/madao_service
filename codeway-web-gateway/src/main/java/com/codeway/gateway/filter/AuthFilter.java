@@ -55,7 +55,7 @@ public class AuthFilter implements GatewayFilter, Ordered {
 				result.setMessage("没有公钥");
 				return exchange.getResponse().writeWith(Flux.just(this.getBodyBuffer(exchange.getResponse(), result)));
 			}
-			String privateKey = (String) redisService.get(publicKey);
+			String privateKey = (String) redisService.get(publicKey).orElse(null);
 			if (!StringUtils.isEmpty(privateKey)) {
 				TreeMap<String, List<String>> parameterMap = new TreeMap<>(exchange.getRequest().getQueryParams());
 				//验签

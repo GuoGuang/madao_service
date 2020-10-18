@@ -52,6 +52,7 @@ public class GateWayConfig {
 
 				// API
 				.route("api_base_route", r -> r.path("/api/ba/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-BASE"))
+				.route("api_auth_route", r -> r.path("/api/oauth/**").filters(f -> f.stripPrefix(1)).uri("lb://AUTHENTICATION-SERVER"))
 				.route("api_article_route", a -> a.path("/api/ar/**")
 //						.and().after(ZonedDateTime.now().plusMinutes(10)) // execute in ten minutes
 						.filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-ARTICLE"))
