@@ -7,6 +7,8 @@ import com.codeway.model.dto.user.UserDto;
 import com.codeway.utils.JsonData;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 用户服务api
@@ -20,7 +22,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 public interface UserServiceRpc {
 
 	@GetMapping("/info")
-	JsonData<UserDto> getUserInfo(UserDto account);
+	JsonData<UserDto> getUserInfo(@RequestParam("account") String account);
+
+	@GetMapping("/{userId}")
+	JsonData<UserDto> getUserInfoById(@PathVariable String userId);
 
 
 }

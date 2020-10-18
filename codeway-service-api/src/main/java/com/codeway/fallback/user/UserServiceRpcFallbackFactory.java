@@ -2,6 +2,7 @@ package com.codeway.fallback.user;
 
 import com.codeway.api.user.UserServiceRpc;
 import com.codeway.enums.StatusEnum;
+import com.codeway.model.dto.user.UserDto;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.LogBack;
 import feign.hystrix.FallbackFactory;
@@ -19,9 +20,18 @@ public class UserServiceRpcFallbackFactory implements FallbackFactory<UserServic
 
 	@Override
 	public UserServiceRpc create(Throwable throwable) {
-		return user -> {
-			LogBack.error(ERROR_INFO, "getUserInfo", user, throwable);
-			return JsonData.failed(StatusEnum.RPC_ERROR);
+		return new UserServiceRpc() {
+			@Override
+			public JsonData<UserDto> getUserInfo(String account) {
+				LogBack.error(ERROR_INFO, "getUserInfo", account, throwable);
+				return JsonData.failed(StatusEnum.RPC_ERROR);
+			}
+
+			@Override
+			public JsonData<UserDto> getUserInfoById(String userId) {
+				LogBack.error(ERROR_INFO, "getUserInfoById", userId, throwable);
+				return JsonData.failed(StatusEnum.RPC_ERROR);
+			}
 		};
 	}
 }
