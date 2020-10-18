@@ -39,10 +39,10 @@ public class CaptchaAuthenticationFilter extends AbstractAuthenticationProcessin
 		}
 		String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 		Map<String, Object> map = JsonUtil.jsonToMap(body);
-		String username = map.get("userName")+"";
-		String password = map.get("password")+"";
+		String username = map.get("account") + "";
+		String password = map.get("password") + "";
 		//根据不同登录方式，生成不同类型Authentication，如这里的CaptchaAuthenticationToken
-		CaptchaAuthenticationToken authRequest = new CaptchaAuthenticationToken(username,password);
+		CaptchaAuthenticationToken authRequest = new CaptchaAuthenticationToken(username, password);
 		//其他参数，可以是一个字符串，也可以任意对象
 		//authRequest.setDetails("其他参数");
 		//将未认证Authentication交给AuthenticationManager去认证

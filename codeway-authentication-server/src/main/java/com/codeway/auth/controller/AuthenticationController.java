@@ -43,6 +43,8 @@ public class AuthenticationController {
 	/**
 	 * 创建验证码，根据验证码类型不同，调用不同的 {@link ValidateCodeProcessor}接口实现
 	 * 根据实现使用HttpServletResponse写回浏览器
+	 *
+	 * @param type: ValidateCodeProcessor 子类前缀
 	 */
 	@GetMapping("/code/{type}")
 	@ApiOperation(value = "根据不同类型获取验证码", notes = "Auth")

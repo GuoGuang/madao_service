@@ -4,8 +4,6 @@ import com.codeway.auth.exception.ValidateCodeException;
 import com.codeway.auth.service.UserDetailsServiceImpl;
 import com.codeway.auth.token.CaptchaAuthenticationToken;
 import com.codeway.db.redis.service.RedisService;
-import com.codeway.model.pojo.user.User;
-import com.codeway.utils.JsonUtil;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -37,24 +35,22 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
 	public Authentication authenticate(Authentication authentication) {
 
 		CaptchaAuthenticationToken authenticationToken = (CaptchaAuthenticationToken) authentication;
-		String username = authenticationToken.getPrincipal().toString();
-		User user1 = new User();
-		user1.setAccount(username);
-		UserDetails user = userDetailsServiceImpl.loadUserByUsername(JsonUtil.toJsonString(user1));
-		if (user == null){
+		String account = authenticationToken.getPrincipal().toString();
+		UserDetails userInfo = userDetailsServiceImpl.loadUserByUsername(account);
+		if (userInfo == null) {
 			throw new ValidateCodeException("用户名或密码错误！");
 		}
-		String password = user.getPassword();
+		String password = userInfo.getPassword();
 		String credentials = authentication.getCredentials().toString();
-		if (!passwordEncoder.matches(credentials,password)){
+		if (!passwordEncoder.matches(credentials, password)) {
 			throw new ValidateCodeException("用户名或密码错误！");
 		}
 		//查询该code拥有的权限
-		Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+		Collection<? extends GrantedAuthority> authorities = userInfo.getAuthorities();
 		// 认证通过，生成已认证的Authentication，加入请求权限
-		CaptchaAuthenticationToken authenticationResult = new CaptchaAuthenticationToken(user, user.getAuthorities());
+		CaptchaAuthenticationToken authenticationResult = new CaptchaAuthenticationToken(userInfo, userInfo.getAuthorities());
 		authenticationResult.setDetails(authenticationToken.getDetails());
-		return new CaptchaAuthenticationToken(user,authorities);
+		return new CaptchaAuthenticationToken(userInfo, authorities);
 	}
 
 

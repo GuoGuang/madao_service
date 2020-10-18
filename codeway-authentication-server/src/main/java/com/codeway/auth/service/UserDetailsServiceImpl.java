@@ -5,7 +5,6 @@ import com.codeway.exception.custom.RemoteRpcException;
 import com.codeway.model.dto.user.RoleDto;
 import com.codeway.model.dto.user.UserDto;
 import com.codeway.utils.JsonData;
-import com.codeway.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -34,14 +33,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	/**
 	 * 根据用户名查找账户信息并返回用户信息实体
 	 *
-	 * @param userJson 用户名
+	 * @param account 账号
 	 * @return 用于身份认证的 UserDetails 用户信息实体
 	 */
 	@Override
-    public UserDetails loadUserByUsername(String userJson) {
+	public UserDetails loadUserByUsername(String account) {
 
-		UserDto userDto = JsonUtil.jsonToPojo(userJson, UserDto.class);
-		JsonData<UserDto> userByUser = userService.getUserInfo(userDto);
+		JsonData<UserDto> userByUser = userService.getUserInfo(account);
 		if (!userByUser.isStatus()) {
 			throw new RemoteRpcException(userByUser);
 		}

@@ -36,7 +36,7 @@ public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<Vali
         String phone = ServletRequestUtils.getRequiredStringParameter(request.getRequest(), paramName);
 		request.getResponse().setContentType("application/json;charset=UTF-8");
         try {
-	        smsCodeSender.send(phone, validateCode.getCode());
+//	        smsCodeSender.send(phone, validateCode.getCode());
 	        request.getResponse().getWriter().write(objectMapper.writeValueAsString(JsonData.success()));
         }catch (Exception ex){
 	        LogBack.error("向手机:{}，{},原因:{}",phone,StatusEnum.SMS_SEND_ERROR.getMsg(),ex.getCause(),ex);
