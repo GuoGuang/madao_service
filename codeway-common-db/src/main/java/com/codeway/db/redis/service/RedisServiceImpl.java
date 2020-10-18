@@ -9,6 +9,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -99,16 +100,16 @@ public class RedisServiceImpl implements RedisService {
 
     //============================String=============================
 
-    /**
-     * 普通缓存获取
-     *
-     * @param key 键
-     * @return 值
-     */
-    @Override
-    public Object get(String key) {
-        return key == null ? null : redisTemplate.opsForValue().get(key);
-    }
+	/**
+	 * 普通缓存获取
+	 *
+	 * @param key 键
+	 * @return 值
+	 */
+	@Override
+	public Optional<Object> get(String key) {
+		return key == null ? Optional.empty() : Optional.ofNullable(redisTemplate.opsForValue().get(key));
+	}
 
     /**
      * 普通缓存放入
@@ -186,15 +187,15 @@ public class RedisServiceImpl implements RedisService {
     //================================Key String=================================
     // 以绑定指定key的方式，操作具有简单值的条目
 
-    /**
-     * 获取Key缓存<br>
-     *
-     * @param key
-     * @return
-     */
-    public Object getKeyStr(String key) {
-        return redisTemplate.boundValueOps(key).get();
-    }
+	/**
+	 * 获取Key缓存<br>
+	 *
+	 * @param key
+	 * @return
+	 */
+	public Optional<Object> getKeyStr(String key) {
+		return Optional.ofNullable(redisTemplate.boundValueOps(key).get());
+	}
 
     /**
      * 设置Key缓存
