@@ -82,6 +82,12 @@
 0. 导入服务
 ![导入服务](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/service.png)
 点击 "import module" 将服务一一导入，如果你嫌一个个导入麻烦，可以在codeway-common-parent的pom.xml文件中最底下把<modules>标签放开，但是真正微服务开发一般一个团队或者一个人负责一个服务，没有一个人同时开发多个服务情况，毕竟是个人博客项目，导入方式可以自己定。
+```
+// install
+mvn -B -DskipTests install -f codeway-common-parent
+或者 
+idea里 maven选项选中codeway-common-parent install
+```
 
 1. 初始化数据库：导入系统根路径下codeway.sql文件到数据库中
 
