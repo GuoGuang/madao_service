@@ -65,83 +65,6 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.14.1</version>
-                <configuration>
-                    <systemPropertyVariables>
-                        <io.springfox.staticdocs.outputDir>${project.build.directory}/swagger/api/1.3.0
-                        </io.springfox.staticdocs.outputDir>
-                        <io.swagger.json.uris>/v2/api-docs?</io.swagger.json.uris>
-                        <io.swagger.json.output.name>swagger-pai-v1.json</io.swagger.json.output.name>
-                    </systemPropertyVariables>
-                    <argLine>-Xmx256M -XX:MaxPermSize=128M</argLine>
-                    <parallel>false</parallel>
-                    <testFailureIgnore>true</testFailureIgnore>
-                    <includes>
-                        <include>**/*.java</include>
-                    </includes>
-                </configuration>
-            </plugin>
-
-
-            <plugin>
-                <groupId>org.asciidoctor</groupId>
-                <artifactId>asciidoctor-maven-plugin</artifactId>
-                <version>1.5.3</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.asciidoctor</groupId>
-                        <artifactId>asciidoctorj-pdf</artifactId>
-                        <version>1.5.0-alpha.10.1</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.jruby</groupId>
-                        <artifactId>jruby-complete</artifactId>
-                        <version>1.7.21</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <sourceDirectory>${asciidoctor.input.directory}</sourceDirectory>
-                    <sourceDocumentName>index.adoc</sourceDocumentName>
-                    <attributes>
-                        <doctype>book</doctype>
-                        <toc>left</toc>
-                        <toclevels>3</toclevels>
-                        <numbered></numbered>
-                        <hardbreaks></hardbreaks>
-                        <sectlinks></sectlinks>
-                        <sectanchors></sectanchors>
-                        <generated>${generated.asciidoc.directory}/${rest.swagger.path}</generated>
-                    </attributes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>output-html</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>process-asciidoc</goal>
-                        </goals>
-                        <configuration>
-                            <backend>html5</backend>
-                            <outputDirectory>${asciidoctor.html.output.directory}/${rest.swagger.path}</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>output-pdf</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>process-asciidoc</goal>
-                        </goals>
-                        <configuration>
-                            <backend>pdf</backend>
-                            <outputDirectory>${asciidoctor.pdf.output.directory}/${rest.swagger.path}</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
@@ -155,8 +78,6 @@
                         </path>
                         <!-- other annotation processors -->
                     </annotationProcessorPaths>
-
-
                 </configuration>
             </plugin>
 
