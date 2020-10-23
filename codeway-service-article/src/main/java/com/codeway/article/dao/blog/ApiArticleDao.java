@@ -9,7 +9,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface ApiArticleDao extends JpaRepository<Article, String>, JpaSpecificationExecutor<Article> {
 
@@ -43,4 +45,16 @@ public interface ApiArticleDao extends JpaRepository<Article, String>, JpaSpecif
 
 	@Query(value = "SELECT * FROM ar_article WHERE id in (SELECT article_id FROM ar_article_tag WHERE tag_id = :tagId)", nativeQuery = true)
 	Page<Article> findArticleByTagId(String tagId, Pageable pageable);
+
+	@Query("SELECT COUNT(upvote)as articles,SUM(upvote) as upvote ,SUM(visits)as visits FROM Article ")
+	Object[] findAuthorDetail();
+
+	default Map<String, Object> findAuthorDetailByMap() {
+		Object[] authorDetails = (Object[]) findAuthorDetail()[0];
+		HashMap<String, Object> authorDetail = new HashMap<>();
+		authorDetail.put("articles", authorDetails[0]);
+		authorDetail.put("upvote", authorDetails[1]);
+		authorDetail.put("visits", authorDetails[2]);
+		return authorDetail;
+	}
 }
