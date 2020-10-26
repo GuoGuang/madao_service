@@ -6,7 +6,7 @@
     <!--  ELK 收集日志到Logstash  -->
     <!--  ELK 收集日志到Logstash,不使用kafka推送消息  -->
     <!--    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-           <destination>45.77.16.230:5000</destination>
+           <destination>167.179.94.189:5000</destination>
              <encoder>
                 <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}  -  %msg%n</pattern>
                 <charset>UTF-8</charset>
@@ -21,7 +21,7 @@
         <topic>test</topic>
         <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy"/>
         <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>
-        <producerConfig>bootstrap.servers=45.77.16.230:9092</producerConfig>
+        <producerConfig>bootstrap.servers=167.179.94.189:9092</producerConfig>
         <appender-ref ref="CONSOLE"/>
     </appender>
 
