@@ -40,7 +40,7 @@ public enum StatusEnum {
 
 	WRONG_PASSWORD(10001, "登录名或登录密码不正确！"),
 	NICKNAME_REPEAT(10002, "该昵称已被他人使用！"),
-	ERROR_CODE(10003, "验证码错误！"),
+	CAPTCHA_NOT_MATCH(10003, "验证码不匹配！"),
 	SMS_SEND_ERROR(10003, "发送验证码失败！"),
 	FAILED_TOO_MANY(10004, "登录失败次数太多！"),
 	LOGIN_ERROR(20002, "用户名或密码错误！"),

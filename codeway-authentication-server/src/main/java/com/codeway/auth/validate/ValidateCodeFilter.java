@@ -1,7 +1,7 @@
 package com.codeway.auth.validate;
 
 import com.codeway.auth.config.BodyReaderHttpServletRequestWrapper;
-import com.codeway.auth.exception.ValidateCodeException;
+import com.codeway.auth.exception.AuthException;
 import com.codeway.enums.ValidateCodeType;
 import com.codeway.properties.SecurityProperties;
 import com.codeway.utils.HttpHelper;
@@ -95,7 +95,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 				validateCodeProcessorHolder.findValidateCodeProcessor(type)
 						.validate(new ServletWebRequest(request, response),bodyString);
 				logger.info("验证码校验通过");
-			} catch (ValidateCodeException exception) {
+			} catch (AuthException exception) {
 				authenticationFailureHandler.onAuthenticationFailure(request, response, exception);
 				return;
 			}

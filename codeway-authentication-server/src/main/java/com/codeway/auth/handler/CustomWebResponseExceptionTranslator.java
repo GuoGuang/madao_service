@@ -20,7 +20,7 @@ public class CustomWebResponseExceptionTranslator implements WebResponseExceptio
 	@Override
 	public ResponseEntity translate(Exception e) {
         LogBack.error("登录发生错误时异常----------->{}",e.getMessage(), e);
-        JsonData<Void> jsonData = JsonData.failed(StatusEnum.SYSTEM_ERROR);
+        JsonData<Void> jsonData = JsonData.failed(StatusEnum.SYSTEM_ERROR, e.getMessage());
         if (e instanceof InternalAuthenticationServiceException) {
             jsonData = JsonData.failed(StatusEnum.SYSTEM_ERROR);
         } else if (e instanceof InvalidGrantException) {

@@ -1,6 +1,6 @@
 package com.codeway.auth.handler;
 
-import com.codeway.auth.exception.ValidateCodeException;
+import com.codeway.auth.exception.AuthException;
 import com.codeway.enums.StatusEnum;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.JsonUtil;
@@ -24,7 +24,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 	public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         LogBack.error("用户登录失败时异常----------->{}",e.getMessage(), e);
         JsonData<Void> errorResult = JsonData.failed(StatusEnum.SYSTEM_ERROR);
-        if (e instanceof ValidateCodeException) {
+        if (e instanceof AuthException) {
             errorResult = JsonData.failed(StatusEnum.LOGIN_ERROR, e.getMessage());
         }
         httpServletResponse.setContentType("application/json;charset=UTF-8");
