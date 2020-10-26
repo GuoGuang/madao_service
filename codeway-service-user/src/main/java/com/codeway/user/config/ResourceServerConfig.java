@@ -64,14 +64,15 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             .antMatchers(HttpMethod.DELETE).hasAuthority(PARAM_NAME_ON_AUTHORITY)
             .antMatchers(HttpMethod.PUT).hasAuthority(PARAM_NAME_ON_AUTHORITY)
             .antMatchers("/v2/api-docs",
-					                "/configuration/ui",
-                                    "/swagger-resources/configuration/security",
-					                "/swagger-resources/**",
-					                "/configuration/security",
-					                "/",
-					                "/csrf",
-					                "/webjars/**",
-					                "/swagger-ui.html").permitAll()
+		            "/configuration/ui",
+		            "/swagger-resources/configuration/security",
+		            "/swagger-resources/**",
+		            "/configuration/security",
+		            "/",
+		            "/csrf",
+		            "/api/su/login/github",
+		            "/webjars/**",
+		            "/swagger-ui.html").permitAll()
                 .antMatchers("/**").authenticated();
     }
 
