@@ -5,6 +5,8 @@ import com.codeway.auth.handler.CustomTokenEnhancer;
 import com.codeway.auth.handler.CustomWebResponseExceptionTranslator;
 import com.codeway.constant.CommonConst;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.cloud.bootstrap.encrypt.KeyProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,11 +48,15 @@ class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapte
 	@Autowired
 	private CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
 	@Autowired
+	@Qualifier("userDetailsServiceImpl")
 	UserDetailsService userDetailsService;
 	@Autowired
 	AuthenticationManager authenticationManager;
 	@Autowired
 	TokenStore tokenStore;
+
+	@Autowired
+	private OAuth2ClientProperties oAuth2ClientProperties;
 
 	//读取密钥的配置
 	@Bean("keyProp")
@@ -73,17 +79,28 @@ class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapte
 	 */
 	@Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+
+		OAuth2ClientProperties.Registration github = oAuth2ClientProperties.getRegistration().get("github");
+
 //        clients.jdbc(this.dataSource).clients(this.clientDetails()); // 从数据加载
-        clients.inMemory()
-                .withClient("XcWebApp")//客户端id
-                .secret("XcWebApp")//密码，要保密
-                .accessTokenValiditySeconds(CommonConst.TIME_OUT_DAY)//访问令牌有效期
-                .refreshTokenValiditySeconds(CommonConst.TIME_OUT_DAY)//刷新令牌有效期
-                //授权客户端请求认证服务的类型authorization_code：根据授权码生成令牌，
-                // client_credentials:客户端认证，refresh_token：刷新令牌，password：密码方式认证
-                .authorizedGrantTypes("authorization_code", "client_credentials", "refresh_token", "password")
-                .scopes("app");//客户端范围，名称自定义，必填
-    }
+		clients.inMemory()
+				.withClient("XcWebApp")//客户端id
+				.secret("XcWebApp")//密码，要保密
+				.accessTokenValiditySeconds(CommonConst.TIME_OUT_DAY)//访问令牌有效期
+				.refreshTokenValiditySeconds(CommonConst.TIME_OUT_DAY)//刷新令牌有效期
+				//授权客户端请求认证服务的类型authorization_code：根据授权码生成令牌，
+				// client_credentials:客户端认证，refresh_token：刷新令牌，password：密码方式认证
+				.authorizedGrantTypes("authorization_code", "client_credentials", "refresh_token", "password")
+				.scopes("app")//客户端范围，名称自定义，必填
+				.and()
+				// config github clientId
+				.withClient(github.getClientId())
+				.secret(github.getClientSecret())
+				.accessTokenValiditySeconds(CommonConst.TIME_OUT_DAY)
+				.refreshTokenValiditySeconds(CommonConst.TIME_OUT_DAY)
+				.authorizedGrantTypes("authorization_code", "client_credentials", "refresh_token", "password")
+				.scopes("app");
+	}
 
 
 	/**

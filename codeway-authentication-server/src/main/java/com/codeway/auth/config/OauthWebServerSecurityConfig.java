@@ -2,10 +2,13 @@ package com.codeway.auth.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.codeway.auth.filter.CaptchaAuthenticationFilter;
+import com.codeway.auth.filter.GithubAuthenticationFilter;
 import com.codeway.auth.filter.SmsCodeAuthenticationFilter;
 import com.codeway.auth.handler.CustomAuthenticationFailureHandler;
 import com.codeway.auth.handler.CustomAuthenticationSuccessHandler;
+import com.codeway.auth.handler.OauthLoginSuccessHandler;
 import com.codeway.auth.provider.CaptchaAuthenticationProvider;
+import com.codeway.auth.provider.GithubAuthenticationProvider;
 import com.codeway.auth.provider.SmsCodeAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -37,9 +40,11 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 	//private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
 	@Autowired
-	private SmsCodeAuthenticationProvider SmsCodeAuthenticationProvider;
+	private SmsCodeAuthenticationProvider smsCodeAuthenticationProvider;
 	@Autowired
 	private CaptchaAuthenticationProvider captchaAuthenticationProvider;
+	@Autowired
+	private GithubAuthenticationProvider githubAuthenticationProvider;
 
 	// 全局过滤器校验码
 	@Autowired
@@ -47,6 +52,9 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+	@Autowired
+	private OauthLoginSuccessHandler oauthLoginSuccessHandler;
 
 	@Autowired
 	private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
@@ -70,12 +78,6 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 
 		http.httpBasic().and()
-				//.addFilterAt(captchaAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-				.formLogin()
-				.successHandler(customAuthenticationSuccessHandler)
-				.failureHandler(customAuthenticationFailureHandler)
-				//.failureHandler(customAuthenticationFailureHandler)
-				.and()
 				.authorizeRequests()
 				.antMatchers(HttpMethod.OPTIONS).permitAll()
 				.antMatchers("/v2/api-docs",
@@ -86,12 +88,20 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 						"/swagger-resources/configuration/ui",
 						"/swagger-ui.html",
 						"/swagger-resources/configuration/security").permitAll()
-//			.anyRequest().authenticated()
 				.and()
-				.csrf().disable();
+				.csrf().disable()
+
+				.oauth2Login(oauth2 -> oauth2
+						.authorizationEndpoint(System.out::println)
+						.redirectionEndpoint(redirection -> redirection.baseUri("/oauth/login/github"))
+						.tokenEndpoint(System.out::println)
+						//.userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
+						.successHandler(oauthLoginSuccessHandler)
+				);
 
 		http.addFilterAfter(smsCodeAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-			.addFilterAt(captchaAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+				.addFilterAt(captchaAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+				.addFilterAt(githubAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			;	//添加过滤器，处理系统自定义异常
 //			.addFilterAfter(new RewriteAccessDenyFilter(), ExceptionTranslationFilter.class);
 		http.apply(validateCodeSecurityConfig);
@@ -126,6 +136,16 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 		return captchaAuthenticationFilter;
 	}
 
+
+	@Bean
+	public GithubAuthenticationFilter githubAuthenticationFilter() throws Exception {
+		GithubAuthenticationFilter githubAuthenticationFilter = new GithubAuthenticationFilter();
+		githubAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
+		githubAuthenticationFilter.setAuthenticationSuccessHandler(oauthLoginSuccessHandler);
+		githubAuthenticationFilter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
+		return githubAuthenticationFilter;
+	}
+
 	/**
 	 * 构建AuthorizationServerConfig.configure(AuthorizationServerEndpointsConfigurer endpoints)
 	 * 所需的authenticationManager
@@ -133,8 +153,9 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) {
-		auth.authenticationProvider(SmsCodeAuthenticationProvider)
-				.authenticationProvider(captchaAuthenticationProvider);
+		auth.authenticationProvider(smsCodeAuthenticationProvider)
+				.authenticationProvider(captchaAuthenticationProvider)
+				.authenticationProvider(githubAuthenticationProvider);
 	}
 
 	/*@Bean
