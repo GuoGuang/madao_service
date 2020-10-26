@@ -1,6 +1,6 @@
 package com.codeway.auth.provider;
 
-import com.codeway.auth.exception.ValidateCodeException;
+import com.codeway.auth.exception.AuthException;
 import com.codeway.auth.service.UserDetailsServiceImpl;
 import com.codeway.auth.token.SmsCodeAuthenticationToken;
 import com.codeway.model.pojo.user.User;
@@ -30,7 +30,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 		user.setPhone(phone);
 		UserDetails userInfo = userDetailsServiceImpl.loadUserByUsername(JsonUtil.toJsonString(user));
 		if (userInfo == null) {
-			throw new ValidateCodeException("手机号不存在！");
+			throw new AuthException("手机号不存在！");
 		}
 		SmsCodeAuthenticationToken authenticationResult = new SmsCodeAuthenticationToken(userInfo, userInfo.getAuthorities());
 

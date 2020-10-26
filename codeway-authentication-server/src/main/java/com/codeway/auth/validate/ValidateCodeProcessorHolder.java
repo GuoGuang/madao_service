@@ -1,6 +1,6 @@
 package com.codeway.auth.validate;
 
-import com.codeway.auth.exception.ValidateCodeException;
+import com.codeway.auth.exception.AuthException;
 import com.codeway.enums.ValidateCodeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,7 +35,7 @@ public class ValidateCodeProcessorHolder {
 		String name = type.toLowerCase() + ValidateCodeProcessor.class.getSimpleName();
 		ValidateCodeProcessor processor = validateCodeProcessors.get(name);
 		if (processor == null) {
-			throw new ValidateCodeException("验证码处理器" + name + "不存在");
+			throw new AuthException("验证码处理器" + name + "不存在");
 		}
 		return processor;
 	}

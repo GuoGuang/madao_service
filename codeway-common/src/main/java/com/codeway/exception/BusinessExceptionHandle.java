@@ -39,10 +39,4 @@ public class BusinessExceptionHandle {
 		return JsonData.failed(ex);
 	}
 
-	@ExceptionHandler(CaptchaExpiredException.class)
-	public JsonData<Void> captchaExpiredException(CaptchaExpiredException ex) {
-		LogBack.error(ex.getMessage(), ex);
-		return JsonData.failed(ex);
-	}
-
 }

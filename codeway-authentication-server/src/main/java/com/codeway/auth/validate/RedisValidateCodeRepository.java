@@ -1,12 +1,11 @@
 package com.codeway.auth.validate;
 
-import com.codeway.auth.exception.ValidateCodeException;
+import com.codeway.auth.exception.AuthException;
 import com.codeway.auth.validate.impl.ValidateCode;
 import com.codeway.constant.CommonConst;
 import com.codeway.db.redis.service.RedisService;
 import com.codeway.enums.StatusEnum;
 import com.codeway.enums.ValidateCodeType;
-import com.codeway.exception.custom.CaptchaNotMatchException;
 import com.codeway.utils.JsonUtil;
 import com.codeway.utils.LogBack;
 import org.apache.commons.lang.StringUtils;
@@ -37,7 +36,7 @@ public class RedisValidateCodeRepository implements ValidateCodeRepository {
 	@Override
 	public ValidateCode get(ServletWebRequest request, ValidateCodeType type) {
 		String keyStr = redisService.getKeyStr(buildKey(request, type))
-				.orElseThrow(CaptchaNotMatchException::new)
+				.orElseThrow(() -> new AuthException(StatusEnum.CAPTCHA_NOT_MATCH.getMsg()))
 				.toString();
 		if (keyStr == null) {
 			return null;
@@ -58,7 +57,7 @@ public class RedisValidateCodeRepository implements ValidateCodeRepository {
 	private String buildKey(ServletWebRequest request, ValidateCodeType type) {
 		String deviceId = request.getHeader("DEVICE-ID");
 		if (StringUtils.isBlank(deviceId) && type.toString().equals("CAPTCHA")) {
-			throw new ValidateCodeException("请在请求头中携带DEVICE-ID参数");
+			throw new AuthException("请在请求头中携带DEVICE-ID参数");
 		}
 		if (type.toString().equalsIgnoreCase("sms")) {
 			String paramName = CommonConst.DEFAULT_PARAMETER_NAME_PHONE;

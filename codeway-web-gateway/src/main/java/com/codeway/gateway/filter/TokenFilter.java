@@ -93,7 +93,9 @@ public class TokenFilter implements GlobalFilter, Ordered {
 				"/api/ar/article/tag",
 				"/api/ba/announcement"
 		)) {
-			return chain.filter(exchange);
+			return chain.filter(exchange).doFinally((r) -> System.out.printf("Request[%s], completed, status_code[%s]",
+					exchange.getRequest().getURI().getPath(),
+					exchange.getResponse().getStatusCode()));
 		}
 		// 如果请求未携带token信息, 直接跳出
 		if (StringUtils.isBlank(authentication) || !authentication.contains(BEARER)) {

@@ -1,13 +1,14 @@
 package com.codeway.auth.provider;
 
-import com.codeway.auth.exception.ValidateCodeException;
 import com.codeway.auth.service.UserDetailsServiceImpl;
 import com.codeway.auth.token.CaptchaAuthenticationToken;
 import com.codeway.db.redis.service.RedisService;
+import com.codeway.enums.StatusEnum;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,12 +41,12 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
 		String account = authenticationToken.getPrincipal().toString();
 		UserDetails userInfo = userDetailsServiceImpl.loadUserByUsername(account);
 		if (userInfo == null) {
-			throw new ValidateCodeException("用户名或密码错误！");
+			throw new BadCredentialsException(StatusEnum.LOGIN_ERROR.getMsg());
 		}
 		String password = userInfo.getPassword();
 		String credentials = authentication.getCredentials().toString();
 		if (!passwordEncoder.matches(credentials, password)) {
-			throw new ValidateCodeException("用户名或密码错误！");
+			throw new BadCredentialsException(StatusEnum.LOGIN_ERROR.getMsg());
 		}
 		//查询该code拥有的权限
 		Collection<? extends GrantedAuthority> authorities = userInfo.getAuthorities();
