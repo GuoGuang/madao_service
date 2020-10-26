@@ -6,6 +6,7 @@ import com.codeway.model.dto.user.AuthToken;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.JsonUtil;
 import com.codeway.utils.LogBack;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -17,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -60,16 +63,21 @@ public class TokenFilter implements GlobalFilter, Ordered {
 		String url = request.getPath().value();
 		LogBack.info("url:{},method:{},headers:{}", url, method, request.getHeaders());
 		//不需要网关签权的url
-		if (authService.ignoreAuthentication(url) || StringUtils.equalsAny(url,
-				"/api/oauth/token",
-				"/api/oauth/code/sms",
+		if (authService.ignoreAuthentication(url) || match(url,
+				"/oauth/token",
+				"/oauth/code/sms",
+				"/api/oauth/login/github",
+				"/api/oauth2/**",
+				"/api/login/**",
 				"/api/bilibili/list",
-				"/api/oauth/code/captcha",
+				"/oauth/code/captcha",
 				"/api/su/register",
-				"/api/oauth/token",
 				"/api/ar/tag",
+				"/api/ba/music/**",
+				"/api/ba/announcement",
 				"/api/article",
 				"/api/su/admin/repo",
+				"/api/su/admin",
 				"/api/movie",
 				"/api/option",
 				"/api/expansion/constant",
@@ -77,10 +85,10 @@ public class TokenFilter implements GlobalFilter, Ordered {
 				"/api/like/site",
 				"/api/ar/comment/like",
 				"/api/ar/comment/user",
-				"/api/ar/comment",
+				"/api/ar/comment/",
 				"/api/ar/article/category",
 				"/api/ar/article/like",
-				"/api/ar/article",
+				"/api/ar/article/**",
 				"/api/ar/article/hot",
 				"/api/ar/article/tag",
 				"/api/ba/announcement"
@@ -131,7 +139,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
 		DataBuffer buffer = null;
 		try {
 			byte[] bytes = JsonUtil.toJSONBytes(jsonData);
-			 buffer = serverWebExchange.getResponse().bufferFactory().wrap(bytes);
+			buffer = serverWebExchange.getResponse().bufferFactory().wrap(bytes);
 		} catch (IOException e) {
 			LogBack.error(e.getMessage(), e);
 		}
@@ -139,5 +147,23 @@ public class TokenFilter implements GlobalFilter, Ordered {
 		return serverWebExchange.getResponse().writeWith(Flux.just(buffer));
 	}
 
+	/**
+	 * 匹配资料
+	 *
+	 * @param patternPath 模糊匹配表达式
+	 * @param requestPath 待匹配的url
+	 * @return
+	 */
+	private static boolean match(String requestPath, String... patternPath) {
+		PathMatcher matcher = new AntPathMatcher();
+		if (ArrayUtils.isNotEmpty(patternPath)) {
+			for (String pt : patternPath) {
+				if (matcher.match(pt, requestPath)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 }
