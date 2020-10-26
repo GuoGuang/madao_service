@@ -1,6 +1,6 @@
 package com.codeway.auth.filter;
 
-import com.codeway.auth.exception.ValidateCodeException;
+import com.codeway.auth.exception.AuthException;
 import com.codeway.auth.token.GitHubAuthenticationToken;
 import com.codeway.utils.HttpHelper;
 import com.codeway.utils.LogBack;
@@ -43,7 +43,7 @@ public class GithubAuthenticationFilter extends AbstractAuthenticationProcessing
 		Map<String, String> responseBody = HttpHelper.httpPost(params);
 		if (responseBody.get("access_token") == null) {
 			LogBack.error("Github登录失败----->{}", responseBody.get("error_description"));
-			throw new ValidateCodeException(responseBody.get("error_description"));
+			throw new AuthException(responseBody.get("error_description"));
 		}
 
 		GitHubAuthenticationToken authRequest = new GitHubAuthenticationToken(responseBody.get("access_token"), "");
