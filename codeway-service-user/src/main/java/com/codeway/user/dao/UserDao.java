@@ -1,5 +1,6 @@
 package com.codeway.user.dao;
 
+import com.codeway.exception.custom.ResourceNotFoundException;
 import com.codeway.model.pojo.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -11,7 +12,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserDao extends JpaRepository<User, String>, JpaSpecificationExecutor<User>, QuerydslPredicateExecutor<User> {
+public interface UserDao extends JpaRepository<User, String>, JpaSpecificationExecutor<User>,
+		QuerydslPredicateExecutor<User> {
 
 	@Query(value = "SELECT * FROM us_user WHERE id in (SELECT user_id FROM us_user_role WHERE role_id = :roleId)"
 			, nativeQuery = true)
@@ -22,4 +24,13 @@ public interface UserDao extends JpaRepository<User, String>, JpaSpecificationEx
 	void deleteBatch(@Param("ids") List<String> ids);
 
 	Optional<User> findByPhone(String phone);
+
+	default User findByIdAndRequireNonNull(String userId) {
+		return this.findById(userId)
+				.orElseThrow(ResourceNotFoundException::new);
+	}
+
+	Optional<User> findByAccount(String account);
+
+	Optional<User> findByBindId(String nodeId);
 }

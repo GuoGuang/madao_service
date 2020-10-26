@@ -25,7 +25,7 @@ public interface UserServiceRpc {
 	JsonData<UserDto> getUserInfo(@RequestParam("account") String account);
 
 	@GetMapping("/{userId}")
-	JsonData<UserDto> getUserInfoById(@PathVariable String userId);
+	JsonData<UserDto> getUserInfoById(@PathVariable("userId") String userId);
 
 
 }

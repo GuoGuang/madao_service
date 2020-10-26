@@ -129,7 +129,7 @@ public class UserService {
 	 * @param oldPassword 老密码
 	 */
 	public void changePassword(String userId, String oldPassword, String newOnePass) {
-		User userInfo = userDao.findById(userId).orElseThrow(() -> new ResourceNotFoundException("用户不存在！"));
+		User userInfo = userDao.findByIdAndRequireNonNull(userId);
 		if (!bCryptPasswordEncoder.matches(oldPassword, userInfo.getPassword())) {
 			throw new UserException("密码不匹配！");
 		}
@@ -140,14 +140,12 @@ public class UserService {
 	/**
 	 * 获取用户角色权限
 	 *
-	 * @param id 用户id
+	 * @param userId 用户id
 	 */
-	public UserDto getUserPermission(String id) {
-		UserDto userDto = userDao.findById(id)
-				.map(userMapper::toDto)
-				.orElseThrow(ResourceNotFoundException::new);
-
-		List<RoleDto> roles = roleDao.findRolesOfUser(id).map(roleMapper::toDto).orElse(Collections.emptyList());
+	public UserDto getUserPermission(String userId) {
+		User user = userDao.findByIdAndRequireNonNull(userId);
+		UserDto userDto = userMapper.toDto(user);
+		List<RoleDto> roles = roleDao.findRolesOfUser(userId).map(roleMapper::toDto).orElse(Collections.emptyList());
 
 		roles.forEach(
 				e -> {
@@ -177,11 +175,8 @@ public class UserService {
 	}
 
 	public UserDto findById(String userId) {
-		UserDto userDto = userDao.findById(userId)
-				.map(userMapper::toDto)
-				.orElseThrow(ResourceNotFoundException::new);
-
-		return assembleUserRoleData(userDto);
+		User user = userDao.findByIdAndRequireNonNull(userId);
+		return assembleUserRoleData(userMapper.toDto(user));
 	}
 
 	public UserDto findByCondition(String account) {

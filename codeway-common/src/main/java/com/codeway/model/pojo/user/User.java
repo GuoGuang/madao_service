@@ -1,6 +1,6 @@
 package com.codeway.model.pojo.user;
 
-import com.codeway.enums.RegisteredType;
+import com.codeway.enums.ProviderEnum;
 import com.codeway.model.BasePojo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -86,9 +86,6 @@ public class User extends BasePojo implements Serializable {
 	@Column(length = 200)
 	private String contactAddress;
 
-	@Column(length = 10)
-	private RegisteredType registeredType;
-
 	/**
 	 * 是否锁定
 	 */
@@ -97,4 +94,10 @@ public class User extends BasePojo implements Serializable {
 
 	@Column(length = 1)
 	private Boolean origin;
+
+	@Column(length = 20)
+	private String bindId;
+
+	@Column(length = 1)
+	private ProviderEnum provider;
 }

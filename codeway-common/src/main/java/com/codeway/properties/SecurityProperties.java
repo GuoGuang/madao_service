@@ -3,28 +3,34 @@
  */
 package com.codeway.properties;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Security的所有配置
+ *
+ * @deprecated spring-security-oauth-client 项目已包含类似功能。
  **/
-//@ConfigurationProperties(prefix = "imooc.security")
-@Data
+@Getter
+@Setter
+//@ConfigurationProperties(prefix = "spring.security.oauth2.client")
 public class SecurityProperties {
 
 	/**
 	 * 验证码配置
 	 */
 	private ValidateCodeProperties code = new ValidateCodeProperties();
+
 	/**
-	 * 社交登录配置
+	 * 社交注册配置
 	 */
-	private SocialProperties social = new SocialProperties();
+	private RegistrationProperties registration = new RegistrationProperties();
+
 	/**
 	 * OAuth2认证服务器配置
 	 */
 	private OAuth2Properties oauth2 = new OAuth2Properties();
 
-	
+
 }
 

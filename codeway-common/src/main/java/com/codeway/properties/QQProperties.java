@@ -1,24 +1,17 @@
-/**
- * 
- */
 package com.codeway.properties;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * QQ登录配置项
  **/
-public class QQProperties extends SocialProperties {
-	
-	/**
-	 * 第三方id，用来决定发起第三方登录的url，默认是 qq。
-	 */
+@Getter
+@Setter
+public class QQProperties {
+
 	private String providerId = "qq";
+	private String clientId;
+	private String clientSecret;
 
-	public String getProviderId() {
-		return providerId;
-	}
-
-	public void setProviderId(String providerId) {
-		this.providerId = providerId;
-	}
-	
 }

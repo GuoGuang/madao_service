@@ -1,6 +1,6 @@
 package com.codeway.model.dto.user;
 
-import com.codeway.enums.RegisteredType;
+import com.codeway.enums.ProviderEnum;
 import com.codeway.model.BasePojo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -41,7 +41,7 @@ public class UserDto extends BasePojo implements Serializable {
 	@ApiModelProperty("用户名")
 	private String userName;
 
-	@NotNull(message = "昵称不能为空")
+	@NotNull(message = "昵称不能为空", groups = {UserDto.ChangeUserInfo.class})
 	@ApiModelProperty("昵称")
 	private String nickName;
 
@@ -89,20 +89,26 @@ public class UserDto extends BasePojo implements Serializable {
 	@ApiModelProperty("联系地址")
 	private String contactAddress;
 
-	@ApiModelProperty("注册类型/方式")
-	private RegisteredType registeredType;
-
 	@ApiModelProperty(value = "是否锁定(0:未锁定,1已锁定)", example = "0")
 	private Boolean status;
 
 	@ApiModelProperty(value = "1前台用户，0后台用户", example = "0")
 	private Boolean origin;
 
+	@ApiModelProperty(value = "三方登录id", example = "0")
+	private String bindId;
+
+	@ApiModelProperty(value = "三方登录提供商", example = "1")
+	private ProviderEnum provider;
+
 	public UserDto(String userId) {
 		this.id = userId;
 	}
 
 	public interface Register {
+	}
+
+	public interface ChangeUserInfo {
 	}
 
 }
