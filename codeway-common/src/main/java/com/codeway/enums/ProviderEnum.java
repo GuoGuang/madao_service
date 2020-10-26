@@ -3,7 +3,7 @@ package com.codeway.enums;
 import lombok.Getter;
 
 @Getter
-public enum RegisteredType {
+public enum ProviderEnum {
 
 	/**
 	 * QQ
@@ -27,7 +27,7 @@ public enum RegisteredType {
 
 	private final Integer value;
 
-	RegisteredType(Integer value) {
+	ProviderEnum(Integer value) {
 		this.value = value;
 	}
 
