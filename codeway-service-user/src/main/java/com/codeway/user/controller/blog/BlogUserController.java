@@ -2,17 +2,22 @@ package com.codeway.user.controller.blog;
 
 import com.codeway.annotation.OptLog;
 import com.codeway.enums.OptLogType;
+import com.codeway.enums.StatusEnum;
 import com.codeway.model.dto.user.UserDto;
 import com.codeway.user.service.blog.BlogUserService;
 import com.codeway.utils.JsonData;
 import com.codeway.utils.JsonUtil;
 import com.codeway.utils.third.Smsbao;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Api(tags = "用户管理")
@@ -30,16 +35,14 @@ public class BlogUserController {
 	}
 
 	@GetMapping("/admin")
-	@ApiOperation(value = "查询账号", notes = "Admin")
+	@ApiOperation(value = "获取作者信息", notes = "Admin")
 	public JsonData<UserDto> findAdminInfo() {
-		UserDto userDto = new UserDto();
-		userDto.setAccount("admin");
-		UserDto byId = blogUserService.findByCondition(userDto);
+		UserDto byId = blogUserService.findByAccount("admin");
 		return JsonData.success(byId);
 	}
 
 	@GetMapping
-	@ApiOperation(value = "查询账号", notes = "Admin")
+	@ApiOperation(value = "获取用户信息", notes = "Admin")
 	public JsonData<UserDto> getUserInfo(@RequestHeader("x-client-token-user") String userStr) {
 		Map<String, Object> user = JsonUtil.jsonToPojo(userStr, Map.class);
 		UserDto result = blogUserService.findById((String) user.get("id"));
@@ -61,18 +64,44 @@ public class BlogUserController {
 		return JsonData.success(blogUserService.registerUser(userDto));
 	}
 
+	@PostMapping("/login/github")
+	@OptLog(operationType = OptLogType.ADD, operationName = "注册并返回注册信息")
+	@ApiOperation(value = "注册并返回注册信息", notes = "User")
+	public JsonData<UserDto> loginWithGithub(@RequestBody HashMap<String, Object> params) {
+		return JsonData.success(blogUserService.loginWithGithub(params));
+	}
+
 	@GetMapping(value = "/{phone}")
 	@ApiOperation(value = "按照手机号查询用户", notes = "按照手机号查询用户")
-	public JsonData<UserDto> findUserByUserId(@PathVariable String phone) {
+	public JsonData<UserDto> findByPhone(@PathVariable String phone) {
 		UserDto result = blogUserService.findByPhone(phone);
 		return JsonData.success(result);
 	}
 
-	@PutMapping
+	@PutMapping("/userInfo")
 	@OptLog(operationType = OptLogType.MODIFY, operationName = "更新用户资料")
 	@ApiOperation(value = "更新用户资料", notes = "User")
-	public JsonData<Void> updateByPrimaryKey(@RequestBody @Validated UserDto userDto) {
-		blogUserService.updateByPrimaryKey(userDto);
+	public JsonData<Void> updateByPrimaryKey(@RequestBody @Validated(UserDto.ChangeUserInfo.class) UserDto userDto,
+	                                         @RequestHeader("x-client-token-user") String userStr) {
+		Map<String, Object> user = JsonUtil.jsonToPojo(userStr, Map.class);
+
+		blogUserService.updateByPrimaryKey(userDto, (String) user.get("id"));
+		return JsonData.success();
+	}
+
+	@PutMapping("/password/{userId}")
+	@OptLog(operationType = OptLogType.MODIFY, operationName = "修改用户密码")
+	@ApiOperation(value = "修改密码", notes = "User")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "newOnePassword", value = "第一次密码", required = true),
+			@ApiImplicitParam(name = "newTwoPassword", value = "第二次密码", required = true)
+	})
+	public JsonData<Void> changePassword(@PathVariable String userId, @RequestParam String oldPassword,
+	                                     @RequestParam String newOnePassword, @RequestParam String newTwoPassword) {
+		if (!StringUtils.equals(newOnePassword, newTwoPassword)) {
+			return JsonData.failed(StatusEnum.TWICE_PASSWORD_NOT_MATCH);
+		}
+		blogUserService.changePassword(userId, oldPassword, newOnePassword);
 		return JsonData.success();
 	}
 

@@ -1,9 +1,13 @@
 package com.codeway.user.service.blog;
 
+import cn.hutool.core.util.IdUtil;
 import com.codeway.db.redis.service.RedisService;
+import com.codeway.enums.ProviderEnum;
 import com.codeway.exception.custom.CaptchaNotMatchException;
 import com.codeway.exception.custom.PhoneExistingException;
 import com.codeway.exception.custom.ResourceNotFoundException;
+import com.codeway.exception.custom.UserException;
+import com.codeway.model.dto.user.RoleDto;
 import com.codeway.model.dto.user.UserDto;
 import com.codeway.model.pojo.user.User;
 import com.codeway.model.pojo.user.UserRole;
@@ -14,6 +18,7 @@ import com.codeway.user.dao.UserRoleDao;
 import com.codeway.user.mapper.ResourceMapper;
 import com.codeway.user.mapper.RoleMapper;
 import com.codeway.user.mapper.UserMapper;
+import com.codeway.utils.BeanUtil;
 import com.codeway.utils.FakerUtil;
 import com.codeway.utils.JsonUtil;
 import com.codeway.utils.LogBack;
@@ -23,6 +28,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 @Api(tags = "用户管理")
@@ -59,9 +67,10 @@ public class BlogUserService {
 		this.resourceMapper = resourceMapper;
 	}
 
-	public void updateByPrimaryKey(UserDto userDto) {
-
-
+	public void updateByPrimaryKey(UserDto userDto, String userId) {
+		UserDto srcUserDto = this.findById(userId);
+		BeanUtil.copyProperties(srcUserDto, userDto);
+		userDao.save(userMapper.toEntity(userDto));
 	}
 
 	public UserDto findByPhone(String phone) {
@@ -85,18 +94,62 @@ public class BlogUserService {
 			throw new CaptchaNotMatchException();
 		}
 		String nickName = FakerUtil.getNickName();
-		userDto.setAccount(userDto.getPhone())
+		return createDefaultUser(nickName, userDto.getPhone(), userDto.getEmail(),
+				userDto.getPhone(), FakerUtil.getAvatar(), null, "", "",
+				bCryptPasswordEncoder.encode(userDto.getPhone() + IdUtil.getSnowflake(1, 1).nextId()));
+	}
+
+	/**
+	 * 存在则返回登录信息；否则注册并返回登录信息；
+	 *
+	 * @param params access_token换取的用户信息；
+	 * @return UserDto
+	 */
+	public UserDto loginWithGithub(HashMap<String, Object> params) {
+		UserDto userInfo = userDao.findByBindId(params.get("node_id") + "")
+				.map(userMapper::toDto)
+				.orElseGet(() -> createDefaultUser(
+						params.get("name").toString(),
+						params.get("login").toString(),
+						params.get("email").toString(),
+						"",
+						params.get("avatar_url").toString(),
+						ProviderEnum.GITHUB,
+						params.get("node_id").toString(),
+						params.get("location").toString(),
+						bCryptPasswordEncoder.encode(params.get("name").toString() + params.get("node_id").toString()))
+				);
+
+		List<RoleDto> rolesOfUser = roleDao.findRolesOfUser(userInfo.getId())
+				.map(roleMapper::toDto)
+				.orElseThrow(ResourceNotFoundException::new);
+		userInfo.setRoles(new HashSet<>(rolesOfUser));
+
+		return userInfo;
+	}
+
+	private UserDto createDefaultUser(String nickName, String account,
+	                                  String email, String phone,
+	                                  String avatar, ProviderEnum provider,
+	                                  String bindId, String contactAddress,
+	                                  String password) {
+		UserDto userDto = new UserDto();
+		userDto.setAccount(account)
 				.setUserName(nickName)
+				.setPhone(phone)
 				.setNickName(nickName)
-				.setEmail("")
-				.setPassword(bCryptPasswordEncoder.encode(nickName))
+				.setEmail(email)
+				.setPassword(password)
 				.setSex(true)
 				.setBirthday(0L)
-				.setAvatar(FakerUtil.getAvatar())
+				.setAvatar(avatar)
 				.setOnlineTime(0L)
 				.setFansCount(0)
 				.setFollowCount(0)
 				.setOrigin(true)
+				.setBindId(bindId)
+				.setProvider(provider)
+				.setContactAddress(contactAddress)
 				.setStatus(false);
 		UserDto userDtoResult = userMapper.toDto(userDao.save(userMapper.toEntity(userDto)));
 		userRoleDao.save(new UserRole(userDtoResult.getId(), "1257559802842845184"));
@@ -104,11 +157,22 @@ public class BlogUserService {
 	}
 
 	public UserDto findById(String userId) {
-		return userDao.findById(userId).map(userMapper::toDto)
+		return userMapper.toDto(userDao.findByIdAndRequireNonNull(userId));
+	}
+
+	public UserDto findByAccount(String account) {
+		return userDao.findByAccount(account)
+				.map(userMapper::toDto)
 				.orElseThrow(ResourceNotFoundException::new);
 	}
 
-	public UserDto findByCondition(UserDto userDto) {
-		return null;
+	public void changePassword(String userId, String oldPassword, String newOnePass) {
+		User userInfo = userDao.findByIdAndRequireNonNull(userId);
+		if (!bCryptPasswordEncoder.matches(oldPassword, userInfo.getPassword())) {
+			throw new UserException("密码不匹配！");
+		}
+		userInfo.setPassword(bCryptPasswordEncoder.encode(newOnePass));
+		userDao.save(userInfo);
 	}
+
 }

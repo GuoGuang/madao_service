@@ -81,4 +81,7 @@ public class ApiArticleService {
 		articleDao.updateUnUpVote(id);
 	}
 
+	public Map<String, Object> findAuthorDetail() {
+		return articleDao.findAuthorDetailByMap();
+	}
 }

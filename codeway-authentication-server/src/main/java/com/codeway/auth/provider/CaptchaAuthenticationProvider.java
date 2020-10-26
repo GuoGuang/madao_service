@@ -6,6 +6,7 @@ import com.codeway.auth.token.CaptchaAuthenticationToken;
 import com.codeway.db.redis.service.RedisService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,6 +30,7 @@ public class CaptchaAuthenticationProvider implements AuthenticationProvider {
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
+	@Qualifier("userDetailsServiceImpl")
 	private UserDetailsServiceImpl userDetailsServiceImpl;
 
 	@Override

@@ -28,4 +28,6 @@ public interface CommentDao extends JpaRepository<Comment, String>,
 	List<Comment> findByArticleIdOrderByCreateAtDesc(String articleId);
 
 	List<Comment> findByArticleIdIn(List<String> commentDao);
+
+	List<Comment> findByUserIdAndParentIdIs(String userId, String parentId);
 }
