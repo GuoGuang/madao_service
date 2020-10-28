@@ -95,7 +95,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
 				"/api/ar/article/tag",
 				"/api/ba/announcement"
 		)) {
-			return chain.filter(exchange).doFinally((r) -> System.out.printf("Request[%s], completed, status_code[%s]",
+			return chain.filter(exchange).doFinally((r) -> System.out.printf("[%s]---->请求结束, 响应码--->[%s]",
 					exchange.getRequest().getURI().getPath(),
 					exchange.getResponse().getStatusCode()));
 		}
