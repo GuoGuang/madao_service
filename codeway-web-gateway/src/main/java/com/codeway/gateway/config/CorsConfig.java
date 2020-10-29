@@ -32,8 +32,6 @@ public class CorsConfig {
 			corsConfiguration.addAllowedOrigin("http://127.0.0.1:3000");
 		}
 		corsConfiguration.addAllowedOrigin("http://admin.codeway.fun");
-		corsConfiguration.addAllowedOrigin("http://codeway.me");
-		corsConfiguration.addAllowedOrigin("https://codeway.me");
 		corsConfiguration.addAllowedOrigin("http://codeway.fun");
 		corsConfiguration.addAllowedOrigin("https://codeway.fun");
 		corsConfiguration.addAllowedHeader("*");
