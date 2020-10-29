@@ -87,7 +87,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
 				"/api/like/site",
 				"/api/ar/comment/like",
 				"/api/ar/comment/user",
-				"/api/ar/comment/**",
+				"/api/ar/comment/*",
 				"/api/ar/article/category",
 				"/api/ar/article/like",
 				"/api/ar/article/**",
