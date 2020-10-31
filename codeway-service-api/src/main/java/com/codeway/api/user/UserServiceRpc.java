@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 /**
  * 用户服务api
  **/
@@ -27,5 +29,7 @@ public interface UserServiceRpc {
 	@GetMapping("/{userId}")
 	JsonData<UserDto> getUserInfoById(@PathVariable("userId") String userId);
 
+	@GetMapping("/all")
+	JsonData<List<UserDto>> getUserInfoByIds(@RequestParam("userIds") String[] userIds);
 
 }
