@@ -19,7 +19,7 @@ public class LoginLogServiceRpcFallbackFactory implements FallbackFactory<LoginL
 
 	@Override
 	public LoginLogServiceRpc create(Throwable throwable) {
-		return (auth, loginLog) -> {
+		return (loginLog) -> {
 			LogBack.error(ERROR_INFO, "insertLoginLog", loginLog, throwable);
 			return JsonData.failed(StatusEnum.RPC_ERROR);
 		};

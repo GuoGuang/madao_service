@@ -16,10 +16,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
@@ -85,6 +82,12 @@ public class UserController {
 	public JsonData<UserDto> findUserByUserId(@PathVariable String userId) {
 		UserDto result = userService.findById(userId);
 		return JsonData.success(result);
+	}
+
+	@GetMapping(value = "/all")
+	@ApiOperation(value = "查询用户列表", notes = "User")
+	public JsonData<List<UserDto>> findUserByUserIds(@RequestParam("userIds") String[] userIds) {
+		return JsonData.success(userService.findByIds(Arrays.asList(userIds)));
 	}
 
 	@GetMapping(value = "/info")

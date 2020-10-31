@@ -13,6 +13,7 @@ import com.codeway.model.dto.article.ArticleDto;
 import com.codeway.model.dto.user.UserDto;
 import com.codeway.model.pojo.article.Article;
 import com.codeway.model.pojo.article.ArticleTag;
+import com.codeway.utils.JsonData;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -79,17 +80,19 @@ public class ArticleService {
 			}
 			return query.where(predicates.toArray(new javax.persistence.criteria.Predicate[0])).getRestriction();
 		};
+
 		Page<ArticleDto> queryResults = articleDao.findAll(condition, pageable)
 				.map(articleMapper::toDto);
-		queryResults.getContent().forEach(
-				articleParam -> {
-					UserDto userInfo = userServiceRpc.getUserInfoById(articleParam.getUserId())
-							.getData();
-					if (userInfo != null && userInfo.getId().equals(articleParam.getUserId())) {
-						articleParam.setUserName(userInfo.getUserName());
-					}
-				}
-		);
+
+		JsonData<List<UserDto>> userInfoByIds = userServiceRpc.getUserInfoByIds(queryResults.getContent().stream()
+				.map(ArticleDto::getUserId).toArray(String[]::new));
+
+		if (userInfoByIds.isStatus()) {
+			userInfoByIds.getData().stream().flatMap(userInfo -> queryResults.getContent().stream()
+					.filter(articleId -> StringUtils.equals(userInfo.getId(), articleId.getUserId()))
+					.peek(articleId -> articleId.setUserName(userInfo.getUserName())))
+					.collect(Collectors.toList());
+		}
 		return queryResults;
 	}
 

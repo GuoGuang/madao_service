@@ -179,6 +179,11 @@ public class UserService {
 		return assembleUserRoleData(userMapper.toDto(user));
 	}
 
+	public List<UserDto> findByIds(List<String> userId) {
+		List<User> allById = userDao.findAllById(userId);
+		return userMapper.toDto(allById);
+	}
+
 	public UserDto findByCondition(String account) {
 
 		Specification<User> condition = (root, query, builder) -> {
@@ -218,4 +223,5 @@ public class UserService {
 		userDto.setRoles(new HashSet<>(rolesOfUser));
 		return userDto;
 	}
+
 }

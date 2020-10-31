@@ -8,6 +8,7 @@ import com.codeway.model.dto.base.OptLogDto;
 import com.codeway.model.dto.user.UserDto;
 import com.codeway.model.pojo.base.OptLog;
 import com.codeway.utils.BeanUtil;
+import com.codeway.utils.JsonData;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OptLogService {
@@ -47,16 +49,17 @@ public class OptLogService {
 		};
 		Page<OptLogDto> queryResults = optLogDao.findAll(condition, pageable)
 				.map(optLogMapper::toDto);
-		queryResults.getContent().forEach(
-				optLogList -> {
-					UserDto userInfo = userServiceRpc.getUserInfoById(optLogList.getUserId())
-							.getData();
-					if (userInfo.getId().equals(optLogList.getUserId())) {
-						optLogList.setUserName(userInfo.getUserName());
-					}
-				}
-		);
-        return queryResults;
+
+		JsonData<List<UserDto>> userInfoByIds = userServiceRpc.getUserInfoByIds(queryResults.getContent().stream()
+				.map(OptLogDto::getUserId).toArray(String[]::new));
+
+		if (userInfoByIds.isStatus()) {
+			userInfoByIds.getData().stream().flatMap(userInfo -> queryResults.getContent().stream()
+					.filter(articleId -> StringUtils.equals(userInfo.getId(), articleId.getUserId()))
+					.peek(articleId -> articleId.setUserName(userInfo.getUserName())))
+					.collect(Collectors.toList());
+		}
+		return queryResults;
 	}
 
 	/**

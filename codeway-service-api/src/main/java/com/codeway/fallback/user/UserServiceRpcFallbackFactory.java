@@ -8,6 +8,8 @@ import com.codeway.utils.LogBack;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 
 /**
  * 接口调用失败处理
@@ -30,6 +32,12 @@ public class UserServiceRpcFallbackFactory implements FallbackFactory<UserServic
 			@Override
 			public JsonData<UserDto> getUserInfoById(String userId) {
 				LogBack.error(ERROR_INFO, "getUserInfoById", userId, throwable);
+				return JsonData.failed(StatusEnum.RPC_ERROR);
+			}
+
+			@Override
+			public JsonData<List<UserDto>> getUserInfoByIds(String[] articleIds) {
+				LogBack.error(ERROR_INFO, "getUserInfoById", articleIds, throwable);
 				return JsonData.failed(StatusEnum.RPC_ERROR);
 			}
 		};
