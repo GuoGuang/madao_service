@@ -32,7 +32,7 @@ public class Smsbao {
 		String content = "【codeway】您的验证码为" + code + "，在10分钟内有效。";
 		StringBuffer httpArg = new StringBuffer();
 		httpArg.append("u=").append(account).append("&");
-		httpArg.append("p=").append(md5(password)).append("&");
+		httpArg.append("p=").append(password).append("&");
 		httpArg.append("m=").append(phone).append("&");
 		httpArg.append("c=").append(encodeUrlString(content, StandardCharsets.UTF_8.toString()));
 
