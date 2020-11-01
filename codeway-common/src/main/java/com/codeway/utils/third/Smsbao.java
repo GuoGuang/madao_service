@@ -26,7 +26,6 @@ public class Smsbao {
 	String account;
 	@Value("${sms.password}")
 	String password;
-	String httpUrl = "http://api.smsbao.com/sms";
 
 	public String sendSms(String phone,String code) {
 		String content = "【codeway】您的验证码为" + code + "，在10分钟内有效。";
@@ -39,7 +38,7 @@ public class Smsbao {
 		BufferedReader reader = null;
 		String result = null;
 		StringBuffer sbf = new StringBuffer();
-		httpUrl = httpUrl + "?" + httpArg;
+		String httpUrl = "http://api.smsbao.com/sms" + "?" + httpArg;
 
 		try {
 			URL url = new URL(httpUrl);

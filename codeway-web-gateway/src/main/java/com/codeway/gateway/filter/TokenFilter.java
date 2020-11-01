@@ -67,6 +67,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
 				"/oauth/token",
 				"/api/oauth/token",
 				"/oauth/code/sms",
+				"/api/oauth/code/sms",
 				"/api/oauth/login/github",
 				"/api/oauth2/**",
 				"/api/login/**",
