@@ -1,6 +1,5 @@
 package com.codeway.user.service.blog;
 
-import cn.hutool.core.util.IdUtil;
 import com.codeway.db.redis.service.RedisService;
 import com.codeway.enums.ProviderEnum;
 import com.codeway.exception.custom.CaptchaNotMatchException;
@@ -94,9 +93,9 @@ public class BlogUserService {
 			throw new CaptchaNotMatchException();
 		}
 		String nickName = FakerUtil.getNickName();
-		return createDefaultUser(nickName, userDto.getPhone(), userDto.getEmail(),
+		return createDefaultUser(nickName, userDto.getPhone(), "",
 				userDto.getPhone(), FakerUtil.getAvatar(), null, "", "",
-				bCryptPasswordEncoder.encode(userDto.getPhone() + IdUtil.getSnowflake(1, 1).nextId()));
+				bCryptPasswordEncoder.encode(userDto.getPassword()));
 	}
 
 	/**
