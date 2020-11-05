@@ -6,7 +6,6 @@ import com.codeway.enums.StatusEnum;
 import com.codeway.model.dto.user.UserDto;
 import com.codeway.user.service.blog.BlogUserService;
 import com.codeway.utils.JsonData;
-import com.codeway.utils.JsonUtil;
 import com.codeway.utils.third.Smsbao;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -14,11 +13,12 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.Map;
 
 @Api(tags = "用户管理")
 @RestController
@@ -43,9 +43,8 @@ public class BlogUserController {
 
 	@GetMapping
 	@ApiOperation(value = "获取用户信息", notes = "Admin")
-	public JsonData<UserDto> getUserInfo(@RequestHeader("x-client-token-user") String userStr) {
-		Map<String, Object> user = JsonUtil.jsonToPojo(userStr, Map.class);
-		UserDto result = blogUserService.findById((String) user.get("id"));
+	public JsonData<UserDto> getUserInfo(@CurrentSecurityContext Authentication authentication) {
+		UserDto result = blogUserService.findById(authentication.getName());
 		return JsonData.success(result);
 	}
 
@@ -82,10 +81,8 @@ public class BlogUserController {
 	@OptLog(operationType = OptLogType.MODIFY, operationName = "更新用户资料")
 	@ApiOperation(value = "更新用户资料", notes = "User")
 	public JsonData<Void> updateByPrimaryKey(@RequestBody @Validated(UserDto.ChangeUserInfo.class) UserDto userDto,
-	                                         @RequestHeader("x-client-token-user") String userStr) {
-		Map<String, Object> user = JsonUtil.jsonToPojo(userStr, Map.class);
-
-		blogUserService.updateByPrimaryKey(userDto, (String) user.get("id"));
+	                                         @CurrentSecurityContext Authentication authentication) {
+		blogUserService.updateByPrimaryKey(userDto, authentication.getName());
 		return JsonData.success();
 	}
 

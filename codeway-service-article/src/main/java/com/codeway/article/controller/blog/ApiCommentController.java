@@ -4,15 +4,15 @@ import com.codeway.article.mapper.CommentMapper;
 import com.codeway.article.service.blog.ApiCommentService;
 import com.codeway.model.dto.article.CommentDto;
 import com.codeway.utils.JsonData;
-import com.codeway.utils.JsonUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Api(tags = "前台评论管理")
 @RestController
@@ -29,9 +29,8 @@ public class ApiCommentController {
 
 	@ApiOperation(value = "查询我的评论")
 	@GetMapping("/my/")
-	public JsonData<List<HashMap<Object, Object>>> findMyComment(@RequestHeader("x-client-token-user") String userStr) {
-		Map<String, Object> user = JsonUtil.jsonToPojo(userStr, Map.class);
-		return JsonData.success(apiCommentService.findMyComment(user.get("id") + ""));
+	public JsonData<List<HashMap<Object, Object>>> findMyComment(@CurrentSecurityContext Authentication authentication) {
+		return JsonData.success(apiCommentService.findMyComment(authentication.getName()));
 	}
 
 	@ApiOperation(value = "查询评论列表", notes = "查询评论列表")
