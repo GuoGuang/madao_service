@@ -117,10 +117,8 @@ public class TokenFilter implements GlobalFilter, Ordered {
 		//调用签权服务看用户是否有权限，若有权限进入下一个filter
 		if (authService.commonAuthentication(url) || authService.hasPermission(jwtToken, url, method) ) {
 			ServerHttpRequest.Builder builder = request.mutate();
-			builder.header(X_CLIENT_TOKEN, "TODO 添加服务间简单认证");//TODO 转发的请求都加上服务间认证token
-			//将jwt token中的用户信息传给服务
-			builder.header(X_CLIENT_TOKEN_USER, authService.getJwt(jwtToken).getClaims());
-			builder.header(HttpHeaders.AUTHORIZATION,BEARER+jwtToken);
+			// builder.header(X_CLIENT_TOKEN_USER, authService.getJwt(jwtToken).getClaims()); //将jwt token中的用户信息传给服务
+			builder.header(HttpHeaders.AUTHORIZATION, BEARER + jwtToken);
 			return chain.filter(exchange.mutate().request(builder.build()).build());
 		}
 		return unAuthorized(exchange,StatusEnum.UN_AUTHORIZED);
