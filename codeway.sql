@@ -428,7 +428,7 @@ CREATE TABLE `us_user`  (
 -- Records of us_user
 -- ----------------------------
 INSERT INTO `us_user` VALUES ('123', 1559573395828, 1583510501512, 'guest', 'https://vue-admin-guoguang.oss-cn-shanghai.aliyuncs.com/cover.jpg', 20181128125747, '省市县', '1234@email.com', 121, 27, '150', NULL, 'zhangsan', 1559573395828, '$2a$10$XxVXtdhNBHBMHm4QEc0jOukm5YjcsO4cJ/UEOzeMS/PgjAPXg..FW', '', '17667198751', '1', 1, 1, 'guest');
-INSERT INTO `us_user` VALUES ('1234533425', 1559573395828, 1594847528545, 'admin', 'https://vue-admin-guoguang.oss-cn-shanghai.aliyuncs.com/cover.jpg', 20181128125747, '省市县', '1234@email.com', 121, 27, '150', NULL, 'admin', 1559573395828, '$2a$10$XxVXtdhNBHBMHm4QEc0jOukm5YjcsO4cJ/UEOzeMS/PgjAPXg..FW', '', '17667198751', '1', 1, 1, '管理员');
+INSERT INTO `us_user` VALUES ('1234533425', 1559573395828, 1594847528545, 'admin', 'https://vue-admin-guoguang.oss-cn-shanghai.aliyuncs.com/cover.jpg', 20181128125747, '省市县', '1234@email.com', 121, 27, '150', NULL, 'admin', 1559573395828, '$2a$10$mB5vXNWA8oCg7euvJiYbl.Uno9ov.Kcf4ySfQQ3wFTnRtvk5bHJcu', '', '17667198751', '1', 1, 1, '管理员');
 
 -- ----------------------------
 -- Table structure for us_user_role
