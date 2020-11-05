@@ -6,13 +6,14 @@ import com.codeway.model.dto.user.RoleDto;
 import com.codeway.model.dto.user.UserDto;
 import com.codeway.user.service.UserService;
 import com.codeway.utils.JsonData;
-import com.codeway.utils.JsonUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,9 +42,8 @@ public class UserController {
 
 	@PostMapping("/permission")
 	@ApiOperation(value = "获取用户角色、权限", notes = "User")
-	public JsonData<UserDto> getUserPermission(@RequestHeader("x-client-token-user") String userStr) {
-		Map<String, Object> user = JsonUtil.jsonToPojo(userStr, Map.class);
-		UserDto result = userService.getUserPermission((String) user.get("id"));
+	public JsonData<UserDto> getUserPermission(@CurrentSecurityContext Authentication authentication) {
+		UserDto result = userService.getUserPermission(authentication.getName());
 		return JsonData.success(result);
 	}
 
