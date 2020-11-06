@@ -1,13 +1,15 @@
 package com.codeway.auth.controller;
 
-import com.codeway.auth.service.AuthenticationService;
 import com.codeway.auth.validate.ValidateCodeProcessor;
 import com.codeway.auth.validate.ValidateCodeProcessorHolder;
+import com.codeway.db.redis.service.RedisService;
 import com.codeway.utils.JsonData;
+import com.codeway.utils.security.JWTAuthentication;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -21,22 +23,27 @@ import java.io.IOException;
 @RequestMapping("/oauth")
 public class AuthenticationController {
 
-	private AuthenticationService authenticationService;
+	private final RedisService redisService;
 
 	private final ValidateCodeProcessorHolder validateCodeProcessorHolder;
 
-	public AuthenticationController(AuthenticationService authenticationService, ValidateCodeProcessorHolder validateCodeProcessorHolder) {
-		this.authenticationService = authenticationService;
+	public AuthenticationController(ValidateCodeProcessorHolder validateCodeProcessorHolder,
+	                                RedisService redisService) {
 		this.validateCodeProcessorHolder = validateCodeProcessorHolder;
+		this.redisService = redisService;
 	}
+
 
 	@PostMapping(value = "/logout")
 	@ApiOperation(value = "登出系统", notes = "Auth")
 	@ApiImplicitParams(
 			@ApiImplicitParam(name = "token", value = "令牌", dataType = "String", paramType = "header")
 	)
-	public JsonData<Void> logout(@RequestHeader("AUTH") String token) {
-		authenticationService.logout(token);
+	@GetMapping(value = "/logout")
+	public JsonData<Void> logout(HttpServletRequest request, HttpServletResponse response,
+	                             @RequestHeader("AUTH") String token) {
+		redisService.del("user_token:" + JWTAuthentication.getFullAuthorization(token));
+		new SecurityContextLogoutHandler().logout(request, response, null);
 		return JsonData.success();
 	}
 

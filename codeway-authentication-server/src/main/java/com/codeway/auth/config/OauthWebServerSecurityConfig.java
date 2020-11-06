@@ -90,6 +90,7 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 						"/swagger-resources/configuration/security").permitAll()
 				.and()
 				.csrf().disable()
+				.logout(logout -> logout.invalidateHttpSession(false).logoutUrl("/oauth/logout"))
 
 				.oauth2Login(oauth2 -> oauth2
 						.authorizationEndpoint(System.out::println)
