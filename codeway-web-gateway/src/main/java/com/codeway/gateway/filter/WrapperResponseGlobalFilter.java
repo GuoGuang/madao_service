@@ -17,6 +17,9 @@ import reactor.core.publisher.Mono;
 
 import java.nio.charset.Charset;
 
+/**
+ * 解析响应体
+ */
 @Component
 public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
 	@Override

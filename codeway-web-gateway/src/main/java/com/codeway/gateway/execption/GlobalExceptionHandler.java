@@ -56,7 +56,6 @@ public class GlobalExceptionHandler extends DefaultErrorWebExceptionHandler {
 
 	/**
 	 * 根据code获取对应的HttpStatus
-	 *
 	 * @param errorAttributes
 	 */
 	@Override
