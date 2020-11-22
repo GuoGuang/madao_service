@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.codeway.properties;
 
 import lombok.Getter;
@@ -8,8 +5,6 @@ import lombok.Setter;
 
 /**
  * Security的所有配置
- *
- * @deprecated spring-security-oauth-client 项目已包含类似功能。
  **/
 @Getter
 @Setter
