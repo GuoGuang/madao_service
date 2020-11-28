@@ -1,6 +1,7 @@
 package com.codeway.amqp;
 
 
+import com.codeway.utils.LogBack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;
@@ -54,10 +55,10 @@ public class RabbitUtil {
 	 * @param exchange
 	 * @param msg
 	 */
-	public void sendMessageToExchange(TopicExchange topicExchange, AbstractExchange exchange, String msg){
+	public void sendMessageToExchange(TopicExchange topicExchange, AbstractExchange exchange, String msg) {
 		addExchange(exchange);
-		logger.info("RabbitMQ send "+exchange.getName()+"->"+msg);
-		rabbitTemplate.convertAndSend(topicExchange.getName(),msg);
+		LogBack.info("RabbitMQ send " + exchange.getName() + "->" + msg);
+		rabbitTemplate.convertAndSend(topicExchange.getName(), msg);
 	}
 
 	/**

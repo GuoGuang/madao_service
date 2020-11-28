@@ -5,6 +5,7 @@ import com.codeway.auth.exception.AuthException;
 import com.codeway.enums.ValidateCodeType;
 import com.codeway.properties.SecurityProperties;
 import com.codeway.utils.HttpHelper;
+import com.codeway.utils.LogBack;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,11 +92,11 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 
 		ValidateCodeType type = getValidateCodeType(request);
 		if (type != null) {
-			logger.info("校验请求(" + request.getRequestURI() + ")中的验证码,验证码类型" + type);
+			LogBack.info("校验请求(" + request.getRequestURI() + ")中的验证码,验证码类型" + type);
 			try {
 				validateCodeProcessorHolder.findValidateCodeProcessor(type)
-						.validate(new ServletWebRequest(request, response),bodyString);
-				logger.info("验证码校验通过");
+						.validate(new ServletWebRequest(request, response), bodyString);
+				LogBack.info("验证码校验通过");
 			} catch (AuthException exception) {
 				authenticationFailureHandler.onAuthenticationFailure(request, response, exception);
 				return;
