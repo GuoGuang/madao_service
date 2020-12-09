@@ -6,7 +6,7 @@
         <artifactId>codeway-common-parent</artifactId>
         <groupId>com.codeway</groupId>
         <version>1.0.0</version>
-<!--        <relativePath>./codeway-common-parent/pom.xml</relativePath>-->
+        <relativePath>../codeway-common-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
