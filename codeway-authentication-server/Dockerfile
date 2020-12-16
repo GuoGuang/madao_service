@@ -1,6 +1,6 @@
 FROM java:8
 WORKDIR /service
-COPY target/codeway-authentication-server-1.0.0.jar authentication-server.jar
+COPY target/madaoo-authentication-server-1.0.0.jar authentication-server.jar
 RUN bash -c "touch /authentication-server.jar"
 EXPOSE 8090
 ENV JAVA_OPTS="-server -Xmx128m -Xms128m -Xmn36m -DACTIVE_PROFILE=prod"

@@ -1,12 +1,12 @@
-package com.codeway.article.service.backstage;
+package com.madaoo.article.service.backstage;
 
-import com.codeway.api.user.UserServiceRpc;
-import com.codeway.article.dao.backstage.ArticleDao;
-import com.codeway.article.dao.backstage.CategoryDao;
-import com.codeway.article.dao.backstage.TagDao;
-import com.codeway.db.redis.service.RedisService;
-import com.codeway.model.dto.article.ArticleDto;
-import com.codeway.utils.JsonData;
+import com.madaoo.api.user.UserServiceRpc;
+import com.madaoo.article.dao.backstage.ArticleDao;
+import com.madaoo.article.dao.backstage.CategoryDao;
+import com.madaoo.article.dao.backstage.TagDao;
+import com.madaoo.db.redis.service.RedisService;
+import com.madaoo.model.dto.article.ArticleDto;
+import com.madaoo.utils.JsonData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ class ArticleServiceTest {
 	@Mock
 	TagDao tagDao;
 	@InjectMocks
-	ArticleService articleService;
+	com.madaoo.article.service.backstage.ArticleService articleService;
 
     @BeforeEach
     void setUp() {

@@ -1,8 +1,8 @@
-package com.codeway.article.controller.backstage;
+package com.madaoo.article.controller.backstage;
 
-import com.codeway.article.service.backstage.CommentService;
-import com.codeway.model.dto.article.CommentDto;
-import com.codeway.utils.JsonData;
+import com.madaoo.article.service.backstage.CommentService;
+import com.madaoo.model.dto.article.CommentDto;
+import com.madaoo.utils.JsonData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,10 +16,10 @@ import java.util.Arrays;
 import static org.mockito.Mockito.*;
 
 class CommentControllerTest {
-    @Mock
-    CommentService commentService;
-    @InjectMocks
-    CommentController commentController;
+	@Mock
+	CommentService commentService;
+	@InjectMocks
+	com.madaoo.article.controller.backstage.CommentController commentController;
 
     @BeforeEach
     void setUp() {

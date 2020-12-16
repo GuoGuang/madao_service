@@ -1,4 +1,4 @@
-package com.codeway.auth.config;
+package com.madaoo.auth.config;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;

@@ -1,7 +1,7 @@
-package com.codeway.auth.service;
+package com.madaoo.auth.service;
 
-import com.codeway.api.base.LoginLogServiceRpc;
-import com.codeway.db.redis.service.RedisService;
+import com.madaoo.api.base.LoginLogServiceRpc;
+import com.madaoo.db.redis.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.stereotype.Service;

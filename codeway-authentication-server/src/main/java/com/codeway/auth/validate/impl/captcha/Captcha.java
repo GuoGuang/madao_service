@@ -1,8 +1,7 @@
-package com.codeway.auth.validate.impl.captcha;
+package com.madaoo.auth.validate.impl.captcha;
 
-import com.codeway.auth.validate.impl.ValidateCode;
 import com.google.common.base.Objects;
-import lombok.EqualsAndHashCode;
+import com.madaoo.auth.validate.impl.ValidateCode;
 import lombok.Getter;
 import lombok.Setter;
 

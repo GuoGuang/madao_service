@@ -1,6 +1,6 @@
 FROM java:8
 WORKDIR /service
-COPY target/codeway-server-config-1.0.0.jar server-config.jar
+COPY target/madaoo-server-config-1.0.0.jar server-config.jar
 RUN bash -c "touch /server-config.jar"
 EXPOSE 9009
 ENV JAVA_OPTS="-server -Xmx128m -Xms128m -Xmn36m -DACTIVE_PROFILE=prod"

@@ -1,6 +1,6 @@
-package com.codeway.model.pojo.article;
+package com.madaoo.model.pojo.article;
 
-import com.codeway.model.BasePojo;
+import com.madaoo.model.BasePojo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -22,8 +22,8 @@ public class Category extends BasePojo implements Serializable {
 
     @Id
     @GeneratedValue(generator = "idGenerator")
-    @GenericGenerator(name = "idGenerator", strategy = "com.codeway.config.IdGeneratorConfig")
-    @Column(name="id", unique=true, nullable=false, updatable=false, length = 20)
+    @GenericGenerator(name = "idGenerator", strategy = "com.madaoo.config.IdGeneratorConfig")
+    @Column(name = "id", unique = true, nullable = false, updatable = false, length = 20)
     private String id;
 
     @Column(length = 20)

@@ -1,4 +1,4 @@
-package com.codeway.config;
+package com.madaoo.config;
 
 import org.springframework.context.annotation.Configuration;
 

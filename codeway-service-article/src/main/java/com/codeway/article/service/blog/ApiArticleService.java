@@ -1,12 +1,12 @@
-package com.codeway.article.service.blog;
+package com.madaoo.article.service.blog;
 
-import com.codeway.article.dao.backstage.CommentDao;
-import com.codeway.article.dao.blog.ApiArticleDao;
-import com.codeway.article.mapper.ArticleMapper;
-import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.model.dto.article.ArticleDto;
-import com.codeway.model.pojo.article.Article;
-import com.codeway.model.pojo.article.Comment;
+import com.madaoo.article.dao.backstage.CommentDao;
+import com.madaoo.article.dao.blog.ApiArticleDao;
+import com.madaoo.article.mapper.ArticleMapper;
+import com.madaoo.exception.custom.ResourceNotFoundException;
+import com.madaoo.model.dto.article.ArticleDto;
+import com.madaoo.model.pojo.article.Article;
+import com.madaoo.model.pojo.article.Comment;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

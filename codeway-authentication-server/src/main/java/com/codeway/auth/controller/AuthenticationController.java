@@ -1,10 +1,10 @@
-package com.codeway.auth.controller;
+package com.madaoo.auth.controller;
 
-import com.codeway.auth.validate.ValidateCodeProcessor;
-import com.codeway.auth.validate.ValidateCodeProcessorHolder;
-import com.codeway.db.redis.service.RedisService;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.security.JWTAuthentication;
+import com.madaoo.auth.validate.ValidateCodeProcessor;
+import com.madaoo.auth.validate.ValidateCodeProcessorHolder;
+import com.madaoo.db.redis.service.RedisService;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.security.JWTAuthentication;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

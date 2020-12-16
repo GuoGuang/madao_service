@@ -1,4 +1,4 @@
-package com.codeway;
+package com.madaoo;
 
 import java.io.Serializable;
 

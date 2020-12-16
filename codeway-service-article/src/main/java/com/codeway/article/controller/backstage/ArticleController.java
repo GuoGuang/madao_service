@@ -1,12 +1,12 @@
-package com.codeway.article.controller.backstage;
+package com.madaoo.article.controller.backstage;
 
-import com.codeway.annotation.OptLog;
-import com.codeway.article.controller.BaseController;
-import com.codeway.article.service.backstage.ArticleService;
-import com.codeway.enums.OptLogType;
-import com.codeway.model.dto.article.ArticleDto;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.OssClientUtil;
+import com.madaoo.annotation.OptLog;
+import com.madaoo.article.controller.BaseController;
+import com.madaoo.article.service.backstage.ArticleService;
+import com.madaoo.enums.OptLogType;
+import com.madaoo.model.dto.article.ArticleDto;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.OssClientUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;

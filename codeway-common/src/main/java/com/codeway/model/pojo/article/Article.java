@@ -1,8 +1,8 @@
-package com.codeway.model.pojo.article;
+package com.madaoo.model.pojo.article;
 
-import com.codeway.enums.ArticleAuditStatus;
-import com.codeway.enums.ArticleOriginType;
-import com.codeway.model.BasePojo;
+import com.madaoo.enums.ArticleAuditStatus;
+import com.madaoo.enums.ArticleOriginType;
+import com.madaoo.model.BasePojo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -25,7 +25,7 @@ public class Article extends BasePojo implements Serializable {
 	@Id
 	@Column(name = "id", unique = true, nullable = false, updatable = false, length = 20)
 	@GeneratedValue(generator = "idGenerator")
-	@GenericGenerator(name = "idGenerator", strategy = "com.codeway.config.IdGeneratorConfig")
+	@GenericGenerator(name = "idGenerator", strategy = "com.madaoo.config.IdGeneratorConfig")
 	private String id;
 
 	@Column(length = 20)

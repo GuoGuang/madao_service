@@ -1,7 +1,7 @@
-package com.codeway.base.service.backstage;
+package com.madaoo.base.service.backstage;
 
-import com.codeway.model.QueryVO;
-import com.codeway.model.dto.base.DictDto;
+import com.madaoo.model.QueryVO;
+import com.madaoo.model.dto.base.DictDto;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,15 +10,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class DictServiceTest {
 
-    @Autowired
-    private DictService dictService;
+	@Autowired
+	private com.madaoo.base.service.backstage.DictService dictService;
 
     @Test
     public void findDictByCondition() {

@@ -1,4 +1,4 @@
-package com.codeway.auth.handler;
+package com.madaoo.auth.handler;
 
 import com.google.common.collect.Maps;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;

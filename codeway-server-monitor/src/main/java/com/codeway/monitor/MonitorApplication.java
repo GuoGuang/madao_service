@@ -1,4 +1,4 @@
-package com.codeway.monitor;
+package com.madaoo.monitor;
 
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.boot.SpringApplication;

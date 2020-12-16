@@ -1,7 +1,7 @@
-package com.codeway.model.dto.base;
+package com.madaoo.model.dto.base;
 
-import com.codeway.enums.OptLogType;
-import com.codeway.model.BasePojo;
+import com.madaoo.enums.OptLogType;
+import com.madaoo.model.BasePojo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

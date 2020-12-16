@@ -1,16 +1,16 @@
-package com.codeway.auth.handler;
+package com.madaoo.auth.handler;
 
-import com.codeway.api.base.LoginLogServiceRpc;
-import com.codeway.constant.CommonConst;
-import com.codeway.db.redis.service.RedisService;
-import com.codeway.model.dto.user.AuthToken;
-import com.codeway.model.pojo.base.LoginLog;
-import com.codeway.utils.HttpServletUtil;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.JsonUtil;
-import com.codeway.utils.LogBack;
-import com.codeway.utils.security.JWTAuthentication;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.madaoo.api.base.LoginLogServiceRpc;
+import com.madaoo.constant.CommonConst;
+import com.madaoo.db.redis.service.RedisService;
+import com.madaoo.model.dto.user.AuthToken;
+import com.madaoo.model.pojo.base.LoginLog;
+import com.madaoo.utils.HttpServletUtil;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.JsonUtil;
+import com.madaoo.utils.LogBack;
+import com.madaoo.utils.security.JWTAuthentication;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;

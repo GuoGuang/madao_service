@@ -1,8 +1,8 @@
-package com.codeway.search.controller;
+package com.madaoo.search.controller;
 
-import com.codeway.enums.StatusEnum;
-import com.codeway.model.Result;
-import com.codeway.search.service.ArticleSearchService;
+import com.madaoo.enums.StatusEnum;
+import com.madaoo.model.Result;
+import com.madaoo.search.service.ArticleSearchService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

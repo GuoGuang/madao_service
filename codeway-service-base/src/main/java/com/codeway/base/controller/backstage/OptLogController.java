@@ -1,8 +1,8 @@
-package com.codeway.base.controller.backstage;
+package com.madaoo.base.controller.backstage;
 
-import com.codeway.base.service.backstage.OptLogService;
-import com.codeway.model.dto.base.OptLogDto;
-import com.codeway.utils.JsonData;
+import com.madaoo.base.service.backstage.OptLogService;
+import com.madaoo.model.dto.base.OptLogDto;
+import com.madaoo.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;

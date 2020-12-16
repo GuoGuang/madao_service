@@ -1,6 +1,6 @@
-package com.codeway.model.pojo.base;
+package com.madaoo.model.pojo.base;
 
-import com.codeway.model.BasePojo;
+import com.madaoo.model.BasePojo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

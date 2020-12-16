@@ -1,9 +1,9 @@
-package com.codeway.model.dto.article;
+package com.madaoo.model.dto.article;
 
-import com.codeway.enums.ArticleAuditStatus;
-import com.codeway.enums.ArticleOriginType;
-import com.codeway.model.BasePojo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.madaoo.enums.ArticleAuditStatus;
+import com.madaoo.enums.ArticleOriginType;
+import com.madaoo.model.BasePojo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -24,7 +24,7 @@ public class ArticleDto extends BasePojo implements Serializable {
 	@JsonIgnoreProperties("related")
 	private List<ArticleDto> related;
 
-	private List<TagDto> tags;
+	private List<com.madaoo.model.dto.article.TagDto> tags;
 
 
 	@ApiModelProperty(value = "分类id", example = "1")

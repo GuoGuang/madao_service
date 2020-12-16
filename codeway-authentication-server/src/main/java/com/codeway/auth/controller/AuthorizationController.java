@@ -1,7 +1,7 @@
-package com.codeway.auth.controller;
+package com.madaoo.auth.controller;
 
-import com.codeway.auth.service.AuthenticationService;
-import com.codeway.utils.JsonData;
+import com.madaoo.auth.service.AuthenticationService;
+import com.madaoo.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

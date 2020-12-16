@@ -1,9 +1,9 @@
-package com.codeway.api.base;
+package com.madaoo.api.base;
 
-import com.codeway.constant.FeignConst;
-import com.codeway.fallback.base.OptLogServiceRpcFallbackFactory;
-import com.codeway.model.pojo.base.OptLog;
-import com.codeway.utils.JsonData;
+import com.madaoo.constant.FeignConst;
+import com.madaoo.fallback.base.OptLogServiceRpcFallbackFactory;
+import com.madaoo.model.pojo.base.OptLog;
+import com.madaoo.utils.JsonData;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

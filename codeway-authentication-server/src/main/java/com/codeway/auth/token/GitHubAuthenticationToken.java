@@ -1,4 +1,4 @@
-package com.codeway.auth.token;
+package com.madaoo.auth.token;
 
 import lombok.Data;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

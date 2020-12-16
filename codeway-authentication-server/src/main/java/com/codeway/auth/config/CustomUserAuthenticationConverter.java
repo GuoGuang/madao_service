@@ -1,6 +1,6 @@
-package com.codeway.auth.config;
+package com.madaoo.auth.config;
 
-import com.codeway.auth.service.UserJwt;
+import com.madaoo.auth.service.UserJwt;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetailsService;

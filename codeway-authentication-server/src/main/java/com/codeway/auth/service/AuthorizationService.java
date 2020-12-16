@@ -1,11 +1,11 @@
-package com.codeway.auth.service;
+package com.madaoo.auth.service;
 
 import cn.hutool.core.util.IdUtil;
-import com.codeway.api.user.ResourceServiceRpc;
-import com.codeway.exception.custom.RemoteRpcException;
-import com.codeway.model.pojo.user.Resource;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.LogBack;
+import com.madaoo.api.user.ResourceServiceRpc;
+import com.madaoo.exception.custom.RemoteRpcException;
+import com.madaoo.model.pojo.user.Resource;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.LogBack;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDeniedException;

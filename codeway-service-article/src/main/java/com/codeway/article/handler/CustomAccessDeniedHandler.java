@@ -1,8 +1,8 @@
-package com.codeway.article.handler;
+package com.madaoo.article.handler;
 
-import com.codeway.enums.StatusEnum;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.JsonUtil;
+import com.madaoo.enums.StatusEnum;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.JsonUtil;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;

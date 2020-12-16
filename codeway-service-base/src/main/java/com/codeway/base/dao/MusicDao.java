@@ -1,4 +1,4 @@
-package com.codeway.base.dao;
+package com.madaoo.base.dao;
 
 public interface MusicDao {
 

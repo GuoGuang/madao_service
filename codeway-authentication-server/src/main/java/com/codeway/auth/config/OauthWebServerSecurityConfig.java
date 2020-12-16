@@ -1,15 +1,15 @@
-package com.codeway.auth.config;
+package com.madaoo.auth.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.codeway.auth.filter.CaptchaAuthenticationFilter;
-import com.codeway.auth.filter.GithubAuthenticationFilter;
-import com.codeway.auth.filter.SmsCodeAuthenticationFilter;
-import com.codeway.auth.handler.CustomAuthenticationFailureHandler;
-import com.codeway.auth.handler.CustomAuthenticationSuccessHandler;
-import com.codeway.auth.handler.OauthLoginSuccessHandler;
-import com.codeway.auth.provider.CaptchaAuthenticationProvider;
-import com.codeway.auth.provider.GithubAuthenticationProvider;
-import com.codeway.auth.provider.SmsCodeAuthenticationProvider;
+import com.madaoo.auth.filter.CaptchaAuthenticationFilter;
+import com.madaoo.auth.filter.GithubAuthenticationFilter;
+import com.madaoo.auth.filter.SmsCodeAuthenticationFilter;
+import com.madaoo.auth.handler.CustomAuthenticationFailureHandler;
+import com.madaoo.auth.handler.CustomAuthenticationSuccessHandler;
+import com.madaoo.auth.handler.OauthLoginSuccessHandler;
+import com.madaoo.auth.provider.CaptchaAuthenticationProvider;
+import com.madaoo.auth.provider.GithubAuthenticationProvider;
+import com.madaoo.auth.provider.SmsCodeAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,7 +48,7 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	// 全局过滤器校验码
 	@Autowired
-	private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+	private com.madaoo.auth.config.ValidateCodeSecurityConfig validateCodeSecurityConfig;
 
 	@Autowired
 	private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;

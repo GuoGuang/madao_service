@@ -1,6 +1,6 @@
-package com.codeway.model.dto.article;
+package com.madaoo.model.dto.article;
 
-import com.codeway.model.BasePojo;
+import com.madaoo.model.BasePojo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

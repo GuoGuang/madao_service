@@ -1,14 +1,14 @@
-package com.codeway.article.service.blog;
+package com.madaoo.article.service.blog;
 
-import com.codeway.article.dao.backstage.ArticleTagDao;
-import com.codeway.article.dao.backstage.TagDao;
-import com.codeway.article.mapper.TagMapper;
-import com.codeway.constant.CommonConst;
-import com.codeway.constant.RedisConstant;
-import com.codeway.db.redis.service.RedisService;
-import com.codeway.model.dto.article.TagDto;
-import com.codeway.model.pojo.article.ArticleTag;
-import com.codeway.utils.LogBack;
+import com.madaoo.article.dao.backstage.ArticleTagDao;
+import com.madaoo.article.dao.backstage.TagDao;
+import com.madaoo.article.mapper.TagMapper;
+import com.madaoo.constant.CommonConst;
+import com.madaoo.constant.RedisConstant;
+import com.madaoo.db.redis.service.RedisService;
+import com.madaoo.model.dto.article.TagDto;
+import com.madaoo.model.pojo.article.ArticleTag;
+import com.madaoo.utils.LogBack;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

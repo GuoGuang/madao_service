@@ -1,4 +1,4 @@
-package com.codeway.base.service.blog;
+package com.madaoo.base.service.blog;
 
 
 import org.springframework.stereotype.Service;

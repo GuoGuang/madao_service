@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.codeway.properties;
+package com.madaoo.properties;
 
 /**
  * 认证服务器注册的第三方应用配置项

@@ -1,4 +1,4 @@
-package com.codeway.model.dto.user;
+package com.madaoo.model.dto.user;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

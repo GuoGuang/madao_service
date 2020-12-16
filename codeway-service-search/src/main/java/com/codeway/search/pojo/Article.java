@@ -1,6 +1,6 @@
-package com.codeway.search.pojo;
+package com.madaoo.search.pojo;
 
-import com.codeway.model.BasePojo;
+import com.madaoo.model.BasePojo;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 

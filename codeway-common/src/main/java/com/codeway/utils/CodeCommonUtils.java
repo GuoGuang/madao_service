@@ -1,4 +1,4 @@
-package com.codeway.utils;
+package com.madaoo.utils;
 
 /**
  * 公共代码工具类

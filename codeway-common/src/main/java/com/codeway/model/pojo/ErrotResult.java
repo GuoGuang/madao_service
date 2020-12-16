@@ -1,7 +1,7 @@
 /*
-package com.codeway.model.pojo;
+package com.madaoo.model.pojo;
 
-import com.codeway.enums.StatusEnum;
+import com.madaoo.enums.StatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 

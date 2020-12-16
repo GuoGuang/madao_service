@@ -1,11 +1,11 @@
-package com.codeway.auth.provider;
+package com.madaoo.auth.provider;
 
-import com.codeway.auth.service.GitHubDetailsServiceImpl;
-import com.codeway.auth.token.CaptchaAuthenticationToken;
-import com.codeway.auth.token.GitHubAuthenticationToken;
-import com.codeway.db.redis.service.RedisService;
-import com.codeway.utils.HttpHelper;
-import com.codeway.utils.JsonUtil;
+import com.madaoo.auth.service.GitHubDetailsServiceImpl;
+import com.madaoo.auth.token.CaptchaAuthenticationToken;
+import com.madaoo.auth.token.GitHubAuthenticationToken;
+import com.madaoo.db.redis.service.RedisService;
+import com.madaoo.utils.HttpHelper;
+import com.madaoo.utils.JsonUtil;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

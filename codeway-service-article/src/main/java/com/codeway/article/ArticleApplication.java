@@ -1,6 +1,6 @@
-package com.codeway.article;
+package com.madaoo.article;
 
-import com.codeway.utils.DateUtil;
+import com.madaoo.utils.DateUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -20,15 +20,15 @@ import javax.annotation.PostConstruct;
  * @EnableEurekaClient 本服务启动后会自动注册进eureka服务中
  * @EnableSwagger2 接口文档自动生成
  * @EnableFeignClients 开启Feign的功能
- * // SpringBoot主配置类只会扫描自己所在的包及其子包下面,如果不加此扫描codeway-common里的公用包则扫描不到
- * // @ComponentScan(basePackages = {"com.codeway"})
+ * // SpringBoot主配置类只会扫描自己所在的包及其子包下面,如果不加此扫描madaoo-common里的公用包则扫描不到
+ * // @ComponentScan(basePackages = {"com.madaoo"})
  **/
 @SpringBootApplication
-@EntityScan("com.codeway.model.pojo")
+@EntityScan("com.madaoo.model.pojo")
 @EnableEurekaClient
-@EnableJpaRepositories("com.codeway.article.dao")
-@EnableFeignClients("com.codeway.api")
-@ComponentScan(basePackages = {"com.codeway"})
+@EnableJpaRepositories("com.madaoo.article.dao")
+@EnableFeignClients("com.madaoo.api")
+@ComponentScan(basePackages = {"com.madaoo"})
 public class ArticleApplication {
 
 	public static void main(String[] args) {

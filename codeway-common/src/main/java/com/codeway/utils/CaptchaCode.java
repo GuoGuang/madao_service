@@ -1,5 +1,5 @@
 /*
-package com.codeway.utils;
+package com.madaoo.utils;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;

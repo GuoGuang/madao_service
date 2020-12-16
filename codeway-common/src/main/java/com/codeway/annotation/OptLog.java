@@ -1,7 +1,7 @@
-package com.codeway.annotation;
+package com.madaoo.annotation;
 
 
-import com.codeway.enums.OptLogType;
+import com.madaoo.enums.OptLogType;
 
 import java.lang.annotation.*;
 
@@ -16,13 +16,13 @@ public @interface OptLog {
 
 	/**
 	 * 要执行的操作类型比如：add操作
-	 * {@link com.codeway.constant.CommonConst}
+	 * {@link com.madaoo.constant.CommonConst}
 	 */
 	OptLogType operationType();
 
 	/**
 	 * 要执行的具体操作比如：添加用户
-	 * {@link com.codeway.constant.CommonConst}
+	 * {@link com.madaoo.constant.CommonConst}
 	 */
 	String operationName() default "";
 }

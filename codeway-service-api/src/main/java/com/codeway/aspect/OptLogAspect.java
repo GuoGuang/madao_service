@@ -1,12 +1,12 @@
-package com.codeway.aspect;
+package com.madaoo.aspect;
 
-import com.codeway.annotation.OptLog;
-import com.codeway.api.base.OptLogServiceRpc;
-import com.codeway.enums.OptLogType;
-import com.codeway.utils.HttpServletUtil;
-import com.codeway.utils.JsonUtil;
-import com.codeway.utils.LogBack;
-import com.codeway.utils.security.JWTAuthentication;
+import com.madaoo.annotation.OptLog;
+import com.madaoo.api.base.OptLogServiceRpc;
+import com.madaoo.enums.OptLogType;
+import com.madaoo.utils.HttpServletUtil;
+import com.madaoo.utils.JsonUtil;
+import com.madaoo.utils.LogBack;
+import com.madaoo.utils.security.JWTAuthentication;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -42,13 +42,15 @@ public class OptLogAspect {
 	 * 切入点
 	 * 排除login方法
 	 */
-	//@Pointcut("execution (* com.codeway.*.controller..*.*(..)) && !execution(* com.codeway.*.controller.UserController.login(..))  && !execution(* com.codeway.*.controller.UserController.logout(..))")
-	@Pointcut(value="@annotation(com.codeway.annotation.OptLog)")
+	//@Pointcut("execution (* com.madaoo.*.controller..*.*(..)) && !execution(* com.madaoo.*.controller.UserController.login(..))  && !execution(* com.madaoo.*.controller.UserController.logout(..))")
+	@Pointcut(value = "@annotation(com.madaoo.annotation.OptLog)")
 	public void controllerAspect() {
 		LogBack.info("切入点签名");
 	}
+
 	/**
 	 * 前置通知 用于拦截Controller层记录用户的操作
+	 *
 	 * @param joinPoint 切点
 	 * @author ： LGG
 	 * @date :2019年5月4日12:41:30
@@ -92,7 +94,7 @@ public class OptLogAspect {
 			}
 
 			//*========数据库日志=========*//
-			com.codeway.model.pojo.base.OptLog log = new com.codeway.model.pojo.base.OptLog();
+			com.madaoo.model.pojo.base.OptLog log = new com.madaoo.model.pojo.base.OptLog();
 			log.setClientIp(HttpServletUtil.getIpAddr(request));
 			log.setUserId(user.get("id"));
 			UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
@@ -168,7 +170,7 @@ public class OptLogAspect {
 			System.out.println("请求人:" + "临时");
 			System.out.println("请求IP:" + ipAddr);
 			//==========数据库日志=========
-			com.codeway.model.pojo.base.OptLog log = new com.codeway.model.pojo.base.OptLog();
+			com.madaoo.model.pojo.base.OptLog log = new com.madaoo.model.pojo.base.OptLog();
 			log.setClientIp(HttpServletUtil.getIpAddr(request));
 			log.setUserId("临时用户");
 			UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));

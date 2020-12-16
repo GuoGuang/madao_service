@@ -1,8 +1,8 @@
-package com.codeway.api.auth;
+package com.madaoo.api.auth;
 
-import com.codeway.constant.FeignConst;
-import com.codeway.fallback.auth.AuthServiceRpcFallbackFactory;
-import com.codeway.utils.JsonData;
+import com.madaoo.constant.FeignConst;
+import com.madaoo.fallback.auth.AuthServiceRpcFallbackFactory;
+import com.madaoo.utils.JsonData;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PostMapping;

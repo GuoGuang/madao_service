@@ -1,4 +1,4 @@
-package com.codeway.auth.exception;
+package com.madaoo.auth.exception;
 
 import org.springframework.security.core.AuthenticationException;
 

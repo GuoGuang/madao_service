@@ -1,7 +1,7 @@
-package com.codeway.base.controller.blog;
+package com.madaoo.base.controller.blog;
 
-import com.codeway.utils.JsonData;
-import com.codeway.utils.JsonUtil;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.JsonUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.codeway.gateway.config;
+package com.madaoo.gateway.config;
 
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;

@@ -1,17 +1,12 @@
-package com.codeway.search.service;
+package com.madaoo.search.service;
 
-import com.codeway.search.dao.ArticleSearchDao;
-import com.codeway.search.pojo.Article;
-import org.elasticsearch.action.search.SearchResponse;
+import com.madaoo.search.dao.ArticleSearchDao;
+import com.madaoo.search.pojo.Article;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.sort.SortOrder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 
 
 @Service

@@ -1,7 +1,7 @@
-package com.codeway.gateway;
+package com.madaoo.gateway;
 
-import com.codeway.db.config.DruidConfig;
-import com.codeway.utils.DateUtil;
+import com.madaoo.db.config.DruidConfig;
+import com.madaoo.utils.DateUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -17,11 +17,11 @@ import javax.annotation.PostConstruct;
  * 系统采用Oauth2的客户端模式和授权码模式两种模式
  **/
 
-@ComponentScan(basePackages = {"com.codeway"}, excludeFilters = {
+@ComponentScan(basePackages = {"com.madaoo"}, excludeFilters = {
 		@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
 				classes = {DruidConfig.class})
 })
-@EnableFeignClients(basePackages = "com.codeway.api")
+@EnableFeignClients(basePackages = "com.madaoo.api")
 @SpringBootApplication
 public class GateWayApplication {
 

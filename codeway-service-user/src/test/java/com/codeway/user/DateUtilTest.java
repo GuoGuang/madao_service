@@ -1,6 +1,6 @@
-package com.codeway.user;
+package com.madaoo.user;
 
-import com.codeway.utils.DateUtil;
+import com.madaoo.utils.DateUtil;
 import org.junit.Test;
 
 import java.time.LocalDateTime;

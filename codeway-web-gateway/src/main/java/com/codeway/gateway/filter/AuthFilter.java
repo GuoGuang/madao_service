@@ -1,9 +1,9 @@
-package com.codeway.gateway.filter;
+package com.madaoo.gateway.filter;
 
-import com.codeway.db.redis.service.RedisService;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.JsonUtil;
-import com.codeway.utils.LogBack;
+import com.madaoo.db.redis.service.RedisService;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.JsonUtil;
+import com.madaoo.utils.LogBack;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

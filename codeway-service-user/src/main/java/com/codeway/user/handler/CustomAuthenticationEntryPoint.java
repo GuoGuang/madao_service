@@ -1,9 +1,9 @@
-package com.codeway.user.handler;
+package com.madaoo.user.handler;
 
-import com.codeway.enums.StatusEnum;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.JsonUtil;
-import com.codeway.utils.LogBack;
+import com.madaoo.enums.StatusEnum;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.JsonUtil;
+import com.madaoo.utils.LogBack;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;

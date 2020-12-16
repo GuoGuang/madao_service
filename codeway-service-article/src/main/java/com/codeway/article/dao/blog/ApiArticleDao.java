@@ -1,6 +1,6 @@
-package com.codeway.article.dao.blog;
+package com.madaoo.article.dao.blog;
 
-import com.codeway.model.pojo.article.Article;
+import com.madaoo.model.pojo.article.Article;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

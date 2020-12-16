@@ -1,6 +1,6 @@
-package com.codeway.model.dto.base;
+package com.madaoo.model.dto.base;
 
-import com.codeway.model.BasePojo;
+import com.madaoo.model.BasePojo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

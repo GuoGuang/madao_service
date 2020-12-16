@@ -52,5 +52,5 @@ eureka:
 # JWT配置
 jwt:
   config:
-    encodedSecretKey: codeway # 签名
+    encodedSecretKey: madaoo # 签名
     expiration: 360000 # 设置过期时间

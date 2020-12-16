@@ -1,4 +1,4 @@
-package com.codeway.config;
+package com.madaoo.config;
 
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;

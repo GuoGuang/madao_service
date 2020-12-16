@@ -1,4 +1,4 @@
-package com.codeway.article.filter;
+package com.madaoo.article.filter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

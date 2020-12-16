@@ -1,6 +1,6 @@
-package com.codeway.base;
+package com.madaoo.base;
 
-import com.codeway.utils.DateUtil;
+import com.madaoo.utils.DateUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,13 +14,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
-@EntityScan("com.codeway.model.pojo")
+@EntityScan("com.madaoo.model.pojo")
 @SpringBootApplication
 @EnableEurekaClient
-@EnableJpaRepositories("com.codeway.base.dao")
-@EnableFeignClients(basePackages = "com.codeway.api")
-// SpringBoot主配置类只会扫描自己所在的包及其子包下面,如果不加此扫描codeway-common里的公用包则扫描不到
-@ComponentScan(basePackages = {"com.codeway"})
+@EnableJpaRepositories("com.madaoo.base.dao")
+@EnableFeignClients(basePackages = "com.madaoo.api")
+// SpringBoot主配置类只会扫描自己所在的包及其子包下面,如果不加此扫描madaoo-common里的公用包则扫描不到
+@ComponentScan(basePackages = {"com.madaoo"})
 public class BaseApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BaseApplication.class, args);

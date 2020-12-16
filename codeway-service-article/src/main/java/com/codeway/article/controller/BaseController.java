@@ -1,7 +1,7 @@
-package com.codeway.article.controller;
+package com.madaoo.article.controller;
 
 
-import com.codeway.utils.security.JWTAuthentication;
+import com.madaoo.utils.security.JWTAuthentication;
 import org.springframework.http.HttpHeaders;
 
 import javax.servlet.http.HttpServletRequest;

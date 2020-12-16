@@ -1,4 +1,4 @@
-package com.codeway.gateway.config;
+package com.madaoo.gateway.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -31,9 +31,9 @@ public class CorsConfig {
 			corsConfiguration.addAllowedOrigin("http://localhost:9527");
 			corsConfiguration.addAllowedOrigin("http://127.0.0.1:3000");
 		}
-		corsConfiguration.addAllowedOrigin("http://admin.codeway.fun");
-		corsConfiguration.addAllowedOrigin("http://codeway.fun");
-		corsConfiguration.addAllowedOrigin("https://codeway.fun");
+		corsConfiguration.addAllowedOrigin("http://admin.madaoo.com");
+		corsConfiguration.addAllowedOrigin("http://madaoo.com");
+		corsConfiguration.addAllowedOrigin("https://madaoo.com");
 		corsConfiguration.addAllowedHeader("*");
 		corsConfiguration.addAllowedMethod("*");
 		return corsConfiguration;

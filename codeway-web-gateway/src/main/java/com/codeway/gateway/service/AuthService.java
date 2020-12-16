@@ -1,14 +1,14 @@
-package com.codeway.gateway.service;
+package com.madaoo.gateway.service;
 
 
-import com.codeway.api.auth.AuthServiceRpc;
-import com.codeway.db.redis.service.RedisService;
-import com.codeway.exception.custom.CaptchaNotMatchException;
-import com.codeway.exception.custom.RemoteRpcException;
-import com.codeway.model.dto.user.AuthToken;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.JsonUtil;
-import com.codeway.utils.security.JWTAuthentication;
+import com.madaoo.api.auth.AuthServiceRpc;
+import com.madaoo.db.redis.service.RedisService;
+import com.madaoo.exception.custom.CaptchaNotMatchException;
+import com.madaoo.exception.custom.RemoteRpcException;
+import com.madaoo.model.dto.user.AuthToken;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.JsonUtil;
+import com.madaoo.utils.security.JWTAuthentication;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

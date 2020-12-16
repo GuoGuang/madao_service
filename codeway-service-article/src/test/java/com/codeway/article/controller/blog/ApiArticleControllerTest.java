@@ -1,9 +1,9 @@
-package com.codeway.article.controller.blog;
+package com.madaoo.article.controller.blog;
 
-import com.codeway.article.service.blog.ApiArticleService;
-import com.codeway.db.redis.service.RedisService;
-import com.codeway.model.dto.article.ArticleDto;
-import com.codeway.utils.JsonData;
+import com.madaoo.article.service.blog.ApiArticleService;
+import com.madaoo.db.redis.service.RedisService;
+import com.madaoo.model.dto.article.ArticleDto;
+import com.madaoo.utils.JsonData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,10 +19,10 @@ import static org.mockito.Mockito.*;
 class ApiArticleControllerTest {
     @Mock
     ApiArticleService articleService;
-    @Mock
-    RedisService redisService;
-    @InjectMocks
-    ApiArticleController apiArticleController;
+	@Mock
+	RedisService redisService;
+	@InjectMocks
+	com.madaoo.article.controller.blog.ApiArticleController apiArticleController;
 
     @BeforeEach
     void setUp() {

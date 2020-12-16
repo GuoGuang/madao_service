@@ -1,4 +1,4 @@
-package com.codeway.properties;
+package com.madaoo.properties;
 
 import lombok.Getter;
 import lombok.Setter;

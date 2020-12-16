@@ -1,8 +1,8 @@
-package com.codeway.base.controller.backstage;
+package com.madaoo.base.controller.backstage;
 
-import com.codeway.base.service.backstage.LoginLogService;
-import com.codeway.model.dto.base.LoginLogDto;
-import com.codeway.utils.JsonData;
+import com.madaoo.base.service.backstage.LoginLogService;
+import com.madaoo.model.dto.base.LoginLogDto;
+import com.madaoo.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;

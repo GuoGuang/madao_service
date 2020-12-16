@@ -1,6 +1,6 @@
-package com.codeway.enums;
+package com.madaoo.enums;
 
-import com.codeway.constant.UserConst;
+import com.madaoo.constant.UserConst;
 
 /**
  * 权限相关

@@ -1,6 +1,6 @@
-package com.codeway.gateway.config;
+package com.madaoo.gateway.config;
 
-import com.codeway.gateway.execption.GlobalExceptionHandler;
+import com.madaoo.gateway.execption.GlobalExceptionHandler;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.boot.autoconfigure.web.ServerProperties;

@@ -1,8 +1,8 @@
-package com.codeway.article.controller.blog;
+package com.madaoo.article.controller.blog;
 
-import com.codeway.article.service.blog.ApiTagsService;
-import com.codeway.model.dto.article.TagDto;
-import com.codeway.utils.JsonData;
+import com.madaoo.article.service.blog.ApiTagsService;
+import com.madaoo.model.dto.article.TagDto;
+import com.madaoo.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Pageable;

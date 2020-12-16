@@ -1,11 +1,11 @@
-package com.codeway.article.controller.backstage;
+package com.madaoo.article.controller.backstage;
 
-import com.codeway.article.filter.CustomFilter;
-import com.codeway.article.service.backstage.ArticleService;
-import com.codeway.model.dto.article.ArticleDto;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.JsonUtil;
-import com.codeway.utils.OssClientUtil;
+import com.madaoo.article.filter.CustomFilter;
+import com.madaoo.article.service.backstage.ArticleService;
+import com.madaoo.model.dto.article.ArticleDto;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.JsonUtil;
+import com.madaoo.utils.OssClientUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,7 +42,7 @@ class ArticleControllerTest {
 	@Mock
 	Pageable pageable;
 	@InjectMocks
-	ArticleController articleController;
+	com.madaoo.article.controller.backstage.ArticleController articleController;
 
 	private MockMvc mockMvc;
 

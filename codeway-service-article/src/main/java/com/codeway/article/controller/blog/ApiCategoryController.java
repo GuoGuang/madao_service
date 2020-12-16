@@ -1,8 +1,8 @@
-package com.codeway.article.controller.blog;
+package com.madaoo.article.controller.blog;
 
-import com.codeway.article.service.backstage.CategoryService;
-import com.codeway.model.dto.article.CategoryDto;
-import com.codeway.utils.JsonData;
+import com.madaoo.article.service.backstage.CategoryService;
+import com.madaoo.model.dto.article.CategoryDto;
+import com.madaoo.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;

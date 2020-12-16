@@ -1,14 +1,14 @@
-package com.codeway.base.service.backstage;
+package com.madaoo.base.service.backstage;
 
-import com.codeway.api.user.UserServiceRpc;
-import com.codeway.base.dao.OptLogDao;
-import com.codeway.base.mapper.OptLogMapper;
-import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.model.dto.base.OptLogDto;
-import com.codeway.model.dto.user.UserDto;
-import com.codeway.model.pojo.base.OptLog;
-import com.codeway.utils.BeanUtil;
-import com.codeway.utils.JsonData;
+import com.madaoo.api.user.UserServiceRpc;
+import com.madaoo.base.dao.OptLogDao;
+import com.madaoo.base.mapper.OptLogMapper;
+import com.madaoo.exception.custom.ResourceNotFoundException;
+import com.madaoo.model.dto.base.OptLogDto;
+import com.madaoo.model.dto.user.UserDto;
+import com.madaoo.model.pojo.base.OptLog;
+import com.madaoo.utils.BeanUtil;
+import com.madaoo.utils.JsonData;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

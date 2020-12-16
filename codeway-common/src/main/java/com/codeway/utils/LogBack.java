@@ -1,4 +1,4 @@
-package com.codeway.utils;
+package com.madaoo.utils;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

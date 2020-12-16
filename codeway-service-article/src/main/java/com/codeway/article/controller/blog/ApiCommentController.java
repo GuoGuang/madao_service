@@ -1,9 +1,9 @@
-package com.codeway.article.controller.blog;
+package com.madaoo.article.controller.blog;
 
-import com.codeway.article.mapper.CommentMapper;
-import com.codeway.article.service.blog.ApiCommentService;
-import com.codeway.model.dto.article.CommentDto;
-import com.codeway.utils.JsonData;
+import com.madaoo.article.mapper.CommentMapper;
+import com.madaoo.article.service.blog.ApiCommentService;
+import com.madaoo.model.dto.article.CommentDto;
+import com.madaoo.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.core.Authentication;

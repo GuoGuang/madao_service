@@ -1,9 +1,9 @@
-package com.codeway.auth.config;
+package com.madaoo.auth.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.codeway.auth.handler.CustomTokenEnhancer;
-import com.codeway.auth.handler.CustomWebResponseExceptionTranslator;
-import com.codeway.constant.CommonConst;
+import com.madaoo.auth.handler.CustomTokenEnhancer;
+import com.madaoo.auth.handler.CustomWebResponseExceptionTranslator;
+import com.madaoo.constant.CommonConst;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
@@ -164,7 +164,7 @@ class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapte
 	 * 配置AccessToken加密方式
 	 */
 	@Bean
-	public JwtAccessTokenConverter jwtAccessTokenConverter(CustomUserAuthenticationConverter customUserAuthenticationConverter) {
+	public JwtAccessTokenConverter jwtAccessTokenConverter(com.madaoo.auth.config.CustomUserAuthenticationConverter customUserAuthenticationConverter) {
 		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
 		KeyPair keyPair = new KeyStoreKeyFactory(
 				keyProperties.getKeyStore().getLocation(),

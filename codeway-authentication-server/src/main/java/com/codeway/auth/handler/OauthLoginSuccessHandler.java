@@ -1,13 +1,13 @@
-package com.codeway.auth.handler;
+package com.madaoo.auth.handler;
 
-import com.codeway.api.base.LoginLogServiceRpc;
-import com.codeway.constant.CommonConst;
-import com.codeway.db.redis.service.RedisService;
-import com.codeway.model.dto.user.AuthToken;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.JsonUtil;
-import com.codeway.utils.LogBack;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.madaoo.api.base.LoginLogServiceRpc;
+import com.madaoo.constant.CommonConst;
+import com.madaoo.db.redis.service.RedisService;
+import com.madaoo.model.dto.user.AuthToken;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.JsonUtil;
+import com.madaoo.utils.LogBack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.security.core.Authentication;

@@ -1,6 +1,6 @@
-package com.codeway.auth.config;
+package com.madaoo.auth.config;
 
-import com.codeway.utils.HttpHelper;
+import com.madaoo.utils.HttpHelper;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;

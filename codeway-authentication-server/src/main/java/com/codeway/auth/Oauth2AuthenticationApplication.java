@@ -1,7 +1,7 @@
-package com.codeway.auth;
+package com.madaoo.auth;
 
-import com.codeway.properties.SecurityProperties;
-import com.codeway.utils.DateUtil;
+import com.madaoo.properties.SecurityProperties;
+import com.madaoo.utils.DateUtil;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,8 +20,8 @@ import javax.annotation.PostConstruct;
  * Oauth2授权服务
  **/
 @SpringBootApplication
-@EnableFeignClients(basePackages = "com.codeway.api")
-@ComponentScan(basePackages = {"com.codeway"})
+@EnableFeignClients(basePackages = "com.madaoo.api")
+@ComponentScan(basePackages = {"com.madaoo"})
 @EnableDiscoveryClient
 @EnableRabbit
 public class Oauth2AuthenticationApplication {

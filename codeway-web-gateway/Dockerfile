@@ -1,7 +1,7 @@
 FROM java:8
 WORKDIR /service
-COPY target/codeway-web-gateway-1.0.0.jar codeway-web-gateway.jar
-RUN bash -c "touch /codeway-web-gateway.jar"
+COPY target/madaoo-web-gateway-1.0.0.jar madaoo-web-gateway.jar
+RUN bash -c "touch /madaoo-web-gateway.jar"
 EXPOSE 8080
 ENV JAVA_OPTS "-server -Xmx128m -Xms128m -Xmn36m -DACTIVE_PROFILE=prod"
-ENTRYPOINT exec java $JAVA_OPTS -jar /service/codeway-web-gateway.jar
+ENTRYPOINT exec java $JAVA_OPTS -jar /service/madaoo-web-gateway.jar

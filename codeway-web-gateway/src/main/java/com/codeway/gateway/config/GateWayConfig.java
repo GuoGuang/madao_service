@@ -1,4 +1,4 @@
-package com.codeway.gateway.config;
+package com.madaoo.gateway.config;
 
 
 import org.springframework.cloud.gateway.route.RouteLocator;

@@ -1,11 +1,11 @@
-package com.codeway.auth.provider;
+package com.madaoo.auth.provider;
 
-import com.codeway.auth.exception.AuthException;
-import com.codeway.auth.service.UserDetailsServiceImpl;
-import com.codeway.auth.service.UserJwt;
-import com.codeway.auth.token.CaptchaAuthenticationToken;
-import com.codeway.db.redis.service.RedisService;
-import com.codeway.enums.StatusEnum;
+import com.madaoo.auth.exception.AuthException;
+import com.madaoo.auth.service.UserDetailsServiceImpl;
+import com.madaoo.auth.service.UserJwt;
+import com.madaoo.auth.token.CaptchaAuthenticationToken;
+import com.madaoo.db.redis.service.RedisService;
+import com.madaoo.enums.StatusEnum;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

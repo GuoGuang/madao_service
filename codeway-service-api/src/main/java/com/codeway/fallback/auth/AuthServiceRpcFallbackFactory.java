@@ -1,9 +1,9 @@
-package com.codeway.fallback.auth;
+package com.madaoo.fallback.auth;
 
-import com.codeway.api.auth.AuthServiceRpc;
-import com.codeway.enums.StatusEnum;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.LogBack;
+import com.madaoo.api.auth.AuthServiceRpc;
+import com.madaoo.enums.StatusEnum;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.LogBack;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 

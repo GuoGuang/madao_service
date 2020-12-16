@@ -1,4 +1,4 @@
-package com.codeway.model.pojo;
+package com.madaoo.model.pojo;
 
 public class JsonException extends RuntimeException {
 

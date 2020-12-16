@@ -1,4 +1,4 @@
-package com.codeway.utils;
+package com.madaoo.utils;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;

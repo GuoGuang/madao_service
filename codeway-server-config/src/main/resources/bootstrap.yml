@@ -8,7 +8,7 @@ spring:
         encrypt:
           enabled: true # 启用config加密功能
         git:
-          uri: github注册中心远程仓库地址
+          uri: https://github.com/jackonli-Eils/madaoo_config.git
           searchPaths: ${spring.profiles.active}
           default-label: master
           username: 你的github账号

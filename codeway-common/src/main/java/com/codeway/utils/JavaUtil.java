@@ -1,4 +1,4 @@
-package com.codeway.utils;
+package com.madaoo.utils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

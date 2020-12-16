@@ -1,4 +1,4 @@
-package com.codeway.utils;
+package com.madaoo.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
@@ -37,20 +37,20 @@ public class HttpHelper {
 				sb.append(line);
 			}
 		} catch (IOException e) {
-			LogBack.error(e.getMessage(), e);
+			com.madaoo.utils.LogBack.error(e.getMessage(), e);
 		} finally {
 			if (inputStream != null) {
 				try {
 					inputStream.close();
 				} catch (IOException e) {
-					LogBack.error(e.getMessage(), e);
+					com.madaoo.utils.LogBack.error(e.getMessage(), e);
 				}
 			}
 			if (reader != null) {
 				try {
 					reader.close();
 				} catch (IOException e) {
-					LogBack.error(e.getMessage(), e);
+					com.madaoo.utils.LogBack.error(e.getMessage(), e);
 				}
 			}
 		}
@@ -88,7 +88,7 @@ public class HttpHelper {
 				HttpEntity entity = httpResponse.getEntity();
 				return entity != null ? EntityUtils.toString(entity) : null;
 			});
-			return JsonUtil.jsonToMap(responseBody);
+			return com.madaoo.utils.JsonUtil.jsonToMap(responseBody);
 		} catch (IOException e) {
 			throw new HttpClientErrorException(BAD_REQUEST);
 		}

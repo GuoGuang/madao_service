@@ -1,4 +1,4 @@
-package com.codeway.article.mapper;
+package com.madaoo.article.mapper;
 
 import java.util.List;
 

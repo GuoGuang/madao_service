@@ -1,6 +1,6 @@
-package com.codeway.exception.custom;
+package com.madaoo.exception.custom;
 
-import com.codeway.enums.StatusEnum;
+import com.madaoo.enums.StatusEnum;
 
 public class CaptchaNotMatchException extends RuntimeException {
 

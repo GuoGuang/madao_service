@@ -11,5 +11,5 @@ spring:
 
 # 配置织入点
 com:
-  codeway:
-    aopPointcutExpression: execution (* com.codeway.base..*.*(..))
+  madaoo:
+    aopPointcutExpression: execution (* com.madaoo.base..*.*(..))

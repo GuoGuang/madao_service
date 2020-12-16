@@ -1,6 +1,6 @@
-package com.codeway.search;
+package com.madaoo.search;
 
-import com.codeway.utils.DateUtil;
+import com.madaoo.utils.DateUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -11,14 +11,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.annotation.PostConstruct;
 
-@EntityScan("com.codeway.model.pojo")
+@EntityScan("com.madaoo.model.pojo")
 @SpringBootApplication
 @EnableEurekaClient
-@EnableJpaRepositories("com.codeway.user.dao")
-@EnableFeignClients(basePackages = "com.codeway.api")
+@EnableJpaRepositories("com.madaoo.user.dao")
+@EnableFeignClients(basePackages = "com.madaoo.api")
 //@EnableWebSecurity
 //@EnableAdminServer
-@ComponentScan(basePackages = {"com.codeway"})
+@ComponentScan(basePackages = {"com.madaoo"})
 public class ElasticSearchApplication {
 
 	public static void main(String[] args) {

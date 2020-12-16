@@ -1,4 +1,4 @@
-package com.codeway.model.pojo.article;
+package com.madaoo.model.pojo.article;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,7 +21,7 @@ public class ArticleTag implements Serializable {
 	@Id
 	@Column(name = "id", unique = true, nullable = false, updatable = false, length = 20)
 	@GeneratedValue(generator = "idGenerator")
-	@GenericGenerator(name = "idGenerator", strategy = "com.codeway.config.IdGeneratorConfig")
+	@GenericGenerator(name = "idGenerator", strategy = "com.madaoo.config.IdGeneratorConfig")
 	private String id;
 
 	@Column(name = "article_id", nullable = false, length = 20)

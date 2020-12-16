@@ -1,4 +1,4 @@
-package com.codeway.config;
+package com.madaoo.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;

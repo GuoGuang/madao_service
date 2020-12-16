@@ -1,6 +1,6 @@
-package com.codeway.base.dao;
+package com.madaoo.base.dao;
 
-import com.codeway.model.pojo.base.LoginLog;
+import com.madaoo.model.pojo.base.LoginLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;

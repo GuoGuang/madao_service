@@ -1,11 +1,11 @@
-package com.codeway.auth.validate;
+package com.madaoo.auth.validate;
 
-import com.codeway.auth.exception.AuthException;
-import com.codeway.auth.validate.impl.ValidateCode;
-import com.codeway.auth.validate.impl.ValidateCodeGenerator;
-import com.codeway.enums.StatusEnum;
-import com.codeway.enums.ValidateCodeType;
-import com.codeway.utils.JsonUtil;
+import com.madaoo.auth.exception.AuthException;
+import com.madaoo.auth.validate.impl.ValidateCode;
+import com.madaoo.auth.validate.impl.ValidateCodeGenerator;
+import com.madaoo.enums.StatusEnum;
+import com.madaoo.enums.ValidateCodeType;
+import com.madaoo.utils.JsonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -18,16 +18,16 @@ import java.util.Map;
 /**
  * 抽象验证码类
  **/
-public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> implements ValidateCodeProcessor {
+public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> implements com.madaoo.auth.validate.ValidateCodeProcessor {
 
 	/**
 	 * 收集系统中所有的 {@link ValidateCodeGenerator} 接口的实现。
 	 */
 	@Autowired
 	private Map<String, ValidateCodeGenerator> validateCodeGenerators;
-	
+
 	@Autowired
-	private ValidateCodeRepository validateCodeRepository;
+	private com.madaoo.auth.validate.ValidateCodeRepository validateCodeRepository;
 	
 	@Override
 	public void create(ServletWebRequest request) throws ServletRequestBindingException, IOException {

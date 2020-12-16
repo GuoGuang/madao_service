@@ -1,9 +1,9 @@
-package com.codeway.auth.filter;
+package com.madaoo.auth.filter;
 
-import com.codeway.auth.exception.AuthException;
-import com.codeway.auth.token.GitHubAuthenticationToken;
-import com.codeway.utils.HttpHelper;
-import com.codeway.utils.LogBack;
+import com.madaoo.auth.exception.AuthException;
+import com.madaoo.auth.token.GitHubAuthenticationToken;
+import com.madaoo.utils.HttpHelper;
+import com.madaoo.utils.LogBack;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;

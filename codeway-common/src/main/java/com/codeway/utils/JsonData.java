@@ -1,6 +1,6 @@
-package com.codeway.utils;
+package com.madaoo.utils;
 
-import com.codeway.enums.StatusEnum;
+import com.madaoo.enums.StatusEnum;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

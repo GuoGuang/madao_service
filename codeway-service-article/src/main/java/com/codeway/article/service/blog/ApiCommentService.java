@@ -1,11 +1,11 @@
-package com.codeway.article.service.blog;
+package com.madaoo.article.service.blog;
 
-import com.codeway.article.dao.backstage.ArticleDao;
-import com.codeway.article.dao.backstage.CommentDao;
-import com.codeway.article.mapper.CommentMapper;
-import com.codeway.model.dto.article.CommentDto;
-import com.codeway.model.pojo.article.Article;
-import com.codeway.model.pojo.article.Comment;
+import com.madaoo.article.dao.backstage.ArticleDao;
+import com.madaoo.article.dao.backstage.CommentDao;
+import com.madaoo.article.mapper.CommentMapper;
+import com.madaoo.model.dto.article.CommentDto;
+import com.madaoo.model.pojo.article.Article;
+import com.madaoo.model.pojo.article.Comment;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 

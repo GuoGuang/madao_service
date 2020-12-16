@@ -1,11 +1,11 @@
-package com.codeway.auth.service;
+package com.madaoo.auth.service;
 
-import com.codeway.api.user.BlogUserServiceRpc;
-import com.codeway.exception.custom.RemoteRpcException;
-import com.codeway.model.dto.user.RoleDto;
-import com.codeway.model.dto.user.UserDto;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.JsonUtil;
+import com.madaoo.api.user.BlogUserServiceRpc;
+import com.madaoo.exception.custom.RemoteRpcException;
+import com.madaoo.model.dto.user.RoleDto;
+import com.madaoo.model.dto.user.UserDto;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -47,7 +47,7 @@ public class GitHubDetailsServiceImpl implements UserDetailsService {
 		Set<RoleDto> roles = defUser.getRoles();
 		roles.forEach(role ->
 				authorities.add(new SimpleGrantedAuthority(role.getId())));
-		return new UserJwt(defUser.getUserName(),
+		return new com.madaoo.auth.service.UserJwt(defUser.getUserName(),
 				password,
 				defUser.getId(),
 				defUser.getNickName(),

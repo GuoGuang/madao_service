@@ -1,8 +1,8 @@
-package com.codeway.exception;
+package com.madaoo.exception;
 
-import com.codeway.exception.custom.*;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.LogBack;
+import com.madaoo.exception.custom.*;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.LogBack;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ExceptionHandler;

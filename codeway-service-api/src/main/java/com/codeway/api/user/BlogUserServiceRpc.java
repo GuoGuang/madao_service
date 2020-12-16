@@ -1,10 +1,10 @@
-package com.codeway.api.user;
+package com.madaoo.api.user;
 
-import com.codeway.FeignClientConfig;
-import com.codeway.constant.FeignConst;
-import com.codeway.fallback.user.BlogUserServiceRpcFallbackFactory;
-import com.codeway.model.dto.user.UserDto;
-import com.codeway.utils.JsonData;
+import com.madaoo.FeignClientConfig;
+import com.madaoo.constant.FeignConst;
+import com.madaoo.fallback.user.BlogUserServiceRpcFallbackFactory;
+import com.madaoo.model.dto.user.UserDto;
+import com.madaoo.utils.JsonData;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

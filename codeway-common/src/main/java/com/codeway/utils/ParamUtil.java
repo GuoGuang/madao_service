@@ -1,4 +1,4 @@
-package com.codeway.utils;
+package com.madaoo.utils;
 
 import org.apache.commons.lang3.StringUtils;
 

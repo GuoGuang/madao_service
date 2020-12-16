@@ -1,6 +1,6 @@
-package com.codeway.search.dao;
+package com.madaoo.search.dao;
 
-import com.codeway.search.pojo.Article;
+import com.madaoo.search.pojo.Article;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Component;
 

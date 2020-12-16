@@ -1,8 +1,8 @@
-package com.codeway.article.controller.backstage;
+package com.madaoo.article.controller.backstage;
 
-import com.codeway.article.service.backstage.CategoryService;
-import com.codeway.model.dto.article.CategoryDto;
-import com.codeway.utils.JsonData;
+import com.madaoo.article.service.backstage.CategoryService;
+import com.madaoo.model.dto.article.CategoryDto;
+import com.madaoo.utils.JsonData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,10 +16,10 @@ import java.util.Arrays;
 import static org.mockito.Mockito.*;
 
 class CategoryControllerTest {
-    @Mock
-    CategoryService categoryService;
-    @InjectMocks
-    CategoryController categoryController;
+	@Mock
+	CategoryService categoryService;
+	@InjectMocks
+	com.madaoo.article.controller.backstage.CategoryController categoryController;
 
     @BeforeEach
     void setUp() {

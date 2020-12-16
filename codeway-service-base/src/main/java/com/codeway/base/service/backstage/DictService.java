@@ -1,13 +1,13 @@
-package com.codeway.base.service.backstage;
+package com.madaoo.base.service.backstage;
 
 
-import com.codeway.base.dao.DictDao;
-import com.codeway.base.mapper.DictMapper;
-import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.model.dto.base.DictDto;
-import com.codeway.model.pojo.base.Dict;
-import com.codeway.utils.BeanUtil;
-import com.codeway.utils.LogBack;
+import com.madaoo.base.dao.DictDao;
+import com.madaoo.base.mapper.DictMapper;
+import com.madaoo.exception.custom.ResourceNotFoundException;
+import com.madaoo.model.dto.base.DictDto;
+import com.madaoo.model.pojo.base.Dict;
+import com.madaoo.utils.BeanUtil;
+import com.madaoo.utils.LogBack;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,12 +1,12 @@
-package com.codeway.article.controller.blog;
+package com.madaoo.article.controller.blog;
 
-import com.codeway.article.service.blog.ApiArticleService;
-import com.codeway.constant.ArticleConst;
-import com.codeway.constant.CommonConst;
-import com.codeway.constant.RedisConstant;
-import com.codeway.db.redis.service.RedisService;
-import com.codeway.model.dto.article.ArticleDto;
-import com.codeway.utils.JsonData;
+import com.madaoo.article.service.blog.ApiArticleService;
+import com.madaoo.constant.ArticleConst;
+import com.madaoo.constant.CommonConst;
+import com.madaoo.constant.RedisConstant;
+import com.madaoo.db.redis.service.RedisService;
+import com.madaoo.model.dto.article.ArticleDto;
+import com.madaoo.utils.JsonData;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

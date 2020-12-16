@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.codeway</groupId>
-    <artifactId>codeway-common-parent</artifactId>
+    <groupId>com.madaoo</groupId>
+    <artifactId>madaoo-common-parent</artifactId>
     <version>1.0.0</version>
-    <name>codeway-common-parent</name>
+    <name>madaoo-common-parent</name>
     <description>分布式框架的父依赖管理</description>
 
     <!-- 通过继承spring-boot-starter-parent项目来获得一些合理的默认配置。这个parent提供了以下特性：
@@ -204,19 +204,19 @@
         </dependencies>
     </dependencyManagement>
     <modules>
-        <module>../codeway-common</module>
-        <module>../codeway-common-db</module>
-        <module>../codeway-server-eureka</module>
-        <module>../codeway-server-config</module>
-        <module>../codeway-server-monitor</module>
-        <module>../codeway-service-base</module>
-        <module>../codeway-service-article</module>
-        <module>../codeway-service-search</module>
-        <module>../codeway-service-api</module>
-        <module>../codeway-service-user</module>
-        <module>../codeway-web-gateway</module>
-        <module>../codeway-web-platform</module>
-        <module>../codeway-authentication-server</module>
+        <module>../madaoo-common</module>
+        <module>../madaoo-common-db</module>
+        <module>../madaoo-server-eureka</module>
+        <module>../madaoo-server-config</module>
+        <module>../madaoo-server-monitor</module>
+        <module>../madaoo-service-base</module>
+        <module>../madaoo-service-article</module>
+        <module>../madaoo-service-search</module>
+        <module>../madaoo-service-api</module>
+        <module>../madaoo-service-user</module>
+        <module>../madaoo-web-gateway</module>
+        <module>../madaoo-web-platform</module>
+        <module>../madaoo-authentication-server</module>
     </modules>
     <packaging>pom</packaging>
 

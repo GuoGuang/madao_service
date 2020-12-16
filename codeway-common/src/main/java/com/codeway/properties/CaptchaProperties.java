@@ -1,17 +1,17 @@
-package com.codeway.properties;
+package com.madaoo.properties;
 
 /**
  * 图片验证码配置项
  **/
-public class CaptchaProperties extends SmsCodeProperties {
-	
+public class CaptchaProperties extends com.madaoo.properties.SmsCodeProperties {
+
 	public CaptchaProperties() {
 		setLength(4);
 	}
 
 	private int width = 124;
 	private int height = 30;
-	
+
 	public int getWidth() {
 		return width;
 	}

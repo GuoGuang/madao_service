@@ -1,4 +1,4 @@
-package com.codeway.constant;
+package com.madaoo.constant;
 
 public final class CommonConst {
 

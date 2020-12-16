@@ -1,6 +1,6 @@
-package com.codeway.base.service.backstage;
+package com.madaoo.base.service.backstage;
 
-import com.codeway.model.dto.base.LoginLogDto;
+import com.madaoo.model.dto.base.LoginLogDto;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,15 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Arrays;
-
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class LoginLogServiceTest {
 
-    @Autowired
-    private LoginLogService loginLogService;
+	@Autowired
+	private com.madaoo.base.service.backstage.LoginLogService loginLogService;
 
     @Test
     public void findLoginLogByCondition() {

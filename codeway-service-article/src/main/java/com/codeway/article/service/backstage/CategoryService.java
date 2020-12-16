@@ -1,13 +1,13 @@
-package com.codeway.article.service.backstage;
+package com.madaoo.article.service.backstage;
 
-import com.codeway.article.dao.backstage.ArticleDao;
-import com.codeway.article.dao.backstage.CategoryDao;
-import com.codeway.article.mapper.CategoryMapper;
-import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.model.dto.article.CategoryDto;
-import com.codeway.model.pojo.article.Article;
-import com.codeway.model.pojo.article.Category;
-import com.codeway.utils.BeanUtil;
+import com.madaoo.article.dao.backstage.ArticleDao;
+import com.madaoo.article.dao.backstage.CategoryDao;
+import com.madaoo.article.mapper.CategoryMapper;
+import com.madaoo.exception.custom.ResourceNotFoundException;
+import com.madaoo.model.dto.article.CategoryDto;
+import com.madaoo.model.pojo.article.Article;
+import com.madaoo.model.pojo.article.Category;
+import com.madaoo.utils.BeanUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

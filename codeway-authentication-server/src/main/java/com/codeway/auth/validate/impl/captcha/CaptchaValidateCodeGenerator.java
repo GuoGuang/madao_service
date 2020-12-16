@@ -1,7 +1,7 @@
-package com.codeway.auth.validate.impl.captcha;
+package com.madaoo.auth.validate.impl.captcha;
 
-import com.codeway.auth.validate.impl.ValidateCodeGenerator;
-import com.codeway.properties.SecurityProperties;
+import com.madaoo.auth.validate.impl.ValidateCodeGenerator;
+import com.madaoo.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -26,7 +26,7 @@ public class CaptchaValidateCodeGenerator implements ValidateCodeGenerator {
 	Random random = new Random();
 
 	@Override
-	public Captcha generate(ServletWebRequest request) {
+	public com.madaoo.auth.validate.impl.captcha.Captcha generate(ServletWebRequest request) {
 		int width = ServletRequestUtils.getIntParameter(request.getRequest(), "width",
 				securityProperties.getCode().getImage().getWidth());
 		int height = ServletRequestUtils.getIntParameter(request.getRequest(), "height",
@@ -57,7 +57,7 @@ public class CaptchaValidateCodeGenerator implements ValidateCodeGenerator {
 
 		g.dispose();
 
-		return new Captcha(image, sRand.toString(), securityProperties.getCode().getImage().getExpireIn());
+		return new com.madaoo.auth.validate.impl.captcha.Captcha(image, sRand.toString(), securityProperties.getCode().getImage().getExpireIn());
 	}
 	
 	/**

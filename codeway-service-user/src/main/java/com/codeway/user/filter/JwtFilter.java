@@ -1,7 +1,7 @@
-package com.codeway.user.filter;
+package com.madaoo.user.filter;
 
-import com.codeway.utils.LogBack;
-import com.codeway.utils.security.JWTAuthentication;
+import com.madaoo.utils.LogBack;
+import com.madaoo.utils.security.JWTAuthentication;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;

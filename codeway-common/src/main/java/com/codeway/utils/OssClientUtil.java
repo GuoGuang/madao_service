@@ -1,4 +1,4 @@
-package com.codeway.utils;
+package com.madaoo.utils;
 
 import com.aliyun.oss.HttpMethod;
 import com.aliyun.oss.OSSClient;
@@ -33,7 +33,7 @@ public class OssClientUtil {
 		URL url = ossClient.generatePresignedUrl(
 				BUCKET_NAME,
 				fileName,
-				DateUtil.convertLdtToDate(DateUtil.getPlusMonths(99999)),
+				com.madaoo.utils.DateUtil.convertLdtToDate(com.madaoo.utils.DateUtil.getPlusMonths(99999)),
 				HttpMethod.GET);
 		return "https://"+url.getHost()+url.getPath();
 	}

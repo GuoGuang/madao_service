@@ -1,4 +1,4 @@
-package com.codeway.user.mapper;
+package com.madaoo.user.mapper;
 
 import java.util.List;
 import java.util.Set;
