@@ -1,4 +1,4 @@
-package com.madaoo;
+package com.madao;
 
 import feign.Logger;
 import org.springframework.context.annotation.Bean;

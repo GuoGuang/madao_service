@@ -1,6 +1,6 @@
 FROM java:8
 WORKDIR /service
-COPY target/madaoo-service-user-1.0.0.jar service-user.jar
+COPY target/madao-service-user-1.0.0.jar service-user.jar
 RUN bash -c "touch /service-user.jar"
 EXPOSE 9007
 ENV JAVA_OPTS="-server -Xmx300m -Xms300m -Xmn68m -DACTIVE_PROFILE=prod"

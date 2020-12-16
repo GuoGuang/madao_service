@@ -10,8 +10,8 @@ spring:
           service-base-url: http://localhost:9003
 
 com:
-  madaoo:
-    aopPointcutExpression: execution (* com.madaoo.article..*.*(..))
+  madao:
+    aopPointcutExpression: execution (* com.madao.article..*.*(..))
 
 
 

@@ -3,25 +3,26 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>madaoo-common-parent</artifactId>
-        <groupId>com.madaoo</groupId>
+        <artifactId>madao-common-parent</artifactId>
+        <groupId>com.madao</groupId>
         <version>1.0.0</version>
+        <relativePath>../madao-common-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>madaoo-web-gateway</artifactId>
+    <artifactId>madao-web-gateway</artifactId>
     <description>网关微服务模块</description>
-    <name>madaoo-web-gateway【网关服务】</name>
+    <name>madao-web-gateway【网关服务】</name>
 
     <properties>
         <java.version>1.8</java.version>
-        <docker.image.prefix>madaoo</docker.image.prefix>
+        <docker.image.prefix>madao</docker.image.prefix>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.madaoo</groupId>
-            <artifactId>madaoo-common-db</artifactId>
+            <groupId>com.madao</groupId>
+            <artifactId>madao-common-db</artifactId>
             <version>1.0.0</version>
             <exclusions>
                 <exclusion>
@@ -61,8 +62,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.madaoo</groupId>
-            <artifactId>madaoo-service-api</artifactId>
+            <groupId>com.madao</groupId>
+            <artifactId>madao-service-api</artifactId>
             <version>1.0.0</version>
         </dependency>
 

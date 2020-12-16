@@ -3,17 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>madaoo-common-parent</artifactId>
-        <groupId>com.madaoo</groupId>
+        <artifactId>madao-common-parent</artifactId>
+        <groupId>com.madao</groupId>
         <version>1.0.0</version>
+        <relativePath>../madao-common-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>madaoo-service-article</artifactId>
+    <artifactId>madao-service-article</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
     <description>文章微服务模块</description>
-    <name>madaoo-service-article【文章服务】</name>
+    <name>madao-service-article【文章服务】</name>
 
     <dependencies>
         <!--oauth2认证-->
@@ -24,8 +25,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.madaoo</groupId>
-            <artifactId>madaoo-common-db</artifactId>
+            <groupId>com.madao</groupId>
+            <artifactId>madao-common-db</artifactId>
             <version>1.0.0</version>
         </dependency>
 
@@ -44,8 +45,8 @@
             <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
         </dependency>-->
         <dependency>
-            <groupId>com.madaoo</groupId>
-            <artifactId>madaoo-service-api</artifactId>
+            <groupId>com.madao</groupId>
+            <artifactId>madao-service-api</artifactId>
             <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>

@@ -1,9 +1,9 @@
-package com.madaoo.api.base;
+package com.madao.api.base;
 
-import com.madaoo.constant.FeignConst;
-import com.madaoo.fallback.base.LoginLogServiceRpcFallbackFactory;
-import com.madaoo.model.pojo.base.LoginLog;
-import com.madaoo.utils.JsonData;
+import com.madao.constant.FeignConst;
+import com.madao.fallback.base.LoginLogServiceRpcFallbackFactory;
+import com.madao.model.pojo.base.LoginLog;
+import com.madao.utils.JsonData;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

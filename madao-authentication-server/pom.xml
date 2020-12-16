@@ -3,13 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>madaoo-common-parent</artifactId>
-        <groupId>com.madaoo</groupId>
+        <artifactId>madao-common-parent</artifactId>
+        <groupId>com.madao</groupId>
         <version>1.0.0</version>
+        <relativePath>../madao-common-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>madaoo-authentication-server</artifactId>
+    <artifactId>madao-authentication-server</artifactId>
 
     <dependencies>
         <dependency>
@@ -17,13 +18,13 @@
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.madaoo</groupId>
-            <artifactId>madaoo-common-db</artifactId>
+            <groupId>com.madao</groupId>
+            <artifactId>madao-common-db</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>
-            <groupId>com.madaoo</groupId>
-            <artifactId>madaoo-service-api</artifactId>
+            <groupId>com.madao</groupId>
+            <artifactId>madao-service-api</artifactId>
             <version>1.0.0</version>
         </dependency>
 

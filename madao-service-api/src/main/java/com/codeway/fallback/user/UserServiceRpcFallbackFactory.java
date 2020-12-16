@@ -1,10 +1,10 @@
-package com.madaoo.fallback.user;
+package com.madao.fallback.user;
 
-import com.madaoo.api.user.UserServiceRpc;
-import com.madaoo.enums.StatusEnum;
-import com.madaoo.model.dto.user.UserDto;
-import com.madaoo.utils.JsonData;
-import com.madaoo.utils.LogBack;
+import com.madao.api.user.UserServiceRpc;
+import com.madao.enums.StatusEnum;
+import com.madao.model.dto.user.UserDto;
+import com.madao.utils.JsonData;
+import com.madao.utils.LogBack;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 

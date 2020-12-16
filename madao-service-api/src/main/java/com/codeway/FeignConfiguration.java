@@ -1,8 +1,8 @@
-package com.madaoo;
+package com.madao;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.madaoo.utils.LogBack;
+import com.madao.utils.LogBack;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.apache.http.HttpHeaders;

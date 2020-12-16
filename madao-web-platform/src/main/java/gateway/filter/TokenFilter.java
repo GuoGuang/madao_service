@@ -1,6 +1,6 @@
 package gateway.filter;
 
-import com.madaoo.utils.LogBack;
+import com.madao.utils.LogBack;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;

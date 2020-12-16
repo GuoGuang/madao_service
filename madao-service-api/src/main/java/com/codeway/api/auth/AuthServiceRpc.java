@@ -1,8 +1,8 @@
-package com.madaoo.api.auth;
+package com.madao.api.auth;
 
-import com.madaoo.constant.FeignConst;
-import com.madaoo.fallback.auth.AuthServiceRpcFallbackFactory;
-import com.madaoo.utils.JsonData;
+import com.madao.constant.FeignConst;
+import com.madao.fallback.auth.AuthServiceRpcFallbackFactory;
+import com.madao.utils.JsonData;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PostMapping;

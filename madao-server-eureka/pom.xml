@@ -3,20 +3,21 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>madaoo-common-parent</artifactId>
-        <groupId>com.madaoo</groupId>
+        <artifactId>madao-common-parent</artifactId>
+        <groupId>com.madao</groupId>
         <version>1.0.0</version>
+        <relativePath>../madao-common-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
         <java.version>1.8</java.version>
-        <docker.image.prefix>madaoo</docker.image.prefix>
+        <docker.image.prefix>madao</docker.image.prefix>
     </properties>
 
-    <artifactId>madaoo-server-eureka</artifactId>
+    <artifactId>madao-server-eureka</artifactId>
     <description>eureka模块</description>
-    <name>madaoo-server-eureka【Eureka模块】</name>
+    <name>madao-server-eureka【Eureka模块】</name>
 
     <dependencies>
        <dependency>

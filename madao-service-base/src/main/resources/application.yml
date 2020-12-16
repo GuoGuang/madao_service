@@ -11,5 +11,5 @@ spring:
 
 # 配置织入点
 com:
-  madaoo:
-    aopPointcutExpression: execution (* com.madaoo.base..*.*(..))
+  madao:
+    aopPointcutExpression: execution (* com.madao.base..*.*(..))

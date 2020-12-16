@@ -1,4 +1,4 @@
-package com.madaoo;
+package com.madao;
 
 import com.netflix.hystrix.HystrixThreadPoolKey;
 import com.netflix.hystrix.HystrixThreadPoolProperties;

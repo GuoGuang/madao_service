@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.madaoo</groupId>
-    <artifactId>madaoo-common-parent</artifactId>
+    <groupId>com.madao</groupId>
+    <artifactId>madao-common-parent</artifactId>
     <version>1.0.0</version>
-    <name>madaoo-common-parent</name>
+    <name>madao-common-parent</name>
     <description>分布式框架的父依赖管理</description>
 
     <!-- 通过继承spring-boot-starter-parent项目来获得一些合理的默认配置。这个parent提供了以下特性：

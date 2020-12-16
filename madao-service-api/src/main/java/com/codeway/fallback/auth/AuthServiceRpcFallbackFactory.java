@@ -1,9 +1,9 @@
-package com.madaoo.fallback.auth;
+package com.madao.fallback.auth;
 
-import com.madaoo.api.auth.AuthServiceRpc;
-import com.madaoo.enums.StatusEnum;
-import com.madaoo.utils.JsonData;
-import com.madaoo.utils.LogBack;
+import com.madao.api.auth.AuthServiceRpc;
+import com.madao.enums.StatusEnum;
+import com.madao.utils.JsonData;
+import com.madao.utils.LogBack;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 

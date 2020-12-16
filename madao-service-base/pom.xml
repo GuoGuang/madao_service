@@ -3,17 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>madaoo-common-parent</artifactId>
-        <groupId>com.madaoo</groupId>
+        <artifactId>madao-common-parent</artifactId>
+        <groupId>com.madao</groupId>
         <version>1.0.0</version>
+        <relativePath>../madao-common-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>madaoo-service-base</artifactId>
+    <artifactId>madao-service-base</artifactId>
     <packaging>jar</packaging>
     <description>基础微服务模块</description>
 
-    <name>madaoo-service-base【基础服务】</name>
+    <name>madao-service-base【基础服务】</name>
 
     <dependencies>
 
@@ -25,14 +26,14 @@
         </dependency>
 
         <dependency>
-            <groupId>com.madaoo</groupId>
-            <artifactId>madaoo-common-db</artifactId>
+            <groupId>com.madao</groupId>
+            <artifactId>madao-common-db</artifactId>
             <version>1.0.0</version>
         </dependency>
 
         <dependency>
-            <groupId>com.madaoo</groupId>
-            <artifactId>madaoo-service-api</artifactId>
+            <groupId>com.madao</groupId>
+            <artifactId>madao-service-api</artifactId>
             <version>1.0.0</version>
         </dependency>
         <!--oauth2认证-->
