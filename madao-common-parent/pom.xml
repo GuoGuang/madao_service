@@ -204,19 +204,19 @@
         </dependencies>
     </dependencyManagement>
     <modules>
-        <module>../madaoo-common</module>
-        <module>../madaoo-common-db</module>
-        <module>../madaoo-server-eureka</module>
-        <module>../madaoo-server-config</module>
-        <module>../madaoo-server-monitor</module>
-        <module>../madaoo-service-base</module>
-        <module>../madaoo-service-article</module>
-        <module>../madaoo-service-search</module>
-        <module>../madaoo-service-api</module>
-        <module>../madaoo-service-user</module>
-        <module>../madaoo-web-gateway</module>
-        <module>../madaoo-web-platform</module>
-        <module>../madaoo-authentication-server</module>
+        <module>../madao-common</module>
+        <module>../madao-common-db</module>
+        <module>../madao-server-eureka</module>
+        <module>../madao-server-config</module>
+        <module>../madao-server-monitor</module>
+        <module>../madao-service-base</module>
+        <module>../madao-service-article</module>
+        <module>../madao-service-search</module>
+        <module>../madao-service-api</module>
+        <module>../madao-service-user</module>
+        <module>../madao-web-gateway</module>
+        <module>../madao-web-platform</module>
+        <module>../madao-authentication-server</module>
     </modules>
     <packaging>pom</packaging>
 
