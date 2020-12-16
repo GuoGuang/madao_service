@@ -1,9 +1,9 @@
-package com.codeway.user.config;
+package com.madaoo.user.config;
 
-import com.codeway.enums.AuthorityEnum;
-import com.codeway.user.handler.CustomAccessDeniedHandler;
-import com.codeway.user.handler.CustomAuthenticationEntryPoint;
-import com.codeway.utils.security.JWTAuthentication;
+import com.madaoo.enums.AuthorityEnum;
+import com.madaoo.user.handler.CustomAccessDeniedHandler;
+import com.madaoo.user.handler.CustomAuthenticationEntryPoint;
+import com.madaoo.utils.security.JWTAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

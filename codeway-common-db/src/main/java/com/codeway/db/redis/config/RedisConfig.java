@@ -1,4 +1,4 @@
-package com.codeway.db.redis.config;
+package com.madaoo.db.redis.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

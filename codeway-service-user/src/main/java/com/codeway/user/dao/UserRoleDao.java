@@ -1,6 +1,6 @@
-package com.codeway.user.dao;
+package com.madaoo.user.dao;
 
-import com.codeway.model.pojo.user.UserRole;
+import com.madaoo.model.pojo.user.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;

@@ -3,17 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>codeway-common-parent</artifactId>
-        <groupId>com.codeway</groupId>
+        <artifactId>madaoo-common-parent</artifactId>
+        <groupId>com.madaoo</groupId>
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>codeway-service-article</artifactId>
+    <artifactId>madaoo-service-article</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
     <description>文章微服务模块</description>
-    <name>codeway-service-article【文章服务】</name>
+    <name>madaoo-service-article【文章服务】</name>
 
     <dependencies>
         <!--oauth2认证-->
@@ -24,8 +24,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.codeway</groupId>
-            <artifactId>codeway-common-db</artifactId>
+            <groupId>com.madaoo</groupId>
+            <artifactId>madaoo-common-db</artifactId>
             <version>1.0.0</version>
         </dependency>
 
@@ -44,8 +44,8 @@
             <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
         </dependency>-->
         <dependency>
-            <groupId>com.codeway</groupId>
-            <artifactId>codeway-service-api</artifactId>
+            <groupId>com.madaoo</groupId>
+            <artifactId>madaoo-service-api</artifactId>
             <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>

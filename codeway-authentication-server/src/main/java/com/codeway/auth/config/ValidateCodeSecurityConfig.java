@@ -1,6 +1,6 @@
-package com.codeway.auth.config;
+package com.madaoo.auth.config;
 
-import com.codeway.auth.validate.ValidateCodeFilter;
+import com.madaoo.auth.validate.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

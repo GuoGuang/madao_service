@@ -1,13 +1,13 @@
-package com.codeway.auth.validate;
+package com.madaoo.auth.validate;
 
-import com.codeway.auth.exception.AuthException;
-import com.codeway.auth.validate.impl.ValidateCode;
-import com.codeway.constant.CommonConst;
-import com.codeway.db.redis.service.RedisService;
-import com.codeway.enums.StatusEnum;
-import com.codeway.enums.ValidateCodeType;
-import com.codeway.utils.JsonUtil;
-import com.codeway.utils.LogBack;
+import com.madaoo.auth.exception.AuthException;
+import com.madaoo.auth.validate.impl.ValidateCode;
+import com.madaoo.constant.CommonConst;
+import com.madaoo.db.redis.service.RedisService;
+import com.madaoo.enums.StatusEnum;
+import com.madaoo.enums.ValidateCodeType;
+import com.madaoo.utils.JsonUtil;
+import com.madaoo.utils.LogBack;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ import org.springframework.web.context.request.ServletWebRequest;
  * 将图片验证码或者短信验证码存在redis中
  */
 @Component
-public class RedisValidateCodeRepository implements ValidateCodeRepository {
+public class RedisValidateCodeRepository implements com.madaoo.auth.validate.ValidateCodeRepository {
 
 	@Autowired
 	private RedisService redisService;

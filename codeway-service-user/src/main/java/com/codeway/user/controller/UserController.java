@@ -1,11 +1,11 @@
-package com.codeway.user.controller;
+package com.madaoo.user.controller;
 
-import com.codeway.annotation.OptLog;
-import com.codeway.enums.OptLogType;
-import com.codeway.model.dto.user.RoleDto;
-import com.codeway.model.dto.user.UserDto;
-import com.codeway.user.service.UserService;
-import com.codeway.utils.JsonData;
+import com.madaoo.annotation.OptLog;
+import com.madaoo.enums.OptLogType;
+import com.madaoo.model.dto.user.RoleDto;
+import com.madaoo.model.dto.user.UserDto;
+import com.madaoo.user.service.UserService;
+import com.madaoo.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

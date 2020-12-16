@@ -1,8 +1,5 @@
-package com.codeway.base;
+package com.madaoo.base;
 
-import com.codeway.enums.StatusEnum;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.JsonUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,7 +7,6 @@ import org.springframework.security.jwt.Jwt;
 import org.springframework.security.jwt.JwtHelper;
 import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.Assert;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

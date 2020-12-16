@@ -1,11 +1,9 @@
-package com.codeway.auth.config;
+package com.madaoo.auth.config;
 
-import com.codeway.enums.StatusEnum;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.JsonUtil;
+import com.madaoo.enums.StatusEnum;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.JsonUtil;
 import org.springframework.http.MediaType;
-import org.springframework.security.oauth2.common.DefaultThrowableAnalyzer;
-import org.springframework.security.web.util.ThrowableAnalyzer;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;

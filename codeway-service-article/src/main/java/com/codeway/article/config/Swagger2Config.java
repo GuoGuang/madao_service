@@ -1,4 +1,4 @@
-package com.codeway.article.config;
+package com.madaoo.article.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +21,8 @@ public class Swagger2Config {
 
     @Bean
     public Docket createRestApi() {
-    return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
-    .apis(RequestHandlerSelectors.basePackage("com.codeway.article.controller")).paths(PathSelectors.any()).build();
+	    return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
+			    .apis(RequestHandlerSelectors.basePackage("com.madaoo.article.controller")).paths(PathSelectors.any()).build();
     }
 
     private ApiInfo apiInfo() {

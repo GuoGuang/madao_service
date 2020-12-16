@@ -1,11 +1,11 @@
-package com.codeway.user.controller;
+package com.madaoo.user.controller;
 
-import com.codeway.annotation.OptLog;
-import com.codeway.enums.OptLogType;
-import com.codeway.model.QueryVO;
-import com.codeway.model.dto.user.ResourceDto;
-import com.codeway.user.service.ResourceService;
-import com.codeway.utils.JsonData;
+import com.madaoo.annotation.OptLog;
+import com.madaoo.enums.OptLogType;
+import com.madaoo.model.QueryVO;
+import com.madaoo.model.dto.user.ResourceDto;
+import com.madaoo.user.service.ResourceService;
+import com.madaoo.utils.JsonData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;

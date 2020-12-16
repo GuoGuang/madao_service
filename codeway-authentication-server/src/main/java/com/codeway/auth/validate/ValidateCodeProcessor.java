@@ -1,4 +1,4 @@
-package com.codeway.auth.validate;
+package com.madaoo.auth.validate;
 
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.context.request.ServletWebRequest;

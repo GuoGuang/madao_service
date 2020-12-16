@@ -1,4 +1,4 @@
-package com.codeway.exception.custom;
+package com.madaoo.exception.custom;
 
 import org.springframework.validation.FieldError;
 

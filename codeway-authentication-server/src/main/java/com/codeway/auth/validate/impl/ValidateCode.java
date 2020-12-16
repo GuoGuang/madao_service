@@ -1,4 +1,4 @@
-package com.codeway.auth.validate.impl;
+package com.madaoo.auth.validate.impl;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;

@@ -1,11 +1,11 @@
-package com.codeway.auth.validate;
+package com.madaoo.auth.validate;
 
-import com.codeway.auth.config.BodyReaderHttpServletRequestWrapper;
-import com.codeway.auth.exception.AuthException;
-import com.codeway.enums.ValidateCodeType;
-import com.codeway.properties.SecurityProperties;
-import com.codeway.utils.HttpHelper;
-import com.codeway.utils.LogBack;
+import com.madaoo.auth.config.BodyReaderHttpServletRequestWrapper;
+import com.madaoo.auth.exception.AuthException;
+import com.madaoo.enums.ValidateCodeType;
+import com.madaoo.properties.SecurityProperties;
+import com.madaoo.utils.HttpHelper;
+import com.madaoo.utils.LogBack;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -44,7 +44,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 	/**
 	 * 系统中的校验码处理器
 	 */
-	private final ValidateCodeProcessorHolder validateCodeProcessorHolder;
+	private final com.madaoo.auth.validate.ValidateCodeProcessorHolder validateCodeProcessorHolder;
 
 	/**
 	 * 存放所有需要校验验证码的url
@@ -56,7 +56,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 	 */
 	private AntPathMatcher pathMatcher = new AntPathMatcher();
 
-	public ValidateCodeFilter(AuthenticationFailureHandler authenticationFailureHandler, SecurityProperties securityProperties, ValidateCodeProcessorHolder validateCodeProcessorHolder) {
+	public ValidateCodeFilter(AuthenticationFailureHandler authenticationFailureHandler, SecurityProperties securityProperties, com.madaoo.auth.validate.ValidateCodeProcessorHolder validateCodeProcessorHolder) {
 		this.authenticationFailureHandler = authenticationFailureHandler;
 		this.securityProperties = securityProperties;
 		this.validateCodeProcessorHolder = validateCodeProcessorHolder;

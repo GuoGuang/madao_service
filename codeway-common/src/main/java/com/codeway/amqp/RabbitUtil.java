@@ -1,7 +1,7 @@
-package com.codeway.amqp;
+package com.madaoo.amqp;
 
 
-import com.codeway.utils.LogBack;
+import com.madaoo.utils.LogBack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;

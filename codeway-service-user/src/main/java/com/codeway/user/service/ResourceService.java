@@ -1,14 +1,14 @@
-package com.codeway.user.service;
+package com.madaoo.user.service;
 
 
-import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.model.QueryVO;
-import com.codeway.model.dto.user.ResourceDto;
-import com.codeway.model.pojo.user.Resource;
-import com.codeway.model.pojo.user.RoleResource;
-import com.codeway.user.dao.ResourceDao;
-import com.codeway.user.dao.RoleResourceDao;
-import com.codeway.user.mapper.ResourceMapper;
+import com.madaoo.exception.custom.ResourceNotFoundException;
+import com.madaoo.model.QueryVO;
+import com.madaoo.model.dto.user.ResourceDto;
+import com.madaoo.model.pojo.user.Resource;
+import com.madaoo.model.pojo.user.RoleResource;
+import com.madaoo.user.dao.ResourceDao;
+import com.madaoo.user.dao.RoleResourceDao;
+import com.madaoo.user.mapper.ResourceMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;

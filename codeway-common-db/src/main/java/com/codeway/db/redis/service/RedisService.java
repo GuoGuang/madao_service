@@ -1,4 +1,4 @@
-package com.codeway.db.redis.service;
+package com.madaoo.db.redis.service;
 
 import java.util.List;
 import java.util.Map;

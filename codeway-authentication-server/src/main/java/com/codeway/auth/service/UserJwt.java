@@ -1,4 +1,4 @@
-package com.codeway.auth.service;
+package com.madaoo.auth.service;
 
 import lombok.Data;
 import lombok.ToString;

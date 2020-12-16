@@ -1,8 +1,8 @@
-package com.codeway.article.controller.backstage;
+package com.madaoo.article.controller.backstage;
 
-import com.codeway.article.service.backstage.TagsService;
-import com.codeway.model.dto.article.TagDto;
-import com.codeway.utils.JsonData;
+import com.madaoo.article.service.backstage.TagsService;
+import com.madaoo.model.dto.article.TagDto;
+import com.madaoo.utils.JsonData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,10 +16,10 @@ import java.util.Arrays;
 import static org.mockito.Mockito.*;
 
 class TagsControllerTest {
-    @Mock
-    TagsService tagsService;
-    @InjectMocks
-    TagsController tagsController;
+	@Mock
+	TagsService tagsService;
+	@InjectMocks
+	com.madaoo.article.controller.backstage.TagsController tagsController;
 
     @BeforeEach
     void setUp() {

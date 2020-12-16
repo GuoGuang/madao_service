@@ -3,18 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>codeway-common-parent</artifactId>
-        <groupId>com.codeway</groupId>
+        <artifactId>madaoo-common-parent</artifactId>
+        <groupId>com.madaoo</groupId>
         <version>1.0.0</version>
-<!--        <relativePath>./codeway-common-parent/pom.xml</relativePath>-->
+        <!--        <relativePath>./madaoo-common-parent/pom.xml</relativePath>-->
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>codeway-service-api</artifactId>
+    <artifactId>madaoo-service-api</artifactId>
     <dependencies>
         <dependency>
-            <groupId>com.codeway</groupId>
-            <artifactId>codeway-common</artifactId>
+            <groupId>com.madaoo</groupId>
+            <artifactId>madaoo-common</artifactId>
             <version>1.0.0</version>
         </dependency>
     </dependencies>

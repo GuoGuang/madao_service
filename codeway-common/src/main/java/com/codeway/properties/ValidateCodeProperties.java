@@ -1,33 +1,33 @@
-package com.codeway.properties;
+package com.madaoo.properties;
 
 /**
  * 验证码配置
  **/
 public class ValidateCodeProperties {
-	
+
 	/**
 	 * 图片验证码配置
 	 */
-	private CaptchaProperties image = new CaptchaProperties();
+	private com.madaoo.properties.CaptchaProperties image = new com.madaoo.properties.CaptchaProperties();
 	/**
 	 * 短信验证码配置
 	 */
-	private SmsCodeProperties sms = new SmsCodeProperties();
+	private com.madaoo.properties.SmsCodeProperties sms = new com.madaoo.properties.SmsCodeProperties();
 
-	public CaptchaProperties getImage() {
-		return image; 
+	public com.madaoo.properties.CaptchaProperties getImage() {
+		return image;
 	}
 
-	public void setImage(CaptchaProperties image) {
+	public void setImage(com.madaoo.properties.CaptchaProperties image) {
 		this.image = image;
 	}
 
-	public SmsCodeProperties getSms() {
+	public com.madaoo.properties.SmsCodeProperties getSms() {
 		return sms;
 	}
 
-	public void setSms(SmsCodeProperties sms) {
+	public void setSms(com.madaoo.properties.SmsCodeProperties sms) {
 		this.sms = sms;
 	}
-	
+
 }

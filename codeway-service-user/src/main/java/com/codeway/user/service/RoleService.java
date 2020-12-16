@@ -1,20 +1,20 @@
-package com.codeway.user.service;
+package com.madaoo.user.service;
 
 
-import com.codeway.exception.custom.ResourceNotFoundException;
-import com.codeway.model.QueryVO;
-import com.codeway.model.dto.user.RoleDto;
-import com.codeway.model.pojo.user.QRole;
-import com.codeway.model.pojo.user.Role;
-import com.codeway.model.pojo.user.RoleResource;
-import com.codeway.user.dao.ResourceDao;
-import com.codeway.user.dao.RoleDao;
-import com.codeway.user.dao.RoleResourceDao;
-import com.codeway.user.dao.UserRoleDao;
-import com.codeway.user.mapper.ResourceMapper;
-import com.codeway.user.mapper.RoleMapper;
-import com.codeway.utils.BeanUtil;
-import com.codeway.utils.QuerydslUtil;
+import com.madaoo.exception.custom.ResourceNotFoundException;
+import com.madaoo.model.QueryVO;
+import com.madaoo.model.dto.user.RoleDto;
+import com.madaoo.model.pojo.user.QRole;
+import com.madaoo.model.pojo.user.Role;
+import com.madaoo.model.pojo.user.RoleResource;
+import com.madaoo.user.dao.ResourceDao;
+import com.madaoo.user.dao.RoleDao;
+import com.madaoo.user.dao.RoleResourceDao;
+import com.madaoo.user.dao.UserRoleDao;
+import com.madaoo.user.mapper.ResourceMapper;
+import com.madaoo.user.mapper.RoleMapper;
+import com.madaoo.utils.BeanUtil;
+import com.madaoo.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Order;

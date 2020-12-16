@@ -1,6 +1,6 @@
-package com.codeway.model.dto.user;
+package com.madaoo.model.dto.user;
 
-import com.codeway.model.BasePojo;
+import com.madaoo.model.BasePojo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,7 +21,7 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 public class ResourceDto extends BasePojo implements Serializable, Cloneable {
 
-	private Set<RoleDto> roles = new HashSet<>();
+	private Set<com.madaoo.model.dto.user.RoleDto> roles = new HashSet<>();
 
 	@ApiModelProperty("资源表主键")
 	private String id;

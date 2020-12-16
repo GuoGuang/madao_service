@@ -1,4 +1,4 @@
-package com.codeway.config;
+package com.madaoo.config;
 
 import org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,13 +20,13 @@ import java.util.Map;
  * EnableAspectJAutoProxy : 强制使用cglib，因为如果包下的XXService类实现了接口，Spring会报异常
  **/
 @Configuration
-@ConditionalOnProperty(value = "com.codeway.aopPointcutExpression")
+@ConditionalOnProperty(value = "com.madaoo.aopPointcutExpression")
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class TransactionConfig {
 
     private static final int TX_METHOD_TIMEOUT = 10;
 
-    @Value("${com.codeway.aopPointcutExpression}")
+	@Value("${com.madaoo.aopPointcutExpression}")
     private String aopPointcutExpression;
 
     /**

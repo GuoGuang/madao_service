@@ -1,11 +1,11 @@
-package com.codeway.gateway.filter;
+package com.madaoo.gateway.filter;
 
-import com.codeway.enums.StatusEnum;
-import com.codeway.gateway.service.AuthService;
-import com.codeway.model.dto.user.AuthToken;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.JsonUtil;
-import com.codeway.utils.LogBack;
+import com.madaoo.enums.StatusEnum;
+import com.madaoo.gateway.service.AuthService;
+import com.madaoo.model.dto.user.AuthToken;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.JsonUtil;
+import com.madaoo.utils.LogBack;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

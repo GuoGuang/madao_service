@@ -1,7 +1,7 @@
-package com.codeway.auth.validate;
+package com.madaoo.auth.validate;
 
-import com.codeway.auth.validate.impl.ValidateCode;
-import com.codeway.enums.ValidateCodeType;
+import com.madaoo.auth.validate.impl.ValidateCode;
+import com.madaoo.enums.ValidateCodeType;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**

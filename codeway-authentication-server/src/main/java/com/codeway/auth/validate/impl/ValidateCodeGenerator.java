@@ -1,4 +1,4 @@
-package com.codeway.auth.validate.impl;
+package com.madaoo.auth.validate.impl;
 
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -13,6 +13,6 @@ public interface ValidateCodeGenerator {
 	 * @param request ServletWebRequest
 	 * @return ValidateCode
 	 */
-	ValidateCode generate(ServletWebRequest request);
+	com.madaoo.auth.validate.impl.ValidateCode generate(ServletWebRequest request);
 	
 }

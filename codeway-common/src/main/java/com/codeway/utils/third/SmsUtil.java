@@ -1,4 +1,4 @@
-package com.codeway.utils.third;
+package com.madaoo.utils.third;
 
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;

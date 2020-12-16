@@ -1,6 +1,6 @@
-package com.codeway.utils.third;
+package com.madaoo.utils.third;
 
-import com.codeway.utils.LogBack;
+import com.madaoo.utils.LogBack;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -28,7 +28,7 @@ public class Smsbao {
 	String password;
 
 	public String sendSms(String phone,String code) {
-		String content = "【codeway】您的验证码为" + code + "，在10分钟内有效。";
+		String content = "【madaoo】您的验证码为" + code + "，在10分钟内有效。";
 		StringBuffer httpArg = new StringBuffer();
 		httpArg.append("u=").append(account).append("&");
 		httpArg.append("p=").append(password).append("&");

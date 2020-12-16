@@ -1,4 +1,4 @@
-package com.codeway.user.amqp;
+package com.madaoo.user.amqp;
 
 import org.springframework.stereotype.Service;
 

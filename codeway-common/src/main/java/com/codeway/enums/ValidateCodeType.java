@@ -1,7 +1,7 @@
-package com.codeway.enums;
+package com.madaoo.enums;
 
 
-import com.codeway.constant.CommonConst;
+import com.madaoo.constant.CommonConst;
 
 /**
  * 校验码类型

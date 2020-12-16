@@ -1,4 +1,4 @@
-package com.codeway.properties;
+package com.madaoo.properties;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,9 +10,9 @@ import lombok.Setter;
 @Setter
 public class RegistrationProperties {
 
-	private GitHubProperties github = new GitHubProperties();
+	private com.madaoo.properties.GitHubProperties github = new com.madaoo.properties.GitHubProperties();
 
-	private QQProperties qq = new QQProperties();
+	private com.madaoo.properties.QQProperties qq = new com.madaoo.properties.QQProperties();
 
 	/**
 	 * 社交登录功能拦截的url

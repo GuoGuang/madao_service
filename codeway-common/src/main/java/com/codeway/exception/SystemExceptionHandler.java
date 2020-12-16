@@ -1,12 +1,12 @@
-package com.codeway.exception;
+package com.madaoo.exception;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.codeway.enums.StatusEnum;
-import com.codeway.exception.custom.ParamException;
-import com.codeway.exception.custom.RemoteRpcException;
-import com.codeway.exception.custom.ValidFieldError;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.LogBack;
+import com.madaoo.enums.StatusEnum;
+import com.madaoo.exception.custom.ParamException;
+import com.madaoo.exception.custom.RemoteRpcException;
+import com.madaoo.exception.custom.ValidFieldError;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.LogBack;
 import com.netflix.client.ClientException;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;

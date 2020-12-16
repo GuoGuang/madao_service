@@ -1,4 +1,4 @@
-package com.codeway.auth.token;
+package com.madaoo.auth.token;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

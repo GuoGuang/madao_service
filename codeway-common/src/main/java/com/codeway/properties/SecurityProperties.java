@@ -1,4 +1,4 @@
-package com.codeway.properties;
+package com.madaoo.properties;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,17 +14,17 @@ public class SecurityProperties {
 	/**
 	 * 验证码配置
 	 */
-	private ValidateCodeProperties code = new ValidateCodeProperties();
+	private com.madaoo.properties.ValidateCodeProperties code = new com.madaoo.properties.ValidateCodeProperties();
 
 	/**
 	 * 社交注册配置
 	 */
-	private RegistrationProperties registration = new RegistrationProperties();
+	private com.madaoo.properties.RegistrationProperties registration = new com.madaoo.properties.RegistrationProperties();
 
 	/**
 	 * OAuth2认证服务器配置
 	 */
-	private OAuth2Properties oauth2 = new OAuth2Properties();
+	private com.madaoo.properties.OAuth2Properties oauth2 = new com.madaoo.properties.OAuth2Properties();
 
 
 }

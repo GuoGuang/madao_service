@@ -1,6 +1,6 @@
-package com.codeway.properties;
+package com.madaoo.properties;
 
-import com.codeway.constant.CommonConst;
+import com.madaoo.constant.CommonConst;
 import lombok.Getter;
 import lombok.Setter;
 

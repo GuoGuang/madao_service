@@ -1,4 +1,4 @@
-package com.codeway.user.controller;
+package com.madaoo.user.controller;
 
 
 import io.swagger.annotations.Api;

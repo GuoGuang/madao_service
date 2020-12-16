@@ -1,4 +1,4 @@
-package com.codeway.enums;
+package com.madaoo.enums;
 
 /**
  * 状态码定义

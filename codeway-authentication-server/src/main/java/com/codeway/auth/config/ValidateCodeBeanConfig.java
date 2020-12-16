@@ -1,11 +1,11 @@
-package com.codeway.auth.config;
+package com.madaoo.auth.config;
 
-import com.codeway.auth.validate.impl.ValidateCodeGenerator;
-import com.codeway.auth.validate.impl.captcha.CaptchaValidateCodeGenerator;
-import com.codeway.auth.validate.impl.sms.AliSmsCodeSender;
-import com.codeway.auth.validate.impl.sms.DefaultSmsCodeSender;
-import com.codeway.auth.validate.impl.sms.SmsCodeSender;
-import com.codeway.properties.SecurityProperties;
+import com.madaoo.auth.validate.impl.ValidateCodeGenerator;
+import com.madaoo.auth.validate.impl.captcha.CaptchaValidateCodeGenerator;
+import com.madaoo.auth.validate.impl.sms.AliSmsCodeSender;
+import com.madaoo.auth.validate.impl.sms.DefaultSmsCodeSender;
+import com.madaoo.auth.validate.impl.sms.SmsCodeSender;
+import com.madaoo.properties.SecurityProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -3,18 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
    <parent>
-        <artifactId>codeway-common-parent</artifactId>
-        <groupId>com.codeway</groupId>
-        <version>1.0.0</version>
-        <!--relativePath表示父模块POM的相对路径
-            默认值是../pom.xml 也就是Maven默认父pom在上一层目录下,由于本工程跟parent工程同级,所以添加和这个-->
-    </parent>
+       <artifactId>madaoo-common-parent</artifactId>
+       <groupId>com.madaoo</groupId>
+       <version>1.0.0</version>
+       <!--relativePath表示父模块POM的相对路径
+           默认值是../pom.xml 也就是Maven默认父pom在上一层目录下,由于本工程跟parent工程同级,所以添加和这个-->
+   </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>codeway-service-user</artifactId>
+    <artifactId>madaoo-service-user</artifactId>
     <description>用户微服务模块</description>
-    <name>codeway-service-user【用户服务】</name>
+    <name>madaoo-service-user【用户服务】</name>
 
     <dependencies>
 
@@ -26,14 +26,14 @@
         </dependency>
 
         <dependency>
-            <groupId>com.codeway</groupId>
-            <artifactId>codeway-common-db</artifactId>
+            <groupId>com.madaoo</groupId>
+            <artifactId>madaoo-common-db</artifactId>
             <version>1.0.0</version>
         </dependency>
 
         <dependency>
-            <groupId>com.codeway</groupId>
-            <artifactId>codeway-service-api</artifactId>
+            <groupId>com.madaoo</groupId>
+            <artifactId>madaoo-service-api</artifactId>
             <version>1.0.0</version>
         </dependency>
     </dependencies>

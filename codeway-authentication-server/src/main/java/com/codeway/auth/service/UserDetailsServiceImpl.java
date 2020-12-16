@@ -1,10 +1,10 @@
-package com.codeway.auth.service;
+package com.madaoo.auth.service;
 
-import com.codeway.api.user.UserServiceRpc;
-import com.codeway.exception.custom.RemoteRpcException;
-import com.codeway.model.dto.user.RoleDto;
-import com.codeway.model.dto.user.UserDto;
-import com.codeway.utils.JsonData;
+import com.madaoo.api.user.UserServiceRpc;
+import com.madaoo.exception.custom.RemoteRpcException;
+import com.madaoo.model.dto.user.RoleDto;
+import com.madaoo.model.dto.user.UserDto;
+import com.madaoo.utils.JsonData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -52,7 +52,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		Set<RoleDto> roles = defUser.getRoles();
 		roles.forEach(role ->
 				authorities.add(new SimpleGrantedAuthority(role.getId())));
-		return new UserJwt(defUser.getUserName(),
+		return new com.madaoo.auth.service.UserJwt(defUser.getUserName(),
 				password,
 				defUser.getId(),
 				defUser.getNickName(),
@@ -61,7 +61,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 				defUser.getPhone(),
 				defUser.getAccount(),
 				authorities);
-    }
+	}
 
     /**
      * 获得登录者所有角色的权限集合.

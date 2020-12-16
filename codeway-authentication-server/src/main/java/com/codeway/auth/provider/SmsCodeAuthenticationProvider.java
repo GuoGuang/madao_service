@@ -1,10 +1,10 @@
-package com.codeway.auth.provider;
+package com.madaoo.auth.provider;
 
-import com.codeway.auth.exception.AuthException;
-import com.codeway.auth.service.UserDetailsServiceImpl;
-import com.codeway.auth.token.SmsCodeAuthenticationToken;
-import com.codeway.model.pojo.user.User;
-import com.codeway.utils.JsonUtil;
+import com.madaoo.auth.exception.AuthException;
+import com.madaoo.auth.service.UserDetailsServiceImpl;
+import com.madaoo.auth.token.SmsCodeAuthenticationToken;
+import com.madaoo.model.pojo.user.User;
+import com.madaoo.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;

@@ -1,6 +1,6 @@
-package com.codeway.model;
+package com.madaoo.model;
 
-import com.codeway.enums.StatusEnum;
+import com.madaoo.enums.StatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 

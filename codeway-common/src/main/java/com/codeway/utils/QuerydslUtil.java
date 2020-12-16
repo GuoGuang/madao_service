@@ -1,4 +1,4 @@
-package com.codeway.utils;
+package com.madaoo.utils;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;

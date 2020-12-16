@@ -1,9 +1,9 @@
-package com.codeway.user.listener;
+package com.madaoo.user.listener;
 
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
-import com.codeway.utils.LogBack;
-import com.codeway.utils.third.SmsUtil;
+import com.madaoo.utils.LogBack;
+import com.madaoo.utils.third.SmsUtil;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

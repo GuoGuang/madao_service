@@ -1,4 +1,4 @@
-package com.codeway.model.pojo.user;
+package com.madaoo.model.pojo.user;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,7 +21,7 @@ public class RoleResource implements Serializable {
 	@Id
 	@Column(name = "id", unique = true, nullable = false, updatable = false, length = 20)
 	@GeneratedValue(generator = "idGenerator")
-	@GenericGenerator(name = "idGenerator", strategy = "com.codeway.config.IdGeneratorConfig")
+	@GenericGenerator(name = "idGenerator", strategy = "com.madaoo.config.IdGeneratorConfig")
 	private String id;
 
 	@Column(name = "role_id", nullable = false, length = 20)

@@ -1,11 +1,11 @@
 /**
  * 
  */
-package com.codeway.auth.validate.impl.sms;
+package com.madaoo.auth.validate.impl.sms;
 
-import com.codeway.auth.validate.impl.ValidateCode;
-import com.codeway.auth.validate.impl.ValidateCodeGenerator;
-import com.codeway.properties.SecurityProperties;
+import com.madaoo.auth.validate.impl.ValidateCode;
+import com.madaoo.auth.validate.impl.ValidateCodeGenerator;
+import com.madaoo.properties.SecurityProperties;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.codeway.auth.validate.impl.sms;
+package com.madaoo.auth.validate.impl.sms;
 
 public interface SmsCodeSender {
 	

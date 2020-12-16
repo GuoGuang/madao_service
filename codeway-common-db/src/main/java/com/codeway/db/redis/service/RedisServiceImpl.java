@@ -1,7 +1,7 @@
-package com.codeway.db.redis.service;
+package com.madaoo.db.redis.service;
 
 
-import com.codeway.utils.LogBack;
+import com.madaoo.utils.LogBack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -27,17 +27,17 @@ import java.util.concurrent.TimeUnit;
  */
 
 @Service
-public class RedisServiceImpl implements RedisService {
+public class RedisServiceImpl implements com.madaoo.db.redis.service.RedisService {
 
-    @Autowired
-    private RedisTemplate redisTemplate;
+	@Autowired
+	private RedisTemplate redisTemplate;
 
-    //=============================user============================
+	//=============================user============================
 
-    /**
-     * 指定缓存失效时间
-     *
-     * @param key  键
+	/**
+	 * 指定缓存失效时间
+	 *
+	 * @param key  键
      * @param time 时间(秒)
      * @return
      */

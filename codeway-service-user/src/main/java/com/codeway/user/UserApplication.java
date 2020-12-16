@@ -1,6 +1,6 @@
-package com.codeway.user;
+package com.madaoo.user;
 
-import com.codeway.utils.DateUtil;
+import com.madaoo.utils.DateUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,14 +15,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
-@EntityScan("com.codeway.model.pojo")
+@EntityScan("com.madaoo.model.pojo")
 @SpringBootApplication
 @EnableEurekaClient
-@EnableJpaRepositories("com.codeway.user.dao")
-@EnableFeignClients(basePackages = "com.codeway.api")
+@EnableJpaRepositories("com.madaoo.user.dao")
+@EnableFeignClients(basePackages = "com.madaoo.api")
 //@EnableWebSecurity
 //@EnableAdminServer
-@ComponentScan(basePackages = {"com.codeway"})
+@ComponentScan(basePackages = {"com.madaoo"})
 public class UserApplication {
 
 	public static void main(String[] args) {

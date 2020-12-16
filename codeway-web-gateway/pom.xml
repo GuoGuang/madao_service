@@ -3,25 +3,25 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>codeway-common-parent</artifactId>
-        <groupId>com.codeway</groupId>
+        <artifactId>madaoo-common-parent</artifactId>
+        <groupId>com.madaoo</groupId>
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>codeway-web-gateway</artifactId>
+    <artifactId>madaoo-web-gateway</artifactId>
     <description>网关微服务模块</description>
-    <name>codeway-web-gateway【网关服务】</name>
+    <name>madaoo-web-gateway【网关服务】</name>
 
     <properties>
         <java.version>1.8</java.version>
-        <docker.image.prefix>codeway</docker.image.prefix>
+        <docker.image.prefix>madaoo</docker.image.prefix>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.codeway</groupId>
-            <artifactId>codeway-common-db</artifactId>
+            <groupId>com.madaoo</groupId>
+            <artifactId>madaoo-common-db</artifactId>
             <version>1.0.0</version>
             <exclusions>
                 <exclusion>
@@ -61,8 +61,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.codeway</groupId>
-            <artifactId>codeway-service-api</artifactId>
+            <groupId>com.madaoo</groupId>
+            <artifactId>madaoo-service-api</artifactId>
             <version>1.0.0</version>
         </dependency>
 

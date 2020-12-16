@@ -1,7 +1,7 @@
-package com.codeway.model.dto.user;
+package com.madaoo.model.dto.user;
 
-import com.codeway.enums.ProviderEnum;
-import com.codeway.model.BasePojo;
+import com.madaoo.enums.ProviderEnum;
+import com.madaoo.model.BasePojo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -24,7 +24,7 @@ import java.util.Set;
 public class UserDto extends BasePojo implements Serializable {
 
 	@ApiModelProperty("角色集合")
-	private Set<RoleDto> roles = new HashSet<>();
+	private Set<com.madaoo.model.dto.user.RoleDto> roles = new HashSet<>();
 
 	@ApiModelProperty("验证码")
 	@NotNull(groups = {UserDto.Register.class})

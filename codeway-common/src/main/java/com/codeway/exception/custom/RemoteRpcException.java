@@ -1,7 +1,7 @@
-package com.codeway.exception.custom;
+package com.madaoo.exception.custom;
 
-import com.codeway.utils.JsonData;
-import com.codeway.utils.JsonUtil;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.JsonUtil;
 
 /**
  * 自定义异常：RemoteRpcException异常

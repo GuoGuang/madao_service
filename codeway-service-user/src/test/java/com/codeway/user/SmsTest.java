@@ -1,9 +1,8 @@
-package com.codeway.user;
+package com.madaoo.user;
 
-import com.codeway.utils.DateUtil;
-import com.codeway.utils.LogBack;
-import com.codeway.utils.third.SmsUtil;
-import com.codeway.utils.third.Smsbao;
+import com.madaoo.utils.LogBack;
+import com.madaoo.utils.third.SmsUtil;
+import com.madaoo.utils.third.Smsbao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

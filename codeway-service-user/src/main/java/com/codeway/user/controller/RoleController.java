@@ -1,12 +1,12 @@
-package com.codeway.user.controller;
+package com.madaoo.user.controller;
 
-import com.codeway.annotation.OptLog;
-import com.codeway.enums.OptLogType;
-import com.codeway.model.QueryVO;
-import com.codeway.model.dto.user.RoleDto;
-import com.codeway.model.pojo.user.Role;
-import com.codeway.user.service.RoleService;
-import com.codeway.utils.JsonData;
+import com.madaoo.annotation.OptLog;
+import com.madaoo.enums.OptLogType;
+import com.madaoo.model.QueryVO;
+import com.madaoo.model.dto.user.RoleDto;
+import com.madaoo.model.pojo.user.Role;
+import com.madaoo.user.service.RoleService;
+import com.madaoo.utils.JsonData;
 import com.querydsl.core.QueryResults;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

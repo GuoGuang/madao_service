@@ -1,13 +1,13 @@
-package com.codeway.user.controller;
+package com.madaoo.user.controller;
 
-import com.codeway.annotation.OptLog;
-import com.codeway.enums.OptLogType;
-import com.codeway.enums.StatusEnum;
-import com.codeway.model.dto.user.UserDto;
-import com.codeway.user.service.UserService;
-import com.codeway.utils.DesensitizedUtil;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.OssClientUtil;
+import com.madaoo.annotation.OptLog;
+import com.madaoo.enums.OptLogType;
+import com.madaoo.enums.StatusEnum;
+import com.madaoo.model.dto.user.UserDto;
+import com.madaoo.user.service.UserService;
+import com.madaoo.utils.DesensitizedUtil;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.OssClientUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

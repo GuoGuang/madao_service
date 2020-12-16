@@ -1,7 +1,7 @@
-package com.codeway.user.service;
+package com.madaoo.user.service;
 
-import com.codeway.model.QueryVO;
-import com.codeway.model.dto.user.ResourceDto;
+import com.madaoo.model.QueryVO;
+import com.madaoo.model.dto.user.ResourceDto;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,8 +17,8 @@ import java.util.Set;
 @SpringBootTest
 public class ResourceServiceTest {
 
-    @Autowired
-    private ResourceService resourceService;
+	@Autowired
+	private com.madaoo.user.service.ResourceService resourceService;
 
     @Test
     public void findResourceByCondition() {

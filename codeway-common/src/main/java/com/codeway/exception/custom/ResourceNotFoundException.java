@@ -1,4 +1,4 @@
-package com.codeway.exception.custom;
+package com.madaoo.exception.custom;
 
 public class ResourceNotFoundException extends RuntimeException {
 

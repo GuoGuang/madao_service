@@ -1,12 +1,12 @@
-package com.codeway.auth.validate.impl.sms;
+package com.madaoo.auth.validate.impl.sms;
 
-import com.codeway.auth.validate.AbstractValidateCodeProcessor;
-import com.codeway.auth.validate.impl.ValidateCode;
-import com.codeway.constant.CommonConst;
-import com.codeway.enums.StatusEnum;
-import com.codeway.utils.JsonData;
-import com.codeway.utils.LogBack;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.madaoo.auth.validate.AbstractValidateCodeProcessor;
+import com.madaoo.auth.validate.impl.ValidateCode;
+import com.madaoo.constant.CommonConst;
+import com.madaoo.enums.StatusEnum;
+import com.madaoo.utils.JsonData;
+import com.madaoo.utils.LogBack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -28,7 +28,7 @@ public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<Vali
 	 * 短信验证码发送器
 	 */
 	@Autowired
-	private SmsCodeSender smsCodeSender;
+	private com.madaoo.auth.validate.impl.sms.SmsCodeSender smsCodeSender;
 	
 	@Override
 	protected void send(ServletWebRequest request, ValidateCode validateCode) throws ServletRequestBindingException, IOException {
