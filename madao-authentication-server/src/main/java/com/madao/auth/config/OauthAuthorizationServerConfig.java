@@ -164,7 +164,7 @@ class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapte
 	 * 配置AccessToken加密方式
 	 */
 	@Bean
-	public JwtAccessTokenConverter jwtAccessTokenConverter(com.madao.auth.config.CustomUserAuthenticationConverter customUserAuthenticationConverter) {
+	public JwtAccessTokenConverter jwtAccessTokenConverter(CustomUserAuthenticationConverter customUserAuthenticationConverter) {
 		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
 		KeyPair keyPair = new KeyStoreKeyFactory(
 				keyProperties.getKeyStore().getLocation(),
