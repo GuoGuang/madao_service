@@ -1,7 +1,7 @@
 
 <p align="center">
-<a href="https://github.com/GuoGuang/codeway" target="blank">
-    <img src="https://yd-note.oss-cn-beijing.aliyuncs.com/favicon.ico" height="90" alt="codeway.fun logo" />
+<a href="https://github.com/GuoGuang/madao" target="blank">
+    <img src="https://yd-note.oss-cn-beijing.aliyuncs.com/favicon.ico" height="90" alt="madaoo.com logo" />
 </a>
 </p>
 
@@ -36,34 +36,34 @@
 10. 运维/集成/部署：Jenkins、Docker...
 
 ## 前台项目请移步 
-- [后台管理系统](https://github.com/GuoGuang/codeway_admin_manage)
-- [前台博客](https://github.com/GuoGuang/codeway)
+- [后台管理系统](https://github.com/GuoGuang/madao_admin_manage)
+- [前台博客](https://github.com/GuoGuang/madao)
 
 ## 平台目录结构说明
 ```
-├─codeway-common-parent----------------------------父项目，公共依赖
+├─madao-common-parent----------------------------父项目，公共依赖
 │  │
-│  ├─codeway-common--------------------------------微服务公共包
+│  ├─madao-common--------------------------------微服务公共包
 │  │
-│  ├─codeway-common-db-----------------------------数据库
+│  ├─madao-common-db-----------------------------数据库
 │  │
-│  ├─codeway-service-config-------------------------微服务配置中心
+│  ├─madao-service-config-------------------------微服务配置中心
 │  │
-│  ├─codeway-service-eureka-------------------------微服务注册中心
+│  ├─madao-service-eureka-------------------------微服务注册中心
 │  │
-│  ├─codeway-service-monitor-----------------------—微服务监控中心 
+│  ├─madao-service-monitor-----------------------—微服务监控中心 
 │  │
-│  ├─codeway-service-api---------------------------微服务API工程
+│  ├─madao-service-api---------------------------微服务API工程
 │  │
-│  ├─codeway-service-article-----------------------文章服务
+│  ├─madao-service-article-----------------------文章服务
 │  │
-│  ├─codeway-service-base--------------------------基础服务
+│  ├─madao-service-base--------------------------基础服务
 │  │
-│  ├─codeway-service-search------------------------搜索服务
+│  ├─madao-service-search------------------------搜索服务
 │  │
-│  ├─codeway-service-user--------------------------用户服务
+│  ├─madao-service-user--------------------------用户服务
 │  │
-│  ├─codeway-web-gateway---------------------------微服务网关中心
+│  ├─madao-web-gateway---------------------------微服务网关中心
 
 ```
 ### 前置环境
@@ -80,18 +80,18 @@
 > 开源不易，如果此项目对您有帮助，麻烦点个star给作者一点动力，不胜感激。:sparkles:
 
 0. 导入服务
-![导入服务](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/service.png)
-点击 "import module" 将服务一一导入，如果你嫌一个个导入麻烦，可以在codeway-common-parent的pom.xml文件中最底下把<modules>标签放开，但是真正微服务开发一般一个团队或者一个人负责一个服务，没有一个人同时开发多个服务情况，毕竟是个人博客项目，导入方式可以自己定。
+![导入服务](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/service.png)
+点击 "import module" 将服务一一导入，如果你嫌一个个导入麻烦，可以在madao-common-parent的pom.xml文件中最底下把<modules>标签放开，但是真正微服务开发一般一个团队或者一个人负责一个服务，没有一个人同时开发多个服务情况，毕竟是个人博客项目，导入方式可以自己定。
 ```
 // install
-mvn -B -DskipTests install -f codeway-common-parent
+mvn -B -DskipTests install -f madao-common-parent
 或者 
-idea里 maven选项选中codeway-common-parent install
+idea里 maven选项选中madao-common-parent install
 ```
 
-1. 初始化数据库：导入系统根路径下codeway.sql文件到数据库中
+1. 初始化数据库：导入系统根路径下madao.sql文件到数据库中
 
-2. 一个成熟的项目必然会依赖众多中间件，本项目也不例外，这里假设你会使用docker,如果你还没有接触到docker,那么可以参考我的另一篇文章[Docker入门](https://codeway.fun/article/1263480522076721152)
+2. 一个成熟的项目必然会依赖众多中间件，本项目也不例外，这里假设你会使用docker,如果你还没有接触到docker,那么可以参考我的另一篇文章[Docker入门](https://madaoo.com/article/1263480522076721152)
 
     使用docker启动mysql、redis
     ```
@@ -107,11 +107,11 @@ idea里 maven选项选中codeway-common-parent install
     ```
 
 3. 配置注册中心远程仓库
-github fork此仓库[配置中心](https://github.com/GuoGuang/codeway_config)
+github fork此仓库[配置中心](https://github.com/GuoGuang/madao_config)
 将里面的配置文件更改为你的地址，阿里云oss地址没有的话可以注释掉
 
 4.  配置注册中心远程地址
-在codeway-server-config服务中找到bootstrap.yml文件，配置如下
+在madao-server-config服务中找到bootstrap.yml文件，配置如下
 
 ```
 spring:
@@ -154,12 +154,12 @@ SpringCloud是比较吃内存的，如果你不指定内存大小，8G内存一�
 
 ## 启动微服务
 ### 架构图
-![架构图](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE1.png)
-![架构图](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE2.png)
+![架构图](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE1.png)
+![架构图](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE2.png)
 
 ### 服务监控平台
-启动 codeway-service-monitor 服务 
+启动 madao-service-monitor 服务 
 访问 [地址](http://127.0.0.1:9002)
-![图1](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/Application.png)
-![图2](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/Wallboard.png)
-![图3](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/Details.png)
+![图1](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/Application.png)
+![图2](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/Wallboard.png)
+![图3](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/Details.png)
