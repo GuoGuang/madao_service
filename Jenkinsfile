@@ -188,8 +188,8 @@ pipeline {
                     script {
                     //    if("${serviceName}" != "madao-server-eureka" && "${serviceName}" != "madao-server-config"){
                             sh "docker login --username=1831682775@qq.com --password ${DOCKER_HUB_PASSWORD} registry.cn-beijing.aliyuncs.com"
-                            sh "docker tag ${serviceName}:${env.BUILD_ID} registry.cn-beijing.aliyuncs.com/madao/${serviceName}:${env.BUILD_ID}"
-                            sh "docker push registry.cn-beijing.aliyuncs.com/madao/${serviceName}:${env.BUILD_ID}"
+                            sh "docker tag ${serviceName}:${env.BUILD_ID} registry.cn-beijing.aliyuncs.com/madaoo/${serviceName}:${env.BUILD_ID}"
+                            sh "docker push registry.cn-beijing.aliyuncs.com/madaoo/${serviceName}:${env.BUILD_ID}"
                             echo "构建并推送到远程服务器成功--->"
                      //   }
                     }
@@ -263,8 +263,8 @@ pipeline {
                         sh "${REMOTE_SCRIPT} pwd "
                         sh "${REMOTE_SCRIPT} docker -v "
                         sh "${REMOTE_SCRIPT} docker login --username=1831682775@qq.com --password ${DOCKER_HUB_PASSWORD} registry.cn-beijing.aliyuncs.com"
-                        sh "${REMOTE_SCRIPT} docker pull registry.cn-beijing.aliyuncs.com/madao/${serviceName}:${env.BUILD_ID}"
-                        sh "${REMOTE_SCRIPT} docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d registry.cn-beijing.aliyuncs.com/madao/${serviceName}:${env.BUILD_ID}"
+                        sh "${REMOTE_SCRIPT} docker pull registry.cn-beijing.aliyuncs.com/madaoo/${serviceName}:${env.BUILD_ID}"
+                        sh "${REMOTE_SCRIPT} docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d registry.cn-beijing.aliyuncs.com/madaoo/${serviceName}:${env.BUILD_ID}"
                         echo '-->> #远程主机构建成功-->>'
                      //}
                     
