@@ -2,7 +2,6 @@
  Navicat Premium Data Transfer
  Source Server Type    : MySQL
  Source Server Version : 80016
- Source Schema         : youyd
  Target Server Type    : MySQL
  Target Server Version : 80016
  File Encoding         : 65001
@@ -17,27 +16,27 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `ar_article`;
 CREATE TABLE `ar_article`  (
-  `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `create_at` bigint(20) NULL DEFAULT NULL,
-  `update_at` bigint(20) NULL DEFAULT NULL,
-  `comment` int(11) NULL DEFAULT NULL,
-  `content` text CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `description` varchar(500) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `importance` float NULL DEFAULT NULL,
-  `is_public` int(11) NULL DEFAULT NULL,
-  `is_top` int(11) NULL DEFAULT NULL,
-  `keywords` varchar(200) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `origin` int(11) NOT NULL,
-  `review_state` int(11) NULL DEFAULT NULL,
-  `thumb` varchar(200) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `title` varchar(50) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `type` int(11) NULL DEFAULT NULL,
-  `upvote` int(11) NULL DEFAULT NULL,
-  `url` varchar(200) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `user_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `visits` int(11) NULL DEFAULT NULL,
-  `category_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                               `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                               `create_at` bigint(20) NULL DEFAULT NULL,
+                               `update_at` bigint(20) NULL DEFAULT NULL,
+                               `comment` int(11) NULL DEFAULT NULL,
+                               `content` text CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                               `description` varchar(500) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                               `importance` float NULL DEFAULT NULL,
+                               `is_public` int(11) NULL DEFAULT NULL,
+                               `is_top` int(11) NULL DEFAULT NULL,
+                               `keywords` varchar(200) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                               `origin` int(11) NOT NULL,
+                               `review_state` int(11) NULL DEFAULT NULL,
+                               `thumb` varchar(200) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                               `title` varchar(50) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                               `type` int(11) NULL DEFAULT NULL,
+                               `upvote` int(11) NULL DEFAULT NULL,
+                               `url` varchar(200) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                               `user_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                               `visits` int(11) NULL DEFAULT NULL,
+                               `category_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                               PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf16 COLLATE = utf16_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -49,9 +48,9 @@ INSERT INTO `ar_article` VALUES ('1238640274759094272', 1584178628978, 158780488
 -- ----------------------------
 DROP TABLE IF EXISTS `ar_article_tags`;
 CREATE TABLE `ar_article_tags`  (
-  `article_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `tags_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  PRIMARY KEY (`article_id`, `tags_id`) USING BTREE
+                                    `article_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                                    `tags_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                                    PRIMARY KEY (`article_id`, `tags_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf16 COLLATE = utf16_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -64,15 +63,15 @@ INSERT INTO `ar_article_tags` VALUES ('1238640274759094272', '5');
 -- ----------------------------
 DROP TABLE IF EXISTS `ar_category`;
 CREATE TABLE `ar_category`  (
-  `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `create_at` bigint(20) NULL DEFAULT NULL,
-  `update_at` bigint(20) NULL DEFAULT NULL,
-  `name` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `parent_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `state` int(11) NULL DEFAULT NULL,
-  `summary` varchar(200) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `user_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                                `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                                `create_at` bigint(20) NULL DEFAULT NULL,
+                                `update_at` bigint(20) NULL DEFAULT NULL,
+                                `name` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                                `parent_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                                `state` int(11) NULL DEFAULT NULL,
+                                `summary` varchar(200) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                                `user_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                                PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf16 COLLATE = utf16_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -87,20 +86,20 @@ INSERT INTO `ar_category` VALUES ('3', 1588003346277, 1588003346277, '安全', '
 -- ----------------------------
 DROP TABLE IF EXISTS `ar_comment`;
 CREATE TABLE `ar_comment`  (
-  `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `user_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `parent_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `article_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `content` varchar(3000) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `upvote` int(11) NULL DEFAULT NULL,
-  `avatar` varchar(2000) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `user_name` varchar(300) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `to_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `to_avatar` varchar(2000) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `to_name` varchar(300) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `create_at` bigint(20) NOT NULL,
-  `update_at` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                               `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                               `user_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                               `parent_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                               `article_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                               `content` varchar(3000) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                               `upvote` int(11) NULL DEFAULT NULL,
+                               `avatar` varchar(2000) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                               `user_name` varchar(300) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                               `to_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                               `to_avatar` varchar(2000) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                               `to_name` varchar(300) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                               `create_at` bigint(20) NOT NULL,
+                               `update_at` bigint(20) NOT NULL,
+                               PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf16 COLLATE = utf16_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -114,16 +113,16 @@ INSERT INTO `ar_comment` VALUES ('comment0002', 'errhefe232213', NULL, '12805207
 -- ----------------------------
 DROP TABLE IF EXISTS `ar_tags`;
 CREATE TABLE `ar_tags`  (
-  `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `create_at` bigint(20) NULL DEFAULT NULL,
-  `update_at` bigint(20) NULL DEFAULT NULL,
-  `color` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `description` varchar(200) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `icon` varchar(50) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `name` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `slug` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `state` int(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                            `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            `create_at` bigint(20) NULL DEFAULT NULL,
+                            `update_at` bigint(20) NULL DEFAULT NULL,
+                            `color` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                            `description` varchar(200) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            `icon` varchar(50) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                            `name` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            `slug` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            `state` int(11) NULL DEFAULT NULL,
+                            PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf16 COLLATE = utf16_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -141,16 +140,16 @@ INSERT INTO `ar_tags` VALUES ('6', 1583380077, 1583380077, '#ff9800', 'Docker', 
 -- ----------------------------
 DROP TABLE IF EXISTS `ba_dict`;
 CREATE TABLE `ba_dict`  (
-  `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `create_at` bigint(20) NULL DEFAULT NULL,
-  `update_at` bigint(20) NULL DEFAULT NULL,
-  `code` varchar(10) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `description` varchar(200) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `name` varchar(10) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `parent_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `state` int(11) NULL DEFAULT NULL,
-  `type` varchar(10) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                            `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            `create_at` bigint(20) NULL DEFAULT NULL,
+                            `update_at` bigint(20) NULL DEFAULT NULL,
+                            `code` varchar(10) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            `description` varchar(200) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            `name` varchar(10) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            `parent_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                            `state` int(11) NULL DEFAULT NULL,
+                            `type` varchar(10) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf16 COLLATE = utf16_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -163,14 +162,14 @@ INSERT INTO `ba_dict` VALUES ('1254829256031211520', 1588009582890, 158800958289
 -- ----------------------------
 DROP TABLE IF EXISTS `ba_login_log`;
 CREATE TABLE `ba_login_log`  (
-  `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `create_at` bigint(20) NULL DEFAULT NULL,
-  `update_at` bigint(20) NULL DEFAULT NULL,
-  `browser` varchar(50) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `client_ip` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `os_info` varchar(100) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `user_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                                 `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                                 `create_at` bigint(20) NULL DEFAULT NULL,
+                                 `update_at` bigint(20) NULL DEFAULT NULL,
+                                 `browser` varchar(50) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                                 `client_ip` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                                 `os_info` varchar(100) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                                 `user_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                                 PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf16 COLLATE = utf16_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -183,18 +182,18 @@ INSERT INTO `ba_login_log` VALUES ('1235224543237378048', 1583335455120, 1583335
 -- ----------------------------
 DROP TABLE IF EXISTS `ba_opt_log`;
 CREATE TABLE `ba_opt_log`  (
-  `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `create_at` bigint(20) NULL DEFAULT NULL,
-  `update_at` bigint(20) NULL DEFAULT NULL,
-  `browser` varchar(50) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `client_ip` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `exception_detail` varchar(500) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `method` varchar(100) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `os_info` varchar(50) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `params` varchar(500) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `type` int(11) NULL DEFAULT NULL,
-  `user_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                               `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                               `create_at` bigint(20) NULL DEFAULT NULL,
+                               `update_at` bigint(20) NULL DEFAULT NULL,
+                               `browser` varchar(50) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                               `client_ip` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                               `exception_detail` varchar(500) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                               `method` varchar(100) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                               `os_info` varchar(50) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                               `params` varchar(500) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                               `type` int(11) NULL DEFAULT NULL,
+                               `user_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                               PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf16 COLLATE = utf16_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -207,25 +206,25 @@ INSERT INTO `ba_opt_log` VALUES ('1235230651578454016', 1583336911468, 158333691
 -- ----------------------------
 DROP TABLE IF EXISTS `movie`;
 CREATE TABLE `movie`  (
-  `id` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '电影名称',
-  `desc` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '电影描述',
-  `classify` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '类别',
-  `actor` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '主演',
-  `director` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '导演',
-  `cover_pic` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '封面图',
-  `pics` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '图片地址',
-  `magnet_url` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '磁力下载地址',
-  `online _url` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '在线播放地址',
-  `pub_date` bigint(20) NOT NULL COMMENT '发布日期',
-  `rating` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '评分',
-  `source` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '来源',
-  `visits` int(11) NOT NULL DEFAULT 0 COMMENT '阅读数',
-  `is_recommend` int(11) NOT NULL DEFAULT 0 COMMENT '是否推荐，0不推荐，1推荐',
-  `update_at` bigint(20) NOT NULL,
-  `create_at` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_pu_date`(`pub_date`) USING BTREE
+                          `id` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+                          `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '电影名称',
+                          `desc` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '电影描述',
+                          `classify` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '类别',
+                          `actor` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '主演',
+                          `director` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '导演',
+                          `cover_pic` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '封面图',
+                          `pics` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '图片地址',
+                          `magnet_url` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '磁力下载地址',
+                          `online _url` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '在线播放地址',
+                          `pub_date` bigint(20) NOT NULL COMMENT '发布日期',
+                          `rating` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '评分',
+                          `source` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '来源',
+                          `visits` int(11) NOT NULL DEFAULT 0 COMMENT '阅读数',
+                          `is_recommend` int(11) NOT NULL DEFAULT 0 COMMENT '是否推荐，0不推荐，1推荐',
+                          `update_at` bigint(20) NOT NULL,
+                          `create_at` bigint(20) NOT NULL,
+                          PRIMARY KEY (`id`) USING BTREE,
+                          INDEX `idx_pu_date`(`pub_date`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -267,22 +266,22 @@ INSERT INTO `movie` VALUES ('a5824064b2b111ea94ea001a7dda7113', '依然爱丽丝
 -- ----------------------------
 DROP TABLE IF EXISTS `us_resource`;
 CREATE TABLE `us_resource`  (
-  `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `create_at` bigint(20) NULL DEFAULT NULL,
-  `update_at` bigint(20) NULL DEFAULT NULL,
-  `code` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `component` varchar(30) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `description` varchar(200) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `icon` varchar(50) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `is_hidden` int(11) NULL DEFAULT NULL,
-  `method` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `name` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `parent_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `path` varchar(100) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `sort` float NULL DEFAULT NULL,
-  `type` varchar(10) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `url` varchar(30) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                                `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                                `create_at` bigint(20) NULL DEFAULT NULL,
+                                `update_at` bigint(20) NULL DEFAULT NULL,
+                                `code` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                                `component` varchar(30) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                                `description` varchar(200) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                                `icon` varchar(50) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                                `is_hidden` int(11) NULL DEFAULT NULL,
+                                `method` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                                `name` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                                `parent_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                                `path` varchar(100) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                                `sort` float NULL DEFAULT NULL,
+                                `type` varchar(10) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                                `url` varchar(30) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                                PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf16 COLLATE = utf16_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -329,13 +328,13 @@ INSERT INTO `us_resource` VALUES ('1235939325175271424', 1583505872420, 15835058
 -- ----------------------------
 DROP TABLE IF EXISTS `us_role`;
 CREATE TABLE `us_role`  (
-  `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `create_at` bigint(20) NULL DEFAULT NULL,
-  `update_at` bigint(20) NULL DEFAULT NULL,
-  `role_code` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `role_desc` varchar(200) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `role_name` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                            `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            `create_at` bigint(20) NULL DEFAULT NULL,
+                            `update_at` bigint(20) NULL DEFAULT NULL,
+                            `role_code` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            `role_desc` varchar(200) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                            `role_name` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf16 COLLATE = utf16_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -349,9 +348,9 @@ INSERT INTO `us_role` VALUES ('1257559802842845184', 1588689395980, 158868939598
 -- ----------------------------
 DROP TABLE IF EXISTS `us_role_resource`;
 CREATE TABLE `us_role_resource`  (
-  `role_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `resource_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  PRIMARY KEY (`role_id`, `resource_id`) USING BTREE
+                                     `role_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                                     `resource_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                                     PRIMARY KEY (`role_id`, `resource_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf16 COLLATE = utf16_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -400,28 +399,28 @@ INSERT INTO `us_role_resource` VALUES ('1257559802842845184', '11365217512053432
 -- ----------------------------
 DROP TABLE IF EXISTS `us_user`;
 CREATE TABLE `us_user`  (
-  `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `create_at` bigint(20) NULL DEFAULT NULL,
-  `update_at` bigint(20) NULL DEFAULT NULL,
-  `account` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `avatar` varchar(300) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `birthday` bigint(20) NULL DEFAULT NULL,
-  `contact_address` varchar(200) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `email` varchar(30) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `fans_count` int(11) NULL DEFAULT NULL,
-  `follow_count` int(11) NULL DEFAULT NULL,
-  `interest` varchar(30) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `last_date` bigint(20) NULL DEFAULT NULL,
-  `nick_name` varchar(80) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `online_time` bigint(20) NULL DEFAULT NULL,
-  `password` varchar(100) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `personality` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `phone` varchar(15) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `registered_type` varchar(10) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
-  `sex` int(11) NOT NULL,
-  `status` int(11) NULL DEFAULT NULL,
-  `user_name` varchar(40) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                            `id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            `create_at` bigint(20) NULL DEFAULT NULL,
+                            `update_at` bigint(20) NULL DEFAULT NULL,
+                            `account` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            `avatar` varchar(300) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                            `birthday` bigint(20) NULL DEFAULT NULL,
+                            `contact_address` varchar(200) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                            `email` varchar(30) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            `fans_count` int(11) NULL DEFAULT NULL,
+                            `follow_count` int(11) NULL DEFAULT NULL,
+                            `interest` varchar(30) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                            `last_date` bigint(20) NULL DEFAULT NULL,
+                            `nick_name` varchar(80) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            `online_time` bigint(20) NULL DEFAULT NULL,
+                            `password` varchar(100) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            `personality` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                            `phone` varchar(15) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            `registered_type` varchar(10) CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL,
+                            `sex` int(11) NOT NULL,
+                            `status` int(11) NULL DEFAULT NULL,
+                            `user_name` varchar(40) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                            PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf16 COLLATE = utf16_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -435,9 +434,9 @@ INSERT INTO `us_user` VALUES ('1234533425', 1559573395828, 1594847528545, 'admin
 -- ----------------------------
 DROP TABLE IF EXISTS `us_user_role`;
 CREATE TABLE `us_user_role`  (
-  `user_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  `role_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
-  PRIMARY KEY (`user_id`, `role_id`) USING BTREE
+                                 `user_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                                 `role_id` varchar(20) CHARACTER SET utf16 COLLATE utf16_general_ci NOT NULL,
+                                 PRIMARY KEY (`user_id`, `role_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf16 COLLATE = utf16_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
