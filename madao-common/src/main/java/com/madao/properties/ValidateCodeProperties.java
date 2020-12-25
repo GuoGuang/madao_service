@@ -8,25 +8,25 @@ public class ValidateCodeProperties {
 	/**
 	 * 图片验证码配置
 	 */
-	private com.madao.properties.CaptchaProperties image = new com.madao.properties.CaptchaProperties();
+	private CaptchaProperties image = new CaptchaProperties();
 	/**
 	 * 短信验证码配置
 	 */
-	private com.madao.properties.SmsCodeProperties sms = new com.madao.properties.SmsCodeProperties();
+	private SmsCodeProperties sms = new SmsCodeProperties();
 
-	public com.madao.properties.CaptchaProperties getImage() {
+	public CaptchaProperties getImage() {
 		return image;
 	}
 
-	public void setImage(com.madao.properties.CaptchaProperties image) {
+	public void setImage(CaptchaProperties image) {
 		this.image = image;
 	}
 
-	public com.madao.properties.SmsCodeProperties getSms() {
+	public SmsCodeProperties getSms() {
 		return sms;
 	}
 
-	public void setSms(com.madao.properties.SmsCodeProperties sms) {
+	public void setSms(SmsCodeProperties sms) {
 		this.sms = sms;
 	}
 

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * 阿里验证码发送器
  */
-public class AliSmsCodeSender implements com.madao.auth.validate.impl.sms.SmsCodeSender {
+public class AliSmsCodeSender implements SmsCodeSender {
 
 	// @Autowired
 	//RabbitUtil rabbitUtil;

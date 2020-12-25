@@ -13,6 +13,6 @@ public interface ValidateCodeGenerator {
 	 * @param request ServletWebRequest
 	 * @return ValidateCode
 	 */
-	com.madao.auth.validate.impl.ValidateCode generate(ServletWebRequest request);
+	ValidateCode generate(ServletWebRequest request);
 	
 }

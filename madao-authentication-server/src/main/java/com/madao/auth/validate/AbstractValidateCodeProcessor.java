@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * 抽象验证码类
  **/
-public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> implements com.madao.auth.validate.ValidateCodeProcessor {
+public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> implements ValidateCodeProcessor {
 
 	/**
 	 * 收集系统中所有的 {@link ValidateCodeGenerator} 接口的实现。
@@ -27,7 +27,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 	private Map<String, ValidateCodeGenerator> validateCodeGenerators;
 
 	@Autowired
-	private com.madao.auth.validate.ValidateCodeRepository validateCodeRepository;
+	private ValidateCodeRepository validateCodeRepository;
 	
 	@Override
 	public void create(ServletWebRequest request) throws ServletRequestBindingException, IOException {

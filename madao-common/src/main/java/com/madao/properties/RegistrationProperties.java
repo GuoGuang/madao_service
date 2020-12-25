@@ -10,9 +10,9 @@ import lombok.Setter;
 @Setter
 public class RegistrationProperties {
 
-	private com.madao.properties.GitHubProperties github = new com.madao.properties.GitHubProperties();
+	private GitHubProperties github = new GitHubProperties();
 
-	private com.madao.properties.QQProperties qq = new com.madao.properties.QQProperties();
+	private QQProperties qq = new QQProperties();
 
 	/**
 	 * 社交登录功能拦截的url

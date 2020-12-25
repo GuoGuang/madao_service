@@ -26,7 +26,7 @@ public class CaptchaValidateCodeGenerator implements ValidateCodeGenerator {
 	Random random = new Random();
 
 	@Override
-	public com.madao.auth.validate.impl.captcha.Captcha generate(ServletWebRequest request) {
+	public Captcha generate(ServletWebRequest request) {
 		int width = ServletRequestUtils.getIntParameter(request.getRequest(), "width",
 				securityProperties.getCode().getImage().getWidth());
 		int height = ServletRequestUtils.getIntParameter(request.getRequest(), "height",
@@ -57,7 +57,7 @@ public class CaptchaValidateCodeGenerator implements ValidateCodeGenerator {
 
 		g.dispose();
 
-		return new com.madao.auth.validate.impl.captcha.Captcha(image, sRand.toString(), securityProperties.getCode().getImage().getExpireIn());
+		return new Captcha(image, sRand.toString(), securityProperties.getCode().getImage().getExpireIn());
 	}
 	
 	/**
