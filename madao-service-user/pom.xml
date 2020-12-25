@@ -19,6 +19,11 @@
 
     <dependencies>
 
+        <!-- websocket -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
         <!--oauth2认证-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
