@@ -44,7 +44,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 	/**
 	 * 系统中的校验码处理器
 	 */
-	private final com.madao.auth.validate.ValidateCodeProcessorHolder validateCodeProcessorHolder;
+	private final ValidateCodeProcessorHolder validateCodeProcessorHolder;
 
 	/**
 	 * 存放所有需要校验验证码的url
@@ -56,7 +56,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 	 */
 	private AntPathMatcher pathMatcher = new AntPathMatcher();
 
-	public ValidateCodeFilter(AuthenticationFailureHandler authenticationFailureHandler, SecurityProperties securityProperties, com.madao.auth.validate.ValidateCodeProcessorHolder validateCodeProcessorHolder) {
+	public ValidateCodeFilter(AuthenticationFailureHandler authenticationFailureHandler, SecurityProperties securityProperties, ValidateCodeProcessorHolder validateCodeProcessorHolder) {
 		this.authenticationFailureHandler = authenticationFailureHandler;
 		this.securityProperties = securityProperties;
 		this.validateCodeProcessorHolder = validateCodeProcessorHolder;

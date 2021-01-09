@@ -9,10 +9,10 @@ import org.springframework.web.context.request.ServletWebRequest;
  * 极验验证码
  */
 @Component
-public class JiyanValidateCodeProcessor extends AbstractValidateCodeProcessor<com.madao.auth.validate.impl.captcha.Captcha> {
+public class JiyanValidateCodeProcessor extends AbstractValidateCodeProcessor<Captcha> {
 
 	@Override
-	protected void send(ServletWebRequest request, com.madao.auth.validate.impl.captcha.Captcha validateCode) {
+	protected void send(ServletWebRequest request, Captcha validateCode) {
 		// non send
 	}
 

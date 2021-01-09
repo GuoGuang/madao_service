@@ -17,7 +17,7 @@ import java.util.HashMap;
  * 图片验证码处理器
  */
 @Component
-public class CaptchaValidateCodeProcessor extends AbstractValidateCodeProcessor<com.madao.auth.validate.impl.captcha.Captcha> {
+public class CaptchaValidateCodeProcessor extends AbstractValidateCodeProcessor<Captcha> {
 
 	@Autowired
 	private ObjectMapper objectMapper;
@@ -26,7 +26,7 @@ public class CaptchaValidateCodeProcessor extends AbstractValidateCodeProcessor<
 	 * 发送图形验证码，将其写到响应中
 	 */
 	@Override
-	protected void send(ServletWebRequest request, com.madao.auth.validate.impl.captcha.Captcha captcha) throws IOException {
+	protected void send(ServletWebRequest request, Captcha captcha) throws IOException {
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 

@@ -28,7 +28,7 @@ public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<Vali
 	 * 短信验证码发送器
 	 */
 	@Autowired
-	private com.madao.auth.validate.impl.sms.SmsCodeSender smsCodeSender;
+	private SmsCodeSender smsCodeSender;
 	
 	@Override
 	protected void send(ServletWebRequest request, ValidateCode validateCode) throws ServletRequestBindingException, IOException {

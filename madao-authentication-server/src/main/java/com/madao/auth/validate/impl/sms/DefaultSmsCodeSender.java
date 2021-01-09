@@ -5,7 +5,7 @@ import com.madao.utils.LogBack;
 /**
  * 默认的短信验证码发送器
  */
-public class DefaultSmsCodeSender implements com.madao.auth.validate.impl.sms.SmsCodeSender {
+public class DefaultSmsCodeSender implements SmsCodeSender {
 
 	@Override
 	public void send(String phone, String code) {

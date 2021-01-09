@@ -20,7 +20,7 @@ import org.springframework.web.context.request.ServletWebRequest;
  * 将图片验证码或者短信验证码存在redis中
  */
 @Component
-public class RedisValidateCodeRepository implements com.madao.auth.validate.ValidateCodeRepository {
+public class RedisValidateCodeRepository implements ValidateCodeRepository {
 
 	@Autowired
 	private RedisService redisService;
