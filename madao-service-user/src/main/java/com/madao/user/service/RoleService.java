@@ -4,6 +4,7 @@ package com.madao.user.service;
 import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.QueryVO;
 import com.madao.model.dto.user.RoleDto;
+import com.madao.model.pojo.user.QResource;
 import com.madao.model.pojo.user.QRole;
 import com.madao.model.pojo.user.Role;
 import com.madao.model.pojo.user.RoleResource;
@@ -73,14 +74,13 @@ public class RoleService {
 		if (StringUtils.isNotEmpty(queryVO.getFieldSort())) {
 			sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qRole, queryVO.getFieldSort());
 		}
-		QueryResults<Role> queryResults = jpaQueryFactory
+		return jpaQueryFactory
 				.selectFrom(qRole)
 				.where(predicate)
 				.offset(queryVO.getPageNum())
 				.limit(queryVO.getPageSize())
 				.orderBy(sortedColumn)
 				.fetchResults();
-		return queryResults;
 	}
 
 	public List<RoleDto> getUseRoles(String id) {
