@@ -142,7 +142,7 @@ public class ArticleService {
 		articleTagDao.saveAll(articleTags);
 
 		if (isCreate) {
-			redisService.lSet("ARTICLE_HOT", articleDto);
+			redisService.lSet("ARTICLE_HOT", articleResult);
 		}
 	}
 
