@@ -25,8 +25,6 @@ import java.util.Map;
 @Configuration
 public class DruidConfig {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Value("${spring.datasource.url}")
     private String dbUrl;
 
