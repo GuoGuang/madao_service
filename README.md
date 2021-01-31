@@ -20,11 +20,12 @@
   </a>
 </p>
 
+##[急速预览---直达](https://madaoo.com)
 
 本仓库基于spring、spring-boot、spring-cloud等全家桶模块搭建
 
 ## 技术选型
-1. 核心框架：SpringBoot、SpringCloud 全家桶
+1. 核心框架：SpringBoot、SpringCloud全家桶、Python提供电影服务
 2. 安全框架：Spring Security
 3. 分布式任务调度：Elastic-job
 4. 持久层框架：Jpa
@@ -75,7 +76,7 @@
 
 
 ## 快速开始
-> 本项目需要你有一定的开发经验，对SpringCloud有基础的认识，此项目仅提供学习使用，新手不建议使用。
+> 本项目需要你有一定得开发经验，对SpringCloud有基础的认识，此项目仅提供学习使用，新手不建议使用。
 
 > 开源不易，如果此项目对您有帮助，麻烦点个star给作者一点动力，不胜感激。:sparkles:
 
@@ -163,3 +164,13 @@ SpringCloud是比较吃内存的，如果你不指定内存大小，8G内存一�
 ![图1](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/Application.png)
 ![图2](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/Wallboard.png)
 ![图3](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/Details.png)
+
+## 推荐开源项目
+项目 | 地址
+---|---
+pinyinUtils | https://github.com/GuoGuang/pinyinUtils
+后台管理框架 | https://github.com/GuoGuang/madao_admin_manage
+数据爬虫集合 | https://github.com/GuoGuang/python-spider
+前台博客 | https://github.com/GuoGuang/madao
+如何写好单元测试 | https://github.com/GuoGuang/spring_junit_mockito_example
+
