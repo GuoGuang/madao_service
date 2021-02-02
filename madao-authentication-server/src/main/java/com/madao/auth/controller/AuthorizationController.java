@@ -17,10 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class AuthorizationController {
 
-    @Autowired
-    private AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
 
-    /**
+	public AuthorizationController(AuthenticationService authenticationService) {
+		this.authenticationService = authenticationService;
+	}
+
+	/**
      * 根据url,method 验证当前用户是否有操作权限
      *
      * @param url     请求地址
