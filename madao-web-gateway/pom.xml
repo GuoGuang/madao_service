@@ -39,13 +39,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
-            <scope>runtime</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -66,16 +59,23 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>com.madao</groupId>
             <artifactId>madao-service-api</artifactId>
             <version>1.0.0</version>
         </dependency>
 
-        <!-- 不加会导致 java: 程序包javax.servlet.http不存在 -->
-        <!-- <dependency>
-             <groupId>org.apache.tomcat.embed</groupId>
-             <artifactId>tomcat-embed-core</artifactId>
-         </dependency>-->
+
     </dependencies>
 
 
