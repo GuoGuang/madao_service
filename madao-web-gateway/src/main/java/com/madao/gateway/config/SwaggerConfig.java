@@ -7,6 +7,7 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -23,7 +24,10 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-    return new ApiInfoBuilder().title("项目接口API").version("6.2.3").build();
+    return new ApiInfoBuilder().title("网关API")
+            .description("如有疑问，请联系项目作者。")
+            .contact(new Contact("MADAO", "https://madaoo.com", "1831682775@qq.com"))
+            .version("6.2.3").build();
     }
 
 }

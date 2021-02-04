@@ -44,7 +44,7 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
 		String ip = InetAddress.getLocalHost().getHostAddress();
 		String port = env.getProperty("server.port");
 		log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Application started at         ", "http://" + ip + ":" + port));
-		log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Application api doc was enabled at  ", "http://" + ip + ":" + port, "/swagger-ui.html"));
+		log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Application api doc was enabled at  ", "http://" + ip + ":8080", "/swagger-ui/index.html"));
 		log.info(AnsiOutput.toString(AnsiColor.BRIGHT_YELLOW, "Application has started successfully!"));
 	}
 
