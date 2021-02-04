@@ -64,6 +64,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
 		LogBack.info("url:{},method:{},headers:{}", url, method, request.getHeaders());
 		//不需要网关签权的url
 		if (authService.ignoreAuthentication(url) || match(url,
+				"/doc/**",
 				"/oauth/token",
 				"/api/oauth/token",
 				"/oauth/code/sms",

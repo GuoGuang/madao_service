@@ -21,3 +21,7 @@ spring:
       label: master
       uri: http://121.36.158.84:9009
       profile: prod
+springfox:
+  documentation:
+    swagger-ui:
+      enabled: false
