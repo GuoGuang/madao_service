@@ -174,3 +174,7 @@ pinyinUtils | https://github.com/GuoGuang/pinyinUtils
 前台博客 | https://github.com/GuoGuang/madao
 如何写好单元测试 | https://github.com/GuoGuang/spring_junit_mockito_example
 
+
+## 更新日志
+### [20210204]
+Spring-Cloud-Gateway 集成 Swagger,支持认证后访问，由网关统一管理
