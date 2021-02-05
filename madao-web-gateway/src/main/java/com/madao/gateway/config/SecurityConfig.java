@@ -19,8 +19,8 @@ public class SecurityConfig {
 		return http
 				.csrf().disable()
 				.authorizeExchange()
-				.pathMatchers("/").permitAll()
-				.anyExchange().authenticated()
+				.pathMatchers("/","/doc/**","/swagger-resources/**","/swagger-ui","/swagger-ui/index.html").authenticated()
+				.anyExchange().permitAll()
 				.and()
 				.httpBasic().disable()
 				.formLogin().and()
