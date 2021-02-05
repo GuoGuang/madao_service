@@ -12,17 +12,19 @@ import java.io.IOException;
  **/
 public interface ValidateCodeProcessor {
 
-	/**
-	 * 创建校验码
-	 * @param request request
-	 */
-	void create(ServletWebRequest request) throws ServletRequestBindingException, IOException;
+    /**
+     * 创建校验码
+     *
+     * @param request request
+     */
+    void create(ServletWebRequest request) throws ServletRequestBindingException, IOException;
 
-	/**
-	 * 校验验证码
-	 * @param servletWebRequest 封装了request和response的
-	 * @param bodyString
-	 */
-	void validate(ServletWebRequest servletWebRequest, String bodyString);
+    /**
+     * 校验验证码
+     *
+     * @param servletWebRequest 封装了request和response的
+     * @param bodyString
+     */
+    void validate(ServletWebRequest servletWebRequest, String bodyString);
 
 }

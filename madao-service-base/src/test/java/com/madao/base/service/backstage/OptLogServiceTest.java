@@ -15,19 +15,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class OptLogServiceTest {
 
-	@Autowired
-	private com.madao.base.service.backstage.OptLogService optLogService;
+    @Autowired
+    private com.madao.base.service.backstage.OptLogService optLogService;
 
     @Test
     public void findOptLogByCondition() {
-	    QueryVO queryVO = new QueryVO();
-	    Page<OptLogDto> dictByCondition = optLogService.findOptLogByCondition(new OptLogDto(), null);
+        QueryVO queryVO = new QueryVO();
+        Page<OptLogDto> dictByCondition = optLogService.findOptLogByCondition(new OptLogDto(), null);
         Assert.assertTrue(dictByCondition.getTotalElements() > 0);
     }
 
     @Test
     public void findOptLogByPrimaryKey() {
-	    OptLogDto byId = optLogService.findById("1157967746300456962");
+        OptLogDto byId = optLogService.findById("1157967746300456962");
         Assert.assertNotNull(byId);
     }
 }

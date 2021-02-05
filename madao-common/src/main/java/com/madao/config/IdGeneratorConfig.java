@@ -17,7 +17,7 @@ public class IdGeneratorConfig extends UUIDGenerator {
 
     @Override
     public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException {
-	    Snowflake snowflake = IdUtil.getSnowflake(1, 1);
-	    return String.valueOf(snowflake.nextId());
+        Snowflake snowflake = IdUtil.getSnowflake(1, 1);
+        return String.valueOf(snowflake.nextId());
     }
 }

@@ -39,98 +39,98 @@ import java.util.Arrays;
 class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
 
-	@Autowired
-	private DruidDataSource dataSource;
-	//jwt令牌转换器
-	@Autowired
-	private JwtAccessTokenConverter jwtAccessTokenConverter;
-	// 登录错误时执行
-	@Autowired
-	private CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
-	@Autowired
-	@Qualifier("userDetailsServiceImpl")
-	UserDetailsService userDetailsService;
-	@Autowired
-	AuthenticationManager authenticationManager;
-	@Autowired
-	TokenStore tokenStore;
+    @Autowired
+    private DruidDataSource dataSource;
+    //jwt令牌转换器
+    @Autowired
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
+    // 登录错误时执行
+    @Autowired
+    private CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
+    @Autowired
+    @Qualifier("userDetailsServiceImpl")
+    UserDetailsService userDetailsService;
+    @Autowired
+    AuthenticationManager authenticationManager;
+    @Autowired
+    TokenStore tokenStore;
 
-	@Autowired
-	private OAuth2ClientProperties oAuth2ClientProperties;
+    @Autowired
+    private OAuth2ClientProperties oAuth2ClientProperties;
 
-	//读取密钥的配置
-	@Bean("keyProp")
-	public KeyProperties keyProperties() {
-		return new KeyProperties();
-	}
+    //读取密钥的配置
+    @Bean("keyProp")
+    public KeyProperties keyProperties() {
+        return new KeyProperties();
+    }
 
-	@Resource(name = "keyProp")
-	private KeyProperties keyProperties;
+    @Resource(name = "keyProp")
+    private KeyProperties keyProperties;
 
-	//客户端配置
-	@Bean
+    //客户端配置
+    @Bean
     public ClientDetailsService clientDetails() {
         return new JdbcClientDetailsService(dataSource);
     }
 
-	/**
-	 * 配置客户端应用
-	 * 如果要实现类似GitHub、Google那种支持开发者申请APP或者有多个不同系统的可以将此处改为从数据库动态取数据加载。
-	 */
-	@Override
+    /**
+     * 配置客户端应用
+     * 如果要实现类似GitHub、Google那种支持开发者申请APP或者有多个不同系统的可以将此处改为从数据库动态取数据加载。
+     */
+    @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
-		OAuth2ClientProperties.Registration github = oAuth2ClientProperties.getRegistration().get("github");
+        OAuth2ClientProperties.Registration github = oAuth2ClientProperties.getRegistration().get("github");
 
 //        clients.jdbc(this.dataSource).clients(this.clientDetails()); // 从数据加载
-		clients.inMemory()
-				.withClient("XcWebApp")//客户端id
-				.secret("XcWebApp")//密码，要保密
-				.accessTokenValiditySeconds(CommonConst.TIME_OUT_DAY)//访问令牌有效期
-				.refreshTokenValiditySeconds(CommonConst.TIME_OUT_DAY)//刷新令牌有效期
-				//授权客户端请求认证服务的类型authorization_code：根据授权码生成令牌，
-				// client_credentials:客户端认证，refresh_token：刷新令牌，password：密码方式认证
-				.authorizedGrantTypes("authorization_code", "client_credentials", "refresh_token", "password")
-				.scopes("app")//客户端范围，名称自定义，必填
-				.and()
-				// config github clientId
-				.withClient(github.getClientId())
-				.secret(github.getClientSecret())
-				.accessTokenValiditySeconds(CommonConst.TIME_OUT_DAY)
-				.refreshTokenValiditySeconds(CommonConst.TIME_OUT_DAY)
-				.authorizedGrantTypes("authorization_code", "client_credentials", "refresh_token", "password")
-				.scopes("app");
-	}
+        clients.inMemory()
+                .withClient("XcWebApp")//客户端id
+                .secret("XcWebApp")//密码，要保密
+                .accessTokenValiditySeconds(CommonConst.TIME_OUT_DAY)//访问令牌有效期
+                .refreshTokenValiditySeconds(CommonConst.TIME_OUT_DAY)//刷新令牌有效期
+                //授权客户端请求认证服务的类型authorization_code：根据授权码生成令牌，
+                // client_credentials:客户端认证，refresh_token：刷新令牌，password：密码方式认证
+                .authorizedGrantTypes("authorization_code", "client_credentials", "refresh_token", "password")
+                .scopes("app")//客户端范围，名称自定义，必填
+                .and()
+                // config github clientId
+                .withClient(github.getClientId())
+                .secret(github.getClientSecret())
+                .accessTokenValiditySeconds(CommonConst.TIME_OUT_DAY)
+                .refreshTokenValiditySeconds(CommonConst.TIME_OUT_DAY)
+                .authorizedGrantTypes("authorization_code", "client_credentials", "refresh_token", "password")
+                .scopes("app");
+    }
 
 
-	/**
-	 * 端点配置
-	 * 配置用户认证
-	 * 所有的用户认证逻辑，由authenticationManager统一管理
-	 */
-	@Override
+    /**
+     * 端点配置
+     * 配置用户认证
+     * 所有的用户认证逻辑，由authenticationManager统一管理
+     */
+    @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints.accessTokenConverter(jwtAccessTokenConverter)
                 .authenticationManager(authenticationManager)//认证管理器
                 .tokenStore(tokenStore)//令牌存储
-		        .tokenEnhancer(tokenEnhancerChain())
-		        .exceptionTranslator(customWebResponseExceptionTranslator)
+                .tokenEnhancer(tokenEnhancerChain())
+                .exceptionTranslator(customWebResponseExceptionTranslator)
                 .userDetailsService(userDetailsService);//用户信息service
     }
 
-	/**
-	 * 配置 checkTokenAccess 允许哪些请求
-	 */
+    /**
+     * 配置 checkTokenAccess 允许哪些请求
+     */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
-	    oauthServer.allowFormAuthenticationForClients()
-			    .passwordEncoder(new BCryptPasswordEncoder())
-			    .tokenKeyAccess("permitAll()") // 允许所有请求访问校验令牌的接口
-			    .checkTokenAccess("isAuthenticated()");
+        oauthServer.allowFormAuthenticationForClients()
+                .passwordEncoder(new BCryptPasswordEncoder())
+                .tokenKeyAccess("permitAll()") // 允许所有请求访问校验令牌的接口
+                .checkTokenAccess("isAuthenticated()");
     }
 
 
-	//token的存储方法
+    //token的存储方法
    /* @Bean
     public InMemoryTokenStore tokenStore() {
         //将令牌存储到内存
@@ -142,41 +142,41 @@ class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapte
         return redisTokenStore;
     }*/
 
-	/**
-	 * 自定义token
-	 *
-	 * @return tokenEnhancerChain
-	 */
-	@Bean
-	public TokenEnhancerChain tokenEnhancerChain() {
-		TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(new CustomTokenEnhancer(), jwtAccessTokenConverter));
-		return tokenEnhancerChain;
-	}
+    /**
+     * 自定义token
+     *
+     * @return tokenEnhancerChain
+     */
+    @Bean
+    public TokenEnhancerChain tokenEnhancerChain() {
+        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(new CustomTokenEnhancer(), jwtAccessTokenConverter));
+        return tokenEnhancerChain;
+    }
 
-	@Bean
-	@Autowired
-	public TokenStore tokenStore(JwtAccessTokenConverter jwtAccessTokenConverter) {
-		return new JwtTokenStore(jwtAccessTokenConverter);
-	}
+    @Bean
+    @Autowired
+    public TokenStore tokenStore(JwtAccessTokenConverter jwtAccessTokenConverter) {
+        return new JwtTokenStore(jwtAccessTokenConverter);
+    }
 
-	/**
-	 * 配置AccessToken加密方式
-	 */
-	@Bean
-	public JwtAccessTokenConverter jwtAccessTokenConverter(CustomUserAuthenticationConverter customUserAuthenticationConverter) {
-		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-		KeyPair keyPair = new KeyStoreKeyFactory(
-				keyProperties.getKeyStore().getLocation(),
-				keyProperties.getKeyStore().getSecret().toCharArray()).getKeyPair(
-				keyProperties.getKeyStore().getAlias(),
-				keyProperties.getKeyStore().getPassword().toCharArray());
-		converter.setKeyPair(keyPair);
-		//配置自定义的CustomUserAuthenticationConverter
-		DefaultAccessTokenConverter accessTokenConverter = (DefaultAccessTokenConverter) converter.getAccessTokenConverter();
-		accessTokenConverter.setUserTokenConverter(customUserAuthenticationConverter);
-		return converter;
-	}
+    /**
+     * 配置AccessToken加密方式
+     */
+    @Bean
+    public JwtAccessTokenConverter jwtAccessTokenConverter(CustomUserAuthenticationConverter customUserAuthenticationConverter) {
+        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        KeyPair keyPair = new KeyStoreKeyFactory(
+                keyProperties.getKeyStore().getLocation(),
+                keyProperties.getKeyStore().getSecret().toCharArray()).getKeyPair(
+                keyProperties.getKeyStore().getAlias(),
+                keyProperties.getKeyStore().getPassword().toCharArray());
+        converter.setKeyPair(keyPair);
+        //配置自定义的CustomUserAuthenticationConverter
+        DefaultAccessTokenConverter accessTokenConverter = (DefaultAccessTokenConverter) converter.getAccessTokenConverter();
+        accessTokenConverter.setUserTokenConverter(customUserAuthenticationConverter);
+        return converter;
+    }
 
 
 }

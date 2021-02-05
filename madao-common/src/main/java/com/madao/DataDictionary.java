@@ -9,8 +9,8 @@ import java.io.Serializable;
 
 public class DataDictionary implements Serializable {
 
-	/* 数据状态标识 */
-	private static final Integer TRUE = 1;
-	private static final Integer FALSE = 0;
+    /* 数据状态标识 */
+    private static final Integer TRUE = 1;
+    private static final Integer FALSE = 0;
 
 }

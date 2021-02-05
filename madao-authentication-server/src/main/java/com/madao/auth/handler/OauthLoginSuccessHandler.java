@@ -32,58 +32,58 @@ import java.util.Map;
 public class OauthLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 
-	@Autowired
-	private ObjectMapper objectMapper;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-	@Autowired
-	private RedisService redisService;
+    @Autowired
+    private RedisService redisService;
 
-	@Autowired
-	private ClientDetailsService clientDetailsService;
+    @Autowired
+    private ClientDetailsService clientDetailsService;
 
-	@Autowired
-	private AuthorizationServerTokenServices authorizationServerTokenServices;
+    @Autowired
+    private AuthorizationServerTokenServices authorizationServerTokenServices;
 
-	@Autowired
-	private OAuth2ClientProperties oAuth2ClientProperties;
+    @Autowired
+    private OAuth2ClientProperties oAuth2ClientProperties;
 
-	@Autowired
-	LoginLogServiceRpc loginLogServiceRpc;
+    @Autowired
+    LoginLogServiceRpc loginLogServiceRpc;
 
-	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-		LogBack.info("三方登录成功！");
-		OAuth2ClientProperties.Registration github = oAuth2ClientProperties.getRegistration().get("github");
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        LogBack.info("三方登录成功！");
+        OAuth2ClientProperties.Registration github = oAuth2ClientProperties.getRegistration().get("github");
 
-		ClientDetails clientDetails = clientDetailsService.loadClientByClientId(github.getClientId());
+        ClientDetails clientDetails = clientDetailsService.loadClientByClientId(github.getClientId());
 
-		TokenRequest tokenRequest = new TokenRequest(new HashMap<>(), github.getClientId(), clientDetails.getScope(), "custom");
-		OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
-		OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
-		OAuth2AccessToken token = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
+        TokenRequest tokenRequest = new TokenRequest(new HashMap<>(), github.getClientId(), clientDetails.getScope(), "custom");
+        OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
+        OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
+        OAuth2AccessToken token = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
 
-		Map<String, Object> custInformation = token.getAdditionalInformation();
-		Object jti = custInformation.get("jti");
-		String accessToken = token.getValue();
-		OAuth2RefreshToken refreshToken = token.getRefreshToken();
+        Map<String, Object> custInformation = token.getAdditionalInformation();
+        Object jti = custInformation.get("jti");
+        String accessToken = token.getValue();
+        OAuth2RefreshToken refreshToken = token.getRefreshToken();
 
-		AuthToken authToken = new AuthToken();
-		authToken.setAccess_token(accessToken);
-		authToken.setRefresh_token(refreshToken.getValue());
-		authToken.setJwt_token(jti.toString());
+        AuthToken authToken = new AuthToken();
+        authToken.setAccess_token(accessToken);
+        authToken.setRefresh_token(refreshToken.getValue());
+        authToken.setJwt_token(jti.toString());
 
-		String jsonString = JsonUtil.toJsonString(authToken);
-		saveToken(jti.toString(), jsonString, CommonConst.TIME_OUT_DAY);
-		response.setContentType("application/json;charset=UTF-8");
-		response.getWriter().write(objectMapper.writeValueAsString(JsonData.success(jti)));
-	}
+        String jsonString = JsonUtil.toJsonString(authToken);
+        saveToken(jti.toString(), jsonString, CommonConst.TIME_OUT_DAY);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(objectMapper.writeValueAsString(JsonData.success(jti)));
+    }
 
-	private boolean saveToken(String accessToken, String content, long ttl) {
-		String key = "user_token:" + accessToken;
-		redisService.setKeyStr(key, content, ttl);
-		Long expire = redisService.getExpire(key);
-		return expire > 0;
-	}
+    private boolean saveToken(String accessToken, String content, long ttl) {
+        String key = "user_token:" + accessToken;
+        redisService.setKeyStr(key, content, ttl);
+        Long expire = redisService.getExpire(key);
+        return expire > 0;
+    }
 
 }
 

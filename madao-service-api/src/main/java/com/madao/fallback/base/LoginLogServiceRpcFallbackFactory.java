@@ -15,13 +15,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoginLogServiceRpcFallbackFactory implements FallbackFactory<LoginLogServiceRpc> {
 
-	private static final String ERROR_INFO = "接口LoginLogServiceRpc.{}远程调用失败，该服务已经停止或者不可访问,参数为:{}";
+    private static final String ERROR_INFO = "接口LoginLogServiceRpc.{}远程调用失败，该服务已经停止或者不可访问,参数为:{}";
 
-	@Override
-	public LoginLogServiceRpc create(Throwable throwable) {
-		return (loginLog) -> {
-			LogBack.error(ERROR_INFO, "insertLoginLog", loginLog, throwable);
-			return JsonData.failed(StatusEnum.RPC_ERROR);
-		};
-	}
+    @Override
+    public LoginLogServiceRpc create(Throwable throwable) {
+        return (loginLog) -> {
+            LogBack.error(ERROR_INFO, "insertLoginLog", loginLog, throwable);
+            return JsonData.failed(StatusEnum.RPC_ERROR);
+        };
+    }
 }

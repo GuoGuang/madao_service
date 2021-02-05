@@ -15,11 +15,11 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "ba_opt_log",
-		indexes = {
-				@Index(name = "opt_log_client_ip", columnList = "clientIp"),
-				@Index(name = "opt_log_user_id", columnList = "userId"),
-				@Index(name = "opt_log_create_at", columnList = "createAt")
-		})
+        indexes = {
+                @Index(name = "opt_log_client_ip", columnList = "clientIp"),
+                @Index(name = "opt_log_user_id", columnList = "userId"),
+                @Index(name = "opt_log_create_at", columnList = "createAt")
+        })
 public class OptLog extends BasePojo implements Serializable {
 
     @Id
@@ -37,8 +37,8 @@ public class OptLog extends BasePojo implements Serializable {
     @Column(length = 20)
     private String clientIp;
 
-	@Column(length = 1)
-	private OptLogType type;
+    @Column(length = 1)
+    private OptLogType type;
 
     @Column(length = 100)
     private String method;

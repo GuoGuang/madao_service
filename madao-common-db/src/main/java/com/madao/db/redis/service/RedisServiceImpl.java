@@ -29,15 +29,15 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class RedisServiceImpl implements com.madao.db.redis.service.RedisService {
 
-	@Autowired
-	private RedisTemplate redisTemplate;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
-	//=============================user============================
+    //=============================user============================
 
-	/**
-	 * 指定缓存失效时间
-	 *
-	 * @param key  键
+    /**
+     * 指定缓存失效时间
+     *
+     * @param key  键
      * @param time 时间(秒)
      * @return
      */
@@ -49,8 +49,8 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
             }
             return true;
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
-	        return false;
+            LogBack.error(e.getMessage(), e);
+            return false;
         }
     }
 
@@ -76,8 +76,8 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
         try {
             return redisTemplate.hasKey(key);
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
-	        return false;
+            LogBack.error(e.getMessage(), e);
+            return false;
         }
     }
 
@@ -100,16 +100,16 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
 
     //============================String=============================
 
-	/**
-	 * 普通缓存获取
-	 *
-	 * @param key 键
-	 * @return 值
-	 */
-	@Override
-	public Optional<Object> get(String key) {
-		return key == null ? Optional.empty() : Optional.ofNullable(redisTemplate.opsForValue().get(key));
-	}
+    /**
+     * 普通缓存获取
+     *
+     * @param key 键
+     * @return 值
+     */
+    @Override
+    public Optional<Object> get(String key) {
+        return key == null ? Optional.empty() : Optional.ofNullable(redisTemplate.opsForValue().get(key));
+    }
 
     /**
      * 普通缓存放入
@@ -124,8 +124,8 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
             redisTemplate.opsForValue().set(key, value);
             return true;
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
-	        return false;
+            LogBack.error(e.getMessage(), e);
+            return false;
         }
 
     }
@@ -148,8 +148,8 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
             }
             return true;
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
-	        return false;
+            LogBack.error(e.getMessage(), e);
+            return false;
         }
     }
 
@@ -187,15 +187,15 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
     //================================Key String=================================
     // 以绑定指定key的方式，操作具有简单值的条目
 
-	/**
-	 * 获取Key缓存<br>
-	 *
-	 * @param key
-	 * @return
-	 */
-	public Optional<Object> getKeyStr(String key) {
-		return Optional.ofNullable(redisTemplate.boundValueOps(key).get());
-	}
+    /**
+     * 获取Key缓存<br>
+     *
+     * @param key
+     * @return
+     */
+    public Optional<Object> getKeyStr(String key) {
+        return Optional.ofNullable(redisTemplate.boundValueOps(key).get());
+    }
 
     /**
      * 设置Key缓存
@@ -251,8 +251,8 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
             redisTemplate.opsForHash().putAll(key, map);
             return true;
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
-	        return false;
+            LogBack.error(e.getMessage(), e);
+            return false;
         }
     }
 
@@ -273,8 +273,8 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
             }
             return true;
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
-	        return false;
+            LogBack.error(e.getMessage(), e);
+            return false;
         }
     }
 
@@ -292,8 +292,8 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
             redisTemplate.opsForHash().put(key, item, value);
             return true;
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
-	        return false;
+            LogBack.error(e.getMessage(), e);
+            return false;
         }
     }
 
@@ -315,8 +315,8 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
             }
             return true;
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
-	        return false;
+            LogBack.error(e.getMessage(), e);
+            return false;
         }
     }
 
@@ -382,8 +382,8 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
         try {
             return redisTemplate.opsForSet().members(key);
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
-	        return null;
+            LogBack.error(e.getMessage(), e);
+            return null;
         }
     }
 
@@ -399,8 +399,8 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
         try {
             return redisTemplate.opsForSet().isMember(key, value);
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
-	        return false;
+            LogBack.error(e.getMessage(), e);
+            return false;
         }
     }
 
@@ -416,7 +416,7 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
         try {
             return redisTemplate.opsForSet().add(key, values);
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
+            LogBack.error(e.getMessage(), e);
             return 0;
         }
     }
@@ -436,7 +436,7 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
             if (time > 0) expire(key, time);
             return count;
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
+            LogBack.error(e.getMessage(), e);
             return 0;
         }
     }
@@ -452,7 +452,7 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
         try {
             return redisTemplate.opsForSet().size(key);
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
+            LogBack.error(e.getMessage(), e);
             return 0;
         }
     }
@@ -470,7 +470,7 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
             Long count = redisTemplate.opsForSet().remove(key, values);
             return count;
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
+            LogBack.error(e.getMessage(), e);
             return 0;
         }
     }
@@ -489,7 +489,7 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
         try {
             return redisTemplate.opsForList().range(key, start, end);
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
+            LogBack.error(e.getMessage(), e);
             return null;
         }
     }
@@ -505,7 +505,7 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
         try {
             return redisTemplate.opsForList().size(key);
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
+            LogBack.error(e.getMessage(), e);
             return 0;
         }
     }
@@ -522,7 +522,7 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
         try {
             return redisTemplate.opsForList().index(key, index);
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
+            LogBack.error(e.getMessage(), e);
             return null;
         }
     }
@@ -541,7 +541,7 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
             redisTemplate.opsForList().rightPush(key, value);
             return true;
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
+            LogBack.error(e.getMessage(), e);
             return false;
         }
     }
@@ -561,7 +561,7 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
             if (time > 0) expire(key, time);
             return true;
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
+            LogBack.error(e.getMessage(), e);
             return false;
         }
     }
@@ -580,7 +580,7 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
             redisTemplate.opsForList().rightPushAll(key, value);
             return true;
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
+            LogBack.error(e.getMessage(), e);
             return false;
         }
     }
@@ -600,7 +600,7 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
             if (time > 0) expire(key, time);
             return true;
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
+            LogBack.error(e.getMessage(), e);
             return false;
         }
     }
@@ -619,26 +619,26 @@ public class RedisServiceImpl implements com.madao.db.redis.service.RedisService
             redisTemplate.opsForList().set(key, index, value);
             return true;
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
+            LogBack.error(e.getMessage(), e);
             return false;
         }
     }
 
-	/**
-	 * 移除N个值为value
-	 *
-	 * @param key   键
-	 * @param count 移除多少
-	 * @param value 值
-	 * @return 移除的个数
-	 */
+    /**
+     * 移除N个值为value
+     *
+     * @param key   键
+     * @param count 移除多少
+     * @param value 值
+     * @return 移除的个数
+     */
     @Override
     public long lRemove(String key, long count, Object value) {
         try {
             Long remove = redisTemplate.opsForList().remove(key, count, value);
             return remove;
         } catch (Exception e) {
-	        LogBack.error(e.getMessage(), e);
+            LogBack.error(e.getMessage(), e);
             return 0;
         }
     }

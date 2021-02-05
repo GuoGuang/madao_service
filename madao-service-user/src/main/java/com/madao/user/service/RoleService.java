@@ -4,7 +4,6 @@ package com.madao.user.service;
 import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.QueryVO;
 import com.madao.model.dto.user.RoleDto;
-import com.madao.model.pojo.user.QResource;
 import com.madao.model.pojo.user.QRole;
 import com.madao.model.pojo.user.Role;
 import com.madao.model.pojo.user.RoleResource;
@@ -34,97 +33,98 @@ import java.util.stream.Collectors;
 @Service
 public class RoleService {
 
-	private final RoleDao roleDao;
-	private final RoleResourceDao roleResourceDao;
-	private final UserRoleDao userRoleDao;
-	private final RoleMapper roleMapper;
-	private final JPAQueryFactory jpaQueryFactory;
+    private final RoleDao roleDao;
+    private final RoleResourceDao roleResourceDao;
+    private final UserRoleDao userRoleDao;
+    private final RoleMapper roleMapper;
+    private final JPAQueryFactory jpaQueryFactory;
 
-	private final ResourceDao resourceDao;
-	private final ResourceMapper resourceMapper;
+    private final ResourceDao resourceDao;
+    private final ResourceMapper resourceMapper;
 
-	public RoleService(RoleDao roleDao,
-	                   RoleResourceDao roleResourceDao,
-	                   UserRoleDao userRoleDao,
-	                   RoleMapper roleMapper,
-	                   JPAQueryFactory jpaQueryFactory, ResourceDao resourceDao, ResourceMapper resourceMapper) {
-		this.roleDao = roleDao;
-		this.roleResourceDao = roleResourceDao;
-		this.userRoleDao = userRoleDao;
-		this.roleMapper = roleMapper;
-		this.jpaQueryFactory = jpaQueryFactory;
-		this.resourceDao = resourceDao;
-		this.resourceMapper = resourceMapper;
-	}
-
-
-	/**
-	 * 条件查询角色
-	 * @param roleDto : Role
-	 * @return IPage<Role>
-	 */
-	public QueryResults<Role> findRuleByCondition(RoleDto roleDto, QueryVO queryVO) {
-
-		QRole qRole = QRole.role;
-		com.querydsl.core.types.Predicate predicate = null;
-		OrderSpecifier<?> sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qRole);
-		if (StringUtils.isNotEmpty(roleDto.getRoleName())) {
-			predicate = ExpressionUtils.and(predicate, qRole.roleName.like(roleDto.getRoleName()));
-		}
-		if (StringUtils.isNotEmpty(queryVO.getFieldSort())) {
-			sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qRole, queryVO.getFieldSort());
-		}
-		return jpaQueryFactory
-				.selectFrom(qRole)
-				.where(predicate)
-				.offset(queryVO.getPageNum())
-				.limit(queryVO.getPageSize())
-				.orderBy(sortedColumn)
-				.fetchResults();
-	}
-
-	public List<RoleDto> getUseRoles(String id) {
-		List<RoleDto> rolesOfUser = roleDao.findRolesOfUser(id)
-				.map(roleMapper::toDto)
-				.orElseThrow(ResourceNotFoundException::new);
-		return rolesOfUser;
-	}
-
-	public RoleDto findRoleById(String roleId) {
-		return roleDao.findById(roleId).map(role -> {
-			RoleDto roleDto = roleMapper.toDto(role);
-			roleDto.setResources(resourceMapper.toDto(
-					resourceDao.findResourceByRoleIds(Collections.singletonList(role.getId()))
-			));
-			return roleDto;
-		}).orElseThrow(ResourceNotFoundException::new);
-	}
+    public RoleService(RoleDao roleDao,
+                       RoleResourceDao roleResourceDao,
+                       UserRoleDao userRoleDao,
+                       RoleMapper roleMapper,
+                       JPAQueryFactory jpaQueryFactory, ResourceDao resourceDao, ResourceMapper resourceMapper) {
+        this.roleDao = roleDao;
+        this.roleResourceDao = roleResourceDao;
+        this.userRoleDao = userRoleDao;
+        this.roleMapper = roleMapper;
+        this.jpaQueryFactory = jpaQueryFactory;
+        this.resourceDao = resourceDao;
+        this.resourceMapper = resourceMapper;
+    }
 
 
-	/**
-	 * 更新角色、关联的资源
-	 *
-	 * @param roleDto 角色实体
-	 */
-	public void saveOrUpdate(RoleDto roleDto) {
+    /**
+     * 条件查询角色
+     *
+     * @param roleDto : Role
+     * @return IPage<Role>
+     */
+    public QueryResults<Role> findRuleByCondition(RoleDto roleDto, QueryVO queryVO) {
 
-		if (StringUtils.isNotBlank(roleDto.getId())) {
-			Role sourceRole = roleDao.findById(roleDto.getId()).orElseThrow(ResourceNotFoundException::new);
-			BeanUtil.copyProperties(sourceRole, roleDto);
-		}
-		roleDao.save(roleMapper.toEntity(roleDto));
+        QRole qRole = QRole.role;
+        com.querydsl.core.types.Predicate predicate = null;
+        OrderSpecifier<?> sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qRole);
+        if (StringUtils.isNotEmpty(roleDto.getRoleName())) {
+            predicate = ExpressionUtils.and(predicate, qRole.roleName.like(roleDto.getRoleName()));
+        }
+        if (StringUtils.isNotEmpty(queryVO.getFieldSort())) {
+            sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qRole, queryVO.getFieldSort());
+        }
+        return jpaQueryFactory
+                .selectFrom(qRole)
+                .where(predicate)
+                .offset(queryVO.getPageNum())
+                .limit(queryVO.getPageSize())
+                .orderBy(sortedColumn)
+                .fetchResults();
+    }
 
-		List<RoleResource> roleResources = roleDto.getResources().stream()
-				.map(role -> new RoleResource(roleDto.getId(), role.getId()))
-				.collect(Collectors.toList());
-		roleResourceDao.deleteByRoleIdIn(Collections.singletonList(roleDto.getId()));
-		roleResourceDao.saveAll(roleResources);
-	}
+    public List<RoleDto> getUseRoles(String id) {
+        List<RoleDto> rolesOfUser = roleDao.findRolesOfUser(id)
+                .map(roleMapper::toDto)
+                .orElseThrow(ResourceNotFoundException::new);
+        return rolesOfUser;
+    }
 
-	public void deleteByIds(List<String> roleId) {
-		roleDao.deleteBatch(roleId);
-		userRoleDao.deleteByRoleIdIn(roleId);
-		roleResourceDao.deleteByRoleIdIn(roleId);
-	}
+    public RoleDto findRoleById(String roleId) {
+        return roleDao.findById(roleId).map(role -> {
+            RoleDto roleDto = roleMapper.toDto(role);
+            roleDto.setResources(resourceMapper.toDto(
+                    resourceDao.findResourceByRoleIds(Collections.singletonList(role.getId()))
+            ));
+            return roleDto;
+        }).orElseThrow(ResourceNotFoundException::new);
+    }
+
+
+    /**
+     * 更新角色、关联的资源
+     *
+     * @param roleDto 角色实体
+     */
+    public void saveOrUpdate(RoleDto roleDto) {
+
+        if (StringUtils.isNotBlank(roleDto.getId())) {
+            Role sourceRole = roleDao.findById(roleDto.getId()).orElseThrow(ResourceNotFoundException::new);
+            BeanUtil.copyProperties(sourceRole, roleDto);
+        }
+        roleDao.save(roleMapper.toEntity(roleDto));
+
+        List<RoleResource> roleResources = roleDto.getResources().stream()
+                .map(role -> new RoleResource(roleDto.getId(), role.getId()))
+                .collect(Collectors.toList());
+        roleResourceDao.deleteByRoleIdIn(Collections.singletonList(roleDto.getId()));
+        roleResourceDao.saveAll(roleResources);
+    }
+
+    public void deleteByIds(List<String> roleId) {
+        roleDao.deleteBatch(roleId);
+        userRoleDao.deleteByRoleIdIn(roleId);
+        roleResourceDao.deleteByRoleIdIn(roleId);
+    }
 
 }

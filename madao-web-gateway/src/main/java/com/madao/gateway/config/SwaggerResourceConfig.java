@@ -2,7 +2,6 @@ package com.madao.gateway.config;
 
 import com.madao.utils.LogBack;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.support.NameUtils;
@@ -29,8 +28,8 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
         routeLocator.getRoutes().subscribe(route -> routes.add(route.getId()));
         //过滤出配置文件中定义的路由->过滤出Path Route Predicate->根据路径拼接成api-docs路径->生成SwaggerResource，这里只处理xx.yml文件中的配置
         gatewayProperties.getRoutes().forEach(route -> route.getPredicates().stream()
-                    .filter(predicateDefinition -> ("Path").equalsIgnoreCase(predicateDefinition.getName()))
-                    .forEach(predicateDefinition -> resources.add(swaggerResource(route.getId(),
+                .filter(predicateDefinition -> ("Path").equalsIgnoreCase(predicateDefinition.getName()))
+                .forEach(predicateDefinition -> resources.add(swaggerResource(route.getId(),
                         predicateDefinition.getArgs().get(NameUtils.GENERATED_NAME_PREFIX + "0")
                                 .replace("**", "v2/api-docs")))));
 

@@ -27,13 +27,13 @@ public class ArticleSearchController {
      *
      * @return
      */
-    @GetMapping(value="/search/{keywords}/{page}/{size}")
-    public Result searchArticleByCondition(@PathVariable String keywords,@PathVariable Integer page, @PathVariable Integer size){
-        articleSearchService.searchArticleByCondition(keywords,page,size);
-        return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(),null);
+    @GetMapping(value = "/search/{keywords}/{page}/{size}")
+    public Result searchArticleByCondition(@PathVariable String keywords, @PathVariable Integer page, @PathVariable Integer size) {
+        articleSearchService.searchArticleByCondition(keywords, page, size);
+        return new Result(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), null);
     }
 
-   /* *//**
+    /* *//**
      * 根据ID查询
      *
      * @param id ID

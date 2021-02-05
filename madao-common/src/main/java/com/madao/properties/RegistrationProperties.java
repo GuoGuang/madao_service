@@ -10,13 +10,13 @@ import lombok.Setter;
 @Setter
 public class RegistrationProperties {
 
-	private GitHubProperties github = new GitHubProperties();
+    private GitHubProperties github = new GitHubProperties();
 
-	private QQProperties qq = new QQProperties();
+    private QQProperties qq = new QQProperties();
 
-	/**
-	 * 社交登录功能拦截的url
-	 */
+    /**
+     * 社交登录功能拦截的url
+     */
 //	private String filterProcessesUrl = "/auth";
 
 }

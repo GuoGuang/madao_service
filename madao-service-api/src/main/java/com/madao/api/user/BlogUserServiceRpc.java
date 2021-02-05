@@ -16,12 +16,12 @@ import java.util.Map;
  **/
 
 @FeignClient(contextId = "blogUserClient",
-		value = FeignConst.SERVICE_USER,
-		path = FeignConst.SERVICE_BLOG_USER_PATH,
-		fallbackFactory = BlogUserServiceRpcFallbackFactory.class,
-		configuration = {FeignClientConfig.class})
+        value = FeignConst.SERVICE_USER,
+        path = FeignConst.SERVICE_BLOG_USER_PATH,
+        fallbackFactory = BlogUserServiceRpcFallbackFactory.class,
+        configuration = {FeignClientConfig.class})
 public interface BlogUserServiceRpc {
 
-	@PostMapping("/login/github")
-	JsonData<UserDto> loginWithGithub(@RequestBody Map<String, Object> userInfo);
+    @PostMapping("/login/github")
+    JsonData<UserDto> loginWithGithub(@RequestBody Map<String, Object> userInfo);
 }

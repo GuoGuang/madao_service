@@ -8,9 +8,9 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import java.util.List;
 
 public interface UserRoleDao extends JpaRepository<UserRole, String>,
-		JpaSpecificationExecutor<UserRole>, QuerydslPredicateExecutor<UserRole> {
+        JpaSpecificationExecutor<UserRole>, QuerydslPredicateExecutor<UserRole> {
 
-	void deleteByUserIdIn(List<String> userIds);
+    void deleteByUserIdIn(List<String> userIds);
 
-	void deleteByRoleIdIn(List<String> roleId);
+    void deleteByRoleIdIn(List<String> roleId);
 }

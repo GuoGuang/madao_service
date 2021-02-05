@@ -26,5 +26,6 @@ public enum AuthorityEnum {
             return UserConst.ROLE_GUEST;
         }
     };
+
     public abstract String getParamNameOnAuthority();
 }

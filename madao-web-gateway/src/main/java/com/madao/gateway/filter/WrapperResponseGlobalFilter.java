@@ -22,36 +22,36 @@ import java.nio.charset.Charset;
  */
 @Component
 public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
-	@Override
-	public int getOrder() {
-		return -2;
-	}
+    @Override
+    public int getOrder() {
+        return -2;
+    }
 
-	@Override
-	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-		ServerHttpResponse originalResponse = exchange.getResponse();
-		DataBufferFactory bufferFactory = originalResponse.bufferFactory();
-		ServerHttpResponseDecorator decoratedResponse = new ServerHttpResponseDecorator(originalResponse) {
-			@Override
-			public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
-				if (body instanceof Flux) {
-					Flux<? extends DataBuffer> fluxBody = (Flux<? extends DataBuffer>) body;
-					return super.writeWith(fluxBody.map(dataBuffer -> {
-						byte[] content = new byte[dataBuffer.readableByteCount()];
-						dataBuffer.read(content);
-						DataBufferUtils.release(dataBuffer);
-						String response = new String(content, Charset.forName("UTF-8"));
-						LogBack.info("response--->{}", response);
-						byte[] uppedContent = new String(content, Charset.forName("UTF-8")).getBytes();
-						return bufferFactory.wrap(uppedContent);
-					}));
-				}
-				// if body is not a flux. never got there.
-				return super.writeWith(body);
-			}
-		};
-		// replace response with decorator
-		return chain.filter(exchange.mutate().response(decoratedResponse).build());
-	}
+    @Override
+    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        ServerHttpResponse originalResponse = exchange.getResponse();
+        DataBufferFactory bufferFactory = originalResponse.bufferFactory();
+        ServerHttpResponseDecorator decoratedResponse = new ServerHttpResponseDecorator(originalResponse) {
+            @Override
+            public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
+                if (body instanceof Flux) {
+                    Flux<? extends DataBuffer> fluxBody = (Flux<? extends DataBuffer>) body;
+                    return super.writeWith(fluxBody.map(dataBuffer -> {
+                        byte[] content = new byte[dataBuffer.readableByteCount()];
+                        dataBuffer.read(content);
+                        DataBufferUtils.release(dataBuffer);
+                        String response = new String(content, Charset.forName("UTF-8"));
+                        LogBack.info("response--->{}", response);
+                        byte[] uppedContent = new String(content, Charset.forName("UTF-8")).getBytes();
+                        return bufferFactory.wrap(uppedContent);
+                    }));
+                }
+                // if body is not a flux. never got there.
+                return super.writeWith(body);
+            }
+        };
+        // replace response with decorator
+        return chain.filter(exchange.mutate().response(decoratedResponse).build());
+    }
 
 }

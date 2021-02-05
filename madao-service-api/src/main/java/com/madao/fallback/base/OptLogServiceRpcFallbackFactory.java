@@ -15,13 +15,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class OptLogServiceRpcFallbackFactory implements FallbackFactory<OptLogServiceRpc> {
 
-	private static final String ERROR_INFO = "接口OptLogServiceRpc.{}远程调用失败，该服务已经停止或者不可访问,参数为:{}";
+    private static final String ERROR_INFO = "接口OptLogServiceRpc.{}远程调用失败，该服务已经停止或者不可访问,参数为:{}";
 
-	@Override
-	public OptLogServiceRpc create(Throwable throwable) {
-		return optLog -> {
-LogBack.error(ERROR_INFO, "insertOptLog", optLog, throwable);
-return JsonData.failed(StatusEnum.RPC_ERROR);
-};
-	}
+    @Override
+    public OptLogServiceRpc create(Throwable throwable) {
+        return optLog -> {
+            LogBack.error(ERROR_INFO, "insertOptLog", optLog, throwable);
+            return JsonData.failed(StatusEnum.RPC_ERROR);
+        };
+    }
 }

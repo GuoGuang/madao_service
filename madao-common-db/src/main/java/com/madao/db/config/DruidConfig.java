@@ -4,8 +4,6 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 import com.madao.utils.LogBack;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -103,7 +101,7 @@ public class DruidConfig {
         try {
             datasource.setFilters(filters);
         } catch (SQLException e) {
-	        LogBack.error("druid configuration initialization filter", e);
+            LogBack.error("druid configuration initialization filter", e);
         }
         datasource.setConnectionProperties(connectionProperties);
 

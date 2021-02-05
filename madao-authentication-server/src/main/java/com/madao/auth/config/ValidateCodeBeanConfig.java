@@ -16,41 +16,42 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ValidateCodeBeanConfig {
-	
-	private final SecurityProperties securityProperties;
 
-	public ValidateCodeBeanConfig(SecurityProperties securityProperties) {
-		this.securityProperties = securityProperties;
-	}
+    private final SecurityProperties securityProperties;
 
-	/**
-	 * 图片验证码图片生成器
-	 * @return
-	 */
-	@Bean
-	@ConditionalOnMissingBean(name = "captchaValidateCodeGenerator")
-	public ValidateCodeGenerator captchaValidateCodeGenerator() {
-		CaptchaValidateCodeGenerator codeGenerator = new CaptchaValidateCodeGenerator();
-		codeGenerator.setSecurityProperties(securityProperties);
-		return codeGenerator;
-	}
-	
-	/**
-	 * 阿里短信验证码发送器
-	 */
-	@Bean
-	@ConditionalOnMissingBean(SmsCodeSender.class)
-	public SmsCodeSender aliSmsCodeSender() {
-		return new AliSmsCodeSender();
-	}
+    public ValidateCodeBeanConfig(SecurityProperties securityProperties) {
+        this.securityProperties = securityProperties;
+    }
 
-	/**
-	 * 短信验证码发送器
-	 */
-	@Bean
-	@ConditionalOnMissingBean(SmsCodeSender.class)
-	public SmsCodeSender smsCodeSender() {
-		return new DefaultSmsCodeSender();
-	}
+    /**
+     * 图片验证码图片生成器
+     *
+     * @return
+     */
+    @Bean
+    @ConditionalOnMissingBean(name = "captchaValidateCodeGenerator")
+    public ValidateCodeGenerator captchaValidateCodeGenerator() {
+        CaptchaValidateCodeGenerator codeGenerator = new CaptchaValidateCodeGenerator();
+        codeGenerator.setSecurityProperties(securityProperties);
+        return codeGenerator;
+    }
+
+    /**
+     * 阿里短信验证码发送器
+     */
+    @Bean
+    @ConditionalOnMissingBean(SmsCodeSender.class)
+    public SmsCodeSender aliSmsCodeSender() {
+        return new AliSmsCodeSender();
+    }
+
+    /**
+     * 短信验证码发送器
+     */
+    @Bean
+    @ConditionalOnMissingBean(SmsCodeSender.class)
+    public SmsCodeSender smsCodeSender() {
+        return new DefaultSmsCodeSender();
+    }
 
 }

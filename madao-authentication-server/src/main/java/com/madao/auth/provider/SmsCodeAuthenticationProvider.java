@@ -18,30 +18,30 @@ import org.springframework.stereotype.Component;
 @Component
 public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
-	@Autowired
-	private UserDetailsServiceImpl userDetailsServiceImpl;
+    @Autowired
+    private UserDetailsServiceImpl userDetailsServiceImpl;
 
-	@Override
-	public Authentication authenticate(Authentication authentication) {
+    @Override
+    public Authentication authenticate(Authentication authentication) {
 
-		SmsCodeAuthenticationToken authenticationToken = (SmsCodeAuthenticationToken) authentication;
-		String phone = (String) authenticationToken.getPrincipal();
-		User user = new User();
-		user.setPhone(phone);
-		UserDetails userInfo = userDetailsServiceImpl.loadUserByUsername(JsonUtil.toJsonString(user));
-		if (userInfo == null) {
-			throw new AuthException("手机号不存在！");
-		}
-		SmsCodeAuthenticationToken authenticationResult = new SmsCodeAuthenticationToken(userInfo, userInfo.getAuthorities());
+        SmsCodeAuthenticationToken authenticationToken = (SmsCodeAuthenticationToken) authentication;
+        String phone = (String) authenticationToken.getPrincipal();
+        User user = new User();
+        user.setPhone(phone);
+        UserDetails userInfo = userDetailsServiceImpl.loadUserByUsername(JsonUtil.toJsonString(user));
+        if (userInfo == null) {
+            throw new AuthException("手机号不存在！");
+        }
+        SmsCodeAuthenticationToken authenticationResult = new SmsCodeAuthenticationToken(userInfo, userInfo.getAuthorities());
 
-		authenticationResult.setDetails(authenticationToken.getDetails());
+        authenticationResult.setDetails(authenticationToken.getDetails());
 
-		return authenticationResult;
-	}
+        return authenticationResult;
+    }
 
 
-	@Override
-	public boolean supports(Class<?> authentication) {
-		return SmsCodeAuthenticationToken.class.isAssignableFrom(authentication);
-	}
+    @Override
+    public boolean supports(Class<?> authentication) {
+        return SmsCodeAuthenticationToken.class.isAssignableFrom(authentication);
+    }
 }

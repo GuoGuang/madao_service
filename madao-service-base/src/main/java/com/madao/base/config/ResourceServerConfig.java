@@ -48,30 +48,30 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-            .csrf()
-            .disable()
-            .headers()
-            .frameOptions()
-            .disable()
-        .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
-            .authorizeRequests()
-		    .antMatchers("/api/**").permitAll()
-		    .antMatchers("/management/health").permitAll()
-            .antMatchers("/management/**").hasAuthority(PARAM_NAME_ON_AUTHORITY)
-            .antMatchers(HttpMethod.DELETE).hasAuthority(PARAM_NAME_ON_AUTHORITY)
-            .antMatchers(HttpMethod.PUT).hasAuthority(PARAM_NAME_ON_AUTHORITY)
-	        .antMatchers("/v2/api-docs",
-			        "/configuration/ui",
-                    "/swagger-resources/configuration/security",
-			        "/swagger-resources/**",
-			        "/configuration/security",
-			        "/",
-			        "/csrf",
-			        "/webjars/**",
-			        "/swagger-ui.html").permitAll()
+                .csrf()
+                .disable()
+                .headers()
+                .frameOptions()
+                .disable()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/api/**").permitAll()
+                .antMatchers("/management/health").permitAll()
+                .antMatchers("/management/**").hasAuthority(PARAM_NAME_ON_AUTHORITY)
+                .antMatchers(HttpMethod.DELETE).hasAuthority(PARAM_NAME_ON_AUTHORITY)
+                .antMatchers(HttpMethod.PUT).hasAuthority(PARAM_NAME_ON_AUTHORITY)
+                .antMatchers("/v2/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources/configuration/security",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/",
+                        "/csrf",
+                        "/webjars/**",
+                        "/swagger-ui.html").permitAll()
                 .antMatchers("/**").authenticated();
     }
 

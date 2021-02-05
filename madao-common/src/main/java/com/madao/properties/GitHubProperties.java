@@ -10,8 +10,8 @@ import lombok.Setter;
 @Setter
 public class GitHubProperties {
 
-	private final String providerId = "GITHUB";
-	private String clientId;
-	private String clientSecret;
+    private final String providerId = "GITHUB";
+    private String clientId;
+    private String clientSecret;
 
 }

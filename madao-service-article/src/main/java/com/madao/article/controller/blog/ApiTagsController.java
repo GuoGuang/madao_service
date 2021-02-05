@@ -21,24 +21,24 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 @RequestMapping(value = "/api/ar/tag")
 public class ApiTagsController {
 
-	private final ApiTagsService apiTagsService;
+    private final ApiTagsService apiTagsService;
 
-	public ApiTagsController(ApiTagsService apiTagsService) {
-		this.apiTagsService = apiTagsService;
-	}
+    public ApiTagsController(ApiTagsService apiTagsService) {
+        this.apiTagsService = apiTagsService;
+    }
 
-	@ApiOperation(value = "查询标签集合", notes = "Tag")
-	@GetMapping
-	public JsonData<List<TagDto>> findArticleByCondition(TagDto tagDto,
-	                                                     @PageableDefault(sort = "createAt", direction = DESC, value = 1000) Pageable pageable) {
-		List<TagDto> result = apiTagsService.findTagsByCondition(tagDto, pageable);
-		return JsonData.success(result);
-	}
+    @ApiOperation(value = "查询标签集合", notes = "Tag")
+    @GetMapping
+    public JsonData<List<TagDto>> findArticleByCondition(TagDto tagDto,
+                                                         @PageableDefault(sort = "createAt", direction = DESC, value = 1000) Pageable pageable) {
+        List<TagDto> result = apiTagsService.findTagsByCondition(tagDto, pageable);
+        return JsonData.success(result);
+    }
 
-	@ApiOperation(value = "根据id查询标签", notes = "根据id查询标签")
-	@GetMapping("/{tagId}")
-	public JsonData<TagDto> findTagsById(@PathVariable String tagId) {
-		TagDto result = apiTagsService.findTagsById(tagId);
-		return JsonData.success(result);
-	}
+    @ApiOperation(value = "根据id查询标签", notes = "根据id查询标签")
+    @GetMapping("/{tagId}")
+    public JsonData<TagDto> findTagsById(@PathVariable String tagId) {
+        TagDto result = apiTagsService.findTagsById(tagId);
+        return JsonData.success(result);
+    }
 }

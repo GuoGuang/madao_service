@@ -14,29 +14,29 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableConfigServer
 public class ConfigApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ConfigApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ConfigApplication.class, args);
+    }
 
-	@Configuration
-	@EnableWebSecurity
-	public static class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Configuration
+    @EnableWebSecurity
+    public static class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-		/**
-		 * actuator、key禁止访问
-		 */
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
-			http.csrf().disable();
-			http.authorizeRequests()
-					.antMatchers("/actuator/**").authenticated()
-					.antMatchers("/key/**").authenticated()
-					.antMatchers("/decrypt").authenticated()
-					.anyRequest().permitAll();
-		}
+        /**
+         * actuator、key禁止访问
+         */
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http.csrf().disable();
+            http.authorizeRequests()
+                    .antMatchers("/actuator/**").authenticated()
+                    .antMatchers("/key/**").authenticated()
+                    .antMatchers("/decrypt").authenticated()
+                    .anyRequest().permitAll();
+        }
 	  /*  @Override
 	    public void configure(WebSecurity web){
 	        web.ignoring().antMatchers("/actuator/**");
 	    }*/
-	}
+    }
 }

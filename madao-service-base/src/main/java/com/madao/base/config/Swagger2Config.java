@@ -14,12 +14,12 @@ public class Swagger2Config {
 
     @Bean
     public Docket createRestApi() {
-	    return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
-			    .apis(RequestHandlerSelectors.basePackage("com.madao.base.controller")).paths(PathSelectors.any()).build();
+        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
+                .apis(RequestHandlerSelectors.basePackage("com.madao.base.controller")).paths(PathSelectors.any()).build();
     }
 
     private ApiInfo apiInfo() {
-    return new ApiInfoBuilder().title("项目接口API").version("6.2.3").build();
+        return new ApiInfoBuilder().title("项目接口API").version("6.2.3").build();
     }
 
 }

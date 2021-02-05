@@ -20,24 +20,24 @@ import reactor.core.publisher.Mono;
 @Service
 public class UserDetailsService implements ReactiveUserDetailsService {
 
-	@Autowired
-	private ObjectProvider<UserServiceRpc> userServiceRpc;
+    @Autowired
+    private ObjectProvider<UserServiceRpc> userServiceRpc;
 
-	@Override
-	public Mono<UserDetails> findByUsername(String account) {
-		JsonData<UserDto> userInfo = userServiceRpc.getObject().getUserInfo(account);
-		if (!userInfo.isStatus()) {
-			LogBack.error(userInfo.getMessage());
-			return Mono.error(new UsernameNotFoundException(userInfo.getMessage()));
-		}
-		UserDto defUser = userInfo.getData();
-		if (defUser == null) {
-			return Mono.error(new UsernameNotFoundException("User Not Found"));
-		}
-		UserDetails user = User.withUsername(account)
-				.password(defUser.getPassword())
-				.authorities(AuthorityUtils.commaSeparatedStringToAuthorityList("admin")).build();
-		return Mono.just(user);
-	}
+    @Override
+    public Mono<UserDetails> findByUsername(String account) {
+        JsonData<UserDto> userInfo = userServiceRpc.getObject().getUserInfo(account);
+        if (!userInfo.isStatus()) {
+            LogBack.error(userInfo.getMessage());
+            return Mono.error(new UsernameNotFoundException(userInfo.getMessage()));
+        }
+        UserDto defUser = userInfo.getData();
+        if (defUser == null) {
+            return Mono.error(new UsernameNotFoundException("User Not Found"));
+        }
+        UserDetails user = User.withUsername(account)
+                .password(defUser.getPassword())
+                .authorities(AuthorityUtils.commaSeparatedStringToAuthorityList("admin")).build();
+        return Mono.just(user);
+    }
 }
 

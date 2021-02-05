@@ -20,52 +20,52 @@ import java.util.List;
 @RequestMapping(value = "/role")
 public class RoleController {
 
-	private final RoleService roleService;
+    private final RoleService roleService;
 
-	public RoleController(RoleService roleService) {
-		this.roleService = roleService;
-	}
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
-	@GetMapping
-	@ApiOperation(value = "条件查询角色", notes = "Role")
-	public JsonData<QueryResults<Role>> findRuleByCondition(RoleDto roleDto, QueryVO queryVO) {
-		QueryResults<Role> result = roleService.findRuleByCondition(roleDto, queryVO);
-		return JsonData.success(result);
-	}
+    @GetMapping
+    @ApiOperation(value = "条件查询角色", notes = "Role")
+    public JsonData<QueryResults<Role>> findRuleByCondition(RoleDto roleDto, QueryVO queryVO) {
+        QueryResults<Role> result = roleService.findRuleByCondition(roleDto, queryVO);
+        return JsonData.success(result);
+    }
 
-	@GetMapping("/user/{id}")
-	@ApiOperation(value = "查询用户角色组", notes = "Dict")
-	public JsonData<List<RoleDto>> getUseRoles(@PathVariable String id) {
-		List<RoleDto> role = roleService.getUseRoles(id);
-		return JsonData.success(role);
-	}
+    @GetMapping("/user/{id}")
+    @ApiOperation(value = "查询用户角色组", notes = "Dict")
+    public JsonData<List<RoleDto>> getUseRoles(@PathVariable String id) {
+        List<RoleDto> role = roleService.getUseRoles(id);
+        return JsonData.success(role);
+    }
 
-	@GetMapping("/{roleId}")
-	@ApiOperation(value = "根据角色id查询匹配的资源", notes = "Role")
-	public JsonData<RoleDto> findRoleById(@PathVariable String roleId) {
-		RoleDto result = roleService.findRoleById(roleId);
-		return JsonData.success(result);
-	}
+    @GetMapping("/{roleId}")
+    @ApiOperation(value = "根据角色id查询匹配的资源", notes = "Role")
+    public JsonData<RoleDto> findRoleById(@PathVariable String roleId) {
+        RoleDto result = roleService.findRoleById(roleId);
+        return JsonData.success(result);
+    }
 
-	@PostMapping
-	@OptLog(operationType = OptLogType.MODIFY, operationName = "添加一个角色")
-	@ApiOperation(value = "添加一个角色", notes = "Role")
-	public JsonData<Void> insertSelective(@RequestBody @Validated RoleDto roleDto) {
-		roleService.saveOrUpdate(roleDto);
-		return JsonData.success();
-	}
+    @PostMapping
+    @OptLog(operationType = OptLogType.MODIFY, operationName = "添加一个角色")
+    @ApiOperation(value = "添加一个角色", notes = "Role")
+    public JsonData<Void> insertSelective(@RequestBody @Validated RoleDto roleDto) {
+        roleService.saveOrUpdate(roleDto);
+        return JsonData.success();
+    }
 
-	@PutMapping()
-	@OptLog(operationType = OptLogType.MODIFY, operationName = "更新角色")
-	@ApiOperation(value = "更新角色", notes = "Role")
-	public JsonData<Void> updateByPrimaryKey(@RequestBody @Validated RoleDto roleDto) {
-		roleService.saveOrUpdate(roleDto);
-		return JsonData.success();
-	}
+    @PutMapping()
+    @OptLog(operationType = OptLogType.MODIFY, operationName = "更新角色")
+    @ApiOperation(value = "更新角色", notes = "Role")
+    public JsonData<Void> updateByPrimaryKey(@RequestBody @Validated RoleDto roleDto) {
+        roleService.saveOrUpdate(roleDto);
+        return JsonData.success();
+    }
 
-	@DeleteMapping
-	@OptLog(operationType = OptLogType.DELETE, operationName = "删除角色")
-	@ApiOperation(value = "删除角色", notes = "Role")
+    @DeleteMapping
+    @OptLog(operationType = OptLogType.DELETE, operationName = "删除角色")
+    @ApiOperation(value = "删除角色", notes = "Role")
     public JsonData<Void> deleteByIds(@RequestBody List<String> roleId) {
         roleService.deleteByIds(roleId);
         return JsonData.success();

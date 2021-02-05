@@ -14,15 +14,15 @@ import java.lang.annotation.*;
 @Documented
 public @interface OptLog {
 
-	/**
-	 * 要执行的操作类型比如：add操作
-	 * {@link com.madao.constant.CommonConst}
-	 */
-	OptLogType operationType();
+    /**
+     * 要执行的操作类型比如：add操作
+     * {@link com.madao.constant.CommonConst}
+     */
+    OptLogType operationType();
 
-	/**
-	 * 要执行的具体操作比如：添加用户
-	 * {@link com.madao.constant.CommonConst}
-	 */
-	String operationName() default "";
+    /**
+     * 要执行的具体操作比如：添加用户
+     * {@link com.madao.constant.CommonConst}
+     */
+    String operationName() default "";
 }

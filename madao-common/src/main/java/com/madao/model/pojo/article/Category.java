@@ -14,10 +14,10 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "ar_category",
-		indexes = {
-				@Index(name = "categories_name", columnList = "name"),
-				@Index(name = "categories_parent_id", columnList = "parentId")
-		})
+        indexes = {
+                @Index(name = "categories_name", columnList = "name"),
+                @Index(name = "categories_parent_id", columnList = "parentId")
+        })
 public class Category extends BasePojo implements Serializable {
 
     @Id
@@ -35,7 +35,7 @@ public class Category extends BasePojo implements Serializable {
     @Column(length = 200)
     private String summary;
 
-	@Column(length = 20)
-	private String userId;
+    @Column(length = 20)
+    private String userId;
 
 }

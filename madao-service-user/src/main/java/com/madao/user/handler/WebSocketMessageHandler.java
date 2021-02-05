@@ -17,6 +17,7 @@ public class WebSocketMessageHandler extends TextWebSocketHandler {
 
     /**
      * socket 建立成功事件
+     *
      * @param session
      * @throws Exception
      */
@@ -27,7 +28,7 @@ public class WebSocketMessageHandler extends TextWebSocketHandler {
         if (id != null) {
             // 用户连接成功，放入在线用户缓存
             WsSessionManager.add(id, session);
-            Arrays.asList("1","2","3").forEach(item -> {
+            Arrays.asList("1", "2", "3").forEach(item -> {
                 try {
                     session.sendMessage(new TextMessage("server 发送给 " + id + " 消息 " + item + " " + LocalDateTime.now().toString()));
                 } catch (IOException e) {
@@ -42,6 +43,7 @@ public class WebSocketMessageHandler extends TextWebSocketHandler {
 
     /**
      * 接收消息事件
+     *
      * @param session
      * @param message
      * @throws Exception
@@ -57,6 +59,7 @@ public class WebSocketMessageHandler extends TextWebSocketHandler {
 
     /**
      * socket 断开连接时
+     *
      * @param session
      * @param status
      * @throws Exception

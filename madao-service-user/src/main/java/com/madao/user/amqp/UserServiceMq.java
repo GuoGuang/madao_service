@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * 监听队列消息，处理用户相关数据
+ *
  * @author LinGuoGuang
  **/
 @Service

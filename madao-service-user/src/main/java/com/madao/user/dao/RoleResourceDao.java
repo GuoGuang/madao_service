@@ -8,9 +8,9 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import java.util.List;
 
 public interface RoleResourceDao extends JpaRepository<RoleResource, String>,
-		JpaSpecificationExecutor<RoleResource>, QuerydslPredicateExecutor<RoleResource> {
+        JpaSpecificationExecutor<RoleResource>, QuerydslPredicateExecutor<RoleResource> {
 
-	void deleteByRoleIdIn(List<String> roleId);
+    void deleteByRoleIdIn(List<String> roleId);
 
-	void deleteByResourceIdIn(List<String> resId);
+    void deleteByResourceIdIn(List<String> resId);
 }

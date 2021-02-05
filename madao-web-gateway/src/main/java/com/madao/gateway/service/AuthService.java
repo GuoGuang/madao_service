@@ -21,13 +21,13 @@ import java.util.stream.Stream;
 @Service
 public class AuthService {
 
-	@Autowired
-	private AuthServiceRpc authServiceRpc;
+    @Autowired
+    private AuthServiceRpc authServiceRpc;
 
-	@Autowired
-	private RedisService redisService;
+    @Autowired
+    private RedisService redisService;
 
-	private static final String BEARER = "Bearer ";
+    private static final String BEARER = "Bearer ";
 
     /**
      * 不需要网关签权的url配置(/oauth,/open)
@@ -37,29 +37,30 @@ public class AuthService {
     private String[] ignoreUrls;
 
 
-	@Value("${auth.commonUrls}")
-	private String[] commonUrls;
+    @Value("${auth.commonUrls}")
+    private String[] commonUrls;
 
     /**
      * jwt验签
-    private MacSigner verifier;
-	 */
+     * private MacSigner verifier;
+     */
 
     public JsonData<Object> authenticate(String authentication, String url, String method) {
-	    JsonData<Object> jsonData = authServiceRpc.authPermission(url,method,BEARER+authentication);
-	    if (!JsonData.isSuccess(jsonData)){
-		    throw new RemoteRpcException(jsonData);
-	    }
-	    return jsonData;
+        JsonData<Object> jsonData = authServiceRpc.authPermission(url, method, BEARER + authentication);
+        if (!JsonData.isSuccess(jsonData)) {
+            throw new RemoteRpcException(jsonData);
+        }
+        return jsonData;
     }
 
     public boolean ignoreAuthentication(String url) {
         return Stream.of(ignoreUrls).anyMatch(
-        		ignoreUrl -> url.startsWith(StringUtils.trim(ignoreUrl)));
+                ignoreUrl -> url.startsWith(StringUtils.trim(ignoreUrl)));
     }
+
     public boolean commonAuthentication(String url) {
         return Stream.of(commonUrls).anyMatch(
-        		ignoreUrl -> url.startsWith(StringUtils.trim(ignoreUrl)));
+                ignoreUrl -> url.startsWith(StringUtils.trim(ignoreUrl)));
     }
 
     public boolean hasPermission(JsonData<Object> authJson) {
@@ -76,34 +77,36 @@ public class AuthService {
     }
 
 
-
     public Jwt getJwt(String authentication) {
         return JwtHelper.decode(authentication);
     }
 
-	/**
-	 * 获取令牌有效期
-	 * @param authentication
-	 * @return
-	 */
-	public long getExpire(String authentication){
-		//key
-		String key = "user_token:"+JWTAuthentication.getFullAuthorization(authentication);
-		Long expire = redisService.getExpire(key);
-		return expire;
-	}
-	/**
-	 * 根据jti获取access_token
-	 * @param authentication
-	 * @return
-	 */
-	public AuthToken getAuthToken(String authentication) {
-		//key
-		String key = "user_token:" + JWTAuthentication.getFullAuthorization(authentication);
-		String expire = redisService.getKeyStr(key)
-				.orElseThrow(CaptchaNotMatchException::new)
-				.toString();
-		AuthToken authToken = JsonUtil.jsonToPojo(expire, AuthToken.class);
-		return authToken;
-	}
+    /**
+     * 获取令牌有效期
+     *
+     * @param authentication
+     * @return
+     */
+    public long getExpire(String authentication) {
+        //key
+        String key = "user_token:" + JWTAuthentication.getFullAuthorization(authentication);
+        Long expire = redisService.getExpire(key);
+        return expire;
+    }
+
+    /**
+     * 根据jti获取access_token
+     *
+     * @param authentication
+     * @return
+     */
+    public AuthToken getAuthToken(String authentication) {
+        //key
+        String key = "user_token:" + JWTAuthentication.getFullAuthorization(authentication);
+        String expire = redisService.getKeyStr(key)
+                .orElseThrow(CaptchaNotMatchException::new)
+                .toString();
+        AuthToken authToken = JsonUtil.jsonToPojo(expire, AuthToken.class);
+        return authToken;
+    }
 }

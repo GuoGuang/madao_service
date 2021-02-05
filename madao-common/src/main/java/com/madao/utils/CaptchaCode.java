@@ -12,76 +12,115 @@ import java.util.Random;
 */
 /**
  * 图片验证码生成
- **//*
+ * <p>
+ * 验证码长度
+ * <p>
+ * 验证码字体大小
+ * <p>
+ * 边框补
+ * <p>
+ * 是否输出燥点（默认输出）
+ * <p>
+ * 输出燥点的颜色（默认灰色）
+ * <p>
+ * 自定义背景色（默认白色）
+ * <p>
+ * 自定义字体数组
+ * <p>
+ * 自定义随机码字符串序列（使用逗号分隔）
+ * <p>
+ * 产生波形滤镜效果
+ * <p>
+ * 字体长度的一对方法
+ *
+ * @return 字体长度的一对方法
+ * @return 边框的一对方法
+ * @return 是否输出躁点的一对方法
+ * @return 躁点的颜色
+ * @return 背景颜色
+ * @return 自定义字体样式的数组
+ * @return 自定义随机码字符串序列，表示可输出的数字的范围
+ * @return 给定范围获得随机颜色
+ * @param fc
+ * @param bc
+ * @return 生成校验码图片
+ * @param code
+ * @return 将创建好的图片输出到页面
+ * <p>
+ * 生成随机字符码
+ * @param codeLen
+ * 生成字符码的个数,0则默认的个数
+ * @return
+ *//*
 
 public class CaptchaCode {
 	*/
 /**
-	 * 验证码长度
-	 *//*
+ * 验证码长度
+ *//*
 
 	int length = 4;
 
 	*/
 /**
-	 * 验证码字体大小
-	 *//*
+ * 验证码字体大小
+ *//*
 
 	int fontSize = 30;
 
 	*/
 /**
-	 * 边框补
-	 *//*
+ * 边框补
+ *//*
 
 	int padding = 0;
 
 	*/
 /**
-	 * 是否输出燥点（默认输出）
-	 *//*
+ * 是否输出燥点（默认输出）
+ *//*
 
 	boolean chaos = true;
 
 	*/
 /**
-	 * 输出燥点的颜色（默认灰色）
-	 *//*
+ * 输出燥点的颜色（默认灰色）
+ *//*
 
 	Color chaosColor = Color.lightGray;
 
 	*/
 /**
-	 * 自定义背景色（默认白色）
-	 *//*
+ * 自定义背景色（默认白色）
+ *//*
 
 	Color backgroundColor = Color.white;
 
 	*/
 /**
-	 * 自定义字体数组
-	 *//*
+ * 自定义字体数组
+ *//*
 
 	String[] fonts = { "Arial", "Georgia","Times New Roman","Blue","Yellow" };
 
 	*/
 /**
-	 * 自定义随机码字符串序列（使用逗号分隔）
-	 *//*
+ * 自定义随机码字符串序列（使用逗号分隔）
+ *//*
 
 	String codeSerial = "0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z";
 
 	*/
 /**
-	 * 产生波形滤镜效果
-	 *//*
+ * 产生波形滤镜效果
+ *//*
 
 	private final double PI = 3.1415926535897932384626433832799;//此值越大，扭曲程度越大
 	*/
 /**
-	 * 字体长度的一对方法
-	 * @return
-	 *//*
+ * 字体长度的一对方法
+ * @return
+ *//*
 
 	public int getLength() {
 		return length;
@@ -92,9 +131,9 @@ public class CaptchaCode {
 	}
 	*/
 /**
-	 * 字体长度的一对方法
-	 * @return
-	 *//*
+ * 字体长度的一对方法
+ * @return
+ *//*
 
 	public int getFontSize() {
 		return fontSize;
@@ -105,9 +144,9 @@ public class CaptchaCode {
 	}
 	*/
 /**
-	 * 边框的一对方法
-	 * @return
-	 *//*
+ * 边框的一对方法
+ * @return
+ *//*
 
 	public int getPadding() {
 		return padding;
@@ -118,9 +157,9 @@ public class CaptchaCode {
 	}
 	*/
 /**
-	 * 是否输出躁点的一对方法
-	 * @return
-	 *//*
+ * 是否输出躁点的一对方法
+ * @return
+ *//*
 
 	public boolean isChaos() {
 		return chaos;
@@ -131,9 +170,9 @@ public class CaptchaCode {
 	}
 	*/
 /**
-	 * 躁点的颜色
-	 * @return
-	 *//*
+ * 躁点的颜色
+ * @return
+ *//*
 
 	public Color getChaosColor() {
 		return chaosColor;
@@ -144,9 +183,9 @@ public class CaptchaCode {
 	}
 	*/
 /**
-	 * 背景颜色
-	 * @return
-	 *//*
+ * 背景颜色
+ * @return
+ *//*
 
 	public Color getBackgroundColor() {
 		return backgroundColor;
@@ -157,9 +196,9 @@ public class CaptchaCode {
 	}
 	*/
 /**
-	 * 自定义字体样式的数组
-	 * @return
-	 *//*
+ * 自定义字体样式的数组
+ * @return
+ *//*
 
 	public String[] getFonts() {
 		return fonts;
@@ -170,9 +209,9 @@ public class CaptchaCode {
 	}
 	*/
 /**
-	 * 自定义随机码字符串序列，表示可输出的数字的范围
-	 * @return
-	 *//*
+ * 自定义随机码字符串序列，表示可输出的数字的范围
+ * @return
+ *//*
 
 	public String getCodeSerial() {
 		return codeSerial;
@@ -184,12 +223,12 @@ public class CaptchaCode {
 
 	*/
 /**
-	 * 给定范围获得随机颜色
-	 *
-	 * @param fc
-	 * @param bc
-	 * @return
-	 *//*
+ * 给定范围获得随机颜色
+ *
+ * @param fc
+ * @param bc
+ * @return
+ *//*
 
 	private Color getRandColor(int fc, int bc) {
 		Random random = new Random();
@@ -205,11 +244,11 @@ public class CaptchaCode {
 
 	*/
 /**
-	 * 生成校验码图片
-	 *
-	 * @param code
-	 * @return
-	 *//*
+ * 生成校验码图片
+ *
+ * @param code
+ * @return
+ *//*
 
 	private BufferedImage createImageCode(String code) {
 		int fWidth = this.fontSize + this.padding;
@@ -280,8 +319,8 @@ public class CaptchaCode {
 
 	*/
 /**
-	 * 将创建好的图片输出到页面
-	 *//*
+ * 将创建好的图片输出到页面
+ *//*
 
 	public String createImageOnPage(ByteArrayOutputStream outputStream) {
 		String code = CreateVerifyCode(4);
@@ -305,12 +344,12 @@ public class CaptchaCode {
 
 	*/
 /**
-	 * 生成随机字符码
-	 *
-	 * @param codeLen
-	 *            生成字符码的个数,0则默认的个数
-	 * @return
-	 *//*
+ * 生成随机字符码
+ *
+ * @param codeLen
+ *            生成字符码的个数,0则默认的个数
+ * @return
+ *//*
 
 	public String CreateVerifyCode(int codeLen) {
 		if (codeLen == 0) {

@@ -12,16 +12,16 @@ import java.util.List;
 @Service
 public class ArticleSearchService {
 
-	private final ArticleSearchDao articleSearchDao;
+    private final ArticleSearchDao articleSearchDao;
 
-	public ArticleSearchService(ArticleSearchDao articleSearchDao) {
-		this.articleSearchDao = articleSearchDao;
-	}
+    public ArticleSearchService(ArticleSearchDao articleSearchDao) {
+        this.articleSearchDao = articleSearchDao;
+    }
 
-	public List<Article> searchArticleByCondition(String keywords, Integer page, Integer size) {
-		QueryBuilder queryBuilder = QueryBuilders.termQuery("user", "kimchy");
-		Iterable<Article> all = articleSearchDao.findAll();
-		return null;
-	}
+    public List<Article> searchArticleByCondition(String keywords, Integer page, Integer size) {
+        QueryBuilder queryBuilder = QueryBuilders.termQuery("user", "kimchy");
+        Iterable<Article> all = articleSearchDao.findAll();
+        return null;
+    }
 
 }

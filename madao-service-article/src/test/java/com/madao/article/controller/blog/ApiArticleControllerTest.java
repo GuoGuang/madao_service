@@ -19,10 +19,10 @@ import static org.mockito.Mockito.*;
 class ApiArticleControllerTest {
     @Mock
     ApiArticleService articleService;
-	@Mock
-	RedisService redisService;
-	@InjectMocks
-	com.madao.article.controller.blog.ApiArticleController apiArticleController;
+    @Mock
+    RedisService redisService;
+    @InjectMocks
+    com.madao.article.controller.blog.ApiArticleController apiArticleController;
 
     @BeforeEach
     void setUp() {
@@ -34,7 +34,7 @@ class ApiArticleControllerTest {
         when(articleService.findArticleByCondition(any(), anyString(), any())).thenReturn(null);
         when(redisService.lGet(anyString(), anyLong(), anyLong())).thenReturn(Arrays.<Object>asList("lGetResponse"));
 
-	    JsonData<Object> result = apiArticleController.findArticleByCondition(new ArticleDto(), "keyword", "sortType", null);
+        JsonData<Object> result = apiArticleController.findArticleByCondition(new ArticleDto(), "keyword", "sortType", null);
         Assertions.assertEquals(new JsonData<Object>(true, 0, "message", any()), result);
     }
 
@@ -43,37 +43,37 @@ class ApiArticleControllerTest {
         when(redisService.lGet(anyString(), anyLong(), anyLong())).thenReturn(Arrays.<Object>asList("lGetResponse"));
 
         JsonData<Object> result = apiArticleController.findArticleHot("sortType");
-	    Assertions.assertEquals(new JsonData<Object>(true, 0, "message", any()), result);
+        Assertions.assertEquals(new JsonData<Object>(true, 0, "message", any()), result);
     }
 
     @Test
     void testFindArticleByTagId() {
-	    when(articleService.findArticleByTagId(anyString(), any())).thenReturn(null);
+        when(articleService.findArticleByTagId(anyString(), any())).thenReturn(null);
 
-	    JsonData<Page<ArticleDto>> result = apiArticleController.findArticleByTagId("tagId", null);
-	    Assertions.assertEquals(new JsonData<Page<ArticleDto>>(true, 0, "message", any()), result);
+        JsonData<Page<ArticleDto>> result = apiArticleController.findArticleByTagId("tagId", null);
+        Assertions.assertEquals(new JsonData<Page<ArticleDto>>(true, 0, "message", any()), result);
     }
 
     @Test
     void testFindArticleByPrimaryKey() {
-	    when(articleService.findArticleById(anyString())).thenReturn(new ArticleDto());
-	    when(redisService.get(anyString())).thenReturn(null);
-	    when(redisService.set(anyString(), any(), anyLong())).thenReturn(true);
+        when(articleService.findArticleById(anyString())).thenReturn(new ArticleDto());
+        when(redisService.get(anyString())).thenReturn(null);
+        when(redisService.set(anyString(), any(), anyLong())).thenReturn(true);
 
-	    JsonData<Object> result = apiArticleController.findArticleByPrimaryKey("articleId");
-	    Assertions.assertEquals(new JsonData<ArticleDto>(true, 0, "message", any()), result);
+        JsonData<Object> result = apiArticleController.findArticleByPrimaryKey("articleId");
+        Assertions.assertEquals(new JsonData<ArticleDto>(true, 0, "message", any()), result);
     }
 
     @Test
     void testUpVote() {
         JsonData<Void> result = apiArticleController.upVote("articleId");
-	    Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
+        Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
     }
 
     @Test
     void testUnUpVote() {
         JsonData<Void> result = apiArticleController.unUpVote("articleId");
-	    Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
+        Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
     }
 }
 

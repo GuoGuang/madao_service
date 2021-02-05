@@ -13,21 +13,21 @@ import java.util.List;
 public interface CommentDao extends JpaRepository<Comment, String>,
         JpaSpecificationExecutor<Comment>, QuerydslPredicateExecutor<Comment> {
 
-	@Modifying
-	@Query("delete from Dict where id in (:ids)")
-	void deleteBatch(@Param("ids") List<String> ids);
+    @Modifying
+    @Query("delete from Dict where id in (:ids)")
+    void deleteBatch(@Param("ids") List<String> ids);
 
-	@Modifying
-	@Query("update Comment set upvote = upvote+1 where id=:commentId")
-	void updateUpVote(@Param("commentId") String commentId);
+    @Modifying
+    @Query("update Comment set upvote = upvote+1 where id=:commentId")
+    void updateUpVote(@Param("commentId") String commentId);
 
-	@Modifying
-	@Query("update Comment set upvote = upvote-1 where id=:commentId")
-	void updateUnUpVote(@Param("commentId") String commentId);
+    @Modifying
+    @Query("update Comment set upvote = upvote-1 where id=:commentId")
+    void updateUnUpVote(@Param("commentId") String commentId);
 
-	List<Comment> findByArticleIdOrderByCreateAtDesc(String articleId);
+    List<Comment> findByArticleIdOrderByCreateAtDesc(String articleId);
 
-	List<Comment> findByArticleIdIn(List<String> commentDao);
+    List<Comment> findByArticleIdIn(List<String> commentDao);
 
-	List<Comment> findByUserIdAndParentIdIs(String userId, String parentId);
+    List<Comment> findByUserIdAndParentIdIs(String userId, String parentId);
 }

@@ -14,18 +14,18 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
-	@Bean
-	public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity http) {
-		return http
-				.csrf().disable()
-				.authorizeExchange()
-				.pathMatchers("/","/doc/**","/swagger-resources/**","/swagger-ui","/swagger-ui/index.html").authenticated()
-				.anyExchange().permitAll()
-				.and()
-				.httpBasic().disable()
-				.formLogin().and()
-				.build();
-	}
+    @Bean
+    public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity http) {
+        return http
+                .csrf().disable()
+                .authorizeExchange()
+                .pathMatchers("/", "/doc/**", "/swagger-resources/**", "/swagger-ui", "/swagger-ui/index.html").authenticated()
+                .anyExchange().permitAll()
+                .and()
+                .httpBasic().disable()
+                .formLogin().and()
+                .build();
+    }
 
 
 }

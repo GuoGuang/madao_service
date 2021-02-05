@@ -16,10 +16,10 @@ import java.util.Arrays;
 import static org.mockito.Mockito.*;
 
 class CategoryControllerTest {
-	@Mock
-	CategoryService categoryService;
-	@InjectMocks
-	com.madao.article.controller.backstage.CategoryController categoryController;
+    @Mock
+    CategoryService categoryService;
+    @InjectMocks
+    com.madao.article.controller.backstage.CategoryController categoryController;
 
     @BeforeEach
     void setUp() {
@@ -28,29 +28,29 @@ class CategoryControllerTest {
 
     @Test
     void testFindCategoryByCondition() {
-	    when(categoryService.findCategoryByCondition(any(), any())).thenReturn(null);
+        when(categoryService.findCategoryByCondition(any(), any())).thenReturn(null);
 
-	    JsonData<Page<CategoryDto>> result = categoryController.findCategoryByCondition(new CategoryDto(), null);
-	    Assertions.assertEquals(new JsonData<Page<CategoryDto>>(true, 0, "message", any()), result);
+        JsonData<Page<CategoryDto>> result = categoryController.findCategoryByCondition(new CategoryDto(), null);
+        Assertions.assertEquals(new JsonData<Page<CategoryDto>>(true, 0, "message", any()), result);
     }
 
     @Test
     void testFindCategoryByPrimaryKey() {
-	    when(categoryService.findCategoryById(anyString())).thenReturn(new CategoryDto());
+        when(categoryService.findCategoryById(anyString())).thenReturn(new CategoryDto());
 
-	    JsonData<CategoryDto> result = categoryController.findCategoryByPrimaryKey("id");
-	    Assertions.assertEquals(new JsonData<CategoryDto>(true, 0, "message", any()), result);
+        JsonData<CategoryDto> result = categoryController.findCategoryByPrimaryKey("id");
+        Assertions.assertEquals(new JsonData<CategoryDto>(true, 0, "message", any()), result);
     }
 
     @Test
     void testInsertCategory() {
-	    JsonData<Void> result = categoryController.insertCategory(new CategoryDto());
+        JsonData<Void> result = categoryController.insertCategory(new CategoryDto());
         Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
     }
 
     @Test
     void testUpdateByCategorySelective() {
-	    JsonData<Void> result = categoryController.updateByCategorySelective(new CategoryDto());
+        JsonData<Void> result = categoryController.updateByCategorySelective(new CategoryDto());
         Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
     }
 

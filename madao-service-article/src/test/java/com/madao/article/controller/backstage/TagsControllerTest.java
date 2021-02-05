@@ -16,10 +16,10 @@ import java.util.Arrays;
 import static org.mockito.Mockito.*;
 
 class TagsControllerTest {
-	@Mock
-	TagsService tagsService;
-	@InjectMocks
-	com.madao.article.controller.backstage.TagsController tagsController;
+    @Mock
+    TagsService tagsService;
+    @InjectMocks
+    com.madao.article.controller.backstage.TagsController tagsController;
 
     @BeforeEach
     void setUp() {
@@ -28,30 +28,30 @@ class TagsControllerTest {
 
     @Test
     void testFindArticleByCondition() {
-	    when(tagsService.findTagsByCondition(any(), any())).thenReturn(null);
+        when(tagsService.findTagsByCondition(any(), any())).thenReturn(null);
 
-	    JsonData<Page<TagDto>> result = tagsController.findArticleByCondition(new TagDto(), null);
-	    Assertions.assertEquals(new JsonData<Page<TagDto>>(true, 0, "message", any()), result);
+        JsonData<Page<TagDto>> result = tagsController.findArticleByCondition(new TagDto(), null);
+        Assertions.assertEquals(new JsonData<Page<TagDto>>(true, 0, "message", any()), result);
     }
 
     @Test
     void testFindArticleByPrimaryKey() {
-	    when(tagsService.findTagsById(anyString())).thenReturn(new TagDto());
+        when(tagsService.findTagsById(anyString())).thenReturn(new TagDto());
 
-	    JsonData<TagDto> result = tagsController.findArticleByPrimaryKey("id");
-	    Assertions.assertEquals(new JsonData<TagDto>(true, 0, "message", any()), result);
+        JsonData<TagDto> result = tagsController.findArticleByPrimaryKey("id");
+        Assertions.assertEquals(new JsonData<TagDto>(true, 0, "message", any()), result);
     }
 
     @Test
     void testInsertArticle() {
-	    JsonData<Void> result = tagsController.insertArticle(new TagDto());
-	    Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
+        JsonData<Void> result = tagsController.insertArticle(new TagDto());
+        Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
     }
 
     @Test
     void testUpdateTagsById() {
-	    JsonData<Void> result = tagsController.updateTagsById(new TagDto());
-	    Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
+        JsonData<Void> result = tagsController.updateTagsById(new TagDto());
+        Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
     }
 
     @Test

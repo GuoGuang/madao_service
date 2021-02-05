@@ -21,28 +21,28 @@ import java.io.IOException;
 @Component
 public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<ValidateCode> {
 
-	@Autowired
-	private ObjectMapper objectMapper;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-	/**
-	 * 短信验证码发送器
-	 */
-	@Autowired
-	private SmsCodeSender smsCodeSender;
-	
-	@Override
-	protected void send(ServletWebRequest request, ValidateCode validateCode) throws ServletRequestBindingException, IOException {
+    /**
+     * 短信验证码发送器
+     */
+    @Autowired
+    private SmsCodeSender smsCodeSender;
+
+    @Override
+    protected void send(ServletWebRequest request, ValidateCode validateCode) throws ServletRequestBindingException, IOException {
         String paramName = CommonConst.DEFAULT_PARAMETER_NAME_PHONE;
         String phone = ServletRequestUtils.getRequiredStringParameter(request.getRequest(), paramName);
-		request.getResponse().setContentType("application/json;charset=UTF-8");
+        request.getResponse().setContentType("application/json;charset=UTF-8");
         try {
-	        smsCodeSender.send(phone, validateCode.getCode());
-	        request.getResponse().getWriter().write(objectMapper.writeValueAsString(JsonData.success()));
-        }catch (Exception ex){
-	        LogBack.error("向手机:{}，{},原因:{}",phone,StatusEnum.SMS_SEND_ERROR.getMsg(),ex.getCause(),ex);
-	        request.getResponse().getWriter().write(objectMapper.writeValueAsString(JsonData.failed(StatusEnum.SMS_SEND_ERROR)));
+            smsCodeSender.send(phone, validateCode.getCode());
+            request.getResponse().getWriter().write(objectMapper.writeValueAsString(JsonData.success()));
+        } catch (Exception ex) {
+            LogBack.error("向手机:{}，{},原因:{}", phone, StatusEnum.SMS_SEND_ERROR.getMsg(), ex.getCause(), ex);
+            request.getResponse().getWriter().write(objectMapper.writeValueAsString(JsonData.failed(StatusEnum.SMS_SEND_ERROR)));
 
         }
-	}
+    }
 
 }

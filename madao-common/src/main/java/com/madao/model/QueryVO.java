@@ -24,7 +24,7 @@ public class QueryVO implements Serializable {
     private String sortType;
 
 
-	public long getPageNum() {
-		return pageNum == 0 ? 0 : (pageNum - 1) * 10;
-	}
+    public long getPageNum() {
+        return pageNum == 0 ? 0 : (pageNum - 1) * 10;
+    }
 }

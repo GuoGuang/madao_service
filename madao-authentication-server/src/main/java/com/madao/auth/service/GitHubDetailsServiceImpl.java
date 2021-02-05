@@ -24,37 +24,37 @@ import java.util.Set;
 @Service
 public class GitHubDetailsServiceImpl implements UserDetailsService {
 
-	@Autowired
-	private BlogUserServiceRpc blogUserServiceRpc;
+    @Autowired
+    private BlogUserServiceRpc blogUserServiceRpc;
 
-	/**
-	 * 根据github node_id查询用户信息，存在则返回登录，否则新建并返回登录
-	 *
-	 * @param userInfo githubUserInfo
-	 * @return 用于身份认证的 UserDetails 用户信息实体
-	 */
-	@Override
-	public UserDetails loadUserByUsername(String userInfo) {
+    /**
+     * 根据github node_id查询用户信息，存在则返回登录，否则新建并返回登录
+     *
+     * @param userInfo githubUserInfo
+     * @return 用于身份认证的 UserDetails 用户信息实体
+     */
+    @Override
+    public UserDetails loadUserByUsername(String userInfo) {
 
-		JsonData<UserDto> userByUser = blogUserServiceRpc.loginWithGithub(JsonUtil.jsonToMap(userInfo));
-		if (!userByUser.isStatus()) {
-			throw new RemoteRpcException(userByUser);
-		}
-		UserDto defUser = userByUser.getData();
+        JsonData<UserDto> userByUser = blogUserServiceRpc.loginWithGithub(JsonUtil.jsonToMap(userInfo));
+        if (!userByUser.isStatus()) {
+            throw new RemoteRpcException(userByUser);
+        }
+        UserDto defUser = userByUser.getData();
 
-		String password = defUser.getPassword();
-		List<GrantedAuthority> authorities = new ArrayList<>();
-		Set<RoleDto> roles = defUser.getRoles();
-		roles.forEach(role ->
-				authorities.add(new SimpleGrantedAuthority(role.getId())));
-		return new com.madao.auth.service.UserJwt(defUser.getUserName(),
-				password,
-				defUser.getId(),
-				defUser.getNickName(),
-				defUser.getAvatar(),
-				defUser.getEmail(),
-				defUser.getPhone(),
-				defUser.getAccount(),
-				authorities);
-	}
+        String password = defUser.getPassword();
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        Set<RoleDto> roles = defUser.getRoles();
+        roles.forEach(role ->
+                authorities.add(new SimpleGrantedAuthority(role.getId())));
+        return new com.madao.auth.service.UserJwt(defUser.getUserName(),
+                password,
+                defUser.getId(),
+                defUser.getNickName(),
+                defUser.getAvatar(),
+                defUser.getEmail(),
+                defUser.getPhone(),
+                defUser.getAccount(),
+                authorities);
+    }
 }

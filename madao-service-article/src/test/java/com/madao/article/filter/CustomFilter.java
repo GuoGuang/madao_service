@@ -9,8 +9,8 @@ import java.nio.charset.StandardCharsets;
 
 public class CustomFilter {
 
-	public static void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-		chain.doFilter(request, response);
-	}
+    public static void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+        chain.doFilter(request, response);
+    }
 }

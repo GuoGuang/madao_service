@@ -19,27 +19,27 @@ import java.util.HashMap;
 @Component
 public class CaptchaValidateCodeProcessor extends AbstractValidateCodeProcessor<Captcha> {
 
-	@Autowired
-	private ObjectMapper objectMapper;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-	/**
-	 * 发送图形验证码，将其写到响应中
-	 */
-	@Override
-	protected void send(ServletWebRequest request, Captcha captcha) throws IOException {
+    /**
+     * 发送图形验证码，将其写到响应中
+     */
+    @Override
+    protected void send(ServletWebRequest request, Captcha captcha) throws IOException {
 
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-		ImageIO.write(captcha.getImage(), "JPEG", outputStream);
-		String base64Code = Base64.getEncoder().encodeToString(outputStream.toByteArray());
+        ImageIO.write(captcha.getImage(), "JPEG", outputStream);
+        String base64Code = Base64.getEncoder().encodeToString(outputStream.toByteArray());
 
-		HashMap<Object, Object> map = new HashMap<>();
-		map.put("deviceId", request.getHeader("DEVICE-ID"));
-		map.put("base64Code", base64Code);
+        HashMap<Object, Object> map = new HashMap<>();
+        map.put("deviceId", request.getHeader("DEVICE-ID"));
+        map.put("base64Code", base64Code);
 
-		request.getResponse().setContentType("application/json;charset=UTF-8");
-		request.getResponse().getWriter().write(objectMapper.writeValueAsString(JsonData.success(map)));
+        request.getResponse().setContentType("application/json;charset=UTF-8");
+        request.getResponse().getWriter().write(objectMapper.writeValueAsString(JsonData.success(map)));
 
-	}
+    }
 
 }
