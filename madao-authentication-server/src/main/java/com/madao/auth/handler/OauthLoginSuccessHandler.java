@@ -10,6 +10,7 @@ import com.madao.utils.JsonUtil;
 import com.madao.utils.LogBack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
@@ -74,7 +75,7 @@ public class OauthLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 
 		String jsonString = JsonUtil.toJsonString(authToken);
 		saveToken(jti.toString(), jsonString, CommonConst.TIME_OUT_DAY);
-		response.setContentType("application/json;charset=UTF-8");
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.getWriter().write(objectMapper.writeValueAsString(JsonData.success(jti)));
 	}
 

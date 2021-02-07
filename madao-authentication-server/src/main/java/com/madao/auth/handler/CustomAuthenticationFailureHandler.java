@@ -5,6 +5,7 @@ import com.madao.enums.StatusEnum;
 import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;
 import com.madao.utils.LogBack;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         if (e instanceof AuthException) {
             errorResult = JsonData.failed(StatusEnum.LOGIN_ERROR, e.getMessage());
         }
-        httpServletResponse.setContentType("application/json;charset=UTF-8");
+        httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
         httpServletResponse.getWriter().write(JsonUtil.toJsonString(errorResult));
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.madao.auth.validate.AbstractValidateCodeProcessor;
 import com.madao.utils.JsonData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -37,7 +38,7 @@ public class CaptchaValidateCodeProcessor extends AbstractValidateCodeProcessor<
 		map.put("deviceId", request.getHeader("DEVICE-ID"));
 		map.put("base64Code", base64Code);
 
-		request.getResponse().setContentType("application/json;charset=UTF-8");
+		request.getResponse().setContentType(MediaType.APPLICATION_JSON_VALUE);
 		request.getResponse().getWriter().write(objectMapper.writeValueAsString(JsonData.success(map)));
 
 	}

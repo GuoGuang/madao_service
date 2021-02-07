@@ -8,6 +8,7 @@ import com.madao.enums.StatusEnum;
 import com.madao.utils.JsonData;
 import com.madao.utils.LogBack;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -34,7 +35,7 @@ public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<Vali
 	protected void send(ServletWebRequest request, ValidateCode validateCode) throws ServletRequestBindingException, IOException {
         String paramName = CommonConst.DEFAULT_PARAMETER_NAME_PHONE;
         String phone = ServletRequestUtils.getRequiredStringParameter(request.getRequest(), paramName);
-		request.getResponse().setContentType("application/json;charset=UTF-8");
+		request.getResponse().setContentType(MediaType.APPLICATION_JSON_VALUE);
         try {
 	        smsCodeSender.send(phone, validateCode.getCode());
 	        request.getResponse().getWriter().write(objectMapper.writeValueAsString(JsonData.success()));

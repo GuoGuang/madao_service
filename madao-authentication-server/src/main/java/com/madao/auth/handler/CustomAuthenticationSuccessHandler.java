@@ -13,6 +13,7 @@ import com.madao.utils.LogBack;
 import com.madao.utils.security.JWTAuthentication;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -118,7 +119,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 
         String jsonString = JsonUtil.toJsonString(authToken);
         saveToken(jti.toString(), jsonString, CommonConst.TIME_OUT_DAY);
-        response.setContentType("application/json;charset=UTF-8");
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write(objectMapper.writeValueAsString(JsonData.success(jti)));
 
     }
