@@ -166,11 +166,10 @@ class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapte
 	@Bean
 	public JwtAccessTokenConverter jwtAccessTokenConverter(CustomUserAuthenticationConverter customUserAuthenticationConverter) {
 		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-		KeyPair keyPair = new KeyStoreKeyFactory(
-				keyProperties.getKeyStore().getLocation(),
-				keyProperties.getKeyStore().getSecret().toCharArray()).getKeyPair(
-				keyProperties.getKeyStore().getAlias(),
-				keyProperties.getKeyStore().getPassword().toCharArray());
+		KeyPair keyPair = new KeyStoreKeyFactory(keyProperties.getKeyStore().getLocation(),
+												 keyProperties.getKeyStore().getSecret().toCharArray())
+									.getKeyPair(keyProperties.getKeyStore().getAlias(),
+												keyProperties.getKeyStore().getPassword().toCharArray());
 		converter.setKeyPair(keyPair);
 		//配置自定义的CustomUserAuthenticationConverter
 		DefaultAccessTokenConverter accessTokenConverter = (DefaultAccessTokenConverter) converter.getAccessTokenConverter();
