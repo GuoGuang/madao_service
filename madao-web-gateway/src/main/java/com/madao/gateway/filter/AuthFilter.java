@@ -1,9 +1,12 @@
 package com.madao.gateway.filter;
 
 import com.madao.db.redis.service.RedisService;
+import com.madao.enums.StatusEnum;
+import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;
 import com.madao.utils.LogBack;
+import javassist.NotFoundException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,98 +15,103 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.TreeMap;
 
 /**
- * @deprecated  {@link TokenFilter}
+ *
+ * {
+ *     "skipAuth":true,
+ *     "publicKey":"xxx"
+ * }
+ * @deprecated  {@link TokenFilter} 一般项目不需要全局接口加密，如果需要再放开
  * @author LGG
  */
 @Component
 @Deprecated
 public class AuthFilter implements GatewayFilter, Ordered {
-	@Autowired
-	private RedisService redisService;
+
+	private final RedisService redisService;
+	public AuthFilter(RedisService redisService) {
+		this.redisService = redisService;
+	}
 
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-		exchange.getResponse().setStatusCode(HttpStatus.OK);
-		exchange.getResponse().getHeaders().add("Content-Type", "application/json;charset=UTF-8");
-		JsonData<Object> result = new JsonData<>();
+
+		ServerHttpResponse response = exchange.getResponse();
+		MultiValueMap<String, String> queryParams = exchange.getRequest().getQueryParams();
+		response.setStatusCode(HttpStatus.OK);
+		response.getHeaders().add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+
 		//后端调用跳过验签
-		boolean skipAuth = Boolean.parseBoolean(exchange.getRequest().getQueryParams().getFirst("skipAuth"));
-		if (!skipAuth) {
-			String sign = exchange.getRequest().getQueryParams().getFirst("sign");
-			if (StringUtils.isEmpty(sign)) {
-				//没有验签参数
-				result.setCode(3333);
-				result.setMessage("没有验签参数");
-				return exchange.getResponse().writeWith(Flux.just(this.getBodyBuffer(exchange.getResponse(), result)));
-			}
-			String publicKey = exchange.getRequest().getHeaders().getFirst("publicKey");
-			if (StringUtils.isEmpty(publicKey)) {
-				//没有公钥
-				result.setCode(2222);
-				result.setMessage("没有公钥");
-				return exchange.getResponse().writeWith(Flux.just(this.getBodyBuffer(exchange.getResponse(), result)));
-			}
-			String privateKey = (String) redisService.get(publicKey).orElse(null);
-			if (!StringUtils.isEmpty(privateKey)) {
-				TreeMap<String, List<String>> parameterMap = new TreeMap<>(exchange.getRequest().getQueryParams());
-				//验签
-				StringBuilder sb = new StringBuilder();
-				parameterMap.entrySet().forEach(stringEntry -> {
-					if (!StringUtils.equalsIgnoreCase(stringEntry.getKey(), "sign")) {
-						if (!CollectionUtils.isEmpty(stringEntry.getValue())) {
-							sb.append(stringEntry.getKey());
-							sb.append("=");
-							sb.append(stringEntry.getValue().stream().findFirst().get());
-						}
-					}
-				});
-				sb.append("privateKey=");
-				sb.append(privateKey);
-				System.out.println(sb.toString());
-				String serverSign = DigestUtils.md5Hex(sb.toString());
-				System.out.println(serverSign);
-				if (!serverSign.equals(sign)) {
-					//验签不通过
-					result.setCode(0000);
-					result.setMessage("验签不通过");
-					return exchange.getResponse().writeWith(Flux.just(this.getBodyBuffer(exchange.getResponse(), result)));
+		boolean skipAuth = Boolean.parseBoolean(queryParams.getFirst("skipAuth"));
+		if (skipAuth){
+			chain.filter(exchange);
+		}
+
+		String sign = queryParams.getFirst("signature");
+		if (StringUtils.isEmpty(sign)) {
+			return exchange.getResponse().writeWith(Flux.just(
+					this.getBodyBuffer(exchange.getResponse(),  JsonData.failed(StatusEnum.NO_SIGNATURE_PARAMETER))));
+		}
+		String publicKey = exchange.getRequest().getHeaders().getFirst("publicKey");
+		if (StringUtils.isEmpty(publicKey)) {
+			return exchange.getResponse().writeWith(Flux.just(
+					this.getBodyBuffer(exchange.getResponse(), JsonData.failed(StatusEnum.NO_PUBLIC_KEY_PARAMETER))));
+		}
+		String privateKey = (String) redisService.get(publicKey).orElse(null);
+		if (StringUtils.isEmpty(privateKey)){
+			return exchange.getResponse().writeWith(Flux.just(
+					this.getBodyBuffer(exchange.getResponse(), JsonData.failed(StatusEnum.PRIVATE_KEY_EXPIRED))));
+		}
+
+		TreeMap<String, List<String>> parameterMap = new TreeMap<>(exchange.getRequest().getQueryParams());
+		//验签
+		StringBuilder sb = new StringBuilder();
+		parameterMap.forEach((key, value) -> {
+			if (!StringUtils.equalsIgnoreCase(key, "signature")) {
+				if (!CollectionUtils.isEmpty(value)) {
+					sb.append(key);
+					sb.append("=");
+					sb.append(value.stream().findFirst().get());
 				}
-			} else {
-				//私钥过期
-				result.setCode(1111);
-				result.setMessage("私钥过期");
-				return exchange.getResponse().writeWith(Flux.just(this.getBodyBuffer(exchange.getResponse(), result)));
 			}
+		});
+		sb.append("privateKey=");
+		sb.append(privateKey);
+		System.out.println(sb.toString());
+		String serverSign = DigestUtils.md5Hex(sb.toString());
+		System.out.println(serverSign);
+		if (!serverSign.equals(sign)) {
+			return exchange.getResponse().writeWith(Flux.just(
+					this.getBodyBuffer(exchange.getResponse(), JsonData.failed(StatusEnum.VERIFICATION_NOT_PASS))));
 		}
 		return chain.filter(exchange);
 	}
 
 	/**
 	 * 封装返回值
-	 *
-	 * @param response
-	 * @param result
-	 * @return
 	 */
 	private DataBuffer getBodyBuffer(ServerHttpResponse response, JsonData<Object> result) {
 		try {
 			return response.bufferFactory().wrap(JsonUtil.toJSONBytes(result));
 		} catch (IOException e) {
 			LogBack.error(e.getMessage(), e);
+			throw new RuntimeException("封装返回值异常！e:{}",e);
 		}
-		return null;
 	}
 
 	@Override
