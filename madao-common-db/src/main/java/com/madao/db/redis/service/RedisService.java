@@ -44,13 +44,13 @@ public interface RedisService {
     @SuppressWarnings("unchecked")
     void del(String... key);
 
-	/**
-	 * 普通缓存获取
-	 *
-	 * @param key 键
-	 * @return 值
-	 */
-	Optional<Object> get(String key);
+    /**
+     * 普通缓存获取
+     *
+     * @param key 键
+     * @return 值
+     */
+    Optional<Object> get(String key);
 
     /**
      * 普通缓存放入
@@ -71,12 +71,12 @@ public interface RedisService {
      */
     boolean set(String key, Object value, long time);
 
-	/**
-	 * 获取Key缓存
-	 *
-	 * @param key
-	 */
-	Optional<Object> getKeyStr(String key);
+    /**
+     * 获取Key缓存
+     *
+     * @param key
+     */
+    Optional<Object> getKeyStr(String key);
 
     /**
      * 设置Key缓存

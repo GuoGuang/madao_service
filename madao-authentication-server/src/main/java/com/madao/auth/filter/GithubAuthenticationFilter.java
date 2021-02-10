@@ -24,29 +24,29 @@ import java.util.Map;
  **/
 public class GithubAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-	@Autowired
-	private OAuth2ClientProperties oAuth2ClientProperties;
+    @Autowired
+    private OAuth2ClientProperties oAuth2ClientProperties;
 
-	public GithubAuthenticationFilter() {
-		super(new AntPathRequestMatcher("/oauth/login/github", "GET"));
-	}
+    public GithubAuthenticationFilter() {
+        super(new AntPathRequestMatcher("/oauth/login/github", "GET"));
+    }
 
-	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String code = request.getParameter("code");
-		OAuth2ClientProperties.Registration github = oAuth2ClientProperties.getRegistration().get("github");
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String code = request.getParameter("code");
+        OAuth2ClientProperties.Registration github = oAuth2ClientProperties.getRegistration().get("github");
 
-		List<NameValuePair> params = new ArrayList<>();
-		params.add(new BasicNameValuePair("client_id", github.getClientId()));
-		params.add(new BasicNameValuePair("client_secret", github.getClientSecret()));
-		params.add(new BasicNameValuePair("code", code));
-		Map<String, String> responseBody = HttpHelper.httpPost(params);
-		if (responseBody.get("access_token") == null) {
-			LogBack.error("Github登录失败----->{}", responseBody.get("error_description"));
-			throw new AuthException(responseBody.get("error_description"));
-		}
+        List<NameValuePair> params = new ArrayList<>();
+        params.add(new BasicNameValuePair("client_id", github.getClientId()));
+        params.add(new BasicNameValuePair("client_secret", github.getClientSecret()));
+        params.add(new BasicNameValuePair("code", code));
+        Map<String, String> responseBody = HttpHelper.httpPost(params);
+        if (responseBody.get("access_token") == null) {
+            LogBack.error("Github登录失败----->{}", responseBody.get("error_description"));
+            throw new AuthException(responseBody.get("error_description"));
+        }
 
-		GitHubAuthenticationToken authRequest = new GitHubAuthenticationToken(responseBody.get("access_token"), "");
-		return getAuthenticationManager().authenticate(authRequest);
-	}
+        GitHubAuthenticationToken authRequest = new GitHubAuthenticationToken(responseBody.get("access_token"), "");
+        return getAuthenticationManager().authenticate(authRequest);
+    }
 }

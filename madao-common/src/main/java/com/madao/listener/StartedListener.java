@@ -26,26 +26,26 @@ import java.net.UnknownHostException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class StartedListener implements ApplicationListener<ApplicationStartedEvent> {
 
-	@Autowired
-	private ApplicationContext applicationContext;
+    @Autowired
+    private ApplicationContext applicationContext;
 
-	@Override
-	public void onApplicationEvent(ApplicationStartedEvent event) {
-		try {
-			this.printStartInfo();
-		} catch (UnknownHostException e) {
-			LogBack.error(e.getMessage(), e);
-		}
-	}
+    @Override
+    public void onApplicationEvent(ApplicationStartedEvent event) {
+        try {
+            this.printStartInfo();
+        } catch (UnknownHostException e) {
+            LogBack.error(e.getMessage(), e);
+        }
+    }
 
-	private void printStartInfo() throws UnknownHostException {
+    private void printStartInfo() throws UnknownHostException {
 
-		Environment env = applicationContext.getEnvironment();
-		String ip = InetAddress.getLocalHost().getHostAddress();
-		String port = env.getProperty("server.port");
-		log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Application started at         ", "http://" + ip + ":" + port));
-		log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Application api doc was enabled at  ", "http://" + ip + ":8080", "/swagger-ui/index.html"));
-		log.info(AnsiOutput.toString(AnsiColor.BRIGHT_YELLOW, "Application has started successfully!"));
-	}
+        Environment env = applicationContext.getEnvironment();
+        String ip = InetAddress.getLocalHost().getHostAddress();
+        String port = env.getProperty("server.port");
+        log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Application started at         ", "http://" + ip + ":" + port));
+        log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Application api doc was enabled at  ", "http://" + ip + ":8080", "/swagger-ui/index.html"));
+        log.info(AnsiOutput.toString(AnsiColor.BRIGHT_YELLOW, "Application has started successfully!"));
+    }
 
 }

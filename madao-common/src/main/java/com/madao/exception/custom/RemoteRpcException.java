@@ -8,11 +8,12 @@ import com.madao.utils.JsonUtil;
  **/
 public class RemoteRpcException extends RuntimeException {
 
-	public RemoteRpcException(JsonData jsonData) {
-		super(JsonUtil.toJsonString(jsonData));
-	}
-	public RemoteRpcException() {
-		super();
-	}
+    public RemoteRpcException(JsonData jsonData) {
+        super(JsonUtil.toJsonString(jsonData));
+    }
+
+    public RemoteRpcException() {
+        super();
+    }
 
 }

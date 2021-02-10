@@ -17,6 +17,7 @@ public class WebSocketInterceptor implements HandshakeInterceptor {
     /**
      * 握手前
      * 禁止未登录用户连接WebSocket
+     *
      * @param request
      * @param response
      * @param wsHandler
@@ -40,6 +41,7 @@ public class WebSocketInterceptor implements HandshakeInterceptor {
 
     /**
      * 握手后
+     *
      * @param request
      * @param response
      * @param wsHandler

@@ -14,17 +14,17 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class JsonData<T> implements Serializable {
 
-	private boolean status;
+    private boolean status;
 
-	private int code;
+    private int code;
 
-	private String message;
+    private String message;
 
-	private T data;
+    private T data;
 
-	public JsonData(boolean state, StatusEnum statusEnum) {
-		this(state,statusEnum.getCode(), statusEnum.getMsg());
-	}
+    public JsonData(boolean state, StatusEnum statusEnum) {
+        this(state, statusEnum.getCode(), statusEnum.getMsg());
+    }
 
     public JsonData(boolean state, StatusEnum statusEnum, String msg) {
         this(state, statusEnum.getCode(), msg);
@@ -34,9 +34,9 @@ public class JsonData<T> implements Serializable {
      * 快速创建成功结果并返回结果数据
      *
      * @param data
-	 * @return Result
-	 */
-	public static <T> JsonData<T> success(T data) {
+     * @return Result
+     */
+    public static <T> JsonData<T> success(T data) {
         return new JsonData<>(true, StatusEnum.OK.getCode(), StatusEnum.OK.getMsg(), data);
     }
 
@@ -65,16 +65,16 @@ public class JsonData<T> implements Serializable {
         this.code = code;
         this.message = message;
         this.data = data;
-	}
+    }
 
-	public JsonData(boolean state, Integer code, String msg) {
-		this.status = state;
-		this.code = code;
-		this.message = msg;
-	}
+    public JsonData(boolean state, Integer code, String msg) {
+        this.status = state;
+        this.code = code;
+        this.message = msg;
+    }
 
-	public static boolean isSuccess(JsonData jsonData) {
-		return jsonData.status && jsonData.code == StatusEnum.OK.getCode();
-	}
+    public static boolean isSuccess(JsonData jsonData) {
+        return jsonData.status && jsonData.code == StatusEnum.OK.getCode();
+    }
 
 }

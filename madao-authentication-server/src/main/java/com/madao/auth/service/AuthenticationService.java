@@ -19,8 +19,8 @@ public class AuthenticationService {
     @Autowired
     RedisService redisService;
 
-	@Autowired
-	LoginLogServiceRpc loginLogServiceRpc;
+    @Autowired
+    LoginLogServiceRpc loginLogServiceRpc;
 
     @Autowired
     RestTemplate restTemplate;

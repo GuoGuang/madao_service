@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RequestBody;
  **/
 
 @FeignClient(contextId = "loginLogClient",
-		value = FeignConst.SERVICE_BASE,
-		path = FeignConst.SERVICE_BASE_LOGIN_LOG_PATH,
-		fallbackFactory = LoginLogServiceRpcFallbackFactory.class)
+        value = FeignConst.SERVICE_BASE,
+        path = FeignConst.SERVICE_BASE_LOGIN_LOG_PATH,
+        fallbackFactory = LoginLogServiceRpcFallbackFactory.class)
 public interface LoginLogServiceRpc {
 
-	/**
-	 * 增加登录日志
-	 *
-	 * @param loginLog 登录日志实体
-	 * @return JsonData
-	 */
-	@PostMapping
-	JsonData<Void> insertLoginLog(@RequestBody LoginLog loginLog);
+    /**
+     * 增加登录日志
+     *
+     * @param loginLog 登录日志实体
+     * @return JsonData
+     */
+    @PostMapping
+    JsonData<Void> insertLoginLog(@RequestBody LoginLog loginLog);
 }

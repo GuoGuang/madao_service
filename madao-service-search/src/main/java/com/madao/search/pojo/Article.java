@@ -9,15 +9,15 @@ import java.io.Serializable;
 /**
  * 文章板块: 文章类,集成ES
  **/
-@Document(indexName="coco",type="article")
+@Document(indexName = "coco", type = "article")
 public class Article extends BasePojo implements Serializable {
 
     private String id;//ID
     private String columnId;//专栏ID
     private String userId;//用户ID
-    @Field(analyzer="ik_max_word",searchAnalyzer="ik_max_word")
+    @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
     private String title;//标题
-    @Field(analyzer="ik_max_word",searchAnalyzer="ik_max_word")
+    @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
     private String content;//文章正文
     private String image;//文章封面
     private String isPublic;//是否公开

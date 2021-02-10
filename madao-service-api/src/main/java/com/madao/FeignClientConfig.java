@@ -9,20 +9,20 @@ import org.springframework.context.annotation.Configuration;
  * Feign调用配置
  **/
 @Configuration
-public class FeignClientConfig  { // implements feign.codec.ErrorDecoder
+public class FeignClientConfig { // implements feign.codec.ErrorDecoder
 
-	/**
-	 * Feign 请求日志打印级别
-	 */
-	@Bean
-	Logger.Level feignLoggerLevel() {
-		return Logger.Level.FULL;
-	}
+    /**
+     * Feign 请求日志打印级别
+     */
+    @Bean
+    Logger.Level feignLoggerLevel() {
+        return Logger.Level.FULL;
+    }
 
-	/**
-	 * 全局处理Feign调用异常
-	 * Error Decoders are invoked only when a response is received and the response code is not 2xx.
-	 */
+    /**
+     * 全局处理Feign调用异常
+     * Error Decoders are invoked only when a response is received and the response code is not 2xx.
+     */
 
 //	@Override
 //	public Exception decode(String methodKey, Response response) {

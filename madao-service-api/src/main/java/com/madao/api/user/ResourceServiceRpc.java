@@ -16,20 +16,21 @@ import java.util.List;
  **/
 
 @FeignClient(contextId = "resourceClient",
-		value = FeignConst.SERVICE_USER,
-		path = FeignConst.SERVICE_RESOURCE_PATH,
-		fallbackFactory = ResourceServiceRpcFallbackFactory.class,
-		configuration = {FeignClientConfig.class})
+        value = FeignConst.SERVICE_USER,
+        path = FeignConst.SERVICE_RESOURCE_PATH,
+        fallbackFactory = ResourceServiceRpcFallbackFactory.class,
+        configuration = {FeignClientConfig.class})
 public interface ResourceServiceRpc {
 
-	/**
-	 * 条件查询资源
-	 * @param resource
-	 * @return
-	 */
-	@GetMapping
-	JsonData<List<Resource>> findResourceByCondition(Resource resource);
+    /**
+     * 条件查询资源
+     *
+     * @param resource
+     * @return
+     */
+    @GetMapping
+    JsonData<List<Resource>> findResourceByCondition(Resource resource);
 
-	@GetMapping("/roles")
-	JsonData<List<Resource>> findResourceByRoleIds(@RequestParam("roleId") String[] roleIds);
+    @GetMapping("/roles")
+    JsonData<List<Resource>> findResourceByRoleIds(@RequestParam("roleId") String[] roleIds);
 }

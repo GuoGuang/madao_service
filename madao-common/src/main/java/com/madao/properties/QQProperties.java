@@ -10,8 +10,8 @@ import lombok.Setter;
 @Setter
 public class QQProperties {
 
-	private String providerId = "qq";
-	private String clientId;
-	private String clientSecret;
+    private String providerId = "qq";
+    private String clientId;
+    private String clientSecret;
 
 }

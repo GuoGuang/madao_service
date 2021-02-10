@@ -14,28 +14,28 @@ import java.util.Arrays;
 @Configuration
 public class CorsConfig {
 
-	@Autowired
-	Environment environment;
+    @Autowired
+    Environment environment;
 
-	@Bean
-	public CorsWebFilter corsFilter() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());
-		source.registerCorsConfiguration("/**", buildConfig());
-		return new CorsWebFilter(source);
-	}
+    @Bean
+    public CorsWebFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());
+        source.registerCorsConfiguration("/**", buildConfig());
+        return new CorsWebFilter(source);
+    }
 
-	private CorsConfiguration buildConfig() {
-		CorsConfiguration corsConfiguration = new CorsConfiguration();
-		String[] activeProfiles = environment.getActiveProfiles();
-		if (Arrays.asList(activeProfiles).contains("dev")) {
-			corsConfiguration.addAllowedOrigin("http://localhost:9527");
-			corsConfiguration.addAllowedOrigin("http://127.0.0.1:3000");
-		}
-		corsConfiguration.addAllowedOrigin("http://admin.madaoo.com");
-		corsConfiguration.addAllowedOrigin("http://madaoo.com");
-		corsConfiguration.addAllowedOrigin("https://madaoo.com");
-		corsConfiguration.addAllowedHeader("*");
-		corsConfiguration.addAllowedMethod("*");
-		return corsConfiguration;
-	}
+    private CorsConfiguration buildConfig() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        String[] activeProfiles = environment.getActiveProfiles();
+        if (Arrays.asList(activeProfiles).contains("dev")) {
+            corsConfiguration.addAllowedOrigin("http://localhost:9527");
+            corsConfiguration.addAllowedOrigin("http://127.0.0.1:3000");
+        }
+        corsConfiguration.addAllowedOrigin("http://admin.madaoo.com");
+        corsConfiguration.addAllowedOrigin("http://madaoo.com");
+        corsConfiguration.addAllowedOrigin("https://madaoo.com");
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+        return corsConfiguration;
+    }
 }

@@ -26,11 +26,12 @@ public class TransactionConfig {
 
     private static final int TX_METHOD_TIMEOUT = 10;
 
-	@Value("${com.madao.aopPointcutExpression}")
+    @Value("${com.madao.aopPointcutExpression}")
     private String aopPointcutExpression;
 
     /**
      * 配置事务拦截类型
+     *
      * @return TransactionAttributeSource
      */
     @Bean("txSource")
@@ -70,6 +71,7 @@ public class TransactionConfig {
 
     /**
      * 事务拦截器
+     *
      * @param tx:注入的事务管理器
      * @return TransactionInterceptor
      */

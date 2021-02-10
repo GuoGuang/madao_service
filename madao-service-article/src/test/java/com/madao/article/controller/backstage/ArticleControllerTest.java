@@ -35,94 +35,94 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @org.springframework.transaction.annotation.Transactional
 class ArticleControllerTest {
-	@Mock
-	ArticleService articleService;
-	@Mock
-	OssClientUtil ossClientUtil;
-	@Mock
-	Pageable pageable;
-	@InjectMocks
-	com.madao.article.controller.backstage.ArticleController articleController;
+    @Mock
+    ArticleService articleService;
+    @Mock
+    OssClientUtil ossClientUtil;
+    @Mock
+    Pageable pageable;
+    @InjectMocks
+    com.madao.article.controller.backstage.ArticleController articleController;
 
-	private MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-	@BeforeEach
-	void setUp() {
-		MockitoAnnotations.initMocks(this);
-		mockMvc = MockMvcBuilders
-				.standaloneSetup(articleController)
-				.setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver()) // 解决Pageable参数问题
-				.addFilter(CustomFilter::doFilter)
-				.build();
-	}
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(articleController)
+                .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver()) // 解决Pageable参数问题
+                .addFilter(CustomFilter::doFilter)
+                .build();
+    }
 
-	@Test
-	void testFindArticleByCondition() throws Exception {
+    @Test
+    void testFindArticleByCondition() throws Exception {
 
-		ArticleDto article = new ArticleDto();
+        ArticleDto article = new ArticleDto();
 //		article.setUserName("foo");
-		article.setId("1");
+        article.setId("1");
 
-		Page<ArticleDto> page = new PageImpl<>(Arrays.asList(article));
+        Page<ArticleDto> page = new PageImpl<>(Arrays.asList(article));
 
-		when(articleService.findArticleByCondition(any(), any())).thenReturn(page);
+        when(articleService.findArticleByCondition(any(), any())).thenReturn(page);
 
-		ResultActions resultActions = mockMvc.perform(get("/article").accept(MediaType.APPLICATION_JSON));
-		resultActions.andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.data.content", hasSize(1)));
+        ResultActions resultActions = mockMvc.perform(get("/article").accept(MediaType.APPLICATION_JSON));
+        resultActions.andDo(print()).andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.content", hasSize(1)));
 
-		MockHttpServletResponse response = resultActions.andReturn().getResponse();
-		String attributeNames = response.getContentAsString();
-		JsonData jsonData = JsonUtil.jsonToPojo(attributeNames, JsonData.class);
-		System.out.println(jsonData);
+        MockHttpServletResponse response = resultActions.andReturn().getResponse();
+        String attributeNames = response.getContentAsString();
+        JsonData jsonData = JsonUtil.jsonToPojo(attributeNames, JsonData.class);
+        System.out.println(jsonData);
 
-		String a = "hahaha";
-		int aValue = 9;
+        String a = "hahaha";
+        int aValue = 9;
 
-		verify(articleService, times(1)).findArticleByCondition(any(), any());
-		verifyNoMoreInteractions(articleService);
+        verify(articleService, times(1)).findArticleByCondition(any(), any());
+        verifyNoMoreInteractions(articleService);
 
-	}
+    }
 
-	@Test
-	void testFindArticleById() {
-		when(articleService.findArticleById(anyString())).thenReturn(new ArticleDto());
+    @Test
+    void testFindArticleById() {
+        when(articleService.findArticleById(anyString())).thenReturn(new ArticleDto());
 
-		JsonData<ArticleDto> result = articleController.findArticleById("id");
-		Assertions.assertEquals(new JsonData<ArticleDto>(true, 0, "message", any()), result);
-	}
+        JsonData<ArticleDto> result = articleController.findArticleById("id");
+        Assertions.assertEquals(new JsonData<ArticleDto>(true, 0, "message", any()), result);
+    }
 
-	@Test
-	void testInsertArticle() {
-		JsonData<Map<String, String>> result = articleController.insertArticle(new ArticleDto(), null);
-		Assertions.assertEquals(new JsonData<Map<String, String>>(true, 0, "message", any()), result);
-	}
+    @Test
+    void testInsertArticle() {
+        JsonData<Map<String, String>> result = articleController.insertArticle(new ArticleDto(), null);
+        Assertions.assertEquals(new JsonData<Map<String, String>>(true, 0, "message", any()), result);
+    }
 
-	@Test
-	void testUpdateByPrimaryKeySelective() {
-		JsonData<Void> result = articleController.updateByPrimaryKeySelective(new ArticleDto(), null);
-		Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
-	}
+    @Test
+    void testUpdateByPrimaryKeySelective() {
+        JsonData<Void> result = articleController.updateByPrimaryKeySelective(new ArticleDto(), null);
+        Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
+    }
 
-	@Test
-	void testDeleteArticleByIds() {
-		JsonData<Void> result = articleController.deleteArticleByIds(Arrays.<String>asList("String"));
-		Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
-	}
+    @Test
+    void testDeleteArticleByIds() {
+        JsonData<Void> result = articleController.deleteArticleByIds(Arrays.<String>asList("String"));
+        Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
+    }
 
-	@Test
-	void testExamine() {
-		JsonData<Void> result = articleController.examine("id");
-		Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
-	}
+    @Test
+    void testExamine() {
+        JsonData<Void> result = articleController.examine("id");
+        Assertions.assertEquals(new JsonData<Void>(true, 0, "message", any()), result);
+    }
 
-	@Test
-	void testGetUserInfo() {
-		Map<String, String> result = articleController.getUserInfo(null);
-		Assertions.assertEquals(new HashMap<String, String>() {{
-			put("String", "String");
-		}}, result);
-	}
+    @Test
+    void testGetUserInfo() {
+        Map<String, String> result = articleController.getUserInfo(null);
+        Assertions.assertEquals(new HashMap<String, String>() {{
+            put("String", "String");
+        }}, result);
+    }
 }
 
 //Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme

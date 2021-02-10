@@ -14,12 +14,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class ValidateCodeSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
-	@Autowired
-	private ValidateCodeFilter validateCodeFilter;
-	
-	@Override
-	public void configure(HttpSecurity http) throws Exception {
-		http.addFilterBefore(validateCodeFilter, AbstractPreAuthenticatedProcessingFilter.class);
-	}
-	
+    @Autowired
+    private ValidateCodeFilter validateCodeFilter;
+
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http.addFilterBefore(validateCodeFilter, AbstractPreAuthenticatedProcessingFilter.class);
+    }
+
 }

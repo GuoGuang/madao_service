@@ -13,25 +13,25 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @Entity
 @Table(name = "ar_article_tag",
-		indexes = {
-				@Index(name = "article_id", columnList = "article_id"),
-				@Index(name = "tag_id", columnList = "tag_id")})
+        indexes = {
+                @Index(name = "article_id", columnList = "article_id"),
+                @Index(name = "tag_id", columnList = "tag_id")})
 public class ArticleTag implements Serializable {
 
-	@Id
-	@Column(name = "id", unique = true, nullable = false, updatable = false, length = 20)
-	@GeneratedValue(generator = "idGenerator")
-	@GenericGenerator(name = "idGenerator", strategy = "com.madao.config.IdGeneratorConfig")
-	private String id;
+    @Id
+    @Column(name = "id", unique = true, nullable = false, updatable = false, length = 20)
+    @GeneratedValue(generator = "idGenerator")
+    @GenericGenerator(name = "idGenerator", strategy = "com.madao.config.IdGeneratorConfig")
+    private String id;
 
-	@Column(name = "article_id", nullable = false, length = 20)
-	private String articleId;
+    @Column(name = "article_id", nullable = false, length = 20)
+    private String articleId;
 
-	@Column(name = "tag_id", nullable = false, length = 20)
-	private String tagId;
+    @Column(name = "tag_id", nullable = false, length = 20)
+    private String tagId;
 
-	public ArticleTag(String articleId, String tagId) {
-		this.articleId = articleId;
-		this.tagId = tagId;
-	}
+    public ArticleTag(String articleId, String tagId) {
+        this.articleId = articleId;
+        this.tagId = tagId;
+    }
 }

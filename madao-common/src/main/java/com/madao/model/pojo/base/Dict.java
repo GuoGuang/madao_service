@@ -14,11 +14,11 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "ba_dict",
-		indexes = {
-				@Index(name = "dict_code", columnList = "code"),
-				@Index(name = "dict_parent_id", columnList = "parentId"),
-				@Index(name = "dict_create_at", columnList = "createAt")
-		})
+        indexes = {
+                @Index(name = "dict_code", columnList = "code"),
+                @Index(name = "dict_parent_id", columnList = "parentId"),
+                @Index(name = "dict_create_at", columnList = "createAt")
+        })
 public class Dict extends BasePojo implements Serializable {
 
     @Id
@@ -39,8 +39,8 @@ public class Dict extends BasePojo implements Serializable {
     @Column(length = 200)
     private String description;
 
-	@Column(length = 10)
-	private String type;
+    @Column(length = 10)
+    private String type;
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 }

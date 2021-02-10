@@ -13,16 +13,17 @@ import org.springframework.web.bind.annotation.RequestBody;
  **/
 
 @FeignClient(contextId = "optLogClient",
-		value = FeignConst.SERVICE_BASE,
-		path = FeignConst.SERVICE_BASE_OPT_LOG_PATH,
-		fallbackFactory = OptLogServiceRpcFallbackFactory.class)
+        value = FeignConst.SERVICE_BASE,
+        path = FeignConst.SERVICE_BASE_OPT_LOG_PATH,
+        fallbackFactory = OptLogServiceRpcFallbackFactory.class)
 public interface OptLogServiceRpc {
 
-	/**
-	 * 增加操作日志
-	 * @param optLog 操作日志实体
-	 * @return JsonData
-	 */
-	@PostMapping
-	JsonData<Object> insertOptLog(@RequestBody OptLog optLog);
+    /**
+     * 增加操作日志
+     *
+     * @param optLog 操作日志实体
+     * @return JsonData
+     */
+    @PostMapping
+    JsonData<Object> insertOptLog(@RequestBody OptLog optLog);
 }

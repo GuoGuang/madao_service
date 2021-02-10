@@ -18,25 +18,25 @@ import javax.annotation.PostConstruct;
  **/
 
 @ComponentScan(basePackages = {"com.madao"}, excludeFilters = {
-		@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
-				classes = {DruidConfig.class})
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
+                classes = {DruidConfig.class})
 })
 @EnableFeignClients(basePackages = "com.madao.api")
 @SpringBootApplication
 public class GateWayApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GateWayApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GateWayApplication.class, args);
+    }
 
-	@PostConstruct
-	void started() {
-		DateUtil.setDefaultZone();
-	}
+    @PostConstruct
+    void started() {
+        DateUtil.setDefaultZone();
+    }
 
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
 

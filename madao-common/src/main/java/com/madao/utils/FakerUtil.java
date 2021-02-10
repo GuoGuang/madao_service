@@ -7,17 +7,17 @@ import com.github.javafaker.Faker;
  */
 public class FakerUtil {
 
-	public static String getAvatar() {
-		Faker faker = new Faker();
-		return faker.avatar().image();
-	}
+    public static String getAvatar() {
+        Faker faker = new Faker();
+        return faker.avatar().image();
+    }
 
-	public static String getNickName() {
-		Faker faker = new Faker();
-		return faker.name().lastName();
-	}
+    public static String getNickName() {
+        Faker faker = new Faker();
+        return faker.name().lastName();
+    }
 
-	private FakerUtil() {
+    private FakerUtil() {
 
-	}
+    }
 }

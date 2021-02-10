@@ -25,9 +25,9 @@ import java.util.List;
 
 /**
  * 统一系统异常处理类
- *
+ * <p>
  * Add ConditionalOnBean(Servlet.class) fix Exception Caused by: java.lang.ClassNotFoundException: javax.servlet.ServletException
- * 	Because spring-cloud-starter-gateway conflicts with javax.servlet.Servlet
+ * Because spring-cloud-starter-gateway conflicts with javax.servlet.Servlet
  **/
 //@ConditionalOnBean(Servlet.class)
 @RestControllerAdvice
@@ -66,27 +66,28 @@ public class SystemExceptionHandler {
         return JsonData.failed(StatusEnum.REQUEST_ERROR);
     }
 
-	/**
-	 * JSR303参数校验错误
-	 * @param ex BindException
-	 */
-	@ExceptionHandler({BindException.class,MethodArgumentNotValidException.class})
-	public JsonData<Void> bindException(MethodArgumentNotValidException ex) {
-		LogBack.error(ex.getMessage(), ex);
-		BindingResult bindingResult = ex.getBindingResult();
-		if (bindingResult.hasErrors()) {
-			List<FieldError> errors = bindingResult.getFieldErrors();
-			List<ValidFieldError> validList = new ArrayList<>();
-			if (!(CollectionUtils.isEmpty(errors))) {
-				for (FieldError fe : errors) {
-					validList.add(new ValidFieldError(fe));
-				}
-			}
-			LogBack.error("参数校验错误：" + validList.toString(), ex);
-			return JsonData.failed(StatusEnum.PARAM_INVALID, validList.toString());
-		}
-		return JsonData.failed(StatusEnum.PARAM_INVALID);
-	}
+    /**
+     * JSR303参数校验错误
+     *
+     * @param ex BindException
+     */
+    @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class})
+    public JsonData<Void> bindException(MethodArgumentNotValidException ex) {
+        LogBack.error(ex.getMessage(), ex);
+        BindingResult bindingResult = ex.getBindingResult();
+        if (bindingResult.hasErrors()) {
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            List<ValidFieldError> validList = new ArrayList<>();
+            if (!(CollectionUtils.isEmpty(errors))) {
+                for (FieldError fe : errors) {
+                    validList.add(new ValidFieldError(fe));
+                }
+            }
+            LogBack.error("参数校验错误：" + validList.toString(), ex);
+            return JsonData.failed(StatusEnum.PARAM_INVALID, validList.toString());
+        }
+        return JsonData.failed(StatusEnum.PARAM_INVALID);
+    }
 
     /**
      * 参数异常
@@ -146,14 +147,15 @@ public class SystemExceptionHandler {
 
     /**
      * 其他异常
+     *
      * @param ex Exception
      */
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public JsonData<Void> defaultException(Exception ex) {
-        LogBack.error("其他异常--------->{}",ex.getMessage(), ex);
-		return JsonData.failed(StatusEnum.SYSTEM_ERROR);
-	}
+        LogBack.error("其他异常--------->{}", ex.getMessage(), ex);
+        return JsonData.failed(StatusEnum.SYSTEM_ERROR);
+    }
 
 
 }

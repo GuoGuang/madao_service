@@ -17,28 +17,30 @@ import java.time.LocalDateTime;
 @Data
 public class ValidateCode implements Serializable {
 
-	private String code;
+    private String code;
 
 
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
-	@JsonSerialize(using = LocalDateTimeSerializer.class)
-	private LocalDateTime expireTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime expireTime;
 
-	public ValidateCode(String code, int expireIn){
-		this.code = code;
-		this.expireTime = LocalDateTime.now().plusSeconds(expireIn);
-	}
+    public ValidateCode(String code, int expireIn) {
+        this.code = code;
+        this.expireTime = LocalDateTime.now().plusSeconds(expireIn);
+    }
 
-	public ValidateCode(String code, LocalDateTime expireTime){
-		this.code = code;
-		this.expireTime = expireTime;
-	}
-	public ValidateCode(){
+    public ValidateCode(String code, LocalDateTime expireTime) {
+        this.code = code;
+        this.expireTime = expireTime;
+    }
 
-	}
-	@JsonIgnore
-	public boolean isExpried() {
-		return LocalDateTime.now().isAfter(expireTime);
-	}
+    public ValidateCode() {
+
+    }
+
+    @JsonIgnore
+    public boolean isExpried() {
+        return LocalDateTime.now().isAfter(expireTime);
+    }
 }

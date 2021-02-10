@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class AuthToken {
-	@ApiModelProperty("访问token就是短令牌，用户身份令牌")
-	String access_token;
-	@ApiModelProperty("刷新token")
-	String refresh_token;
-	@ApiModelProperty("jwt令牌")
-	String jwt_token;
+    @ApiModelProperty("访问token就是短令牌，用户身份令牌")
+    String access_token;
+    @ApiModelProperty("刷新token")
+    String refresh_token;
+    @ApiModelProperty("jwt令牌")
+    String jwt_token;
 }

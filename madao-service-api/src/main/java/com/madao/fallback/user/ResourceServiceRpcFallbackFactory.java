@@ -18,24 +18,25 @@ import java.util.List;
 @Component
 public class ResourceServiceRpcFallbackFactory implements FallbackFactory<ResourceServiceRpc> {
 
-	private static final String ERROR_INFO = "ResourceServiceRpc.{}远程调用失败，该服务已经停止或者不可访问,参数为:{}";
+    private static final String ERROR_INFO = "ResourceServiceRpc.{}远程调用失败，该服务已经停止或者不可访问,参数为:{}";
 
-	@Override
-	public ResourceServiceRpc create(Throwable throwable) {
-		return new ResourceServiceRpc() {
+    @Override
+    public ResourceServiceRpc create(Throwable throwable) {
+        return new ResourceServiceRpc() {
 
-			@Override
+            @Override
             public JsonData<List<Resource>> findResourceByCondition(Resource resource) {
                 LogBack.error(ERROR_INFO, "findResourceByCondition", resource, throwable);
                 return JsonData.failed(StatusEnum.RPC_ERROR);
 
             }
-			@Override
+
+            @Override
             public JsonData<List<Resource>> findResourceByRoleIds(String[] roleIds) {
                 LogBack.error(ERROR_INFO, "findResourceByCondition", roleIds, throwable);
                 return JsonData.failed(StatusEnum.RPC_ERROR);
 
             }
-		};
-	}
+        };
+    }
 }

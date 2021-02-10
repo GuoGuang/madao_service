@@ -18,22 +18,22 @@ import java.util.Set;
 @Accessors(chain = true)
 public class RoleDto extends BasePojo implements Serializable {
 
-	@ApiModelProperty("角色关联的资源")
-	private Set<com.madao.model.dto.user.ResourceDto> resources = new HashSet<>();
+    @ApiModelProperty("角色关联的资源")
+    private Set<com.madao.model.dto.user.ResourceDto> resources = new HashSet<>();
 
-	private Set<com.madao.model.dto.user.UserDto> users = new HashSet<>();
+    private Set<com.madao.model.dto.user.UserDto> users = new HashSet<>();
 
-	private String id;
+    private String id;
 
-	@NotNull(message = "角色名称不能为空")
-	@ApiModelProperty("角色名称")
-	private String roleName;
+    @NotNull(message = "角色名称不能为空")
+    @ApiModelProperty("角色名称")
+    private String roleName;
 
-	@ApiModelProperty("角色描述")
-	private String roleDesc;
+    @ApiModelProperty("角色描述")
+    private String roleDesc;
 
-	@NotNull(message = "角色编码不能为空")
-	@ApiModelProperty("角色编码")
-	private String code;
+    @NotNull(message = "角色编码不能为空")
+    @ApiModelProperty("角色编码")
+    private String code;
 
 }

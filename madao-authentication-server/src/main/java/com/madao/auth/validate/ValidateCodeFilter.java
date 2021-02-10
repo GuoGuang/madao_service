@@ -31,100 +31,100 @@ import java.util.Set;
 @Component("validateCodeFilter")
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
-	/**
-	 * 验证码校验失败处理器
-	 */
-	private final AuthenticationFailureHandler authenticationFailureHandler;
+    /**
+     * 验证码校验失败处理器
+     */
+    private final AuthenticationFailureHandler authenticationFailureHandler;
 
-	/**
-	 * 系统配置信息
-	 */
-	private final SecurityProperties securityProperties;
+    /**
+     * 系统配置信息
+     */
+    private final SecurityProperties securityProperties;
 
-	/**
-	 * 系统中的校验码处理器
-	 */
-	private final ValidateCodeProcessorHolder validateCodeProcessorHolder;
+    /**
+     * 系统中的校验码处理器
+     */
+    private final ValidateCodeProcessorHolder validateCodeProcessorHolder;
 
-	/**
-	 * 存放所有需要校验验证码的url
-	 */
-	private Map<String, ValidateCodeType> urlMap = new HashMap<>();
+    /**
+     * 存放所有需要校验验证码的url
+     */
+    private Map<String, ValidateCodeType> urlMap = new HashMap<>();
 
-	/**
-	 * 验证请求url与配置的url是否匹配的工具类
-	 */
-	private AntPathMatcher pathMatcher = new AntPathMatcher();
+    /**
+     * 验证请求url与配置的url是否匹配的工具类
+     */
+    private AntPathMatcher pathMatcher = new AntPathMatcher();
 
-	public ValidateCodeFilter(AuthenticationFailureHandler authenticationFailureHandler, SecurityProperties securityProperties, ValidateCodeProcessorHolder validateCodeProcessorHolder) {
-		this.authenticationFailureHandler = authenticationFailureHandler;
-		this.securityProperties = securityProperties;
-		this.validateCodeProcessorHolder = validateCodeProcessorHolder;
-	}
+    public ValidateCodeFilter(AuthenticationFailureHandler authenticationFailureHandler, SecurityProperties securityProperties, ValidateCodeProcessorHolder validateCodeProcessorHolder) {
+        this.authenticationFailureHandler = authenticationFailureHandler;
+        this.securityProperties = securityProperties;
+        this.validateCodeProcessorHolder = validateCodeProcessorHolder;
+    }
 
-	/**
-	 * 初始化要拦截的url配置信息
-	 */
-	@Override
-	public void afterPropertiesSet() throws ServletException {
-		super.afterPropertiesSet();
-		urlMap.put("/oauth/token", ValidateCodeType.CAPTCHA);
-		addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.CAPTCHA);
+    /**
+     * 初始化要拦截的url配置信息
+     */
+    @Override
+    public void afterPropertiesSet() throws ServletException {
+        super.afterPropertiesSet();
+        urlMap.put("/oauth/token", ValidateCodeType.CAPTCHA);
+        addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.CAPTCHA);
 
-		urlMap.put("/oauth/phone", ValidateCodeType.SMS);
-		addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
-	}
+        urlMap.put("/oauth/phone", ValidateCodeType.SMS);
+        addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
+    }
 
-	/**
-	 * 将系统中配置的需要校验验证码的URL根据校验的类型放入map
-	 */
-	protected void addUrlToMap(String urlString, ValidateCodeType type) {
-		if (StringUtils.isNotBlank(urlString)) {
-			String[] urls = StringUtils.splitByWholeSeparatorPreserveAllTokens(urlString, ",");
-			for (String url : urls) {
-				urlMap.put(url, type);
-			}
-		}
-	}
+    /**
+     * 将系统中配置的需要校验验证码的URL根据校验的类型放入map
+     */
+    protected void addUrlToMap(String urlString, ValidateCodeType type) {
+        if (StringUtils.isNotBlank(urlString)) {
+            String[] urls = StringUtils.splitByWholeSeparatorPreserveAllTokens(urlString, ",");
+            for (String url : urls) {
+                urlMap.put(url, type);
+            }
+        }
+    }
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-			throws ServletException, IOException {
-		// 获取requestbody的json值，解决controller中获取不到的问题
-		ServletRequest requestWrapper = new BodyReaderHttpServletRequestWrapper(request);
-		String bodyString = HttpHelper.getBodyString(requestWrapper);
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws ServletException, IOException {
+        // 获取requestbody的json值，解决controller中获取不到的问题
+        ServletRequest requestWrapper = new BodyReaderHttpServletRequestWrapper(request);
+        String bodyString = HttpHelper.getBodyString(requestWrapper);
 
-		ValidateCodeType type = getValidateCodeType(request);
-		if (type != null) {
-			LogBack.info("校验请求(" + request.getRequestURI() + ")中的验证码,验证码类型" + type);
-			try {
-				validateCodeProcessorHolder.findValidateCodeProcessor(type)
-						.validate(new ServletWebRequest(request, response), bodyString);
-				LogBack.info("验证码校验通过");
-			} catch (AuthException exception) {
-				authenticationFailureHandler.onAuthenticationFailure(request, response, exception);
-				return;
-			}
-		}
+        ValidateCodeType type = getValidateCodeType(request);
+        if (type != null) {
+            LogBack.info("校验请求(" + request.getRequestURI() + ")中的验证码,验证码类型" + type);
+            try {
+                validateCodeProcessorHolder.findValidateCodeProcessor(type)
+                        .validate(new ServletWebRequest(request, response), bodyString);
+                LogBack.info("验证码校验通过");
+            } catch (AuthException exception) {
+                authenticationFailureHandler.onAuthenticationFailure(request, response, exception);
+                return;
+            }
+        }
 
-		chain.doFilter(requestWrapper, response);
+        chain.doFilter(requestWrapper, response);
 
-	}
+    }
 
-	/**
-	 * 获取校验码的类型，如果当前请求不需要校验，则返回null
-	 */
-	private ValidateCodeType getValidateCodeType(HttpServletRequest request) {
-		ValidateCodeType result = null;
-		if (!StringUtils.equalsIgnoreCase(request.getMethod(), "get")) {
-			Set<String> urls = urlMap.keySet();
-			for (String url : urls) {
-				if (pathMatcher.match(url, request.getRequestURI())) {
-					result = urlMap.get(url);
-				}
-			}
-		}
-		return result;
-	}
+    /**
+     * 获取校验码的类型，如果当前请求不需要校验，则返回null
+     */
+    private ValidateCodeType getValidateCodeType(HttpServletRequest request) {
+        ValidateCodeType result = null;
+        if (!StringUtils.equalsIgnoreCase(request.getMethod(), "get")) {
+            Set<String> urls = urlMap.keySet();
+            for (String url : urls) {
+                if (pathMatcher.match(url, request.getRequestURI())) {
+                    result = urlMap.get(url);
+                }
+            }
+        }
+        return result;
+    }
 
 }

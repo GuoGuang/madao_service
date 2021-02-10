@@ -10,31 +10,33 @@ import java.io.IOException;
 import java.net.URL;
 
 
-/** 阿里云OSS对象存储
+/**
+ * 阿里云OSS对象存储
  **/
 @Component
 public class OssClientUtil {
 
-	/**
-	 * Bucket名称
-	 */
-	private static final String BUCKET_NAME = "vue-admin-guoguang";
+    /**
+     * Bucket名称
+     */
+    private static final String BUCKET_NAME = "vue-admin-guoguang";
 
-	@Autowired(required = false)
-	private OSSClient ossClient;
+    @Autowired(required = false)
+    private OSSClient ossClient;
 
-	/**
-	 * 上传文件
-	 * @param file 文件
-	 */
-	public String uploadFile(MultipartFile file) throws IOException {
-		String fileName = file.getOriginalFilename();
-		ossClient.putObject(BUCKET_NAME, fileName,file.getInputStream());
-		URL url = ossClient.generatePresignedUrl(
-				BUCKET_NAME,
-				fileName,
-				com.madao.utils.DateUtil.convertLdtToDate(com.madao.utils.DateUtil.getPlusMonths(99999)),
-				HttpMethod.GET);
-		return "https://"+url.getHost()+url.getPath();
-	}
+    /**
+     * 上传文件
+     *
+     * @param file 文件
+     */
+    public String uploadFile(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        ossClient.putObject(BUCKET_NAME, fileName, file.getInputStream());
+        URL url = ossClient.generatePresignedUrl(
+                BUCKET_NAME,
+                fileName,
+                com.madao.utils.DateUtil.convertLdtToDate(com.madao.utils.DateUtil.getPlusMonths(99999)),
+                HttpMethod.GET);
+        return "https://" + url.getHost() + url.getPath();
+    }
 }

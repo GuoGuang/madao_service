@@ -20,24 +20,24 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 @RequestMapping(value = "/api/ar/category")
 public class ApiCategoryController {
 
-	private final CategoryService categoryService;
+    private final CategoryService categoryService;
 
     public ApiCategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
-	@ApiOperation(value = "查询分类集合", notes = "Category")
-	@GetMapping
-	public JsonData<Page<CategoryDto>> findCategoryByCondition(CategoryDto categoryDto,
-	                                                           @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
-		Page<CategoryDto> categoryByCondition = categoryService.findCategoryByCondition(categoryDto, pageable);
-		return JsonData.success(categoryByCondition);
-	}
+    @ApiOperation(value = "查询分类集合", notes = "Category")
+    @GetMapping
+    public JsonData<Page<CategoryDto>> findCategoryByCondition(CategoryDto categoryDto,
+                                                               @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
+        Page<CategoryDto> categoryByCondition = categoryService.findCategoryByCondition(categoryDto, pageable);
+        return JsonData.success(categoryByCondition);
+    }
 
-	@ApiOperation(value = "根据id查询分类详情", notes = "Category")
-	@GetMapping("/{id:\\d+}")
-	public JsonData<CategoryDto> findCategoryById(@PathVariable String id) {
-		CategoryDto result = categoryService.findCategoryById(id);
-		return JsonData.success(result);
-	}
+    @ApiOperation(value = "根据id查询分类详情", notes = "Category")
+    @GetMapping("/{id:\\d+}")
+    public JsonData<CategoryDto> findCategoryById(@PathVariable String id) {
+        CategoryDto result = categoryService.findCategoryById(id);
+        return JsonData.success(result);
+    }
 }

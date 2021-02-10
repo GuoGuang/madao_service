@@ -25,28 +25,30 @@ import javax.persistence.EntityManager;
 @ComponentScan(basePackages = {"com.madao"})
 public class UserApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(UserApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(UserApplication.class, args);
+    }
 
-	@PostConstruct
-	void started() {
-		DateUtil.setDefaultZone();
-	}
+    @PostConstruct
+    void started() {
+        DateUtil.setDefaultZone();
+    }
 
-	/**
-	 * BCrypt加密算法
-	 * @return : BCryptPasswordEncoder
-	 */
-	@Bean
-	public BCryptPasswordEncoder bcryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    /**
+     * BCrypt加密算法
+     *
+     * @return : BCryptPasswordEncoder
+     */
+    @Bean
+    public BCryptPasswordEncoder bcryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	/**
-	 * 配置querydsl
-	 * @see https://www.cnblogs.com/jpfss/p/11003964.html
-	 */
+    /**
+     * 配置querydsl
+     *
+     * @see https://www.cnblogs.com/jpfss/p/11003964.html
+     */
     @Bean
     public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
         return new JPAQueryFactory(entityManager);

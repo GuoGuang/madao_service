@@ -14,23 +14,23 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 public class LoginLogDto extends BasePojo implements Serializable {
 
-	@ApiModelProperty("登录日志表主键")
-	private String id;
+    @ApiModelProperty("登录日志表主键")
+    private String id;
 
-	@ApiModelProperty("登录人")
-	private String userId;
+    @ApiModelProperty("登录人")
+    private String userId;
 
-	@Transient
-	@ApiModelProperty("登录人名称")
-	private String userName;
+    @Transient
+    @ApiModelProperty("登录人名称")
+    private String userName;
 
-	@ApiModelProperty("登录ip")
-	private String clientIp;
+    @ApiModelProperty("登录ip")
+    private String clientIp;
 
-	@ApiModelProperty("浏览器")
-	private String browser;
+    @ApiModelProperty("浏览器")
+    private String browser;
 
-	@ApiModelProperty("操作系统信息")
-	private String osInfo;
+    @ApiModelProperty("操作系统信息")
+    private String osInfo;
 
 }

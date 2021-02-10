@@ -22,23 +22,23 @@ import javax.persistence.EntityManager;
 // SpringBoot主配置类只会扫描自己所在的包及其子包下面,如果不加此扫描madao-common里的公用包则扫描不到
 @ComponentScan(basePackages = {"com.madao"})
 public class BaseApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(BaseApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(BaseApplication.class, args);
+    }
 
-	@PostConstruct
-	void started() {
-		DateUtil.setDefaultZone();
-	}
+    @PostConstruct
+    void started() {
+        DateUtil.setDefaultZone();
+    }
 
-	/**
-	 * 配置querydsl
-	 *
-	 * @see https://www.cnblogs.com/jpfss/p/11003964.html
-	 */
-	@Bean
-	public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
-		return new JPAQueryFactory(entityManager);
-	}
+    /**
+     * 配置querydsl
+     *
+     * @see https://www.cnblogs.com/jpfss/p/11003964.html
+     */
+    @Bean
+    public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
+        return new JPAQueryFactory(entityManager);
+    }
 
 }

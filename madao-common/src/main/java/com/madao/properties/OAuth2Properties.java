@@ -10,9 +10,9 @@ import lombok.Setter;
 @Setter
 public class OAuth2Properties {
 
-	/**
-	 * 客户端配置
-	 */
-	private OAuth2ClientProperties[] clients = {};
+    /**
+     * 客户端配置
+     */
+    private OAuth2ClientProperties[] clients = {};
 
 }

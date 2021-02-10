@@ -21,13 +21,13 @@ import javax.annotation.PostConstruct;
 @ComponentScan(basePackages = {"com.madao"})
 public class ElasticSearchApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ElasticSearchApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ElasticSearchApplication.class, args);
+    }
 
-	@PostConstruct
-	void started() {
-		DateUtil.setDefaultZone();
-	}
+    @PostConstruct
+    void started() {
+        DateUtil.setDefaultZone();
+    }
 
 }

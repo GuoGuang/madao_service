@@ -25,12 +25,12 @@ class ArticleServiceTest {
     CategoryDao categoryDao;
     @Mock
     RedisService redisService;
-	@Mock
-	UserServiceRpc userServiceRpc;
-	@Mock
-	TagDao tagDao;
-	@InjectMocks
-	com.madao.article.service.backstage.ArticleService articleService;
+    @Mock
+    UserServiceRpc userServiceRpc;
+    @Mock
+    TagDao tagDao;
+    @InjectMocks
+    com.madao.article.service.backstage.ArticleService articleService;
 
     @BeforeEach
     void setUp() {
@@ -39,16 +39,16 @@ class ArticleServiceTest {
 
     @Test
     void testFindArticleByCondition() {
-	    when(userServiceRpc.getUserInfo("admin")).thenReturn(new JsonData<>(true, 0, null, any()));
+        when(userServiceRpc.getUserInfo("admin")).thenReturn(new JsonData<>(true, 0, null, any()));
 
-	    Page<ArticleDto> result = articleService.findArticleByCondition(new ArticleDto(), null);
-	    Assertions.assertEquals(null, result);
+        Page<ArticleDto> result = articleService.findArticleByCondition(new ArticleDto(), null);
+        Assertions.assertEquals(null, result);
     }
 
     @Test
     void testFindArticleById() {
-	    ArticleDto result = articleService.findArticleById("articleId");
-	    Assertions.assertEquals(new ArticleDto(), result);
+        ArticleDto result = articleService.findArticleById("articleId");
+        Assertions.assertEquals(new ArticleDto(), result);
     }
 
 }

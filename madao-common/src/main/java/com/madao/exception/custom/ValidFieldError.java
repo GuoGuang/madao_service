@@ -9,45 +9,44 @@ import java.io.Serializable;
  **/
 public class ValidFieldError implements Serializable {
 
-	private String field;
-	private String message;
-	private String code;
+    private String field;
+    private String message;
+    private String code;
 
-	public ValidFieldError(FieldError fieldError){
-		setCode(fieldError.getDefaultMessage());
-		setField(fieldError.getField());
-		setMessage(fieldError.getDefaultMessage());
-	}
+    public ValidFieldError(FieldError fieldError) {
+        setCode(fieldError.getDefaultMessage());
+        setField(fieldError.getField());
+        setMessage(fieldError.getDefaultMessage());
+    }
 
-	public String getField() {
-		return field;
-	}
+    public String getField() {
+        return field;
+    }
 
-	private void setField(String field) {
-		this.field = field;
-	}
+    private void setField(String field) {
+        this.field = field;
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	private void setMessage(String message) {
-		this.message = message;
-	}
+    private void setMessage(String message) {
+        this.message = message;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	private void setCode(String code) {
-		this.code = code;
-	}
+    private void setCode(String code) {
+        this.code = code;
+    }
 
-	@Override
-	public String toString() {
-		return "参数"+field+"校验错误："+message;
-	}
-
+    @Override
+    public String toString() {
+        return "参数" + field + "校验错误：" + message;
+    }
 
 
 }

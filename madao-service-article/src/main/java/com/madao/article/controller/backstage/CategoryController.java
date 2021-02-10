@@ -28,37 +28,37 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-	@ApiOperation(value = "查询全部数据", notes = "id")
-	@GetMapping
-	public JsonData<Page<CategoryDto>> findCategoryByCondition(CategoryDto categoryDto,
-	                                                           @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
-		Page<CategoryDto> result = categoryService.findCategoryByCondition(categoryDto, pageable);
-		return JsonData.success(result);
-	}
+    @ApiOperation(value = "查询全部数据", notes = "id")
+    @GetMapping
+    public JsonData<Page<CategoryDto>> findCategoryByCondition(CategoryDto categoryDto,
+                                                               @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
+        Page<CategoryDto> result = categoryService.findCategoryByCondition(categoryDto, pageable);
+        return JsonData.success(result);
+    }
 
-	@ApiOperation(value = "根据ID查询", notes = "id")
-	@GetMapping(value = "/{id}")
-	public JsonData<CategoryDto> findCategoryByPrimaryKey(@PathVariable String id) {
-		CategoryDto result = categoryService.findCategoryById(id);
-		return JsonData.success(result);
-	}
+    @ApiOperation(value = "根据ID查询", notes = "id")
+    @GetMapping(value = "/{id}")
+    public JsonData<CategoryDto> findCategoryByPrimaryKey(@PathVariable String id) {
+        CategoryDto result = categoryService.findCategoryById(id);
+        return JsonData.success(result);
+    }
 
 
-	@ApiOperation(value = "添加一条新的分类", notes = "id")
-	@PostMapping
-	@OptLog(operationType = OptLogType.ADD, operationName = "添加文章分类")
-	public JsonData<Void> insertCategory(@RequestBody @Validated CategoryDto categoryDto) {
-		categoryService.saveOrUpdate(categoryDto);
-		return JsonData.success();
-	}
+    @ApiOperation(value = "添加一条新的分类", notes = "id")
+    @PostMapping
+    @OptLog(operationType = OptLogType.ADD, operationName = "添加文章分类")
+    public JsonData<Void> insertCategory(@RequestBody @Validated CategoryDto categoryDto) {
+        categoryService.saveOrUpdate(categoryDto);
+        return JsonData.success();
+    }
 
-	@PutMapping
-	@OptLog(operationType = OptLogType.MODIFY, operationName = "修改文章分类")
-	@ApiOperation(value = "修改文章分类", notes = "id")
-	public JsonData<Void> updateByCategorySelective(@RequestBody @Validated CategoryDto categoryDto) {
-		categoryService.saveOrUpdate(categoryDto);
-		return JsonData.success();
-	}
+    @PutMapping
+    @OptLog(operationType = OptLogType.MODIFY, operationName = "修改文章分类")
+    @ApiOperation(value = "修改文章分类", notes = "id")
+    public JsonData<Void> updateByCategorySelective(@RequestBody @Validated CategoryDto categoryDto) {
+        categoryService.saveOrUpdate(categoryDto);
+        return JsonData.success();
+    }
 
     @DeleteMapping
 //    @OptLog(operationType = OptLogType.DELETE, operationName = "删除文章分类")

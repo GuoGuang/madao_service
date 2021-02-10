@@ -24,75 +24,75 @@ import java.util.stream.Collectors;
 
 public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-	/**
-	 * 请求中，参数为phone
-	 */
-	private static final String PHONE_KEY = "phone";
-	private String phoneParameter = PHONE_KEY;
-	/**
-	 * 是否只处理post请求
-	 */
-	private boolean postOnly = true;
+    /**
+     * 请求中，参数为phone
+     */
+    private static final String PHONE_KEY = "phone";
+    private String phoneParameter = PHONE_KEY;
+    /**
+     * 是否只处理post请求
+     */
+    private boolean postOnly = true;
 
-	public SmsCodeAuthenticationFilter() {
-		//要拦截的请求
-		super(new AntPathRequestMatcher("/oauth/"+PHONE_KEY, "POST"));
-	}
+    public SmsCodeAuthenticationFilter() {
+        //要拦截的请求
+        super(new AntPathRequestMatcher("/oauth/" + PHONE_KEY, "POST"));
+    }
 
-	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
-		if (this.postOnly && !HttpMethod.POST.matches(request.getMethod())) {
-			throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
-		} else {
-			String phone = this.obtainPhone(request);
-			if (StringUtils.isEmpty(phone)) {
-				phone = "";
-			}
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
+        if (this.postOnly && !HttpMethod.POST.matches(request.getMethod())) {
+            throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
+        } else {
+            String phone = this.obtainPhone(request);
+            if (StringUtils.isEmpty(phone)) {
+                phone = "";
+            }
 
-			phone = phone.trim();
-			//把手机号传进SmsCodeAuthenticationToken
-			SmsCodeAuthenticationToken authRequest = new SmsCodeAuthenticationToken(phone);
-			this.setDetails(request, authRequest);
-			//调用AuthenticationManager
-			return this.getAuthenticationManager().authenticate(authRequest);
-		}
-	}
+            phone = phone.trim();
+            //把手机号传进SmsCodeAuthenticationToken
+            SmsCodeAuthenticationToken authRequest = new SmsCodeAuthenticationToken(phone);
+            this.setDetails(request, authRequest);
+            //调用AuthenticationManager
+            return this.getAuthenticationManager().authenticate(authRequest);
+        }
+    }
 
-	/**
-	 * 获取手机号
-	 *
-	 * @param request request
-	 * @return String
-	 */
-	private String obtainPhone(HttpServletRequest request) {
-		String body = null;
-		try {
-			body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-		} catch (IOException e) {
-			LogBack.error(e.getMessage(), e);
-		}
-		Map<String, Object> map = JsonUtil.jsonToMap(body);
-		String phone = map.get(PHONE_KEY)+"";
+    /**
+     * 获取手机号
+     *
+     * @param request request
+     * @return String
+     */
+    private String obtainPhone(HttpServletRequest request) {
+        String body = null;
+        try {
+            body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        } catch (IOException e) {
+            LogBack.error(e.getMessage(), e);
+        }
+        Map<String, Object> map = JsonUtil.jsonToMap(body);
+        String phone = map.get(PHONE_KEY) + "";
 
-		return phone;
-	}
+        return phone;
+    }
 
-	private void setDetails(HttpServletRequest request, SmsCodeAuthenticationToken authRequest) {
-		authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
-	}
+    private void setDetails(HttpServletRequest request, SmsCodeAuthenticationToken authRequest) {
+        authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
+    }
 
-	public void setPhoneParameter(String phoneParameter) {
-		Assert.hasText(phoneParameter, "phone parameter must not be empty or null");
-		this.phoneParameter = phoneParameter;
-	}
+    public void setPhoneParameter(String phoneParameter) {
+        Assert.hasText(phoneParameter, "phone parameter must not be empty or null");
+        this.phoneParameter = phoneParameter;
+    }
 
 
-	public void setPostOnly(boolean postOnly) {
-		this.postOnly = postOnly;
-	}
+    public void setPostOnly(boolean postOnly) {
+        this.postOnly = postOnly;
+    }
 
-	public final String getUsernameParameter() {
-		return this.phoneParameter;
-	}
+    public final String getUsernameParameter() {
+        return this.phoneParameter;
+    }
 }
 

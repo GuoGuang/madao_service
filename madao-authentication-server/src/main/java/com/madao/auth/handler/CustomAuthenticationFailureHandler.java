@@ -21,9 +21,9 @@ import java.io.IOException;
 @Component
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
-	@Override
-	public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        LogBack.error("用户登录失败时异常----------->{}",e.getMessage(), e);
+    @Override
+    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+        LogBack.error("用户登录失败时异常----------->{}", e.getMessage(), e);
         JsonData<Void> errorResult = JsonData.failed(StatusEnum.SYSTEM_ERROR);
         if (e instanceof AuthException) {
             errorResult = JsonData.failed(StatusEnum.LOGIN_ERROR, e.getMessage());

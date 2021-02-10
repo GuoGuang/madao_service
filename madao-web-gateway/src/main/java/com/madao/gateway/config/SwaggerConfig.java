@@ -15,15 +15,15 @@ public class SwaggerConfig {
 
     @Bean
     public Docket createRestApi() {
-	    return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
-			    .apis(RequestHandlerSelectors.basePackage("com.madao.gateway.controller")).paths(PathSelectors.any()).build();
+        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
+                .apis(RequestHandlerSelectors.basePackage("com.madao.gateway.controller")).paths(PathSelectors.any()).build();
     }
 
     private ApiInfo apiInfo() {
-    return new ApiInfoBuilder().title("网关API")
-            .description("如有疑问，请联系项目作者。")
-            .contact(new Contact("MADAO", "https://madaoo.com", "1831682775@qq.com"))
-            .version("6.2.3").build();
+        return new ApiInfoBuilder().title("网关API")
+                .description("如有疑问，请联系项目作者。")
+                .contact(new Contact("MADAO", "https://madaoo.com", "1831682775@qq.com"))
+                .version("6.2.3").build();
     }
 
 }

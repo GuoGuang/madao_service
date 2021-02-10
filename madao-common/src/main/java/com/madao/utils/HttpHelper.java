@@ -25,96 +25,96 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 public class HttpHelper {
 
-	public static String getBodyString(ServletRequest request) {
-		StringBuilder sb = new StringBuilder();
-		InputStream inputStream = null;
-		BufferedReader reader = null;
-		try {
-			inputStream = request.getInputStream();
-			reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-			String line = "";
-			while ((line = reader.readLine()) != null) {
-				sb.append(line);
-			}
-		} catch (IOException e) {
-			com.madao.utils.LogBack.error(e.getMessage(), e);
-		} finally {
-			if (inputStream != null) {
-				try {
-					inputStream.close();
-				} catch (IOException e) {
-					com.madao.utils.LogBack.error(e.getMessage(), e);
-				}
-			}
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch (IOException e) {
-					com.madao.utils.LogBack.error(e.getMessage(), e);
-				}
-			}
-		}
-		return sb.toString();
-	}
+    public static String getBodyString(ServletRequest request) {
+        StringBuilder sb = new StringBuilder();
+        InputStream inputStream = null;
+        BufferedReader reader = null;
+        try {
+            inputStream = request.getInputStream();
+            reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+        } catch (IOException e) {
+            com.madao.utils.LogBack.error(e.getMessage(), e);
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    com.madao.utils.LogBack.error(e.getMessage(), e);
+                }
+            }
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    com.madao.utils.LogBack.error(e.getMessage(), e);
+                }
+            }
+        }
+        return sb.toString();
+    }
 
-	public static Map<String, String> httpPost(List<NameValuePair> params) {
-		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-			// TODO github 接口存在超时问题；
-			HttpPost httpPost = new HttpPost("https://github.com/login/oauth/access_token");
-			httpPost.setEntity(new UrlEncodedFormEntity(params));
-			String responseBody = httpClient.execute(httpPost, httpResponse -> {
-				int status = httpResponse.getStatusLine().getStatusCode();
-				if (status < 200 || status >= 300) {
-					throw new HttpClientErrorException(BAD_REQUEST);
-				}
-				HttpEntity entity = httpResponse.getEntity();
-				return entity != null ? EntityUtils.toString(entity) : null;
-			});
-			return getUrlParams(responseBody);
-		} catch (IOException e) {
-			throw new HttpClientErrorException(BAD_REQUEST, e.getMessage());
-		}
-	}
+    public static Map<String, String> httpPost(List<NameValuePair> params) {
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            // TODO github 接口存在超时问题；
+            HttpPost httpPost = new HttpPost("https://github.com/login/oauth/access_token");
+            httpPost.setEntity(new UrlEncodedFormEntity(params));
+            String responseBody = httpClient.execute(httpPost, httpResponse -> {
+                int status = httpResponse.getStatusLine().getStatusCode();
+                if (status < 200 || status >= 300) {
+                    throw new HttpClientErrorException(BAD_REQUEST);
+                }
+                HttpEntity entity = httpResponse.getEntity();
+                return entity != null ? EntityUtils.toString(entity) : null;
+            });
+            return getUrlParams(responseBody);
+        } catch (IOException e) {
+            throw new HttpClientErrorException(BAD_REQUEST, e.getMessage());
+        }
+    }
 
-	public static Map<String, Object> httpOauthGet(String accessToken) {
-		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-			HttpGet httpGet = new HttpGet("https://api.github.com/user");
-			httpGet.setHeader("Authorization", "token " + accessToken);
-			String responseBody = httpClient.execute(httpGet, httpResponse -> {
-				int status = httpResponse.getStatusLine().getStatusCode();
-				if (status < 200 || status >= 300) {
-					throw new HttpClientErrorException(BAD_REQUEST);
-				}
-				HttpEntity entity = httpResponse.getEntity();
-				return entity != null ? EntityUtils.toString(entity) : null;
-			});
-			return com.madao.utils.JsonUtil.jsonToMap(responseBody);
-		} catch (IOException e) {
-			throw new HttpClientErrorException(BAD_REQUEST);
-		}
-	}
+    public static Map<String, Object> httpOauthGet(String accessToken) {
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            HttpGet httpGet = new HttpGet("https://api.github.com/user");
+            httpGet.setHeader("Authorization", "token " + accessToken);
+            String responseBody = httpClient.execute(httpGet, httpResponse -> {
+                int status = httpResponse.getStatusLine().getStatusCode();
+                if (status < 200 || status >= 300) {
+                    throw new HttpClientErrorException(BAD_REQUEST);
+                }
+                HttpEntity entity = httpResponse.getEntity();
+                return entity != null ? EntityUtils.toString(entity) : null;
+            });
+            return com.madao.utils.JsonUtil.jsonToMap(responseBody);
+        } catch (IOException e) {
+            throw new HttpClientErrorException(BAD_REQUEST);
+        }
+    }
 
 
-	/**
-	 * URL参数转map
-	 *
-	 * @param param
-	 * @return
-	 */
-	public static Map<String, String> getUrlParams(String param) {
-		Map<String, String> map = new HashMap<>(0);
-		if (StringUtils.isBlank(param)) {
-			return map;
-		}
-		String[] params = param.split("&");
-		for (int i = 0; i < params.length; i++) {
-			String[] p = params[i].split("=");
-			if (p.length == 2) {
-				map.put(p[0], p[1]);
-			}
-		}
-		return map;
-	}
+    /**
+     * URL参数转map
+     *
+     * @param param
+     * @return
+     */
+    public static Map<String, String> getUrlParams(String param) {
+        Map<String, String> map = new HashMap<>(0);
+        if (StringUtils.isBlank(param)) {
+            return map;
+        }
+        String[] params = param.split("&");
+        for (int i = 0; i < params.length; i++) {
+            String[] p = params[i].split("=");
+            if (p.length == 2) {
+                map.put(p[0], p[1]);
+            }
+        }
+        return map;
+    }
 
 }
 

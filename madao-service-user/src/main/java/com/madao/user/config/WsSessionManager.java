@@ -47,7 +47,7 @@ public class WsSessionManager {
                 // 关闭连接
                 session.close();
             } catch (IOException e) {
-                LogBack.error("删除并同步关闭连接时异常：{}",e.getMessage(),e);
+                LogBack.error("删除并同步关闭连接时异常：{}", e.getMessage(), e);
             }
         }
     }

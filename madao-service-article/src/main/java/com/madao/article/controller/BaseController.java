@@ -14,10 +14,10 @@ import java.util.Map;
  */
 public interface BaseController {
 
-	default Map<String, String> getUserInfo(HttpServletRequest request){
-		String fullAuthorization = JWTAuthentication.getFullAuthorization(request.getHeader(HttpHeaders.AUTHORIZATION));
-		Map<String, String> stringStringMap = JWTAuthentication.parseJwtToClaims(fullAuthorization);
-		return stringStringMap;
-	}
-       
+    default Map<String, String> getUserInfo(HttpServletRequest request) {
+        String fullAuthorization = JWTAuthentication.getFullAuthorization(request.getHeader(HttpHeaders.AUTHORIZATION));
+        Map<String, String> stringStringMap = JWTAuthentication.parseJwtToClaims(fullAuthorization);
+        return stringStringMap;
+    }
+
 }

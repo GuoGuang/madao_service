@@ -14,11 +14,11 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "ba_login_log",
-		indexes = {
-				@Index(name = "login_log_client_ip", columnList = "clientIp"),
-				@Index(name = "login_log_user_id", columnList = "userId"),
-				@Index(name = "login_log_create_at", columnList = "createAt")
-		})
+        indexes = {
+                @Index(name = "login_log_client_ip", columnList = "clientIp"),
+                @Index(name = "login_log_user_id", columnList = "userId"),
+                @Index(name = "login_log_create_at", columnList = "createAt")
+        })
 public class LoginLog extends BasePojo implements Serializable {
 
     @Id

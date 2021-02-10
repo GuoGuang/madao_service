@@ -17,9 +17,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomWebResponseExceptionTranslator implements WebResponseExceptionTranslator<OAuth2Exception> {
 
-	@Override
-	public ResponseEntity translate(Exception e) {
-        LogBack.error("登录发生错误时异常----------->{}",e.getMessage(), e);
+    @Override
+    public ResponseEntity translate(Exception e) {
+        LogBack.error("登录发生错误时异常----------->{}", e.getMessage(), e);
         JsonData<Void> jsonData = JsonData.failed(StatusEnum.SYSTEM_ERROR, e.getMessage());
         if (e instanceof InternalAuthenticationServiceException) {
             jsonData = JsonData.failed(StatusEnum.SYSTEM_ERROR);

@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 
 /**
  * SpringBoot主配置类只会扫描自己所在的包及其子包下面,如果不加此扫描madao-common里的公用包则扫描不到
+ *
  * @ComponentScan(basePackages = {"com.madao"})
  **/
 @SpringBootApplication
@@ -26,17 +27,17 @@ import javax.annotation.PostConstruct;
 @ComponentScan(basePackages = {"com.madao"})
 public class ArticleApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ArticleApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ArticleApplication.class, args);
+    }
 
-	@PostConstruct
-	void started() {
-		DateUtil.setDefaultZone();
-	}
+    @PostConstruct
+    void started() {
+        DateUtil.setDefaultZone();
+    }
 
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate(new OkHttp3ClientHttpRequestFactory());
-	}
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate(new OkHttp3ClientHttpRequestFactory());
+    }
 }

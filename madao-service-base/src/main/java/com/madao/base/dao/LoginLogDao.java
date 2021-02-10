@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface LoginLogDao extends JpaRepository<LoginLog, String>, JpaSpecificationExecutor<LoginLog>{
+public interface LoginLogDao extends JpaRepository<LoginLog, String>, JpaSpecificationExecutor<LoginLog> {
     @Modifying
     @Query("delete from LoginLog where id in (:ids)")
     void deleteBatch(@Param("ids") List<String> ids);
