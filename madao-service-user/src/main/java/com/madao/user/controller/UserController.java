@@ -42,7 +42,7 @@ public class UserController {
 
     @PostMapping("/permission")
     @ApiOperation(value = "获取用户角色、权限", notes = "User")
-    public JsonData<UserDto> getUserPermission(@CurrentSecurityContext Authentication authentication) {
+    public JsonData<UserDto> getUserPermission(@CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         UserDto result = userService.getUserPermission(authentication.getName());
         return JsonData.success(result);
     }

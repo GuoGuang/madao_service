@@ -43,7 +43,7 @@ public class BlogUserController {
 
     @GetMapping
     @ApiOperation(value = "获取用户信息", notes = "Admin")
-    public JsonData<UserDto> getUserInfo(@CurrentSecurityContext Authentication authentication) {
+    public JsonData<UserDto> getUserInfo(@CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         UserDto result = blogUserService.findById(authentication.getName());
         return JsonData.success(result);
     }
@@ -81,7 +81,7 @@ public class BlogUserController {
     @OptLog(operationType = OptLogType.MODIFY, operationName = "更新用户资料")
     @ApiOperation(value = "更新用户资料", notes = "User")
     public JsonData<Void> updateByPrimaryKey(@RequestBody @Validated(UserDto.ChangeUserInfo.class) UserDto userDto,
-                                             @CurrentSecurityContext Authentication authentication) {
+                                             @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         blogUserService.updateByPrimaryKey(userDto, authentication.getName());
         return JsonData.success();
     }

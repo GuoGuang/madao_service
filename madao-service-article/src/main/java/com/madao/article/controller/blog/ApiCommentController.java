@@ -29,7 +29,7 @@ public class ApiCommentController {
 
     @ApiOperation(value = "查询我的评论")
     @GetMapping("/my/")
-    public JsonData<List<HashMap<Object, Object>>> findMyComment(@CurrentSecurityContext Authentication authentication) {
+    public JsonData<List<HashMap<Object, Object>>> findMyComment(@CurrentSecurityContext(expression = "authentication") Authentication authentication) {
         return JsonData.success(apiCommentService.findMyComment(authentication.getName()));
     }
 
