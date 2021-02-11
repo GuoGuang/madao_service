@@ -38,7 +38,7 @@ public class CaptchaValidateCodeProcessor extends AbstractValidateCodeProcessor<
 		map.put("deviceId", request.getHeader("DEVICE-ID"));
 		map.put("base64Code", base64Code);
 
-		request.getResponse().setContentType(MediaType.APPLICATION_JSON_VALUE);
+		request.getResponse().setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 		request.getResponse().getWriter().write(objectMapper.writeValueAsString(JsonData.success(map)));
 
 	}

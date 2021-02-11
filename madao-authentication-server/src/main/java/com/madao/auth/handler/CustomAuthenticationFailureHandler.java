@@ -28,7 +28,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         if (e instanceof AuthException) {
             errorResult = JsonData.failed(StatusEnum.LOGIN_ERROR, e.getMessage());
         }
-        httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        httpServletResponse.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         httpServletResponse.getWriter().write(JsonUtil.toJsonString(errorResult));
     }
 }

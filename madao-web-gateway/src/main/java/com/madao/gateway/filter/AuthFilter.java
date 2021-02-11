@@ -54,7 +54,7 @@ public class AuthFilter implements GatewayFilter, Ordered {
 		ServerHttpResponse response = exchange.getResponse();
 		MultiValueMap<String, String> queryParams = exchange.getRequest().getQueryParams();
 		response.setStatusCode(HttpStatus.OK);
-		response.getHeaders().add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+		response.getHeaders().add("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 
 		//后端调用跳过验签
 		boolean skipAuth = Boolean.parseBoolean(queryParams.getFirst("skipAuth"));

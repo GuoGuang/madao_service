@@ -22,7 +22,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
 	@Override
 	public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
-		httpServletResponse.setHeader("Content-type", MediaType.APPLICATION_JSON_VALUE);
+		httpServletResponse.setHeader("Content-type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 		httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		// 如果这里状态改为HttpServletResponse.SC_UNAUTHORIZED 会导致feign之间调用异常 see https://xujin.org/sc/sc-feign-4xx/
 //		httpServletResponse.setStatus(HttpServletResponse.SC_OK);

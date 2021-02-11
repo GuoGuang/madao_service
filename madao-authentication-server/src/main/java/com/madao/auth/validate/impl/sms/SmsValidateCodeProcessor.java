@@ -35,7 +35,7 @@ public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<Vali
 	protected void send(ServletWebRequest request, ValidateCode validateCode) throws ServletRequestBindingException, IOException {
         String paramName = CommonConst.DEFAULT_PARAMETER_NAME_PHONE;
         String phone = ServletRequestUtils.getRequiredStringParameter(request.getRequest(), paramName);
-		request.getResponse().setContentType(MediaType.APPLICATION_JSON_VALUE);
+		request.getResponse().setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         try {
 	        smsCodeSender.send(phone, validateCode.getCode());
 	        request.getResponse().getWriter().write(objectMapper.writeValueAsString(JsonData.success()));

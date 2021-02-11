@@ -120,7 +120,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 
         String jsonString = JsonUtil.toJsonString(authToken);
         saveToken(jti.toString(), jsonString, CommonConst.TIME_OUT_DAY);
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         response.getWriter().write(objectMapper.writeValueAsString(JsonData.success(jti)));
 
     }

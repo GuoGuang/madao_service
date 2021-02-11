@@ -25,7 +25,7 @@ public class RewriteAccessDenyFilter extends GenericFilterBean {
         } catch (Exception ex) {
 //			Throwable[] causeChain = throwableAnalyzer.determineCauseChain(ex);
             response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
             JsonData<Object> objectJsonData = new JsonData<>(StatusEnum.ACCESS_DENIED);
             response.getWriter().print(JsonUtil.toJsonString(objectJsonData));
         }
