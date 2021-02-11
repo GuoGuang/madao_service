@@ -28,6 +28,8 @@ public class UserRole implements Serializable {
         this.userId = userId;
         this.roleId = roleId;
     }
+    public UserRole() {
+    }
 
 	public String getId() {
 		return id;

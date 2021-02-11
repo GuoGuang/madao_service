@@ -42,8 +42,8 @@ public class ResourceDto extends BasePojo implements Serializable, Cloneable {
     @ApiModelProperty("排序")
     private float sort;
 
-    @ApiModelProperty(value = "是否隐藏", example = "1")
-    private Boolean isHidden;
+	@ApiModelProperty(value = "是否隐藏", example = "1")
+    private Boolean hidden;
 
     @ApiModelProperty("描述")
     @NotNull(message = "描述不能为空")
@@ -133,15 +133,6 @@ public class ResourceDto extends BasePojo implements Serializable, Cloneable {
 		return this;
 	}
 
-	public Boolean getHidden() {
-		return isHidden;
-	}
-
-	public ResourceDto setHidden(Boolean hidden) {
-		isHidden = hidden;
-		return this;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -186,18 +177,25 @@ public class ResourceDto extends BasePojo implements Serializable, Cloneable {
 		this.code = code;
 		return this;
 	}
+	public Boolean getHidden() {
+		return hidden;
+	}
 
+	public ResourceDto setHidden(Boolean hidden) {
+		this.hidden = hidden;
+		return this;
+	}
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof ResourceDto)) return false;
 		if (!super.equals(o)) return false;
 		ResourceDto that = (ResourceDto) o;
-		return Float.compare(that.sort, sort) == 0 && Objects.equal(roles, that.roles) && Objects.equal(id, that.id) && Objects.equal(name, that.name) && Objects.equal(parentId, that.parentId) && Objects.equal(component, that.component) && Objects.equal(icon, that.icon) && Objects.equal(path, that.path) && Objects.equal(isHidden, that.isHidden) && Objects.equal(description, that.description) && Objects.equal(type, that.type) && Objects.equal(url, that.url) && Objects.equal(method, that.method) && Objects.equal(code, that.code);
+		return Float.compare(that.sort, sort) == 0 && Objects.equal(roles, that.roles) && Objects.equal(id, that.id) && Objects.equal(name, that.name) && Objects.equal(parentId, that.parentId) && Objects.equal(component, that.component) && Objects.equal(icon, that.icon) && Objects.equal(path, that.path) && Objects.equal(hidden, that.hidden) && Objects.equal(description, that.description) && Objects.equal(type, that.type) && Objects.equal(url, that.url) && Objects.equal(method, that.method) && Objects.equal(code, that.code);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(super.hashCode(), roles, id, name, parentId, component, icon, path, sort, isHidden, description, type, url, method, code);
+		return Objects.hashCode(super.hashCode(), roles, id, name, parentId, component, icon, path, sort, hidden, description, type, url, method, code);
 	}
 }

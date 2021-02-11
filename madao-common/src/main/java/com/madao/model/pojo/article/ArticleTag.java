@@ -28,6 +28,8 @@ public class ArticleTag implements Serializable {
         this.articleId = articleId;
         this.tagId = tagId;
     }
+    public ArticleTag() {
+    }
 
 	public String getId() {
 		return id;

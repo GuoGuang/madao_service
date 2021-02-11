@@ -28,6 +28,8 @@ public class RoleResource implements Serializable {
         this.resourceId = resourceId;
         this.roleId = roleId;
     }
+    public RoleResource() {
+    }
 
 	public String getId() {
 		return id;

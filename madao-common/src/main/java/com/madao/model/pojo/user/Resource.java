@@ -40,7 +40,7 @@ public class Resource extends BasePojo implements Serializable, Cloneable {
     private float sort;
 
     @Column
-    private Boolean isHidden;
+    private Boolean hidden;
 
     @Column(length = 200)
     private String description;
@@ -131,15 +131,6 @@ public class Resource extends BasePojo implements Serializable, Cloneable {
 		return this;
 	}
 
-	public Boolean getHidden() {
-		return isHidden;
-	}
-
-	public Resource setHidden(Boolean hidden) {
-		isHidden = hidden;
-		return this;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -182,6 +173,15 @@ public class Resource extends BasePojo implements Serializable, Cloneable {
 
 	public Resource setCode(String code) {
 		this.code = code;
+		return this;
+	}
+
+	public Boolean getHidden() {
+		return hidden;
+	}
+
+	public Resource setHidden(Boolean hidden) {
+		this.hidden = hidden;
 		return this;
 	}
 }

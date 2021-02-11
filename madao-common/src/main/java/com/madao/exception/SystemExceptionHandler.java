@@ -7,7 +7,7 @@ import com.madao.exception.custom.RemoteRpcException;
 import com.madao.exception.custom.ValidFieldError;
 import com.madao.utils.JsonData;
 import com.madao.utils.LogBack;
-import com.netflix.client.ClientException;
+import feign.RetryableException;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -139,8 +139,8 @@ public class SystemExceptionHandler {
      *
      * @param ex Exception
      */
-    @ExceptionHandler(ClientException.class)
-    public JsonData<Void> clientException(ClientException ex) {
+    @ExceptionHandler(RetryableException.class)
+    public JsonData<Void> clientException(RetryableException ex) {
         LogBack.error(ex.getMessage(), ex);
         return JsonData.failed(StatusEnum.SERVICE_OFF);
     }
