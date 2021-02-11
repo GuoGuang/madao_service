@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * 文章板块: 文章类,集成ES
  **/
-@Document(indexName = "coco", type = "article")
+@Document(indexName = "coco")
 public class Article extends BasePojo implements Serializable {
 
     private String id;//ID
