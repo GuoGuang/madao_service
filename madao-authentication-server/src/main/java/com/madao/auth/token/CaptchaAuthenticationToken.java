@@ -1,6 +1,5 @@
 package com.madao.auth.token;
 
-import lombok.Data;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -10,7 +9,6 @@ import java.util.Collection;
 /**
  * 图片登录验证信息封装类
  **/
-@Data
 public class CaptchaAuthenticationToken extends UsernamePasswordAuthenticationToken {
 
 

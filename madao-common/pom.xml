@@ -95,13 +95,6 @@
             <version>3.8.1</version>
         </dependency>
 
-        <!-- lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.12</version>
-        </dependency>
-
         <!-- JSR303 validator -->
         <dependency>
             <groupId>org.hibernate</groupId>

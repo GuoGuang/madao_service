@@ -1,8 +1,5 @@
 package com.madao.enums;
 
-import lombok.Getter;
-
-@Getter
 public enum ProviderEnum {
 
     /**
@@ -30,5 +27,7 @@ public enum ProviderEnum {
     ProviderEnum(Integer value) {
         this.value = value;
     }
-
+	public int getValue() {
+		return value;
+	}
 }

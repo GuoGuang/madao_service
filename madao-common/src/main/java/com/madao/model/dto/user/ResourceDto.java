@@ -1,10 +1,8 @@
 package com.madao.model.dto.user;
 
+import com.google.common.base.Objects;
 import com.madao.model.BasePojo;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -16,9 +14,7 @@ import java.util.Set;
  * 资源实体
  **/
 
-@Data
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+
 public class ResourceDto extends BasePojo implements Serializable, Cloneable {
 
     private Set<com.madao.model.dto.user.RoleDto> roles = new HashSet<>();
@@ -65,4 +61,143 @@ public class ResourceDto extends BasePojo implements Serializable, Cloneable {
     @ApiModelProperty("资源标识")
     private String code;
 
+	public Set<RoleDto> getRoles() {
+		return roles;
+	}
+
+	public ResourceDto setRoles(Set<RoleDto> roles) {
+		this.roles = roles;
+		return this;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public ResourceDto setId(String id) {
+		this.id = id;
+		return this;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public ResourceDto setName(String name) {
+		this.name = name;
+		return this;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public ResourceDto setParentId(String parentId) {
+		this.parentId = parentId;
+		return this;
+	}
+
+	public String getComponent() {
+		return component;
+	}
+
+	public ResourceDto setComponent(String component) {
+		this.component = component;
+		return this;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public ResourceDto setIcon(String icon) {
+		this.icon = icon;
+		return this;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public ResourceDto setPath(String path) {
+		this.path = path;
+		return this;
+	}
+
+	public float getSort() {
+		return sort;
+	}
+
+	public ResourceDto setSort(float sort) {
+		this.sort = sort;
+		return this;
+	}
+
+	public Boolean getHidden() {
+		return isHidden;
+	}
+
+	public ResourceDto setHidden(Boolean hidden) {
+		isHidden = hidden;
+		return this;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public ResourceDto setDescription(String description) {
+		this.description = description;
+		return this;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public ResourceDto setType(String type) {
+		this.type = type;
+		return this;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public ResourceDto setUrl(String url) {
+		this.url = url;
+		return this;
+	}
+
+	public String getMethod() {
+		return method;
+	}
+
+	public ResourceDto setMethod(String method) {
+		this.method = method;
+		return this;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public ResourceDto setCode(String code) {
+		this.code = code;
+		return this;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof ResourceDto)) return false;
+		if (!super.equals(o)) return false;
+		ResourceDto that = (ResourceDto) o;
+		return Float.compare(that.sort, sort) == 0 && Objects.equal(roles, that.roles) && Objects.equal(id, that.id) && Objects.equal(name, that.name) && Objects.equal(parentId, that.parentId) && Objects.equal(component, that.component) && Objects.equal(icon, that.icon) && Objects.equal(path, that.path) && Objects.equal(isHidden, that.isHidden) && Objects.equal(description, that.description) && Objects.equal(type, that.type) && Objects.equal(url, that.url) && Objects.equal(method, that.method) && Objects.equal(code, that.code);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(super.hashCode(), roles, id, name, parentId, component, icon, path, sort, isHidden, description, type, url, method, code);
+	}
 }

@@ -1,13 +1,10 @@
 package com.madao.properties;
 
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * 社交登录配置项
  **/
-@Getter
-@Setter
 public class RegistrationProperties {
 
     private GitHubProperties github = new GitHubProperties();
@@ -19,4 +16,21 @@ public class RegistrationProperties {
      */
 //	private String filterProcessesUrl = "/auth";
 
+	public GitHubProperties getGithub() {
+		return github;
+	}
+
+	public RegistrationProperties setGithub(GitHubProperties github) {
+		this.github = github;
+		return this;
+	}
+
+	public QQProperties getQq() {
+		return qq;
+	}
+
+	public RegistrationProperties setQq(QQProperties qq) {
+		this.qq = qq;
+		return this;
+	}
 }

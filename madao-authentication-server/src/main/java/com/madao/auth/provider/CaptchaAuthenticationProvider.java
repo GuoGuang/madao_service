@@ -4,9 +4,7 @@ import com.madao.auth.exception.AuthException;
 import com.madao.auth.service.UserDetailsServiceImpl;
 import com.madao.auth.service.UserJwt;
 import com.madao.auth.token.CaptchaAuthenticationToken;
-import com.madao.db.redis.service.RedisService;
 import com.madao.enums.StatusEnum;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -17,12 +15,8 @@ import org.springframework.stereotype.Component;
 /**
  * 图片验证码登录验证
  **/
-@Data
 @Component
 public class CaptchaAuthenticationProvider implements AuthenticationProvider {
-
-    @Autowired
-    private RedisService redisService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

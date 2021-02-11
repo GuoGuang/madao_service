@@ -1,17 +1,11 @@
 package com.madao.model.pojo.article;
 
 import com.madao.model.BasePojo;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "ar_comment",
         indexes = {
@@ -62,4 +56,102 @@ public class Comment extends BasePojo implements Serializable {
     @Column(length = 300)
     private String toAvatar;
 
+	public String getId() {
+		return id;
+	}
+
+	public Comment setId(String id) {
+		this.id = id;
+		return this;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public Comment setUserId(String userId) {
+		this.userId = userId;
+		return this;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public Comment setParentId(String parentId) {
+		this.parentId = parentId;
+		return this;
+	}
+
+	public String getArticleId() {
+		return articleId;
+	}
+
+	public Comment setArticleId(String articleId) {
+		this.articleId = articleId;
+		return this;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public Comment setContent(String content) {
+		this.content = content;
+		return this;
+	}
+
+	public Integer getUpvote() {
+		return upvote;
+	}
+
+	public Comment setUpvote(Integer upvote) {
+		this.upvote = upvote;
+		return this;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public Comment setAvatar(String avatar) {
+		this.avatar = avatar;
+		return this;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public Comment setUserName(String userName) {
+		this.userName = userName;
+		return this;
+	}
+
+	public String getToId() {
+		return toId;
+	}
+
+	public Comment setToId(String toId) {
+		this.toId = toId;
+		return this;
+	}
+
+	public String getToName() {
+		return toName;
+	}
+
+	public Comment setToName(String toName) {
+		this.toName = toName;
+		return this;
+	}
+
+	public String getToAvatar() {
+		return toAvatar;
+	}
+
+	public Comment setToAvatar(String toAvatar) {
+		this.toAvatar = toAvatar;
+		return this;
+	}
 }

@@ -1,13 +1,11 @@
 package com.madao.enums;
 
-import lombok.Getter;
 
 /**
  * Article audit status.
  *
  * @author GuoGuang
  */
-@Getter
 public enum ArticleAuditStatus {
 
     /**
@@ -31,4 +29,7 @@ public enum ArticleAuditStatus {
         this.value = value;
     }
 
+	public Integer getValue() {
+		return value;
+	}
 }

@@ -2,18 +2,11 @@ package com.madao.model.pojo.user;
 
 import com.madao.enums.ProviderEnum;
 import com.madao.model.BasePojo;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-
-@Data
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "us_user",
         indexes = {
@@ -100,4 +93,193 @@ public class User extends BasePojo implements Serializable {
 
     @Column(length = 1)
     private ProviderEnum provider;
+
+	public String getId() {
+		return id;
+	}
+
+	public User setId(String id) {
+		this.id = id;
+		return this;
+	}
+
+	public String getAccount() {
+		return account;
+	}
+
+	public User setAccount(String account) {
+		this.account = account;
+		return this;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public User setUserName(String userName) {
+		this.userName = userName;
+		return this;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public User setNickName(String nickName) {
+		this.nickName = nickName;
+		return this;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public User setPassword(String password) {
+		this.password = password;
+		return this;
+	}
+
+	public Boolean getSex() {
+		return sex;
+	}
+
+	public User setSex(Boolean sex) {
+		this.sex = sex;
+		return this;
+	}
+
+	public Long getBirthday() {
+		return birthday;
+	}
+
+	public User setBirthday(Long birthday) {
+		this.birthday = birthday;
+		return this;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public User setAvatar(String avatar) {
+		this.avatar = avatar;
+		return this;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public User setEmail(String email) {
+		this.email = email;
+		return this;
+	}
+
+	public Long getLastDate() {
+		return lastDate;
+	}
+
+	public User setLastDate(Long lastDate) {
+		this.lastDate = lastDate;
+		return this;
+	}
+
+	public Long getOnlineTime() {
+		return onlineTime;
+	}
+
+	public User setOnlineTime(Long onlineTime) {
+		this.onlineTime = onlineTime;
+		return this;
+	}
+
+	public String getInterest() {
+		return interest;
+	}
+
+	public User setInterest(String interest) {
+		this.interest = interest;
+		return this;
+	}
+
+	public String getPersonality() {
+		return personality;
+	}
+
+	public User setPersonality(String personality) {
+		this.personality = personality;
+		return this;
+	}
+
+	public Integer getFansCount() {
+		return fansCount;
+	}
+
+	public User setFansCount(Integer fansCount) {
+		this.fansCount = fansCount;
+		return this;
+	}
+
+	public Integer getFollowCount() {
+		return followCount;
+	}
+
+	public User setFollowCount(Integer followCount) {
+		this.followCount = followCount;
+		return this;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public User setPhone(String phone) {
+		this.phone = phone;
+		return this;
+	}
+
+	public String getContactAddress() {
+		return contactAddress;
+	}
+
+	public User setContactAddress(String contactAddress) {
+		this.contactAddress = contactAddress;
+		return this;
+	}
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public User setStatus(Boolean status) {
+		this.status = status;
+		return this;
+	}
+
+	public Boolean getOrigin() {
+		return origin;
+	}
+
+	public User setOrigin(Boolean origin) {
+		this.origin = origin;
+		return this;
+	}
+
+	public String getBindId() {
+		return bindId;
+	}
+
+	public User setBindId(String bindId) {
+		this.bindId = bindId;
+		return this;
+	}
+
+	public ProviderEnum getProvider() {
+		return provider;
+	}
+
+	public User setProvider(ProviderEnum provider) {
+		this.provider = provider;
+		return this;
+	}
 }

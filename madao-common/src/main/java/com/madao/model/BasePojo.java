@@ -1,6 +1,5 @@
 package com.madao.model;
 
-import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -10,7 +9,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
-@Data
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class BasePojo implements Serializable {
@@ -23,5 +21,21 @@ public class BasePojo implements Serializable {
     @Column(length = 13)
     private Long createAt;
 
+	public Long getUpdateAt() {
+		return updateAt;
+	}
 
+	public BasePojo setUpdateAt(Long updateAt) {
+		this.updateAt = updateAt;
+		return this;
+	}
+
+	public Long getCreateAt() {
+		return createAt;
+	}
+
+	public BasePojo setCreateAt(Long createAt) {
+		this.createAt = createAt;
+		return this;
+	}
 }

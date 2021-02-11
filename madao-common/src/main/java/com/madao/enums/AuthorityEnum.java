@@ -28,4 +28,5 @@ public enum AuthorityEnum {
     };
 
     public abstract String getParamNameOnAuthority();
+
 }

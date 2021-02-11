@@ -125,8 +125,8 @@ public class ArticleService {
             articleDto.setVisits(new Random().nextInt(98));
             articleDto.setReviewState(ArticleAuditStatus.PASS);
             articleDto.setImportance(new Random().nextInt(5));
-            if (articleDto.getIsPublic() == null) {
-                articleDto.setIsPublic(false);
+            if (articleDto.getPublic() == null) {
+                articleDto.setPublic(false);
             }
         } else {
             redisService.del("ARTICLE_" + articleDto.getId());

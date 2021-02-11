@@ -1,13 +1,12 @@
 package com.madao.enums;
 
-import lombok.Getter;
+
 
 /**
  * Post status.
  *
  * @author GuoGuang
  */
-@Getter
 public enum ArticleOriginType {
 
     /**
@@ -31,4 +30,7 @@ public enum ArticleOriginType {
         this.value = value;
     }
 
+	public int getValue() {
+		return value;
+	}
 }

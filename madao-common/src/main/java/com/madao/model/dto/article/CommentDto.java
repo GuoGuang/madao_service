@@ -1,18 +1,13 @@
 package com.madao.model.dto.article;
 
+import com.google.common.base.Objects;
 import com.madao.model.BasePojo;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 public class CommentDto extends BasePojo implements Serializable {
 
     @ApiModelProperty("文章的评论表主键")
@@ -56,4 +51,125 @@ public class CommentDto extends BasePojo implements Serializable {
     @ApiModelProperty("回复")
     private List<CommentDto> reply;
 
+	public String getId() {
+		return id;
+	}
+
+	public CommentDto setId(String id) {
+		this.id = id;
+		return this;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public CommentDto setUserId(String userId) {
+		this.userId = userId;
+		return this;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public CommentDto setParentId(String parentId) {
+		this.parentId = parentId;
+		return this;
+	}
+
+	public String getArticleId() {
+		return articleId;
+	}
+
+	public CommentDto setArticleId(String articleId) {
+		this.articleId = articleId;
+		return this;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public CommentDto setContent(String content) {
+		this.content = content;
+		return this;
+	}
+
+	public Integer getUpvote() {
+		return upvote;
+	}
+
+	public CommentDto setUpvote(Integer upvote) {
+		this.upvote = upvote;
+		return this;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public CommentDto setAvatar(String avatar) {
+		this.avatar = avatar;
+		return this;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public CommentDto setUserName(String userName) {
+		this.userName = userName;
+		return this;
+	}
+
+	public String getToId() {
+		return toId;
+	}
+
+	public CommentDto setToId(String toId) {
+		this.toId = toId;
+		return this;
+	}
+
+	public String getToName() {
+		return toName;
+	}
+
+	public CommentDto setToName(String toName) {
+		this.toName = toName;
+		return this;
+	}
+
+	public String getToAvatar() {
+		return toAvatar;
+	}
+
+	public CommentDto setToAvatar(String toAvatar) {
+		this.toAvatar = toAvatar;
+		return this;
+	}
+
+	public List<CommentDto> getReply() {
+		return reply;
+	}
+
+	public CommentDto setReply(List<CommentDto> reply) {
+		this.reply = reply;
+		return this;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof CommentDto)) return false;
+		if (!super.equals(o)) return false;
+		CommentDto that = (CommentDto) o;
+		return Objects.equal(id, that.id) && Objects.equal(userId, that.userId) && Objects.equal(parentId, that.parentId) && Objects.equal(articleId, that.articleId) && Objects.equal(content, that.content) && Objects.equal(upvote, that.upvote) && Objects.equal(avatar, that.avatar) && Objects.equal(userName, that.userName) && Objects.equal(toId, that.toId) && Objects.equal(toName, that.toName) && Objects.equal(toAvatar, that.toAvatar) && Objects.equal(reply, that.reply);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(super.hashCode(), id, userId, parentId, articleId, content, upvote, avatar, userName, toId, toName, toAvatar, reply);
+	}
 }

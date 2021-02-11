@@ -2,16 +2,9 @@ package com.madao.utils;
 
 import com.madao.enums.StatusEnum;
 import io.swagger.annotations.ApiModel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.io.Serializable;
 
 @ApiModel("api接口通用返回对象")
-@Getter
-@Setter
-@NoArgsConstructor
 public class JsonData<T> implements Serializable {
 
     private boolean status;
@@ -77,4 +70,39 @@ public class JsonData<T> implements Serializable {
         return jsonData.status && jsonData.code == StatusEnum.OK.getCode();
     }
 
+	public boolean isStatus() {
+		return status;
+	}
+
+	public JsonData<T> setStatus(boolean status) {
+		this.status = status;
+		return this;
+	}
+
+	public int getCode() {
+		return code;
+	}
+
+	public JsonData<T> setCode(int code) {
+		this.code = code;
+		return this;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public JsonData<T> setMessage(String message) {
+		this.message = message;
+		return this;
+	}
+
+	public T getData() {
+		return data;
+	}
+
+	public JsonData<T> setData(T data) {
+		this.data = data;
+		return this;
+	}
 }

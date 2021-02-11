@@ -1,16 +1,10 @@
 package com.madao.model.pojo.user;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
-@NoArgsConstructor
-@EqualsAndHashCode
 @Entity
 @Table(name = "us_role_resource",
         indexes = {
@@ -34,4 +28,31 @@ public class RoleResource implements Serializable {
         this.resourceId = resourceId;
         this.roleId = roleId;
     }
+
+	public String getId() {
+		return id;
+	}
+
+	public RoleResource setId(String id) {
+		this.id = id;
+		return this;
+	}
+
+	public String getRoleId() {
+		return roleId;
+	}
+
+	public RoleResource setRoleId(String roleId) {
+		this.roleId = roleId;
+		return this;
+	}
+
+	public String getResourceId() {
+		return resourceId;
+	}
+
+	public RoleResource setResourceId(String resourceId) {
+		this.resourceId = resourceId;
+		return this;
+	}
 }

@@ -1,17 +1,11 @@
 package com.madao.model.pojo.article;
 
 import com.madao.model.BasePojo;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "ar_category",
         indexes = {
@@ -38,4 +32,48 @@ public class Category extends BasePojo implements Serializable {
     @Column(length = 20)
     private String userId;
 
+	public String getId() {
+		return id;
+	}
+
+	public Category setId(String id) {
+		this.id = id;
+		return this;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public Category setParentId(String parentId) {
+		this.parentId = parentId;
+		return this;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Category setName(String name) {
+		this.name = name;
+		return this;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public Category setSummary(String summary) {
+		this.summary = summary;
+		return this;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public Category setUserId(String userId) {
+		this.userId = userId;
+		return this;
+	}
 }

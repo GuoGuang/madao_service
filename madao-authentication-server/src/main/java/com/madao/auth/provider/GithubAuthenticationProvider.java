@@ -6,7 +6,6 @@ import com.madao.auth.token.GitHubAuthenticationToken;
 import com.madao.db.redis.service.RedisService;
 import com.madao.utils.HttpHelper;
 import com.madao.utils.JsonUtil;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -20,7 +19,6 @@ import java.util.Map;
 /**
  * 三方GitHub登录
  **/
-@Data
 @Component
 public class GithubAuthenticationProvider implements AuthenticationProvider {
 

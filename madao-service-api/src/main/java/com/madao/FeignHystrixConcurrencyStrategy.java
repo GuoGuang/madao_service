@@ -89,12 +89,6 @@ public class FeignHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy 
     }
 
     @Override
-    public ThreadPoolExecutor getThreadPool(HystrixThreadPoolKey threadPoolKey,
-                                            HystrixThreadPoolProperties threadPoolProperties) {
-        return this.delegate.getThreadPool(threadPoolKey, threadPoolProperties);
-    }
-
-    @Override
     public BlockingQueue<Runnable> getBlockingQueue(int maxQueueSize) {
         return this.delegate.getBlockingQueue(maxQueueSize);
     }

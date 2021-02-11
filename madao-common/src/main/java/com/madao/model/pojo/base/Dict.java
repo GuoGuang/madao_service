@@ -1,17 +1,11 @@
 package com.madao.model.pojo.base;
 
 import com.madao.model.BasePojo;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "ba_dict",
         indexes = {
@@ -43,4 +37,58 @@ public class Dict extends BasePojo implements Serializable {
     private String type;
 
     private static final long serialVersionUID = 1L;
+
+	public String getId() {
+		return id;
+	}
+
+	public Dict setId(String id) {
+		this.id = id;
+		return this;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public Dict setParentId(String parentId) {
+		this.parentId = parentId;
+		return this;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public Dict setCode(String code) {
+		this.code = code;
+		return this;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Dict setName(String name) {
+		this.name = name;
+		return this;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public Dict setDescription(String description) {
+		this.description = description;
+		return this;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public Dict setType(String type) {
+		this.type = type;
+		return this;
+	}
 }

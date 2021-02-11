@@ -2,8 +2,7 @@
 package com.madao.model.pojo;
 
 import com.madao.enums.StatusEnum;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.io.Serializable;
 

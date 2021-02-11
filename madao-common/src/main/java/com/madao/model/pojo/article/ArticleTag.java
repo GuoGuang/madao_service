@@ -1,16 +1,10 @@
 package com.madao.model.pojo.article;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
-@NoArgsConstructor
-@EqualsAndHashCode
 @Entity
 @Table(name = "ar_article_tag",
         indexes = {
@@ -34,4 +28,31 @@ public class ArticleTag implements Serializable {
         this.articleId = articleId;
         this.tagId = tagId;
     }
+
+	public String getId() {
+		return id;
+	}
+
+	public ArticleTag setId(String id) {
+		this.id = id;
+		return this;
+	}
+
+	public String getArticleId() {
+		return articleId;
+	}
+
+	public ArticleTag setArticleId(String articleId) {
+		this.articleId = articleId;
+		return this;
+	}
+
+	public String getTagId() {
+		return tagId;
+	}
+
+	public ArticleTag setTagId(String tagId) {
+		this.tagId = tagId;
+		return this;
+	}
 }

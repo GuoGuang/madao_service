@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import lombok.Data;
+
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 /**
  * 验证码信息封装类
  **/
-@Data
 public class ValidateCode implements Serializable {
 
     private String code;
@@ -43,4 +42,22 @@ public class ValidateCode implements Serializable {
     public boolean isExpried() {
         return LocalDateTime.now().isAfter(expireTime);
     }
+
+	public String getCode() {
+		return code;
+	}
+
+	public ValidateCode setCode(String code) {
+		this.code = code;
+		return this;
+	}
+
+	public LocalDateTime getExpireTime() {
+		return expireTime;
+	}
+
+	public ValidateCode setExpireTime(LocalDateTime expireTime) {
+		this.expireTime = expireTime;
+		return this;
+	}
 }

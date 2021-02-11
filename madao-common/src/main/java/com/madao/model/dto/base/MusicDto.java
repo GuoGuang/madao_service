@@ -1,10 +1,8 @@
 package com.madao.model.dto.base;
 
+import com.google.common.base.Objects;
 import com.madao.model.BasePojo;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -13,9 +11,6 @@ import java.io.Serializable;
  * 音乐实体
  **/
 
-@Data
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 public class MusicDto extends BasePojo implements Serializable {
 
     private String id;
@@ -43,4 +38,17 @@ public class MusicDto extends BasePojo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof MusicDto)) return false;
+		if (!super.equals(o)) return false;
+		MusicDto musicDto = (MusicDto) o;
+		return Objects.equal(id, musicDto.id) && Objects.equal(parentId, musicDto.parentId) && Objects.equal(code, musicDto.code) && Objects.equal(name, musicDto.name) && Objects.equal(description, musicDto.description) && Objects.equal(state, musicDto.state) && Objects.equal(type, musicDto.type);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(super.hashCode(), id, parentId, code, name, description, state, type);
+	}
 }

@@ -1,13 +1,12 @@
 package com.madao.enums;
 
-import lombok.Getter;
+
 
 /**
  * OptLog status.
  *
  * @author GuoGuang
  */
-@Getter
 public enum OptLogType {
 
     /**
@@ -30,5 +29,7 @@ public enum OptLogType {
     OptLogType(Integer value) {
         this.value = value;
     }
-
+	public int getValue() {
+		return value;
+	}
 }

@@ -1,13 +1,10 @@
 package com.madao.properties;
 
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * OAuth2配置项
  **/
-@Getter
-@Setter
 public class OAuth2Properties {
 
     /**
@@ -15,4 +12,12 @@ public class OAuth2Properties {
      */
     private OAuth2ClientProperties[] clients = {};
 
+	public OAuth2ClientProperties[] getClients() {
+		return clients;
+	}
+
+	public OAuth2Properties setClients(OAuth2ClientProperties[] clients) {
+		this.clients = clients;
+		return this;
+	}
 }

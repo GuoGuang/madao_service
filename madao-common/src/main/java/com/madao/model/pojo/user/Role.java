@@ -1,21 +1,13 @@
 package com.madao.model.pojo.user;
 
 import com.madao.model.BasePojo;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 
-@Data
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Entity
-@Accessors(chain = true)
 @Table(name = "us_role",
         indexes = {
                 @Index(name = "role_code", columnList = "code"),
@@ -38,4 +30,39 @@ public class Role extends BasePojo implements Serializable {
     @Column(length = 20)
     private String code;
 
+	public String getId() {
+		return id;
+	}
+
+	public Role setId(String id) {
+		this.id = id;
+		return this;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public Role setRoleName(String roleName) {
+		this.roleName = roleName;
+		return this;
+	}
+
+	public String getRoleDesc() {
+		return roleDesc;
+	}
+
+	public Role setRoleDesc(String roleDesc) {
+		this.roleDesc = roleDesc;
+		return this;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public Role setCode(String code) {
+		this.code = code;
+		return this;
+	}
 }
