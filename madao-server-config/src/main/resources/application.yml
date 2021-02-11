@@ -4,7 +4,6 @@ spring:
   application:
     name: server-config #指定服务名
 
-
 # 消息总线BUS自动刷新配置文件
 management: #暴露触发消息总线的地址
   endpoints:
@@ -18,7 +17,9 @@ management: #暴露触发消息总线的地址
 ---
 #dev
 spring:
-  profiles: dev
+  config:
+    activate:
+      on-profile: dev
 
 eureka:
   client: #客户端注册进eureka服务列表内
@@ -35,11 +36,11 @@ eureka:
 
 
 ---
-
-# production
 spring:
-  profiles: prod
-
+  config:
+    activate:
+      on-profile: prod
+# production
 eureka:
   client: #客户端注册进eureka服务列表内
     service-url:
