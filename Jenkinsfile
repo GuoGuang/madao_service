@@ -118,7 +118,7 @@ pipeline {
                 sh "rm -rf ./*"
                 // 只获取最近一次提交的
                 // sh "git clone -b develop https://github.com/GuoGuang/madao_service.git "
-                sh "git clone -b develop https://gitee.com/jackso_n/madao_service.git"
+                sh "git clone -b develop https://gitee.com/guoguang0536/madao_service.git"
             }
         }
 
