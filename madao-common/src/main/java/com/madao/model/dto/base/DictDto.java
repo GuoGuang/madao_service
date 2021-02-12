@@ -27,7 +27,7 @@ public class DictDto extends BasePojo implements Serializable {
     @NotNull(message = "描述不能为空")
     private String description;
 
-    @ApiModelProperty(value = "状态", example = "1")
+    @ApiModelProperty(value = "状态")
     private Integer state;
 
     @ApiModelProperty("类型")

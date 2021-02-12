@@ -44,16 +44,16 @@ public class ArticleDto extends BasePojo implements Serializable {
     @ApiModelProperty("文章封面")
     private String thumb;
 
-    @ApiModelProperty(value = "是否公开", example = "1")
+    @ApiModelProperty(value = "是否公开")
     private Boolean isPublic;
 
-    @ApiModelProperty(value = "是否置顶", example = "1")
+    @ApiModelProperty(value = "是否置顶")
     private Boolean isTop;
 
-    @ApiModelProperty(value = "浏览量", example = "1")
+    @ApiModelProperty(value = "浏览量")
     private Integer visits;
 
-    @ApiModelProperty(value = "点赞数", example = "1")
+    @ApiModelProperty(value = "点赞数")
     private Integer upvote;
 
     @ApiModelProperty("评论数")

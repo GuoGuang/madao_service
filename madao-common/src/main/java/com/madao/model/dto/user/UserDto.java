@@ -44,7 +44,7 @@ public class UserDto extends BasePojo implements Serializable {
     @ApiModelProperty("性别")
     private Boolean sex;
 
-    @ApiModelProperty(value = "出生年月日", example = "1")
+    @ApiModelProperty(value = "出生年月日")
     private Long birthday;
 
     @ApiModelProperty("头像")
@@ -55,10 +55,10 @@ public class UserDto extends BasePojo implements Serializable {
     @Pattern(regexp = "^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$", message = "邮箱格式不正确!")
     private String email;
 
-    @ApiModelProperty(value = "最后登陆日期", example = "1")
+    @ApiModelProperty(value = "最后登陆日期")
     private Long lastDate;
 
-    @ApiModelProperty(value = "在线时长（分钟）", example = "1")
+    @ApiModelProperty(value = "在线时长（分钟）")
     private Long onlineTime;
 
     @ApiModelProperty("兴趣")

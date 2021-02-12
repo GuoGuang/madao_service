@@ -28,10 +28,10 @@ public class CategoryDto extends BasePojo implements Serializable {
     @ApiModelProperty("用户ID")
     private String userId;
 
-    @ApiModelProperty(value = "状态", example = "1")
+    @ApiModelProperty(value = "状态")
     private Integer state = 1;
 
-    @ApiModelProperty(value = "文章数量", example = "1")
+    @ApiModelProperty(value = "文章数量")
     private Integer articleCount;
 
 	public String getId() {

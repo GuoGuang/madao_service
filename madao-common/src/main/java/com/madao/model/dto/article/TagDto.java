@@ -11,7 +11,7 @@ import java.io.Serializable;
 @ApiModel(value = "article", description = "标签类")
 public class TagDto extends BasePojo implements Serializable {
 
-    @ApiModelProperty(value = "标签下文章数量", example = "1")
+    @ApiModelProperty(value = "标签下文章数量")
     private Integer tagsCount;
 
     private String id;

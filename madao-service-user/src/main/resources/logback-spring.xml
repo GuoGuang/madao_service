@@ -11,7 +11,7 @@
                 <charset>UTF-8</charset>
             </encoder>
         </appender>-->
-
+    <logger name="io.swagger.models.parameters.AbstractSerializableParameter" level="ERROR" />
     <!-- 使用kafka推送消息到Logstash  -->
     <appender name="KAFKA" class="com.github.danielwegener.logback.kafka.KafkaAppender">
         <encoder>

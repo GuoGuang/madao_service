@@ -42,7 +42,7 @@ public class ResourceDto extends BasePojo implements Serializable, Cloneable {
     @ApiModelProperty("排序")
     private float sort;
 
-	@ApiModelProperty(value = "是否隐藏", example = "1")
+	@ApiModelProperty(value = "是否隐藏")
     private Boolean hidden;
 
     @ApiModelProperty("描述")

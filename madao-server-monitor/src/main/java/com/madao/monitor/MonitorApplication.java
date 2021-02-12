@@ -1,12 +1,15 @@
+/*
 package com.madao.monitor;
 
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+*/
 /**
  * AdminServer 监控平台
- **/
+ **//*
+
 
 @SpringBootApplication
 @EnableAdminServer
@@ -16,3 +19,4 @@ public class MonitorApplication {
         SpringApplication.run(MonitorApplication.class, args);
     }
 }
+*/

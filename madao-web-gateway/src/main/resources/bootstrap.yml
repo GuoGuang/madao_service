@@ -6,6 +6,8 @@ spring:
 spring:
   cloud:
     config:
+      discovery:
+        enabled: false
       name: gateway #需要从github上读取的资源名称，注意没有yml后缀名
       label: master
       uri: http://localhost:9009/config  #SpringCloudConfig获取的服务地址
