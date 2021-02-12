@@ -6,12 +6,16 @@ import com.madao.utils.JsonData;
 import com.madao.utils.LogBack;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 /**
@@ -20,22 +24,13 @@ import reactor.core.publisher.Mono;
 @Service
 public class UserDetailsService implements ReactiveUserDetailsService {
 
-    @Autowired
-    private ObjectProvider<UserServiceRpc> userServiceRpc;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
     @Override
     public Mono<UserDetails> findByUsername(String account) {
-        JsonData<UserDto> userInfo = userServiceRpc.getObject().getUserInfo(account);
-        if (!userInfo.isStatus()) {
-            LogBack.error(userInfo.getMessage());
-            return Mono.error(new UsernameNotFoundException(userInfo.getMessage()));
-        }
-        UserDto defUser = userInfo.getData();
-        if (defUser == null) {
-            return Mono.error(new UsernameNotFoundException("User Not Found"));
-        }
         UserDetails user = User.withUsername(account)
-                .password(defUser.getPassword())
+                .password(passwordEncoder.encode("password"))
                 .authorities(AuthorityUtils.commaSeparatedStringToAuthorityList("admin")).build();
         return Mono.just(user);
     }
