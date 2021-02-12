@@ -16,7 +16,6 @@ pipeline {
         choice(name: 'server', choices: '192.168.1.107,9090,*****,*****\n192.168.1.60,9090,*****,*****', description: '测试服务器列表选择(IP,JettyPort,Name,Passwd)')
         choice(name: 'project', choices: [
                 'madao-server-config:9009',
-                'madao-server-eureka:5000',
                 'madao-service-user:9007',
                 'madao-web-gateway:8080',
                 'madao-service-base:9008',
@@ -175,7 +174,7 @@ pipeline {
                 sh "pwd"
                 // 切换到某目录下执行，执行完steps会回退到原来所在目录
                 // 直接的构建是在容器里，这个是在 Jenkins 容器里，所以空间不一样 容器的空间是原空间路径后面多了 @2
-                // 或者说在 Maven构建 步骤把 'cd ${WORKSPACE}/madao-server-eureka' 替换为'cd ${WORKSPACE}@2/madao-server-eureka'
+                // 或者说在 Maven构建 步骤把 'cd ${WORKSPACE}/madao-server-config' 替换为'cd ${WORKSPACE}@2/madao-server-config'
                 // dir(path: "../madao_service_develop@2/${params.project}") {
                 //dir(path: "../madao_service_develop@2/${serviceName}") {
                     
@@ -186,7 +185,7 @@ pipeline {
                     // sh "docker login --username=guoguang0536 --password ${DOCKER_HUB_PASSWORD}"
                     // sh "docker tag ${serviceName}:${env.BUILD_ID} guoguang0536/${serviceName}:${env.BUILD_ID}"
                     script {
-                    //    if("${serviceName}" != "madao-server-eureka" && "${serviceName}" != "madao-server-config"){
+                    //    if("${serviceName}" != "madao-server-config" && "${serviceName}" != "madao-server-config"){
                             sh "docker login --username=1831682775@qq.com --password ${DOCKER_HUB_PASSWORD} registry.cn-beijing.aliyuncs.com"
                             sh "docker tag ${serviceName}:${env.BUILD_ID} registry.cn-beijing.aliyuncs.com/madaoo/${serviceName}:${env.BUILD_ID}"
                             sh "docker push registry.cn-beijing.aliyuncs.com/madaoo/${serviceName}:${env.BUILD_ID}"
@@ -232,7 +231,7 @@ pipeline {
                 echo "开始部署到----> ${serviceName}......"
                 script {
                     echo "即将进入"
-                   // if ("${serviceName}" == "madao-server-eureka" || "${serviceName}" == "madao-server-config"){
+                   // if ("${serviceName}" == "madao-server-config" || "${serviceName}" == "madao-server-config"){
                    //     sh "docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d ${serviceName}:${env.BUILD_ID}"
                    //     echo '-->> #本机构建成功-->>'
                    // }else {
