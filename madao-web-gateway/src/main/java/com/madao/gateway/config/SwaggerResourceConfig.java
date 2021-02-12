@@ -1,6 +1,7 @@
 package com.madao.gateway.config;
 
 import com.madao.utils.LogBack;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.support.NameUtils;
@@ -16,8 +17,8 @@ import java.util.List;
 @Primary
 public class SwaggerResourceConfig implements SwaggerResourcesProvider {
 
-    private RouteLocator routeLocator;
-    private GatewayProperties gatewayProperties;
+    private final RouteLocator routeLocator;
+    private final GatewayProperties gatewayProperties;
 
     @Override
     public List<SwaggerResource> get() {
@@ -43,10 +44,8 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
         return swaggerResource;
     }
 
-	public SwaggerResourceConfig(RouteLocator routeLocator, GatewayProperties gatewayProperties) {
+    public SwaggerResourceConfig(RouteLocator routeLocator, GatewayProperties gatewayProperties) {
 		this.routeLocator = routeLocator;
 		this.gatewayProperties = gatewayProperties;
-	}
-	public SwaggerResourceConfig() {
 	}
 }
