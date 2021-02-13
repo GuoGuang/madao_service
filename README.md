@@ -148,6 +148,11 @@ SpringCloud是比较吃内存的，如果你不指定内存大小，8G内存一�
 
 以上配置请不要再生产使用，仅作为本地开发调试，为解决内存不足问题的，当然如果你的内存够大，可以忽略以上配置
 
+## Swagger 
+[访问地址](http://127.0.0.1:8080/swagger-ui/)
+
+默认账号：admin 密码：password
+
 ## 启动微服务
 ### 架构图
 ![架构图](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE1.png)
