@@ -15,7 +15,7 @@ import java.util.Set;
 public class UserDto extends BasePojo implements Serializable {
 
     @ApiModelProperty("角色集合")
-    private Set<com.madao.model.dto.user.RoleDto> roles = new HashSet<>();
+    private Set<RoleDto> roles = new HashSet<>();
 
     @ApiModelProperty("验证码")
     @NotNull(groups = {UserDto.Register.class})

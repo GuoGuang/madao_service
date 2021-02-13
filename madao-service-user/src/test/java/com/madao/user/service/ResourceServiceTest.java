@@ -18,7 +18,7 @@ import java.util.Set;
 public class ResourceServiceTest {
 
     @Autowired
-    private com.madao.user.service.ResourceService resourceService;
+    private ResourceService resourceService;
 
     @Test
     public void findResourceByCondition() {

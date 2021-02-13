@@ -11,12 +11,12 @@ public class SecurityProperties {
     /**
      * 验证码配置
      */
-    private com.madao.properties.ValidateCodeProperties code = new com.madao.properties.ValidateCodeProperties();
+    private ValidateCodeProperties code = new ValidateCodeProperties();
 
     /**
      * 社交注册配置
      */
-    private com.madao.properties.RegistrationProperties registration = new com.madao.properties.RegistrationProperties();
+    private RegistrationProperties registration = new RegistrationProperties();
 
     /**
      * OAuth2认证服务器配置

@@ -11,13 +11,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 资源实体
+ * 资源
  **/
-
-
 public class ResourceDto extends BasePojo implements Serializable, Cloneable {
 
-    private Set<com.madao.model.dto.user.RoleDto> roles = new HashSet<>();
+    private Set<RoleDto> roles = new HashSet<>();
 
     @ApiModelProperty("资源表主键")
     private String id;

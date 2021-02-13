@@ -12,9 +12,9 @@ import java.util.Set;
 public class RoleDto extends BasePojo implements Serializable {
 
     @ApiModelProperty("角色关联的资源")
-    private Set<com.madao.model.dto.user.ResourceDto> resources = new HashSet<>();
+    private Set<ResourceDto> resources = new HashSet<>();
 
-    private Set<com.madao.model.dto.user.UserDto> users = new HashSet<>();
+    private Set<UserDto> users = new HashSet<>();
 
     private String id;
 

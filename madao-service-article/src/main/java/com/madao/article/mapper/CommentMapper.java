@@ -9,6 +9,6 @@ import org.mapstruct.Mapper;
  * Mapper for the entity {@link Comment} and its DTO {@link CommentDao}.
  */
 @Mapper(componentModel = "spring")
-public interface CommentMapper extends com.madao.article.mapper.EntityMapper<CommentDto, Comment> {
+public interface CommentMapper extends EntityMapper<CommentDto, Comment> {
 
 }

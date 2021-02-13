@@ -19,7 +19,7 @@ public class ArticleDto extends BasePojo implements Serializable {
     @JsonIgnoreProperties("related")
     private List<ArticleDto> related;
 
-    private List<com.madao.model.dto.article.TagDto> tags;
+    private List<TagDto> tags;
 
 
     @ApiModelProperty(value = "分类id", example = "1")

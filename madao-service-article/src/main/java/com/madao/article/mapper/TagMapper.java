@@ -8,6 +8,6 @@ import org.mapstruct.Mapper;
  * Mapper for the entity {@link Tag} and its DTO {@link TagDto}.
  */
 @Mapper(componentModel = "spring")
-public interface TagMapper extends com.madao.article.mapper.EntityMapper<TagDto, Tag> {
+public interface TagMapper extends EntityMapper<TagDto, Tag> {
 
 }
