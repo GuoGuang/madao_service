@@ -92,6 +92,7 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .logout(logout -> logout.invalidateHttpSession(false).logoutUrl("/oauth/logout"))
 
+		        // github登录
                 .oauth2Login(oauth2 -> oauth2
                         .authorizationEndpoint(System.out::println)
                         .redirectionEndpoint(redirection -> redirection.baseUri("/oauth/login/github"))
