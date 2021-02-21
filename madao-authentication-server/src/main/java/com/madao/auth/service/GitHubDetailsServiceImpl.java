@@ -47,7 +47,7 @@ public class GitHubDetailsServiceImpl implements UserDetailsService {
         Set<RoleDto> roles = defUser.getRoles();
         roles.forEach(role ->
                 authorities.add(new SimpleGrantedAuthority(role.getId())));
-        return new com.madao.auth.service.UserJwt(defUser.getUserName(),
+        return new UserJwt(defUser.getUserName(),
                 password,
                 defUser.getId(),
                 defUser.getNickName(),

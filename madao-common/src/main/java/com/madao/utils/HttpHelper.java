@@ -37,20 +37,20 @@ public class HttpHelper {
                 sb.append(line);
             }
         } catch (IOException e) {
-            com.madao.utils.LogBack.error(e.getMessage(), e);
+            LogBack.error(e.getMessage(), e);
         } finally {
             if (inputStream != null) {
                 try {
                     inputStream.close();
                 } catch (IOException e) {
-                    com.madao.utils.LogBack.error(e.getMessage(), e);
+                    LogBack.error(e.getMessage(), e);
                 }
             }
             if (reader != null) {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                    com.madao.utils.LogBack.error(e.getMessage(), e);
+                    LogBack.error(e.getMessage(), e);
                 }
             }
         }

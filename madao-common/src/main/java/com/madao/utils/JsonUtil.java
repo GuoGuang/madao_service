@@ -45,7 +45,7 @@ public class JsonUtil {
             try {
                 return (T) (tr.getType().equals(String.class) ? jsonString : objectMapper.readValue(jsonString, tr));
             } catch (Exception e) {
-                com.madao.utils.LogBack.error(JACKSON_ERROR, e.getMessage(), e);
+                LogBack.error(JACKSON_ERROR, e.getMessage(), e);
                 throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
             }
         }
@@ -62,7 +62,7 @@ public class JsonUtil {
         try {
             return objectMapper.writeValueAsString(object);
         } catch (Exception e) {
-            com.madao.utils.LogBack.error(JACKSON_ERROR, e.getMessage(), e);
+            LogBack.error(JACKSON_ERROR, e.getMessage(), e);
             throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
         }
     }
@@ -82,7 +82,7 @@ public class JsonUtil {
         try {
             return objectMapper.readValue(jsonStr.toString(), clazz);
         } catch (IOException e) {
-            com.madao.utils.LogBack.error(JACKSON_ERROR, e.getMessage(), e);
+            LogBack.error(JACKSON_ERROR, e.getMessage(), e);
             throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
         }
     }
@@ -97,7 +97,7 @@ public class JsonUtil {
         try {
             return objectMapper.readValue(jsonStr, Map.class);
         } catch (IOException e) {
-            com.madao.utils.LogBack.error(JACKSON_ERROR, e.getMessage(), e);
+            LogBack.error(JACKSON_ERROR, e.getMessage(), e);
             throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
         }
     }
@@ -112,7 +112,7 @@ public class JsonUtil {
         try {
             return StringUtils.startsWithAny(jsonStr, "{", "[");
         } catch (Exception e) {
-            com.madao.utils.LogBack.error(JACKSON_ERROR, e.getMessage(), e);
+            LogBack.error(JACKSON_ERROR, e.getMessage(), e);
             return false;
         }
     }
@@ -130,7 +130,7 @@ public class JsonUtil {
             List<Map<String, Object>> list = objectMapper.readValue(jsonData, javaType);
             return list;
         } catch (Exception e) {
-            com.madao.utils.LogBack.error(JACKSON_ERROR, e.getMessage(), e);
+            LogBack.error(JACKSON_ERROR, e.getMessage(), e);
             throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
         }
 

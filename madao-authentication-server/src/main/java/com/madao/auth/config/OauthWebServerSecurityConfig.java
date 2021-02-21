@@ -48,7 +48,7 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
     // 全局过滤器校验码
     @Autowired
-    private com.madao.auth.config.ValidateCodeSecurityConfig validateCodeSecurityConfig;
+    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
 
     @Autowired
     private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
@@ -70,8 +70,7 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
-        AuthenticationManager manager = super.authenticationManagerBean();
-        return manager;
+	    return super.authenticationManagerBean();
     }
 
     @Override
