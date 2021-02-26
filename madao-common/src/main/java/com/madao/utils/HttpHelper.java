@@ -59,7 +59,6 @@ public class HttpHelper {
 
     public static Map<String, String> httpPost(List<NameValuePair> params) {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            // TODO github 接口存在超时问题；
             HttpPost httpPost = new HttpPost("https://github.com/login/oauth/access_token");
             httpPost.setEntity(new UrlEncodedFormEntity(params));
             String responseBody = httpClient.execute(httpPost, httpResponse -> {
