@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * https://segmentfault.com/a/1190000007214708
- * LogBcak工具类
+ * LogBack工具类
  **/
 @Component
 public final class LogBack {
