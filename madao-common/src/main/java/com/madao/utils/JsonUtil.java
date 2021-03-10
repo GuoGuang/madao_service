@@ -136,7 +136,7 @@ public class JsonUtil {
 
     }
 
-    public static byte[] toJSONBytes(com.madao.utils.JsonData result) throws IOException {
+    public static byte[] toJSONBytes(JsonData result) throws IOException {
         return objectMapper.writeValueAsBytes(result);
     }
 }

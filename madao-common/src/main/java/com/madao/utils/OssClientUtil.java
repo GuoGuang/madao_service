@@ -35,7 +35,7 @@ public class OssClientUtil {
         URL url = ossClient.generatePresignedUrl(
                 BUCKET_NAME,
                 fileName,
-                com.madao.utils.DateUtil.convertLdtToDate(com.madao.utils.DateUtil.getPlusMonths(99999)),
+                DateUtil.convertLdtToDate(DateUtil.getPlusMonths(99999)),
                 HttpMethod.GET);
         return "https://" + url.getHost() + url.getPath();
     }

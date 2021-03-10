@@ -87,7 +87,7 @@ public class HttpHelper {
                 HttpEntity entity = httpResponse.getEntity();
                 return entity != null ? EntityUtils.toString(entity) : null;
             });
-            return com.madao.utils.JsonUtil.jsonToMap(responseBody);
+            return JsonUtil.jsonToMap(responseBody);
         } catch (IOException e) {
             throw new HttpClientErrorException(BAD_REQUEST);
         }
