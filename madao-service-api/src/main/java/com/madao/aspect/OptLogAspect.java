@@ -60,12 +60,7 @@ public class OptLogAspect {
     public void doBefore(JoinPoint joinPoint) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession();
-        //读取token
-		/*SysUser user = (SysUser) session.getAttribute("user");
-		if(user==null){
-			user=new SysUser();
-			user.setUserName("非注册用户");
-		}*/
+
         //请求的IP
         final String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (token == null) {
@@ -124,10 +119,6 @@ public class OptLogAspect {
 
     /**
      * 异常通知 用于拦截记录异常日志
-     *
-     * @param joinPoint 切点
-     * @author ： LGG
-     * @date :2019年5月4日12:41:30
      */
     @SuppressWarnings("all")
     @AfterThrowing(pointcut = "controllerAspect()", throwing = "e")
@@ -135,12 +126,6 @@ public class OptLogAspect {
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession();
-        //读取session中的用户
-		/*SysUser user = (SysUser) session.getAttribute("user");
-		if(user==null){
-			user=new SysUser();
-			user.setUserName("非注册用户");
-		}*/
 
         String ipAddr = HttpServletUtil.getIpAddr(request);
         try {
@@ -163,13 +148,13 @@ public class OptLogAspect {
                 }
             }
             /*========控制台输出=========*/
-            System.out.println("=====异常通知开始=====");
-            System.out.println("异常代码:" + e.getClass().getName());
-            System.out.println("异常信息:" + e.getMessage());
-            System.out.println("异常方法:" + (joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()") + "." + operationType);
-            System.out.println("方法描述:" + operationName);
-            System.out.println("请求人:" + "临时");
-            System.out.println("请求IP:" + ipAddr);
+            LogBack.error("=====异常通知开始=====");
+            LogBack.error("异常代码:" + e.getClass().getName());
+            LogBack.error("异常信息:" + e.getMessage());
+            LogBack.error("异常方法:" + (joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()") + "." + operationType);
+            LogBack.error("方法描述:" + operationName);
+            LogBack.error("请求人:" + "临时");
+            LogBack.error("请求IP:" + ipAddr);
             //==========数据库日志=========
             com.madao.model.pojo.base.OptLog log = new com.madao.model.pojo.base.OptLog();
             log.setClientIp(HttpServletUtil.getIpAddr(request));
@@ -184,28 +169,12 @@ public class OptLogAspect {
                 if (!(argument instanceof ServletRequest)) {
                     argumentParam += JsonUtil.toJsonString(argument);
                 }
-
             }
-            //log.setParams(argumentParam);
-			/*SysLog log = new SysLog();
-			log.setDescription(operationName);
-			log.setExceptionCode(e.getClass().getName());
-			log.setLogType(1);
-			log.setExceptionDetail(e.getMessage());
-			log.setMethod((joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()"));
-			log.setParams(params);
-			log.setCreateBy(user.getUserName());
-			log.setCreateDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-			log.setRequestIp(ip);*/
-            //保存数据库
             optLogServiceRpc.insertOptLog(log);
-            System.out.println("=====异常通知结束=====");
         } catch (Exception ex) {
-            //记录本地异常日志
             LogBack.error("==异常通知异常==");
             LogBack.error("异常信息:{}", ex.getMessage(), ex);
         }
-        //==========记录本地异常日志==========
         LogBack.error("异常方法:{}异常代码:{}异常信息:{}", joinPoint.getTarget().getClass().getName() + joinPoint.getSignature().getName(), e.getClass().getName(), e.getMessage());
 
     }
