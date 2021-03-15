@@ -19,6 +19,7 @@ import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -66,7 +67,7 @@ public class RoleService {
     public QueryResults<Role> findRuleByCondition(RoleDto roleDto, QueryVO queryVO) {
 
         QRole qRole = QRole.role;
-        com.querydsl.core.types.Predicate predicate = null;
+        Predicate predicate = null;
         OrderSpecifier<?> sortedColumn = QuerydslUtil.getSortedColumn(Order.DESC, qRole);
         if (StringUtils.isNotEmpty(roleDto.getRoleName())) {
             predicate = ExpressionUtils.and(predicate, qRole.roleName.like(roleDto.getRoleName()));
