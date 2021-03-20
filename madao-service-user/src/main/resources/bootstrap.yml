@@ -6,9 +6,9 @@ spring:
 spring:
   cloud:
     config:
-      name: user #需要从github上读取的资源名称，注意没有yml后缀名
+      name: user
       label: master
-      uri: http://localhost:9009/config  #SpringCloudConfig获取的服务地址
+      uri: http://localhost:9009/config
       profile: dev
   config:
     activate:
