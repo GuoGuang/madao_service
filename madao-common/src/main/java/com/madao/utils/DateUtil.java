@@ -22,8 +22,6 @@ public class DateUtil {
 
     /**
      * 获取时间戳
-     *
-     * @return ： Long
      */
     public static Long getTimestamp() {
         return Instant.now().toEpochMilli();
@@ -31,18 +29,29 @@ public class DateUtil {
 
     /**
      * 时间戳转日期
-     *
-     * @return ： Long
      */
     public static String timeStampToDate(Long timestamp) {
         DateTimeFormatter ftf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return ftf.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.systemDefault()));
     }
 
+	/**
+	 * 日期转时间戳
+	 */
+	public static long dateToTimeStamp(String date) {
+		DateTimeFormatter ftf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime localDateTime = LocalDateTime.parse(date,ftf);
+		return localDateTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
+	}
+
+	/**
+	 * 时间戳转日期
+	 */
+	public static LocalDateTime timeStampToLocalDateTime(Long timestamp) {
+		return Instant.ofEpochMilli(timestamp).atZone(ZoneOffset.ofHours(8)).toLocalDateTime();
+	}
     /**
      * 获取当前时间
-     *
-     * @return ： Long
      */
     public static LocalDateTime getCurrentTime() {
         return LocalDateTime.now();
