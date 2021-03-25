@@ -45,6 +45,17 @@ public class DateUtil {
 	}
 
 	/**
+	 * 不能小于当前日期
+	 */
+	public static boolean lessThanOrEqualTo(Long  timestamp) {
+		LocalDateTime appointmentDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.systemDefault());
+		LocalDateTime currentTime = getCurrentTime();
+		int isItEffective = currentTime.compareTo(appointmentDate);
+		return isItEffective >= 0;
+	}
+
+
+	/**
 	 * 时间戳转日期
 	 */
 	public static LocalDateTime timeStampToLocalDateTime(Long timestamp) {
