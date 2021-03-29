@@ -9,13 +9,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class LoginLogServiceTest {
 
     @Autowired
-    private com.madao.base.service.backstage.LoginLogService loginLogService;
+    private LoginLogService loginLogService;
 
     @Test
     public void findLoginLogByCondition() {

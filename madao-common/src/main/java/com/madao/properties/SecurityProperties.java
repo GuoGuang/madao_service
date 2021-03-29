@@ -21,7 +21,7 @@ public class SecurityProperties {
     /**
      * OAuth2认证服务器配置
      */
-    private com.madao.properties.OAuth2Properties oauth2 = new com.madao.properties.OAuth2Properties();
+    private OAuth2Properties oauth2 = new OAuth2Properties();
 
 	public ValidateCodeProperties getCode() {
 		return code;

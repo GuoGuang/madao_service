@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class OptLogServiceTest {
 
     @Autowired
-    private com.madao.base.service.backstage.OptLogService optLogService;
+    private OptLogService optLogService;
 
     @Test
     public void findOptLogByCondition() {

@@ -17,7 +17,7 @@ import java.util.List;
 public class DictServiceTest {
 
     @Autowired
-    private com.madao.base.service.backstage.DictService dictService;
+    private DictService dictService;
 
     @Test
     public void findDictByCondition() {
