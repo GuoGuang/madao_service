@@ -65,6 +65,7 @@ public class RabbitMQConfig {
     public Queue userDelayQueue() {
         return new Queue(ORDER_USER_QUEUE, true);
     }
+
     @Bean("articleDelayQueue")
     public Queue articleDelayQueue() {
         return new Queue(PRODUCT_ARTICLE_QUEUE, true);
