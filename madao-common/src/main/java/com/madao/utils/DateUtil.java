@@ -68,6 +68,17 @@ public class DateUtil {
         return LocalDateTime.now();
     }
 
+	/**
+	 * 根据时间戳获取与当前间隔毫秒数
+	 * @param time 时间戳
+	 */
+	public static long betweenDuration(long time) {
+		LocalDateTime currentTime = getCurrentTime();
+		LocalDateTime localDateTime = DateUtil.timeStampToLocalDateTime(time);
+		Duration duration = Duration.between(currentTime,  localDateTime );
+		return duration.toMillis();
+	}
+
     /**
      * 当前日期加几天，返回下一天的当前时间
      *
