@@ -8,7 +8,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
 /**
- * MQ发送器
+ * MQ发送工具类
  */
 @Component
 public class MQSender {
