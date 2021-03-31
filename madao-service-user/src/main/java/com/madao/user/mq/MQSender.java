@@ -2,11 +2,9 @@ package com.madao.user.mq;
 
 import com.madao.user.config.RabbitMQConfig;
 import com.madao.utils.LogBack;
-import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -37,7 +35,7 @@ public class MQSender {
 	 * @param message 消息
 	 * @param delayTime 延时时间：毫秒
 	 */
-	public void sendDelay(Object message, int delayTime) {
+	public void sendDelay(Object message, Object delayTime) {
         //采用消息确认模式，消息发出去后，异步等待响应
         rabbitTemplate.setMandatory(true);
         rabbitTemplate.setConfirmCallback(confirmCallback);
@@ -49,9 +47,7 @@ public class MQSender {
                 message1 -> {
                     //设置消息持久化
                     message1.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
-                    // 两种方式 均可
-                    //message.getMessageProperties().setHeader("x-delay", "6000");
-                    message1.getMessageProperties().setDelay(delayTime);
+                    message1.getMessageProperties().setHeader("x-delay", delayTime);
                     return message1;
                 }, correlationData);
     }
