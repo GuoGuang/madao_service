@@ -1,98 +1,93 @@
 package com.madao.article.controller.backstage;
 
 import com.madao.article.filter.CustomFilter;
+import com.madao.article.mapper.ArticleMapperImpl;
 import com.madao.article.service.backstage.ArticleService;
 import com.madao.model.dto.article.ArticleDto;
 import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;
-import com.madao.utils.OssClientUtil;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collections;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-@org.springframework.transaction.annotation.Transactional
+@Transactional
 class ArticleControllerTest {
-    @Mock
-    ArticleService articleService;
-    @Mock
-    OssClientUtil ossClientUtil;
-    @Mock
-    Pageable pageable;
-    @InjectMocks
-    com.madao.article.controller.backstage.ArticleController articleController;
+	private static final String ENDPOINT_URL = "/article";
 
-    private MockMvc mockMvc;
+	@Mock
+	ArticleService articleService;
+	@InjectMocks
+	ArticleController articleController;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders
-                .standaloneSetup(articleController)
-                .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver()) // 解决Pageable参数问题
-                .addFilter(CustomFilter::doFilter)
-                .build();
-    }
+	/**
+	 * 注入dto转换类
+	 */
+	@InjectMocks
+	private ArticleMapperImpl articleMapperImpl;
 
-    @Test
-    void testFindArticleByCondition() throws Exception {
+	private MockMvc mockMvc;
 
-        ArticleDto article = new ArticleDto();
-//		article.setUserName("foo");
-        article.setId("1");
+	@BeforeEach
+	void setUp() {
+		MockitoAnnotations.initMocks(this);
+		mockMvc = MockMvcBuilders
+				.standaloneSetup(articleController)
+				.setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver()) // 解决Pageable参数问题
+				.addFilter(CustomFilter::doFilter)
+				.build();
+	}
 
-        Page<ArticleDto> page = new PageImpl<>(Arrays.asList(article));
+	@Test
+	void findAllByPage() throws Exception {
 
-        when(articleService.findArticleByCondition(any(), any())).thenReturn(page);
+		ArticleDto article = new ArticleDto();
+		article.setId("1");
 
-        ResultActions resultActions = mockMvc.perform(get("/article").accept(MediaType.APPLICATION_JSON));
-        resultActions.andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.content", hasSize(1)));
+		Page<ArticleDto> page = new PageImpl<>(Collections.singletonList(article));
 
-        MockHttpServletResponse response = resultActions.andReturn().getResponse();
-        String attributeNames = response.getContentAsString();
-        JsonData jsonData = JsonUtil.jsonToPojo(attributeNames, JsonData.class);
-        System.out.println(jsonData);
+		Mockito.when(articleService.findArticleByCondition(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(page);
 
-        String a = "hahaha";
-        int aValue = 9;
+		ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get(ENDPOINT_URL)
+				.accept(MediaType.APPLICATION_JSON))
+				.andDo(MockMvcResultHandlers.print())
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.data.content", Matchers.hasSize(1)));
 
-        verify(articleService, times(1)).findArticleByCondition(any(), any());
-        verifyNoMoreInteractions(articleService);
+		MockHttpServletResponse response = resultActions.andReturn().getResponse();
+		String attributeNames = response.getContentAsString();
+		JsonData jsonData = JsonUtil.jsonToPojo(attributeNames, JsonData.class);
+		System.out.println(jsonData);
 
-    }
+		Mockito.verify(articleService, Mockito.times(1)).findArticleByCondition(ArgumentMatchers.any(), ArgumentMatchers.any());
+		Mockito.verifyNoMoreInteractions(articleService);
+
+	}
 
     @Test
     void testFindArticleById() {
-        when(articleService.findArticleById(anyString())).thenReturn(new ArticleDto());
+	    Mockito.when(articleService.findArticleById(ArgumentMatchers.anyString())).thenReturn(new ArticleDto());
 
         JsonData<ArticleDto> result = articleController.findArticleById("id");
-        Assertions.assertEquals(new JsonData<ArticleDto>(true, 0, "message", any()), result);
+        Assertions.assertEquals(new JsonData<ArticleDto>(true, 0, "message", ArgumentMatchers.any()), result);
     }
 
-    @Test
+   /* @Test
     void testInsertArticle() {
         JsonData<Map<String, String>> result = articleController.insertArticle(new ArticleDto(), null);
         Assertions.assertEquals(new JsonData<Map<String, String>>(true, 0, "message", any()), result);
@@ -122,7 +117,7 @@ class ArticleControllerTest {
         Assertions.assertEquals(new HashMap<String, String>() {{
             put("String", "String");
         }}, result);
-    }
+    }*/
 }
 
 //Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme
