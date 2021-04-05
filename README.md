@@ -71,18 +71,19 @@
 3. 工具：Maven
 
 ## 快速开始
-> 本项目需要你有一定得开发经验，对SpringCloud有基础的认识，此项目仅提供学习使用，新手不建议使用。
+> 本项目需要你有一定得开发经验，对SpringCloud有基础的认识，此项目仅提供学习使用。
 
 > 开源不易，如果此项目对您有帮助，麻烦点个star给作者一点动力，不胜感激。:sparkles:
+
 
 0. 导入服务
 ![导入服务](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/service.png)
 点击 "import module" 将服务一一导入，如果你嫌一个个导入麻烦，可以在madao-common-parent的pom.xml文件中最底下把<modules>标签放开，但是真正微服务开发一般一个团队或者一个人负责一个服务，没有一个人同时开发多个服务情况，毕竟是个人博客项目，导入方式可以自己定。
 ```
 // install
-mvn -B -DskipTests install -f madao-common-parent
+mvn -B -DskipTests install -f madao-common-parent -Dmaven.test.skip=true  
 或者 
-idea里 maven选项选中madao-common-parent install
+idea里 maven选项选中madao-common-parent install 需要在Maven Projects界面里中选中"跳过测试"
 ```
 
 1. 初始化数据库：导入系统根路径下madao.sql文件到数据库中
