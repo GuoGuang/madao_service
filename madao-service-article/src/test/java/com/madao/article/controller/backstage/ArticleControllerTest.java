@@ -1,7 +1,6 @@
 package com.madao.article.controller.backstage;
 
 import com.madao.article.filter.CustomFilter;
-import com.madao.article.mapper.ArticleMapperImpl;
 import com.madao.article.service.backstage.ArticleService;
 import com.madao.model.dto.article.ArticleDto;
 import com.madao.utils.JsonData;
@@ -34,9 +33,6 @@ class ArticleControllerTest {
 	ArticleService articleService;
 	@InjectMocks
 	ArticleController articleController;
-
-	@InjectMocks
-	private ArticleMapperImpl articleMapperImpl;
 
 	private MockMvc mockMvc;
 
