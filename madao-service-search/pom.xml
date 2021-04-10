@@ -21,12 +21,11 @@
             <version>1.0.0</version>
         </dependency>
 
-        <!--SpringBoot默认使用SpringData ElasticSearch模块进行操作-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-            <version>2.0.1.RELEASE</version>
         </dependency>
+
 
     </dependencies>
 
