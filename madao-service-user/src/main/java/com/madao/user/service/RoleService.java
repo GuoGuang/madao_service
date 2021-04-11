@@ -85,10 +85,9 @@ public class RoleService {
     }
 
     public List<RoleDto> getUseRoles(String id) {
-        List<RoleDto> rolesOfUser = roleDao.findRolesOfUser(id)
+	    return roleDao.findRolesOfUser(id)
                 .map(roleMapper::toDto)
                 .orElseThrow(ResourceNotFoundException::new);
-        return rolesOfUser;
     }
 
     public RoleDto findRoleById(String roleId) {
