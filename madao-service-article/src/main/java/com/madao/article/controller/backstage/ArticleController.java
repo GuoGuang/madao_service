@@ -54,7 +54,7 @@ public class ArticleController implements BaseController {
 
     @ApiOperation(value = "添加一条新的文章")
     @PostMapping
-//    @OptLog(operationType = OptLogType.ADD, operationName = "添加一条新的文章")
+    @OptLog(operationType = OptLogType.ADD, operationName = "添加一条新的文章")
     public JsonData<Map<String, String>> insertArticle(@RequestBody @Validated ArticleDto articleDto, HttpServletRequest request) {
         Map<String, String> userInfo = getUserInfo(request);
         articleService.insertOrUpdateArticle(userInfo, articleDto);
@@ -63,7 +63,7 @@ public class ArticleController implements BaseController {
 
     @ApiOperation(value = "上传文章封面")
     @PutMapping("/thumb")
-//    @OptLog(operationType = OptLogType.ADD, operationName = "上传文章封面")
+    @OptLog(operationType = OptLogType.ADD, operationName = "上传文章封面")
     public JsonData<String> updateThumb(MultipartFile file) throws IOException {
         String fileUrl = ossClientUtil.uploadFile(file);
         return JsonData.success(fileUrl);
