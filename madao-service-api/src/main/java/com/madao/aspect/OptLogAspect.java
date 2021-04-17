@@ -25,7 +25,6 @@ import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-
 /**
  * 操作日志切面
  * use: @OptLog(operationType = OptLogType.ADD, operationName = "注册用户")
@@ -49,19 +48,14 @@ public class OptLogAspect {
     }
 
     /**
-     * 前置通知 用于拦截Controller层记录用户的操作
-     *
+     * 拦截Controller层记录用户的操作
      * @param joinPoint 切点
-     * @author ： LGG
-     * @date :2019年5月4日12:41:30
      */
     @Before("controllerAspect()")
     @SuppressWarnings("all")
     public void doBefore(JoinPoint joinPoint) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession();
-
-        //请求的IP
         final String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (token == null) {
             LogBack.error("token为空，结束AOP前置通知");
@@ -87,8 +81,6 @@ public class OptLogAspect {
                     }
                 }
             }
-
-            //*========数据库日志=========*//
             com.madao.model.pojo.base.OptLog log = new com.madao.model.pojo.base.OptLog();
             log.setClientIp(HttpServletUtil.getIpAddr(request));
             log.setUserId(user.get("id"));
@@ -102,20 +94,12 @@ public class OptLogAspect {
                 if (!(argument instanceof ServletRequest)) {
                     argumentParam += JsonUtil.toJsonString(argument);
                 }
-
             }
-            //log.setParams(argumentParam);
             optLogServiceRpc.insertOptLog(log);
-            LogBack.info("=====controller前置通知结束=====");
         } catch (Exception e) {
-            //记录本地异常日志
-            LogBack.error("==前置通知异常==");
-            LogBack.error("异常信息:{}", e.getMessage(), e);
+            LogBack.error("操作日志异常:{}", e.getMessage(), e);
         }
-
-
     }
-
 
     /**
      * 异常通知 用于拦截记录异常日志
@@ -129,7 +113,6 @@ public class OptLogAspect {
 
         String ipAddr = HttpServletUtil.getIpAddr(request);
         try {
-
             String targetName = joinPoint.getTarget().getClass().getName();
             String methodName = joinPoint.getSignature().getName();
             Object[] arguments = joinPoint.getArgs();
@@ -147,7 +130,7 @@ public class OptLogAspect {
                     }
                 }
             }
-            /*========控制台输出=========*/
+
             LogBack.error("=====异常通知开始=====");
             LogBack.error("异常代码:" + e.getClass().getName());
             LogBack.error("异常信息:" + e.getMessage());
@@ -172,11 +155,7 @@ public class OptLogAspect {
             }
             optLogServiceRpc.insertOptLog(log);
         } catch (Exception ex) {
-            LogBack.error("==异常通知异常==");
-            LogBack.error("异常信息:{}", ex.getMessage(), ex);
+	        LogBack.error("异常方法:{}异常代码:{}异常信息:{}", joinPoint.getTarget().getClass().getName() + joinPoint.getSignature().getName(), e.getClass().getName(), e.getMessage());
         }
-        LogBack.error("异常方法:{}异常代码:{}异常信息:{}", joinPoint.getTarget().getClass().getName() + joinPoint.getSignature().getName(), e.getClass().getName(), e.getMessage());
-
     }
-
 }
