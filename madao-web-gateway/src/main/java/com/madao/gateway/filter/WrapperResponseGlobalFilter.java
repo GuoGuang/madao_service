@@ -15,7 +15,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 解析响应体
@@ -40,9 +40,9 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
                         byte[] content = new byte[dataBuffer.readableByteCount()];
                         dataBuffer.read(content);
                         DataBufferUtils.release(dataBuffer);
-                        String response = new String(content, Charset.forName("UTF-8"));
+                        String response = new String(content, StandardCharsets.UTF_8);
                         LogBack.info("response--->{}", response);
-                        byte[] uppedContent = new String(content, Charset.forName("UTF-8")).getBytes();
+                        byte[] uppedContent = new String(content, StandardCharsets.UTF_8).getBytes();
                         return bufferFactory.wrap(uppedContent);
                     }));
                 }
