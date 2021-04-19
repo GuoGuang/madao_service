@@ -1,11 +1,6 @@
 server:
   port: 8080
 spring:
-  boot:
-    admin:
-      client:
-        instance:
-          service-base-url: http://localhost:8080
   application:
     name: web-gateway
   rabbitmq:

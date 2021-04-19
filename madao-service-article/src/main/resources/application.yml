@@ -2,18 +2,11 @@ server:
   port: 9003
 spring:
   application:
-    name: service-article #指定服务名
-  boot:
-    admin:
-      client:
-        instance:
-          service-base-url: http://localhost:9003
+    name: service-article
 
 com:
   madao:
     aopPointcutExpression: execution (* com.madao.article..*.*(..))
-
-
 
 hystrix:
   command:

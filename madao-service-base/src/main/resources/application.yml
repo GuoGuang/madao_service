@@ -2,14 +2,8 @@ server:
   port: 9008
 spring:
   application:
-    name: service-base  #指定服务名
-  boot:
-    admin:
-      client:
-        instance:
-          service-base-url: http://localhost:9008
+    name: service-base
 
-# 配置织入点
 com:
   madao:
     aopPointcutExpression: execution (* com.madao.base..*.*(..))

@@ -17,7 +17,6 @@ import javax.annotation.PostConstruct;
 @EnableJpaRepositories("com.madao.user.dao")
 @EnableFeignClients(basePackages = "com.madao.api")
 //@EnableWebSecurity
-//@EnableAdminServer
 @ComponentScan(basePackages = {"com.madao"})
 public class ElasticSearchApplication {
 

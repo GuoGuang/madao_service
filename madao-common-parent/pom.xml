@@ -35,7 +35,6 @@
         <jackson.version>2.9.6</jackson.version>
         <logback.version>1.2.3</logback.version>
         <swagger.version>3.0.0</swagger.version>
-        <spring.boot.admin.version>2.3.1</spring.boot.admin.version>
         <spring.cloud.version>2020.0.1</spring.cloud.version>
         <spring.security.oauth2.version>2.3.6.RELEASE</spring.security.oauth2.version>
         <netflix.eureka.version>2.0.6.RELEASE</netflix.eureka.version>
@@ -56,20 +55,6 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
-
-        <!--springboot 监控 -->
-       <!-- <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
-            <version>${spring.boot.admin.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-server-ui</artifactId>
-            <version>${spring.boot.admin.version}</version>
-        </dependency>-->
 
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -182,7 +167,6 @@
         <module>../madao-common</module>
         <module>../madao-common-db</module>
         <module>../madao-server-config</module>
-        <module>../madao-server-monitor</module>
         <module>../madao-service-base</module>
         <module>../madao-service-article</module>
         <module>../madao-service-search</module>
