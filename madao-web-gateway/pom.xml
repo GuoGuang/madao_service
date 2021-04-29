@@ -66,6 +66,12 @@
             <groupId>com.madao</groupId>
             <artifactId>madao-service-api</artifactId>
             <version>1.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-security-oauth2</artifactId>
+                    <groupId>org.springframework.security.oauth</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 

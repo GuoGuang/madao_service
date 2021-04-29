@@ -7,6 +7,7 @@ import com.madao.utils.LogBack;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.DefaultErrorWebExceptionHandler;
+import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.reactive.error.ErrorAttributes;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.reactive.function.server.*;
@@ -29,7 +30,7 @@ public class GlobalExceptionHandler extends DefaultErrorWebExceptionHandler {
      * 获取异常属性
      */
     @Override
-    protected Map<String, Object> getErrorAttributes(ServerRequest request, boolean includeStackTrace) {
+    protected Map<String, Object> getErrorAttributes(ServerRequest request, ErrorAttributeOptions options) {
         LogBack.error("Gateway获取自定义异常--------->{}", super.getError(request).getMessage());
         boolean isJson = JsonUtil.isJson(super.getError(request).getMessage());
         if (isJson) {
@@ -44,6 +45,7 @@ public class GlobalExceptionHandler extends DefaultErrorWebExceptionHandler {
             return maps;
         }
     }
+
 
     /**
      * 指定响应处理方法为JSON处理的方法
