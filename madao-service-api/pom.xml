@@ -16,6 +16,10 @@
             <artifactId>madao-common</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+        </dependency>
     </dependencies>
 
 
