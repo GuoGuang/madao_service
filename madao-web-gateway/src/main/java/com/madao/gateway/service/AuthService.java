@@ -12,6 +12,8 @@ import com.madao.utils.security.JWTAuthentication;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.jwt.Jwt;
 import org.springframework.security.jwt.JwtHelper;
 import org.springframework.stereotype.Service;
@@ -23,11 +25,6 @@ public class AuthService {
 
     @Autowired
     private AuthServiceRpc authServiceRpc;
-
-    @Autowired
-    private RedisService redisService;
-
-    private static final String BEARER = "Bearer ";
 
     /**
      * 不需要网关签权的url配置(/oauth,/open)
@@ -45,8 +42,8 @@ public class AuthService {
      * private MacSigner verifier;
      */
 
-    public JsonData<Object> authenticate(String authentication, String url, String method) {
-        JsonData<Object> jsonData = authServiceRpc.authPermission(url, method, BEARER + authentication);
+    public JsonData<Object> authenticate(String url, String method,String authentication) {
+        JsonData<Object> jsonData = authServiceRpc.authPermission(url, method,authentication);
         if (!JsonData.isSuccess(jsonData)) {
             throw new RemoteRpcException(jsonData);
         }
@@ -73,40 +70,7 @@ public class AuthService {
             return Boolean.FALSE;
         }
         //从认证服务获取是否有权限
-        return hasPermission(authenticate(authentication, url, method));
+        return hasPermission(authenticate(url, method,authentication));
     }
 
-
-    public Jwt getJwt(String authentication) {
-        return JwtHelper.decode(authentication);
-    }
-
-    /**
-     * 获取令牌有效期
-     *
-     * @param authentication
-     * @return
-     */
-    public long getExpire(String authentication) {
-        //key
-        String key = "user_token:" + JWTAuthentication.getFullAuthorization(authentication);
-        Long expire = redisService.getExpire(key);
-        return expire;
-    }
-
-    /**
-     * 根据jti获取access_token
-     *
-     * @param authentication
-     * @return
-     */
-    public AuthToken getAuthToken(String authentication) {
-        //key
-        String key = "user_token:" + JWTAuthentication.getFullAuthorization(authentication);
-        String expire = redisService.getKeyStr(key)
-                .orElseThrow(CaptchaNotMatchException::new)
-                .toString();
-        AuthToken authToken = JsonUtil.jsonToPojo(expire, AuthToken.class);
-        return authToken;
-    }
 }

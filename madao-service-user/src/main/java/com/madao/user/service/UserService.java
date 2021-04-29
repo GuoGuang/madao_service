@@ -148,16 +148,14 @@ public class UserService {
         User user = userDao.findByIdAndRequireNonNull(userId);
         UserDto userDto = userMapper.toDto(user);
         List<RoleDto> roles = roleDao.findRolesOfUser(userId).map(roleMapper::toDto).orElse(Collections.emptyList());
-
         roles.forEach(item -> {
                     Set<ResourceDto> resources = Optional.ofNullable(
                             resourceDao.findResourceByRoleIds(Collections.singletonList(item.getId())))
                             .map(resourceMapper::toDto)
                             .orElse(Collections.emptySet());
-	                item.setResources(resources);
+                    item.setResources(resources);
                 }
         );
-
         userDto.setRoles(new HashSet<>(roles));
 
         return userDto;

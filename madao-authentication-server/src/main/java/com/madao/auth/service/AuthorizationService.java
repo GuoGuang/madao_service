@@ -1,23 +1,20 @@
 package com.madao.auth.service;
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.json.JSONObject;
 import com.madao.api.user.ResourceServiceRpc;
 import com.madao.exception.custom.RemoteRpcException;
 import com.madao.model.pojo.user.Resource;
 import com.madao.utils.JsonData;
+import com.madao.utils.JsonUtil;
 import com.madao.utils.LogBack;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -33,14 +30,12 @@ public class AuthorizationService {
     private static final String NONEXISTENT_URL = "NONEXISTENT_URL";
 
     private ResourceServiceRpc resourceServiceRpc;
-    private HandlerMappingIntrospector handlerMappingIntrospector;
 
     // 系统中所有权限集合
     private Map<RequestMatcher, ConfigAttribute> resourceConfigAttributes;
 
-    public AuthorizationService(ResourceServiceRpc resourceServiceRpc, HandlerMappingIntrospector handlerMappingIntrospector) {
+    public AuthorizationService(ResourceServiceRpc resourceServiceRpc) {
         this.resourceServiceRpc = resourceServiceRpc;
-        this.handlerMappingIntrospector = handlerMappingIntrospector;
     }
 
 
@@ -73,13 +68,9 @@ public class AuthorizationService {
         resources.addAll(extendSets);
 
         return resources.stream().collect(Collectors.toMap(
-                resource -> {
-                    MvcRequestMatcher mvcRequestMatcher = new MvcRequestMatcher(handlerMappingIntrospector, resource.getUrl());
-                    mvcRequestMatcher.setMethod(HttpMethod.resolve(resource.getMethod()));
-                    return mvcRequestMatcher;
-                },
-                resource -> new SecurityConfig(resource.getCode())
-                )
+                resource -> new AntPathRequestMatcher(resource.getUrl(), resource.getMethod()),
+                resource -> new SecurityConfig(resource.getCode()),
+                (v1, v2) -> v1)
         );
     }
 
@@ -87,7 +78,7 @@ public class AuthorizationService {
      * @param authRequest 访问的url,method
      * @return 有权限true, 无权限或全局资源中未找到请求url返回否
      */
-    public boolean decide(HttpServletRequest authRequest) {
+    public boolean decide(HttpServletRequest authRequest, JSONObject token) {
         LogBack.info("正在访问的url是:{}，method:{}", authRequest.getServletPath(), authRequest.getMethod());
         resourceConfigAttributes = resourceConfigAttributes();
 
@@ -98,8 +89,7 @@ public class AuthorizationService {
         }
 
         //获取此用户所有角色拥有的权限资源
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Set<Resource> userResources = findResourcesByAuthorityRoles(authentication.getAuthorities());
+        Set<Resource> userResources = findResourcesByAuthorityRoles(token.getJSONArray("authorities").toList(String.class));
 
         //用户拥有权限资源 与 url要求的资源进行对比
         return isMatch(urlConfigAttribute, userResources);
@@ -143,15 +133,11 @@ public class AuthorizationService {
      *
      * @param authorityRoles 角色集合
      */
-    private Set<Resource> findResourcesByAuthorityRoles(Collection<? extends GrantedAuthority> authorityRoles) {
+    private Set<Resource> findResourcesByAuthorityRoles(List<String> authorityRoles) {
         //用户被授予的角色
         LogBack.info("用户的授权角色集合信息为:{}", authorityRoles);
-        String[] authorityRoleIds = authorityRoles.stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList())
-                .toArray(new String[authorityRoles.size()]);
-        Set<Resource> resources = this.queryByRoleIds(authorityRoleIds);
-        LogBack.info("用户被授予角色的资源数量是:{}, 资源集合信息为:{}", resources.size(), resources);
+        Set<Resource> resources = this.queryByRoleIds(authorityRoles.toArray(new String[authorityRoles.size()]));
+        LogBack.info("用户被授予角色的资源数量是:{}, 资源集合信息为:{}", resources.size(), JsonUtil.toJsonString(resources));
         return resources;
     }
 
@@ -159,8 +145,7 @@ public class AuthorizationService {
      * 条件查询资源
      */
     public Set<Resource> findResourceByCondition() {
-        Resource resource = new Resource();
-        JsonData<List<Resource>> resourceByCondition = resourceServiceRpc.findResourceByCondition(resource);
+        JsonData<List<Resource>> resourceByCondition = resourceServiceRpc.findResourceByCondition();
         if (!JsonData.isSuccess(resourceByCondition)) {
             throw new RemoteRpcException(resourceByCondition);
         }

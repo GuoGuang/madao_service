@@ -60,7 +60,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
         ServerHttpRequest request = exchange.getRequest();
-        String authentication = request.getHeaders().getFirst("AUTH");
+        String jwtToken = request.getHeaders().getFirst("Authorization");
         String method = request.getMethodValue();
         String url = request.getPath().value();
         LogBack.info("url:{},method:{},headers:{}", url, method, request.getHeaders());
@@ -104,24 +104,15 @@ public class TokenFilter implements GlobalFilter, Ordered {
                     exchange.getResponse().getStatusCode()));
         }
         // 如果请求未携带token信息, 直接跳出
-        if (StringUtils.isBlank(authentication) || !authentication.contains(BEARER)) {
+        if (StringUtils.isBlank(jwtToken) || !jwtToken.contains(BEARER)) {
             LogBack.error("url:{},method:{},headers:{}, 请求未携带token信息", url, method, request.getHeaders());
             return unAuthorized(exchange, StatusEnum.PARAM_ILLEGAL);
         }
 
-        long expire = authService.getExpire(authentication);
-        // 过期
-        if (expire < 0) {
-            return unAuthorized(exchange, StatusEnum.LOGIN_EXPIRED);
-        }
-
-        AuthToken authToken = authService.getAuthToken(authentication);
-        String jwtToken = authToken.getAccess_token();
         //调用签权服务看用户是否有权限，若有权限进入下一个filter
         if (authService.commonAuthentication(url) || authService.hasPermission(jwtToken, url, method)) {
             ServerHttpRequest.Builder builder = request.mutate();
-            // builder.header(X_CLIENT_TOKEN_USER, authService.getJwt(jwtToken).getClaims()); //将jwt token中的用户信息传给服务
-            builder.header(HttpHeaders.AUTHORIZATION, BEARER + jwtToken);
+            builder.header(HttpHeaders.AUTHORIZATION, jwtToken);
             return chain.filter(exchange.mutate().request(builder.build()).build());
         }
         return unAuthorized(exchange, StatusEnum.UN_AUTHORIZED);

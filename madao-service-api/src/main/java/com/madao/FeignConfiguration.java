@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.madao.utils.LogBack;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import org.apache.http.HttpHeaders;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -45,8 +45,7 @@ public class FeignConfiguration implements RequestInterceptor {
         }
 
         // Feign调用携带请求头
-        ServletRequestAttributes attributes = (ServletRequestAttributes)
-                RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes attributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
         if (attributes != null) {
             HttpServletRequest request = attributes.getRequest();
             Enumeration<String> headerNames = request.getHeaderNames();
