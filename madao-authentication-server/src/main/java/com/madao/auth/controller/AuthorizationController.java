@@ -1,9 +1,13 @@
 package com.madao.auth.controller;
 
-import com.madao.auth.service.AuthenticationService;
+import cn.hutool.json.JSONObject;
+import com.madao.auth.config.HttpServletRequestAuthWrapper;
+import com.madao.auth.service.AuthorizationService;
 import com.madao.utils.JsonData;
+import com.madao.utils.security.JWTAuthentication;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,10 +20,10 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class AuthorizationController {
 
-    private final AuthenticationService authenticationService;
+    private final AuthorizationService authorizationService;
 
-    public AuthorizationController(AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
+    public AuthorizationController(AuthorizationService authorizationService) {
+        this.authorizationService = authorizationService;
     }
 
     /**
@@ -33,9 +37,8 @@ public class AuthorizationController {
     @PostMapping(value = "/permission")
     @ApiOperation(value = "根据url,method 验证当前用户是否有操作权限", notes = "Auth")
     public JsonData<Boolean> decide(@RequestParam String url, @RequestParam String method, HttpServletRequest request) {
-        // TODO 此处鉴权需要重构，暂时关闭鉴权
-        //        boolean decide = authenticationService.decide(new HttpServletRequestAuthWrapper(request, url, method));
-        return JsonData.success(true);
+        JSONObject token = JWTAuthentication.parseJwtToClaimsAsJSONObject(request.getHeader(HttpHeaders.AUTHORIZATION));
+        return JsonData.success(authorizationService.decide(new HttpServletRequestAuthWrapper(request, url, method),token));
     }
 
 }
