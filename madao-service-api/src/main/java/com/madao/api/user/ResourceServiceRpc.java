@@ -29,7 +29,7 @@ public interface ResourceServiceRpc {
      * @return
      */
     @GetMapping
-    JsonData<List<Resource>> findResourceByCondition(Resource resource);
+    JsonData<List<Resource>> findResourceByCondition();
 
     @GetMapping("/roles")
     JsonData<List<Resource>> findResourceByRoleIds(@RequestParam("roleId") String[] roleIds);
