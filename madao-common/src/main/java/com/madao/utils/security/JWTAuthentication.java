@@ -1,5 +1,6 @@
 package com.madao.utils.security;
 
+import cn.hutool.json.JSONObject;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -85,6 +86,23 @@ public class JWTAuthentication {
         return resultMap;
     }
 
+
+    public static JSONObject parseJwtToClaimsAsJSONObject(String jwtStr) {
+        if (StringUtils.isBlank(jwtStr)) {
+            return new JSONObject();
+        }
+        if (jwtStr.contains("Bearer")) {
+            jwtStr = StringUtils.substring(jwtStr,7);
+        }
+        DecodedJWT jwt = JWT.decode(jwtStr);
+        Map<String, Claim> map = jwt.getClaims();
+        JSONObject obj = new JSONObject();
+        map.forEach((k, v) -> obj.set(k, v.asString()));
+        obj.set("authorities",jwt.getClaim("authorities").asList(String.class));
+        return obj;
+    }
+
+
     /**
      * 解析JWT,获取claims
      *
@@ -122,7 +140,7 @@ public class JWTAuthentication {
         try {
             String pubKey = JWTAuthentication.getPubKey(PUBLIC_KEY);
             RsaVerifier rsaVerifier = new RsaVerifier(pubKey);
-            Jwt jwt = JwtHelper.decode(authentication);
+            Jwt jwt = JwtHelper.decode(getFullAuthorization(authentication));
             jwt.verifySignature(rsaVerifier);
             invalid = Boolean.FALSE;
         } catch (InvalidSignatureException | IllegalArgumentException ex) {

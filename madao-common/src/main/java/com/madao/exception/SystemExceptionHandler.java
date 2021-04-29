@@ -8,6 +8,7 @@ import com.madao.exception.custom.ValidFieldError;
 import com.madao.utils.JsonData;
 import com.madao.utils.LogBack;
 import feign.RetryableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,7 +120,7 @@ public class SystemExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public JsonData<Void> missingServletRequestParameterException(AccessDeniedException ex) {
         LogBack.error(ex.getMessage(), ex);
-        return JsonData.failed(StatusEnum.ACCESS_DENIED);
+        return JsonData.failed(StatusEnum.UN_AUTHORIZED);
     }
 
     /**
