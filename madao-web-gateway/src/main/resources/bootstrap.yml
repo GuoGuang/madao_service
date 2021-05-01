@@ -1,7 +1,8 @@
 spring:
   profiles:
     active: ${ACTIVE_PROFILE:dev}
-
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 ---
 spring:
   cloud:
