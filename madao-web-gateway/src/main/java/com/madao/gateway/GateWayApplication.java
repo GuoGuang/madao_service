@@ -1,8 +1,5 @@
 package com.madao.gateway;
 
-import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONObject;
-import com.madao.db.config.DruidConfig;
 import com.madao.utils.DateUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,8 +17,7 @@ import javax.annotation.PostConstruct;
  **/
 
 @ComponentScan(basePackages = {"com.madao"}, excludeFilters = {
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
-                classes = {DruidConfig.class})
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE)
 })
 @EnableFeignClients(basePackages = "com.madao.api")
 @SpringBootApplication
