@@ -1,6 +1,5 @@
 package com.madao.auth.config;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.madao.auth.handler.CustomTokenEnhancer;
 import com.madao.auth.handler.CustomWebResponseExceptionTranslator;
 import com.madao.constant.CommonConst;
@@ -18,8 +17,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -33,15 +30,17 @@ import java.util.Arrays;
 
 /**
  * Oauth2认证配置
- **/
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Configuration
 @EnableAuthorizationServer
 class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-
-	@Autowired
-	private DruidDataSource dataSource;
-	//jwt令牌转换器
+	// jwt令牌转换器
 	@Autowired
 	private JwtAccessTokenConverter jwtAccessTokenConverter;
 	// 登录错误时执行
@@ -67,18 +66,12 @@ class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapte
 	@Resource(name = "keyProp")
 	private KeyProperties keyProperties;
 
-	//客户端配置
-	@Bean
-    public ClientDetailsService clientDetails() {
-        return new JdbcClientDetailsService(dataSource);
-    }
-
 	/**
 	 * 配置客户端应用
 	 * 如果要实现类似GitHub、Google那种支持开发者申请APP或者有多个不同系统的可以将此处改为从数据库动态取数据加载。
 	 */
 	@Override
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
 		OAuth2ClientProperties.Registration github = oAuth2ClientProperties.getRegistration().get("github");
 
@@ -109,43 +102,28 @@ class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapte
 	 * 所有的用户认证逻辑，由authenticationManager统一管理
 	 */
 	@Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        endpoints.accessTokenConverter(jwtAccessTokenConverter)
-                .authenticationManager(authenticationManager)//认证管理器
-                .tokenStore(tokenStore)//令牌存储
-		        .tokenEnhancer(tokenEnhancerChain())
-		        .exceptionTranslator(customWebResponseExceptionTranslator)
-                .userDetailsService(userDetailsService);//用户信息service
-    }
+	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+		endpoints.accessTokenConverter(jwtAccessTokenConverter)
+				.authenticationManager(authenticationManager)//认证管理器
+				.tokenStore(tokenStore)//令牌存储
+				.tokenEnhancer(tokenEnhancerChain())
+				.exceptionTranslator(customWebResponseExceptionTranslator)
+				.userDetailsService(userDetailsService);//用户信息service
+	}
 
 	/**
 	 * 配置 checkTokenAccess 允许哪些请求
 	 */
-    @Override
-    public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
-	    oauthServer.allowFormAuthenticationForClients()
-			    .passwordEncoder(new BCryptPasswordEncoder())
-			    .tokenKeyAccess("permitAll()") // 允许所有请求访问校验令牌的接口
-			    .checkTokenAccess("isAuthenticated()");
-    }
-
-
-	//token的存储方法
-   /* @Bean
-    public InMemoryTokenStore tokenStore() {
-        //将令牌存储到内存
-        return new InMemoryTokenStore();
-    }
-    @Bean
-    public TokenStore tokenStore(RedisConnectionFactory redisConnectionFactory){
-        RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
-        return redisTokenStore;
-    }*/
+	@Override
+	public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
+		oauthServer.allowFormAuthenticationForClients() // 允许客户端访问 OAuth2 授权接口
+				.passwordEncoder(new BCryptPasswordEncoder())
+				.tokenKeyAccess("permitAll()") // 允许访问获取 token 接口
+				.checkTokenAccess("isAuthenticated()"); // 允许已授权用户访问 checkToken 接口
+	}
 
 	/**
 	 * 自定义token
-	 *
-	 * @return tokenEnhancerChain
 	 */
 	@Bean
 	public TokenEnhancerChain tokenEnhancerChain() {
@@ -167,9 +145,9 @@ class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapte
 	public JwtAccessTokenConverter jwtAccessTokenConverter(CustomUserAuthenticationConverter customUserAuthenticationConverter) {
 		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
 		KeyPair keyPair = new KeyStoreKeyFactory(keyProperties.getKeyStore().getLocation(),
-												 keyProperties.getKeyStore().getSecret().toCharArray())
-									.getKeyPair(keyProperties.getKeyStore().getAlias(),
-												keyProperties.getKeyStore().getPassword().toCharArray());
+				keyProperties.getKeyStore().getSecret().toCharArray())
+				.getKeyPair(keyProperties.getKeyStore().getAlias(),
+						keyProperties.getKeyStore().getPassword().toCharArray());
 		converter.setKeyPair(keyPair);
 		//配置自定义的CustomUserAuthenticationConverter
 		DefaultAccessTokenConverter accessTokenConverter = (DefaultAccessTokenConverter) converter.getAccessTokenConverter();

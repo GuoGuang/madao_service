@@ -17,8 +17,13 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.PostConstruct;
 
 /**
- * Oauth2授权服务
- **/
+ * Oauth2授权、鉴权
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2018-01-12 9:01
+ */
 @SpringBootApplication
 @EnableFeignClients(basePackages = "com.madao.api")
 @ComponentScan(basePackages = {"com.madao"})

@@ -28,7 +28,12 @@ import java.util.Map;
 
 /**
  * 三方登录（Github、QQ、Wechat）成功处理器
- **/
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Component
 public class OauthLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
