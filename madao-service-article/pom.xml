@@ -27,12 +27,6 @@
             <artifactId>spring-security-oauth2</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.madao</groupId>
-            <artifactId>madao-common-db</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
         <!-- SpringCloudConfig配置 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

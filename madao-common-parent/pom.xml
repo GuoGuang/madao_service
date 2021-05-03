@@ -165,7 +165,6 @@
     </dependencyManagement>
     <modules>
         <module>../madao-common</module>
-        <module>../madao-common-db</module>
         <module>../madao-server-config</module>
         <module>../madao-service-base</module>
         <module>../madao-service-article</module>

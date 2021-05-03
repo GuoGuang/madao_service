@@ -27,11 +27,6 @@
         </dependency>
         <dependency>
             <groupId>com.madao</groupId>
-            <artifactId>madao-common-db</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.madao</groupId>
             <artifactId>madao-service-api</artifactId>
             <version>1.0.0</version>
         </dependency>
