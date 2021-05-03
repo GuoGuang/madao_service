@@ -13,8 +13,12 @@ import java.util.Map;
 
 /**
  * 博客用户服务api
- **/
-
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @FeignClient(contextId = "blogUserClient",
         value = FeignConst.SERVICE_USER,
         path = FeignConst.SERVICE_BLOG_USER_PATH,

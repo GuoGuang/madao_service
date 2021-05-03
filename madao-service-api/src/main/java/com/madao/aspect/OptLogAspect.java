@@ -28,8 +28,12 @@ import java.util.Map;
 /**
  * 操作日志切面
  * use: @OptLog(operationType = OptLogType.ADD, operationName = "注册用户")
- **/
-
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Aspect
 @Component
 public class OptLogAspect {

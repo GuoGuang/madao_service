@@ -1,6 +1,5 @@
 package com.madao.user.service;
 
-
 import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.QueryVO;
 import com.madao.model.dto.user.ResourceDto;
@@ -19,8 +18,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 资源接口实现
- **/
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Service
 public class ResourceService {
 

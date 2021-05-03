@@ -21,20 +21,23 @@ import com.madao.utils.BeanUtil;
 import com.madao.utils.FakerUtil;
 import com.madao.utils.JsonUtil;
 import com.madao.utils.LogBack;
-import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-@Api(tags = "用户管理")
-@RestController
-@RequestMapping(value = "/api/su/")
+/**
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
+@Service
 public class BlogUserService {
 
     private final RedisService redisService;

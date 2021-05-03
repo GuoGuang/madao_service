@@ -17,8 +17,12 @@ import java.io.IOException;
 /**
  * 用户没有登录时返回给前端的数据
  * 未登陆时返回 JSON 格式的数据给前端（否则为 html）
- **/
-
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 

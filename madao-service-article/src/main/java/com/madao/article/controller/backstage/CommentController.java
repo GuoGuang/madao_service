@@ -17,10 +17,16 @@ import java.util.List;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
+/**
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Api(tags = "文章评论管理")
 @RestController
 @RequestMapping(value = "/comment")
-
 public class CommentController {
 
     private final CommentService commentService;

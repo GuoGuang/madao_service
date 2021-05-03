@@ -8,7 +8,12 @@ import java.io.Serializable;
 
 /**
  * 文章板块: 文章类,集成ES
- **/
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Document(indexName = "coco")
 public class Article extends BasePojo implements Serializable {
 

@@ -15,6 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
+/**
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Api(tags = "前台分类")
 @RestController
 @RequestMapping(value = "/api/ar/category")

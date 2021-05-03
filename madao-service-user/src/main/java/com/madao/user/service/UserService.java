@@ -26,8 +26,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 用户服务
- **/
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Service
 public class UserService {
 

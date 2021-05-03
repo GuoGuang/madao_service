@@ -15,17 +15,20 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 基于spring和redis的redisTemplate工具类
- * * 针对所有的hash 都是以h开头的方法
- * * 针对所有的Set 都是以s开头的方法  不含通用方法
- * * 针对所有的List 都是以l开头的方法
- * <p>
+ * 针对所有的hash 都是以h开头的方法
+ * 针对所有的Set 都是以s开头的方法  不含通用方法
+ * 针对所有的List 都是以l开头的方法
  * redisTemplate.opsForValue();//操作字符串
  * redisTemplate.opsForHash();//操作hash
  * redisTemplate.opsForList();//操作list
  * redisTemplate.opsForSet();//操作set
  * redisTemplate.opsForZSet();//操作有序set
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
  */
-
 @Service
 public class RedisServiceImpl implements com.madao.db.redis.service.RedisService {
 

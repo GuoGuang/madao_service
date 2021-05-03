@@ -18,6 +18,13 @@ import java.util.Map;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
+/**
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @RestController
 @RequestMapping(value = "/api/ar/article", produces = "application/json")
 public class ApiArticleController {

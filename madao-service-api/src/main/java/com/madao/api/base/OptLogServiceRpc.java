@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * 操作日志api
- **/
-
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @FeignClient(contextId = "optLogClient",
         value = FeignConst.SERVICE_BASE,
         path = FeignConst.SERVICE_BASE_OPT_LOG_PATH,
