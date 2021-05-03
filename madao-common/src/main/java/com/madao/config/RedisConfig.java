@@ -1,4 +1,4 @@
-package com.madao.db.redis.config;
+package com.madao.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

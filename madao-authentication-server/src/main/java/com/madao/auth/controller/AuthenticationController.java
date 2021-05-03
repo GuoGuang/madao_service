@@ -3,7 +3,7 @@ package com.madao.auth.controller;
 import cn.hutool.json.JSONObject;
 import com.madao.auth.validate.ValidateCodeProcessor;
 import com.madao.auth.validate.ValidateCodeProcessorHolder;
-import com.madao.db.redis.service.RedisService;
+import com.madao.redis.RedisService;
 import com.madao.utils.JsonData;
 import com.madao.utils.LogBack;
 import com.madao.utils.security.JWTAuthentication;

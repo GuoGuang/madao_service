@@ -3,7 +3,7 @@ package com.madao.auth.provider;
 import com.madao.auth.service.GitHubDetailsServiceImpl;
 import com.madao.auth.token.CaptchaAuthenticationToken;
 import com.madao.auth.token.GitHubAuthenticationToken;
-import com.madao.db.redis.service.RedisService;
+import com.madao.redis.RedisService;
 import com.madao.utils.HttpHelper;
 import com.madao.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;

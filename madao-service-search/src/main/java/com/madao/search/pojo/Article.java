@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
-@Document(indexName = "coco")
+@Document(indexName = "article")
 public class Article extends BasePojo implements Serializable {
 
     private String id;//ID

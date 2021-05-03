@@ -1,6 +1,5 @@
 package com.madao.user.service.blog;
 
-import com.madao.db.redis.service.RedisService;
 import com.madao.enums.ProviderEnum;
 import com.madao.exception.custom.CaptchaNotMatchException;
 import com.madao.exception.custom.PhoneExistingException;
@@ -10,6 +9,7 @@ import com.madao.model.dto.user.RoleDto;
 import com.madao.model.dto.user.UserDto;
 import com.madao.model.pojo.user.User;
 import com.madao.model.pojo.user.UserRole;
+import com.madao.redis.RedisService;
 import com.madao.user.dao.ResourceDao;
 import com.madao.user.dao.RoleDao;
 import com.madao.user.dao.UserDao;

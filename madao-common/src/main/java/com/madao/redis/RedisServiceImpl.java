@@ -1,5 +1,4 @@
-package com.madao.db.redis.service;
-
+package com.madao.redis;
 
 import com.madao.utils.LogBack;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * @created 2019-09-29 7:37
  */
 @Service
-public class RedisServiceImpl implements com.madao.db.redis.service.RedisService {
+public class RedisServiceImpl implements RedisService {
 
     @Autowired
     private RedisTemplate redisTemplate;

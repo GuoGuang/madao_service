@@ -1,4 +1,4 @@
-package com.madao.db.redis.service;
+package com.madao.redis;
 
 import java.util.List;
 import java.util.Map;
