@@ -20,6 +20,15 @@
   </a>
 </p>
 
+## 推荐开源项目
+项目 | 地址
+---|---
+pinyinUtils | https://github.com/GuoGuang/pinyinUtils
+后台管理框架 | https://github.com/GuoGuang/madao_admin_manage
+数据爬虫集合 | https://github.com/GuoGuang/python-spider
+前台博客 | https://github.com/GuoGuang/madao
+如何写好单元测试 | https://github.com/GuoGuang/spring_junit_mockito_example
+
 ## [急速预览---直达](https://madaoo.com)
 
 本仓库基于spring、spring-boot、spring-cloud等全家桶模块搭建
@@ -45,8 +54,6 @@
 ├─madao-common-parent----------------------------父项目，公共依赖
 │  │
 │  ├─madao-common--------------------------------微服务公共包
-│  │
-│  ├─madao-common-db-----------------------------数据库
 │  │
 │  ├─madao-service-config-------------------------微服务配置中心+微服务注册中心
 │  │
@@ -164,16 +171,12 @@ SpringCloud是比较吃内存的，如果你不指定内存大小，8G内存一�
 ![图2](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/Wallboard.png)
 ![图3](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/Details.png)
 
-## 推荐开源项目
-项目 | 地址
----|---
-pinyinUtils | https://github.com/GuoGuang/pinyinUtils
-后台管理框架 | https://github.com/GuoGuang/madao_admin_manage
-数据爬虫集合 | https://github.com/GuoGuang/python-spider
-前台博客 | https://github.com/GuoGuang/madao
-如何写好单元测试 | https://github.com/GuoGuang/spring_junit_mockito_example
-
-
 ## 更新日志
 ### [20210204]
 Spring-Cloud-Gateway 集成 Swagger,支持认证后访问，由网关统一管理
+
+### [20210412]
+移除不必要得依赖，项目结构重构
+
+### [20210505]
+将资源缓存化，加快访问速度
