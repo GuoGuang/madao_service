@@ -43,18 +43,15 @@ public class UserApplication {
 
     /**
      * BCrypt加密算法
-     *
-     * @return : BCryptPasswordEncoder
      */
     @Bean
     public BCryptPasswordEncoder bcryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+
     /**
      * 配置querydsl
-     *
-     * @see https://www.cnblogs.com/jpfss/p/11003964.html
      */
     @Bean
     public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
