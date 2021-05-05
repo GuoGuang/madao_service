@@ -133,7 +133,15 @@ public class JsonUtil {
             LogBack.error(JACKSON_ERROR, e.getMessage(), e);
             throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
         }
-
+    }
+    public static <T> List<T> jsonToListPojo(String jsonData,Class<T> clazz) {
+        JavaType javaType = objectMapper.getTypeFactory().constructParametricType(List.class, clazz);
+        try {
+	        return objectMapper.readValue(jsonData, javaType);
+        } catch (Exception e) {
+            LogBack.error(JACKSON_ERROR, e.getMessage(), e);
+            throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
+        }
     }
 
     public static byte[] toJSONBytes(JsonData result) throws IOException {
