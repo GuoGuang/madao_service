@@ -8,8 +8,6 @@ import com.madao.utils.security.JWTAuthentication;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,6 +36,10 @@ public class AuthorizationController {
     /**
      * 根据url,method 验证当前用户是否有操作权限
      *
+     * 在单体服务中可以通过自定义 实现 FilterInvocationSecurityMetadataSource获取用户权限，然后通过实现 AccessDecisionManager的decide方法判断
+     * 用户是否有权限。
+     * @see https://github.com/lenve/vhr/blob/master/vhr/vhrserver/vhr-web/src/main/java/org/javaboy/vhr/config/CustomFilterInvocationSecurityMetadataSource.java
+     *
      * @param url     请求地址
      * @param method  请求方法
      * @param request request
@@ -46,8 +48,6 @@ public class AuthorizationController {
     @PostMapping(value = "/permission")
     @ApiOperation(value = "根据url,method 验证当前用户是否有操作权限", notes = "Auth")
     public JsonData<Boolean> decide(@RequestParam String url, @RequestParam String method, HttpServletRequest request) {
-	    SecurityContext context = SecurityContextHolder.getContext();
-	    System.out.println(context);
 	    JSONObject token = JWTAuthentication.parseJwtToClaimsAsJSONObject(request.getHeader(HttpHeaders.AUTHORIZATION));
         return JsonData.success(authorizationService.decide(new HttpServletRequestAuthWrapper(request, url, method),token));
     }
