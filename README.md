@@ -1,7 +1,7 @@
 
 <p align="center">
-<a href="https://github.com/GuoGuang/codeway" target="blank">
-    <img src="https://yd-note.oss-cn-beijing.aliyuncs.com/favicon.ico" height="90" alt="codeway.fun logo" />
+<a href="https://github.com/GuoGuang/madao" target="blank">
+    <img src="https://yd-note.oss-cn-beijing.aliyuncs.com/favicon.ico" height="90" alt="madaoo.com logo" />
 </a>
 </p>
 
@@ -20,11 +20,12 @@
   </a>
 </p>
 
+## [急速预览---直达](https://madaoo.com)
 
 本仓库基于spring、spring-boot、spring-cloud等全家桶模块搭建
 
 ## 技术选型
-1. 核心框架：SpringBoot、SpringCloud 全家桶
+1. 核心框架：SpringBoot、SpringCloud全家桶、Python提供电影服务
 2. 安全框架：Spring Security
 3. 分布式任务调度：Elastic-job
 4. 持久层框架：Jpa
@@ -36,56 +37,56 @@
 10. 运维/集成/部署：Jenkins、Docker...
 
 ## 前台项目请移步 
-- [后台管理系统](https://github.com/GuoGuang/codeway_admin_manage)
-- [前台博客](https://github.com/GuoGuang/codeway)
+- [后台管理系统](https://github.com/GuoGuang/madao_admin_manage)
+- [前台博客](https://github.com/GuoGuang/madao)
 
 ## 平台目录结构说明
 ```
-├─codeway-common-parent----------------------------父项目，公共依赖
+├─madao-common-parent----------------------------父项目，公共依赖
 │  │
-│  ├─codeway-common--------------------------------微服务公共包
+│  ├─madao-common--------------------------------微服务公共包
 │  │
-│  ├─codeway-common-db-----------------------------数据库
+│  ├─madao-common-db-----------------------------数据库
 │  │
-│  ├─codeway-service-config-------------------------微服务配置中心
+│  ├─madao-service-config-------------------------微服务配置中心+微服务注册中心
 │  │
-│  ├─codeway-service-eureka-------------------------微服务注册中心
+│  ├─madao-service-api---------------------------微服务API工程
 │  │
-│  ├─codeway-service-monitor-----------------------—微服务监控中心 
+│  ├─madao-service-article-----------------------文章服务
 │  │
-│  ├─codeway-service-api---------------------------微服务API工程
+│  ├─madao-service-base--------------------------基础服务
 │  │
-│  ├─codeway-service-article-----------------------文章服务
+│  ├─madao-service-search------------------------搜索服务
 │  │
-│  ├─codeway-service-base--------------------------基础服务
+│  ├─madao-service-user--------------------------RBAC用户服务
 │  │
-│  ├─codeway-service-search------------------------搜索服务
-│  │
-│  ├─codeway-service-user--------------------------用户服务
-│  │
-│  ├─codeway-web-gateway---------------------------微服务网关中心
+│  ├─madao-web-gateway---------------------------微服务网关中心
 
 ```
 ### 前置环境
 1. IDE：IntelliJ IDEA
 2. JDK：1.8+ 
-3. 工具：Maven，Lombok 插件
-
-> 本项目使用了 Lombok，运行之前请检查 IDE 是否已经安装好了 Lombok 插件。
-
+3. 工具：Maven
 
 ## 快速开始
-> 本项目需要你有一定的开发经验，对SpringCloud有基础的认识，此项目仅提供学习使用，新手不建议使用。
+> 本项目需要你有一定得开发经验，对SpringCloud有基础的认识，此项目仅提供学习使用。
 
 > 开源不易，如果此项目对您有帮助，麻烦点个star给作者一点动力，不胜感激。:sparkles:
 
+
 0. 导入服务
-![导入服务](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/service.png)
-点击 "import module" 将服务一一导入，如果你嫌一个个导入麻烦，可以在codeway-common-parent的pom.xml文件中最底下把<modules>标签放开，但是真正微服务开发一般一个团队或者一个人负责一个服务，没有一个人同时开发多个服务情况，毕竟是个人博客项目，导入方式可以自己定。
+![导入服务](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/service.png)
+点击 "import module" 将服务一一导入，如果你嫌一个个导入麻烦，可以在madao-common-parent的pom.xml文件中最底下把<modules>标签放开，但是真正微服务开发一般一个团队或者一个人负责一个服务，没有一个人同时开发多个服务情况，毕竟是个人博客项目，导入方式可以自己定。
+```
+// install
+mvn -B -DskipTests install -f madao-common-parent -Dmaven.test.skip=true  
+或者 
+idea里 maven选项选中madao-common-parent install 需要在Maven Projects界面里中选中"跳过测试"
+```
 
-1. 初始化数据库：导入系统根路径下codeway.sql文件到数据库中
+1. 初始化数据库：导入系统根路径下madao.sql文件到数据库中
 
-2. 一个成熟的项目必然会依赖众多中间件，本项目也不例外，这里假设你会使用docker,如果你还没有接触到docker,那么可以参考我的另一篇文章[Docker入门](https://codeway.fun/article/1263480522076721152)
+2. 一个成熟的项目必然会依赖众多中间件，本项目也不例外，这里假设你会使用docker,如果你还没有接触到docker,那么可以参考我的另一篇文章[Docker入门](https://madaoo.com/article/1263480522076721152)
 
     使用docker启动mysql、redis
     ```
@@ -101,11 +102,11 @@
     ```
 
 3. 配置注册中心远程仓库
-github fork此仓库[配置中心](https://github.com/GuoGuang/codeway_config)
+github fork此仓库[配置中心](https://github.com/GuoGuang/madao_config)
 将里面的配置文件更改为你的地址，阿里云oss地址没有的话可以注释掉
 
 4.  配置注册中心远程地址
-在codeway-server-config服务中找到bootstrap.yml文件，配置如下
+在madao-server-config服务中找到bootstrap.yml文件，配置如下
 
 ```
 spring:
@@ -146,14 +147,33 @@ SpringCloud是比较吃内存的，如果你不指定内存大小，8G内存一�
 
 以上配置请不要再生产使用，仅作为本地开发调试，为解决内存不足问题的，当然如果你的内存够大，可以忽略以上配置
 
+## Swagger 
+[访问地址](http://127.0.0.1:8080/swagger-ui/)
+
+默认账号：admin 密码：password
+
 ## 启动微服务
 ### 架构图
-![架构图](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE1.png)
-![架构图](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE2.png)
+![架构图](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE1.png)
+![架构图](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/%E6%9E%B6%E6%9E%84%E5%9B%BE2.png)
 
 ### 服务监控平台
-启动 codeway-service-monitor 服务 
+启动 madao-service-monitor 服务 
 访问 [地址](http://127.0.0.1:9002)
-![图1](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/Application.png)
-![图2](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/Wallboard.png)
-![图3](https://github.com/GuoGuang/codeway_service/blob/develop/codeway-common-parent/image/Details.png)
+![图1](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/Application.png)
+![图2](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/Wallboard.png)
+![图3](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/Details.png)
+
+## 推荐开源项目
+项目 | 地址
+---|---
+pinyinUtils | https://github.com/GuoGuang/pinyinUtils
+后台管理框架 | https://github.com/GuoGuang/madao_admin_manage
+数据爬虫集合 | https://github.com/GuoGuang/python-spider
+前台博客 | https://github.com/GuoGuang/madao
+如何写好单元测试 | https://github.com/GuoGuang/spring_junit_mockito_example
+
+
+## 更新日志
+### [20210204]
+Spring-Cloud-Gateway 集成 Swagger,支持认证后访问，由网关统一管理

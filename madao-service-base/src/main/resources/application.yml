@@ -1,0 +1,9 @@
+server:
+  port: 9008
+spring:
+  application:
+    name: service-base
+
+com:
+  madao:
+    aopPointcutExpression: execution (* com.madao.base..*.*(..))

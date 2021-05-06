@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+
+---
+spring:
+  cloud:
+    config:
+      name: user
+      label: master
+      uri: http://localhost:9009/config
+      profile: dev
+  config:
+    activate:
+      on-profile: dev
+
+---
+spring:
+  cloud:
+    config:
+      name: user
+      label: master
+      uri: http://121.36.158.84:9009/config
+      profile: prod
+  config:
+    activate:
+      on-profile: prod

@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  cloud:
+    config:
+      name: article #需要从github上读取的资源名称，注意没有yml后缀名
+      label: master
+      profile: dev
+      uri: http://localhost:9009/config
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  cloud:
+    config:
+      name: article
+      label: master
+      profile: prod
+      uri: http://121.36.158.84:9009/config

@@ -1,0 +1,35 @@
+eureka:
+  instance:
+    hostname: ${spring.cloud.client.ip-address} #eureka服务端的实例名称
+  client:
+    register-with-eureka: false     #false表示不向注册中心注册自己。
+    fetch-registry: false     #是否需要从Eureka中获取注册信息
+    service-url:
+      defaultZone: http://127.0.0.1:${server.port}/eureka/
+
+
+spring:
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+  cloud:
+    config:
+      server:
+        prefix: /config
+        encrypt:
+          enabled: true # 启用config加密功能
+        git:
+          uri: https://github.com/jackonli-Eils/madaoo_config.git
+          searchPaths: ${spring.profiles.active}
+          default-label: master
+          username: 你的github账号
+          password: '你的github密码'
+    bus:
+      enabled: true    # 开启消息跟踪
+
+# 非对称加密
+#encrypt:
+#  key-store:
+#    location: classpath:config-server.jks
+#    alias: codeif.tech
+#    password: IAS76D
+#    secret: IAS76D

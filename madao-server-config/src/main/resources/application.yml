@@ -1,0 +1,14 @@
+server:
+  port: 9009
+spring:
+  application:
+    name: server-config #指定服务名
+
+# 消息总线BUS自动刷新配置文件
+management: #暴露触发消息总线的地址
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
+  security:
+    enabled: false # 刷新时，关闭安全验证

@@ -1,0 +1,53 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: web-gateway
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+  cloud:
+    gateway:
+      routes:
+        # 此配置与GateWayConfig.java不重复，此处定义swagger路由地址，不做业务路由转发
+        - id: base
+          uri: lb://SERVICE-BASE
+          predicates:
+            - Path=/doc/base/**
+          filters:
+            - StripPrefix=2
+        - id: user
+          uri: lb://SERVICE-USER
+          predicates:
+            - Path=/doc/user/**
+          filters:
+            - StripPrefix=2
+        - id: article
+          uri: lb://SERVICE-ARTICLE
+          predicates:
+            - Path=/doc/article/**
+          filters:
+            - StripPrefix=2
+        - id: oauth
+          uri: lb://AUTHENTICATION-SERVER
+          predicates:
+            - Path=/doc/oauth/**
+          filters:
+            - StripPrefix=2
+
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedHeaders: "x-token"
+            allowedOrigins: "http://121.36.158.84:9527"
+            allowedMethods:
+            - OPTIONS
+            - GET
+            - POST
+            - PUT
+            - DELETE # https://segmentfault.com/a/1190000017188296
+
+auth:
+  ignoreUrls: /oauth,/auth,/social
+  commonUrls: /su/user/permission
