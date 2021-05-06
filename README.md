@@ -20,15 +20,6 @@
   </a>
 </p>
 
-## 推荐开源项目
-项目 | 地址
----|---
-pinyinUtils | https://github.com/GuoGuang/pinyinUtils
-后台管理框架 | https://github.com/GuoGuang/madao_admin_manage
-数据爬虫集合 | https://github.com/GuoGuang/python-spider
-前台博客 | https://github.com/GuoGuang/madao
-如何写好单元测试 | https://github.com/GuoGuang/spring_junit_mockito_example
-
 ## [急速预览---直达](https://madaoo.com)
 
 本仓库基于spring、spring-boot、spring-cloud等全家桶模块搭建
@@ -48,6 +39,16 @@ pinyinUtils | https://github.com/GuoGuang/pinyinUtils
 ## 前台项目请移步 
 - [后台管理系统](https://github.com/GuoGuang/madao_admin_manage)
 - [前台博客](https://github.com/GuoGuang/madao)
+
+## 其他开源仓库
+项目 | 地址
+---|---
+pinyinUtils | https://github.com/GuoGuang/pinyinUtils
+后台管理框架 | https://github.com/GuoGuang/madao_admin_manage
+数据爬虫集合 | https://github.com/GuoGuang/python-spider
+前台博客 | https://github.com/GuoGuang/madao
+如何写好单元测试 | https://github.com/GuoGuang/spring_junit_mockito_example
+
 
 ## 平台目录结构说明
 ```
@@ -79,7 +80,6 @@ pinyinUtils | https://github.com/GuoGuang/pinyinUtils
 > 本项目需要你有一定得开发经验，对SpringCloud有基础的认识，此项目仅提供学习使用。
 
 > 开源不易，如果此项目对您有帮助，麻烦点个star给作者一点动力，不胜感激。:sparkles:
-
 
 0. 导入服务
 ![导入服务](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/service.png)
@@ -142,6 +142,15 @@ spring:
 #     secret: xxx
 ```
 
+## Swagger
+[本地访问地址](http://127.0.0.1:8080/swagger-ui/)
+默认账号：admin 密码：password
+
+### SpringSecurity流程
+大致了解一下SpringSecurity的流程，方便对整个项目的了解
+![Security时序图](https://yd-note.oss-cn-beijing.aliyuncs.com/spring/Oauth%26SpringSecurity/SpringSecurity%20%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B%E6%97%B6%E5%BA%8F%E5%9B%BE.png)
+
+
 ## 关于内存问题
 
 SpringCloud是比较吃内存的，如果你不指定内存大小，8G内存一般启3、4个就满了，所以这里需要配置下每个服务内存大小
@@ -154,10 +163,6 @@ SpringCloud是比较吃内存的，如果你不指定内存大小，8G内存一�
 
 以上配置请不要再生产使用，仅作为本地开发调试，为解决内存不足问题的，当然如果你的内存够大，可以忽略以上配置
 
-## Swagger 
-[访问地址](http://127.0.0.1:8080/swagger-ui/)
-
-默认账号：admin 密码：password
 
 ## 启动微服务
 ### 架构图
