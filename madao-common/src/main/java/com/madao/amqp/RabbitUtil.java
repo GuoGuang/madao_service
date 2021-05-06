@@ -1,6 +1,5 @@
 package com.madao.amqp;
 
-
 import com.madao.utils.LogBack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +9,13 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 /**
  * RabbitMQ相关操作工具类
- *
- * @author LinGuoGuang
- **/
-//@Component
-// TODO:配置Rabbitmq HOST,POST
+ * TODO:配置Rabbitmq HOST,POST
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 public class RabbitUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(RabbitUtil.class);

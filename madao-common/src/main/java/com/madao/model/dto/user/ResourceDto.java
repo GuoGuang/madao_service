@@ -10,9 +10,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * 资源
- **/
 public class ResourceDto extends BasePojo implements Serializable, Cloneable {
 
     private Set<RoleDto> roles = new HashSet<>();

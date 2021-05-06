@@ -4,8 +4,11 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * 数据脱敏工具类
- *
- * @version 1.0.0
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
  */
 public class DesensitizedUtil {
 

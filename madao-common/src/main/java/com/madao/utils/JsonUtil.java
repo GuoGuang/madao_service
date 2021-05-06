@@ -1,6 +1,5 @@
 package com.madao.utils;
 
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,6 +10,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 public class JsonUtil {
 
     private JsonUtil() {
