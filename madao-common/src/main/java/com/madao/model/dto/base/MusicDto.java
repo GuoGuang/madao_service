@@ -7,10 +7,6 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-/**
- * 音乐实体
- **/
-
 public class MusicDto extends BasePojo implements Serializable {
 
     private String id;

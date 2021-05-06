@@ -19,7 +19,12 @@ import java.util.Set;
 /**
  * 用户信息服务
  * 实现 Spring Security的UserDetailsService接口方法，用于身份认证
- **/
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 

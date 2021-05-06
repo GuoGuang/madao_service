@@ -17,7 +17,12 @@ import java.io.IOException;
 
 /**
  * 用户登录失败时返回给前端的数据
- **/
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Component
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 

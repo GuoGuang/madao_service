@@ -2,7 +2,6 @@ package com.madao.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -10,6 +9,13 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+/**
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Configuration
 public class Swagger2Config {
 

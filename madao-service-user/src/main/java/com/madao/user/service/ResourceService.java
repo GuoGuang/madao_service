@@ -1,11 +1,11 @@
 package com.madao.user.service;
 
-
 import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.QueryVO;
 import com.madao.model.dto.user.ResourceDto;
 import com.madao.model.pojo.user.Resource;
 import com.madao.model.pojo.user.RoleResource;
+import com.madao.redis.RedisService;
 import com.madao.user.dao.ResourceDao;
 import com.madao.user.dao.RoleResourceDao;
 import com.madao.user.mapper.ResourceMapper;
@@ -19,22 +19,28 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 资源接口实现
- **/
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Service
 public class ResourceService {
 
     private final ResourceDao resourceDao;
     private final ResourceMapper resourceMapper;
     private final RoleResourceDao roleResourceDao;
+	private final RedisService redisService;
 
     @Autowired
     public ResourceService(ResourceDao resourceDao,
                            RoleResourceDao roleResourceDao,
-                           ResourceMapper resourceMapper) {
+                           ResourceMapper resourceMapper, RedisService redisService) {
         this.resourceDao = resourceDao;
         this.roleResourceDao = roleResourceDao;
         this.resourceMapper = resourceMapper;
+	    this.redisService = redisService;
     }
 
     /**
@@ -79,10 +85,12 @@ public class ResourceService {
 
         roleResourceDao.deleteByRoleIdIn(Collections.singletonList(resourceDto.getId()));
         roleResourceDao.saveAll(roleResources);
+	    redisService.del("resources");
     }
 
     public void deleteByIds(List<String> resId) {
         resourceDao.deleteBatch(resId);
         roleResourceDao.deleteByResourceIdIn(resId);
+	    redisService.del("resources");
     }
 }

@@ -6,13 +6,13 @@ import com.madao.article.dao.backstage.ArticleTagDao;
 import com.madao.article.dao.backstage.TagDao;
 import com.madao.article.mapper.ArticleMapper;
 import com.madao.article.mapper.TagMapper;
-import com.madao.db.redis.service.RedisService;
 import com.madao.enums.ArticleAuditStatus;
 import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.dto.article.ArticleDto;
 import com.madao.model.dto.user.UserDto;
 import com.madao.model.pojo.article.Article;
 import com.madao.model.pojo.article.ArticleTag;
+import com.madao.redis.RedisService;
 import com.madao.utils.JsonData;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -23,6 +23,13 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Service
 public class ArticleService {
 

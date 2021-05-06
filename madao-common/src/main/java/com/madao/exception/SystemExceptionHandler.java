@@ -25,11 +25,15 @@ import java.util.List;
 
 /**
  * 统一系统异常处理类
- * <p>
  * Add ConditionalOnBean(Servlet.class) fix Exception Caused by: java.lang.ClassNotFoundException: javax.servlet.ServletException
  * Because spring-cloud-starter-gateway conflicts with javax.servlet.Servlet
- **/
-//@ConditionalOnBean(Servlet.class)
+ * //@ConditionalOnBean(Servlet.class)
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @RestControllerAdvice
 public class SystemExceptionHandler {
 

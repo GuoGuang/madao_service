@@ -1,14 +1,17 @@
 package com.madao.auth.controller;
 
+import cn.hutool.json.JSONObject;
 import com.madao.auth.validate.ValidateCodeProcessor;
 import com.madao.auth.validate.ValidateCodeProcessorHolder;
-import com.madao.db.redis.service.RedisService;
+import com.madao.redis.RedisService;
 import com.madao.utils.JsonData;
+import com.madao.utils.LogBack;
 import com.madao.utils.security.JWTAuthentication;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Api("用户登录认证")
 @RestController
 @RequestMapping("/oauth")
@@ -40,10 +50,10 @@ public class AuthenticationController {
             @ApiImplicitParam(name = "token", value = "令牌", dataType = "String", paramType = "header")
     )
     @GetMapping(value = "/logout")
-    public JsonData<Void> logout(HttpServletRequest request, HttpServletResponse response,
-                                 @RequestHeader("AUTH") String token) {
-        redisService.del("user_token:" + JWTAuthentication.getFullAuthorization(token));
-        new SecurityContextLogoutHandler().logout(request, response, null);
+    public JsonData<Void> logout(HttpServletRequest request, HttpServletResponse response) {
+	    JSONObject token = JWTAuthentication.parseJwtToClaimsAsJSONObject(request.getHeader(HttpHeaders.AUTHORIZATION));
+	    LogBack.info("logout:{}",token);
+	    new SecurityContextLogoutHandler().logout(request, response, null);
         return JsonData.success();
     }
 

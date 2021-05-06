@@ -8,6 +8,11 @@ import com.querydsl.core.types.dsl.Expressions;
 /**
  * Querydsl工具类
  * 封装常用方法
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
  */
 public class QuerydslUtil {
 

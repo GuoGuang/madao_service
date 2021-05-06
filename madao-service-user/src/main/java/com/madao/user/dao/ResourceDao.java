@@ -1,6 +1,5 @@
 package com.madao.user.dao;
 
-
 import com.madao.model.pojo.user.Resource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -12,6 +11,13 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 public interface ResourceDao extends JpaRepository<Resource, String>, JpaSpecificationExecutor<Resource>, QuerydslPredicateExecutor<Resource> {
 
     @Query(value = "SELECT * FROM us_resource WHERE id IN (SELECT resource_id FROM us_role_resource WHERE role_id in (:resId))", nativeQuery = true)

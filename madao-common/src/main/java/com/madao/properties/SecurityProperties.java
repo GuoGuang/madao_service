@@ -1,11 +1,14 @@
 package com.madao.properties;
 
-
-
 /**
  * Security的所有配置
- **/
-//@ConfigurationProperties(prefix = "spring.security.oauth2.client")
+ * //@ConfigurationProperties(prefix = "spring.security.oauth2.client")
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 public class SecurityProperties {
 
     /**

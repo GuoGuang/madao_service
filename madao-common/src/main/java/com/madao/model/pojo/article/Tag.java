@@ -6,6 +6,13 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Entity
 @Table(name = "ar_tag", indexes = {@Index(name = "tag_name", columnList = "name")})
 public class Tag extends BasePojo implements Serializable {

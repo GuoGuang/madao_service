@@ -3,8 +3,8 @@ package com.madao.auth.handler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.madao.api.base.LoginLogServiceRpc;
 import com.madao.constant.CommonConst;
-import com.madao.db.redis.service.RedisService;
 import com.madao.model.dto.user.AuthToken;
+import com.madao.redis.RedisService;
 import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;
 import com.madao.utils.LogBack;
@@ -28,7 +28,12 @@ import java.util.Map;
 
 /**
  * 三方登录（Github、QQ、Wechat）成功处理器
- **/
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Component
 public class OauthLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 

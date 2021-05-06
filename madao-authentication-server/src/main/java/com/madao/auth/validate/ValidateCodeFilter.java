@@ -27,6 +27,11 @@ import java.util.Set;
 /**
  * 校验验证码的过滤器
  * 指定哪些请求需要验证
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
  */
 @Component("validateCodeFilter")
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {

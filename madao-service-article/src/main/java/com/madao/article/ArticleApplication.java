@@ -15,10 +15,13 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.PostConstruct;
 
 /**
- * SpringBoot主配置类只会扫描自己所在的包及其子包下面,如果不加此扫描madao-common里的公用包则扫描不到
- *
- * @ComponentScan(basePackages = {"com.madao"})
- **/
+ *  SpringBoot主配置类只会扫描自己所在的包及其子包下面,需要通过@ComponentScan处理
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @SpringBootApplication
 @EntityScan("com.madao.model.pojo")
 @EnableEurekaClient

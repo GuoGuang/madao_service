@@ -5,9 +5,9 @@ import com.madao.article.dao.backstage.TagDao;
 import com.madao.article.mapper.TagMapper;
 import com.madao.constant.CommonConst;
 import com.madao.constant.RedisConstant;
-import com.madao.db.redis.service.RedisService;
 import com.madao.model.dto.article.TagDto;
 import com.madao.model.pojo.article.ArticleTag;
+import com.madao.redis.RedisService;
 import com.madao.utils.LogBack;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +17,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Service
 public class ApiTagsService {
 

@@ -15,6 +15,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
+/**
+ * 用户服务
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @EntityScan("com.madao.model.pojo")
 @SpringBootApplication
 @EnableEurekaClient
@@ -35,18 +43,15 @@ public class UserApplication {
 
     /**
      * BCrypt加密算法
-     *
-     * @return : BCryptPasswordEncoder
      */
     @Bean
     public BCryptPasswordEncoder bcryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+
     /**
      * 配置querydsl
-     *
-     * @see https://www.cnblogs.com/jpfss/p/11003964.html
      */
     @Bean
     public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {

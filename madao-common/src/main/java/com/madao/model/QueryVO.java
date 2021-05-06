@@ -4,7 +4,12 @@ import java.io.Serializable;
 
 /**
  * 封装的查询参数类
- **/
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 public class QueryVO implements Serializable {
     private long pageNum = 0;
 

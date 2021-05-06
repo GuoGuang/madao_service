@@ -4,8 +4,8 @@ import com.madao.article.service.blog.ApiArticleService;
 import com.madao.constant.ArticleConst;
 import com.madao.constant.CommonConst;
 import com.madao.constant.RedisConstant;
-import com.madao.db.redis.service.RedisService;
 import com.madao.model.dto.article.ArticleDto;
+import com.madao.redis.RedisService;
 import com.madao.utils.JsonData;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
@@ -18,6 +18,13 @@ import java.util.Map;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
+/**
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @RestController
 @RequestMapping(value = "/api/ar/article", produces = "application/json")
 public class ApiArticleController {

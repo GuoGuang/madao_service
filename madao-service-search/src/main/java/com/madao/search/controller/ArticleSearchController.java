@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 集成ElasticSearch的文章搜索系统
- **/
-
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @RestController
 @RequestMapping("/article")
 public class ArticleSearchController {

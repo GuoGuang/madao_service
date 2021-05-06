@@ -3,13 +3,17 @@ package com.madao.auth.validate.impl.captcha;
 import com.google.common.base.Objects;
 import com.madao.auth.validate.impl.ValidateCode;
 
-
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * 图片验证码
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
  */
 public class Captcha extends ValidateCode implements Serializable {
 

@@ -2,8 +2,16 @@ package com.madao.utils;
 
 import com.madao.enums.StatusEnum;
 import io.swagger.annotations.ApiModel;
+
 import java.io.Serializable;
 
+/**
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @ApiModel("api接口通用返回对象")
 public class JsonData<T> implements Serializable {
 

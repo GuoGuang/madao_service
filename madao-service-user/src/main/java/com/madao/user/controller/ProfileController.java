@@ -18,6 +18,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+/**
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Api(tags = "用户画像")
 @RestController
 @RequestMapping(value = "/profile", produces = "application/json")

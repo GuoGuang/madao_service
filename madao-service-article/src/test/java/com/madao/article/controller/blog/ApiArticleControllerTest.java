@@ -1,8 +1,8 @@
 package com.madao.article.controller.blog;
 
 import com.madao.article.service.blog.ApiArticleService;
-import com.madao.db.redis.service.RedisService;
 import com.madao.model.dto.article.ArticleDto;
+import com.madao.redis.RedisService;
 import com.madao.utils.JsonData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

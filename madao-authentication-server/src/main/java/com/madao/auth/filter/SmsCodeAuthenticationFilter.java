@@ -17,11 +17,14 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
 /**
  * 短信登录过滤器
- **/
-
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     /**

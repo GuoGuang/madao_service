@@ -1,6 +1,5 @@
 package com.madao.utils;
 
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,6 +10,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 public class JsonUtil {
 
     private JsonUtil() {
@@ -133,7 +139,15 @@ public class JsonUtil {
             LogBack.error(JACKSON_ERROR, e.getMessage(), e);
             throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
         }
-
+    }
+    public static <T> List<T> jsonToListPojo(String jsonData,Class<T> clazz) {
+        JavaType javaType = objectMapper.getTypeFactory().constructParametricType(List.class, clazz);
+        try {
+	        return objectMapper.readValue(jsonData, javaType);
+        } catch (Exception e) {
+            LogBack.error(JACKSON_ERROR, e.getMessage(), e);
+            throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
+        }
     }
 
     public static byte[] toJSONBytes(JsonData result) throws IOException {

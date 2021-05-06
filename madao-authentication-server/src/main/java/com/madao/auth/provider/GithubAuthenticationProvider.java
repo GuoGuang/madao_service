@@ -3,7 +3,7 @@ package com.madao.auth.provider;
 import com.madao.auth.service.GitHubDetailsServiceImpl;
 import com.madao.auth.token.CaptchaAuthenticationToken;
 import com.madao.auth.token.GitHubAuthenticationToken;
-import com.madao.db.redis.service.RedisService;
+import com.madao.redis.RedisService;
 import com.madao.utils.HttpHelper;
 import com.madao.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,12 @@ import java.util.Map;
 
 /**
  * 三方GitHub登录
- **/
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Component
 public class GithubAuthenticationProvider implements AuthenticationProvider {
 

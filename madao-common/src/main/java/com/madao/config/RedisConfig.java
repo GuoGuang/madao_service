@@ -1,4 +1,4 @@
-package com.madao.db.redis.config;
+package com.madao.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -13,6 +13,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
+ * //@PropertySource("classpath:properties/redis.properties")
  * 配置SpringDataRedis
  * RedisSerializer   redis序列化的接口类
  * OxmSerializer         xml到object的序列化/反序列化
@@ -20,10 +21,13 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * JacksonJsonRedisSerializer     json到object的序列化/反序列化
  * Jackson2JsonRedisSerializer     json到object的序列化/反序列化
  * JdkSerializationRedisSerializer     java对象的序列化/反序列化
- **/
-
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Configuration
-//@PropertySource("classpath:properties/redis.properties")
 public class RedisConfig {
 
     /**

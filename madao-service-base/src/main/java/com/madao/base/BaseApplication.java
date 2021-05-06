@@ -14,12 +14,19 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
+/**
+ * 基础服务
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @EntityScan("com.madao.model.pojo")
 @SpringBootApplication
 @EnableEurekaClient
 @EnableJpaRepositories("com.madao.base.dao")
 @EnableFeignClients(basePackages = "com.madao.api")
-// SpringBoot主配置类只会扫描自己所在的包及其子包下面,如果不加此扫描madao-common里的公用包则扫描不到
 @ComponentScan(basePackages = {"com.madao"})
 public class BaseApplication {
     public static void main(String[] args) {
@@ -31,11 +38,6 @@ public class BaseApplication {
         DateUtil.setDefaultZone();
     }
 
-    /**
-     * 配置querydsl
-     *
-     * @see https://www.cnblogs.com/jpfss/p/11003964.html
-     */
     @Bean
     public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
         return new JPAQueryFactory(entityManager);

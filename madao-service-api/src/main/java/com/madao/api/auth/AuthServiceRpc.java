@@ -11,7 +11,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 鉴权服务api
- **/
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @FeignClient(contextId = "authClient",
         value = FeignConst.SERVICE_AUTHENTICATION_AUTH,
         path = FeignConst.SERVICE_AUTHENTICATION_AUTH_PATH,

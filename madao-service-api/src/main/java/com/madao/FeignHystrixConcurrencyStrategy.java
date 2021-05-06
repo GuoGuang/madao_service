@@ -1,7 +1,6 @@
 package com.madao;
 
 import com.netflix.hystrix.HystrixThreadPoolKey;
-import com.netflix.hystrix.HystrixThreadPoolProperties;
 import com.netflix.hystrix.strategy.HystrixPlugins;
 import com.netflix.hystrix.strategy.concurrency.HystrixConcurrencyStrategy;
 import com.netflix.hystrix.strategy.concurrency.HystrixRequestVariable;
@@ -22,7 +21,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-
 /**
  * 自定义Feign的隔离策略:
  * 在转发Feign的请求头的时候, 如果开启了Hystrix,
@@ -32,8 +30,13 @@ import java.util.concurrent.TimeUnit;
  * 另一个解决方法就是自定义Hystrix的隔离策略:
  * 思路是将现有的并发策略作为新并发策略的成员变量,在新并发策略中,
  * 返回现有并发策略的线程池、Queue;将策略加到Spring容器即可;
+ *
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
  */
-
 @Component
 public class FeignHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy {
     private static final Logger log = LoggerFactory.getLogger(FeignHystrixConcurrencyStrategy.class);

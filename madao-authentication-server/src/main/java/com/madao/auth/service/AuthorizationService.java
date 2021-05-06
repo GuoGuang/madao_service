@@ -5,6 +5,7 @@ import cn.hutool.json.JSONObject;
 import com.madao.api.user.ResourceServiceRpc;
 import com.madao.exception.custom.RemoteRpcException;
 import com.madao.model.pojo.user.Resource;
+import com.madao.redis.RedisService;
 import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;
 import com.madao.utils.LogBack;
@@ -22,7 +23,12 @@ import java.util.stream.Collectors;
 
 /**
  * 鉴权服务
- **/
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 @Service
 public class AuthorizationService {
 
@@ -30,12 +36,14 @@ public class AuthorizationService {
     private static final String NONEXISTENT_URL = "NONEXISTENT_URL";
 
     private ResourceServiceRpc resourceServiceRpc;
+    private RedisService redisService;
 
     // 系统中所有权限集合
     private Map<RequestMatcher, ConfigAttribute> resourceConfigAttributes;
 
-    public AuthorizationService(ResourceServiceRpc resourceServiceRpc) {
+    public AuthorizationService(ResourceServiceRpc resourceServiceRpc, RedisService redisService) {
         this.resourceServiceRpc = resourceServiceRpc;
+	    this.redisService = redisService;
     }
 
 
@@ -145,12 +153,19 @@ public class AuthorizationService {
      * 条件查询资源
      */
     public Set<Resource> findResourceByCondition() {
-        JsonData<List<Resource>> resourceByCondition = resourceServiceRpc.findResourceByCondition();
-        if (!JsonData.isSuccess(resourceByCondition)) {
-            throw new RemoteRpcException(resourceByCondition);
-        }
-        List<Resource> resources = resourceByCondition.getData();
-        return new HashSet<>(resources);
+	    List<Resource> resourcesCached = JsonUtil.jsonToListPojo(JsonUtil.toJsonString(redisService.get("resources").orElse(null)), Resource.class);
+	    if (resourcesCached != null) {
+		    return new HashSet<>(resourcesCached);
+	    }else {
+		    JsonData<List<Resource>> resourceByCondition = resourceServiceRpc.findResourceByCondition();
+		    if (!JsonData.isSuccess(resourceByCondition)) {
+			    throw new RemoteRpcException(resourceByCondition);
+		    }
+		    List<Resource> resources = resourceByCondition.getData();
+		    redisService.set("resources",resources);
+		    return new HashSet<>(resources);
+	    }
+
     }
 
     /**

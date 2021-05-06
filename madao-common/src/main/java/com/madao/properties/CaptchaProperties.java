@@ -1,9 +1,13 @@
 package com.madao.properties;
 
-
 /**
  * 图片验证码配置项
- **/
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 public class CaptchaProperties extends SmsCodeProperties {
 
     public CaptchaProperties() {

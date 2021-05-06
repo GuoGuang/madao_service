@@ -4,6 +4,13 @@ import com.madao.enums.StatusEnum;
 
 import java.io.Serializable;
 
+/**
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2019-09-29 7:37
+ */
 public class Result implements Serializable {
     private boolean status;//是否成功
     private Integer code;// 返回码
