@@ -1,8 +1,6 @@
 package com.madao.amqp;
 
 import com.madao.utils.LogBack;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -17,8 +15,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
  * @created 2019-09-29 7:37
  */
 public class RabbitUtil {
-
-    private static final Logger logger = LoggerFactory.getLogger(RabbitUtil.class);
 
     private final RabbitAdmin rabbitAdmin;
 
