@@ -39,9 +39,6 @@
 
     </dependencies>
 
-    <!--Spring will usually not make a public Maven repository available outside of their
-            own repo. This means you have to add the repository above to be able to add
-            Spring projects that are in a testing stage.-->
     <repositories>
         <repository>
             <id>spring-milestones</id>
