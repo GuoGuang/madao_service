@@ -36,8 +36,6 @@ public class GateWayConfig {
 	 * filters：filter rule
 	 * stripPrefix(0)：剥夺前缀数字为几则删除路径上的几位，stripPrefix(2) /name/bar/foo -》 http://nameservice/foo.
 	 * lb = load-balanced（负载均衡）
-	 *
-	 * @param builder
 	 * @return RouteLocator
 	 */
 	@Bean
