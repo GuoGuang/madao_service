@@ -4,211 +4,93 @@ import com.madao.utils.LogBack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * RabbitMQ相关操作工具类
- * TODO:配置Rabbitmq HOST,POST
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Component
 public class RabbitUtil {
 
-    private static final Logger logger = LoggerFactory.getLogger(RabbitUtil.class);
+    private final  RabbitTemplate rabbitTemplate;
 
-    private final RabbitAdmin rabbitAdmin;
-
-    private final RabbitTemplate rabbitTemplate;
-
-    //	@Autowired
-    public RabbitUtil(RabbitAdmin rabbitAdmin, RabbitTemplate rabbitTemplate) {
-        this.rabbitAdmin = rabbitAdmin;
+    public RabbitUtil(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 
+    // DELAY
+    public static final String DELAY_EXCHANGE = "Ex.DelayExchange";
+    public static final String ORDER_USER_QUEUE    = "MQ.UserDelayQueue";
+    public static final String PRODUCT_ARTICLE_QUEUE    = "MQ.ArticleDelayQueue";
+    public static final String DELAY_USER_KEY      = "delay.user";
+    public static final String DELAY_ARTICLE_KEY      = "delay.article";
+
+
     /**
-     * 转换Message对象
-     *
-     * @param messageType 返回消息类型 MessageProperties类中常量
-     * @param msg
-     * @return
+     * 发送广播消息
+     * RabbitMQ将会忽略第二个参数,把消息分发给所有的队列(每个队列都有消息!)
+     * @param exchangeName 交换机名称
+     * @param routingKey   发送的routingKey   （没有路由Key）
+     * @param message      内容
      */
-    public Message getMessage(String messageType, Object msg) {
-        MessageProperties messageProperties = new MessageProperties();
-        messageProperties.setContentType(messageType);
-        return new Message(msg.toString().getBytes(), messageProperties);
+    public void sendFanoutToQueue(String message,String exchangeName,String routingKey) {
+        rabbitTemplate.setMandatory(true);
+        // 当消息成功到达exchange的时候触发的ack回调。
+        rabbitTemplate.setConfirmCallback( (correlationData, ack, cause) -> {
+            LogBack.error("correlationData:{}",correlationData);
+            LogBack.error("ack:{}",ack);
+            if (!ack) {
+                LogBack.error("异常处理...");
+            }
+        });
+        // 成功到达exchange，但routing不到任何queue时会调用
+        rabbitTemplate.setReturnsCallback(returnedMessage -> LogBack.info("MQ回调: " + returnedMessage));
+        rabbitTemplate.convertAndSend(exchangeName, null, message,
+                messagePostProcessor -> {
+                    //设置消息持久化
+                    messagePostProcessor.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+                    messagePostProcessor.getMessageProperties().setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+                    return messagePostProcessor;
+                });
     }
 
     /**
-     * 有绑定Key的Exchange发送
-     *
-     * @param routingKey
-     * @param msg
+     * 发送延时消息
+     * <p>note:delayTime不能超过2<sup>32</sup>-1</p>
+     * @param message 消息
+     * @param delayTime 延时时间：毫秒
      */
-    public void sendMessageToExchange(TopicExchange topicExchange, String routingKey, Object msg) {
-        Message message = getMessage(MessageProperties.CONTENT_TYPE_JSON, msg);
-        rabbitTemplate.send(topicExchange.getName(), routingKey, message);
-    }
-
-    /**
-     * 没有绑定KEY的Exchange发送
-     *
-     * @param exchange
-     * @param msg
-     */
-    public void sendMessageToExchange(TopicExchange topicExchange, AbstractExchange exchange, String msg) {
-        addExchange(exchange);
-        LogBack.info("RabbitMQ send " + exchange.getName() + "->" + msg);
-        rabbitTemplate.convertAndSend(topicExchange.getName(), msg);
-    }
-
-    /**
-     * 给queue发送消息
-     *
-     * @param queueName
-     * @param msg
-     */
-    public void sendToQueue(String queueName, String msg) {
-        sendToQueue(DirectExchange.DEFAULT, queueName, msg);
-    }
-
-    /**
-     * 给direct交换机指定queue发送消息
-     *
-     * @param directExchange
-     * @param queueName
-     * @param msg
-     */
-    public void sendToQueue(DirectExchange directExchange, String queueName, String msg) {
-        Queue queue = new Queue(queueName);
-        addQueue(queue);
-        Binding binding = BindingBuilder.bind(queue).to(directExchange).withQueueName();
-        rabbitAdmin.declareBinding(binding);
-        //设置消息内容的类型，默认是 application/octet-stream 会是 ASCII 码值
-        rabbitTemplate.convertAndSend(directExchange.getName(), queueName, msg);
-    }
-
-    /**
-     * 给queue发送消息
-     *
-     * @param queueName
-     * @param msg
-     */
-    public String receiveFromQueue(String queueName) {
-        return receiveFromQueue(DirectExchange.DEFAULT, queueName);
-    }
-
-    /**
-     * 给direct交换机指定queue发送消息
-     *
-     * @param directExchange
-     * @param queueName
-     * @param msg
-     */
-    public String receiveFromQueue(DirectExchange directExchange, String queueName) {
-        Queue queue = new Queue(queueName);
-        addQueue(queue);
-        Binding binding = BindingBuilder.bind(queue).to(directExchange).withQueueName();
-        rabbitAdmin.declareBinding(binding);
-        String messages = (String) rabbitTemplate.receiveAndConvert(queueName);
-        System.out.println("Receive:" + messages);
-        return messages;
-    }
-
-    /**
-     * 创建Exchange
-     *
-     * @param exchange
-     */
-    public void addExchange(AbstractExchange exchange) {
-        rabbitAdmin.declareExchange(exchange);
-    }
-
-    /**
-     * 删除一个Exchange
-     *
-     * @param exchangeName
-     */
-    public boolean deleteExchange(String exchangeName) {
-        return rabbitAdmin.deleteExchange(exchangeName);
-    }
-
-
-    /**
-     * Declare a queue whose name is automatically named. It is created with exclusive = true, autoDelete=true, and
-     * durable = false.
-     *
-     * @return Queue
-     */
-    public Queue addQueue() {
-        return rabbitAdmin.declareQueue();
-    }
-
-    /**
-     * 创建一个指定的Queue
-     *
-     * @param queue
-     * @return queueName
-     */
-    public String addQueue(Queue queue) {
-        return rabbitAdmin.declareQueue(queue);
-    }
-
-    /**
-     * Delete a queue.
-     *
-     * @param queueName the name of the queue.
-     * @param unused    true if the queue should be deleted only if not in use.
-     * @param empty     true if the queue should be deleted only if empty.
-     */
-    public void deleteQueue(String queueName, boolean unused, boolean empty) {
-        rabbitAdmin.deleteQueue(queueName, unused, empty);
-    }
-
-    /**
-     * 删除一个queue
-     *
-     * @param queueName
-     * @return true if the queue existed and was deleted.
-     */
-    public boolean deleteQueue(String queueName) {
-        return rabbitAdmin.deleteQueue(queueName);
-    }
-
-    /**
-     * 绑定一个队列到一个匹配型交换器使用一个routingKey
-     *
-     * @param queue
-     * @param exchange
-     * @param routingKey
-     */
-    public void addBinding(Queue queue, TopicExchange exchange, String routingKey) {
-        Binding binding = BindingBuilder.bind(queue).to(exchange).with(routingKey);
-        rabbitAdmin.declareBinding(binding);
-    }
-
-    /**
-     * 绑定一个Exchange到一个匹配型Exchange 使用一个routingKey
-     *
-     * @param exchange
-     * @param topicExchange
-     * @param routingKey
-     */
-    public void addBinding(Exchange exchange, TopicExchange topicExchange, String routingKey) {
-        Binding binding = BindingBuilder.bind(exchange).to(topicExchange).with(routingKey);
-        rabbitAdmin.declareBinding(binding);
-    }
-
-    /**
-     * 去掉一个binding
-     *
-     * @param binding
-     */
-    public void removeBinding(Binding binding) {
-        rabbitAdmin.removeBinding(binding);
+    public void sendDelay(Object message, Object delayTime) {
+        //采用消息确认模式，消息发出去后，异步等待响应
+        rabbitTemplate.setMandatory(true);
+        rabbitTemplate.setConfirmCallback( (correlationData, ack, cause) -> {
+            LogBack.error("correlationData:{}",correlationData);
+            LogBack.error("ack:{}",ack);
+            if (!ack) {
+                LogBack.error("异常处理...");
+            }
+        });
+        rabbitTemplate.setReturnsCallback(returnedMessage -> LogBack.info("MQ回调: " + returnedMessage));
+        //id + 时间戳 全局唯一
+        CorrelationData correlationData = new CorrelationData("delay" + System.nanoTime());
+        //发送消息时指定 header 延迟时间
+        rabbitTemplate.convertAndSend(DELAY_EXCHANGE,DELAY_USER_KEY, message,
+                messagePostProcessor -> {
+                    //设置消息持久化
+                    messagePostProcessor.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+                    messagePostProcessor.getMessageProperties().setHeader("x-delay", delayTime);
+                    return messagePostProcessor;
+                });
     }
 }
