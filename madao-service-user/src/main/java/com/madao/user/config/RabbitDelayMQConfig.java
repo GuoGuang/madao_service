@@ -41,26 +41,27 @@ public class RabbitDelayMQConfig {
 		template.setMandatory(true);
 		return template;
 	}
-
-    /**
+/*
+    *  使用注解@RabbitListener(bindings = @QueueBinding(替换
+    *//**
      * 延时交换机
      * @return TopicExchange
-     */
+     *//*
     @Bean
     public TopicExchange delayExchange() {
         Map<String, Object> pros = new HashMap<>(3);
         //设置交换机支持延迟消息推送
-        pros.put("x-delayed-message", "topic");
+//        pros.put("x-delayed-message", "topic");
         TopicExchange exchange = new TopicExchange(RabbitUtil.DELAY_EXCHANGE, true, false, pros);
         //我们在也可以在 Exchange 的声明中可以设置exchange.setDelayed(true)来开启延迟队列
         exchange.setDelayed(true);
         return exchange;
     }
 
-    /**
+    *//**
      * 延时队列
      * @return Queue
-     */
+     *//*
     @Bean("userDelayQueue")
     public Queue userDelayQueue() {
         return new Queue(RabbitUtil.ORDER_USER_QUEUE, true);
@@ -71,11 +72,11 @@ public class RabbitDelayMQConfig {
         return new Queue(RabbitUtil.PRODUCT_ARTICLE_QUEUE, true);
     }
 
-    /**
+    *//**
      * 绑定队列和交换机,以及设定路由规则key
      *
      * @return Binding
-     */
+     *//*
     @Bean
     public Binding delayOrderBinding() {
         return BindingBuilder.bind(userDelayQueue()).to(delayExchange()).with(RabbitUtil.DELAY_USER_KEY);
@@ -83,5 +84,5 @@ public class RabbitDelayMQConfig {
     @Bean
     public Binding delayArticleBinding() {
         return BindingBuilder.bind(articleDelayQueue()).to(delayExchange()).with(RabbitUtil.DELAY_ARTICLE_KEY);
-    }
+    }*/
 }
