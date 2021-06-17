@@ -43,6 +43,7 @@
 ## 其他开源仓库
 项目 | 地址
 ---|---
+IDEA插件 （IDEA市场搜索 Generate Crud 安装） |  根据JPA实体类生成后端代码，简单快捷 👋
 pinyinUtils | https://github.com/GuoGuang/pinyinUtils
 后台管理框架 | https://github.com/GuoGuang/madao_admin_manage
 数据爬虫集合 | https://github.com/GuoGuang/python-spider
