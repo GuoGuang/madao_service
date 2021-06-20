@@ -1,6 +1,6 @@
 package com.madao.user;
 
-import com.madao.amqp.RabbitUtil;
+import com.madao.utils.RabbitUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,5 @@
-package com.madao.amqp;
+package com.madao.utils;
 
-import com.madao.utils.LogBack;
 import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
