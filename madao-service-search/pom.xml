@@ -13,7 +13,10 @@
     <artifactId>madao-service-search</artifactId>
     <description>搜索微服务模块</description>
     <name>madao-service-search【搜索服务】</name>
-
+    <properties>
+        <sonar.host.url>http://120.46.142.197:9000</sonar.host.url>
+        <sonar.login>e2aadc36246b4c6ce1d85912423d75ea701df61f</sonar.login>
+    </properties>
     <dependencies>
 
         <dependency>
@@ -57,6 +60,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.7.0.1746</version>
             </plugin>
         </plugins>
     </build>
