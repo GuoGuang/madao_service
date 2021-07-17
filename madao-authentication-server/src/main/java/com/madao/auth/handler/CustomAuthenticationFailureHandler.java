@@ -4,7 +4,7 @@ import com.madao.auth.exception.AuthException;
 import com.madao.enums.StatusEnum;
 import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -23,12 +23,13 @@ import java.io.IOException;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Component
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        LogBack.error("用户登录失败时异常----------->{}", e.getMessage(), e);
+        log.error("用户登录失败时异常----------->{}", e.getMessage(), e);
         JsonData<Void> errorResult = JsonData.failed(StatusEnum.SYSTEM_ERROR);
         if (e instanceof AuthException) {
             errorResult = JsonData.failed(StatusEnum.LOGIN_ERROR, e.getMessage());

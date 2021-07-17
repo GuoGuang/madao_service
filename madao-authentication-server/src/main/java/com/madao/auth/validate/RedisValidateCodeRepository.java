@@ -7,7 +7,7 @@ import com.madao.enums.StatusEnum;
 import com.madao.enums.ValidateCodeType;
 import com.madao.redis.RedisService;
 import com.madao.utils.JsonUtil;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,6 +24,7 @@ import org.springframework.web.context.request.ServletWebRequest;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Component
 public class RedisValidateCodeRepository implements ValidateCodeRepository {
 
@@ -70,7 +71,7 @@ public class RedisValidateCodeRepository implements ValidateCodeRepository {
             try {
                 phone = ServletRequestUtils.getRequiredStringParameter(request.getRequest(), paramName);
             } catch (ServletRequestBindingException e) {
-                LogBack.error("buildKey失败：{}", StatusEnum.PARAM_MISSING.getMsg(), e);
+                log.error("buildKey失败：{}", StatusEnum.PARAM_MISSING.getMsg(), e);
                 throw new RuntimeException(StatusEnum.PARAM_MISSING.getMsg());
             }
             return "code:" + type.toString().toLowerCase() + ":" + phone;

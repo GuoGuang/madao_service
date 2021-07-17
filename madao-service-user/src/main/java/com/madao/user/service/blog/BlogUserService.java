@@ -20,7 +20,7 @@ import com.madao.user.mapper.UserMapper;
 import com.madao.utils.BeanUtil;
 import com.madao.utils.FakerUtil;
 import com.madao.utils.JsonUtil;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,6 +37,7 @@ import java.util.Map;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Service
 public class BlogUserService {
 
@@ -92,7 +93,7 @@ public class BlogUserService {
         Map<String, String> data = JsonUtil.jsonToPojo(redisCaptcha, Map.class);
 
         if (!StringUtils.equals(data.get("code"), userDto.getCaptcha())) {
-            LogBack.error("验证码不匹配!:redisCaptcha--->{},captcha--->:{}", redisCaptcha, userDto.getCaptcha());
+            log.error("验证码不匹配!:redisCaptcha--->{},captcha--->:{}", redisCaptcha, userDto.getCaptcha());
             throw new CaptchaNotMatchException();
         }
         String nickName = FakerUtil.getNickName();

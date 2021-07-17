@@ -5,9 +5,9 @@ import com.madao.api.base.OptLogServiceRpc;
 import com.madao.enums.OptLogType;
 import com.madao.utils.HttpServletUtil;
 import com.madao.utils.JsonUtil;
-import com.madao.utils.LogBack;
 import com.madao.utils.security.JWTAuthentication;
 import eu.bitwalker.useragentutils.UserAgent;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
@@ -34,6 +34,7 @@ import java.util.Map;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Aspect
 @Component
 public class OptLogAspect {
@@ -48,7 +49,7 @@ public class OptLogAspect {
     //@Pointcut("execution (* com.madao.*.controller..*.*(..)) && !execution(* com.madao.*.controller.UserController.login(..))  && !execution(* com.madao.*.controller.UserController.logout(..))")
     @Pointcut(value = "@annotation(com.madao.annotation.OptLog)")
     public void controllerAspect() {
-        LogBack.info("切入点签名");
+        log.info("切入点签名");
     }
 
     /**
@@ -62,7 +63,7 @@ public class OptLogAspect {
         HttpSession session = request.getSession();
         final String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (token == null) {
-            LogBack.error("token为空，结束AOP前置通知");
+            log.error("token为空，结束AOP前置通知");
             return;
         }
         Map<String, String> user = JWTAuthentication.parseJwtToClaims(JWTAuthentication.getFullAuthorization(token));
@@ -101,7 +102,7 @@ public class OptLogAspect {
             }
             optLogServiceRpc.insertOptLog(log);
         } catch (Exception e) {
-            LogBack.error("操作日志异常:{}", e.getMessage(), e);
+            log.error("操作日志异常:{}", e.getMessage(), e);
         }
     }
 
@@ -135,13 +136,13 @@ public class OptLogAspect {
                 }
             }
 
-            LogBack.error("=====异常通知开始=====");
-            LogBack.error("异常代码:" + e.getClass().getName());
-            LogBack.error("异常信息:" + e.getMessage());
-            LogBack.error("异常方法:" + (joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()") + "." + operationType);
-            LogBack.error("方法描述:" + operationName);
-            LogBack.error("请求人:" + "临时");
-            LogBack.error("请求IP:" + ipAddr);
+            log.error("=====异常通知开始=====");
+            log.error("异常代码:" + e.getClass().getName());
+            log.error("异常信息:" + e.getMessage());
+            log.error("异常方法:" + (joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()") + "." + operationType);
+            log.error("方法描述:" + operationName);
+            log.error("请求人:" + "临时");
+            log.error("请求IP:" + ipAddr);
             //==========数据库日志=========
             com.madao.model.pojo.base.OptLog log = new com.madao.model.pojo.base.OptLog();
             log.setClientIp(HttpServletUtil.getIpAddr(request));
@@ -159,7 +160,7 @@ public class OptLogAspect {
             }
             optLogServiceRpc.insertOptLog(log);
         } catch (Exception ex) {
-	        LogBack.error("异常方法:{}异常代码:{}异常信息:{}", joinPoint.getTarget().getClass().getName() + joinPoint.getSignature().getName(), e.getClass().getName(), e.getMessage());
+	        log.error("异常方法:{}异常代码:{}异常信息:{}", joinPoint.getTarget().getClass().getName() + joinPoint.getSignature().getName(), e.getClass().getName(), e.getMessage());
         }
     }
 }

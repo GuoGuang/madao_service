@@ -1,5 +1,6 @@
 package com.madao.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Component
 public class RabbitUtil {
 
@@ -44,14 +46,14 @@ public class RabbitUtil {
 		rabbitTemplate.setMandatory(true);
 		// 当消息成功到达exchange的时候触发的ack回调。
 		rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
-			LogBack.error("correlationData:{}", correlationData);
-			LogBack.error("ack:{}", ack);
+			log.error("correlationData:{}", correlationData);
+			log.error("ack:{}", ack);
 			if (!ack) {
-				LogBack.error("异常处理...");
+				log.error("异常处理...");
 			}
 		});
 		// 成功到达exchange，但routing不到任何queue时会调用
-		rabbitTemplate.setReturnsCallback(returnedMessage -> LogBack.info("MQ回调: " + returnedMessage));
+		rabbitTemplate.setReturnsCallback(returnedMessage -> log.info("MQ回调: " + returnedMessage));
 		rabbitTemplate.convertAndSend(exchangeName, null, message,
 				messagePostProcessor -> {
 					//设置消息持久化
@@ -72,13 +74,13 @@ public class RabbitUtil {
 		//采用消息确认模式，消息发出去后，异步等待响应
 		rabbitTemplate.setMandatory(true);
 		rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
-			LogBack.error("correlationData:{}", correlationData);
-			LogBack.error("ack:{}", ack);
+			log.error("correlationData:{}", correlationData);
+			log.error("ack:{}", ack);
 			if (!ack) {
-				LogBack.error("异常处理...");
+				log.error("异常处理...");
 			}
 		});
-		rabbitTemplate.setReturnsCallback(returnedMessage -> LogBack.info("MQ回调: " + returnedMessage));
+		rabbitTemplate.setReturnsCallback(returnedMessage -> log.info("MQ回调: " + returnedMessage));
 		//id + 时间戳 全局唯一
 		CorrelationData correlationData = new CorrelationData("delay" + System.nanoTime());
 		//发送消息时指定 header 延迟时间

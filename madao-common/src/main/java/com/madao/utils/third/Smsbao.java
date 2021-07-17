@@ -1,6 +1,6 @@
 package com.madao.utils.third;
 
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -23,6 +23,7 @@ import java.security.NoSuchAlgorithmException;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Component
 @ConditionalOnProperty(name = "sms.account")
 public class Smsbao {
@@ -63,7 +64,7 @@ public class Smsbao {
             reader.close();
             result = sbf.toString();
         } catch (Exception e) {
-            LogBack.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
         return result;
     }
@@ -87,7 +88,7 @@ public class Smsbao {
                 buf.append(Integer.toHexString(i));
             }
         } catch (NoSuchAlgorithmException e) {
-            LogBack.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
         return buf.toString();
     }
@@ -100,7 +101,7 @@ public class Smsbao {
         try {
             strret = java.net.URLEncoder.encode(str, charset);
         } catch (Exception e) {
-            LogBack.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             return null;
         }
         return strret;

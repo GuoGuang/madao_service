@@ -2,7 +2,7 @@ package com.madao.auth.filter;
 
 import com.madao.auth.token.SmsCodeAuthenticationToken;
 import com.madao.utils.JsonUtil;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     /**
@@ -72,7 +73,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
         try {
             body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
         } catch (IOException e) {
-            LogBack.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
         Map<String, Object> map = JsonUtil.jsonToMap(body);
         String phone = map.get(PHONE_KEY) + "";

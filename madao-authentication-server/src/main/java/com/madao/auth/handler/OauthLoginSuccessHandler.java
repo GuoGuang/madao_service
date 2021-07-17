@@ -7,7 +7,7 @@ import com.madao.model.dto.user.AuthToken;
 import com.madao.redis.RedisService;
 import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.http.MediaType;
@@ -34,6 +34,7 @@ import java.util.Map;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Component
 public class OauthLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -58,7 +59,7 @@ public class OauthLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-		LogBack.info("三方登录成功！");
+		log.info("三方登录成功！");
 		OAuth2ClientProperties.Registration github = oAuth2ClientProperties.getRegistration().get("github");
 
 		ClientDetails clientDetails = clientDetailsService.loadClientByClientId(github.getClientId());

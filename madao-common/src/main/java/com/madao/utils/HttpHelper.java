@@ -1,5 +1,6 @@
 package com.madao.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -30,6 +31,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 public class HttpHelper {
 
     public static String getBodyString(ServletRequest request) {
@@ -44,20 +46,20 @@ public class HttpHelper {
                 sb.append(line);
             }
         } catch (IOException e) {
-            LogBack.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         } finally {
             if (inputStream != null) {
                 try {
                     inputStream.close();
                 } catch (IOException e) {
-                    LogBack.error(e.getMessage(), e);
+                    log.error(e.getMessage(), e);
                 }
             }
             if (reader != null) {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                    LogBack.error(e.getMessage(), e);
+                    log.error(e.getMessage(), e);
                 }
             }
         }

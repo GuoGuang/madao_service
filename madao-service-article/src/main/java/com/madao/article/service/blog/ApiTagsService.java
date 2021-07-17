@@ -8,7 +8,7 @@ import com.madao.constant.RedisConstant;
 import com.madao.model.dto.article.TagDto;
 import com.madao.model.pojo.article.ArticleTag;
 import com.madao.redis.RedisService;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Service
 public class ApiTagsService {
 
@@ -40,7 +41,7 @@ public class ApiTagsService {
     }
 
     public List<TagDto> findTagsByCondition(TagDto tagDto, Pageable pageable) {
-        LogBack.info("查询参数---------->", tagDto);
+        log.info("查询参数---------->", tagDto);
         Page<TagDto> tagsQueryResults = tagDao.findAll(pageable)
                 .map(tagMapper::toDto);
 
@@ -66,14 +67,14 @@ public class ApiTagsService {
 //				return JsonUtil.jsonToPojo(mapJson.toString(), Tag.class);
 //			}
 //		} catch (Exception e) {
-//			LogBack.error("findTagsById->查询标签异常，参数为：{}", id, e);
+//			log.error("findTagsById->查询标签异常，参数为：{}", id, e);
 //        }
 
         tagDto = tagDao.findById(id).map(tagMapper::toDto).orElse(null);
         try {
             redisService.set(RedisConstant.REDIS_KEY_ARTICLE + id, tagDto, CommonConst.TIME_OUT_DAY);
         } catch (Exception e) {
-            LogBack.error("findTagsById->查询标签异常，参数为：{}", id, e);
+            log.error("findTagsById->查询标签异常，参数为：{}", id, e);
         }
         return tagDto;
 

@@ -4,7 +4,7 @@ import com.madao.enums.StatusEnum;
 import com.madao.gateway.service.AuthService;
 import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +36,7 @@ import java.io.IOException;
  * @see http://www.manongjc.com/article/43669.html
  * @see https://windmt.com/2018/05/08/spring-cloud-14-spring-cloud-gateway-filter/
  */
+@Slf4j
 @Component
 public class TokenFilter implements GlobalFilter, Ordered {
 
@@ -66,7 +67,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
 		String jwtToken = request.getHeaders().getFirst("Authorization");
 		String method = request.getMethodValue();
 		String url = request.getPath().value();
-		LogBack.info("url:{},method:{},headers:{}", url, method, request.getHeaders());
+		log.info("url:{},method:{},headers:{}", url, method, request.getHeaders());
 		//不需要网关签权的url
 		if (authService.ignoreAuthentication(url) || match(url,
 				"/doc/**",
@@ -108,7 +109,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
 		}
 		// 如果请求未携带token信息, 直接跳出
 		if (StringUtils.isBlank(jwtToken) || !jwtToken.contains(BEARER)) {
-			LogBack.error("url:{},method:{},headers:{}, 请求未携带token信息", url, method, request.getHeaders());
+			log.error("url:{},method:{},headers:{}, 请求未携带token信息", url, method, request.getHeaders());
 			return unAuthorized(exchange, StatusEnum.PARAM_ILLEGAL);
 		}
 
@@ -141,7 +142,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
 			byte[] bytes = JsonUtil.toJSONBytes(jsonData);
 			buffer = serverWebExchange.getResponse().bufferFactory().wrap(bytes);
 		} catch (IOException e) {
-			LogBack.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 		}
 
 		return serverWebExchange.getResponse().writeWith(Flux.just(buffer));

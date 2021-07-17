@@ -5,12 +5,12 @@ import com.madao.auth.validate.ValidateCodeProcessor;
 import com.madao.auth.validate.ValidateCodeProcessorHolder;
 import com.madao.redis.RedisService;
 import com.madao.utils.JsonData;
-import com.madao.utils.LogBack;
 import com.madao.utils.security.JWTAuthentication;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -28,6 +28,7 @@ import java.io.IOException;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Api("用户登录认证")
 @RestController
 @RequestMapping("/oauth")
@@ -52,7 +53,7 @@ public class AuthenticationController {
     @GetMapping(value = "/logout")
     public JsonData<Void> logout(HttpServletRequest request, HttpServletResponse response) {
 	    JSONObject token = JWTAuthentication.parseJwtToClaimsAsJSONObject(request.getHeader(HttpHeaders.AUTHORIZATION));
-	    LogBack.info("logout:{}",token);
+	    log.info("logout:{}",token);
 	    new SecurityContextLogoutHandler().logout(request, response, null);
         return JsonData.success();
     }

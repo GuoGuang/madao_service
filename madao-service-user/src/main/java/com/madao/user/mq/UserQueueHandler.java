@@ -1,7 +1,7 @@
 package com.madao.user.mq;
 
-import com.madao.utils.LogBack;
 import com.rabbitmq.client.Channel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.*;
@@ -19,6 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @gitHub https://github.com/GuoGuang
  * @website https://madaoo.com
  */
+@Slf4j
 public class UserQueueHandler {
 
 
@@ -39,10 +40,10 @@ public class UserQueueHandler {
 		AtomicBoolean isSuccessful = new AtomicBoolean(false);
 
 		try {
-			LogBack.info("队列queueOne:{}处理消息", msg);
+			log.info("队列queueOne:{}处理消息", msg);
 			//  do something
 		} catch (Exception e) {
-			LogBack.error("处理队列queueOne失败:{}，异常------>{}", message, e.getMessage(), e);
+			log.error("处理队列queueOne失败:{}，异常------>{}", message, e.getMessage(), e);
 			isSuccessful.compareAndSet(false, true);
 		}
 		isACK(message, channel, isSuccessful);
@@ -58,7 +59,7 @@ public class UserQueueHandler {
 	public void deadHandler(Message message, Channel channel) throws IOException {
 		String msg = new String(message.getBody(), StandardCharsets.UTF_8);
 
-		LogBack.info("死信队列 message={}", msg);
+		log.info("死信队列 message={}", msg);
 		// 记录异常消息，手工补偿
 		channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
 	}

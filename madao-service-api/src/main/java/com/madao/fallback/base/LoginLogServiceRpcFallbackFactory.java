@@ -3,8 +3,8 @@ package com.madao.fallback.base;
 import com.madao.api.base.LoginLogServiceRpc;
 import com.madao.enums.StatusEnum;
 import com.madao.utils.JsonData;
-import com.madao.utils.LogBack;
 import feign.hystrix.FallbackFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Component
 public class LoginLogServiceRpcFallbackFactory implements FallbackFactory<LoginLogServiceRpc> {
 
@@ -22,7 +23,7 @@ public class LoginLogServiceRpcFallbackFactory implements FallbackFactory<LoginL
     @Override
     public LoginLogServiceRpc create(Throwable throwable) {
         return (loginLog) -> {
-            LogBack.error(ERROR_INFO, "insertLoginLog", loginLog, throwable);
+            log.error(ERROR_INFO, "insertLoginLog", loginLog, throwable);
             return JsonData.failed(StatusEnum.RPC_ERROR);
         };
     }

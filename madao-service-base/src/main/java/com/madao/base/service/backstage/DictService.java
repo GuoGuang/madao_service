@@ -6,7 +6,7 @@ import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.dto.base.DictDto;
 import com.madao.model.pojo.base.Dict;
 import com.madao.utils.BeanUtil;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +24,7 @@ import java.util.List;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Service
 public class DictService {
 
@@ -93,7 +94,7 @@ public class DictService {
      * @return JsonData
      */
     public List<DictDto> findIdNameTypeByParentId(DictDto dictDto) {
-        LogBack.info("参数：{}", dictDto);
+        log.info("参数：{}", dictDto);
         return dictDao.findByParentId("0")
                 .map(dictMapper::toDto)
                 .orElseThrow(ResourceNotFoundException::new);

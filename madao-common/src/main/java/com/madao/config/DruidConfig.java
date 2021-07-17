@@ -3,7 +3,7 @@ package com.madao.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -25,6 +25,7 @@ import java.util.Map;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Configuration
 public class DruidConfig {
 
@@ -106,7 +107,7 @@ public class DruidConfig {
         try {
             datasource.setFilters(filters);
         } catch (SQLException e) {
-            LogBack.error("druid configuration initialization filter", e);
+            log.error("druid configuration initialization filter", e);
         }
         datasource.setConnectionProperties(connectionProperties);
 

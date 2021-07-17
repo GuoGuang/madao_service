@@ -6,8 +6,8 @@ import com.madao.exception.custom.ParamException;
 import com.madao.exception.custom.RemoteRpcException;
 import com.madao.exception.custom.ValidFieldError;
 import com.madao.utils.JsonData;
-import com.madao.utils.LogBack;
 import feign.RetryableException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
@@ -34,6 +34,7 @@ import java.util.List;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @RestControllerAdvice
 public class SystemExceptionHandler {
 
@@ -44,7 +45,7 @@ public class SystemExceptionHandler {
      */
     @ExceptionHandler(IllegalArgumentException.class)
     public JsonData<Void> illegalArgumentException(IllegalArgumentException ex) {
-        LogBack.error(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
         return JsonData.failed(StatusEnum.PARAM_ILLEGAL);
     }
 
@@ -55,7 +56,7 @@ public class SystemExceptionHandler {
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public JsonData<Void> missingServletRequestParameterException(MissingServletRequestParameterException ex) {
-        LogBack.error(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
         return JsonData.failed(StatusEnum.PARAM_MISSING);
     }
 
@@ -66,7 +67,7 @@ public class SystemExceptionHandler {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public JsonData<Void> httpRequestMethodNotSupportedException(Exception ex) {
-        LogBack.error(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
         return JsonData.failed(StatusEnum.REQUEST_ERROR);
     }
 
@@ -77,7 +78,7 @@ public class SystemExceptionHandler {
      */
     @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class})
     public JsonData<Void> bindException(MethodArgumentNotValidException ex) {
-        LogBack.error(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
         BindingResult bindingResult = ex.getBindingResult();
         if (bindingResult.hasErrors()) {
             List<FieldError> errors = bindingResult.getFieldErrors();
@@ -87,7 +88,7 @@ public class SystemExceptionHandler {
                     validList.add(new ValidFieldError(fe));
                 }
             }
-            LogBack.error("参数校验错误：" + validList.toString(), ex);
+            log.error("参数校验错误：" + validList.toString(), ex);
             return JsonData.failed(StatusEnum.PARAM_INVALID, validList.toString());
         }
         return JsonData.failed(StatusEnum.PARAM_INVALID);
@@ -101,7 +102,7 @@ public class SystemExceptionHandler {
     @ExceptionHandler(ParamException.class)
     @ResponseBody
     public JsonData<Void> paramException(ParamException ex) {
-        LogBack.error(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
         return JsonData.failed(StatusEnum.PARAM_ILLEGAL);
     }
 
@@ -112,7 +113,7 @@ public class SystemExceptionHandler {
      */
     @ExceptionHandler(RemoteRpcException.class)
     public JsonData<Void> remoteRpcException(RemoteRpcException ex) {
-        LogBack.error(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
         return JsonData.failed(StatusEnum.RPC_ERROR);
     }
 
@@ -123,7 +124,7 @@ public class SystemExceptionHandler {
      */
     @ExceptionHandler(AccessDeniedException.class)
     public JsonData<Void> missingServletRequestParameterException(AccessDeniedException ex) {
-        LogBack.error(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
         return JsonData.failed(StatusEnum.UN_AUTHORIZED);
     }
 
@@ -134,7 +135,7 @@ public class SystemExceptionHandler {
      */
     @ExceptionHandler(TokenExpiredException.class)
     public JsonData<Void> tokenExpiredException(TokenExpiredException ex) {
-        LogBack.error(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
         return JsonData.failed(StatusEnum.LOGIN_EXPIRED);
     }
 
@@ -145,7 +146,7 @@ public class SystemExceptionHandler {
      */
     @ExceptionHandler(RetryableException.class)
     public JsonData<Void> clientException(RetryableException ex) {
-        LogBack.error(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
         return JsonData.failed(StatusEnum.SERVICE_OFF);
     }
 
@@ -157,7 +158,7 @@ public class SystemExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public JsonData<Void> defaultException(Exception ex) {
-        LogBack.error("其他异常--------->{}", ex.getMessage(), ex);
+        log.error("其他异常--------->{}", ex.getMessage(), ex);
         return JsonData.failed(StatusEnum.SYSTEM_ERROR);
     }
 

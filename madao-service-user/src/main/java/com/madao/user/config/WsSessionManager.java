@@ -1,6 +1,6 @@
 package com.madao.user.config;
 
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 public class WsSessionManager {
 
     /**
@@ -53,7 +54,7 @@ public class WsSessionManager {
                 // 关闭连接
                 session.close();
             } catch (IOException e) {
-                LogBack.error("删除并同步关闭连接时异常：{}", e.getMessage(), e);
+                log.error("删除并同步关闭连接时异常：{}", e.getMessage(), e);
             }
         }
     }

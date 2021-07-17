@@ -11,7 +11,7 @@ import com.google.common.collect.Maps;
 import com.madao.model.pojo.user.User;
 import com.madao.utils.DateUtil;
 import com.madao.utils.JsonUtil;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 //@ConfigurationProperties("jwt.config")
 public class JWTAuthentication {
 
@@ -149,7 +150,7 @@ public class JWTAuthentication {
             jwt.verifySignature(rsaVerifier);
             invalid = Boolean.FALSE;
         } catch (InvalidSignatureException | IllegalArgumentException ex) {
-            LogBack.error("user token has expired or signature error", ex);
+            log.error("user token has expired or signature error", ex);
         }
         return invalid;
     }
@@ -167,7 +168,7 @@ public class JWTAuthentication {
             BufferedReader br = new BufferedReader(inputStreamReader);
             return br.lines().collect(Collectors.joining("\n"));
         } catch (IOException ioe) {
-            LogBack.error("getPubKey 异常：", ioe);
+            log.error("getPubKey 异常：", ioe);
             return null;
         }
     }

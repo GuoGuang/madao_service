@@ -1,7 +1,7 @@
 package com.madao.user.listener;
 
-import com.madao.utils.LogBack;
 import com.rabbitmq.client.Channel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.*;
@@ -18,6 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @created by guoguang0536@gmail.com / 1831682775@qq.com
  * @date 2021/06/03/ 10:13:00
  */
+@Slf4j
 @Component
 public class ReceiveFanout {
 
@@ -42,10 +43,10 @@ public class ReceiveFanout {
         AtomicBoolean isSuccessful = new AtomicBoolean(false);
 
         try {
-            LogBack.info("队列queueOne:{}处理消息", msg);
+            log.info("队列queueOne:{}处理消息", msg);
             //  do something
         } catch (Exception e) {
-            LogBack.error("处理队列queueOne失败:{}，异常------>{}", message, e.getMessage(), e);
+            log.error("处理队列queueOne失败:{}，异常------>{}", message, e.getMessage(), e);
             isSuccessful.compareAndSet(false, true);
         }
 
@@ -67,12 +68,12 @@ public class ReceiveFanout {
         String msg = new String(message.getBody(), StandardCharsets.UTF_8);
 
         try {
-            LogBack.info("队列queueThree:{}处理消息", msg);
+            log.info("队列queueThree:{}处理消息", msg);
 //            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             throw new RuntimeException();
             //  do something
         } catch (Exception e) {
-            LogBack.error("处理队列queueThree失败:{}，异常------>{}", message, e.getMessage(), e);
+            log.error("处理队列queueThree失败:{}，异常------>{}", message, e.getMessage(), e);
             channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
         }
     }
@@ -88,7 +89,7 @@ public class ReceiveFanout {
     public void deadHandler(Message message, Channel channel) throws IOException {
         String msg = new String(message.getBody(), StandardCharsets.UTF_8);
 
-        LogBack.info("死信队列 message={}", msg);
+        log.info("死信队列 message={}", msg);
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
     }
 
