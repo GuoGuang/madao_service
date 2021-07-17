@@ -23,6 +23,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>
+                %d %p (%file:%line\)- %m%n
             </pattern>
             <charset>UTF-8</charset>
         </encoder>

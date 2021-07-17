@@ -13,6 +13,10 @@
     <name>madao-common【工具类】</name>
 
     <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
         <!--DB-->
         <!-- mysql驱动 -->
         <dependency>
