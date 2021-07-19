@@ -45,7 +45,7 @@ public class AuthenticationController {
     }
 
 
-    @PostMapping(value = "/logout")
+    @PostMapping(value = "/user/logout")
     @ApiOperation(value = "登出系统", notes = "Auth")
     @ApiImplicitParams(
             @ApiImplicitParam(name = "token", value = "令牌", dataType = "String", paramType = "header")
