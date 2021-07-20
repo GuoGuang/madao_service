@@ -40,7 +40,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
 
     public SmsCodeAuthenticationFilter() {
         //要拦截的请求
-        super(new AntPathRequestMatcher("/oauth/" + PHONE_KEY, "POST"));
+        super(new AntPathRequestMatcher("/auth/" + PHONE_KEY, "POST"));
     }
 
     @Override

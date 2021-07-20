@@ -31,7 +31,7 @@ import java.io.IOException;
 @Slf4j
 @Api("用户登录认证")
 @RestController
-@RequestMapping("/oauth")
+@RequestMapping("/auth")
 public class AuthenticationController {
 
     private final RedisService redisService;
@@ -45,7 +45,7 @@ public class AuthenticationController {
     }
 
 
-    @PostMapping(value = "/user/logout")
+    @PostMapping(value = "/logout")
     @ApiOperation(value = "登出系统", notes = "Auth")
     @ApiImplicitParams(
             @ApiImplicitParam(name = "token", value = "令牌", dataType = "String", paramType = "header")

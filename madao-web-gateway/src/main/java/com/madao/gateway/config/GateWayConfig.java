@@ -49,7 +49,7 @@ public class GateWayConfig {
 				.route("article_route", a -> a.path("/ar/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-ARTICLE"))
 
 				// authorization, authentication, third-party login
-				.route("auth_route", a -> a.path("/oauth/**").filters(f -> f.stripPrefix(0)).uri("lb://AUTHENTICATION-SERVER"))
+				.route("auth_route", a -> a.path("/az/**").filters(f -> f.stripPrefix(1)).uri("lb://AUTHENTICATION-SERVER"))
 				.route("social_route", a -> a.path("/social/**").filters(f -> f.stripPrefix(1)).uri("lb://AUTHENTICATION-SERVER"))
 
 				// API

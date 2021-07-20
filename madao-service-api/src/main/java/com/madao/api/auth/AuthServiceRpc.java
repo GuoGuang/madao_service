@@ -26,7 +26,7 @@ public interface AuthServiceRpc {
     /**
      * 调用签权服务，判断用户是否有权限
      */
-    @PostMapping(value = "oauth/permission")
+    @PostMapping(value = "auth/permission")
     JsonData<Object> authPermission(@RequestParam("url") String url,
                                     @RequestParam("method") String method,
                                     @RequestHeader(HttpHeaders.AUTHORIZATION) String authentication);

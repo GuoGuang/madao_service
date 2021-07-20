@@ -74,10 +74,10 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
-        urlMap.put("/oauth/token", ValidateCodeType.CAPTCHA);
+        urlMap.put("/auth/token", ValidateCodeType.CAPTCHA);
         addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.CAPTCHA);
 
-        urlMap.put("/oauth/phone", ValidateCodeType.SMS);
+        urlMap.put("/auth/phone", ValidateCodeType.SMS);
         addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
     }
 

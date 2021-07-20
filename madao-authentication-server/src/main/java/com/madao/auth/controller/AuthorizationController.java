@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
  * @created 2019-09-29 7:37
  */
 @Api("鉴权")
-@RequestMapping("/oauth")
+@RequestMapping("/auth")
 @RestController
 public class AuthorizationController {
 

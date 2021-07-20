@@ -34,7 +34,7 @@ public class GithubAuthenticationFilter extends AbstractAuthenticationProcessing
     private OAuth2ClientProperties oAuth2ClientProperties;
 
     public GithubAuthenticationFilter() {
-        super(new AntPathRequestMatcher("/oauth/login/github", "GET"));
+        super(new AntPathRequestMatcher("/auth/login/github", "GET"));
     }
 
     @Override
