@@ -145,7 +145,6 @@ pipeline {
                 sh "/bin/cp -f /var/jenkins_home/service-config/publickey.txt madao-web-gateway/src/main/resources/"
                 sh "mvn -B -DskipTests install -f madao-common-parent"
                 sh "mvn -B -DskipTests install -f madao-common"
-                sh "mvn -B -DskipTests install -f madao-common-db"
                 sh "mvn -B -DskipTests install -f madao-service-api"
                 sh "mvn -B -DskipTests install -f ${serviceName}"
                 echo '-->> -->>maven打包构建完成!'
