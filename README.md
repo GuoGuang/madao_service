@@ -1,4 +1,3 @@
-
 <p align="center">
 <a href="https://github.com/GuoGuang/madao" target="blank">
     <img src="https://yd-note.oss-cn-beijing.aliyuncs.com/favicon.ico" height="90" alt="madaoo.com logo" />
