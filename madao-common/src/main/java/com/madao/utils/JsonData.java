@@ -62,7 +62,9 @@ public class JsonData<T> implements Serializable {
     public JsonData(StatusEnum statusEnum) {
         this(false, statusEnum.getCode(), statusEnum.getMsg());
     }
-
+	public JsonData(StatusEnum statusEnum,String extMessage) {
+		this(false, statusEnum.getCode(), statusEnum.getMsg() + extMessage);
+	}
     public JsonData(boolean status, int code, String message, T data) {
         this.status = status;
         this.code = code;

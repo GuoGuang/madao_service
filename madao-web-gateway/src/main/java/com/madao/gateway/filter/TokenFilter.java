@@ -106,7 +106,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
 		// 如果请求未携带token信息, 直接跳出
 		if (StringUtils.isBlank(jwtToken) || !jwtToken.contains(BEARER)) {
 			log.error("url:{},method:{},headers:{}, 请求未携带token信息", url, method, request.getHeaders());
-			return unAuthorized(exchange, StatusEnum.PARAM_ILLEGAL);
+			return unAuthorized(exchange, StatusEnum.PARAM_ILLEGAL,"Authorization为空或者不包含Bearer ");
 		}
 
 		//调用签权服务看用户是否有权限，若有权限进入下一个filter
@@ -115,7 +115,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
 			builder.header(HttpHeaders.AUTHORIZATION, jwtToken);
 			return chain.filter(exchange.mutate().request(builder.build()).build());
 		}
-		return unAuthorized(exchange, StatusEnum.UN_AUTHORIZED);
+		return unAuthorized(exchange, StatusEnum.UN_AUTHORIZED,"");
 	}
 
 
@@ -128,11 +128,11 @@ public class TokenFilter implements GlobalFilter, Ordered {
 	/**
 	 * 网关拒绝，返回401
 	 */
-	private Mono<Void> unAuthorized(ServerWebExchange serverWebExchange, StatusEnum statusEnum) {
+	private Mono<Void> unAuthorized(ServerWebExchange serverWebExchange, StatusEnum statusEnum, String extMessage) {
 		ServerHttpResponse response = serverWebExchange.getResponse();
 		response.setStatusCode(response.getStatusCode());
 		response.getHeaders().add("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
-		JsonData<Object> jsonData = new JsonData<>(statusEnum);
+		JsonData<Object> jsonData = new JsonData<>(statusEnum,extMessage);
 		DataBuffer buffer = null;
 		try {
 			byte[] bytes = JsonUtil.toJSONBytes(jsonData);
