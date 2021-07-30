@@ -20,6 +20,10 @@
 </p>
 
 ## [急速预览---直达](https://madaoo.com)
+> 如果喜欢记得给个star哦🌟
+
+![演示](http://vue-admin-guoguang.oss-cn-shanghai.aliyuncs.com/images/demo.jpg)
+
 
 本仓库基于spring、spring-boot、spring-cloud等全家桶模块搭建
 
