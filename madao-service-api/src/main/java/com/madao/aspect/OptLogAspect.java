@@ -86,7 +86,7 @@ public class OptLogAspect {
                     }
                 }
             }
-            com.madao.model.pojo.base.OptLog log = new com.madao.model.pojo.base.OptLog();
+            com.madao.model.entity.base.OptLog log = new com.madao.model.entity.base.OptLog();
             log.setClientIp(HttpServletUtil.getIpAddr(request));
             log.setUserId(user.get("id"));
             UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
@@ -144,7 +144,7 @@ public class OptLogAspect {
             log.error("请求人:" + "临时");
             log.error("请求IP:" + ipAddr);
             //==========数据库日志=========
-            com.madao.model.pojo.base.OptLog log = new com.madao.model.pojo.base.OptLog();
+            com.madao.model.entity.base.OptLog log = new com.madao.model.entity.base.OptLog();
             log.setClientIp(HttpServletUtil.getIpAddr(request));
             log.setUserId("临时用户");
             UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));

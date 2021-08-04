@@ -1,7 +1,7 @@
 package com.madao.article.mapper;
 
 import com.madao.model.dto.article.ArticleDto;
-import com.madao.model.pojo.article.Article;
+import com.madao.model.entity.article.Article;
 import org.mapstruct.Mapper;
 
 /**

@@ -6,7 +6,7 @@ import com.madao.article.mapper.TagMapper;
 import com.madao.constant.CommonConst;
 import com.madao.constant.RedisConstant;
 import com.madao.model.dto.article.TagDto;
-import com.madao.model.pojo.article.ArticleTag;
+import com.madao.model.entity.article.ArticleTag;
 import com.madao.redis.RedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

@@ -2,7 +2,7 @@ package com.madao.fallback.user;
 
 import com.madao.api.user.ResourceServiceRpc;
 import com.madao.enums.StatusEnum;
-import com.madao.model.pojo.user.Resource;
+import com.madao.model.entity.user.Resource;
 import com.madao.utils.JsonData;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;

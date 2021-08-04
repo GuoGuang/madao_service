@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.madao.api.base.LoginLogServiceRpc;
 import com.madao.constant.CommonConst;
 import com.madao.model.dto.user.AuthToken;
-import com.madao.model.pojo.base.LoginLog;
+import com.madao.model.entity.base.LoginLog;
 import com.madao.redis.RedisService;
 import com.madao.utils.HttpServletUtil;
 import com.madao.utils.JsonData;

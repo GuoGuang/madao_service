@@ -4,7 +4,7 @@ import com.madao.annotation.OptLog;
 import com.madao.enums.OptLogType;
 import com.madao.model.QueryVO;
 import com.madao.model.dto.user.RoleDto;
-import com.madao.model.pojo.user.Role;
+import com.madao.model.entity.user.Role;
 import com.madao.user.service.RoleService;
 import com.madao.utils.JsonData;
 import com.querydsl.core.QueryResults;

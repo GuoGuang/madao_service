@@ -6,7 +6,7 @@ import com.madao.base.mapper.LoginLogMapper;
 import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.dto.base.LoginLogDto;
 import com.madao.model.dto.user.UserDto;
-import com.madao.model.pojo.base.LoginLog;
+import com.madao.model.entity.base.LoginLog;
 import com.madao.utils.BeanUtil;
 import com.madao.utils.JsonData;
 import org.apache.commons.lang3.StringUtils;

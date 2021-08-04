@@ -1,4 +1,4 @@
-package com.madao.model.pojo.article;
+package com.madao.model.entity.article;
 
 import com.madao.enums.ArticleAuditStatus;
 import com.madao.enums.ArticleOriginType;

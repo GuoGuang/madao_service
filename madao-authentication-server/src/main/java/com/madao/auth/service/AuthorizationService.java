@@ -4,7 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONObject;
 import com.madao.api.user.ResourceServiceRpc;
 import com.madao.exception.custom.RemoteRpcException;
-import com.madao.model.pojo.user.Resource;
+import com.madao.model.entity.user.Resource;
 import com.madao.redis.RedisService;
 import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;

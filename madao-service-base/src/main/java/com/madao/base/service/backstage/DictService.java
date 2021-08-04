@@ -4,7 +4,7 @@ import com.madao.base.dao.DictDao;
 import com.madao.base.mapper.DictMapper;
 import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.dto.base.DictDto;
-import com.madao.model.pojo.base.Dict;
+import com.madao.model.entity.base.Dict;
 import com.madao.utils.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

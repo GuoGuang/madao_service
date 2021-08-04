@@ -1,6 +1,6 @@
 package com.madao.article.dao.backstage;
 
-import com.madao.model.pojo.article.Tag;
+import com.madao.model.entity.article.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;

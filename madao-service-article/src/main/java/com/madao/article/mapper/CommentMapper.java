@@ -2,7 +2,7 @@ package com.madao.article.mapper;
 
 import com.madao.article.dao.backstage.CommentDao;
 import com.madao.model.dto.article.CommentDto;
-import com.madao.model.pojo.article.Comment;
+import com.madao.model.entity.article.Comment;
 import org.mapstruct.Mapper;
 
 /**

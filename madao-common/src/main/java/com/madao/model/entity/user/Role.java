@@ -1,4 +1,4 @@
-package com.madao.model.pojo.user;
+package com.madao.model.entity.user;
 
 import com.madao.model.BasePojo;
 import org.hibernate.annotations.GenericGenerator;

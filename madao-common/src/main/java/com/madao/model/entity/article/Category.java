@@ -1,4 +1,4 @@
-package com.madao.model.pojo.base;
+package com.madao.model.entity.article;
 
 import com.madao.model.BasePojo;
 import org.hibernate.annotations.GenericGenerator;
@@ -14,13 +14,12 @@ import java.io.Serializable;
  * @created 2019-09-29 7:37
  */
 @Entity
-@Table(name = "ba_dict",
+@Table(name = "ar_category",
         indexes = {
-                @Index(name = "dict_code", columnList = "code"),
-                @Index(name = "dict_parent_id", columnList = "parentId"),
-                @Index(name = "dict_create_at", columnList = "createAt")
+                @Index(name = "categories_name", columnList = "name"),
+                @Index(name = "categories_parent_id", columnList = "parentId")
         })
-public class Dict extends BasePojo implements Serializable {
+public class Category extends BasePojo implements Serializable {
 
     @Id
     @GeneratedValue(generator = "idGenerator")
@@ -31,25 +30,20 @@ public class Dict extends BasePojo implements Serializable {
     @Column(length = 20)
     private String parentId;
 
-    @Column(length = 10)
-    private String code;
-
-    @Column(length = 10)
+    @Column(length = 20)
     private String name;
 
     @Column(length = 200)
-    private String description;
+    private String summary;
 
-    @Column(length = 10)
-    private String type;
-
-    private static final long serialVersionUID = 1L;
+    @Column(length = 20)
+    private String userId;
 
 	public String getId() {
 		return id;
 	}
 
-	public Dict setId(String id) {
+	public Category setId(String id) {
 		this.id = id;
 		return this;
 	}
@@ -58,17 +52,8 @@ public class Dict extends BasePojo implements Serializable {
 		return parentId;
 	}
 
-	public Dict setParentId(String parentId) {
+	public Category setParentId(String parentId) {
 		this.parentId = parentId;
-		return this;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public Dict setCode(String code) {
-		this.code = code;
 		return this;
 	}
 
@@ -76,26 +61,26 @@ public class Dict extends BasePojo implements Serializable {
 		return name;
 	}
 
-	public Dict setName(String name) {
+	public Category setName(String name) {
 		this.name = name;
 		return this;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getSummary() {
+		return summary;
 	}
 
-	public Dict setDescription(String description) {
-		this.description = description;
+	public Category setSummary(String summary) {
+		this.summary = summary;
 		return this;
 	}
 
-	public String getType() {
-		return type;
+	public String getUserId() {
+		return userId;
 	}
 
-	public Dict setType(String type) {
-		this.type = type;
+	public Category setUserId(String userId) {
+		this.userId = userId;
 		return this;
 	}
 }

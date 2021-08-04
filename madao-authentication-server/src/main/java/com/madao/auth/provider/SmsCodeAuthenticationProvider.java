@@ -3,7 +3,7 @@ package com.madao.auth.provider;
 import com.madao.auth.exception.AuthException;
 import com.madao.auth.service.UserDetailsServiceImpl;
 import com.madao.auth.token.SmsCodeAuthenticationToken;
-import com.madao.model.pojo.user.User;
+import com.madao.model.entity.user.User;
 import com.madao.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;

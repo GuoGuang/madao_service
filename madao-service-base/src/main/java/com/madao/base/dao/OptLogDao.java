@@ -1,6 +1,6 @@
 package com.madao.base.dao;
 
-import com.madao.model.pojo.base.OptLog;
+import com.madao.model.entity.base.OptLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;

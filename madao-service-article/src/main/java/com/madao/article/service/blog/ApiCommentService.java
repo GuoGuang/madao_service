@@ -4,8 +4,8 @@ import com.madao.article.dao.backstage.ArticleDao;
 import com.madao.article.dao.backstage.CommentDao;
 import com.madao.article.mapper.CommentMapper;
 import com.madao.model.dto.article.CommentDto;
-import com.madao.model.pojo.article.Article;
-import com.madao.model.pojo.article.Comment;
+import com.madao.model.entity.article.Article;
+import com.madao.model.entity.article.Comment;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 

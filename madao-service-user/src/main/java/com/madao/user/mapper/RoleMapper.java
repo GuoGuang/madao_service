@@ -1,7 +1,7 @@
 package com.madao.user.mapper;
 
 import com.madao.model.dto.user.RoleDto;
-import com.madao.model.pojo.user.Role;
+import com.madao.model.entity.user.Role;
 import org.mapstruct.Mapper;
 
 /**

@@ -13,7 +13,7 @@ import java.lang.annotation.*;
 @Documented
 @EnableEurekaClient
 @SpringBootApplication
-@EntityScan("com.madao.model.pojo")
+@EntityScan("com.madao.model.entity")
 @EnableFeignClients("com.madao.api")
 @ComponentScan(basePackages = {"com.madao"})
 public @interface EnableSpringCloudComponent {

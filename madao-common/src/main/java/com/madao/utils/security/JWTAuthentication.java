@@ -8,7 +8,7 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.google.common.collect.Maps;
-import com.madao.model.pojo.user.User;
+import com.madao.model.entity.user.User;
 import com.madao.utils.DateUtil;
 import com.madao.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
