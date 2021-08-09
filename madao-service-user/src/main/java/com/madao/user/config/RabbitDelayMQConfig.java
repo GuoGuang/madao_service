@@ -6,6 +6,7 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.RabbitListenerContainerFactory;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -20,6 +21,7 @@ import org.springframework.context.annotation.Scope;
  * @created 2019-09-29 7:37
  */
 @Configuration
+@ConditionalOnBean(RabbitTemplate.class)
 public class RabbitDelayMQConfig {
 
     @Bean

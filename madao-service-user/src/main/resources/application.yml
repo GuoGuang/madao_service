@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: service-user
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
 
 com:
   madao:
