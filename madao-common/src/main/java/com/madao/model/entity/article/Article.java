@@ -21,6 +21,7 @@ import java.io.Serializable;
                 @Index(name = "article_keywords", columnList = "keywords"),
                 @Index(name = "article_title", columnList = "title"),
                 @Index(name = "article_create_at", columnList = "createAt")})
+@org.hibernate.annotations.Table(appliesTo = "ar_article",comment="文章")
 public class Article extends BasePojo implements Serializable {
 
     @Id
@@ -29,7 +30,7 @@ public class Article extends BasePojo implements Serializable {
     @GenericGenerator(name = "idGenerator", strategy = "com.madao.config.IdGeneratorConfig")
     private String id;
 
-    @Column(length = 20)
+    @Column(columnDefinition="varchar(30) COMMENT '用户id' default ''",nullable = false)
     private String userId;
 
     @Column(length = 20)
