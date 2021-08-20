@@ -42,11 +42,11 @@ public class Article extends BasePojo implements Serializable {
     @Column(length = 200)
     private String thumb;
 
-    @Column(length = 1)
-    private Boolean isPublic;
+	@Column(length = 1, columnDefinition = "bit(1) COMMENT '是否公开'", nullable = false)
+	private Boolean isPublic;
 
-    @Column(length = 1)
-    private Boolean isTop;
+	@Column(length = 1, columnDefinition = "bit(1) COMMENT '是否推荐'", nullable = false)
+	private Boolean isTop;
 
     @Column(length = 5)
     private Integer visits;

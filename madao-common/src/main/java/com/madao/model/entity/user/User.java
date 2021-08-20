@@ -86,14 +86,11 @@ public class User extends BasePojo implements Serializable {
     @Column(length = 200)
     private String contactAddress;
 
-    /**
-     * 是否锁定
-     */
-    @Column(length = 1)
+    @Column(length = 1,columnDefinition = "bit(1) COMMENT '是否锁定' default '0'")
     private Boolean status;
 
-    @Column(length = 1)
-    private Boolean origin;
+	@Column(length = 1,columnDefinition = "bit(1) COMMENT '来源'",nullable = false)
+	private Boolean origin;
 
     @Column(length = 20)
     private String bindId;
