@@ -5,7 +5,7 @@ import org.springframework.validation.FieldError;
 import java.io.Serializable;
 
 /**
- * 实体校验错误类
+ * 实体校验未通过类
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -50,7 +50,7 @@ public class ValidFieldError implements Serializable {
 
     @Override
     public String toString() {
-        return "参数" + field + "校验错误：" + message;
+        return "参数" + field + "校验未通过：" + message;
     }
 
 

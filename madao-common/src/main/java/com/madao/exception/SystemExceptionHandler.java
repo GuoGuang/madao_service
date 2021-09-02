@@ -8,6 +8,7 @@ import com.madao.exception.custom.ValidFieldError;
 import com.madao.utils.JsonData;
 import feign.RetryableException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
@@ -72,7 +73,7 @@ public class SystemExceptionHandler {
     }
 
     /**
-     * JSR303参数校验错误
+     * JSR303参数校验未通过
      *
      * @param ex BindException
      */
@@ -88,7 +89,7 @@ public class SystemExceptionHandler {
                     validList.add(new ValidFieldError(fe));
                 }
             }
-            log.error("参数校验错误：" + validList.toString(), ex);
+            log.error("参数校验未通过：" + validList.toString(), ex);
             return JsonData.failed(StatusEnum.PARAM_INVALID, validList.toString());
         }
         return JsonData.failed(StatusEnum.PARAM_INVALID);
@@ -150,6 +151,13 @@ public class SystemExceptionHandler {
         return JsonData.failed(StatusEnum.SERVICE_OFF);
     }
 
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	@ResponseBody
+	public JsonData<Void> httpMessageNotReadableException(HttpMessageNotReadableException ex) {
+		log.error("不匹配的输入异常：----------->{}", ex.getMessage(),ex);
+		return JsonData.failed(StatusEnum.PARAM_ILLEGAL,"不匹配的输入异常："+ex.getMessage());
+	}
+
     /**
      * 其他异常
      *
@@ -159,7 +167,7 @@ public class SystemExceptionHandler {
     @ResponseBody
     public JsonData<Void> defaultException(Exception ex) {
         log.error("其他异常--------->{}", ex.getMessage(), ex);
-        return JsonData.failed(StatusEnum.SYSTEM_ERROR);
+        return JsonData.failed(ex);
     }
 
 

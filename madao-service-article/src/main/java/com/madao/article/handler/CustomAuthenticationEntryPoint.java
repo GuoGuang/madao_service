@@ -33,6 +33,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 //		httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		// 如果这里状态改为HttpServletResponse.SC_UNAUTHORIZED 会导致feign之间调用异常 see https://xujin.org/sc/sc-feign-4xx/
 		httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+		log.error("请求接口---------->{}",httpServletRequest.getRequestURL());
 		log.error("用户没有登录时返回给前端的数据");
 		JsonData<Object> jsonData =  new JsonData<>(StatusEnum.LOGIN_EXPIRED);
 		httpServletResponse.getWriter().write(JsonUtil.toJsonString(jsonData));
