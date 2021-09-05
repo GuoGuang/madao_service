@@ -68,9 +68,10 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/auth/**", "/connect/**", "/v2/api-docs", "/swagger-resources/configuration/ui",
-                "/swagger-resources", "/swagger-resources/configuration/security",
-                "/swagger-ui.html", "/css/**", "/js/**", "/images/**", "/webjars/**", "**/favicon.ico", "/index");
+        web.ignoring().antMatchers("/auth/**", "/connect/**",
+		        "/v2/api-docs",
+		        "/swagger-resources/**",
+		        "/swagger-ui/**");
 
     }
 
@@ -87,13 +88,8 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/v2/api-docs",
-                        "/configuration/ui",
-                        "/swagger-resources",
-                        "/configuration/security",
-                        "/webjars/**",
-                        "/swagger-resources/configuration/ui",
-                        "/swagger-ui.html",
-                        "/swagger-resources/configuration/security").permitAll()
+		                "/swagger-resources/**",
+		                "/swagger-ui/**").permitAll()
                 .and()
                 .csrf().disable()
                 .logout(logout -> logout.invalidateHttpSession(false).logoutUrl("/auth/logout"))

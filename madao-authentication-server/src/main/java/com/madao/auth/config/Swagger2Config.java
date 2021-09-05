@@ -2,31 +2,64 @@ package com.madao.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.ApiInfoBuilder;
+import org.springframework.context.annotation.Profile;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
-/**
- * @author GuoGuang
- * @公众号 码道人生
- * @gitHub https://github.com/GuoGuang
- * @website https://madaoo.com
- * @created 2019-09-29 7:37
- */
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 @Configuration
+@Profile("dev")
 public class Swagger2Config {
 
-    @Bean
-    public Docket createRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
-                .apis(RequestHandlerSelectors.basePackage("com.madao.auth.controller")).paths(PathSelectors.any()).build();
-    }
+	@Bean
+	public Docket api() {
+		return new Docket(DocumentationType.SWAGGER_2)
+				.apiInfo(apiInfo())
+				.securityContexts(Arrays.asList(securityContext()))
+				.securitySchemes(Arrays.asList(JWTAuth()))
+				.select()
+				.apis(RequestHandlerSelectors.any())
+				.paths(PathSelectors.any())
+				.build();
+	}
 
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("项目接口API").version("6.2.3").build();
-    }
 
+	private SecurityContext securityContext() {
+		return SecurityContext.builder().securityReferences(defaultAuth()).build();
+	}
+
+	private List<SecurityReference> defaultAuth() {
+		AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+		AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+		authorizationScopes[0] = authorizationScope;
+		return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
+	}
+
+
+	/**
+	 * JWT认证模式
+	 * @return
+	 */
+	private ApiKey JWTAuth() {
+		return new ApiKey("JWT", "Authorization", "header");
+	}
+
+	private ApiInfo apiInfo() {
+		return new ApiInfo(
+				"MADAO-API",
+				"如有疑问，请联系项目作者！",
+				"1.0",
+				"Terms of service",
+				new Contact("LGG", "www.madaoo.com", "1831682665@qq.com"),
+				"License of API",
+				"API license URL",
+				Collections.emptyList());
+	}
 }

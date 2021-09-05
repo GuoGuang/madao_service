@@ -1,4 +1,4 @@
-package com.madao.article.config;
+package com.madao.gateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
