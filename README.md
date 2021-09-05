@@ -155,8 +155,9 @@ spring:
 ![Security时序图](https://yd-note.oss-cn-beijing.aliyuncs.com/spring/Oauth%26SpringSecurity/SpringSecurity%20%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B%E6%97%B6%E5%BA%8F%E5%9B%BE.png)
 
 
-## 关于内存问题
+## 常见问题
 
+### 1、关于内存问题
 SpringCloud是比较吃内存的，如果你不指定内存大小，8G内存一般启3、4个就满了，所以这里需要配置下每个服务内存大小
 
 打开Environment config,如果你不指定在哪打开，参考https://www.jetbrains.com/help/idea/2019.3/run-debug-configuration-junit.html?utm_campaign=IU&utm_content=2019.3&utm_medium=link&utm_source=product#configTab 的VM options
@@ -166,6 +167,9 @@ SpringCloud是比较吃内存的，如果你不指定内存大小，8G内存一�
 其他的-Xmx236m -Xms236m -Xmn150m 
 
 以上配置请不要再生产使用，仅作为本地开发调试，为解决内存不足问题的，当然如果你的内存够大，可以忽略以上配置
+
+### 2、javax.annotation.processing.FilerException: Attempt to recreate a file for xxx
+maven install之前先maven clean
 
 
 ## 启动微服务
