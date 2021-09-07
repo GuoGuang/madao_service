@@ -13,6 +13,9 @@
 
     <artifactId>madao-service-user</artifactId>
     <description>用户微服务模块</description>
+    <properties>
+        <madao-service-api.version>1.0.0</madao-service-api.version>
+    </properties>
     <name>madao-service-user【用户服务】</name>
 
     <dependencies>
@@ -35,7 +38,7 @@
         <dependency>
             <groupId>com.madao</groupId>
             <artifactId>madao-service-api</artifactId>
-            <version>1.0.0</version>
+            <version>${madao-service-api.version}</version>
         </dependency>
     </dependencies>
 

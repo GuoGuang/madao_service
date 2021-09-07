@@ -13,8 +13,11 @@
     <artifactId>madao-service-base</artifactId>
     <packaging>jar</packaging>
     <description>基础微服务模块</description>
-
     <name>madao-service-base【基础服务】</name>
+
+    <properties>
+        <madao-service-api.version>1.0.0</madao-service-api.version>
+    </properties>
 
     <dependencies>
 
@@ -31,7 +34,7 @@
         <dependency>
             <groupId>com.madao</groupId>
             <artifactId>madao-service-api</artifactId>
-            <version>1.0.0</version>
+            <version>${madao-service-api.version}</version>
         </dependency>
     </dependencies>
 

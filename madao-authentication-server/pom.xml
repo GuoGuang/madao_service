@@ -12,6 +12,10 @@
 
     <artifactId>madao-authentication-server</artifactId>
 
+    <properties>
+        <madao-service-api.version>1.0.0</madao-service-api.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -28,7 +32,7 @@
         <dependency>
             <groupId>com.madao</groupId>
             <artifactId>madao-service-api</artifactId>
-            <version>1.0.0</version>
+            <version>${madao-service-api.version}</version>
         </dependency>
 
         <!--oauth2认证-->

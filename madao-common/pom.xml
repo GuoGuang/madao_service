@@ -12,6 +12,21 @@
     <artifactId>madao-common</artifactId>
     <name>madao-common【工具类】</name>
 
+    <properties>
+        <druid.version>1.1.12</druid.version>
+        <javafaker.version>1.0.2</javafaker.version>
+        <hutool-all.version>5.3.10</hutool-all.version>
+        <spring-security-jwt.version>1.1.1.RELEASE</spring-security-jwt.version>
+        <java-jwt.version>3.8.1</java-jwt.version>
+        <hibernate-validator.version>7.0.1.Final</hibernate-validator.version>
+        <aliyun-spring-boot-starter-oss.version>1.1.0</aliyun-spring-boot-starter-oss.version>
+        <guava.version>30.0-jre</guava.version>
+        <UserAgentUtils.version>1.21</UserAgentUtils.version>
+        <quartz.version>2.3.2</quartz.version>
+        <aliyun-java-sdk-dysmsapi.version>1.1.0</aliyun-java-sdk-dysmsapi.version>
+        <aliyun-java-sdk-core.version>4.0.3</aliyun-java-sdk-core.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -27,7 +42,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.1.12</version>
+            <version>${druid.version}</version>
         </dependency>
         <!--spring-data-redis-->
         <dependency>
@@ -39,7 +54,7 @@
         <dependency>
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
-            <version>1.0.2</version>
+            <version>${javafaker.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.yaml</groupId>
@@ -51,7 +66,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.3.10</version>
+            <version>${hutool-all.version}</version>
         </dependency>
         <!--导入配置文件处理器，配置文件进行绑定就会有提示-->
         <dependency>
@@ -63,7 +78,7 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-jwt</artifactId>
-            <version>1.1.1.RELEASE</version>
+            <version>${spring-security-jwt.version}</version>
         </dependency>
         <!-- Spring Data Test -->
         <dependency>
@@ -100,51 +115,52 @@
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
-            <version>3.8.1</version>
+            <version>${java-jwt.version}</version>
         </dependency>
 
         <!-- JSR303 validator -->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>5.3.5.Final</version>
-        </dependency>
+        <groupId>org.hibernate.validator</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>${hibernate-validator.version}</version>
+    </dependency>
 
-        <!-- Aliyun OSS  -->
+
+    <!-- Aliyun OSS  -->
         <dependency>
             <groupId>cn.javaer.aliyun</groupId>
             <artifactId>aliyun-spring-boot-starter-oss</artifactId>
-            <version>1.1.0</version>
+            <version>${aliyun-spring-boot-starter-oss.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>30.0-jre</version>
+            <version>${guava.version}</version>
         </dependency>
         <!-- 获取用户UserAgent对象帮助类 -->
         <dependency>
             <groupId>eu.bitwalker</groupId>
             <artifactId>UserAgentUtils</artifactId>
-            <version>1.21</version>
+            <version>${UserAgentUtils.version}</version>
         </dependency>
         <!-- Quartz -->
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
-            <version>2.3.2</version>
+            <version>${quartz.version}</version>
         </dependency>
 
         <!--阿里云通信API-->
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
-            <version>1.1.0</version>
+            <version>${aliyun-java-sdk-dysmsapi.version}</version>
         </dependency>
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-core</artifactId>
-            <version>4.0.3</version>
+            <version>${aliyun-java-sdk-core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
