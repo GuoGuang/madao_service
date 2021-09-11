@@ -301,17 +301,9 @@ pipeline {
             }
         }
 
-        stage('UI自动化测试') {
-            steps {
-                echo "starting UITest......"
-                //这个项目不需要UI层测试，UI自动化与接口测试的pipeline脚本类似
-            }
-        }
-
         stage('性能自动化测试 ') {
             steps {
                 echo "starting performanceTest......"
-                //视项目需要增加性能的冒烟测试，具体实现后续专文阐述
             }
         }
 
@@ -331,13 +323,12 @@ pipeline {
                      }
                  }
              }
-         }
-
-         stage('发布系统') {
-             steps{
-                 echo "starting deploy......"
-             //    TODO发布环节后续专题阐述
-             }
          }*/
+
+         stage('SUCCESS') {
+             steps{
+                 echo "done......"
+             }
+         }
     }
 }
