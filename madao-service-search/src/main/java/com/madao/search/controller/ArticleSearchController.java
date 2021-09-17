@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 集成ElasticSearch的文章搜索系统
+ * 文章搜索
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang

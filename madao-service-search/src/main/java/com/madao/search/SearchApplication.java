@@ -8,8 +8,6 @@ import javax.annotation.PostConstruct;
 
 /**
  * 搜索服务
- * TODO: 搜索功能在此服务中集成，此为示例
- *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -17,10 +15,10 @@ import javax.annotation.PostConstruct;
  * @created 2019-09-29 7:37
  */
 @EnableSpringCloudComponent
-public class ElasticSearchApplication {
+public class SearchApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ElasticSearchApplication.class, args);
+		SpringApplication.run(SearchApplication.class, args);
 	}
 
 	@PostConstruct

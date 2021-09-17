@@ -1,4 +1,6 @@
 spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration
   profiles:
     active: ${ACTIVE_PROFILE:dev}
 
