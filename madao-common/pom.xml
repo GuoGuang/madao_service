@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>madao-common</artifactId>
-    <name>madao-common【工具类】</name>
+    <name>madao-common【公共模块】</name>
 
     <properties>
         <druid.version>1.1.12</druid.version>
