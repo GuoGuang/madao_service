@@ -46,7 +46,7 @@ spring:
             - GET
             - POST
             - PUT
-            - DELETE # https://segmentfault.com/a/1190000017188296
+            - DELETE
 
 auth:
   ignoreUrls: /oauth,/auth,/social
