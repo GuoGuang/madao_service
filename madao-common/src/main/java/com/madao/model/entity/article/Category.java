@@ -15,6 +15,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "ar_category",
+		uniqueConstraints=@UniqueConstraint(columnNames={"name"}),
         indexes = {
                 @Index(name = "categories_name", columnList = "name"),
                 @Index(name = "categories_parent_id", columnList = "parentId")

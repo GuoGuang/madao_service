@@ -15,7 +15,8 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "ba_dict",
-        indexes = {
+		uniqueConstraints=@UniqueConstraint(columnNames={"code"}),
+		indexes = {
                 @Index(name = "dict_code", columnList = "code"),
                 @Index(name = "dict_parent_id", columnList = "parentId"),
                 @Index(name = "dict_create_at", columnList = "createAt")
