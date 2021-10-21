@@ -13,6 +13,11 @@
         <producerConfig>bootstrap.servers=167.179.94.189:9092</producerConfig>
         <appender-ref ref="CONSOLE"/>
     </appender>
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>106.13.62.162:5000</destination> <encoder>
+        <pattern>User %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        <charset>UTF-8</charset> </encoder>
+    </appender>
     <appender name="STDOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>log/madao-service-base/madao-service-base.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -31,5 +36,6 @@
     </appender>
     <root level="info">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="LOGSTASH"/>
     </root>
 </configuration> 
