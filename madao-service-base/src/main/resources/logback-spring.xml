@@ -15,7 +15,7 @@
     </appender>
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>106.13.62.162:5000</destination> <encoder>
-        <pattern>User %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        <pattern>Base [%X{traceId}-%X{spanId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
         <charset>UTF-8</charset> </encoder>
     </appender>
     <appender name="STDOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
