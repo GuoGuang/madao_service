@@ -1,8 +1,6 @@
 server:
   port: 8080
 spring:
-  application:
-    name: web-gateway
   rabbitmq:
     host: localhost
     username: guest

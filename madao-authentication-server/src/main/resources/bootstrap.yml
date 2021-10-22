@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: authentication-server
   profiles:
     active: ${ACTIVE_PROFILE:dev}
 
