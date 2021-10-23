@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
-import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -38,13 +38,12 @@ import java.io.IOException;
  */
 @Slf4j
 @Component
-public class TokenFilter implements GlobalFilter, Ordered {
-
+@Order(1)
+public class TokenFilter implements GlobalFilter {
 
 	private static final String X_CLIENT_TOKEN_USER = "x-client-token-user";
 	private static final String X_CLIENT_TOKEN = "x-client-token";
 	private static final String BEARER = "Bearer ";
-
 
 	/**
 	 * 由authentication-client模块提供签权的feign客户端
@@ -117,13 +116,6 @@ public class TokenFilter implements GlobalFilter, Ordered {
 		}
 		return unAuthorized(exchange, StatusEnum.UN_AUTHORIZED,"");
 	}
-
-
-	@Override
-	public int getOrder() {
-		return -100;
-	}
-
 
 	/**
 	 * 网关拒绝，返回401

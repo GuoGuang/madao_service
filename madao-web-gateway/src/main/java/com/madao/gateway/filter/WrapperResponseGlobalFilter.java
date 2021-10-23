@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
-import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.core.io.buffer.DataBufferUtils;
@@ -31,11 +31,8 @@ import java.nio.charset.StandardCharsets;
  */
 @Slf4j
 @Component
-public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
-	@Override
-	public int getOrder() {
-		return -2;
-	}
+@Order(2)
+public class WrapperResponseGlobalFilter implements GlobalFilter {
 
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
