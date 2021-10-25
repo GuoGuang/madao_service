@@ -150,13 +150,6 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-netflix-eureka</artifactId>
             </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
 
             <!--https://blog.csdn.net/alinyua/article/details/80070890
                 Spring Cloud对Feign的支持由org.springframework.cloud:spring-cloud-netflix-core移到org.springframework.cloud:spring-cloud-openfeign-core下,
