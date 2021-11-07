@@ -27,7 +27,7 @@
 
 本仓库基于spring、spring-boot、spring-cloud等全家桶模块搭建
 
-## 技术选型
+## 一、技术选型
 1. 核心框架：SpringBoot、SpringCloud全家桶、Python提供电影服务
 2. 安全框架：Spring Security
 3. 分布式任务调度：Elastic-job
@@ -39,11 +39,11 @@
 9. 三方服务： 邮件服务、阿里云短信服务、阿里云OSS对象存储
 10. 运维/集成/部署：Jenkins、Docker...
 
-## 前台项目请移步 
+## 二、前台项目请移步 
 - [后台管理系统](https://github.com/GuoGuang/madao_admin_manage)
 - [前台博客](https://github.com/GuoGuang/madao)
 
-## 其他开源仓库
+## 三、其他开源仓库
 项目 | 地址
 ---|---
 IDEA插件 （IDEA市场搜索 Generate Crud 安装） |  根据JPA实体类生成后端代码，简单快捷 👋
@@ -54,7 +54,7 @@ pinyinUtils | https://github.com/GuoGuang/pinyinUtils
 如何写好单元测试 | https://github.com/GuoGuang/spring_junit_mockito_example
 
 
-## 平台目录结构说明
+## 四、平台目录结构说明
 ```
 ├─madao-common-parent----------------------------父项目，公共依赖
 │  │
@@ -80,12 +80,12 @@ pinyinUtils | https://github.com/GuoGuang/pinyinUtils
 2. JDK：1.8+ 
 3. 工具：Maven
 
-## 快速开始
+## 五、快速开始
 > 本项目需要你有一定得开发经验，对SpringCloud有基础的认识，此项目仅提供学习使用。
 
 > 开源不易，如果此项目对您有帮助，麻烦点个star给作者一点动力，不胜感激。:sparkles:
 
-0. 导入服务
+### 1. 导入服务
 ![导入服务](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/service.png)
 点击 "import module" 将服务一一导入，如果你嫌一个个导入麻烦，可以在madao-common-parent的pom.xml文件中最底下把<modules>标签放开，但是真正微服务开发一般一个团队或者一个人负责一个服务，没有一个人同时开发多个服务情况，毕竟是个人博客项目，导入方式可以自己定。
 ```
@@ -95,9 +95,11 @@ mvn -B -DskipTests install -f madao-common-parent -Dmaven.test.skip=true
 idea里 maven选项选中madao-common-parent install 需要在Maven Projects界面里中选中"跳过测试"
 ```
 
-1. 初始化数据库：导入系统根路径下madao.sql文件到数据库中
+### 2. 初始化数据库
+导入系统根路径下madao.sql文件到数据库中
 
-2. 一个成熟的项目必然会依赖众多中间件，本项目也不例外，这里假设你会使用docker,如果你还没有接触到docker,那么可以参考我的另一篇文章[Docker入门](https://madaoo.com/article/1263480522076721152)
+### 3. 初始化中间件
+一个成熟的项目必然会依赖众多中间件，本项目也不例外，这里假设你会使用docker,如果你还没有接触到docker,那么可以参考我的另一篇文章[Docker入门](https://madaoo.com/article/1263480522076721152)
 
     使用docker启动mysql、redis
     ```
@@ -112,11 +114,11 @@ idea里 maven选项选中madao-common-parent install 需要在Maven Projects界�
     
     ```
 
-3. 配置注册中心远程仓库
+### 4. 配置注册中心远程仓库
 github fork此仓库[配置中心](https://github.com/GuoGuang/madao_config)
 将里面的配置文件更改为你的地址，阿里云oss地址没有的话可以注释掉
 
-4.  配置注册中心远程地址
+### 5.  配置注册中心远程地址
 在madao-server-config服务中找到bootstrap.yml文件，配置如下
 
 ```
@@ -137,7 +139,7 @@ spring:
 
       enabled: true    # 开启消息跟踪
 
-# 非对称加密，将下面的配置注释
+# 非对称加密，将下面的配置注释。如果上面配置的"你的github密码"地方是明文，这里就不用管
 # encrypt:
 #   key-store:
 #     location: classpath:xxx
@@ -145,6 +147,10 @@ spring:
 #     password: xxx
 #     secret: xxx
 ```
+
+### 6. 启动
+第一步首先启动madao-service-config服务，这个是注册中心+配置中心，然后再启动其他的服务。
+
 
 ## Swagger
 [本地访问地址](http://127.0.0.1:8080/swagger-ui/)
