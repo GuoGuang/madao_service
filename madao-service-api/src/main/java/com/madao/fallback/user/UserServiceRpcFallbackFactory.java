@@ -4,8 +4,8 @@ import com.madao.api.user.UserServiceRpc;
 import com.madao.enums.StatusEnum;
 import com.madao.model.dto.user.UserDto;
 import com.madao.utils.JsonData;
-import com.madao.utils.LogBack;
 import feign.hystrix.FallbackFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
-
+@Slf4j
 @Component
 public class UserServiceRpcFallbackFactory implements FallbackFactory<UserServiceRpc> {
 
@@ -28,19 +28,19 @@ public class UserServiceRpcFallbackFactory implements FallbackFactory<UserServic
         return new UserServiceRpc() {
             @Override
             public JsonData<UserDto> getUserInfo(String account) {
-                LogBack.error(ERROR_INFO, "getUserInfo", account, throwable);
+                log.error(ERROR_INFO, "getUserInfo", account, throwable);
                 return JsonData.failed(StatusEnum.RPC_ERROR);
             }
 
             @Override
             public JsonData<UserDto> getUserInfoById(String userId) {
-                LogBack.error(ERROR_INFO, "getUserInfoById", userId, throwable);
+                log.error(ERROR_INFO, "getUserInfoById", userId, throwable);
                 return JsonData.failed(StatusEnum.RPC_ERROR);
             }
 
             @Override
             public JsonData<List<UserDto>> getUserInfoByIds(String[] articleIds) {
-                LogBack.error(ERROR_INFO, "getUserInfoById", articleIds, throwable);
+                log.error(ERROR_INFO, "getUserInfoById", articleIds, throwable);
                 return JsonData.failed(StatusEnum.RPC_ERROR);
             }
         };

@@ -3,7 +3,8 @@ package com.madao.utils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.madao.model.pojo.JsonException;
+import com.madao.model.entity.JsonException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ import java.util.Map;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 public class JsonUtil {
 
     private JsonUtil() {
@@ -51,7 +53,7 @@ public class JsonUtil {
             try {
                 return (T) (tr.getType().equals(String.class) ? jsonString : objectMapper.readValue(jsonString, tr));
             } catch (Exception e) {
-                LogBack.error(JACKSON_ERROR, e.getMessage(), e);
+                log.error(JACKSON_ERROR, e.getMessage(), e);
                 throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
             }
         }
@@ -68,7 +70,7 @@ public class JsonUtil {
         try {
             return objectMapper.writeValueAsString(object);
         } catch (Exception e) {
-            LogBack.error(JACKSON_ERROR, e.getMessage(), e);
+            log.error(JACKSON_ERROR, e.getMessage(), e);
             throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
         }
     }
@@ -88,7 +90,7 @@ public class JsonUtil {
         try {
             return objectMapper.readValue(jsonStr.toString(), clazz);
         } catch (IOException e) {
-            LogBack.error(JACKSON_ERROR, e.getMessage(), e);
+            log.error(JACKSON_ERROR, e.getMessage(), e);
             throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
         }
     }
@@ -103,7 +105,7 @@ public class JsonUtil {
         try {
             return objectMapper.readValue(jsonStr, Map.class);
         } catch (IOException e) {
-            LogBack.error(JACKSON_ERROR, e.getMessage(), e);
+            log.error(JACKSON_ERROR, e.getMessage(), e);
             throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
         }
     }
@@ -118,7 +120,7 @@ public class JsonUtil {
         try {
             return StringUtils.startsWithAny(jsonStr, "{", "[");
         } catch (Exception e) {
-            LogBack.error(JACKSON_ERROR, e.getMessage(), e);
+            log.error(JACKSON_ERROR, e.getMessage(), e);
             return false;
         }
     }
@@ -136,7 +138,7 @@ public class JsonUtil {
             List<Map<String, Object>> list = objectMapper.readValue(jsonData, javaType);
             return list;
         } catch (Exception e) {
-            LogBack.error(JACKSON_ERROR, e.getMessage(), e);
+            log.error(JACKSON_ERROR, e.getMessage(), e);
             throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
         }
     }
@@ -145,7 +147,7 @@ public class JsonUtil {
         try {
 	        return objectMapper.readValue(jsonData, javaType);
         } catch (Exception e) {
-            LogBack.error(JACKSON_ERROR, e.getMessage(), e);
+            log.error(JACKSON_ERROR, e.getMessage(), e);
             throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
         }
     }

@@ -1,7 +1,7 @@
 package com.madao.auth.validate.impl.captcha;
 
 import com.madao.auth.validate.AbstractValidateCodeProcessor;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -13,6 +13,7 @@ import org.springframework.web.context.request.ServletWebRequest;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Component
 public class JiyanValidateCodeProcessor extends AbstractValidateCodeProcessor<Captcha> {
 
@@ -23,6 +24,6 @@ public class JiyanValidateCodeProcessor extends AbstractValidateCodeProcessor<Ca
 
     @Override
     public void validate(ServletWebRequest request, String bodyString) {
-        LogBack.info("极验验证");
+        log.info("极验验证");
     }
 }

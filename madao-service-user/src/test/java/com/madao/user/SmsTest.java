@@ -1,8 +1,8 @@
 package com.madao.user;
 
-import com.madao.utils.LogBack;
 import com.madao.utils.third.SmsUtil;
 import com.madao.utils.third.Smsbao;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SmsTest {
@@ -39,7 +40,7 @@ public class SmsTest {
             String result = smsbao.sendSms(phone, "123");
             assertThat(result).isNotNull();
         } catch (Exception e) {
-            LogBack.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
 
     }

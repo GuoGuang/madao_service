@@ -1,10 +1,10 @@
 package com.madao.gateway.filter;
 
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
-import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.core.io.buffer.DataBufferUtils;
@@ -29,12 +29,10 @@ import java.nio.charset.StandardCharsets;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Component
-public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
-	@Override
-	public int getOrder() {
-		return -2;
-	}
+@Order(2)
+public class WrapperResponseGlobalFilter implements GlobalFilter {
 
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -50,7 +48,7 @@ public class WrapperResponseGlobalFilter implements GlobalFilter, Ordered {
 						dataBuffer.read(content);
 						DataBufferUtils.release(dataBuffer);
 						String response = new String(content, StandardCharsets.UTF_8);
-						LogBack.info("response--->{}", response);
+						log.info("response--->{}", response);
 						byte[] uppedContent = new String(content, StandardCharsets.UTF_8).getBytes();
 						return bufferFactory.wrap(uppedContent);
 					}));

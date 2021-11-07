@@ -1,6 +1,6 @@
 package com.madao.user.dao;
 
-import com.madao.model.pojo.user.Resource;
+import com.madao.model.entity.user.Resource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;

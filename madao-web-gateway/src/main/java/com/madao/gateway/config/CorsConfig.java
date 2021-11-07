@@ -10,7 +10,6 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import org.springframework.web.util.pattern.PathPatternParser;
 
 import java.util.Arrays;
-
 /**
  * @author GuoGuang
  * @公众号 码道人生

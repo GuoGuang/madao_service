@@ -30,9 +30,9 @@ pipeline {
     }
 
     //环境变量，初始确定后一般不需更改
-    /*tools {
+    tools {
       maven 'maven3'
-    }*/
+    }
 
     //常量参数
     environment {
@@ -118,36 +118,36 @@ pipeline {
                 sh "rm -rf ./*"
                 // 只获取最近一次提交的
                 // sh "git clone -b develop https://github.com/GuoGuang/madao_service.git "
-                sh "git clone -b develop https://gitee.com/guoguang0536/madao_service.git"
+                sh "git clone -b develop --depth=1 https://gitee.com/guoguang0536/madao_service.git"
             }
         }
 
         stage("Maven构建") {
             // 指定当前管道的执行环境，无需外界额外配置Maven
-            agent {
-                docker {
-                    image 'maven:3-alpine' 
-                    args '-v /root/.m2:/root/.m2 '  //持载到本地，减少重复下载量，使用ali源
-                }
-            }
+            // docker 环境太慢，使用外界配置maven的方式
+//             agent {
+//                 docker {
+//                     image 'maven:3-alpine'
+//                     args '-v /root/.m2:/root/.m2 '  //持载到本地，减少重复下载量，使用ali源
+//                 }
+//             }
             // maven打包命令
             steps {
                 echo "构建--->${serviceName}"
                 sh "pwd"
-                sh "/bin/cp -f /var/jenkins_home/service-config/config-server.jks madao-server-config/src/main/resources/"
-                sh "/bin/cp -f /var/jenkins_home/service-config/bootstrap.yml madao-server-config/src/main/resources/"
-                sh "/bin/cp -f /var/jenkins_home/service-config/application.yml madao-authentication-server/src/main/resources/"
-                sh "/bin/cp -f /var/jenkins_home/service-config/JWT.keystore madao-authentication-server/src/main/resources/"
-                sh "/bin/cp -f /var/jenkins_home/service-config/publickey.txt madao-authentication-server/src/main/resources/"
-                sh "/bin/cp -f /var/jenkins_home/service-config/publickey.txt madao-service-base/src/main/resources/"
-                sh "/bin/cp -f /var/jenkins_home/service-config/publickey.txt madao-service-article/src/main/resources/"
-                sh "/bin/cp -f /var/jenkins_home/service-config/publickey.txt madao-service-user/src/main/resources/"
-                sh "/bin/cp -f /var/jenkins_home/service-config/publickey.txt madao-web-gateway/src/main/resources/"
-                sh "mvn -B -DskipTests install -f madao-common-parent"
-                sh "mvn -B -DskipTests install -f madao-common"
-                sh "mvn -B -DskipTests install -f madao-common-db"
-                sh "mvn -B -DskipTests install -f madao-service-api"
-                sh "mvn -B -DskipTests install -f ${serviceName}"
+                sh "/bin/cp -f /var/jenkins_home/service-config/config-server.jks madao_service/madao-server-config/src/main/resources/"
+                sh "/bin/cp -f /var/jenkins_home/service-config/bootstrap.yml madao_service/madao-server-config/src/main/resources/"
+                sh "/bin/cp -f /var/jenkins_home/service-config/application.yml madao_service/madao-authentication-server/src/main/resources/"
+                sh "/bin/cp -f /var/jenkins_home/service-config/JWT.keystore madao_service/madao-authentication-server/src/main/resources/"
+                sh "/bin/cp -f /var/jenkins_home/service-config/publickey.txt madao_service/madao-authentication-server/src/main/resources/"
+                sh "/bin/cp -f /var/jenkins_home/service-config/publickey.txt madao_service/madao-service-base/src/main/resources/"
+                sh "/bin/cp -f /var/jenkins_home/service-config/publickey.txt madao_service/madao-service-article/src/main/resources/"
+                sh "/bin/cp -f /var/jenkins_home/service-config/publickey.txt madao_service/madao-service-user/src/main/resources/"
+                sh "/bin/cp -f /var/jenkins_home/service-config/publickey.txt madao_service/madao-web-gateway/src/main/resources/"
+                sh "mvn -B -DskipTests install -f madao_service/madao-common-parent"
+                sh "mvn -B -DskipTests install -f madao_service/madao-common"
+                sh "mvn -B -DskipTests install -f madao_service/madao-service-api"
+                sh "mvn -B -DskipTests install -f madao_service/${serviceName}"
                 echo '-->> -->>maven打包构建完成!'
 
             }
@@ -177,8 +177,9 @@ pipeline {
                 // 或者说在 Maven构建 步骤把 'cd ${WORKSPACE}/madao-server-config' 替换为'cd ${WORKSPACE}@2/madao-server-config'
                 // dir(path: "../madao_service_develop@2/${params.project}") {
                 //dir(path: "../madao_service_develop@2/${serviceName}") {
-                    
-                dir(path: "/${WORKSPACE}@2/${serviceName}") {
+
+                    echo "/${WORKSPACE}"
+                dir(path: "/${WORKSPACE}/madao_service/${serviceName}") {
                     sh "pwd"
                     // 构建镜像
                     sh "docker build -t ${serviceName}:${env.BUILD_ID} ."
@@ -302,17 +303,9 @@ pipeline {
             }
         }
 
-        stage('UI自动化测试') {
-            steps {
-                echo "starting UITest......"
-                //这个项目不需要UI层测试，UI自动化与接口测试的pipeline脚本类似
-            }
-        }
-
         stage('性能自动化测试 ') {
             steps {
                 echo "starting performanceTest......"
-                //视项目需要增加性能的冒烟测试，具体实现后续专文阐述
             }
         }
 
@@ -332,13 +325,12 @@ pipeline {
                      }
                  }
              }
-         }
-
-         stage('发布系统') {
-             steps{
-                 echo "starting deploy......"
-             //    TODO发布环节后续专题阐述
-             }
          }*/
+
+         stage('SUCCESS') {
+             steps{
+                 echo "done......"
+             }
+         }
     }
 }

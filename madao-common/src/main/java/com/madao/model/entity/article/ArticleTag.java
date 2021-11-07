@@ -1,4 +1,4 @@
-package com.madao.model.pojo.article;
+package com.madao.model.entity.article;
 
 import org.hibernate.annotations.GenericGenerator;
 

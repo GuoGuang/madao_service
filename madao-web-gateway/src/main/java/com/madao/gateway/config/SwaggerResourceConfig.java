@@ -1,6 +1,6 @@
 package com.madao.gateway.config;
 
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.support.NameUtils;
@@ -19,6 +19,7 @@ import java.util.List;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Component
 @Primary
 public class SwaggerResourceConfig implements SwaggerResourcesProvider {
@@ -42,7 +43,7 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
 	}
 
 	private SwaggerResource swaggerResource(String name, String location) {
-		LogBack.info("name:{},location:{}", name, location);
+		log.info("name:{},location:{}", name, location);
 		SwaggerResource swaggerResource = new SwaggerResource();
 		swaggerResource.setName(name);
 		swaggerResource.setLocation(location);

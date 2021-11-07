@@ -1,4 +1,4 @@
-package com.madao.model.pojo.article;
+package com.madao.model.entity.article;
 
 import com.madao.model.BasePojo;
 import org.hibernate.annotations.GenericGenerator;
@@ -14,7 +14,10 @@ import java.io.Serializable;
  * @created 2019-09-29 7:37
  */
 @Entity
-@Table(name = "ar_tag", indexes = {@Index(name = "tag_name", columnList = "name")})
+@Table(name = "ar_tag",
+		uniqueConstraints=@UniqueConstraint(columnNames={"slug"}),
+		indexes = {@Index(name = "tag_name", columnList = "name")
+})
 public class Tag extends BasePojo implements Serializable {
 
     @Id

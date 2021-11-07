@@ -5,7 +5,7 @@ import com.madao.auth.exception.AuthException;
 import com.madao.enums.ValidateCodeType;
 import com.madao.properties.SecurityProperties;
 import com.madao.utils.HttpHelper;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -33,6 +33,7 @@ import java.util.Set;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Component("validateCodeFilter")
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
@@ -73,10 +74,10 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
-        urlMap.put("/oauth/token", ValidateCodeType.CAPTCHA);
+        urlMap.put("/auth/token", ValidateCodeType.CAPTCHA);
         addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.CAPTCHA);
 
-        urlMap.put("/oauth/phone", ValidateCodeType.SMS);
+        urlMap.put("/auth/phone", ValidateCodeType.SMS);
         addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
     }
 
@@ -101,11 +102,11 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 
         ValidateCodeType type = getValidateCodeType(request);
         if (type != null) {
-            LogBack.info("校验请求(" + request.getRequestURI() + ")中的验证码,验证码类型" + type);
+            log.info("校验请求(" + request.getRequestURI() + ")中的验证码,验证码类型" + type);
             try {
                 validateCodeProcessorHolder.findValidateCodeProcessor(type)
                         .validate(new ServletWebRequest(request, response), bodyString);
-                LogBack.info("验证码校验通过");
+                log.info("验证码校验通过");
             } catch (AuthException exception) {
                 authenticationFailureHandler.onAuthenticationFailure(request, response, exception);
                 return;

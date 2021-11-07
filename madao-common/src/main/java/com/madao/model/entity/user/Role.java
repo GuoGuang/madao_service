@@ -1,4 +1,4 @@
-package com.madao.model.pojo.user;
+package com.madao.model.entity.user;
 
 import com.madao.model.BasePojo;
 import org.hibernate.annotations.GenericGenerator;
@@ -15,10 +15,11 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "us_role",
-        indexes = {
-                @Index(name = "role_code", columnList = "code"),
-                @Index(name = "role_create_at", columnList = "createAt")
-        })
+		uniqueConstraints=@UniqueConstraint(columnNames={"code"}),
+		indexes = {
+				@Index(name = "role_code", columnList = "code"),
+				@Index(name = "role_create_at", columnList = "createAt")
+		})
 public class Role extends BasePojo implements Serializable {
 
 	@Id
@@ -30,11 +31,11 @@ public class Role extends BasePojo implements Serializable {
 	@Column(length = 20)
 	private String roleName;
 
-    @Column(length = 200)
-    private String roleDesc;
+	@Column(length = 200)
+	private String roleDesc;
 
-    @Column(length = 20)
-    private String code;
+	@Column(length = 20)
+	private String code;
 
 	public String getId() {
 		return id;

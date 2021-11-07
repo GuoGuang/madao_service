@@ -3,7 +3,7 @@ package com.madao.gateway.execption;
 import com.madao.enums.StatusEnum;
 import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.DefaultErrorWebExceptionHandler;
@@ -23,6 +23,7 @@ import java.util.Map;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 public class GlobalExceptionHandler extends DefaultErrorWebExceptionHandler {
 
 	public GlobalExceptionHandler(ErrorAttributes errorAttributes, ResourceProperties resourceProperties,
@@ -35,7 +36,7 @@ public class GlobalExceptionHandler extends DefaultErrorWebExceptionHandler {
 	 */
 	@Override
 	protected Map<String, Object> getErrorAttributes(ServerRequest request, ErrorAttributeOptions options) {
-		LogBack.error("Gateway获取自定义异常--------->{}", super.getError(request).getMessage());
+		log.error("Gateway获取自定义异常--------->{}", super.getError(request).getMessage());
 		boolean isJson = JsonUtil.isJson(super.getError(request).getMessage());
 		if (isJson) {
 			Map<String, Object> errorAttributes = JsonUtil.jsonToMap(super.getError(request).getMessage());

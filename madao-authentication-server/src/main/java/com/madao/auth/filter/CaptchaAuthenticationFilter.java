@@ -30,7 +30,7 @@ public class CaptchaAuthenticationFilter extends AbstractAuthenticationProcessin
     public static final String VALIDATE_CODE = "validateCode";
 
     public CaptchaAuthenticationFilter() {
-        super(new AntPathRequestMatcher("/oauth/token", "POST"));
+        super(new AntPathRequestMatcher("/auth/token", "POST"));
     }
 
 

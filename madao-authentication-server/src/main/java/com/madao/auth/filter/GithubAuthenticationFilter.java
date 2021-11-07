@@ -3,7 +3,7 @@ package com.madao.auth.filter;
 import com.madao.auth.exception.AuthException;
 import com.madao.auth.token.GitHubAuthenticationToken;
 import com.madao.utils.HttpHelper;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +27,14 @@ import java.util.Map;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 public class GithubAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     @Autowired
     private OAuth2ClientProperties oAuth2ClientProperties;
 
     public GithubAuthenticationFilter() {
-        super(new AntPathRequestMatcher("/oauth/login/github", "GET"));
+        super(new AntPathRequestMatcher("/auth/login/github", "GET"));
     }
 
     @Override
@@ -47,7 +48,7 @@ public class GithubAuthenticationFilter extends AbstractAuthenticationProcessing
         params.add(new BasicNameValuePair("code", code));
         Map<String, String> responseBody = HttpHelper.httpPost(params);
         if (responseBody.get("access_token") == null) {
-            LogBack.error("Github登录失败----->{}", responseBody.get("error_description"));
+            log.error("Github登录失败----->{}", responseBody.get("error_description"));
             throw new AuthException(responseBody.get("error_description"));
         }
 

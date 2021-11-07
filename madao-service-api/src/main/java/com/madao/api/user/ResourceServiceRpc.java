@@ -3,7 +3,7 @@ package com.madao.api.user;
 import com.madao.FeignClientConfig;
 import com.madao.constant.FeignConst;
 import com.madao.fallback.user.ResourceServiceRpcFallbackFactory;
-import com.madao.model.pojo.user.Resource;
+import com.madao.model.entity.user.Resource;
 import com.madao.utils.JsonData;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

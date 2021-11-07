@@ -2,7 +2,7 @@ package com.madao.auth.handler;
 
 import com.madao.enums.StatusEnum;
 import com.madao.utils.JsonData;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -19,12 +19,13 @@ import org.springframework.stereotype.Component;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Component
 public class CustomWebResponseExceptionTranslator implements WebResponseExceptionTranslator<OAuth2Exception> {
 
     @Override
     public ResponseEntity translate(Exception e) {
-        LogBack.error("登录发生错误时异常----------->{}", e.getMessage(), e);
+        log.error("登录发生错误时异常----------->{}", e.getMessage(), e);
         JsonData<Void> jsonData = JsonData.failed(StatusEnum.SYSTEM_ERROR, e.getMessage());
         if (e instanceof InternalAuthenticationServiceException) {
             jsonData = JsonData.failed(StatusEnum.SYSTEM_ERROR);

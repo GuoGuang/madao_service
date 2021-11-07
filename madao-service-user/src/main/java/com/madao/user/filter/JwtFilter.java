@@ -1,7 +1,7 @@
 package com.madao.user.filter;
 
-import com.madao.utils.LogBack;
 import com.madao.utils.security.JWTAuthentication;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 public class JwtFilter extends HandlerInterceptorAdapter {
 
     @Autowired
@@ -63,7 +64,7 @@ public class JwtFilter extends HandlerInterceptorAdapter {
      */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        LogBack.info("postHandle invoke");
+        log.info("postHandle invoke");
         super.postHandle(request, response, handler, modelAndView);
     }
 
@@ -78,7 +79,7 @@ public class JwtFilter extends HandlerInterceptorAdapter {
      */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        LogBack.info("afterCompletion invoke");
+        log.info("afterCompletion invoke");
         super.afterCompletion(request, response, handler, ex);
     }
 }

@@ -1,4 +1,4 @@
-package com.madao.model.pojo.user;
+package com.madao.model.entity.user;
 
 import com.madao.model.BasePojo;
 import org.hibernate.annotations.GenericGenerator;
@@ -46,8 +46,8 @@ public class Resource extends BasePojo implements Serializable, Cloneable {
     @Column(precision = 30, scale = 1, length = 5)
     private float sort;
 
-    @Column
-    private Boolean hidden;
+	@Column(length = 1,columnDefinition = "bit(1) COMMENT '是否隐藏' default '0'")
+	private Boolean hidden;
 
     @Column(length = 200)
     private String description;

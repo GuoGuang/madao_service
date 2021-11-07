@@ -1,8 +1,6 @@
 server:
   port: 8080
 spring:
-  application:
-    name: web-gateway
   rabbitmq:
     host: localhost
     username: guest
@@ -46,8 +44,8 @@ spring:
             - GET
             - POST
             - PUT
-            - DELETE # https://segmentfault.com/a/1190000017188296
+            - DELETE
 
 auth:
   ignoreUrls: /oauth,/auth,/social
-  commonUrls: /su/user/permission
+  commonUrls: /user/permission,/auth/logout

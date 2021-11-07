@@ -2,9 +2,9 @@ package com.madao;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.madao.utils.LogBack;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.StringUtils;
@@ -25,6 +25,7 @@ import java.util.*;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Configuration
 public class FeignConfiguration implements RequestInterceptor {
 
@@ -43,7 +44,7 @@ public class FeignConfiguration implements RequestInterceptor {
                 buildQuery(jsonNode, EMPTY, queries);
                 template.queries(queries);
             } catch (IOException e) {
-                LogBack.error("IOException occurred while try to create http query", e);
+                log.error("IOException occurred while try to create http query", e);
             }
         }
 

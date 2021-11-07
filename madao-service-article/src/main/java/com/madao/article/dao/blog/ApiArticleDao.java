@@ -1,6 +1,6 @@
 package com.madao.article.dao.blog;
 
-import com.madao.model.pojo.article.Article;
+import com.madao.model.entity.article.Article;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

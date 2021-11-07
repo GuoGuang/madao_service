@@ -4,13 +4,13 @@ import com.madao.enums.StatusEnum;
 import com.madao.gateway.service.AuthService;
 import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
-import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -36,14 +36,14 @@ import java.io.IOException;
  * @see http://www.manongjc.com/article/43669.html
  * @see https://windmt.com/2018/05/08/spring-cloud-14-spring-cloud-gateway-filter/
  */
+@Slf4j
 @Component
-public class TokenFilter implements GlobalFilter, Ordered {
-
+@Order(1)
+public class TokenFilter implements GlobalFilter {
 
 	private static final String X_CLIENT_TOKEN_USER = "x-client-token-user";
 	private static final String X_CLIENT_TOKEN = "x-client-token";
 	private static final String BEARER = "Bearer ";
-
 
 	/**
 	 * 由authentication-client模块提供签权的feign客户端
@@ -66,20 +66,16 @@ public class TokenFilter implements GlobalFilter, Ordered {
 		String jwtToken = request.getHeaders().getFirst("Authorization");
 		String method = request.getMethodValue();
 		String url = request.getPath().value();
-		LogBack.info("url:{},method:{},headers:{}", url, method, request.getHeaders());
+		log.info("url:{},method:{},headers:{}", url, method, request.getHeaders());
 		//不需要网关签权的url
 		if (authService.ignoreAuthentication(url) || match(url,
 				"/doc/**",
-				"/oauth/token",
-				"/api/oauth/token",
-				"/oauth/code/sms",
-				"/api/oauth/code/sms",
-				"/api/oauth/login/github",
-				"/api/oauth2/**",
+				"/az/auth/token",
+				"/az/auth/code/sms",
 				"/api/login/**",
 				"/api/bilibili/list",
-				"/oauth/code/captcha",
-				"/api/oauth/code/captcha",
+				"/az/auth/code/captcha",
+				"/api/auth/code/captcha",
 				"/api/su/register",
 				"/api/ar/tag",
 				"/api/ba/music/**",
@@ -108,40 +104,34 @@ public class TokenFilter implements GlobalFilter, Ordered {
 		}
 		// 如果请求未携带token信息, 直接跳出
 		if (StringUtils.isBlank(jwtToken) || !jwtToken.contains(BEARER)) {
-			LogBack.error("url:{},method:{},headers:{}, 请求未携带token信息", url, method, request.getHeaders());
-			return unAuthorized(exchange, StatusEnum.PARAM_ILLEGAL);
+			log.error("url:{},method:{},headers:{}, 请求未携带token信息", url, method, request.getHeaders());
+			return unAuthorized(exchange, StatusEnum.PARAM_ILLEGAL,"Authorization为空或者不包含Bearer ");
 		}
 
 		//调用签权服务看用户是否有权限，若有权限进入下一个filter
 		if (authService.commonAuthentication(url) || authService.hasPermission(jwtToken, url, method)) {
 			ServerHttpRequest.Builder builder = request.mutate();
 			builder.header(HttpHeaders.AUTHORIZATION, jwtToken);
+			builder.header("userId", "user trace");
 			return chain.filter(exchange.mutate().request(builder.build()).build());
 		}
-		return unAuthorized(exchange, StatusEnum.UN_AUTHORIZED);
+		return unAuthorized(exchange, StatusEnum.UN_AUTHORIZED,"");
 	}
-
-
-	@Override
-	public int getOrder() {
-		return -100;
-	}
-
 
 	/**
 	 * 网关拒绝，返回401
 	 */
-	private Mono<Void> unAuthorized(ServerWebExchange serverWebExchange, StatusEnum statusEnum) {
+	private Mono<Void> unAuthorized(ServerWebExchange serverWebExchange, StatusEnum statusEnum, String extMessage) {
 		ServerHttpResponse response = serverWebExchange.getResponse();
 		response.setStatusCode(response.getStatusCode());
 		response.getHeaders().add("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
-		JsonData<Object> jsonData = new JsonData<>(statusEnum);
+		JsonData<Object> jsonData = new JsonData<>(statusEnum,extMessage);
 		DataBuffer buffer = null;
 		try {
 			byte[] bytes = JsonUtil.toJSONBytes(jsonData);
 			buffer = serverWebExchange.getResponse().bufferFactory().wrap(bytes);
 		} catch (IOException e) {
-			LogBack.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 		}
 
 		return serverWebExchange.getResponse().writeWith(Flux.just(buffer));

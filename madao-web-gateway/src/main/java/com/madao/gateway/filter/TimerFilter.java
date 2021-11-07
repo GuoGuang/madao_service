@@ -1,9 +1,9 @@
 package com.madao.gateway.filter;
 
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
-import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 import org.springframework.web.server.ServerWebExchange;
@@ -20,8 +20,10 @@ import java.text.NumberFormat;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Component
-public class TimerFilter implements GlobalFilter, Ordered {
+@Order(3)
+public class TimerFilter implements GlobalFilter {
 
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -31,16 +33,10 @@ public class TimerFilter implements GlobalFilter, Ordered {
 		// call back after the request is executed
 		return chain.filter(exchange).then(Mono.fromRunnable(() -> {
 					timer.stop();
-					LogBack.info(timer.prettyPrint());
+					log.info(timer.prettyPrint());
 				})
 		);
 	}
-
-	@Override
-	public int getOrder() {
-		return Ordered.LOWEST_PRECEDENCE;
-	}
-
 }
 
 class CustomMsStopWatch extends StopWatch {

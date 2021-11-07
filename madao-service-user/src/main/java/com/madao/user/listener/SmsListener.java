@@ -2,8 +2,8 @@ package com.madao.user.listener;
 
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
-import com.madao.utils.LogBack;
 import com.madao.utils.third.SmsUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +20,7 @@ import java.util.Map;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Component
 @ConditionalOnProperty(value = "aliyun.sms")
 public class SmsListener {
@@ -39,12 +40,12 @@ public class SmsListener {
      */
     @RabbitHandler
     public SendSmsResponse sendSms(Map<String, String> message) {
-        LogBack.info("手机号：{}，验证码：{}；", message.get("mobile"), message.get("code"));
+        log.info("手机号：{}，验证码：{}；", message.get("mobile"), message.get("code"));
         try {
             return smsUtil.sendSms(message.get("mobile"), templateCode, signName,
                     "{\"code\":\"" + message.get("code") + "\"}");
         } catch (ClientException | NullPointerException e) {
-            LogBack.error("发送手机验证码失败：{}", e.getMessage(), e);
+            log.error("发送手机验证码失败：{}", e.getMessage(), e);
         }
 
         return null;

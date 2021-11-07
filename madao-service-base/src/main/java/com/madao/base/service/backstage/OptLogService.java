@@ -6,7 +6,7 @@ import com.madao.base.mapper.OptLogMapper;
 import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.dto.base.OptLogDto;
 import com.madao.model.dto.user.UserDto;
-import com.madao.model.pojo.base.OptLog;
+import com.madao.model.entity.base.OptLog;
 import com.madao.utils.BeanUtil;
 import com.madao.utils.JsonData;
 import org.apache.commons.lang3.StringUtils;

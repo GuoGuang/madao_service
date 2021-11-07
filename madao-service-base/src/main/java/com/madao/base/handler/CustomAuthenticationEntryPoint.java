@@ -3,7 +3,7 @@ package com.madao.base.handler;
 import com.madao.enums.StatusEnum;
 import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -23,6 +23,7 @@ import java.io.IOException;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
@@ -32,7 +33,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 //		httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		// 如果这里状态改为HttpServletResponse.SC_UNAUTHORIZED 会导致feign之间调用异常 see https://xujin.org/sc/sc-feign-4xx/
 		httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-		LogBack.error("用户没有登录时返回给前端的数据");
+		log.error("用户没有登录时返回给前端的数据");
 		JsonData<Object> jsonData =  new JsonData<>(StatusEnum.LOGIN_EXPIRED);
 		httpServletResponse.getWriter().write(JsonUtil.toJsonString(jsonData));
 	}

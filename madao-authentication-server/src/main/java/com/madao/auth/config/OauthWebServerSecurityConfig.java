@@ -10,6 +10,7 @@ import com.madao.auth.handler.OauthLoginSuccessHandler;
 import com.madao.auth.provider.CaptchaAuthenticationProvider;
 import com.madao.auth.provider.GithubAuthenticationProvider;
 import com.madao.auth.provider.SmsCodeAuthenticationProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,6 +37,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 @Configuration
 @EnableWebSecurity
 @Order(-1)
+@Slf4j
 public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DruidDataSource dataSource;
@@ -66,9 +68,10 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/oauth/**", "/connect/**", "/v2/api-docs", "/swagger-resources/configuration/ui",
-                "/swagger-resources", "/swagger-resources/configuration/security",
-                "/swagger-ui.html", "/css/**", "/js/**", "/images/**", "/webjars/**", "**/favicon.ico", "/index");
+        web.ignoring().antMatchers("/auth/**", "/connect/**",
+		        "/v2/api-docs",
+		        "/swagger-resources/**",
+		        "/swagger-ui/**");
 
     }
 
@@ -85,21 +88,16 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/v2/api-docs",
-                        "/configuration/ui",
-                        "/swagger-resources",
-                        "/configuration/security",
-                        "/webjars/**",
-                        "/swagger-resources/configuration/ui",
-                        "/swagger-ui.html",
-                        "/swagger-resources/configuration/security").permitAll()
+		                "/swagger-resources/**",
+		                "/swagger-ui/**").permitAll()
                 .and()
                 .csrf().disable()
-                .logout(logout -> logout.invalidateHttpSession(false).logoutUrl("/oauth/logout"))
+                .logout(logout -> logout.invalidateHttpSession(false).logoutUrl("/auth/logout"))
 
 		        // github登录
                 .oauth2Login(oauth2 -> oauth2
                         .authorizationEndpoint(System.out::println)
-                        .redirectionEndpoint(redirection -> redirection.baseUri("/oauth/login/github"))
+                        .redirectionEndpoint(redirection -> redirection.baseUri("/auth/login/github"))
                         .tokenEndpoint(System.out::println)
                         //.userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                         .successHandler(oauthLoginSuccessHandler)

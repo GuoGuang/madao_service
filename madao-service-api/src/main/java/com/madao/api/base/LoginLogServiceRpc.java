@@ -2,7 +2,7 @@ package com.madao.api.base;
 
 import com.madao.constant.FeignConst;
 import com.madao.fallback.base.LoginLogServiceRpcFallbackFactory;
-import com.madao.model.pojo.base.LoginLog;
+import com.madao.model.entity.base.LoginLog;
 import com.madao.utils.JsonData;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;

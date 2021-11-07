@@ -3,17 +3,20 @@ package com.madao.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
-import com.madao.utils.LogBack;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,125 +28,97 @@ import java.util.Map;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Getter
+@Setter
+@Slf4j
 @Configuration
+@Profile("dev")
+@ConfigurationProperties(prefix = "spring.datasource")
 public class DruidConfig {
 
-    @Value("${spring.datasource.url}")
-    private String dbUrl;
+	private String url;
+	private String username;
+	private String password;
+	private String driverClassName;
+	private int initialSize;
+	private int minIdle;
+	private int maxActive;
+	private int maxWait;
+	private int timeBetweenEvictionRunsMillis;
+	private int minEvictableIdleTimeMillis;
+	private String validationQuery;
+	private boolean testWhileIdle;
+	private boolean testOnBorrow;
+	private boolean testOnReturn;
+	private boolean poolPreparedStatements;
+	private int maxPoolPreparedStatementPerConnectionSize;
+	private String filters;
+	private String connectionProperties;
 
-    @Value("${spring.datasource.username}")
-    private String username;
+	@Bean
+	@Primary
+	public DataSource dataSource() {
+		DruidDataSource datasource = new DruidDataSource();
+		datasource.setUrl(this.url);
+		datasource.setUsername(username);
+		datasource.setPassword(password);
+		datasource.setDriverClassName(driverClassName);
+		//configuration
+		datasource.setInitialSize(initialSize);
+		datasource.setMinIdle(minIdle);
+		datasource.setMaxActive(maxActive);
+		datasource.setMaxWait(maxWait);
+		datasource.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
+		datasource.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
+		datasource.setValidationQuery(validationQuery);
+		datasource.setTestWhileIdle(testWhileIdle);
+		datasource.setTestOnBorrow(testOnBorrow);
+		datasource.setTestOnReturn(testOnReturn);
+		datasource.setPoolPreparedStatements(poolPreparedStatements);
+		datasource.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
+		try {
+			datasource.setFilters(filters);
+		} catch (SQLException e) {
+			log.error("druid configuration initialization filter", e);
+		}
+		datasource.setConnectionProperties(connectionProperties);
 
-    @Value("${spring.datasource.password}")
-    private String password;
-
-    @Value("${spring.datasource.driverClassName}")
-    private String driverClassName;
-
-    @Value("${spring.datasource.initialSize}")
-    private int initialSize;
-
-    @Value("${spring.datasource.minIdle}")
-    private int minIdle;
-
-    @Value("${spring.datasource.maxActive}")
-    private int maxActive;
-
-    @Value("${spring.datasource.maxWait}")
-    private int maxWait;
-
-    @Value("${spring.datasource.timeBetweenEvictionRunsMillis}")
-    private int timeBetweenEvictionRunsMillis;
-
-    @Value("${spring.datasource.minEvictableIdleTimeMillis}")
-    private int minEvictableIdleTimeMillis;
-
-    @Value("${spring.datasource.validationQuery}")
-    private String validationQuery;
-
-    @Value("${spring.datasource.testWhileIdle}")
-    private boolean testWhileIdle;
-
-    @Value("${spring.datasource.testOnBorrow}")
-    private boolean testOnBorrow;
-
-    @Value("${spring.datasource.testOnReturn}")
-    private boolean testOnReturn;
-
-    @Value("${spring.datasource.poolPreparedStatements}")
-    private boolean poolPreparedStatements;
-
-    @Value("${spring.datasource.maxPoolPreparedStatementPerConnectionSize}")
-    private int maxPoolPreparedStatementPerConnectionSize;
-
-    @Value("${spring.datasource.filters}")
-    private String filters;
-
-    @Value("{spring.datasource.connectionProperties}")
-    private String connectionProperties;
-
-    @Bean
-    @Primary
-    public DataSource dataSource() {
-        DruidDataSource datasource = new DruidDataSource();
-        datasource.setUrl(this.dbUrl);
-        datasource.setUsername(username);
-        datasource.setPassword(password);
-        datasource.setDriverClassName(driverClassName);
-        //configuration
-        datasource.setInitialSize(initialSize);
-        datasource.setMinIdle(minIdle);
-        datasource.setMaxActive(maxActive);
-        datasource.setMaxWait(maxWait);
-        datasource.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
-        datasource.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
-        datasource.setValidationQuery(validationQuery);
-        datasource.setTestWhileIdle(testWhileIdle);
-        datasource.setTestOnBorrow(testOnBorrow);
-        datasource.setTestOnReturn(testOnReturn);
-        datasource.setPoolPreparedStatements(poolPreparedStatements);
-        datasource.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
-        try {
-            datasource.setFilters(filters);
-        } catch (SQLException e) {
-            LogBack.error("druid configuration initialization filter", e);
-        }
-        datasource.setConnectionProperties(connectionProperties);
-
-        return datasource;
-    }
+		return datasource;
+	}
 
 
-    //配置Druid的监控
-    //1、配置一个管理后台的Servlet
-    @Bean
-    public ServletRegistrationBean statViewServlet() {
-        ServletRegistrationBean bean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
-        Map<String, String> initParams = new HashMap<>();
+	/**
+	 * 配置Druid的监控
+	 */
+	@Bean
+	public ServletRegistrationBean<StatViewServlet> statViewServlet() {
+		ServletRegistrationBean<StatViewServlet> bean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
+		Map<String, String> initParams = new HashMap<>();
 
-        initParams.put("loginUsername", "admin");
-        initParams.put("loginPassword", "123456");
-        initParams.put("allow", "");//默认就是允许所有访问
-        initParams.put("deny", "192.168.15.21");
+		initParams.put("loginUsername", "admin");
+		initParams.put("loginPassword", "123456");
+		initParams.put("allow", "");//默认就是允许所有访问
+		initParams.put("deny", "192.168.15.21");
 
-        bean.setInitParameters(initParams);
-        return bean;
-    }
+		bean.setInitParameters(initParams);
+		return bean;
+	}
 
 
-    //2、配置一个web监控的filter
-    @Bean
-    public FilterRegistrationBean webStatFilter() {
-        FilterRegistrationBean bean = new FilterRegistrationBean();
-        bean.setFilter(new WebStatFilter());
+	/**
+	 * 配置一个web监控的filter
+	 */
+	@Bean
+	public FilterRegistrationBean<WebStatFilter> webStatFilter() {
+		FilterRegistrationBean<WebStatFilter> bean = new FilterRegistrationBean<>();
+		bean.setFilter(new WebStatFilter());
 
-        Map<String, String> initParams = new HashMap<>();
-        initParams.put("exclusions", "*.js,*.css,/druid/*");
+		Map<String, String> initParams = new HashMap<>();
+		initParams.put("exclusions", "*.js,*.css,/druid/*");
 
-        bean.setInitParameters(initParams);
+		bean.setInitParameters(initParams);
+		bean.setUrlPatterns(Collections.singletonList("/*"));
 
-        bean.setUrlPatterns(Arrays.asList("/*"));
-
-        return bean;
-    }
+		return bean;
+	}
 }

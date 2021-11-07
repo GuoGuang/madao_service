@@ -4,11 +4,11 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONObject;
 import com.madao.api.user.ResourceServiceRpc;
 import com.madao.exception.custom.RemoteRpcException;
-import com.madao.model.pojo.user.Resource;
+import com.madao.model.entity.user.Resource;
 import com.madao.redis.RedisService;
 import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Service
 public class AuthorizationService {
 
@@ -66,7 +67,7 @@ public class AuthorizationService {
                         resourceClone.setUrl(urlSplit);
                         extendSets.add(resourceClone);
                     } catch (CloneNotSupportedException e) {
-                        LogBack.error(e.getMessage(), e);
+                        log.error(e.getMessage(), e);
                     }
 
                 });
@@ -87,12 +88,12 @@ public class AuthorizationService {
      * @return 有权限true, 无权限或全局资源中未找到请求url返回否
      */
     public boolean decide(HttpServletRequest authRequest, JSONObject token) {
-        LogBack.info("正在访问的url是:{}，method:{}", authRequest.getServletPath(), authRequest.getMethod());
+        log.info("正在访问的url是:{}，method:{}", authRequest.getServletPath(), authRequest.getMethod());
         resourceConfigAttributes = resourceConfigAttributes();
 
         ConfigAttribute urlConfigAttribute = findConfigAttributesByUrl(authRequest);
         if (NONEXISTENT_URL.equals(urlConfigAttribute.getAttribute())) {
-            LogBack.error("url未在资源池中找到，拒绝访问");
+            log.error("url未在资源池中找到，拒绝访问");
             throw new AccessDeniedException("url未在资源池中找到，拒绝访问");
         }
 
@@ -113,7 +114,7 @@ public class AuthorizationService {
         boolean isMatchBool = userResources.stream().anyMatch(
                 resource -> resource.getCode().equals(urlConfigAttribute.getAttribute()));
         if (!isMatchBool) {
-            LogBack.error("url编码错误，请检查角色是否有此权限!");
+            log.error("url编码错误，请检查角色是否有此权限!");
             throw new AccessDeniedException("url编码错误，请检查角色是否有此权限！");
         }
         return true;
@@ -130,7 +131,7 @@ public class AuthorizationService {
         return resourceConfigAttributes.keySet().stream()
                 .filter(requestMatcher -> requestMatcher.matches(authRequest))
                 .map(requestMatcher -> resourceConfigAttributes.get(requestMatcher))
-                .peek(urlConfigAttribute -> LogBack.info("url在资源池中配置：{}", urlConfigAttribute.getAttribute()))
+                .peek(urlConfigAttribute -> log.info("url在资源池中配置：{}", urlConfigAttribute.getAttribute()))
                 .findFirst()
                 .orElse(new SecurityConfig(NONEXISTENT_URL));
     }
@@ -143,9 +144,9 @@ public class AuthorizationService {
      */
     private Set<Resource> findResourcesByAuthorityRoles(List<String> authorityRoles) {
         //用户被授予的角色
-        LogBack.info("用户的授权角色集合信息为:{}", authorityRoles);
+        log.info("用户的授权角色集合信息为:{}", authorityRoles);
         Set<Resource> resources = this.queryByRoleIds(authorityRoles.toArray(new String[authorityRoles.size()]));
-        LogBack.info("用户被授予角色的资源数量是:{}, 资源集合信息为:{}", resources.size(), JsonUtil.toJsonString(resources));
+        log.info("用户被授予角色的资源数量是:{}, 资源集合信息为:{}", resources.size(), JsonUtil.toJsonString(resources));
         return resources;
     }
 

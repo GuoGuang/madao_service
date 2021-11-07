@@ -1,7 +1,7 @@
 package com.madao.base.mapper;
 
 import com.madao.model.dto.base.DictDto;
-import com.madao.model.pojo.base.Dict;
+import com.madao.model.entity.base.Dict;
 import org.mapstruct.Mapper;
 
 /**

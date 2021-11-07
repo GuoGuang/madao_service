@@ -1,4 +1,4 @@
-package com.madao.model.pojo;
+package com.madao.model.entity;
 
 /**
  * @author GuoGuang

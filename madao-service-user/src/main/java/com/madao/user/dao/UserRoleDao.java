@@ -1,6 +1,6 @@
 package com.madao.user.dao;
 
-import com.madao.model.pojo.user.UserRole;
+import com.madao.model.entity.user.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;

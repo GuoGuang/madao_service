@@ -1,7 +1,7 @@
 package com.madao.base.mapper;
 
 import com.madao.model.dto.base.LoginLogDto;
-import com.madao.model.pojo.base.LoginLog;
+import com.madao.model.entity.base.LoginLog;
 import org.mapstruct.Mapper;
 
 /**

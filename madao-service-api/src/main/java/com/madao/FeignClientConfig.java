@@ -42,7 +42,7 @@ public class FeignClientConfig { // implements feign.codec.ErrorDecoder
 //				exception = new RuntimeException(result.getMessage());
 //			}
 //		} catch (IOException ex) {
-//			LogBack.error(ex.getMessage(), ex);
+//			log.error(ex.getMessage(), ex);
 //		}
 //		return exception;
 //	}

@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: service-user
   profiles:
     active: ${ACTIVE_PROFILE:dev}
 

@@ -2,7 +2,6 @@ package com.madao.search.dao;
 
 import com.madao.search.pojo.Article;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
-import org.springframework.stereotype.Component;
 
 /**
  * @author GuoGuang
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
-@Component
 public interface ArticleSearchDao extends ElasticsearchRepository<Article, String> {
 
 }

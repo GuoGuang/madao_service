@@ -2,7 +2,7 @@ package com.madao.api.base;
 
 import com.madao.constant.FeignConst;
 import com.madao.fallback.base.OptLogServiceRpcFallbackFactory;
-import com.madao.model.pojo.base.OptLog;
+import com.madao.model.entity.base.OptLog;
 import com.madao.utils.JsonData;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;

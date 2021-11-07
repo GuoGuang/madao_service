@@ -5,7 +5,7 @@ import com.madao.exception.custom.PhoneExistingException;
 import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.exception.custom.UserException;
 import com.madao.utils.JsonData;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,31 +19,32 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class BusinessExceptionHandle {
 
     @ExceptionHandler(UserException.class)
     public JsonData<Void> userException(UserException ex) {
-        LogBack.error(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
         return JsonData.failed(ex);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public JsonData<Void> resourceNotFoundException(ResourceNotFoundException ex) {
-        LogBack.error(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
         return JsonData.failed(ex);
     }
 
     @ExceptionHandler(PhoneExistingException.class)
     public JsonData<Void> phoneExistingException(PhoneExistingException ex) {
-        LogBack.error(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
         return JsonData.failed(ex);
     }
 
     @ExceptionHandler(CaptchaNotMatchException.class)
     public JsonData<Void> captchaNotMatchException(CaptchaNotMatchException ex) {
-        LogBack.error(ex.getMessage(), ex);
+        log.error(ex.getMessage(), ex);
         return JsonData.failed(ex);
     }
 

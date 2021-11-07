@@ -1,4 +1,4 @@
-package com.madao.model.pojo.article;
+package com.madao.model.entity.article;
 
 import com.madao.enums.ArticleAuditStatus;
 import com.madao.enums.ArticleOriginType;
@@ -17,10 +17,12 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "ar_article",
+		uniqueConstraints=@UniqueConstraint(columnNames={"title"}),
         indexes = {
                 @Index(name = "article_keywords", columnList = "keywords"),
                 @Index(name = "article_title", columnList = "title"),
                 @Index(name = "article_create_at", columnList = "createAt")})
+@org.hibernate.annotations.Table(appliesTo = "ar_article",comment="文章")
 public class Article extends BasePojo implements Serializable {
 
     @Id
@@ -29,7 +31,7 @@ public class Article extends BasePojo implements Serializable {
     @GenericGenerator(name = "idGenerator", strategy = "com.madao.config.IdGeneratorConfig")
     private String id;
 
-    @Column(length = 20)
+    @Column(columnDefinition="varchar(30) COMMENT '用户id' default ''",nullable = false)
     private String userId;
 
     @Column(length = 20)
@@ -41,11 +43,11 @@ public class Article extends BasePojo implements Serializable {
     @Column(length = 200)
     private String thumb;
 
-    @Column(length = 1)
-    private Boolean isPublic;
+	@Column(length = 1, columnDefinition = "bit(1) COMMENT '是否公开'", nullable = false)
+	private Boolean isPublic;
 
-    @Column(length = 1)
-    private Boolean isTop;
+	@Column(length = 1, columnDefinition = "bit(1) COMMENT '是否推荐'", nullable = false)
+	private Boolean isTop;
 
     @Column(length = 5)
     private Integer visits;

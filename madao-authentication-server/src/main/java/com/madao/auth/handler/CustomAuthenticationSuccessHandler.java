@@ -4,14 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.madao.api.base.LoginLogServiceRpc;
 import com.madao.constant.CommonConst;
 import com.madao.model.dto.user.AuthToken;
-import com.madao.model.pojo.base.LoginLog;
+import com.madao.model.entity.base.LoginLog;
 import com.madao.redis.RedisService;
 import com.madao.utils.HttpServletUtil;
 import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;
-import com.madao.utils.LogBack;
 import com.madao.utils.security.JWTAuthentication;
 import eu.bitwalker.useragentutils.UserAgent;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -41,6 +41,7 @@ import java.util.Map;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Component("customAuthenticationSuccessHandler")
 public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
@@ -79,7 +80,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        LogBack.info("登录成功");
+        log.info("登录成功");
 
         String header = request.getHeader("Authorization");
 

@@ -13,8 +13,11 @@
     <artifactId>madao-service-base</artifactId>
     <packaging>jar</packaging>
     <description>基础微服务模块</description>
-
     <name>madao-service-base【基础服务】</name>
+
+    <properties>
+        <madao-service-api.version>1.0.0</madao-service-api.version>
+    </properties>
 
     <dependencies>
 
@@ -31,7 +34,7 @@
         <dependency>
             <groupId>com.madao</groupId>
             <artifactId>madao-service-api</artifactId>
-            <version>1.0.0</version>
+            <version>${madao-service-api.version}</version>
         </dependency>
     </dependencies>
 
@@ -65,17 +68,20 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
                 <configuration>
-                    <source>1.8</source> <!-- depending on your project -->
-                    <target>1.8</target> <!-- depending on your project -->
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
                             <version>${org.mapstruct.version}</version>
                         </path>
-                        <!-- other annotation processors -->
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>

@@ -29,6 +29,7 @@
     </parent>
 
     <properties>
+        <spring-cloud.version>2020.0.0</spring-cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -39,11 +40,20 @@
         <spring.security.oauth2.version>2.3.6.RELEASE</spring.security.oauth2.version>
         <netflix.eureka.version>2.0.6.RELEASE</netflix.eureka.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+        <commons-lang3.version>3.5</commons-lang3.version>
+        <logstash-logback-encoder.version>6.3</logstash-logback-encoder.version>
+        <logback-kafka-appender.version>0.2.0-RC2</logback-kafka-appender.version>
+        <spring-cloud-starter-openfeign.version>2.1.1.RELEASE</spring-cloud-starter-openfeign.version>
+        <madao-service-api.version>1.0.0</madao-service-api.version>
     </properties>
 
     <!--添加spring-cloud依赖-->
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
@@ -59,21 +69,21 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.5</version>
+            <version>${commons-lang3.version}</version>
         </dependency>
 
         <!-- logstash 日志收集器  -->
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
-            <version>6.3</version>
+            <version>${logstash-logback-encoder.version}</version>
         </dependency>
 
         <!-- Kafka -->
         <dependency>
             <groupId>com.github.danielwegener</groupId>
             <artifactId>logback-kafka-appender</artifactId>
-            <version>0.2.0-RC2</version>
+            <version>${logback-kafka-appender.version}</version>
         </dependency>
 
         <!--  logback  -->
@@ -112,7 +122,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
-            <version>2.1.1.RELEASE</version>
+            <version>${spring-cloud-starter-openfeign.version}</version>
         </dependency>
         <!-- 从Git中读取配置时所需jar -->
         <dependency>
@@ -182,10 +192,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <parameters>true</parameters>
+                    <source>8</source>
+                    <target>8</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>

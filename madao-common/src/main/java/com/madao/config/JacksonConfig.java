@@ -28,7 +28,7 @@ public class JacksonConfig {
     public ObjectMapper jacksonObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         // （禁止SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS）
-        // 解决 No serializer found for class org.hibernate.proxy.pojo.javassist.JavassistL
+        // 解决 No serializer found for class org.hibernate.proxy.entity.javassist.JavassistL
         // 通过该方法对mapper对象进行设置，所有序列化的对象都将按改规则进行系列化
         // Include.Include.ALWAYS 默认
         // Include.NON_DEFAULT 属性为默认值不序列化

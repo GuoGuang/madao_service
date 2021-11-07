@@ -36,8 +36,6 @@ public class GateWayConfig {
 	 * filters：filter rule
 	 * stripPrefix(0)：剥夺前缀数字为几则删除路径上的几位，stripPrefix(2) /name/bar/foo -》 http://nameservice/foo.
 	 * lb = load-balanced（负载均衡）
-	 *
-	 * @param builder
 	 * @return RouteLocator
 	 */
 	@Bean
@@ -51,7 +49,7 @@ public class GateWayConfig {
 				.route("article_route", a -> a.path("/ar/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-ARTICLE"))
 
 				// authorization, authentication, third-party login
-				.route("auth_route", a -> a.path("/oauth/**").filters(f -> f.stripPrefix(0)).uri("lb://AUTHENTICATION-SERVER"))
+				.route("auth_route", a -> a.path("/az/**").filters(f -> f.stripPrefix(1)).uri("lb://AUTHENTICATION-SERVER"))
 				.route("social_route", a -> a.path("/social/**").filters(f -> f.stripPrefix(1)).uri("lb://AUTHENTICATION-SERVER"))
 
 				// API

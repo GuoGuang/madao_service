@@ -6,7 +6,7 @@ import com.madao.auth.validate.impl.ValidateCode;
 import com.madao.constant.CommonConst;
 import com.madao.enums.StatusEnum;
 import com.madao.utils.JsonData;
-import com.madao.utils.LogBack;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -24,6 +24,7 @@ import java.io.IOException;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 @Component
 public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<ValidateCode> {
 
@@ -45,7 +46,7 @@ public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<Vali
 	        smsCodeSender.send(phone, validateCode.getCode());
 	        request.getResponse().getWriter().write(objectMapper.writeValueAsString(JsonData.success()));
         }catch (Exception ex){
-	        LogBack.error("向手机:{}，{},原因:{}",phone,StatusEnum.SMS_SEND_ERROR.getMsg(),ex.getCause(),ex);
+	        log.error("向手机:{}，{},原因:{}",phone,StatusEnum.SMS_SEND_ERROR.getMsg(),ex.getCause(),ex);
 	        request.getResponse().getWriter().write(objectMapper.writeValueAsString(JsonData.failed(StatusEnum.SMS_SEND_ERROR)));
 
         }

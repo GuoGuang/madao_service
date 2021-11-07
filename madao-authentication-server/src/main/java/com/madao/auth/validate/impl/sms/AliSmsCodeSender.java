@@ -1,7 +1,7 @@
 package com.madao.auth.validate.impl.sms;
 
-import com.madao.utils.LogBack;
 import com.madao.utils.third.Smsbao;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Slf4j
 public class AliSmsCodeSender implements SmsCodeSender {
 
     // @Autowired
@@ -23,7 +24,7 @@ public class AliSmsCodeSender implements SmsCodeSender {
     @Override
     public void send(String phone, String code) {
         smsbao.sendSms(phone, code);
-        LogBack.info("向手机" + phone + "发送短信验证码" + code);
+        log.info("向手机" + phone + "发送短信验证码" + code);
 //		rabbitUtil.sendMessageToExchange(,"");
     }
 

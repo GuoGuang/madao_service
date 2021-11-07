@@ -1,4 +1,4 @@
-package com.madao.model.pojo.base;
+package com.madao.model.entity.base;
 
 import com.madao.enums.OptLogType;
 import com.madao.model.BasePojo;

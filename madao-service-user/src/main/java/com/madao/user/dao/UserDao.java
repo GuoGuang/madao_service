@@ -1,7 +1,7 @@
 package com.madao.user.dao;
 
 import com.madao.exception.custom.ResourceNotFoundException;
-import com.madao.model.pojo.user.User;
+import com.madao.model.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
