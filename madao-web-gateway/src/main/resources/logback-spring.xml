@@ -5,6 +5,7 @@
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>106.13.62.162:5000</destination> <encoder>
         <pattern>Gateway [%X{traceId}-%X{spanId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+<!--        <pattern>Gateway [%X{traceId}-%X{spanId}-%X{userId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>-->
         <charset>UTF-8</charset> </encoder>
     </appender>
     <appender name="KAFKA" class="com.github.danielwegener.logback.kafka.KafkaAppender">

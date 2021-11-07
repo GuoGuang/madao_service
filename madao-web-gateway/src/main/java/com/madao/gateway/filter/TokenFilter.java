@@ -112,6 +112,7 @@ public class TokenFilter implements GlobalFilter {
 		if (authService.commonAuthentication(url) || authService.hasPermission(jwtToken, url, method)) {
 			ServerHttpRequest.Builder builder = request.mutate();
 			builder.header(HttpHeaders.AUTHORIZATION, jwtToken);
+			builder.header("userId", "user trace");
 			return chain.filter(exchange.mutate().request(builder.build()).build());
 		}
 		return unAuthorized(exchange, StatusEnum.UN_AUTHORIZED,"");
