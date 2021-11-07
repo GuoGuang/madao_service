@@ -48,4 +48,4 @@ spring:
 
 auth:
   ignoreUrls: /oauth,/auth,/social
-  commonUrls: /su/user/permission,/az/auth/logout
+  commonUrls: /user/permission,/auth/logout
