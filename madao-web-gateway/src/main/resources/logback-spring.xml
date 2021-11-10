@@ -27,11 +27,51 @@
                 <maxFileSize>10MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
-        <encoder>
-            <pattern>
-                %d %p (%file:%line\)- %m%n
-            </pattern>
-            <charset>UTF-8</charset>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <fieldName>timestamp</fieldName>
+                </timestamp>
+                <logLevel/>
+                <threadName/>
+                <loggerName/>
+                <throwableClassName>
+                    <useSimpleClassName>false</useSimpleClassName>
+                </throwableClassName>
+                <throwableRootCauseClassName>
+                    <useSimpleClassName>false</useSimpleClassName>
+                </throwableRootCauseClassName>
+                <message/>
+                <callerData/>
+                <arguments/>
+                <stackTrace>
+                    <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                        <maxDepthPerThrowable>30</maxDepthPerThrowable>
+                        <maxLength>1024</maxLength>
+                        <shortenedClassNameLength>20</shortenedClassNameLength>
+                        <exclude>sun\.reflect\..*\.invoke.*</exclude>
+                        <exclude>net\.sf\.cglib\.proxy\.MethodProxy\.invoke</exclude>
+                        <rootCauseFirst>true</rootCauseFirst>
+                        <inlineHash>true</inlineHash>
+                    </throwableConverter>
+                </stackTrace>
+                <pattern>
+                    <omitEmptyFields>true</omitEmptyFields>
+                    <pattern>
+                        {
+                        "type":"service",
+                        "pid":"#asLong{${PID}}",
+                        "hostname":"${HOSTNAME}",
+                        "requested_uri":"%mdc{req.requestURI}",
+                        "query_string":"%mdc{req.queryString}",
+                        "traceId":"%mdc{traceId}",
+                        "spanId":"%mdc{spanId}",
+                        "parentId":"%mdc{parentId}",
+                        "method":"%mdc{req.method}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
         </encoder>
     </appender>
     <root level="info">
