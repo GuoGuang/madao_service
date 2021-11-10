@@ -15,6 +15,14 @@ import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
+/**
+ * 自定义全链路追踪字段
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2021-11-11 00:05:03
+ */
 @Configuration(proxyBeanMethods = false)
 public class TracerConfig {
 
@@ -23,6 +31,10 @@ public class TracerConfig {
     BaggageField requestMethod = BaggageField.create(ClassicConstants.REQUEST_METHOD);
     BaggageField userId = BaggageField.create("USER-ID");
 
+
+	/**
+	 * 响应前响应后过滤器
+	 */
     @Bean
     WebFilter tracerWebFilter(Optional<Tracer> tracer) {
         return (exchange, chain) -> {
@@ -31,6 +43,7 @@ public class TracerConfig {
                 return Mono.empty();
             });
             return chain.filter(exchange)
+		            // 执行完请求后将相关traceId、spanID返回前端，方便排查
                     .doOnSubscribe(subscription -> tracer.ifPresent(t -> {
                         Optional.ofNullable(t.currentSpan()).map(Span::context).ifPresent(context -> exchange.getResponse().beforeCommit(() -> {
                             Optional.ofNullable(context.traceId()).ifPresent(traceId -> exchange.getResponse().getHeaders().add("traceId", traceId));
@@ -38,6 +51,7 @@ public class TracerConfig {
                             Optional.ofNullable(context.parentId()).ifPresent(parentId -> exchange.getResponse().getHeaders().add("parentId", parentId));
                             return Mono.empty();
                         }));
+						// 执行请求前传播字段
                         t.createBaggage(ClassicConstants.REQUEST_REQUEST_URI, exchange.getRequest().getURI().getPath());
                         t.createBaggage(ClassicConstants.REQUEST_QUERY_STRING, exchange.getRequest().getURI().getQuery());
                         t.createBaggage(ClassicConstants.REQUEST_METHOD, exchange.getRequest().getMethodValue());
@@ -47,6 +61,9 @@ public class TracerConfig {
         };
     }
 
+	/**
+	 * 传播字段定制器，SingleBaggageField.remote请求时携带请求头
+	 */
     @Bean
     BaggagePropagationCustomizer baggagePropagationCustomizer() {
         return builder -> builder
@@ -56,6 +73,9 @@ public class TracerConfig {
                 .add(BaggagePropagationConfig.SingleBaggageField.remote(requestMethod));
     }
 
+	/**
+	 * 相关范围定制器
+	 */
     @Bean
     CorrelationScopeCustomizer correlationScopeCustomizer() {
         return builder -> builder
