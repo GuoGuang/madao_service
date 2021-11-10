@@ -1,0 +1,2 @@
+# 网关不需要其他配置，选择文件加载
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.madao.config.TracerConfig
