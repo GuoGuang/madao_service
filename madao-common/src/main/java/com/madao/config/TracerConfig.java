@@ -4,6 +4,7 @@ import brave.baggage.*;
 import ch.qos.logback.classic.ClassicConstants;
 import cn.hutool.json.JSONObject;
 import com.madao.utils.security.JWTAuthentication;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.sleuth.Span;
 import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.context.annotation.Bean;
@@ -55,8 +56,11 @@ public class TracerConfig {
                         t.createBaggage(ClassicConstants.REQUEST_REQUEST_URI, exchange.getRequest().getURI().getPath());
                         t.createBaggage(ClassicConstants.REQUEST_QUERY_STRING, exchange.getRequest().getURI().getQuery());
                         t.createBaggage(ClassicConstants.REQUEST_METHOD, exchange.getRequest().getMethodValue());
-	                    JSONObject jsonObject = JWTAuthentication.parseJwtToClaimsAsJSONObject(exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION));
-	                    t.createBaggage("USER-ID",jsonObject.getStr("user_name"));
+	                    String authorization = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+	                    if (StringUtils.isNotEmpty(authorization) & StringUtils.startsWith(authorization,JWTAuthentication.BEARER)){
+		                    JSONObject jsonObject = JWTAuthentication.parseJwtToClaimsAsJSONObject(authorization);
+		                    t.createBaggage("USER-ID",jsonObject.getStr("user_name"));
+	                    }
                     }));
         };
     }

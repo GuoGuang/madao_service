@@ -47,7 +47,9 @@ public class JWTAuthentication {
     /**
      * Authorization认证开头是"bearer "
      */
-    private static final int BEARER_BEGIN_INDEX = 7;
+    public static final int BEARER_BEGIN_INDEX = 7;
+
+    public static final String BEARER = "Bearer";
     //公钥
     private static final String PUBLIC_KEY = "publickey.txt";
 
@@ -97,7 +99,7 @@ public class JWTAuthentication {
         if (StringUtils.isBlank(jwtStr)) {
             return new JSONObject();
         }
-        if (jwtStr.contains("Bearer")) {
+        if (jwtStr.contains(BEARER)) {
             jwtStr = StringUtils.substring(jwtStr,7);
         }
         DecodedJWT jwt = JWT.decode(jwtStr);
