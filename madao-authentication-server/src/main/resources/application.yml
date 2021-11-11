@@ -22,7 +22,7 @@ spring:
 
 encrypt:
   key-store:
-    location: classpath:xc.keystore
-    secret: xuechengkeystore
-    alias: xckey
-    password: xuecheng
+    location: classpath:madao.keystore
+    secret: madaoo.com
+    alias: madaoo.com
+    password: madaoo.com
