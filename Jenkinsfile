@@ -237,12 +237,16 @@ pipeline {
                    //     echo '-->> #本机构建成功-->>'
                    // }else {
 
-                         sh "sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list"
-                        sh "apt-get clean"
-                        sh "apt-get update"
-                        sh "apt-get install sshpass"
-                        // https://www.cnblogs.com/kaishirenshi/p/7921308.html
-//                        sh "sshpass -p ${REMOTE_IP_PASSWORD} ssh root@${REMOTE_IP}"
+                        // jenkins/jenkins镜像是基于Ubuntu系统
+//                         sh "sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list"
+//                         sh "apt-get clean"
+//                         sh "apt-get update"
+//                         sh "apt-get install sshpass"
+
+                        // jenkinsci/blueocean镜像是基于Alpine Linux系统
+                        sh "sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories"
+                        sh "apk update"
+                        sh "apk add sshpass"
 
                         def container = sh(returnStdout: true, script: "${REMOTE_SCRIPT} docker ps -a | grep $serviceName | awk '{print \$1}'").trim()
                         if (container.size() > 0) {
