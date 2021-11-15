@@ -56,7 +56,11 @@ public class TracerConfig {
                         t.createBaggage(ClassicConstants.REQUEST_REQUEST_URI, exchange.getRequest().getURI().getPath());
                         t.createBaggage(ClassicConstants.REQUEST_QUERY_STRING, exchange.getRequest().getURI().getQuery());
                         t.createBaggage(ClassicConstants.REQUEST_METHOD, exchange.getRequest().getMethodValue());
+	                    String instance = exchange.getRequest().getHeaders().getFirst("INSTANCE");
 	                    String authorization = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+
+	                    t.createBaggage("INSTANCE", instance);
+
 	                    if (StringUtils.isNotEmpty(authorization) & StringUtils.startsWith(authorization,JWTAuthentication.BEARER)){
 		                    JSONObject jsonObject = JWTAuthentication.parseJwtToClaimsAsJSONObject(authorization);
 		                    t.createBaggage("USER-ID",jsonObject.getStr("user_name"));
