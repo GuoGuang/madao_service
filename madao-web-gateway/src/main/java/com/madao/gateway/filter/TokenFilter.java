@@ -6,7 +6,6 @@ import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -38,7 +37,7 @@ import java.io.IOException;
  */
 @Slf4j
 @Component
-@Order(1)
+@Order(Integer.MIN_VALUE)
 public class TokenFilter implements GlobalFilter {
 
 	private static final String X_CLIENT_TOKEN_USER = "x-client-token-user";
@@ -102,20 +101,11 @@ public class TokenFilter implements GlobalFilter {
 					exchange.getRequest().getURI().getPath(),
 					exchange.getResponse().getStatusCode()));
 		}
-		// 如果请求未携带token信息, 直接跳出
-		if (StringUtils.isBlank(jwtToken) || !jwtToken.contains(BEARER)) {
-			log.error("url:{},method:{},headers:{}, 请求未携带token信息", url, method, request.getHeaders());
-			return unAuthorized(exchange, StatusEnum.PARAM_ILLEGAL,"Authorization为空或者不包含Bearer ");
-		}
 
-		//调用签权服务看用户是否有权限，若有权限进入下一个filter
-		if (authService.commonAuthentication(url) || authService.hasPermission(jwtToken, url, method)) {
 			ServerHttpRequest.Builder builder = request.mutate();
 			builder.header(HttpHeaders.AUTHORIZATION, jwtToken);
 			builder.header("userId", "user trace");
 			return chain.filter(exchange.mutate().request(builder.build()).build());
-		}
-		return unAuthorized(exchange, StatusEnum.UN_AUTHORIZED,"");
 	}
 
 	/**
