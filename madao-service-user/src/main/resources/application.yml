@@ -6,5 +6,5 @@ spring:
 
 com:
   madao:
-    aopPointcutExpression: execution (* com.madao.user..*.*(..))
+    aopPointcutExpression: execution (* com.madao.user.service..*.*(..))
 
