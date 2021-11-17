@@ -8,6 +8,8 @@ import com.madao.model.dto.article.ArticleDto;
 import com.madao.model.entity.article.Article;
 import com.madao.model.entity.article.Comment;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
  * @created 2019-09-29 7:37
  */
 @Service
+@CacheConfig(cacheNames = "article")
 public class ApiArticleService {
 
     private final ApiArticleDao articleDao;
@@ -68,6 +71,7 @@ public class ApiArticleService {
         return articleDao.findArticleByTagId(tagId, pageable).map(articleMapper::toDto);
     }
 
+	@Cacheable(key = "#articleId",unless = "#result==null ")
     public ArticleDto findArticleById(String articleId) {
         ArticleDto article = articleDao.findById(articleId).map(articleMapper::toDto).orElseThrow(ResourceNotFoundException::new);
         article.setRelated(articleMapper.toDto(articleDao.findRelatedByRand()));
