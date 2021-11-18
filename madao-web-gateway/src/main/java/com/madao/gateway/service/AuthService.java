@@ -1,6 +1,6 @@
 package com.madao.gateway.service;
 
-import com.madao.api.auth.AuthServiceRpc;
+import com.madao.api.AuthServiceRpc;
 import com.madao.exception.custom.RemoteRpcException;
 import com.madao.utils.JsonData;
 import com.madao.utils.security.JWTAuthentication;

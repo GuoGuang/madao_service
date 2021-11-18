@@ -1,6 +1,6 @@
 package com.madao.article.service.backstage;
 
-import com.madao.api.user.UserServiceRpc;
+import com.madao.api.UserServiceRpc;
 import com.madao.article.dao.backstage.ArticleDao;
 import com.madao.article.dao.backstage.CategoryDao;
 import com.madao.article.dao.backstage.TagDao;

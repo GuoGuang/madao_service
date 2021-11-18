@@ -1,7 +1,6 @@
 package com.madao.auth.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.madao.api.base.LoginLogServiceRpc;
 import com.madao.constant.CommonConst;
 import com.madao.model.dto.user.AuthToken;
 import com.madao.redis.RedisService;
@@ -53,9 +52,6 @@ public class OauthLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 
 	@Autowired
 	private OAuth2ClientProperties oAuth2ClientProperties;
-
-	@Autowired
-	LoginLogServiceRpc loginLogServiceRpc;
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {

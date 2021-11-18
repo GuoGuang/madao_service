@@ -1,6 +1,6 @@
 package com.madao.auth.service;
 
-import com.madao.api.user.BlogUserServiceRpc;
+import com.madao.api.UserServiceRpc;
 import com.madao.exception.custom.RemoteRpcException;
 import com.madao.model.dto.user.RoleDto;
 import com.madao.model.dto.user.UserDto;
@@ -30,7 +30,7 @@ import java.util.Set;
 public class GitHubDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private BlogUserServiceRpc blogUserServiceRpc;
+    private UserServiceRpc userServiceRpc;
 
     /**
      * 根据github node_id查询用户信息，存在则返回登录，否则新建并返回登录
@@ -41,7 +41,7 @@ public class GitHubDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userInfo) {
 
-        JsonData<UserDto> userByUser = blogUserServiceRpc.loginWithGithub(JsonUtil.jsonToMap(userInfo));
+        JsonData<UserDto> userByUser = userServiceRpc.loginWithGithub(JsonUtil.jsonToMap(userInfo));
         if (!userByUser.isStatus()) {
             throw new RemoteRpcException(userByUser);
         }

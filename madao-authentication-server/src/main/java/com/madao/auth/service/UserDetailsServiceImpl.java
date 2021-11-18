@@ -1,6 +1,6 @@
 package com.madao.auth.service;
 
-import com.madao.api.user.UserServiceRpc;
+import com.madao.api.UserServiceRpc;
 import com.madao.exception.custom.RemoteRpcException;
 import com.madao.model.dto.user.RoleDto;
 import com.madao.model.dto.user.UserDto;

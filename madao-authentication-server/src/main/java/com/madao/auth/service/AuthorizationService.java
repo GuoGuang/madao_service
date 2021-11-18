@@ -2,7 +2,7 @@ package com.madao.auth.service;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONObject;
-import com.madao.api.user.ResourceServiceRpc;
+import com.madao.api.UserServiceRpc;
 import com.madao.exception.custom.RemoteRpcException;
 import com.madao.model.entity.user.Resource;
 import com.madao.redis.RedisService;
@@ -36,14 +36,14 @@ public class AuthorizationService {
     // 未在资源库中的URL默认标识
     private static final String NONEXISTENT_URL = "NONEXISTENT_URL";
 
-    private ResourceServiceRpc resourceServiceRpc;
+    private UserServiceRpc userServiceRpc;
     private RedisService redisService;
 
     // 系统中所有权限集合
     private Map<RequestMatcher, ConfigAttribute> resourceConfigAttributes;
 
-    public AuthorizationService(ResourceServiceRpc resourceServiceRpc, RedisService redisService) {
-        this.resourceServiceRpc = resourceServiceRpc;
+    public AuthorizationService(UserServiceRpc userServiceRpc, RedisService redisService) {
+        this.userServiceRpc = userServiceRpc;
 	    this.redisService = redisService;
     }
 
@@ -158,7 +158,7 @@ public class AuthorizationService {
 	    if (resourcesCached != null) {
 		    return new HashSet<>(resourcesCached);
 	    }else {
-		    JsonData<List<Resource>> resourceByCondition = resourceServiceRpc.findResourceByCondition();
+		    JsonData<List<Resource>> resourceByCondition = userServiceRpc.findResourceByCondition();
 		    if (!JsonData.isSuccess(resourceByCondition)) {
 			    throw new RemoteRpcException(resourceByCondition);
 		    }
@@ -176,7 +176,7 @@ public class AuthorizationService {
      * @return Set<Resource>
      */
     public Set<Resource> queryByRoleIds(String[] roleIds) {
-        JsonData<List<Resource>> resourceOfRole = resourceServiceRpc.findResourceByRoleIds(roleIds);
+        JsonData<List<Resource>> resourceOfRole = userServiceRpc.findResourceByRoleIds(roleIds);
         if (!JsonData.isSuccess(resourceOfRole)) {
             throw new RemoteRpcException(resourceOfRole);
         }

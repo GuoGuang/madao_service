@@ -1,7 +1,7 @@
 package com.madao.auth.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.madao.api.base.LoginLogServiceRpc;
+import com.madao.api.BaseServiceRpc;
 import com.madao.constant.CommonConst;
 import com.madao.model.dto.user.AuthToken;
 import com.madao.model.entity.base.LoginLog;
@@ -60,7 +60,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    LoginLogServiceRpc loginLogServiceRpc;
+    BaseServiceRpc baseServiceRpc;
 
 //	@Autowired
 //	RabbitUtil rabbitUtil;
@@ -146,7 +146,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
         UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
         loginLog.setBrowser(userAgent.getBrowser().getName());
         loginLog.setOsInfo(userAgent.getOperatingSystem().getName());
-        loginLogServiceRpc.insertLoginLog(loginLog);
+	    baseServiceRpc.insertLoginLog(loginLog);
 
     }
 

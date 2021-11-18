@@ -1,6 +1,6 @@
 package com.madao.base.service.backstage;
 
-import com.madao.api.user.UserServiceRpc;
+import com.madao.api.UserServiceRpc;
 import com.madao.base.dao.LoginLogDao;
 import com.madao.base.mapper.LoginLogMapper;
 import com.madao.exception.custom.ResourceNotFoundException;

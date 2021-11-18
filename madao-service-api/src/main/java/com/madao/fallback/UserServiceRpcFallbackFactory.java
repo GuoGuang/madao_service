@@ -1,14 +1,16 @@
-package com.madao.fallback.user;
+package com.madao.fallback;
 
-import com.madao.api.user.UserServiceRpc;
+import com.madao.api.UserServiceRpc;
 import com.madao.enums.StatusEnum;
 import com.madao.model.dto.user.UserDto;
+import com.madao.model.entity.user.Resource;
 import com.madao.utils.JsonData;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author GuoGuang
@@ -43,6 +45,22 @@ public class UserServiceRpcFallbackFactory implements FallbackFactory<UserServic
                 log.error(ERROR_INFO, "getUserInfoById", articleIds, throwable);
                 return JsonData.failed(StatusEnum.RPC_ERROR);
             }
+
+	        @Override
+	        public JsonData<List<Resource>> findResourceByCondition() {
+		        log.error(ERROR_INFO, "findResourceByCondition", throwable);
+		        return JsonData.failed(StatusEnum.RPC_ERROR);
+	        }
+	        @Override
+	        public JsonData<List<Resource>> findResourceByRoleIds(String[] roleIds) {
+		        log.error(ERROR_INFO, "findResourceByCondition", roleIds, throwable);
+		        return JsonData.failed(StatusEnum.RPC_ERROR);
+	        }
+	        @Override
+	        public JsonData<UserDto> loginWithGithub(Map<String, Object> userInfo) {
+		        log.error(ERROR_INFO, "loginWithGithub", userInfo, throwable);
+		        return JsonData.failed(StatusEnum.RPC_ERROR);
+	        }
         };
     }
 }
