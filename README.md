@@ -192,11 +192,7 @@ maven install之前先maven clean
 ![图3](https://github.com/GuoGuang/madao_service/blob/develop/madao-common-parent/image/Details.png)
 
 ## 更新日志
-### [20210204]
-Spring-Cloud-Gateway 集成 Swagger,支持认证后访问，由网关统一管理
-
-### [20210412]
-移除不必要得依赖，项目结构重构
-
-### [20210505]
-将资源缓存化，加快访问速度
+- [20211111]：基于loadbalancer重写负载均衡器，实现前端指定后端实例访问的功能。
+- [20210505]：将资源缓存化，加快访问速度。
+- [20210412]：移除不必要得依赖，项目结构重构。
+- [20210204]：Spring-Cloud-Gateway 集成 Swagger,支持认证后访问，由网关统一管理。
