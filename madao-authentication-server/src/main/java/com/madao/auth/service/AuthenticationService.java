@@ -1,6 +1,6 @@
 package com.madao.auth.service;
 
-import com.madao.api.base.LoginLogServiceRpc;
+import com.madao.api.BaseServiceRpc;
 import com.madao.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -25,7 +25,7 @@ public class AuthenticationService {
     RedisService redisService;
 
     @Autowired
-    LoginLogServiceRpc loginLogServiceRpc;
+    BaseServiceRpc baseServiceRpc;
 
     @Autowired
     RestTemplate restTemplate;

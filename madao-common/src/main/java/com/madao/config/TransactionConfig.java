@@ -44,7 +44,7 @@ public class TransactionConfig {
         /*只读配置类*/
         RuleBasedTransactionAttribute readOnlyTx = new RuleBasedTransactionAttribute();
         readOnlyTx.setReadOnly(true);
-        readOnlyTx.setPropagationBehavior(TransactionDefinition.PROPAGATION_NOT_SUPPORTED);
+        // readOnlyTx.setPropagationBehavior(TransactionDefinition.PROPAGATION_NOT_SUPPORTED);
         RuleBasedTransactionAttribute requiredTx = new RuleBasedTransactionAttribute(
                 TransactionDefinition.PROPAGATION_REQUIRED,
                 Collections.singletonList(new RollbackRuleAttribute(Exception.class)));

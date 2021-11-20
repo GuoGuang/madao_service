@@ -6,7 +6,6 @@ import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -56,13 +55,11 @@ public class FeignConfiguration implements RequestInterceptor {
             if (headerNames != null) {
                 while (headerNames.hasMoreElements()) {
                     String name = headerNames.nextElement();
-                    // 只转发Authorization头
-                    // https://blog.csdn.net/qq_39986681/article/details/107138740
-                    if (HttpHeaders.AUTHORIZATION.equalsIgnoreCase(name)) {
-                        String values = request.getHeader(name);
-                        template.header(name, values);
-                    }
-
+					//  ignore content-length，otherwise threw too many bytes written executing
+	                if("content-length".equalsIgnoreCase(name)){
+						continue;
+	                }
+	                template.header(name, request.getHeader(name));
                 }
             }
         }

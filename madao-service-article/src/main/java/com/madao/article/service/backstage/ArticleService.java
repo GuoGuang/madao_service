@@ -1,6 +1,6 @@
 package com.madao.article.service.backstage;
 
-import com.madao.api.user.UserServiceRpc;
+import com.madao.api.UserServiceRpc;
 import com.madao.article.dao.backstage.ArticleDao;
 import com.madao.article.dao.backstage.ArticleTagDao;
 import com.madao.article.dao.backstage.TagDao;
@@ -15,6 +15,7 @@ import com.madao.model.entity.article.ArticleTag;
 import com.madao.redis.RedisService;
 import com.madao.utils.JsonData;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
  * @created 2019-09-29 7:37
  */
 @Service
+@CacheConfig(cacheNames = "article")
 public class ArticleService {
 
     private final ArticleDao articleDao;

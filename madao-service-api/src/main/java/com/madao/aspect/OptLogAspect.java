@@ -1,7 +1,7 @@
 package com.madao.aspect;
 
 import com.madao.annotation.OptLog;
-import com.madao.api.base.OptLogServiceRpc;
+import com.madao.api.BaseServiceRpc;
 import com.madao.enums.OptLogType;
 import com.madao.utils.HttpServletUtil;
 import com.madao.utils.JsonUtil;
@@ -40,7 +40,7 @@ import java.util.Map;
 public class OptLogAspect {
 
     @Autowired
-    private OptLogServiceRpc optLogServiceRpc;
+    private BaseServiceRpc baseServiceRpc;
 
     /**
      * 切入点
@@ -100,7 +100,7 @@ public class OptLogAspect {
                     argumentParam += JsonUtil.toJsonString(argument);
                 }
             }
-            optLogServiceRpc.insertOptLog(log);
+	        baseServiceRpc.insertOptLog(log);
         } catch (Exception e) {
             log.error("操作日志异常:{}", e.getMessage(), e);
         }
@@ -158,7 +158,7 @@ public class OptLogAspect {
                     argumentParam += JsonUtil.toJsonString(argument);
                 }
             }
-            optLogServiceRpc.insertOptLog(log);
+	        baseServiceRpc.insertOptLog(log);
         } catch (Exception ex) {
 	        log.error("异常方法:{}异常代码:{}异常信息:{}", joinPoint.getTarget().getClass().getName() + joinPoint.getSignature().getName(), e.getClass().getName(), e.getMessage());
         }

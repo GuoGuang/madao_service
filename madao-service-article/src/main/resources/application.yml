@@ -3,7 +3,7 @@ server:
 
 com:
   madao:
-    aopPointcutExpression: execution (* com.madao.article..*.*(..))
+    aopPointcutExpression: execution (* com.madao.article.service..*.*(..))
 
 hystrix:
   command:

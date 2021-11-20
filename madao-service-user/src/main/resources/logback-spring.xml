@@ -2,6 +2,7 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <jmxConfigurator/>
+    <logger name="org.springframework.orm.jpa" level="DEBUG"/>
     <logger name="io.swagger.models.parameters.AbstractSerializableParameter" level="ERROR" />
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>106.13.62.162:5000</destination> <encoder>

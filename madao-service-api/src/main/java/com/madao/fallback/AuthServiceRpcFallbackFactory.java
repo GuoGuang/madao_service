@@ -1,6 +1,6 @@
-package com.madao.fallback.auth;
+package com.madao.fallback;
 
-import com.madao.api.auth.AuthServiceRpc;
+import com.madao.api.AuthServiceRpc;
 import com.madao.enums.StatusEnum;
 import com.madao.utils.JsonData;
 import feign.hystrix.FallbackFactory;
