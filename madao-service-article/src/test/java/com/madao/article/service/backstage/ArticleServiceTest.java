@@ -30,7 +30,7 @@ class ArticleServiceTest {
     @Mock
     TagDao tagDao;
     @InjectMocks
-    com.madao.article.service.backstage.ArticleService articleService;
+    ArticleService articleService;
 
     @BeforeEach
     void setUp() {
