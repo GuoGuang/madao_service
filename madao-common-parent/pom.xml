@@ -10,18 +10,6 @@
     <name>madao-common-parent</name>
     <description>分布式框架的父依赖管理</description>
 
-    <!-- 通过继承spring-boot-starter-parent项目来获得一些合理的默认配置。这个parent提供了以下特性：
-            1. 默认使用Java 8
-            2. 使用UTF-8编码
-            3. 一个引用管理的功能，在dependencies里的部分配置可以不用填写version信息，
-                这些version信息会从spring-boot-dependencies里得到继承。
-            4. 识别过来资源过滤（Sensible resource filtering.）
-            4. 识别插件的配置（Sensible plugin configuration (exec plugin, surefire, Git commit ID, shade).）
-            5. 能够识别application.properties和application.yml类型的文件，同时也能支持profile-specific类型的文件
-                （如： application-foo.properties and application-foo.yml，这个功能可以更好的配置不同生产环境下的配置文件)。
-            6. maven把默认的占位符${…​}改为了@..@（这点大家还是看下原文自己理解下吧，我个人用的也比较少
-                since the default config files accept Spring style placeholders (${…​}) the Maven filtering is changed to use @..@ placeholders
-                (you can override that with a Maven property resource.delimiter).） -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
