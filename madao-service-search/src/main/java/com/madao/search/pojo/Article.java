@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.io.Serializable;
 
@@ -24,10 +25,11 @@ public class Article extends BasePojo implements Serializable {
     private String id;
     private String columnId;
     private String userId;
-    @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
-    private String title;
-    @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
-    private String content;
+//    @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
+	@Field(type = FieldType.Text)
+	private String title;
+	@Field(type = FieldType.Text)
+	private String content;
     private String image;
     private String isPublic;
     private String isTop;

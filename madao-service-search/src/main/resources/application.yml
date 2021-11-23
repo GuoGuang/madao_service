@@ -2,8 +2,15 @@ server:
   port: 9006
 spring:
   application:
-    name: service-search #指定服务名
-  data:
-    elasticsearch:
-      cluster-name: elasticsearch
-      cluster-nodes: 114.55.104.203:9300
+    name: service-search
+  jpa:
+    show-sql: true
+logging:
+  level:
+    org.springframework.data.elasticsearch.client.WIRE: TRACE
+
+elasticsearch:
+  host: 106.13.62.162
+  port: 9200
+  username: elastic
+  password: 密码
