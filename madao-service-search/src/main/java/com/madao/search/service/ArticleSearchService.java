@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
-public class ArticleSearchService {
+public class ArticleSearchService{
 
     private final ArticleSearchDao articleSearchDao;
 
@@ -28,4 +28,19 @@ public class ArticleSearchService {
         return null;
     }
 
+	public Article findArticleByPrimaryKey(String id) {
+		return articleSearchDao.findById(id).orElse(null);
+	}
+
+	public void insertArticle(Article article) {
+		articleSearchDao.save(article);
+	}
+
+	public void updateByPrimaryKey(Article article) {
+		articleSearchDao.save(article);
+	}
+
+	public void deleteById(String id) {
+		articleSearchDao.deleteById(id);
+	}
 }
