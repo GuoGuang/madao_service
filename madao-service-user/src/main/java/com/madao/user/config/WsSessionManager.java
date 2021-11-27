@@ -1,9 +1,10 @@
 package com.madao.user.config;
 
+import com.corundumstudio.socketio.SocketIOClient;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.socket.WebSocketSession;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -19,16 +20,20 @@ public class WsSessionManager {
     /**
      * 保存连接 session
      */
-    private static ConcurrentHashMap<String, WebSocketSession> SESSION_POOL = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, SocketIOClient> SESSION_POOL = new ConcurrentHashMap<>();
 
     /**
      * 添加 session
      *
      * @param key
      */
-    public static void add(String key, WebSocketSession session) {
+    public static void add(String key, SocketIOClient session) {
         // 添加 session
         SESSION_POOL.put(key, session);
+    }
+
+    public static List<SocketIOClient> getAllSession() {
+		return new ArrayList<>(SESSION_POOL.values());
     }
 
     /**
@@ -37,8 +42,7 @@ public class WsSessionManager {
      * @param key
      * @return
      */
-    public static WebSocketSession remove(String key) {
-        // 删除 session
+    public static SocketIOClient remove(String key) {
         return SESSION_POOL.remove(key);
     }
 
@@ -48,14 +52,9 @@ public class WsSessionManager {
      * @param key
      */
     public static void removeAndClose(String key) {
-        WebSocketSession session = remove(key);
+	    SocketIOClient session = remove(key);
         if (session != null) {
-            try {
-                // 关闭连接
-                session.close();
-            } catch (IOException e) {
-                log.error("删除并同步关闭连接时异常：{}", e.getMessage(), e);
-            }
+            session.disconnect();
         }
     }
 
@@ -65,7 +64,7 @@ public class WsSessionManager {
      * @param key
      * @return
      */
-    public static WebSocketSession get(String key) {
+    public static SocketIOClient get(String key) {
         // 获得 session
         return SESSION_POOL.get(key);
     }
