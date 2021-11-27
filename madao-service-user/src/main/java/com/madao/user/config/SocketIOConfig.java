@@ -31,7 +31,7 @@ public class SocketIOConfig {
 		socketConfig.setSoLinger(0);
 		Configuration config = new Configuration();
 		config.setSocketConfig(socketConfig);
-//		config.setContext("/socket");
+		config.setContext("/socket");
 		config.setHostname(host);
 		config.setPort(port);
 		config.setBossThreads(bossCount);
