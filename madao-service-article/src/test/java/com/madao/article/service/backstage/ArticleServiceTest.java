@@ -5,8 +5,8 @@ import com.madao.article.dao.backstage.ArticleDao;
 import com.madao.article.dao.backstage.CategoryDao;
 import com.madao.article.dao.backstage.TagDao;
 import com.madao.model.dto.article.ArticleDto;
-import com.madao.redis.RedisService;
 import com.madao.utils.JsonData;
+import com.madao.utils.RedisUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ class ArticleServiceTest {
     @Mock
     CategoryDao categoryDao;
     @Mock
-    RedisService redisService;
+    RedisUtil redisUtil;
     @Mock
     UserServiceRpc userServiceRpc;
     @Mock

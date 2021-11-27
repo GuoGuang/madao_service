@@ -68,7 +68,7 @@ public class RabbitUtil {
 	/**
 	 * 发送延时消息
 	 * <p>note:delayTime不能超过2<sup>32</sup>-1</p>
-	 *
+	 *  mqSender.sendDelay(json字符串,时间戳,RabbitMQConfig.DELAY_PRODUCT_KEY);
 	 * @param message   消息
 	 * @param delayTime 延时时间：毫秒
 	 */
@@ -92,6 +92,6 @@ public class RabbitUtil {
 					messagePostProcessor.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
 					messagePostProcessor.getMessageProperties().setHeader("x-delay", delayTime);
 					return messagePostProcessor;
-				});
+				},correlationData);
 	}
 }

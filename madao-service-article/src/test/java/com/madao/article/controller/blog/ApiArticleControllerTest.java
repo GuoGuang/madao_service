@@ -2,8 +2,9 @@ package com.madao.article.controller.blog;
 
 import com.madao.article.service.blog.ApiArticleService;
 import com.madao.model.dto.article.ArticleDto;
-import com.madao.redis.RedisService;
+import com.madao.model.entity.article.Article;
 import com.madao.utils.JsonData;
+import com.madao.utils.RedisUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ class ApiArticleControllerTest {
     @Mock
     ApiArticleService articleService;
     @Mock
-    RedisService redisService;
+    RedisUtil redisUtil;
     @InjectMocks
     com.madao.article.controller.blog.ApiArticleController apiArticleController;
 
@@ -32,7 +33,7 @@ class ApiArticleControllerTest {
     @Test
     void testFindArticleByCondition() {
         when(articleService.findArticleByCondition(any(), anyString(), any())).thenReturn(null);
-        when(redisService.lGet(anyString(), anyLong(), anyLong())).thenReturn(Arrays.<Object>asList("lGetResponse"));
+        when(redisUtil.lGet(anyString(), Article.class, anyLong(), anyLong())).thenReturn(Arrays.<Article>asList());
 
         JsonData<Object> result = apiArticleController.findArticleByCondition(new ArticleDto(), "keyword", "sortType", null);
         Assertions.assertEquals(new JsonData<Object>(true, 0, "message", any()), result);
@@ -40,7 +41,7 @@ class ApiArticleControllerTest {
 
     @Test
     void testFindArticleHot() {
-        when(redisService.lGet(anyString(), anyLong(), anyLong())).thenReturn(Arrays.<Object>asList("lGetResponse"));
+        when(redisUtil.lGet(anyString(),Article.class, anyLong(), anyLong())).thenReturn(Arrays.<Article>asList());
 
         JsonData<Object> result = apiArticleController.findArticleHot("sortType");
         Assertions.assertEquals(new JsonData<Object>(true, 0, "message", any()), result);
@@ -57,8 +58,8 @@ class ApiArticleControllerTest {
     @Test
     void testFindArticleByPrimaryKey() {
         when(articleService.findArticleById(anyString())).thenReturn(new ArticleDto());
-        when(redisService.get(anyString())).thenReturn(null);
-        when(redisService.set(anyString(), any(), anyLong())).thenReturn(true);
+        when(redisUtil.get(anyString())).thenReturn(null);
+        when(redisUtil.set(anyString(), any(), anyLong())).thenReturn(true);
 
         JsonData<Object> result = apiArticleController.findArticleByPrimaryKey("articleId");
         Assertions.assertEquals(new JsonData<ArticleDto>(true, 0, "message", any()), result);

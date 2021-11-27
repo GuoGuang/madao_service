@@ -5,10 +5,10 @@ import com.madao.model.QueryVO;
 import com.madao.model.dto.user.ResourceDto;
 import com.madao.model.entity.user.Resource;
 import com.madao.model.entity.user.RoleResource;
-import com.madao.redis.RedisService;
 import com.madao.user.dao.ResourceDao;
 import com.madao.user.dao.RoleResourceDao;
 import com.madao.user.mapper.ResourceMapper;
+import com.madao.utils.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -31,16 +31,16 @@ public class ResourceService {
     private final ResourceDao resourceDao;
     private final ResourceMapper resourceMapper;
     private final RoleResourceDao roleResourceDao;
-	private final RedisService redisService;
+	private final RedisUtil redisUtil;
 
     @Autowired
     public ResourceService(ResourceDao resourceDao,
                            RoleResourceDao roleResourceDao,
-                           ResourceMapper resourceMapper, RedisService redisService) {
+                           ResourceMapper resourceMapper, RedisUtil redisUtil) {
         this.resourceDao = resourceDao;
         this.roleResourceDao = roleResourceDao;
         this.resourceMapper = resourceMapper;
-	    this.redisService = redisService;
+	    this.redisUtil = redisUtil;
     }
 
     /**
@@ -85,12 +85,12 @@ public class ResourceService {
 
         roleResourceDao.deleteByRoleIdIn(Collections.singletonList(resourceDto.getId()));
         roleResourceDao.saveAll(roleResources);
-	    redisService.del("resources");
+	    redisUtil.del("resources");
     }
 
     public void deleteByIds(List<String> resId) {
         resourceDao.deleteBatch(resId);
         roleResourceDao.deleteByResourceIdIn(resId);
-	    redisService.del("resources");
+	    redisUtil.del("resources");
     }
 }

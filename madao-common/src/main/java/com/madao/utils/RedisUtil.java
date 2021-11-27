@@ -1,4 +1,4 @@
-package com.madao.redis;
+package com.madao.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * 基于spring和redis的redisTemplate工具类
@@ -30,7 +31,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Service
-public class RedisServiceImpl implements RedisService {
+public class RedisUtil {
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -44,7 +45,6 @@ public class RedisServiceImpl implements RedisService {
      * @param time 时间(秒)
      * @return
      */
-    @Override
     public boolean expire(String key, long time) {
         try {
             if (time > 0) {
@@ -63,7 +63,6 @@ public class RedisServiceImpl implements RedisService {
      * @param key 键 不能为null
      * @return 时间(秒) 返回0代表为永久有效
      */
-    @Override
     public long getExpire(String key) {
         return redisTemplate.getExpire(key, TimeUnit.SECONDS);
     }
@@ -74,7 +73,6 @@ public class RedisServiceImpl implements RedisService {
      * @param key 键
      * @return true 存在 false不存在
      */
-    @Override
     public boolean hasKey(String key) {
         try {
             return redisTemplate.hasKey(key);
@@ -89,7 +87,6 @@ public class RedisServiceImpl implements RedisService {
      *
      * @param key 可以传一个值 或多个
      */
-    @Override
     @SuppressWarnings("unchecked")
     public void del(String... key) {
         if (key != null && key.length > 0) {
@@ -109,7 +106,6 @@ public class RedisServiceImpl implements RedisService {
      * @param key 键
      * @return 值
      */
-    @Override
     public Optional<Object> get(String key) {
         return key == null ? Optional.empty() : Optional.ofNullable(redisTemplate.opsForValue().get(key));
     }
@@ -121,7 +117,6 @@ public class RedisServiceImpl implements RedisService {
      * @param value 值
      * @return true成功 false失败
      */
-    @Override
     public boolean set(String key, Object value) {
         try {
             redisTemplate.opsForValue().set(key, value);
@@ -141,7 +136,6 @@ public class RedisServiceImpl implements RedisService {
      * @param time  时间(秒) time要大于0 如果time小于等于0 将设置无限期
      * @return true成功 false 失败
      */
-    @Override
     public boolean set(String key, Object value, long time) {
         try {
             if (time > 0) {
@@ -163,7 +157,6 @@ public class RedisServiceImpl implements RedisService {
      * @param delta 要增加几(大于0)
      * @return
      */
-    @Override
     public long incr(String key, long delta) {
         if (delta < 0) {
             throw new RuntimeException("递增因子必须大于0");
@@ -178,7 +171,6 @@ public class RedisServiceImpl implements RedisService {
      * @param delta 要减少几(小于0)
      * @return
      */
-    @Override
     public long decr(String key, long delta) {
         if (delta < 0) {
             throw new RuntimeException("递减因子必须大于0");
@@ -225,7 +217,6 @@ public class RedisServiceImpl implements RedisService {
      * @param item 项 不能为null
      * @return 值
      */
-    @Override
     public Object hget(String key, String item) {
         return redisTemplate.opsForHash().get(key, item);
     }
@@ -236,7 +227,6 @@ public class RedisServiceImpl implements RedisService {
      * @param key 键
      * @return 对应的多个键值
      */
-    @Override
     public Map<Object, Object> hmget(String key) {
         return redisTemplate.opsForHash().entries(key);
     }
@@ -248,7 +238,6 @@ public class RedisServiceImpl implements RedisService {
      * @param map 对应多个键值
      * @return true 成功 false 失败
      */
-    @Override
     public boolean hmset(String key, Map<String, Object> map) {
         try {
             redisTemplate.opsForHash().putAll(key, map);
@@ -267,7 +256,6 @@ public class RedisServiceImpl implements RedisService {
      * @param time 时间(秒)
      * @return true成功 false失败
      */
-    @Override
     public boolean hmset(String key, Map<String, Object> map, long time) {
         try {
             redisTemplate.opsForHash().putAll(key, map);
@@ -289,7 +277,6 @@ public class RedisServiceImpl implements RedisService {
      * @param value 值
      * @return true 成功 false失败
      */
-    @Override
     public boolean hset(String key, String item, Object value) {
         try {
             redisTemplate.opsForHash().put(key, item, value);
@@ -309,7 +296,6 @@ public class RedisServiceImpl implements RedisService {
      * @param time  时间(秒)  注意:如果已存在的hash表有时间,这里将会替换原有的时间
      * @return true 成功 false失败
      */
-    @Override
     public boolean hset(String key, String item, Object value, long time) {
         try {
             redisTemplate.opsForHash().put(key, item, value);
@@ -329,7 +315,6 @@ public class RedisServiceImpl implements RedisService {
      * @param key  键 不能为null
      * @param item 项 可以使多个 不能为null
      */
-    @Override
     public void hdel(String key, Object... item) {
         redisTemplate.opsForHash().delete(key, item);
     }
@@ -341,7 +326,6 @@ public class RedisServiceImpl implements RedisService {
      * @param item 项 不能为null
      * @return true 存在 false不存在
      */
-    @Override
     public boolean hHasKey(String key, String item) {
         return redisTemplate.opsForHash().hasKey(key, item);
     }
@@ -354,7 +338,6 @@ public class RedisServiceImpl implements RedisService {
      * @param by   要增加几(大于0)
      * @return
      */
-    @Override
     public double hincr(String key, String item, double by) {
         return redisTemplate.opsForHash().increment(key, item, by);
     }
@@ -367,7 +350,6 @@ public class RedisServiceImpl implements RedisService {
      * @param by   要减少记(小于0)
      * @return
      */
-    @Override
     public double hdecr(String key, String item, double by) {
         return redisTemplate.opsForHash().increment(key, item, -by);
     }
@@ -380,7 +362,6 @@ public class RedisServiceImpl implements RedisService {
      * @param key 键
      * @return
      */
-    @Override
     public Set<Object> sGet(String key) {
         try {
             return redisTemplate.opsForSet().members(key);
@@ -397,7 +378,6 @@ public class RedisServiceImpl implements RedisService {
      * @param value 值
      * @return true 存在 false不存在
      */
-    @Override
     public boolean sHasKey(String key, Object value) {
         try {
             return redisTemplate.opsForSet().isMember(key, value);
@@ -414,7 +394,6 @@ public class RedisServiceImpl implements RedisService {
      * @param values 值 可以是多个
      * @return 成功个数
      */
-    @Override
     public long sSet(String key, Object... values) {
         try {
             return redisTemplate.opsForSet().add(key, values);
@@ -432,7 +411,6 @@ public class RedisServiceImpl implements RedisService {
      * @param values 值 可以是多个
      * @return 成功个数
      */
-    @Override
     public long sSetAndTime(String key, long time, Object... values) {
         try {
             Long count = redisTemplate.opsForSet().add(key, values);
@@ -450,7 +428,6 @@ public class RedisServiceImpl implements RedisService {
      * @param key 键
      * @return
      */
-    @Override
     public long sGetSetSize(String key) {
         try {
             return redisTemplate.opsForSet().size(key);
@@ -467,7 +444,6 @@ public class RedisServiceImpl implements RedisService {
      * @param values 值 可以是多个
      * @return 移除的个数
      */
-    @Override
     public long setRemove(String key, Object... values) {
         try {
             Long count = redisTemplate.opsForSet().remove(key, values);
@@ -487,10 +463,10 @@ public class RedisServiceImpl implements RedisService {
      * @param end   结束  0 到 -1代表所有值
      * @return
      */
-    @Override
-    public List<Object> lGet(String key, long start, long end) {
+    public <T> List<T> lGet(String key,Class<T>  clazz, long start, long end) {
         try {
-            return redisTemplate.opsForList().range(key, start, end);
+	        List<Object> range = redisTemplate.opsForList().range(key, start, end);
+			return range.stream().map(o -> (T) o).collect(Collectors.toList());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return null;
@@ -503,7 +479,6 @@ public class RedisServiceImpl implements RedisService {
      * @param key 键
      * @return
      */
-    @Override
     public long lGetListSize(String key) {
         try {
             return redisTemplate.opsForList().size(key);
@@ -520,7 +495,6 @@ public class RedisServiceImpl implements RedisService {
      * @param index 索引  index>=0时， 0 表头，1 第二个元素，依次类推；index<0时，-1，表尾，-2倒数第二个元素，依次类推
      * @return
      */
-    @Override
     public Object lGetIndex(String key, long index) {
         try {
             return redisTemplate.opsForList().index(key, index);
@@ -535,10 +509,7 @@ public class RedisServiceImpl implements RedisService {
      *
      * @param key   键
      * @param value 值
-     * @param time  时间(秒)
-     * @return
      */
-    @Override
     public boolean lSet(String key, Object value) {
         try {
             redisTemplate.opsForList().rightPush(key, value);
@@ -555,9 +526,7 @@ public class RedisServiceImpl implements RedisService {
      * @param key   键
      * @param value 值
      * @param time  时间(秒)
-     * @return
      */
-    @Override
     public boolean lSet(String key, Object value, long time) {
         try {
             redisTemplate.opsForList().rightPush(key, value);
@@ -574,10 +543,7 @@ public class RedisServiceImpl implements RedisService {
      *
      * @param key   键
      * @param value 值
-     * @param time  时间(秒)
-     * @return
      */
-    @Override
     public boolean lSet(String key, List<Object> value) {
         try {
             redisTemplate.opsForList().rightPushAll(key, value);
@@ -596,7 +562,6 @@ public class RedisServiceImpl implements RedisService {
      * @param time  时间(秒)
      * @return
      */
-    @Override
     public boolean lSet(String key, List<Object> value, long time) {
         try {
             redisTemplate.opsForList().rightPushAll(key, value);
@@ -616,7 +581,6 @@ public class RedisServiceImpl implements RedisService {
      * @param value 值
      * @return
      */
-    @Override
     public boolean lUpdateIndex(String key, long index, Object value) {
         try {
             redisTemplate.opsForList().set(key, index, value);
@@ -635,7 +599,6 @@ public class RedisServiceImpl implements RedisService {
      * @param value 值
      * @return 移除的个数
      */
-    @Override
     public long lRemove(String key, long count, Object value) {
         try {
             Long remove = redisTemplate.opsForList().remove(key, count, value);

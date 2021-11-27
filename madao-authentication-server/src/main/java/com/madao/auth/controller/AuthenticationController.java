@@ -3,8 +3,8 @@ package com.madao.auth.controller;
 import cn.hutool.json.JSONObject;
 import com.madao.auth.validate.ValidateCodeProcessor;
 import com.madao.auth.validate.ValidateCodeProcessorHolder;
-import com.madao.redis.RedisService;
 import com.madao.utils.JsonData;
+import com.madao.utils.RedisUtil;
 import com.madao.utils.security.JWTAuthentication;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -34,14 +34,14 @@ import java.io.IOException;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-    private final RedisService redisService;
+    private final RedisUtil redisUtil;
 
     private final ValidateCodeProcessorHolder validateCodeProcessorHolder;
 
     public AuthenticationController(ValidateCodeProcessorHolder validateCodeProcessorHolder,
-                                    RedisService redisService) {
+                                    RedisUtil redisUtil) {
         this.validateCodeProcessorHolder = validateCodeProcessorHolder;
-        this.redisService = redisService;
+        this.redisUtil = redisUtil;
     }
 
 

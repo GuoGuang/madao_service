@@ -5,8 +5,8 @@ import com.madao.auth.validate.impl.ValidateCode;
 import com.madao.constant.CommonConst;
 import com.madao.enums.StatusEnum;
 import com.madao.enums.ValidateCodeType;
-import com.madao.redis.RedisService;
 import com.madao.utils.JsonUtil;
+import com.madao.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,19 +29,19 @@ import org.springframework.web.context.request.ServletWebRequest;
 public class RedisValidateCodeRepository implements ValidateCodeRepository {
 
     @Autowired
-    private RedisService redisService;
+    private RedisUtil redisUtil;
 
 
     @Override
     public void save(ServletWebRequest request, ValidateCode code, ValidateCodeType type) {
         String validateCode = JsonUtil.toJsonString(code);
-        redisService.setKeyStr(buildKey(request, type), validateCode, CommonConst.TIME_OUT_FIVE_MINUTES.longValue());
+        redisUtil.setKeyStr(buildKey(request, type), validateCode, CommonConst.TIME_OUT_FIVE_MINUTES.longValue());
         //redisTemplate.opsForValue().set(buildKey(request, type), s, 30, TimeUnit.MINUTES);
     }
 
     @Override
     public ValidateCode get(ServletWebRequest request, ValidateCodeType type) {
-        String keyStr = redisService.getKeyStr(buildKey(request, type))
+        String keyStr = redisUtil.getKeyStr(buildKey(request, type))
                 .orElseThrow(() -> new AuthException(StatusEnum.CAPTCHA_NOT_MATCH.getMsg()))
                 .toString();
         if (keyStr == null) {
@@ -52,7 +52,7 @@ public class RedisValidateCodeRepository implements ValidateCodeRepository {
 
     @Override
     public void remove(ServletWebRequest request, ValidateCodeType type) {
-        //redisService.del(buildKey(request, type));
+        //redisUtil.del(buildKey(request, type));
     }
 
     /**
