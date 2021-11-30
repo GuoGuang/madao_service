@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -35,7 +36,7 @@ class ApiArticleControllerTest {
         when(articleService.findArticleByCondition(any(), anyString(), any())).thenReturn(null);
         when(redisUtil.lGet(anyString(), Article.class, anyLong(), anyLong())).thenReturn(Arrays.<Article>asList());
 
-        JsonData<Object> result = apiArticleController.findArticleByCondition(new ArticleDto(), "keyword", "sortType", null);
+        JsonData<Page<ArticleDto>> result = apiArticleController.findArticleByCondition(new ArticleDto(), "keyword", "sortType", null);
         Assertions.assertEquals(new JsonData<Object>(true, 0, "message", any()), result);
     }
 
@@ -43,7 +44,7 @@ class ApiArticleControllerTest {
     void testFindArticleHot() {
         when(redisUtil.lGet(anyString(),Article.class, anyLong(), anyLong())).thenReturn(Arrays.<Article>asList());
 
-        JsonData<Object> result = apiArticleController.findArticleHot("sortType");
+        JsonData<List<Article>> result = apiArticleController.findArticleHot("sortType");
         Assertions.assertEquals(new JsonData<Object>(true, 0, "message", any()), result);
     }
 

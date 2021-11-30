@@ -1,7 +1,6 @@
 package com.madao.article.controller.blog;
 
 import com.madao.article.service.blog.ApiArticleService;
-import com.madao.constant.ArticleConst;
 import com.madao.constant.CommonConst;
 import com.madao.constant.RedisConstant;
 import com.madao.model.dto.article.ArticleDto;
@@ -40,20 +39,15 @@ public class ApiArticleController {
 
     @ApiOperation(value = "查询集合", notes = "Article")
     @GetMapping
-    public JsonData<Object> findArticleByCondition(ArticleDto articleDto, String keyword, String sortType,
+    public JsonData<Page<ArticleDto>> findArticleByCondition(ArticleDto articleDto, String keyword, String sortType,
                                                    @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
-        // 最热文章
-        if (ArticleConst.SORT_TYPE_HOT.equals(sortType)) {
-            List<Article> hotList = redisUtil.lGet("ARTICLE_HOT", Article.class, 0, 10);
-            return JsonData.success(hotList);
-        }
         Page<ArticleDto> result = articleService.findArticleByCondition(articleDto, keyword, pageable);
         return JsonData.success(result);
     }
 
     @ApiOperation(value = "最热列表", notes = "最热列表")
     @GetMapping("/hot")
-    public JsonData<Object> findArticleHot(String sortType) {
+    public JsonData<List<Article>> findArticleHot(String sortType) {
         List<Article> hotList = redisUtil.lGet("ARTICLE_HOT", Article.class,0, 10);
         return JsonData.success(hotList);
     }
