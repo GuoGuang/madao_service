@@ -48,7 +48,7 @@ public class ApiArticleController {
     @ApiOperation(value = "最热列表", notes = "最热列表")
     @GetMapping("/hot")
     public JsonData<List<Article>> findArticleHot(String sortType) {
-        List<Article> hotList = redisUtil.lGet("ARTICLE_HOT", Article.class,0, 10);
+        List<Article> hotList = redisUtil.lGet("ARTICLE_HOT",0, 10);
         return JsonData.success(hotList);
     }
 

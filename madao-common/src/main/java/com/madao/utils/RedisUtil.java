@@ -463,7 +463,7 @@ public class RedisUtil {
      * @param end   结束  0 到 -1代表所有值
      * @return
      */
-    public <T> List<T> lGet(String key,Class<T>  clazz, long start, long end) {
+    public <T> List<T> lGet(String key,long start, long end) {
         try {
 	        List<Object> range = redisTemplate.opsForList().range(key, start, end);
 			return range.stream().map(o -> (T) o).collect(Collectors.toList());

@@ -34,7 +34,7 @@ class ApiArticleControllerTest {
     @Test
     void testFindArticleByCondition() {
         when(articleService.findArticleByCondition(any(), anyString(), any())).thenReturn(null);
-        when(redisUtil.lGet(anyString(), Article.class, anyLong(), anyLong())).thenReturn(Arrays.<Article>asList());
+        when(redisUtil.lGet(anyString(), anyLong(), anyLong())).thenReturn(Arrays.asList());
 
         JsonData<Page<ArticleDto>> result = apiArticleController.findArticleByCondition(new ArticleDto(), "keyword", "sortType", null);
         Assertions.assertEquals(new JsonData<Object>(true, 0, "message", any()), result);
@@ -42,7 +42,7 @@ class ApiArticleControllerTest {
 
     @Test
     void testFindArticleHot() {
-        when(redisUtil.lGet(anyString(),Article.class, anyLong(), anyLong())).thenReturn(Arrays.<Article>asList());
+        when(redisUtil.lGet(anyString(),anyLong(), anyLong())).thenReturn(Arrays.asList());
 
         JsonData<List<Article>> result = apiArticleController.findArticleHot("sortType");
         Assertions.assertEquals(new JsonData<Object>(true, 0, "message", any()), result);
