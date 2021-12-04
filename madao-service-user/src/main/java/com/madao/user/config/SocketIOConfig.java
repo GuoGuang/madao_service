@@ -4,8 +4,11 @@ import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketConfig;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.SpringAnnotationScanner;
+import com.corundumstudio.socketio.listener.ExceptionListenerAdapter;
+import io.netty.channel.ChannelHandlerContext;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
@@ -40,7 +43,18 @@ public class SocketIOConfig {
 		config.setUpgradeTimeout(upgradeTimeout);
 		config.setPingTimeout(pingTimeout);
 		config.setPingInterval(pingInterval);
+		config.setExceptionListener(new SocketExceptionListener());
 		return new SocketIOServer(config);
+	}
+
+	@Slf4j
+	static class SocketExceptionListener extends ExceptionListenerAdapter {
+		@Override
+		public boolean exceptionCaught(ChannelHandlerContext ctx, Throwable e) {
+			log.error("socket异常：{}",e.getMessage(),e);
+			ctx.close();
+			return true;
+		}
 	}
 
 	/**
