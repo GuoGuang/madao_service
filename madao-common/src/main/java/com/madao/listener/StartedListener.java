@@ -1,5 +1,6 @@
 package com.madao.listener;
 
+import com.madao.constant.FeignConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ansi.AnsiColor;
@@ -44,10 +45,17 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
 
         Environment env = applicationContext.getEnvironment();
         String ip = InetAddress.getLocalHost().getHostAddress();
-        String port = env.getProperty("server.port");
-        log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Application started at         ", "http://" + ip + ":" + port));
-	    log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Application api doc was enabled at  ", "http://" + ip + ":8080", "/swagger-ui/"));
-	    log.info(AnsiOutput.toString(AnsiColor.BRIGHT_YELLOW, "Application has started successfully!"));
-    }
+	    String port = env.getProperty("server.port");
 
+	    String serviceName = env.getProperty("spring.application.name");
+	    String socketHost = env.getProperty("socketio.host");
+	    String socketPort = env.getProperty("socketio.port");
+	    log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Application started at  ", "http://" + ip + ":" + port));
+	    log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Application api doc was enabled at  ", "http://" + ip + ":8080", "/swagger-ui/"));
+	    if (FeignConst.SERVICE_USER.equals(serviceName)){
+		    log.info(AnsiOutput.toString(AnsiColor.BRIGHT_BLUE, "Application WebSocket started at   ", "http://" + socketHost + ":"+socketPort));
+	    }
+	    log.info(AnsiOutput.toString(AnsiColor.BRIGHT_YELLOW, "Application has started successfully!"));
+
+    }
 }
