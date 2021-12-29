@@ -5,6 +5,7 @@ import com.madao.enums.StatusEnum;
 import com.madao.exception.custom.ParamException;
 import com.madao.exception.custom.RemoteRpcException;
 import com.madao.exception.custom.ValidFieldError;
+import com.madao.model.entity.JsonException;
 import com.madao.utils.JsonData;
 import feign.RetryableException;
 import lombok.extern.slf4j.Slf4j;
@@ -164,6 +165,13 @@ public class SystemExceptionHandler {
 	public JsonData<Void> duplicateKeyException(DuplicateKeyException ex) {
 		log.error("唯一索引：{}：{}", StatusEnum.DUPLICATE_KEY.getMsg(),ex.getMessage(), ex);
 		return JsonData.failed(StatusEnum.DUPLICATE_KEY);
+	}
+
+	@ExceptionHandler(JsonException.class)
+	@ResponseBody
+	public JsonData<Void> jsonException(JsonException ex) {
+		log.error("Jackson序列化异常：{}",ex.getMessage(), ex);
+		return JsonData.failed(StatusEnum.SYSTEM_ERROR);
 	}
 
     /**

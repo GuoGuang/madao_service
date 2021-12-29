@@ -9,8 +9,8 @@ package com.madao.model.entity;
  */
 public class JsonException extends RuntimeException {
 
-    public JsonException(String jsonData) {
-        super(jsonData);
+    public JsonException(Exception ex) {
+        super(ex);
     }
 
 }
