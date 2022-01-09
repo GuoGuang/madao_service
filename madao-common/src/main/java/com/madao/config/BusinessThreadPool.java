@@ -5,22 +5,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Executors;
 
 @Configuration
 public class BusinessThreadPool {
 
 	/**
-	 * 基础业务线程池
+	 * 普通线程池
 	 */
 	@Bean
 	public ExecutorService fixedThreadPool(){
-		return new ThreadPoolExecutor(10, 50,
-				10, TimeUnit.MINUTES,
-				new LinkedBlockingQueue<>(),new ThreadFactoryBuilder()
-				.setNameFormat("base-fixed-pool-%d").build());
+		return Executors.newFixedThreadPool(10,new ThreadFactoryBuilder()
+				.setNameFormat("common-fixed-pool-%d").build());
 	}
 
 	/**
