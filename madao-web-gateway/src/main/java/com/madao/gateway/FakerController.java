@@ -41,9 +41,9 @@ public class FakerController {
 
 		List<HashMap<String, String>> results = new ArrayList<>();
 		Faker faker = new Faker();
-		Snowflake snowflake = IdUtil.createSnowflake(1, 1);
+		Snowflake snowflake = IdUtil.getSnowflake(1, 1);
 		Map<String, String> fakerMap = keys.stream().collect(Collectors.toMap(item -> item, item -> item));
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 33; i++) {
 			HashMap<String, String> maps = new HashMap<>();
 			for (String key : fakerMap.keySet()) {
 				if (StringUtils.equalsAnyIgnoreCase("ID", key)) {
