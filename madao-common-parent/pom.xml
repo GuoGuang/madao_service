@@ -161,7 +161,6 @@
         <module>../madao-server-config</module>
         <module>../madao-service-base</module>
         <module>../madao-service-article</module>
-        <module>../madao-service-search</module>
         <module>../madao-service-api</module>
         <module>../madao-service-user</module>
         <module>../madao-web-gateway</module>
