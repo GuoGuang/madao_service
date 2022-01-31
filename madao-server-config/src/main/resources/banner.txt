@@ -5,5 +5,5 @@ ${AnsiColor.BLUE}
 | (_| (_) | | | |  _| | (_| |
  \___\___/|_| |_|_| |_|\__, |
                        |___/ 
-${AnsiColor.BRIGHT_YELLOW}
+${AnsiColor.BRIGHT_YELLOW} 🤓
 Version: @project.version@
