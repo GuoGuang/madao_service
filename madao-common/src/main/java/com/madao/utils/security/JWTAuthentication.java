@@ -2,14 +2,12 @@ package com.madao.utils.security;
 
 import cn.hutool.json.JSONObject;
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.google.common.collect.Maps;
 import com.madao.model.entity.user.User;
-import com.madao.utils.DateUtil;
 import com.madao.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +21,6 @@ import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -34,9 +31,12 @@ import java.util.stream.Collectors;
  * @gitHub https://github.com/GuoGuang
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
+ *
+ * @Deprecated 此类不建议使用，参考{@link TokenProvider}
  */
 @Slf4j
 //@ConfigurationProperties("jwt.config")
+@Deprecated
 public class JWTAuthentication {
 
     // 签名秘钥
@@ -52,33 +52,6 @@ public class JWTAuthentication {
     public static final String BEARER = "Bearer";
     //公钥
     private static final String PUBLIC_KEY = "publickey.txt";
-
-    /**
-     * 生成JWT
-     *
-     * @param id        用户id
-     * @param subject   载体，用户数据
-     *                  // * @param claims 所属角色组
-     * @param afterDate 过期时间
-     * @return String
-     */
-    public static String createJWT(Long id, String subject, LocalDateTime afterDate) {
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(SECRET);
-            JWTCreator.Builder builder = JWT.create()
-                    .withJWTId(id.toString())
-                    .withSubject(subject)
-                    .withIssuer(ISSUER)
-                    .withIssuedAt(DateUtil.convertLdtToDate(DateUtil.getCurrentTime()))
-                    .withExpiresAt(DateUtil.convertLdtToDate(afterDate));
-            // 传输自定义claims
-            //claims.forEach((k,v) -> builder.withClaim(k, v));
-            return builder.sign(algorithm);
-        } catch (IllegalArgumentException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
 
     /**
      * 解析JWT,获取claims
