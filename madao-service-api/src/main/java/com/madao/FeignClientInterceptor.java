@@ -26,7 +26,7 @@ import java.util.*;
  */
 @Slf4j
 @Configuration
-public class FeignConfiguration implements RequestInterceptor {
+public class FeignClientInterceptor implements RequestInterceptor {
 
     private static final String EMPTY = "";
     @Resource

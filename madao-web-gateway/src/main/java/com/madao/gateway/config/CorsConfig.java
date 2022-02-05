@@ -1,5 +1,6 @@
 package com.madao.gateway.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +19,7 @@ import java.util.Arrays;
  * @created 2019-09-29 7:37
  */
 @Configuration
+@Slf4j
 public class CorsConfig {
 
 	@Autowired
@@ -25,6 +27,7 @@ public class CorsConfig {
 
 	@Bean
 	public CorsWebFilter corsFilter() {
+		log.debug("Registering CORS filter");
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());
 		source.registerCorsConfiguration("/**", buildConfig());
 		return new CorsWebFilter(source);
