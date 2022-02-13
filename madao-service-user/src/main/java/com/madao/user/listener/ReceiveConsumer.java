@@ -38,7 +38,7 @@ public class ReceiveConsumer {
                             }),
                     exchange = @Exchange(type = ExchangeTypes.DIRECT, value = "productLine", ignoreDeclarationExceptions = "true"),
                     key = ""
-            )
+            ),concurrency = "10-30"
     )
     public void queueOne(@Payload User user, @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag, Channel channel) throws IOException {
         try {
