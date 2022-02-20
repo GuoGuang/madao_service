@@ -1,5 +1,7 @@
 package com.madao.utils;
 
+import com.google.common.base.Preconditions;
+import com.rabbitmq.client.AMQP;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
@@ -68,7 +70,7 @@ public class RabbitUtil {
 	/**
 	 * 发送延时消息
 	 * <p>note:delayTime不能超过2<sup>32</sup>-1</p>
-	 *
+	 *  mqSender.sendDelay(json字符串,时间戳,RabbitMQConfig.DELAY_PRODUCT_KEY);
 	 * @param message   消息
 	 * @param delayTime 延时时间：毫秒
 	 */
@@ -92,6 +94,17 @@ public class RabbitUtil {
 					messagePostProcessor.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
 					messagePostProcessor.getMessageProperties().setHeader("x-delay", delayTime);
 					return messagePostProcessor;
-				});
+				},correlationData);
+	}
+
+	/**
+	 * 获取MQ队列消息数量
+	 * @param queue 队列名称
+	 * @return
+	 */
+	public long getQueueCount(String queue) {
+		AMQP.Queue.DeclareOk execute = rabbitTemplate.execute(channel -> channel.queueDeclarePassive(queue));
+		Preconditions.checkNotNull(execute,"不存在的队列名称！");
+		return execute.getMessageCount();
 	}
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.madao.model.entity.JsonException;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,21 +20,13 @@ import java.util.Map;
  * @created 2019-09-29 7:37
  */
 @Slf4j
+@NoArgsConstructor
 public class JsonUtil {
 
-    private JsonUtil() {
-    }
-
-    private static ObjectMapper objectMapper;
-    private static final String JACKSON_ERROR = "Jackson序列化异常：{}";
-    private static final String JACKSON_EXCEPTION = "Jackson序列化异常";
+    private static final ObjectMapper objectMapper;
 
     static {
         objectMapper = new ObjectMapper();
-    }
-
-    public static ObjectMapper getObjectMapper() {
-        return objectMapper;
     }
 
     /**
@@ -53,8 +46,7 @@ public class JsonUtil {
             try {
                 return (T) (tr.getType().equals(String.class) ? jsonString : objectMapper.readValue(jsonString, tr));
             } catch (Exception e) {
-                log.error(JACKSON_ERROR, e.getMessage(), e);
-                throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
+	            throw new JsonException(e);
             }
         }
         return null;
@@ -62,51 +54,45 @@ public class JsonUtil {
 
     /**
      * Java对象转Json字符串
-     *
      * @param object Java对象，可以是对象，数组，List,Map等
      * @return json 字符串
      */
-    public static synchronized String toJsonString(Object object) {
+    public static String toJsonString(Object object) {
         try {
             return objectMapper.writeValueAsString(object);
         } catch (Exception e) {
-            log.error(JACKSON_ERROR, e.getMessage(), e);
-            throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
+	        throw new JsonException(e);
         }
     }
 
     /**
      * JSON字符串转java对象
-     *
      * @param <T>     转换泛型
      * @param jsonStr JSON字符串
      * @param clazz   类型
      * @return java对象
      */
-    public static synchronized <T> T jsonToPojo(Object jsonStr, Class<T> clazz) {
+    public static <T> T jsonToPojo(Object jsonStr, Class<T> clazz) {
         if (jsonStr == null) {
             return null;
         }
         try {
             return objectMapper.readValue(jsonStr.toString(), clazz);
         } catch (IOException e) {
-            log.error(JACKSON_ERROR, e.getMessage(), e);
-            throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
+	        throw new JsonException(e);
         }
     }
 
     /**
      * JSON字符串转java对象
-     *
      * @param jsonStr JSON字符串
      * @return java对象
      */
-    public static synchronized Map<String, Object> jsonToMap(String jsonStr) {
+    public static Map<String, Object> jsonToMap(String jsonStr) {
         try {
             return objectMapper.readValue(jsonStr, Map.class);
         } catch (IOException e) {
-            log.error(JACKSON_ERROR, e.getMessage(), e);
-            throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
+            throw new JsonException(e);
         }
     }
 
@@ -116,11 +102,11 @@ public class JsonUtil {
      * @param jsonStr JSON字符串
      * @return java对象
      */
-    public static synchronized boolean isJson(String jsonStr) {
+    public static boolean isJson(String jsonStr) {
         try {
             return StringUtils.startsWithAny(jsonStr, "{", "[");
         } catch (Exception e) {
-            log.error(JACKSON_ERROR, e.getMessage(), e);
+            log.error("Jackson序列化异常：{}", e.getMessage(), e);
             return false;
         }
     }
@@ -135,11 +121,9 @@ public class JsonUtil {
     public static List<Map<String, Object>> jsonToListMap(String jsonData) {
         JavaType javaType = objectMapper.getTypeFactory().constructParametricType(List.class, Map.class);
         try {
-            List<Map<String, Object>> list = objectMapper.readValue(jsonData, javaType);
-            return list;
+	        return objectMapper.readValue(jsonData, javaType);
         } catch (Exception e) {
-            log.error(JACKSON_ERROR, e.getMessage(), e);
-            throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
+            throw new JsonException(e);
         }
     }
     public static <T> List<T> jsonToListPojo(String jsonData,Class<T> clazz) {
@@ -147,8 +131,7 @@ public class JsonUtil {
         try {
 	        return objectMapper.readValue(jsonData, javaType);
         } catch (Exception e) {
-            log.error(JACKSON_ERROR, e.getMessage(), e);
-            throw new JsonException(JACKSON_EXCEPTION + e.getMessage());
+	        throw new JsonException(e);
         }
     }
 

@@ -9,7 +9,6 @@ import com.madao.model.dto.user.RoleDto;
 import com.madao.model.dto.user.UserDto;
 import com.madao.model.entity.user.User;
 import com.madao.model.entity.user.UserRole;
-import com.madao.redis.RedisService;
 import com.madao.user.dao.ResourceDao;
 import com.madao.user.dao.RoleDao;
 import com.madao.user.dao.UserDao;
@@ -20,6 +19,7 @@ import com.madao.user.mapper.UserMapper;
 import com.madao.utils.BeanUtil;
 import com.madao.utils.FakerUtil;
 import com.madao.utils.JsonUtil;
+import com.madao.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -41,7 +41,7 @@ import java.util.Map;
 @Service
 public class BlogUserService {
 
-    private final RedisService redisService;
+    private final RedisUtil redisUtil;
     private final UserDao userDao;
     private final UserRoleDao userRoleDao;
     private final UserMapper userMapper;
@@ -51,7 +51,7 @@ public class BlogUserService {
     private final ResourceMapper resourceMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public BlogUserService(RedisService redisService, UserDao userDao,
+    public BlogUserService(RedisUtil redisUtil, UserDao userDao,
                            UserMapper userMapper,
                            BCryptPasswordEncoder bCryptPasswordEncoder,
                            RoleDao roleDao,
@@ -59,7 +59,7 @@ public class BlogUserService {
                            RoleMapper roleMapper,
                            ResourceDao resourceDao1,
                            ResourceMapper resourceMapper) {
-        this.redisService = redisService;
+        this.redisUtil = redisUtil;
         this.userDao = userDao;
         this.userMapper = userMapper;
         this.roleDao = roleDao;
@@ -87,7 +87,7 @@ public class BlogUserService {
         if (user != null) {
             throw new PhoneExistingException();
         }
-        String redisCaptcha = redisService.getKeyStr("code:sms:" + userDto.getPhone())
+        String redisCaptcha = redisUtil.getKeyStr("code:sms:" + userDto.getPhone())
                 .orElseThrow(CaptchaNotMatchException::new)
                 .toString();
         Map<String, String> data = JsonUtil.jsonToPojo(redisCaptcha, Map.class);

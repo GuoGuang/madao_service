@@ -1,6 +1,17 @@
 server:
   port: 9003
+spring:
+  jpa:
+    show-sql: true
+logging:
+  level:
+    org.springframework.data.elasticsearch.client.WIRE: TRACE
 
+elasticsearch:
+  host: 127.0.0.1
+  port: 9200
+  username: elastic
+  password: elastic
 com:
   madao:
     aopPointcutExpression: execution (* com.madao.article.service..*.*(..))

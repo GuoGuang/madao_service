@@ -12,8 +12,8 @@ import com.madao.model.dto.article.ArticleDto;
 import com.madao.model.dto.user.UserDto;
 import com.madao.model.entity.article.Article;
 import com.madao.model.entity.article.ArticleTag;
-import com.madao.redis.RedisService;
 import com.madao.utils.JsonData;
+import com.madao.utils.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.Page;
@@ -38,7 +38,7 @@ public class ArticleService {
     private final ArticleDao articleDao;
     private final ArticleMapper articleMapper;
 
-    private final RedisService redisService;
+    private final RedisUtil redisUtil;
 
     private final ArticleTagDao articleTagDao;
     private final TagDao tagDao;
@@ -47,12 +47,12 @@ public class ArticleService {
 
     public ArticleService(ArticleDao articleDao,
                           ArticleMapper articleMapper,
-                          RedisService redisService,
+                          RedisUtil redisUtil,
                           ArticleTagDao articleTagDao,
                           TagDao tagDao, TagMapper tagMapper, UserServiceRpc userServiceRpc) {
         this.articleDao = articleDao;
         this.articleMapper = articleMapper;
-        this.redisService = redisService;
+        this.redisUtil = redisUtil;
         this.articleTagDao = articleTagDao;
         this.tagDao = tagDao;
         this.tagMapper = tagMapper;
@@ -138,7 +138,7 @@ public class ArticleService {
                 articleDto.setPublic(false);
             }
         } else {
-            redisService.del("ARTICLE_" + articleDto.getId());
+            redisUtil.del("ARTICLE_" + articleDto.getId());
             articleTagDao.deleteByArticleIdIn(Collections.singletonList(articleDto.getId()));
         }
 
@@ -151,7 +151,7 @@ public class ArticleService {
         articleTagDao.saveAll(articleTags);
 
         if (isCreate) {
-            redisService.lSet("ARTICLE_HOT", articleResult);
+            redisUtil.lSet("ARTICLE_HOT", articleResult);
         }
     }
 

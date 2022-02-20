@@ -1,12 +1,12 @@
 package com.madao.article.controller.blog;
 
 import com.madao.article.service.blog.ApiArticleService;
-import com.madao.constant.ArticleConst;
 import com.madao.constant.CommonConst;
 import com.madao.constant.RedisConstant;
 import com.madao.model.dto.article.ArticleDto;
-import com.madao.redis.RedisService;
+import com.madao.model.entity.article.Article;
 import com.madao.utils.JsonData;
+import com.madao.utils.RedisUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,30 +30,25 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 public class ApiArticleController {
 
     private final ApiArticleService articleService;
-    private final RedisService redisService;
+    private final RedisUtil redisUtil;
 
-    public ApiArticleController(ApiArticleService articleService, RedisService redisService) {
+    public ApiArticleController(ApiArticleService articleService, RedisUtil redisUtil) {
         this.articleService = articleService;
-        this.redisService = redisService;
+        this.redisUtil = redisUtil;
     }
 
     @ApiOperation(value = "查询集合", notes = "Article")
     @GetMapping
-    public JsonData<Object> findArticleByCondition(ArticleDto articleDto, String keyword, String sortType,
+    public JsonData<Page<ArticleDto>> findArticleByCondition(ArticleDto articleDto, String keyword, String sortType,
                                                    @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
-        // 最热文章
-        if (ArticleConst.SORT_TYPE_HOT.equals(sortType)) {
-            List<Object> hotList = redisService.lGet("ARTICLE_HOT", 0, 10);
-            return JsonData.success(hotList);
-        }
         Page<ArticleDto> result = articleService.findArticleByCondition(articleDto, keyword, pageable);
         return JsonData.success(result);
     }
 
     @ApiOperation(value = "最热列表", notes = "最热列表")
     @GetMapping("/hot")
-    public JsonData<Object> findArticleHot(String sortType) {
-        List<Object> hotList = redisService.lGet("ARTICLE_HOT", 0, 10);
+    public JsonData<List<Article>> findArticleHot(String sortType) {
+        List<Article> hotList = redisUtil.lGet("ARTICLE_HOT",0, 10);
         return JsonData.success(hotList);
     }
 
@@ -67,10 +62,10 @@ public class ApiArticleController {
 
     @GetMapping(value = "/{articleId}")
     public JsonData<Object> findArticleByPrimaryKey(@PathVariable String articleId) {
-        Object mapJson = redisService.get(RedisConstant.REDIS_KEY_ARTICLE + articleId).orElse(null);
+        Object mapJson = redisUtil.get(RedisConstant.REDIS_KEY_ARTICLE + articleId).orElse(null);
         if (mapJson == null) {
             ArticleDto articleResult = articleService.findArticleById(articleId);
-            redisService.set(RedisConstant.REDIS_KEY_ARTICLE + articleId, articleResult, CommonConst.TIME_OUT_DAY);
+            redisUtil.set(RedisConstant.REDIS_KEY_ARTICLE + articleId, articleResult, CommonConst.TIME_OUT_DAY);
             return JsonData.success(articleResult);
         }
         return JsonData.success(mapJson);
@@ -80,7 +75,7 @@ public class ApiArticleController {
     @PutMapping(value = "/like/{articleId}")
     public JsonData<Void> upVote(@PathVariable String articleId) {
         articleService.upVote(articleId);
-        redisService.del(RedisConstant.REDIS_KEY_ARTICLE + articleId);
+        redisUtil.del(RedisConstant.REDIS_KEY_ARTICLE + articleId);
         return JsonData.success();
     }
 
@@ -88,7 +83,7 @@ public class ApiArticleController {
     @DeleteMapping(value = "/like/{articleId}")
     public JsonData<Void> unUpVote(@PathVariable String articleId) {
         articleService.unUpVote(articleId);
-        redisService.del(RedisConstant.REDIS_KEY_ARTICLE + articleId);
+        redisUtil.del(RedisConstant.REDIS_KEY_ARTICLE + articleId);
         return JsonData.success();
     }
 

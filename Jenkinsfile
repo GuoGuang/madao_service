@@ -16,7 +16,7 @@ pipeline {
         choice(name: 'server', choices: '192.168.1.107,9090,*****,*****\n192.168.1.60,9090,*****,*****', description: '测试服务器列表选择(IP,JettyPort,Name,Passwd)')
         choice(name: 'project', choices: [
                 'madao-server-config:9009',
-                'madao-service-user:9007',
+                'madao-service-user:9007:9099',
                 'madao-web-gateway:8080',
                 'madao-service-base:9008',
                 'madao-service-article:9003',
@@ -110,6 +110,10 @@ pipeline {
                     def split = params.project.split(":")
                     serviceName = split[0]
                     servicePort = split[1]
+                    echo "is-------${params.project}"
+                   if("${serviceName}" == "madao-service-user"){
+                        secondPort = split[2]
+                    }
                     
                 }
                 echo "开始从 ${params.repoUrl} 获取代码......"
@@ -268,7 +272,11 @@ pipeline {
                         sh "${REMOTE_SCRIPT} docker -v "
                         sh "${REMOTE_SCRIPT} docker login --username=1831682775@qq.com --password ${DOCKER_HUB_PASSWORD} registry.cn-beijing.aliyuncs.com"
                         sh "${REMOTE_SCRIPT} docker pull registry.cn-beijing.aliyuncs.com/madaoo/${serviceName}:${env.BUILD_ID}"
-                        sh "${REMOTE_SCRIPT} docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d registry.cn-beijing.aliyuncs.com/madaoo/${serviceName}:${env.BUILD_ID}"
+                          if("${serviceName}" == "madao-service-user"){
+                                sh "${REMOTE_SCRIPT} docker run -p ${servicePort}:${servicePort} -p ${secondPort}:${secondPort} --name ${serviceName} -d registry.cn-beijing.aliyuncs.com/madaoo/${serviceName}:${env.BUILD_ID}"
+                           }else{
+                                sh "${REMOTE_SCRIPT} docker run -p ${servicePort}:${servicePort} --name ${serviceName} -d registry.cn-beijing.aliyuncs.com/madaoo/${serviceName}:${env.BUILD_ID}"
+                            }
                         echo '-->> #远程主机构建成功-->>'
                      //}
                     

@@ -25,7 +25,7 @@ public class Swagger2Config {
 				.securityContexts(Arrays.asList(securityContext()))
 				.securitySchemes(Arrays.asList(JWTAuth()))
 				.select()
-				.apis(RequestHandlerSelectors.any())
+				.apis(RequestHandlerSelectors.basePackage("com.madao.article.controller"))
 				.paths(PathSelectors.any())
 				.build();
 	}

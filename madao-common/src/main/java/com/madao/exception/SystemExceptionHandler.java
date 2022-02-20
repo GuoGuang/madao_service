@@ -5,9 +5,11 @@ import com.madao.enums.StatusEnum;
 import com.madao.exception.custom.ParamException;
 import com.madao.exception.custom.RemoteRpcException;
 import com.madao.exception.custom.ValidFieldError;
+import com.madao.model.entity.JsonException;
 import com.madao.utils.JsonData;
 import feign.RetryableException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.util.CollectionUtils;
@@ -89,7 +91,7 @@ public class SystemExceptionHandler {
                     validList.add(new ValidFieldError(fe));
                 }
             }
-            log.error("参数校验未通过：" + validList.toString(), ex);
+            log.error("参数校验未通过：" + validList, ex);
             return JsonData.failed(StatusEnum.PARAM_INVALID, validList.toString());
         }
         return JsonData.failed(StatusEnum.PARAM_INVALID);
@@ -156,6 +158,20 @@ public class SystemExceptionHandler {
 	public JsonData<Void> httpMessageNotReadableException(HttpMessageNotReadableException ex) {
 		log.error("不匹配的输入异常：----------->{}", ex.getMessage(),ex);
 		return JsonData.failed(StatusEnum.PARAM_ILLEGAL,"不匹配的输入异常："+ex.getMessage());
+	}
+
+	@ExceptionHandler(DuplicateKeyException.class)
+	@ResponseBody
+	public JsonData<Void> duplicateKeyException(DuplicateKeyException ex) {
+		log.error("唯一索引：{}：{}", StatusEnum.DUPLICATE_KEY.getMsg(),ex.getMessage(), ex);
+		return JsonData.failed(StatusEnum.DUPLICATE_KEY);
+	}
+
+	@ExceptionHandler(JsonException.class)
+	@ResponseBody
+	public JsonData<Void> jsonException(JsonException ex) {
+		log.error("Jackson序列化异常：{}",ex.getMessage(), ex);
+		return JsonData.failed(StatusEnum.SYSTEM_ERROR);
 	}
 
     /**

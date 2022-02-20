@@ -4,6 +4,7 @@ import com.madao.annotation.EnableSpringCloudComponent;
 import com.madao.utils.DateUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
@@ -21,6 +22,7 @@ import javax.annotation.PostConstruct;
  */
 @EnableSpringCloudComponent
 @EnableJpaRepositories("com.madao.article.dao")
+@EnableElasticsearchRepositories
 public class ArticleApplication {
 
 	public static void main(String[] args) {

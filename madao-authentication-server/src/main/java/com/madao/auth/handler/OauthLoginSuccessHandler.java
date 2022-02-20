@@ -3,9 +3,9 @@ package com.madao.auth.handler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.madao.constant.CommonConst;
 import com.madao.model.dto.user.AuthToken;
-import com.madao.redis.RedisService;
 import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;
+import com.madao.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
@@ -42,7 +42,7 @@ public class OauthLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 	private ObjectMapper objectMapper;
 
 	@Autowired
-	private RedisService redisService;
+	private RedisUtil redisUtil;
 
 	@Autowired
 	private ClientDetailsService clientDetailsService;
@@ -83,8 +83,8 @@ public class OauthLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 
 	private boolean saveToken(String accessToken, String content, long ttl) {
 		String key = "user_token:" + accessToken;
-		redisService.setKeyStr(key, content, ttl);
-		Long expire = redisService.getExpire(key);
+		redisUtil.setKeyStr(key, content, ttl);
+		Long expire = redisUtil.getExpire(key);
 		return expire > 0;
 	}
 

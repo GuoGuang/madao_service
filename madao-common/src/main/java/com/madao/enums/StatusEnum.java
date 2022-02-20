@@ -23,6 +23,7 @@ public enum StatusEnum {
     PARAM_INVALID(20008, "参数校验失败！"),
     REQUEST_ERROR(20009, "请求格式不匹配，请检查RestFul请求格式！"),
     SERVICE_OFF(20011, "服务已下线或未注册！"),
+	DUPLICATE_KEY(20012, "重复key，请检查后再提交！"),
     SYSTEM_ERROR(50000, "系统异常！"),
 
 

@@ -19,6 +19,11 @@
     <name>madao-service-user【用户服务】</name>
 
     <dependencies>
+        <dependency>
+            <groupId>com.corundumstudio.socketio</groupId>
+            <artifactId>netty-socketio</artifactId>
+            <version>1.7.19</version>
+        </dependency>
 
         <!-- websocket -->
         <dependency>

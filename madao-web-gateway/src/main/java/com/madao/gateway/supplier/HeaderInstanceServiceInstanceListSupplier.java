@@ -24,6 +24,8 @@ import java.util.List;
  */
 public class HeaderInstanceServiceInstanceListSupplier extends DelegatingServiceInstanceListSupplier {
 
+	public static final String INSTANCE = "INSTANCE";
+
 	public HeaderInstanceServiceInstanceListSupplier(ServiceInstanceListSupplier delegate) {
 		super(delegate);
 	}
@@ -46,7 +48,7 @@ public class HeaderInstanceServiceInstanceListSupplier extends DelegatingService
 
 		List<ServiceInstance> filteredInstances = new ArrayList<>();
 		for (ServiceInstance serviceInstance : serviceInstances) {
-			String headersInstance = headers.getFirst("INSTANCE");
+			String headersInstance = headers.getFirst(INSTANCE);
 			if (StringUtils.isNotBlank(headersInstance) && headersInstance.equals(serviceInstance.getHost())) {
 				filteredInstances.add(serviceInstance);
 			}

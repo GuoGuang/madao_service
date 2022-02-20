@@ -5,9 +5,9 @@ import cn.hutool.json.JSONObject;
 import com.madao.api.UserServiceRpc;
 import com.madao.exception.custom.RemoteRpcException;
 import com.madao.model.entity.user.Resource;
-import com.madao.redis.RedisService;
 import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;
+import com.madao.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.AccessDeniedException;
@@ -37,14 +37,14 @@ public class AuthorizationService {
     private static final String NONEXISTENT_URL = "NONEXISTENT_URL";
 
     private UserServiceRpc userServiceRpc;
-    private RedisService redisService;
+    private RedisUtil redisUtil;
 
     // 系统中所有权限集合
     private Map<RequestMatcher, ConfigAttribute> resourceConfigAttributes;
 
-    public AuthorizationService(UserServiceRpc userServiceRpc, RedisService redisService) {
+    public AuthorizationService(UserServiceRpc userServiceRpc, RedisUtil redisUtil) {
         this.userServiceRpc = userServiceRpc;
-	    this.redisService = redisService;
+	    this.redisUtil = redisUtil;
     }
 
 
@@ -154,7 +154,7 @@ public class AuthorizationService {
      * 条件查询资源
      */
     public Set<Resource> findResourceByCondition() {
-	    List<Resource> resourcesCached = JsonUtil.jsonToListPojo(JsonUtil.toJsonString(redisService.get("resources").orElse(null)), Resource.class);
+	    List<Resource> resourcesCached = JsonUtil.jsonToListPojo(JsonUtil.toJsonString(redisUtil.get("resources").orElse(null)), Resource.class);
 	    if (resourcesCached != null) {
 		    return new HashSet<>(resourcesCached);
 	    }else {
@@ -163,7 +163,7 @@ public class AuthorizationService {
 			    throw new RemoteRpcException(resourceByCondition);
 		    }
 		    List<Resource> resources = resourceByCondition.getData();
-		    redisService.set("resources",resources);
+		    redisUtil.set("resources",resources);
 		    return new HashSet<>(resources);
 	    }
 
