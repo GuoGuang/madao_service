@@ -1,8 +1,8 @@
 package com.madao.auth.service;
 
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONObject;
 import com.madao.api.UserServiceRpc;
+import com.madao.config.IdGenerator;
 import com.madao.exception.custom.RemoteRpcException;
 import com.madao.model.entity.user.Resource;
 import com.madao.utils.JsonData;
@@ -63,7 +63,7 @@ public class AuthorizationService {
                 Arrays.asList(resource.getUrl().split(",")).forEach(urlSplit -> {
                     try {
                         Resource resourceClone = (Resource) resource.clone();
-                        resourceClone.setId(String.valueOf(IdUtil.getSnowflake(1, 1).nextId()));
+                        resourceClone.setId(String.valueOf(IdGenerator.generateId()));
                         resourceClone.setUrl(urlSplit);
                         extendSets.add(resourceClone);
                     } catch (CloneNotSupportedException e) {
