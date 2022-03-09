@@ -1,3 +1,4 @@
+/*
 package com.madao.article.controller.blog;
 
 import com.madao.article.service.blog.ApiArticleSearchService;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+*/
 /**
  * 文章搜索
  * @author GuoGuang
@@ -15,7 +17,8 @@ import java.util.List;
  * @gitHub https://github.com/GuoGuang
  * @website https://madaoo.com
  * @created 2021-11-23 07:37
- */
+ *//*
+
 @RestController
 @RequestMapping("/article")
 @AllArgsConstructor
@@ -55,3 +58,4 @@ public class ArticleSearchController {
 	}
 
 }
+*/

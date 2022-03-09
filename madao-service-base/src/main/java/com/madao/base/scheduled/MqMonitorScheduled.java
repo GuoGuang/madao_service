@@ -3,9 +3,9 @@ package com.madao.base.scheduled;
 import com.madao.base.dao.MqMonitorDao;
 import com.madao.model.entity.MqMonitor;
 import com.madao.utils.RabbitUtil;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -21,13 +21,14 @@ import java.util.List;
  * @website https://madaoo.com
  * @created 2022-02-10 18:27
  */
-@AllArgsConstructor
 @Slf4j
 @Component
 public class MqMonitorScheduled {
 
-    private final RabbitUtil rabbitUtil;
-    private final MqMonitorDao mqMonitorDao;
+	@Autowired(required = false)
+    private RabbitUtil rabbitUtil;
+	@Autowired
+    private MqMonitorDao mqMonitorDao;
 
 	/**
 	 * 每十分钟获取一次队列中的消息数量，根据阈值判断是否告警

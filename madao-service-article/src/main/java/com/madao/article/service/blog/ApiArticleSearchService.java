@@ -1,3 +1,4 @@
+/*
 package com.madao.article.service.blog;
 
 import com.madao.article.search.ApiArticleSearchDao;
@@ -18,13 +19,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+*/
 /**
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
- */
+ *//*
+
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -84,3 +87,4 @@ public class ApiArticleSearchService {
 		articleSearchDao.deleteById(id);
 	}
 }
+*/
