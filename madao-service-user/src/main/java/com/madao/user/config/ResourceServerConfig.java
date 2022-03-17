@@ -73,6 +73,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/api/su/login/github",
 		                "/v2/api-docs",
 		                "/swagger-resources/**",
+		                "/socket/**",
 		                "/swagger-ui/**").permitAll()
                 .antMatchers("/**").authenticated();
     }
