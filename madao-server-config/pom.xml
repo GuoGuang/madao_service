@@ -15,7 +15,7 @@
     <description>配置-注册中心</description>
     <name>madao-server-config【配置-注册中心】</name>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
         <docker.image.prefix>madao</docker.image.prefix>
     </properties>
 
@@ -58,8 +58,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
             <plugin>
