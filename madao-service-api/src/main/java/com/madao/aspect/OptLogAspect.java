@@ -113,21 +113,21 @@ public class OptLogAspect {
     @AfterThrowing(pointcut = "controllerAspect()", throwing = "e")
     public void doAfterThrowing(JoinPoint joinPoint, Throwable e) {
 
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session = request.getSession();
+        var request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+	    var session = request.getSession();
 
-        String ipAddr = HttpServletUtil.getIpAddr(request);
+	    var ipAddr = HttpServletUtil.getIpAddr(request);
         try {
-            String targetName = joinPoint.getTarget().getClass().getName();
-            String methodName = joinPoint.getSignature().getName();
-            Object[] arguments = joinPoint.getArgs();
-            Class targetClass = Class.forName(targetName);
-            Method[] methods = targetClass.getMethods();
+	        var targetName = joinPoint.getTarget().getClass().getName();
+	        var methodName = joinPoint.getSignature().getName();
+	        var arguments = joinPoint.getArgs();
+	        var targetClass = Class.forName(targetName);
+	        var methods = targetClass.getMethods();
             OptLogType operationType = null;
-            String operationName = "";
-            for (Method method : methods) {
+	        var operationName = "";
+            for (var method : methods) {
                 if (method.getName().equals(methodName)) {
-                    Class[] clazzs = method.getParameterTypes();
+	                var clazzs = method.getParameterTypes();
                     if (clazzs.length == arguments.length) {
                         operationType = method.getAnnotation(OptLog.class).operationType();
                         operationName = method.getAnnotation(OptLog.class).operationName();
@@ -144,16 +144,16 @@ public class OptLogAspect {
             log.error("请求人:" + "临时");
             log.error("请求IP:" + ipAddr);
             //==========数据库日志=========
-            com.madao.model.entity.base.OptLog log = new com.madao.model.entity.base.OptLog();
+	        var log = new com.madao.model.entity.base.OptLog();
             log.setClientIp(HttpServletUtil.getIpAddr(request));
             log.setUserId("临时用户");
-            UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
+	        var userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
             log.setBrowser(userAgent.getBrowser().getName());
             log.setOsInfo(userAgent.getOperatingSystem().getName());
             log.setMethod(joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()");
             log.setExceptionDetail(e.getClass().getName() + ":--->" + e.getMessage());
-            String argumentParam = "";
-            for (Object argument : arguments) {
+	        var argumentParam = "";
+            for (var argument : arguments) {
                 if (!(argument instanceof ServletRequest)) {
                     argumentParam += JsonUtil.toJsonString(argument);
                 }
