@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 //@ConfigurationProperties("jwt.config")
-@Deprecated
+@Deprecated(since = "2.1",forRemoval = true)
 public class JWTAuthentication {
 
     // 签名秘钥
