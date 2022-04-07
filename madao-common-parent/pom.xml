@@ -17,6 +17,7 @@
     </parent>
 
     <properties>
+        <alibaba.nacos.version>2021.1</alibaba.nacos.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
@@ -25,7 +26,6 @@
         <swagger.version>3.0.0</swagger.version>
         <spring.cloud.version>2020.0.3</spring.cloud.version>
         <spring.security.oauth2.version>2.3.6.RELEASE</spring.security.oauth2.version>
-        <netflix.eureka.version>2.0.6.RELEASE</netflix.eureka.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <logstash-logback-encoder.version>6.3</logstash-logback-encoder.version>
@@ -143,13 +143,19 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                <version>${alibaba.nacos.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+                <version>${alibaba.nacos.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.springframework.security.oauth</groupId>
                 <artifactId>spring-security-oauth2</artifactId>
                 <version>${spring.security.oauth2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-netflix-eureka</artifactId>
             </dependency>
 
             <!--https://blog.csdn.net/alinyua/article/details/80070890
