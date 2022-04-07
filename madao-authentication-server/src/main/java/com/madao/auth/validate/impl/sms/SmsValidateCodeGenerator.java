@@ -6,7 +6,7 @@ package com.madao.auth.validate.impl.sms;
 import com.madao.auth.validate.impl.ValidateCode;
 import com.madao.auth.validate.impl.ValidateCodeGenerator;
 import com.madao.properties.SecurityProperties;
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -28,7 +28,7 @@ public class SmsValidateCodeGenerator implements ValidateCodeGenerator {
 
     @Override
     public ValidateCode generate(ServletWebRequest request) {
-        String code = RandomStringUtils.randomNumeric(securityProperties.getCode().getSms().getLength());
+	    String code = RandomStringUtils.randomNumeric(securityProperties.getCode().getSms().getLength());
         return new ValidateCode(code, securityProperties.getCode().getSms().getExpireIn());
     }
 

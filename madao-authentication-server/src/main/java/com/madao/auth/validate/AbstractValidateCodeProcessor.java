@@ -6,7 +6,7 @@ import com.madao.auth.validate.impl.ValidateCodeGenerator;
 import com.madao.enums.StatusEnum;
 import com.madao.enums.ValidateCodeType;
 import com.madao.utils.JsonUtil;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.context.request.ServletWebRequest;

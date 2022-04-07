@@ -6,7 +6,7 @@ import com.madao.enums.ValidateCodeType;
 import com.madao.properties.SecurityProperties;
 import com.madao.utils.HttpHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
