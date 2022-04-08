@@ -52,6 +52,13 @@ public class ArticleController implements BaseController {
         return JsonData.success(result);
     }
 
+    @ApiOperation(value = "测试分布式事务")
+    @PostMapping("/tx")
+    public JsonData<Page<ArticleDto>> testTx() {
+        articleService.testTx();
+        return JsonData.success();
+    }
+
     @ApiOperation(value = "按照id查询文章", notes = "id")
     @GetMapping(value = "/{id}")
     public JsonData<ArticleDto> findArticleById(@PathVariable String id) {

@@ -17,7 +17,7 @@
     </parent>
 
     <properties>
-        <alibaba.nacos.version>2021.1</alibaba.nacos.version>
+        <alibaba.cloud.version>2021.1</alibaba.cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
@@ -139,13 +139,18 @@
         <dependencies>
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+                <version>${alibaba.cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-                <version>${alibaba.nacos.version}</version>
+                <version>${alibaba.cloud.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-                <version>${alibaba.nacos.version}</version>
+                <version>${alibaba.cloud.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security.oauth</groupId>

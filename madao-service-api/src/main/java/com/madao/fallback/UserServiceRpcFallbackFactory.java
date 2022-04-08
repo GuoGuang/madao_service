@@ -34,7 +34,13 @@ public class UserServiceRpcFallbackFactory implements FallbackFactory<UserServic
                 return JsonData.failed(StatusEnum.RPC_ERROR);
             }
 
-            @Override
+	        @Override
+	        public JsonData<UserDto> register(UserDto userDto) {
+		        log.error(ERROR_INFO, "register", userDto, throwable);
+		        return JsonData.failed(StatusEnum.RPC_ERROR);
+	        }
+
+	        @Override
             public JsonData<UserDto> getUserInfoById(String userId) {
                 log.error(ERROR_INFO, "getUserInfoById", userId, throwable);
                 return JsonData.failed(StatusEnum.RPC_ERROR);

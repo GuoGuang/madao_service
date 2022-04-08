@@ -29,6 +29,9 @@ public interface UserServiceRpc {
     @GetMapping(FeignConst.SERVICE_USER_PATH+"/info")
     JsonData<UserDto> getUserInfo(@RequestParam("account") String account);
 
+    @GetMapping(FeignConst.SERVICE_USER_PATH)
+    JsonData<UserDto> register(@RequestBody UserDto userDto);
+
     @GetMapping(FeignConst.SERVICE_USER_PATH+"/{userId}")
     JsonData<UserDto> getUserInfoById(@PathVariable("userId") String userId);
 

@@ -4,6 +4,11 @@ import com.madao.enums.ProviderEnum;
 import com.madao.model.BasePojo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -12,6 +17,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @ApiModel(value = "user", description = "用户实体类")
+@Getter
+@Setter
+@Accessors(chain = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDto extends BasePojo implements Serializable {
 
     @ApiModelProperty("角色集合")
@@ -92,222 +102,9 @@ public class UserDto extends BasePojo implements Serializable {
     @ApiModelProperty(value = "三方登录提供商", example = "1")
     private ProviderEnum provider;
 
-    public UserDto(String userId) {
-        this.id = userId;
-    }
-    public UserDto() {
-    }
-
     public interface Register {
     }
 
     public interface ChangeUserInfo {
     }
-
-	public Set<RoleDto> getRoles() {
-		return roles;
-	}
-
-	public UserDto setRoles(Set<RoleDto> roles) {
-		this.roles = roles;
-		return this;
-	}
-
-	public String getCaptcha() {
-		return captcha;
-	}
-
-	public UserDto setCaptcha(String captcha) {
-		this.captcha = captcha;
-		return this;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public UserDto setId(String id) {
-		this.id = id;
-		return this;
-	}
-
-	public String getAccount() {
-		return account;
-	}
-
-	public UserDto setAccount(String account) {
-		this.account = account;
-		return this;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public UserDto setUserName(String userName) {
-		this.userName = userName;
-		return this;
-	}
-
-	public String getNickName() {
-		return nickName;
-	}
-
-	public UserDto setNickName(String nickName) {
-		this.nickName = nickName;
-		return this;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public UserDto setPassword(String password) {
-		this.password = password;
-		return this;
-	}
-
-	public Boolean getSex() {
-		return sex;
-	}
-
-	public UserDto setSex(Boolean sex) {
-		this.sex = sex;
-		return this;
-	}
-
-	public Long getBirthday() {
-		return birthday;
-	}
-
-	public UserDto setBirthday(Long birthday) {
-		this.birthday = birthday;
-		return this;
-	}
-
-	public String getAvatar() {
-		return avatar;
-	}
-
-	public UserDto setAvatar(String avatar) {
-		this.avatar = avatar;
-		return this;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public UserDto setEmail(String email) {
-		this.email = email;
-		return this;
-	}
-
-	public Long getLastDate() {
-		return lastDate;
-	}
-
-	public UserDto setLastDate(Long lastDate) {
-		this.lastDate = lastDate;
-		return this;
-	}
-
-	public Long getOnlineTime() {
-		return onlineTime;
-	}
-
-	public UserDto setOnlineTime(Long onlineTime) {
-		this.onlineTime = onlineTime;
-		return this;
-	}
-
-	public String getInterest() {
-		return interest;
-	}
-
-	public UserDto setInterest(String interest) {
-		this.interest = interest;
-		return this;
-	}
-
-	public String getPersonality() {
-		return personality;
-	}
-
-	public UserDto setPersonality(String personality) {
-		this.personality = personality;
-		return this;
-	}
-
-	public Integer getFansCount() {
-		return fansCount;
-	}
-
-	public UserDto setFansCount(Integer fansCount) {
-		this.fansCount = fansCount;
-		return this;
-	}
-
-	public Integer getFollowCount() {
-		return followCount;
-	}
-
-	public UserDto setFollowCount(Integer followCount) {
-		this.followCount = followCount;
-		return this;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public UserDto setPhone(String phone) {
-		this.phone = phone;
-		return this;
-	}
-
-	public String getContactAddress() {
-		return contactAddress;
-	}
-
-	public UserDto setContactAddress(String contactAddress) {
-		this.contactAddress = contactAddress;
-		return this;
-	}
-
-	public Boolean getStatus() {
-		return status;
-	}
-
-	public UserDto setStatus(Boolean status) {
-		this.status = status;
-		return this;
-	}
-
-	public Boolean getOrigin() {
-		return origin;
-	}
-
-	public UserDto setOrigin(Boolean origin) {
-		this.origin = origin;
-		return this;
-	}
-
-	public String getBindId() {
-		return bindId;
-	}
-
-	public UserDto setBindId(String bindId) {
-		this.bindId = bindId;
-		return this;
-	}
-
-	public ProviderEnum getProvider() {
-		return provider;
-	}
-
-	public UserDto setProvider(ProviderEnum provider) {
-		this.provider = provider;
-		return this;
-	}
 }

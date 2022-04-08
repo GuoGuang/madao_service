@@ -14,6 +14,7 @@ import com.madao.model.entity.article.Article;
 import com.madao.model.entity.article.ArticleTag;
 import com.madao.utils.JsonData;
 import com.madao.utils.RedisUtil;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.Page;
@@ -174,4 +175,15 @@ public class ArticleService {
         articleDao.examine(id);
     }
 
+	@GlobalTransactional
+	public void testTx() {
+		Article article = new Article();
+		article.setId("666")
+				.setTitle("666");
+		articleDao.save(article);
+		UserDto userDto = new UserDto();
+		userDto.setId("666");
+		userServiceRpc.register(userDto);
+		int i=1/0;
+	}
 }
