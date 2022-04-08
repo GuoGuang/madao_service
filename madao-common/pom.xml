@@ -13,6 +13,7 @@
     <name>madao-common【公共模块】</name>
 
     <properties>
+        <micrometer.version>1.8.4</micrometer.version>
         <druid.version>1.1.12</druid.version>
         <javafaker.version>1.0.2</javafaker.version>
         <hutool-all.version>5.3.10</hutool-all.version>
@@ -112,13 +113,21 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- Alibaba-nacos服务发现-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!-- Alibaba-nacos配置中心-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>1.2.0</version>
         </dependency>
 
         <!-- jpa + querydsl 实现单表和复杂查询 -->
@@ -199,9 +208,10 @@
         </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-core</artifactId>
-            <version>1.8.0</version>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>${micrometer.version}</version>
         </dependency>
+
 
     </dependencies>
 
