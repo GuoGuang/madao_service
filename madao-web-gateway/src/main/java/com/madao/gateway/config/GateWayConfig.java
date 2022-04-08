@@ -44,28 +44,28 @@ public class GateWayConfig {
 				// socket
 				.route("socket", r -> r.path("/socket/**").uri("ws://127.0.0.1:9099"))
 				// user
-				.route("user_route", r -> r.path("/su/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-USER"))
+				.route("user_route", r -> r.path("/su/**").filters(f -> f.stripPrefix(1)).uri("lb://service-user"))
 				// base
-				.route("base_route", r -> r.path("/ba/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-BASE"))
+				.route("base_route", r -> r.path("/ba/**").filters(f -> f.stripPrefix(1)).uri("lb://service-base"))
 				// article
-				.route("article_route", a -> a.path("/ar/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-ARTICLE"))
+				.route("article_route", a -> a.path("/ar/**").filters(f -> f.stripPrefix(1)).uri("lb://service-article"))
 
 				// authorization, authentication, third-party login
-				.route("auth_route", a -> a.path("/az/**").filters(f -> f.stripPrefix(1)).uri("lb://AUTHENTICATION-SERVER"))
-				.route("social_route", a -> a.path("/social/**").filters(f -> f.stripPrefix(1)).uri("lb://AUTHENTICATION-SERVER"))
+				.route("auth_route", a -> a.path("/az/**").filters(f -> f.stripPrefix(1)).uri("lb://authentication-server"))
+				.route("social_route", a -> a.path("/social/**").filters(f -> f.stripPrefix(1)).uri("lb://authentication-server"))
 
 				// API
-				.route("api_base_route", r -> r.path("/api/ba/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-BASE"))
-				.route("api_auth_route", r -> r.path("/api/oauth/**").filters(f -> f.stripPrefix(1)).uri("lb://AUTHENTICATION-SERVER"))
-				.route("oauth2", r -> r.path("/api/oauth2/**").filters(f -> f.stripPrefix(1)).uri("lb://AUTHENTICATION-SERVER"))
-				.route("oauth2_login", r -> r.path("/api/login/**").filters(f -> f.stripPrefix(1)).uri("lb://AUTHENTICATION-SERVER"))
+				.route("api_base_route", r -> r.path("/api/ba/**").filters(f -> f.stripPrefix(0)).uri("lb://service-base"))
+				.route("api_auth_route", r -> r.path("/api/oauth/**").filters(f -> f.stripPrefix(1)).uri("lb://authentication-server"))
+				.route("oauth2", r -> r.path("/api/oauth2/**").filters(f -> f.stripPrefix(1)).uri("lb://authentication-server"))
+				.route("oauth2_login", r -> r.path("/api/login/**").filters(f -> f.stripPrefix(1)).uri("lb://authentication-server"))
 				.route("api_article_route", a -> a.path("/api/ar/**")
 //						.and().after(ZonedDateTime.now().plusMinutes(10)) // execute in ten minutes
-						.filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-ARTICLE"))
-				.route("api_user_route", a -> a.path("/api/su/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-USER"))
+						.filters(f -> f.stripPrefix(0)).uri("lb://service-article"))
+				.route("api_user_route", a -> a.path("/api/su/**").filters(f -> f.stripPrefix(0)).uri("lb://service-user"))
 
 				// python
-				.route("api_movie_route", r -> r.path("/api/movie/**").filters(f -> f.stripPrefix(0)).uri("lb://SERVICE-MOVIE"))
+				.route("api_movie_route", r -> r.path("/api/movie/**").filters(f -> f.stripPrefix(0)).uri("lb://service-movie"))
 				.build();
 	}
 

@@ -9,16 +9,18 @@ spring:
     active: ${ACTIVE_PROFILE:dev}
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  cloud:
+    nacos:
+      config:
+        enabled: true # 如果不想使用 Nacos 进行配置管理，设置为 false 即可
+        group: DEFAULT_GROUP # 组，默认为 DEFAULT_GROUP
+        file-extension: yml # 配置内容的数据格式，默认为 properties
+        server-addr: 82.156.205.178:8848 # Nacos Server 地址
+        shared-configs: application-${spring.profiles.active}.yml
+      discovery:
+        server-addr: 82.156.205.178:8848
 ---
 spring:
-  cloud:
-    config:
-      discovery:
-        enabled: false
-      name: gateway #需要从github上读取的资源名称，注意没有yml后缀名
-      label: master
-      uri: http://localhost:9009/config  #SpringCloudConfig获取的服务地址
-      profile: dev
   config:
     activate:
       on-profile: dev
@@ -27,12 +29,6 @@ logging:
     level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-},%X{parentId:-},%mdc{req.method},%mdc{req.requestURI},%mdc{USER-ID}]'
 ---
 spring:
-  cloud:
-    config:
-      name: gateway
-      label: master
-      uri: http://121.36.158.84:9009/config
-      profile: prod
   config:
     activate:
       on-profile: prod

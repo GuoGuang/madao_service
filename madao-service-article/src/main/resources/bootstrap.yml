@@ -3,26 +3,24 @@ spring:
     name: service-article
   profiles:
     active: ${ACTIVE_PROFILE:dev}
+  cloud:
+    nacos:
+      config:
+        enabled: true # 如果不想使用 Nacos 进行配置管理，设置为 false 即可
+        group: DEFAULT_GROUP # 组，默认为 DEFAULT_GROUP
+        file-extension: yml # 配置内容的数据格式，默认为 properties
+        server-addr: 82.156.205.178:8848 # Nacos Server 地址
+        shared-configs: application-${spring.profiles.active}.yml
+      discovery:
+        server-addr: 82.156.205.178:8848
 ---
 spring:
   config:
     activate:
       on-profile: dev
-  cloud:
-    config:
-      name: article #需要从github上读取的资源名称，注意没有yml后缀名
-      label: master
-      profile: dev
-      uri: http://localhost:9009/config
 
 ---
 spring:
   config:
     activate:
       on-profile: prod
-  cloud:
-    config:
-      name: article
-      label: master
-      profile: prod
-      uri: http://121.36.158.84:9009/config
