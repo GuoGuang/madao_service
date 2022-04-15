@@ -37,6 +37,20 @@ public class ApiArticleSearchService {
 	private final ElasticsearchRestTemplate elasticsearchRestTemplate;
 
 	public List<ArticleSearchDto> searchArticleByCondition(String keywords, Integer page, Integer size) {
+
+//			多条件
+//			RangeQueryBuilder queryStartDate = QueryBuilders.rangeQuery("startTime").gte("111").lte("");
+//			RangeQueryBuilder queryEndDate = QueryBuilders.rangeQuery("endTime").gte("111").lte("");
+//			MatchQueryBuilder name = QueryBuilders.matchQuery("name", "xxx");
+//			QueryBuilder queryBuilder = QueryBuilders.boolQuery()
+//					.must(queryStartDate)
+//					.must(queryEndDate)
+//					.must(name);
+//			Query nativeSearchQuery = new NativeSearchQuery(queryBuilder);
+//			nativeSearchQuery.setPageable(pageable);
+//			SearchHits<ArticleSearchDto> results = elasticsearchRestTemplate.search(nativeSearchQuery, ArticleSearchDto.class);
+//			List<SearchHit<ArticleSearchDto>> searchHits = results.getSearchHits();
+
 		QueryBuilder queryBuilder = QueryBuilders.termQuery("user", "kimchy");
 
 		HighlightBuilder highlightBuilder = new HighlightBuilder()
