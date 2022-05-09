@@ -32,6 +32,8 @@ public class SocketIOConfig {
 		SocketConfig socketConfig = new SocketConfig();
 		socketConfig.setTcpNoDelay(true);
 		socketConfig.setSoLinger(0);
+		socketConfig.setAcceptBackLog(4000);
+		socketConfig.setReuseAddress(true);
 		Configuration config = new Configuration();
 		config.setSocketConfig(socketConfig);
 		config.setContext("/socket");
