@@ -78,6 +78,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/**").authenticated();
     }
 
+
     @Bean
     public TokenStore tokenStore() {
         return new JwtTokenStore(jwtAccessTokenConverter());

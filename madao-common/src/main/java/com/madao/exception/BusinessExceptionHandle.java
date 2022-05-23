@@ -1,9 +1,6 @@
 package com.madao.exception;
 
-import com.madao.exception.custom.CaptchaNotMatchException;
-import com.madao.exception.custom.PhoneExistingException;
-import com.madao.exception.custom.ResourceNotFoundException;
-import com.madao.exception.custom.UserException;
+import com.madao.exception.custom.*;
 import com.madao.utils.JsonData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -45,6 +42,12 @@ public class BusinessExceptionHandle {
     @ExceptionHandler(CaptchaNotMatchException.class)
     public JsonData<Void> captchaNotMatchException(CaptchaNotMatchException ex) {
         log.error(ex.getMessage(), ex);
+        return JsonData.failed(ex);
+    }
+
+    @ExceptionHandler(RateLimiterException.class)
+    public JsonData<Void> captchaNotMatchException(RateLimiterException ex) {
+        log.error("限流业务异常：{}",ex.getMessage(), ex);
         return JsonData.failed(ex);
     }
 

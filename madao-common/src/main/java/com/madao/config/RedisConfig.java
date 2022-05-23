@@ -8,13 +8,16 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.scripting.support.ResourceScriptSource;
 
 import java.time.Duration;
 
@@ -43,8 +46,8 @@ public class RedisConfig {
 	 * @return ：RedisTemplate
 	 */
 	@Bean
-	public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-		RedisTemplate<String, Object> template = new RedisTemplate<>();
+	public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+		RedisTemplate<Object, Object> template = new RedisTemplate<>();
 		template.setConnectionFactory(redisConnectionFactory);
 		// 使用jackson2序列化
 		Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
@@ -118,5 +121,15 @@ public class RedisConfig {
 		return RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
 	}
 
+	/**
+	 * 配置Redis+Lua脚本，供接口限流注解使用
+	 */
+	@Bean
+	public DefaultRedisScript<Long> rateLimitScript() {
+		DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
+		redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("lua/limit.lua")));
+		redisScript.setResultType(Long.class);
+		return redisScript;
+	}
 }
 

@@ -3,6 +3,8 @@ package com.madao.article.controller.backstage;
 import com.madao.annotation.OptLog;
 import com.madao.article.controller.BaseController;
 import com.madao.article.service.backstage.ArticleService;
+import com.madao.config.ratelimit.LimitType;
+import com.madao.config.ratelimit.RateLimiter;
 import com.madao.enums.OptLogType;
 import com.madao.model.dto.article.ArticleDto;
 import com.madao.utils.JsonData;
@@ -60,6 +62,7 @@ public class ArticleController implements BaseController {
     }
 
     @ApiOperation(value = "添加一条新的文章")
+    @RateLimiter(time = 60*3,count = 1,limitType = LimitType.IP)
     @PostMapping
     @OptLog(operationType = OptLogType.ADD, operationName = "添加一条新的文章")
     public JsonData<Map<String, String>> insertArticle(@RequestBody @Validated ArticleDto articleDto, HttpServletRequest request) {
@@ -69,6 +72,7 @@ public class ArticleController implements BaseController {
     }
 
     @ApiOperation(value = "上传文章封面")
+    @RateLimiter(time = 60*3,count = 1,limitType = LimitType.IP)
     @PutMapping("/thumb")
     @OptLog(operationType = OptLogType.ADD, operationName = "上传文章封面")
     public JsonData<String> updateThumb(MultipartFile file) throws IOException {

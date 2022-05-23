@@ -6,6 +6,12 @@ import org.springframework.stereotype.Service;
 
 /**
  * 基于普罗米修斯监控token指标
+ * 监控当前在线人数
+ * @author GuoGuang
+ * @公众号 码道人生
+ * @gitHub https://github.com/GuoGuang
+ * @website https://madaoo.com
+ * @created 2022-04-29 7:37
  */
 @Service
 public class SecurityMetersService {

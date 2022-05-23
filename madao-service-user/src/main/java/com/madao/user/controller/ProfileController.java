@@ -1,6 +1,8 @@
 package com.madao.user.controller;
 
 import com.madao.annotation.OptLog;
+import com.madao.config.ratelimit.LimitType;
+import com.madao.config.ratelimit.RateLimiter;
 import com.madao.enums.OptLogType;
 import com.madao.enums.StatusEnum;
 import com.madao.model.dto.user.UserDto;
@@ -69,6 +71,7 @@ public class ProfileController {
     }
 
     @PutMapping("/password/{userId}")
+    @RateLimiter(time = 30,count = 1,limitType = LimitType.IP)
     @OptLog(operationType = OptLogType.MODIFY, operationName = "修改用户密码")
     @ApiOperation(value = "修改密码", notes = "User")
     @ApiImplicitParams({
