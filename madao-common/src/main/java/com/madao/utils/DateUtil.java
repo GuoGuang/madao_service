@@ -30,6 +30,18 @@ public class DateUtil {
         return Instant.now().toEpochMilli();
     }
 
+	/**
+	 * 获取指定时间的时间戳
+	 */
+    public static Long getTimestampOfHourAndMinute(Integer hour,Integer minute) {
+        return LocalDateTime.of(
+				        LocalDate.now().getYear(), LocalDate.now().getMonth(), LocalDate.now().getDayOfMonth(),
+				        hour, minute, 0, 0
+		        )
+		        .toInstant(ZoneOffset.ofHours(8))
+		        .toEpochMilli();
+    }
+
     /**
      * 时间戳转日期
      */
