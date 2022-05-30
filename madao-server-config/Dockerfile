@@ -1,4 +1,4 @@
-FROM java:8
+FROM openjdk:17-alpine
 WORKDIR /service
 COPY target/madao-server-config-1.0.0.jar server-config.jar
 RUN bash -c "touch /server-config.jar"

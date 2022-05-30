@@ -1,4 +1,4 @@
-FROM java:8
+FROM openjdk:17-alpine
 WORKDIR /service
 COPY target/madao-authentication-server-1.0.0.jar authentication-server.jar
 RUN bash -c "touch /authentication-server.jar"

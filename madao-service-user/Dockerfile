@@ -1,4 +1,4 @@
-FROM java:8
+FROM openjdk:17-alpine
 WORKDIR /service
 COPY target/madao-service-user-1.0.0.jar service-user.jar
 RUN bash -c "touch /service-user.jar"

@@ -1,4 +1,4 @@
-FROM java:8
+FROM openjdk:17-alpine
 WORKDIR /service
 COPY target/madao-web-gateway-1.0.0.jar madao-web-gateway.jar
 RUN bash -c "touch /madao-web-gateway.jar"
