@@ -243,7 +243,6 @@ pipeline {
 
                         // jenkins/jenkins镜像是基于Ubuntu系统
 //                         sh "sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list"
-//                         sh "apt-get clean"
 //                         sh "apt-get update"
 //                         sh "apt-get install sshpass"
 
