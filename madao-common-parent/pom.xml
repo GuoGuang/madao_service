@@ -113,6 +113,7 @@
             <artifactId>okhttp</artifactId>
         </dependency>
 
+<!--        https://springdoc.org/demos.html-->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
