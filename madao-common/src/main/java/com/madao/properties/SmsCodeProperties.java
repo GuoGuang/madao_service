@@ -4,6 +4,7 @@ import com.madao.constant.CommonConst;
 
 /**
  * 短信验证码配置
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -12,18 +13,18 @@ import com.madao.constant.CommonConst;
  */
 public class SmsCodeProperties {
 
-    /**
-     * 验证码长度
-     */
-    private int length = 6;
-    /**
-     * 过期时间
-     */
-    private int expireIn = CommonConst.TIME_OUT_HALF_HOUR;
-    /**
-     * 要拦截的url，多个url用逗号隔开，ant pattern
-     */
-    private String url;
+	/**
+	 * 验证码长度
+	 */
+	private int length = 6;
+	/**
+	 * 过期时间
+	 */
+	private int expireIn = CommonConst.TIME_OUT_HALF_HOUR;
+	/**
+	 * 要拦截的url，多个url用逗号隔开，ant pattern
+	 */
+	private String url;
 
 	public int getLength() {
 		return length;

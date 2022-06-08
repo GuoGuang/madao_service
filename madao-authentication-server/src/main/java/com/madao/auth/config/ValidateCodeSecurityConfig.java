@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 校验码相关安全配置，过滤器链第一个过滤器，全局过滤器
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -19,12 +20,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class ValidateCodeSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
-    @Autowired
-    private ValidateCodeFilter validateCodeFilter;
+	@Autowired
+	private ValidateCodeFilter validateCodeFilter;
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.addFilterBefore(validateCodeFilter, AbstractPreAuthenticatedProcessingFilter.class);
-    }
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+		http.addFilterBefore(validateCodeFilter, AbstractPreAuthenticatedProcessingFilter.class);
+	}
 
 }

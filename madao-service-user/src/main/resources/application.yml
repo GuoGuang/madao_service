@@ -8,6 +8,13 @@ com:
   madao:
     aopPointcutExpression: execution (* com.madao.user.service..*.*(..))
 
+springdoc:
+  packages-to-scan:
+    - com.madao.user.controller
+    - com.madao.model
+  paths-to-match:
+    - /api/**
+    - /**
 
 #socketio配置
 socketio:

@@ -2,6 +2,7 @@ package com.madao.properties;
 
 /**
  * 图片验证码配置项
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -10,12 +11,11 @@ package com.madao.properties;
  */
 public class CaptchaProperties extends SmsCodeProperties {
 
-    public CaptchaProperties() {
-        setLength(4);
-    }
-
-    private int width = 124;
-    private int height = 30;
+	private int width = 124;
+	private int height = 30;
+	public CaptchaProperties() {
+		setLength(4);
+	}
 
 	public int getWidth() {
 		return width;

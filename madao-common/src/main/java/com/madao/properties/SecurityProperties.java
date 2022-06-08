@@ -3,6 +3,7 @@ package com.madao.properties;
 /**
  * Security的所有配置
  * //@ConfigurationProperties(prefix = "spring.security.oauth2.client")
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -11,20 +12,20 @@ package com.madao.properties;
  */
 public class SecurityProperties {
 
-    /**
-     * 验证码配置
-     */
-    private ValidateCodeProperties code = new ValidateCodeProperties();
+	/**
+	 * 验证码配置
+	 */
+	private ValidateCodeProperties code = new ValidateCodeProperties();
 
-    /**
-     * 社交注册配置
-     */
-    private RegistrationProperties registration = new RegistrationProperties();
+	/**
+	 * 社交注册配置
+	 */
+	private RegistrationProperties registration = new RegistrationProperties();
 
-    /**
-     * OAuth2认证服务器配置
-     */
-    private OAuth2Properties oauth2 = new OAuth2Properties();
+	/**
+	 * OAuth2认证服务器配置
+	 */
+	private OAuth2Properties oauth2 = new OAuth2Properties();
 
 	public ValidateCodeProperties getCode() {
 		return code;

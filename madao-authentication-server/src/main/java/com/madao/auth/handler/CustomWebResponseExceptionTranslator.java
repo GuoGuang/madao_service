@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 登录发生错误时执行
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -23,15 +24,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomWebResponseExceptionTranslator implements WebResponseExceptionTranslator<OAuth2Exception> {
 
-    @Override
-    public ResponseEntity translate(Exception e) {
-        log.error("登录发生错误时异常----------->{}", e.getMessage(), e);
-        JsonData<Void> jsonData = JsonData.failed(StatusEnum.SYSTEM_ERROR, e.getMessage());
-        if (e instanceof InternalAuthenticationServiceException) {
-            jsonData = JsonData.failed(StatusEnum.SYSTEM_ERROR);
-        } else if (e instanceof InvalidGrantException) {
-            jsonData = JsonData.failed(StatusEnum.LOGIN_ERROR);
-        }
-        return new ResponseEntity<>(jsonData, HttpStatus.OK);
-    }
+	@Override
+	public ResponseEntity translate(Exception e) {
+		log.error("登录发生错误时异常----------->{}", e.getMessage(), e);
+		JsonData<Void> jsonData = JsonData.failed(StatusEnum.SYSTEM_ERROR, e.getMessage());
+		if (e instanceof InternalAuthenticationServiceException) {
+			jsonData = JsonData.failed(StatusEnum.SYSTEM_ERROR);
+		} else if (e instanceof InvalidGrantException) {
+			jsonData = JsonData.failed(StatusEnum.LOGIN_ERROR);
+		}
+		return new ResponseEntity<>(jsonData, HttpStatus.OK);
+	}
 }

@@ -7,6 +7,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 /**
  * 极验验证码
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -17,13 +18,13 @@ import org.springframework.web.context.request.ServletWebRequest;
 @Component
 public class JiyanValidateCodeProcessor extends AbstractValidateCodeProcessor<Captcha> {
 
-    @Override
-    protected void send(ServletWebRequest request, Captcha validateCode) {
-        // non send
-    }
+	@Override
+	protected void send(ServletWebRequest request, Captcha validateCode) {
+		// non send
+	}
 
-    @Override
-    public void validate(ServletWebRequest request, String bodyString) {
-        log.info("极验验证");
-    }
+	@Override
+	public void validate(ServletWebRequest request, String bodyString) {
+		log.info("极验验证");
+	}
 }

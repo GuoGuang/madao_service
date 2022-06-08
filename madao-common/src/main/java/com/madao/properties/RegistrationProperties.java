@@ -2,6 +2,7 @@ package com.madao.properties;
 
 /**
  * 社交登录配置项
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -10,15 +11,14 @@ package com.madao.properties;
  */
 public class RegistrationProperties {
 
-    private GitHubProperties github = new GitHubProperties();
+	private GitHubProperties github = new GitHubProperties();
 
-    private QQProperties qq = new QQProperties();
+	private QQProperties qq = new QQProperties();
 
-    /**
-     * 社交登录功能拦截的url
-     */
+	/**
+	 * 社交登录功能拦截的url
+	 */
 //	private String filterProcessesUrl = "/auth";
-
 	public GitHubProperties getGithub() {
 		return github;
 	}

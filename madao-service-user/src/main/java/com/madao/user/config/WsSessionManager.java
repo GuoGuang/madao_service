@@ -17,55 +17,55 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class WsSessionManager {
 
-    /**
-     * 保存连接 session
-     */
-    private static ConcurrentHashMap<String, SocketIOClient> SESSION_POOL = new ConcurrentHashMap<>();
+	/**
+	 * 保存连接 session
+	 */
+	private static final ConcurrentHashMap<String, SocketIOClient> SESSION_POOL = new ConcurrentHashMap<>();
 
-    /**
-     * 添加 session
-     *
-     * @param key
-     */
-    public static void add(String key, SocketIOClient session) {
-        // 添加 session
-        SESSION_POOL.put(key, session);
-    }
+	/**
+	 * 添加 session
+	 *
+	 * @param key
+	 */
+	public static void add(String key, SocketIOClient session) {
+		// 添加 session
+		SESSION_POOL.put(key, session);
+	}
 
-    public static List<SocketIOClient> getAllSession() {
+	public static List<SocketIOClient> getAllSession() {
 		return new ArrayList<>(SESSION_POOL.values());
-    }
+	}
 
-    /**
-     * 删除 session,会返回删除的 session
-     *
-     * @param key
-     * @return
-     */
-    public static SocketIOClient remove(String key) {
-        return SESSION_POOL.remove(key);
-    }
+	/**
+	 * 删除 session,会返回删除的 session
+	 *
+	 * @param key
+	 * @return
+	 */
+	public static SocketIOClient remove(String key) {
+		return SESSION_POOL.remove(key);
+	}
 
-    /**
-     * 删除并同步关闭连接
-     *
-     * @param key
-     */
-    public static void removeAndClose(String key) {
-	    SocketIOClient session = remove(key);
-        if (session != null) {
-            session.disconnect();
-        }
-    }
+	/**
+	 * 删除并同步关闭连接
+	 *
+	 * @param key
+	 */
+	public static void removeAndClose(String key) {
+		SocketIOClient session = remove(key);
+		if (session != null) {
+			session.disconnect();
+		}
+	}
 
-    /**
-     * 获得 session
-     *
-     * @param key
-     * @return
-     */
-    public static SocketIOClient get(String key) {
-        // 获得 session
-        return SESSION_POOL.get(key);
-    }
+	/**
+	 * 获得 session
+	 *
+	 * @param key
+	 * @return
+	 */
+	public static SocketIOClient get(String key) {
+		// 获得 session
+		return SESSION_POOL.get(key);
+	}
 }

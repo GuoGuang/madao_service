@@ -11,6 +11,7 @@ import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfig
 
 /**
  * ES配置
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -34,13 +35,13 @@ public class SearchClientConfig extends AbstractElasticsearchConfiguration {
 	@Value("${elasticsearch.password}")
 	private String password;
 
-		@Override
-		@Bean
-		public RestHighLevelClient elasticsearchClient() {
-			final ClientConfiguration clientConfiguration = ClientConfiguration.builder()
-					.connectedTo(host+":"+port)
-					.withBasicAuth(userName,password)
-					.build();
-			return RestClients.create(clientConfiguration).rest();
-		}
+	@Override
+	@Bean
+	public RestHighLevelClient elasticsearchClient() {
+		final ClientConfiguration clientConfiguration = ClientConfiguration.builder()
+				.connectedTo(host + ":" + port)
+				.withBasicAuth(userName, password)
+				.build();
+		return RestClients.create(clientConfiguration).rest();
 	}
+}

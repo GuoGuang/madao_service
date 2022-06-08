@@ -24,3 +24,11 @@ hystrix:
           enabled: false
         isolation:
           strategy: SEMAPHORE
+
+springdoc:
+  packages-to-scan:
+    - com.madao.article.controller
+    - com.madao.model
+  paths-to-match:
+    - /api/**
+    - /**

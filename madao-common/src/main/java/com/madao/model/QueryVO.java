@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * 封装的查询参数类
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -11,22 +12,22 @@ import java.io.Serializable;
  * @created 2019-09-29 7:37
  */
 public class QueryVO implements Serializable {
-    private long pageNum = 0;
+	private long pageNum = 0;
 
-    private long pageSize = 10000;
-    private String keyword;
-    private String searchSort;
+	private long pageSize = 10000;
+	private String keyword;
+	private String searchSort;
 
-    /*排序*/
-    private Boolean orderBy;
-    private String fieldSort;
+	/*排序*/
+	private Boolean orderBy;
+	private String fieldSort;
 
-    private String sortType;
+	private String sortType;
 
 
-    public long getPageNum() {
-        return pageNum == 0 ? 0 : (pageNum - 1) * 10;
-    }
+	public long getPageNum() {
+		return pageNum == 0 ? 0 : (pageNum - 1) * 10;
+	}
 
 	public QueryVO setPageNum(long pageNum) {
 		this.pageNum = pageNum;

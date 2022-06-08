@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * 统一业务处理类
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -21,34 +22,34 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class BusinessExceptionHandle {
 
-    @ExceptionHandler(UserException.class)
-    public JsonData<Void> userException(UserException ex) {
-        log.error(ex.getMessage(), ex);
-        return JsonData.failed(ex);
-    }
+	@ExceptionHandler(UserException.class)
+	public JsonData<Void> userException(UserException ex) {
+		log.error(ex.getMessage(), ex);
+		return JsonData.failed(ex);
+	}
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public JsonData<Void> resourceNotFoundException(ResourceNotFoundException ex) {
-        log.error(ex.getMessage(), ex);
-        return JsonData.failed(ex);
-    }
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public JsonData<Void> resourceNotFoundException(ResourceNotFoundException ex) {
+		log.error(ex.getMessage(), ex);
+		return JsonData.failed(ex);
+	}
 
-    @ExceptionHandler(PhoneExistingException.class)
-    public JsonData<Void> phoneExistingException(PhoneExistingException ex) {
-        log.error(ex.getMessage(), ex);
-        return JsonData.failed(ex);
-    }
+	@ExceptionHandler(PhoneExistingException.class)
+	public JsonData<Void> phoneExistingException(PhoneExistingException ex) {
+		log.error(ex.getMessage(), ex);
+		return JsonData.failed(ex);
+	}
 
-    @ExceptionHandler(CaptchaNotMatchException.class)
-    public JsonData<Void> captchaNotMatchException(CaptchaNotMatchException ex) {
-        log.error(ex.getMessage(), ex);
-        return JsonData.failed(ex);
-    }
+	@ExceptionHandler(CaptchaNotMatchException.class)
+	public JsonData<Void> captchaNotMatchException(CaptchaNotMatchException ex) {
+		log.error(ex.getMessage(), ex);
+		return JsonData.failed(ex);
+	}
 
-    @ExceptionHandler(RateLimiterException.class)
-    public JsonData<Void> captchaNotMatchException(RateLimiterException ex) {
-        log.error("限流业务异常：{}",ex.getMessage(), ex);
-        return JsonData.failed(ex);
-    }
+	@ExceptionHandler(RateLimiterException.class)
+	public JsonData<Void> captchaNotMatchException(RateLimiterException ex) {
+		log.error("限流业务异常：{}", ex.getMessage(), ex);
+		return JsonData.failed(ex);
+	}
 
 }

@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * 自定义token携带内容  {access_token:"xxx",organization:"yyy"}
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -18,13 +19,13 @@ import java.util.Map;
  */
 public class CustomTokenEnhancer implements TokenEnhancer {
 
-    @Override
-    public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-        Map<String, Object> additionalInfo = Maps.newHashMap();
-        //自定义token内容，加入组织机构信息
-        additionalInfo.put("organization", authentication.getName());
-        DefaultOAuth2AccessToken auth2AccessToken = (DefaultOAuth2AccessToken) accessToken;
-        auth2AccessToken.setAdditionalInformation(additionalInfo);
-        return accessToken;
-    }
+	@Override
+	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+		Map<String, Object> additionalInfo = Maps.newHashMap();
+		//自定义token内容，加入组织机构信息
+		additionalInfo.put("organization", authentication.getName());
+		DefaultOAuth2AccessToken auth2AccessToken = (DefaultOAuth2AccessToken) accessToken;
+		auth2AccessToken.setAdditionalInformation(additionalInfo);
+		return accessToken;
+	}
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 鉴权服务api
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -18,15 +19,15 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @created 2019-09-29 7:37
  */
 @FeignClient(contextId = FeignConst.SERVICE_AUTHENTICATION_AUTH,
-        value = FeignConst.SERVICE_AUTHENTICATION_AUTH,
-        fallbackFactory = AuthServiceRpcFallbackFactory.class)
+		value = FeignConst.SERVICE_AUTHENTICATION_AUTH,
+		fallbackFactory = AuthServiceRpcFallbackFactory.class)
 public interface AuthServiceRpc {
 
-    /**
-     * 调用签权服务，判断用户是否有权限
-     */
-    @PostMapping(value = FeignConst.SERVICE_AUTHENTICATION_AUTH_PATH+"auth/permission")
-    JsonData<Object> authPermission(@RequestParam("url") String url,
-                                    @RequestParam("method") String method,
-                                    @RequestHeader(HttpHeaders.AUTHORIZATION) String authentication);
+	/**
+	 * 调用签权服务，判断用户是否有权限
+	 */
+	@PostMapping(value = FeignConst.SERVICE_AUTHENTICATION_AUTH_PATH + "auth/permission")
+	JsonData<Object> authPermission(@RequestParam("url") String url,
+	                                @RequestParam("method") String method,
+	                                @RequestHeader(HttpHeaders.AUTHORIZATION) String authentication);
 }

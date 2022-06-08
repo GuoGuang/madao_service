@@ -18,13 +18,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthServiceRpcFallbackFactory implements FallbackFactory<AuthServiceRpc> {
 
-    private static final String ERROR_INFO = "接口AuthServiceRpc.{}远程调用失败，该服务已经停止或者不可访问,参数为:{}";
+	private static final String ERROR_INFO = "接口AuthServiceRpc.{}远程调用失败，该服务已经停止或者不可访问,参数为:{}";
 
-    @Override
-    public AuthServiceRpc create(Throwable throwable) {
-        return (url, method, authentication) -> {
-            log.error(ERROR_INFO, "login", authentication, throwable);
-            return JsonData.failed(StatusEnum.RPC_ERROR);
-        };
-    }
+	@Override
+	public AuthServiceRpc create(Throwable throwable) {
+		return (url, method, authentication) -> {
+			log.error(ERROR_INFO, "login", authentication, throwable);
+			return JsonData.failed(StatusEnum.RPC_ERROR);
+		};
+	}
 }

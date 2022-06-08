@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 */
 /**
  * 配置自定义Json序列化器
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang

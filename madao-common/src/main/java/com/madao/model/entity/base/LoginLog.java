@@ -15,33 +15,33 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "ba_login_log",
-        indexes = {
-                @Index(name = "login_log_client_ip", columnList = "clientIp"),
-                @Index(name = "login_log_user_id", columnList = "userId"),
-                @Index(name = "login_log_create_at", columnList = "createAt")
-        })
+		indexes = {
+				@Index(name = "login_log_client_ip", columnList = "clientIp"),
+				@Index(name = "login_log_user_id", columnList = "userId"),
+				@Index(name = "login_log_create_at", columnList = "createAt")
+		})
 public class LoginLog extends BasePojo implements Serializable {
 
-    @Id
-    @GeneratedValue(generator = "idGenerator")
-    @GenericGenerator(name = "idGenerator", strategy = "com.madao.config.IdGeneratorConfig")
-    @Column(name = "id", unique = true, nullable = false, updatable = false, length = 20)
-    private String id;
+	@Id
+	@GeneratedValue(generator = "idGenerator")
+	@GenericGenerator(name = "idGenerator", strategy = "com.madao.config.IdGeneratorConfig")
+	@Column(name = "id", unique = true, nullable = false, updatable = false, length = 20)
+	private String id;
 
-    @Column(length = 20)
-    private String userId;
+	@Column(length = 20)
+	private String userId;
 
-    @Column(length = 20)
-    private String userName;
+	@Column(length = 20)
+	private String userName;
 
-    @Column(length = 20)
-    private String clientIp;
+	@Column(length = 20)
+	private String clientIp;
 
-    @Column(length = 50)
-    private String browser;
+	@Column(length = 50)
+	private String browser;
 
-    @Column(length = 100)
-    private String osInfo;
+	@Column(length = 100)
+	private String osInfo;
 
 	public String getId() {
 		return id;

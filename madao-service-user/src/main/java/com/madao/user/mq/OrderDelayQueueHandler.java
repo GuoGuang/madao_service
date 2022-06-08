@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 延时队列处理器
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class OrderDelayQueueHandler {
-    private final Logger log = LoggerFactory.getLogger(OrderDelayQueueHandler.class);
+	private final Logger log = LoggerFactory.getLogger(OrderDelayQueueHandler.class);
 /*
     @Autowired
     private ProductOrderService productOrderService;
@@ -23,8 +24,8 @@ public class OrderDelayQueueHandler {
     private RedissonClient redisson;
 
     *//**
-     * 处理超时用户信息
-     *//*
+	 * 处理超时用户信息
+	 *//*
     @RabbitListener(queues = RabbitMQConfig.ORDER_DELAY_QUEUE)
     @RabbitHandler
     public void onDelayMessage(Message msg, Channel channel) throws IOException {

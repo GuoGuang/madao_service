@@ -15,9 +15,9 @@ import java.util.List;
  * @created 2019-09-29 7:37
  */
 public interface RoleResourceDao extends JpaRepository<RoleResource, String>,
-        JpaSpecificationExecutor<RoleResource>, QuerydslPredicateExecutor<RoleResource> {
+		JpaSpecificationExecutor<RoleResource>, QuerydslPredicateExecutor<RoleResource> {
 
-    void deleteByRoleIdIn(List<String> roleId);
+	void deleteByRoleIdIn(List<String> roleId);
 
-    void deleteByResourceIdIn(List<String> resId);
+	void deleteByResourceIdIn(List<String> resId);
 }

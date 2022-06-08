@@ -3,41 +3,41 @@ package com.madao.model.dto.base;
 import com.google.common.base.Objects;
 import com.madao.enums.OptLogType;
 import com.madao.model.BasePojo;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
 
 public class OptLogDto extends BasePojo implements Serializable {
 
-    @ApiModelProperty("操作日志表主键")
-    private String id;
+	@Schema(title = "操作日志表主键")
+	private String id;
 
-    @ApiModelProperty("操作人id")
-    private String userId;
+	@Schema(title = "操作人id")
+	private String userId;
 
-    @ApiModelProperty("操作人名称")
-    private String userName;
+	@Schema(title = "操作人名称")
+	private String userName;
 
-    @ApiModelProperty("操作ip")
-    private String clientIp;
+	@Schema(title = "操作ip")
+	private String clientIp;
 
-    @ApiModelProperty(value = "操作类型（1：增，2：删，3：改）")
-    private OptLogType type;
+	@Schema(title = "操作类型（1：增，2：删，3：改）")
+	private OptLogType type;
 
-    @ApiModelProperty("操作方法名称")
-    private String method;
+	@Schema(title = "操作方法名称")
+	private String method;
 
-    @ApiModelProperty("操作方法的参数（json）")
-    private String params;
+	@Schema(title = "操作方法的参数（json）")
+	private String params;
 
-    @ApiModelProperty("异常详情")
-    private String exceptionDetail;
+	@Schema(title = "异常详情")
+	private String exceptionDetail;
 
-    @ApiModelProperty("浏览器")
-    private String browser;
+	@Schema(title = "浏览器")
+	private String browser;
 
-    @ApiModelProperty("操作系统信息")
-    private String osInfo;
+	@Schema(title = "操作系统信息")
+	private String osInfo;
 
 	public String getId() {
 		return id;
@@ -132,9 +132,8 @@ public class OptLogDto extends BasePojo implements Serializable {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof OptLogDto)) return false;
+		if (!(o instanceof OptLogDto optLogDto)) return false;
 		if (!super.equals(o)) return false;
-		OptLogDto optLogDto = (OptLogDto) o;
 		return Objects.equal(id, optLogDto.id) && Objects.equal(userId, optLogDto.userId) && Objects.equal(userName, optLogDto.userName) && Objects.equal(clientIp, optLogDto.clientIp) && type == optLogDto.type && Objects.equal(method, optLogDto.method) && Objects.equal(params, optLogDto.params) && Objects.equal(exceptionDetail, optLogDto.exceptionDetail) && Objects.equal(browser, optLogDto.browser) && Objects.equal(osInfo, optLogDto.osInfo);
 	}
 

@@ -9,30 +9,28 @@ spring:
     gateway:
       routes:
         # 此配置与GateWayConfig.java不重复，此处定义swagger路由地址，不做业务路由转发
-        - id: base
+        - id: ba
           uri: lb://SERVICE-BASE
           predicates:
-            - Path=/doc/base/**
-          filters:
-            - StripPrefix=2
-        - id: user
+            - Path=/base/**
+        - id: su
           uri: lb://SERVICE-USER
           predicates:
-            - Path=/doc/user/**
-          filters:
-            - StripPrefix=2
-        - id: article
+            - Path=/user/**
+        - id: ar
           uri: lb://SERVICE-ARTICLE
           predicates:
-            - Path=/doc/article/**
-          filters:
-            - StripPrefix=2
-        - id: oauth
+            - Path=/article/**
+        - id: os
           uri: lb://AUTHENTICATION-SERVER
           predicates:
-            - Path=/doc/oauth/**
+            - Path=/oauth/**
+        - id: openapi
+          uri: http://localhost:${server.port}
+          predicates:
+              - Path=/v3/api-docs/**
           filters:
-            - StripPrefix=2
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
 
       globalcors:
         corsConfigurations:

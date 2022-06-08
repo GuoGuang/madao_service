@@ -31,68 +31,68 @@ import java.util.stream.Collectors;
 @CacheConfig(cacheNames = "article")
 public class ApiArticleService {
 
-    private final ApiArticleDao articleDao;
-    private final ArticleMapper articleMapper;
-    private final CommentDao commentDao;
+	private final ApiArticleDao articleDao;
+	private final ArticleMapper articleMapper;
+	private final CommentDao commentDao;
 
-    public ApiArticleService(ApiArticleDao articleDao,
-                             ArticleMapper articleMapper,
-                             CommentDao commentDao) {
-        this.articleDao = articleDao;
-        this.articleMapper = articleMapper;
-        this.commentDao = commentDao;
-    }
+	public ApiArticleService(ApiArticleDao articleDao,
+	                         ArticleMapper articleMapper,
+	                         CommentDao commentDao) {
+		this.articleDao = articleDao;
+		this.articleMapper = articleMapper;
+		this.commentDao = commentDao;
+	}
 
 
-    public Page<ArticleDto> findArticleByCondition(ArticleDto articleDto, String keyword, Pageable pageable) {
-        // 默认首页
-        Specification<Article> condition = (root, query, builder) -> {
-            List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
-            if (StringUtils.isNotEmpty(articleDto.getCategoryId())) {
-                predicates.add(builder.equal(root.get("categoryId"), articleDto.getCategoryId()));
-            }
-            if (StringUtils.isNotEmpty(keyword)) {
-                predicates.add(builder.like(root.get("title"), "%" + keyword + "%"));
-            }
-            return query.where(predicates.toArray(new javax.persistence.criteria.Predicate[0])).getRestriction();
-        };
-        Page<ArticleDto> pageContent = articleDao.findAll(condition, pageable).map(articleMapper::toDto);
-        List<String> articleIds = pageContent.getContent().stream().map(ArticleDto::getId).collect(Collectors.toList());
-        Map<String, List<Comment>> idKeysAndComments = commentDao.findByArticleIdIn(articleIds).stream().collect(Collectors.groupingBy(Comment::getArticleId));
-        pageContent.forEach(articleInfo -> {
-            if (idKeysAndComments.get(articleInfo.getId()) != null) {
-                articleInfo.setComment(idKeysAndComments.get(articleInfo.getId()).size());
-            }
-        });
-        return pageContent;
-    }
+	public Page<ArticleDto> findArticleByCondition(ArticleDto articleDto, String keyword, Pageable pageable) {
+		// 默认首页
+		Specification<Article> condition = (root, query, builder) -> {
+			List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
+			if (StringUtils.isNotEmpty(articleDto.getCategoryId())) {
+				predicates.add(builder.equal(root.get("categoryId"), articleDto.getCategoryId()));
+			}
+			if (StringUtils.isNotEmpty(keyword)) {
+				predicates.add(builder.like(root.get("title"), "%" + keyword + "%"));
+			}
+			return query.where(predicates.toArray(new javax.persistence.criteria.Predicate[0])).getRestriction();
+		};
+		Page<ArticleDto> pageContent = articleDao.findAll(condition, pageable).map(articleMapper::toDto);
+		List<String> articleIds = pageContent.getContent().stream().map(ArticleDto::getId).collect(Collectors.toList());
+		Map<String, List<Comment>> idKeysAndComments = commentDao.findByArticleIdIn(articleIds).stream().collect(Collectors.groupingBy(Comment::getArticleId));
+		pageContent.forEach(articleInfo -> {
+			if (idKeysAndComments.get(articleInfo.getId()) != null) {
+				articleInfo.setComment(idKeysAndComments.get(articleInfo.getId()).size());
+			}
+		});
+		return pageContent;
+	}
 
-    public Page<ArticleDto> findArticleByTagId(String tagId, Pageable pageable) {
-        return articleDao.findArticleByTagId(tagId, pageable).map(articleMapper::toDto);
-    }
+	public Page<ArticleDto> findArticleByTagId(String tagId, Pageable pageable) {
+		return articleDao.findArticleByTagId(tagId, pageable).map(articleMapper::toDto);
+	}
 
-	@Cacheable(key = "#articleId",unless = "#result==null ")
-    public ArticleDto findArticleById(String articleId) {
-        ArticleDto article = articleDao.findById(articleId).map(articleMapper::toDto).orElseThrow(ResourceNotFoundException::new);
-        article.setRelated(articleMapper.toDto(articleDao.findRelatedByRand()));
-        return article;
-    }
+	@Cacheable(key = "#articleId", unless = "#result==null ")
+	public ArticleDto findArticleById(String articleId) {
+		ArticleDto article = articleDao.findById(articleId).map(articleMapper::toDto).orElseThrow(ResourceNotFoundException::new);
+		article.setRelated(articleMapper.toDto(articleDao.findRelatedByRand()));
+		return article;
+	}
 
-    /**
-     * 点赞
-     */
-    public void upVote(String id) {
-        articleDao.updateUpVote(id);
-    }
+	/**
+	 * 点赞
+	 */
+	public void upVote(String id) {
+		articleDao.updateUpVote(id);
+	}
 
-    /**
-     * 取消点赞
-     */
-    public void unUpVote(String id) {
-        articleDao.updateUnUpVote(id);
-    }
+	/**
+	 * 取消点赞
+	 */
+	public void unUpVote(String id) {
+		articleDao.updateUnUpVote(id);
+	}
 
-    public Map<String, Object> findAuthorDetail() {
-        return articleDao.findAuthorDetailByMap();
-    }
+	public Map<String, Object> findAuthorDetail() {
+		return articleDao.findAuthorDetailByMap();
+	}
 }

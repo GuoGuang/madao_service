@@ -4,6 +4,7 @@ import com.madao.constant.UserConst;
 
 /**
  * 权限相关
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -12,26 +13,26 @@ import com.madao.constant.UserConst;
  */
 public enum AuthorityEnum {
 
-    /**
-     * 管理员
-     */
-    ROLE_ADMIN {
-        @Override
-        public String getParamNameOnAuthority() {
-            return UserConst.ROLE_ADMIN;
-        }
-    },
+	/**
+	 * 管理员
+	 */
+	ROLE_ADMIN {
+		@Override
+		public String getParamNameOnAuthority() {
+			return UserConst.ROLE_ADMIN;
+		}
+	},
 
-    /**
-     * 访客
-     */
-    ROLE_GUEST {
-        @Override
-        public String getParamNameOnAuthority() {
-            return UserConst.ROLE_GUEST;
-        }
-    };
+	/**
+	 * 访客
+	 */
+	ROLE_GUEST {
+		@Override
+		public String getParamNameOnAuthority() {
+			return UserConst.ROLE_GUEST;
+		}
+	};
 
-    public abstract String getParamNameOnAuthority();
+	public abstract String getParamNameOnAuthority();
 
 }

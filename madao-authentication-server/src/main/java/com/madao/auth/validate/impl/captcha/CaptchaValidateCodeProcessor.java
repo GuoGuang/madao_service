@@ -16,6 +16,7 @@ import java.util.HashMap;
 
 /**
  * 图片验证码处理器
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang

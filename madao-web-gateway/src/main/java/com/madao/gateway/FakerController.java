@@ -4,10 +4,10 @@ import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
 import com.github.javafaker.Faker;
 import com.madao.utils.JsonData;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,15 +27,15 @@ import java.util.stream.Collectors;
  * @website https://madaoo.com
  * @created 2022-01-13
  */
-@Api(tags = "faker假数据")
+@Tag(name = "faker假数据")
 @RestController
 @RequestMapping(value = "/api/faker")
 public class FakerController {
 
 	@GetMapping
-	@ApiOperation(value = "根据传入的字段获取数据")
-	@ApiImplicitParams(
-			@ApiImplicitParam(name = "keys", value = "[\"id\",\"name\",\"age\",\"time\"]", dataType = "List")
+	@Operation(summary = "根据传入的字段获取数据")
+	@Parameters(
+			@Parameter(name = "keys", description = "[\"id\",\"name\",\"age\",\"time\"]")
 	)
 	public JsonData<List<HashMap<String, String>>> getList(@RequestBody List<String> keys) {
 

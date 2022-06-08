@@ -4,6 +4,7 @@ import java.util.UUID;
 
 /**
  * 异步线任务
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang

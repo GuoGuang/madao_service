@@ -50,7 +50,8 @@ public @interface CheckEmail {
 	class ValidatorValue implements ConstraintValidator<CheckEmail, String> {
 
 		@Override
-		public void initialize(CheckEmail constraintAnnotation) {}
+		public void initialize(CheckEmail constraintAnnotation) {
+		}
 
 		@Override
 		public boolean isValid(String content, ConstraintValidatorContext constraintValidatorContext) {

@@ -20,58 +20,58 @@ import java.util.Enumeration;
  * @created 2019-09-29 7:37
  */
 public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapper {
-    private final byte[] body;
+	private final byte[] body;
 
-    public BodyReaderHttpServletRequestWrapper(HttpServletRequest request) throws IOException {
-        super(request);
-        body = HttpHelper.getBodyString(request).getBytes();
-    }
+	public BodyReaderHttpServletRequestWrapper(HttpServletRequest request) throws IOException {
+		super(request);
+		body = HttpHelper.getBodyString(request).getBytes();
+	}
 
-    @Override
-    public BufferedReader getReader() throws IOException {
-        return new BufferedReader(new InputStreamReader(getInputStream()));
-    }
+	@Override
+	public BufferedReader getReader() throws IOException {
+		return new BufferedReader(new InputStreamReader(getInputStream()));
+	}
 
-    @Override
-    public ServletInputStream getInputStream() throws IOException {
+	@Override
+	public ServletInputStream getInputStream() throws IOException {
 
-        final ByteArrayInputStream bais = new ByteArrayInputStream(body);
+		final ByteArrayInputStream bais = new ByteArrayInputStream(body);
 
-        return new ServletInputStream() {
-            @Override
-            public boolean isFinished() {
-                return false;
-            }
+		return new ServletInputStream() {
+			@Override
+			public boolean isFinished() {
+				return false;
+			}
 
-            @Override
-            public boolean isReady() {
-                return false;
-            }
+			@Override
+			public boolean isReady() {
+				return false;
+			}
 
-            @Override
-            public void setReadListener(ReadListener listener) {
+			@Override
+			public void setReadListener(ReadListener listener) {
 
-            }
+			}
 
-            @Override
-            public int read() throws IOException {
-                return bais.read();
-            }
-        };
-    }
+			@Override
+			public int read() throws IOException {
+				return bais.read();
+			}
+		};
+	}
 
-    @Override
-    public String getHeader(String name) {
-        return super.getHeader(name);
-    }
+	@Override
+	public String getHeader(String name) {
+		return super.getHeader(name);
+	}
 
-    @Override
-    public Enumeration<String> getHeaderNames() {
-        return super.getHeaderNames();
-    }
+	@Override
+	public Enumeration<String> getHeaderNames() {
+		return super.getHeaderNames();
+	}
 
-    @Override
-    public Enumeration<String> getHeaders(String name) {
-        return super.getHeaders(name);
-    }
+	@Override
+	public Enumeration<String> getHeaders(String name) {
+		return super.getHeaders(name);
+	}
 }

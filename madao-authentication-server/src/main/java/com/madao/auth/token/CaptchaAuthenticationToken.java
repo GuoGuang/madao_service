@@ -7,6 +7,7 @@ import java.util.Collection;
 
 /**
  * 图片登录验证信息封装类
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -16,16 +17,16 @@ import java.util.Collection;
 public class CaptchaAuthenticationToken extends UsernamePasswordAuthenticationToken {
 
 
-    //未认证Authentication构造方法
-    public CaptchaAuthenticationToken(Object principal, Object credentials) {
-        super(principal, credentials);
-        setAuthenticated(false);
-    }
+	//未认证Authentication构造方法
+	public CaptchaAuthenticationToken(Object principal, Object credentials) {
+		super(principal, credentials);
+		setAuthenticated(false);
+	}
 
-    //已认证Authentication构造方法
-    public CaptchaAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
-        super(principal, "", authorities);
-    }
+	//已认证Authentication构造方法
+	public CaptchaAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
+		super(principal, "", authorities);
+	}
 
 
 }

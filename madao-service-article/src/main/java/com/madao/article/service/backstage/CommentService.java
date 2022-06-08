@@ -26,39 +26,39 @@ import java.util.List;
 @Service
 public class CommentService {
 
-    private final CommentDao commentDao;
-    private final CommentMapper commentMapper;
+	private final CommentDao commentDao;
+	private final CommentMapper commentMapper;
 
-    public CommentService(CommentDao commentDao, CommentMapper commentMapper) {
-        this.commentDao = commentDao;
-        this.commentMapper = commentMapper;
-    }
+	public CommentService(CommentDao commentDao, CommentMapper commentMapper) {
+		this.commentDao = commentDao;
+		this.commentMapper = commentMapper;
+	}
 
-    public Page<CommentDto> findCommentByCondition(CommentDto commentDto, Pageable pageable) {
-        Specification<Comment> condition = (root, query, builder) -> {
-            List<Predicate> predicates = new ArrayList<>();
-            if (StringUtils.isNotEmpty(commentDto.getContent())) {
-                predicates.add(builder.like(root.get("content"), "%" + commentDto.getContent() + "%"));
-            }
-            return query.where(predicates.toArray(new Predicate[0])).getRestriction();
-        };
-        return commentDao.findAll(condition, pageable).map(commentMapper::toDto);
-    }
+	public Page<CommentDto> findCommentByCondition(CommentDto commentDto, Pageable pageable) {
+		Specification<Comment> condition = (root, query, builder) -> {
+			List<Predicate> predicates = new ArrayList<>();
+			if (StringUtils.isNotEmpty(commentDto.getContent())) {
+				predicates.add(builder.like(root.get("content"), "%" + commentDto.getContent() + "%"));
+			}
+			return query.where(predicates.toArray(new Predicate[0])).getRestriction();
+		};
+		return commentDao.findAll(condition, pageable).map(commentMapper::toDto);
+	}
 
-    public CommentDto findCommentByPrimaryKey(String commentId) {
-        return commentDao.findById(commentId).map(commentMapper::toDto).orElseThrow(ResourceNotFoundException::new);
-    }
+	public CommentDto findCommentByPrimaryKey(String commentId) {
+		return commentDao.findById(commentId).map(commentMapper::toDto).orElseThrow(ResourceNotFoundException::new);
+	}
 
-    public void saveOrUpdate(CommentDto commentDto) {
-        if (StringUtils.isNotBlank(commentDto.getId())) {
-            Comment tempComment = commentDao.findById(commentDto.getId()).orElseThrow(ResourceNotFoundException::new);
-            BeanUtil.copyProperties(tempComment, commentDto);
-        }
-        commentDao.save(commentMapper.toEntity(commentDto));
-    }
+	public void saveOrUpdate(CommentDto commentDto) {
+		if (StringUtils.isNotBlank(commentDto.getId())) {
+			Comment tempComment = commentDao.findById(commentDto.getId()).orElseThrow(ResourceNotFoundException::new);
+			BeanUtil.copyProperties(tempComment, commentDto);
+		}
+		commentDao.save(commentMapper.toEntity(commentDto));
+	}
 
-    public void deleteCommentByIds(List<String> commentIds) {
-        commentDao.deleteBatch(commentIds);
-    }
+	public void deleteCommentByIds(List<String> commentIds) {
+		commentDao.deleteBatch(commentIds);
+	}
 
 }

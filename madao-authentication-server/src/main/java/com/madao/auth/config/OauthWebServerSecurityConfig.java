@@ -28,6 +28,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 
 /**
  * WebServerSecurity配置
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -39,128 +40,128 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 @Order(-1)
 @Slf4j
 public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private DruidDataSource dataSource;
+	@Autowired
+	private DruidDataSource dataSource;
 
-    // 短信验证码
-    //@Autowired
-    //private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+	// 短信验证码
+	//@Autowired
+	//private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
-    @Autowired
-    private SmsCodeAuthenticationProvider smsCodeAuthenticationProvider;
-    @Autowired
-    private CaptchaAuthenticationProvider captchaAuthenticationProvider;
-    @Autowired
-    private GithubAuthenticationProvider githubAuthenticationProvider;
+	@Autowired
+	private SmsCodeAuthenticationProvider smsCodeAuthenticationProvider;
+	@Autowired
+	private CaptchaAuthenticationProvider captchaAuthenticationProvider;
+	@Autowired
+	private GithubAuthenticationProvider githubAuthenticationProvider;
 
-    // 全局过滤器校验码
-    @Autowired
-    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+	// 全局过滤器校验码
+	@Autowired
+	private ValidateCodeSecurityConfig validateCodeSecurityConfig;
 
-    @Autowired
-    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+	@Autowired
+	private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
-    @Autowired
-    private OauthLoginSuccessHandler oauthLoginSuccessHandler;
+	@Autowired
+	private OauthLoginSuccessHandler oauthLoginSuccessHandler;
 
-    @Autowired
-    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+	@Autowired
+	private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/auth/**", "/connect/**",
-		        "/v2/api-docs",
-		        "/swagger-resources/**",
-		        "/swagger-ui/**");
+	@Override
+	public void configure(WebSecurity web) {
+		web.ignoring().antMatchers("/auth/**", "/connect/**",
+				"/v2/api-docs",
+				"/swagger-resources/**",
+				"/swagger-ui/**");
 
-    }
+	}
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-	    return super.authenticationManagerBean();
-    }
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
 
-        http.httpBasic().and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/v2/api-docs",
-		                "/swagger-resources/**",
-		                "/swagger-ui/**").permitAll()
-                .and()
-                .csrf().disable()
-                .logout(logout -> logout.invalidateHttpSession(false).logoutUrl("/auth/logout"))
+		http.httpBasic().and()
+				.authorizeRequests()
+				.antMatchers(HttpMethod.OPTIONS).permitAll()
+				.antMatchers("/v2/api-docs",
+						"/swagger-resources/**",
+						"/swagger-ui/**").permitAll()
+				.and()
+				.csrf().disable()
+				.logout(logout -> logout.invalidateHttpSession(false).logoutUrl("/auth/logout"))
 
-		        // github登录
-                .oauth2Login(oauth2 -> oauth2
-                        .authorizationEndpoint(System.out::println)
-                        .redirectionEndpoint(redirection -> redirection.baseUri("/auth/login/github"))
-                        .tokenEndpoint(System.out::println)
-                        //.userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
-                        .successHandler(oauthLoginSuccessHandler)
-                );
+				// github登录
+				.oauth2Login(oauth2 -> oauth2
+						.authorizationEndpoint(System.out::println)
+						.redirectionEndpoint(redirection -> redirection.baseUri("/auth/login/github"))
+						.tokenEndpoint(System.out::println)
+						//.userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
+						.successHandler(oauthLoginSuccessHandler)
+				);
 
-        http.addFilterAfter(smsCodeAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterAt(captchaAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterAt(githubAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-        ;    //添加过滤器，处理系统自定义异常
+		http.addFilterAfter(smsCodeAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+				.addFilterAt(captchaAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+				.addFilterAt(githubAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+		;    //添加过滤器，处理系统自定义异常
 //			.addFilterAfter(new RewriteAccessDenyFilter(), ExceptionTranslationFilter.class);
-        http.apply(validateCodeSecurityConfig);
+		http.apply(validateCodeSecurityConfig);
 
-        // 自定义配置
+		// 自定义配置
 		/*http.apply(validateCodeSecurityConfig) // 全局配置，过滤器链第一个过滤器
 				.and()
 				.apply(smsCodeAuthenticationSecurityConfig);*/
-    }
+	}
 
-    /**
-     * 短信验证码登录配置
-     **/
-    @Bean
-    public SmsCodeAuthenticationFilter smsCodeAuthenticationFilter() throws Exception {
-        SmsCodeAuthenticationFilter smsCodeAuthenticationFilter = new SmsCodeAuthenticationFilter();
-        smsCodeAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
-        smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
-        smsCodeAuthenticationFilter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
-        return smsCodeAuthenticationFilter;
-    }
+	/**
+	 * 短信验证码登录配置
+	 **/
+	@Bean
+	public SmsCodeAuthenticationFilter smsCodeAuthenticationFilter() throws Exception {
+		SmsCodeAuthenticationFilter smsCodeAuthenticationFilter = new SmsCodeAuthenticationFilter();
+		smsCodeAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
+		smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
+		smsCodeAuthenticationFilter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
+		return smsCodeAuthenticationFilter;
+	}
 
-    /**
-     * 图片验证码自定义配置
-     **/
-    @Bean
-    public CaptchaAuthenticationFilter captchaAuthenticationFilter() throws Exception {
-        CaptchaAuthenticationFilter captchaAuthenticationFilter = new CaptchaAuthenticationFilter();
-        captchaAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
-        captchaAuthenticationFilter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
-        captchaAuthenticationFilter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
-        return captchaAuthenticationFilter;
-    }
+	/**
+	 * 图片验证码自定义配置
+	 **/
+	@Bean
+	public CaptchaAuthenticationFilter captchaAuthenticationFilter() throws Exception {
+		CaptchaAuthenticationFilter captchaAuthenticationFilter = new CaptchaAuthenticationFilter();
+		captchaAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
+		captchaAuthenticationFilter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
+		captchaAuthenticationFilter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
+		return captchaAuthenticationFilter;
+	}
 
 
-    @Bean
-    public GithubAuthenticationFilter githubAuthenticationFilter() throws Exception {
-        GithubAuthenticationFilter githubAuthenticationFilter = new GithubAuthenticationFilter();
-        githubAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
-        githubAuthenticationFilter.setAuthenticationSuccessHandler(oauthLoginSuccessHandler);
-        githubAuthenticationFilter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
-        return githubAuthenticationFilter;
-    }
+	@Bean
+	public GithubAuthenticationFilter githubAuthenticationFilter() throws Exception {
+		GithubAuthenticationFilter githubAuthenticationFilter = new GithubAuthenticationFilter();
+		githubAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
+		githubAuthenticationFilter.setAuthenticationSuccessHandler(oauthLoginSuccessHandler);
+		githubAuthenticationFilter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
+		return githubAuthenticationFilter;
+	}
 
-    /**
-     * 构建AuthorizationServerConfig.configure(AuthorizationServerEndpointsConfigurer endpoints)
-     * 所需的authenticationManager
-     * 目前支持验证码和手机验证码登录
-     */
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(smsCodeAuthenticationProvider)
-                .authenticationProvider(captchaAuthenticationProvider)
-                .authenticationProvider(githubAuthenticationProvider);
-    }
+	/**
+	 * 构建AuthorizationServerConfig.configure(AuthorizationServerEndpointsConfigurer endpoints)
+	 * 所需的authenticationManager
+	 * 目前支持验证码和手机验证码登录
+	 */
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) {
+		auth.authenticationProvider(smsCodeAuthenticationProvider)
+				.authenticationProvider(captchaAuthenticationProvider)
+				.authenticationProvider(githubAuthenticationProvider);
+	}
 
 	/*@Bean
 	public CaptchaAuthenticationFilter captchaAuthenticationFilter() throws Exception {
@@ -194,15 +195,15 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new ProviderManager(list);
 	}*/
 
-    /**
-     * 记住我功能的token存取器配置
-     */
-    @Bean
-    public PersistentTokenRepository persistentTokenRepository() {
-        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
-        tokenRepository.setDataSource(dataSource);
-        return tokenRepository;
-    }
+	/**
+	 * 记住我功能的token存取器配置
+	 */
+	@Bean
+	public PersistentTokenRepository persistentTokenRepository() {
+		JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+		tokenRepository.setDataSource(dataSource);
+		return tokenRepository;
+	}
 
 
 }

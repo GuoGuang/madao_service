@@ -20,7 +20,7 @@ import java.util.List;
 public interface OptLogDao extends JpaRepository<OptLog, String>, JpaSpecificationExecutor<OptLog>, QuerydslPredicateExecutor<OptLog> {
 
 
-    @Modifying
-    @Query("delete from OptLog where id in (:ids)")
-    void deleteBatch(@Param("ids") List<String> ids);
+	@Modifying
+	@Query("delete from OptLog where id in (:ids)")
+	void deleteBatch(@Param("ids") List<String> ids);
 }

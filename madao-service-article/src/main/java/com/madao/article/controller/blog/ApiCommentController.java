@@ -4,8 +4,8 @@ import com.madao.article.mapper.CommentMapper;
 import com.madao.article.service.blog.ApiCommentService;
 import com.madao.model.dto.article.CommentDto;
 import com.madao.utils.JsonData;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.validation.annotation.Validated;
@@ -21,51 +21,51 @@ import java.util.List;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
-@Api(tags = "前台评论管理")
+@Tag(name = "前台评论管理")
 @RestController
 @RequestMapping(value = "/api/ar/comment")
 public class ApiCommentController {
 
-    private final ApiCommentService apiCommentService;
-    private final CommentMapper commentMapper;
+	private final ApiCommentService apiCommentService;
+	private final CommentMapper commentMapper;
 
-    public ApiCommentController(ApiCommentService apiCommentService, CommentMapper commentMapper) {
-        this.apiCommentService = apiCommentService;
-        this.commentMapper = commentMapper;
-    }
+	public ApiCommentController(ApiCommentService apiCommentService, CommentMapper commentMapper) {
+		this.apiCommentService = apiCommentService;
+		this.commentMapper = commentMapper;
+	}
 
-    @ApiOperation(value = "查询我的评论")
-    @GetMapping("/my/")
-    public JsonData<List<HashMap<Object, Object>>> findMyComment(@CurrentSecurityContext(expression = "authentication") Authentication authentication) {
-        return JsonData.success(apiCommentService.findMyComment(authentication.getName()));
-    }
+	@Operation(summary = "查询我的评论")
+	@GetMapping("/my/")
+	public JsonData<List<HashMap<Object, Object>>> findMyComment(@CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+		return JsonData.success(apiCommentService.findMyComment(authentication.getName()));
+	}
 
-    @ApiOperation(value = "查询评论列表", notes = "查询评论列表")
-    @GetMapping("/{articleId:\\d+}")
-    public JsonData<List<CommentDto>> findArticleByCondition(@PathVariable String articleId) {
-        List<CommentDto> result = apiCommentService.findCommentByCondition(articleId);
-        return JsonData.success(result);
-    }
+	@Operation(summary = "查询评论列表", description = "查询评论列表")
+	@GetMapping("/{articleId:\\d+}")
+	public JsonData<List<CommentDto>> findArticleByCondition(@PathVariable String articleId) {
+		List<CommentDto> result = apiCommentService.findCommentByCondition(articleId);
+		return JsonData.success(result);
+	}
 
-    @ApiOperation(value = "点赞评论", notes = "点赞评论")
-    @PutMapping(value = "/like/{commentId}")
-    public JsonData<Void> upVote(@PathVariable String commentId) {
-        apiCommentService.upVote(commentId);
-        return JsonData.success();
-    }
+	@Operation(summary = "点赞评论", description = "点赞评论")
+	@PutMapping(value = "/like/{commentId}")
+	public JsonData<Void> upVote(@PathVariable String commentId) {
+		apiCommentService.upVote(commentId);
+		return JsonData.success();
+	}
 
-    @ApiOperation(value = "取消点赞", notes = "取消点赞")
-    @DeleteMapping(value = "/like/{commentId}")
-    public JsonData<Void> unUpVote(@PathVariable String commentId) {
-        apiCommentService.unUpVote(commentId);
-        return JsonData.success();
-    }
+	@Operation(summary = "取消点赞", description = "取消点赞")
+	@DeleteMapping(value = "/like/{commentId}")
+	public JsonData<Void> unUpVote(@PathVariable String commentId) {
+		apiCommentService.unUpVote(commentId);
+		return JsonData.success();
+	}
 
-    @ApiOperation(value = "回复评论/添加新评论", notes = "回复评论/添加新评论")
-    @PostMapping
-    public JsonData<Void> addComment(@RequestBody @Validated CommentDto commentDto) {
-        apiCommentService.addComment(commentMapper.toEntity(commentDto));
-        return JsonData.success();
-    }
+	@Operation(summary = "回复评论/添加新评论", description = "回复评论/添加新评论")
+	@PostMapping
+	public JsonData<Void> addComment(@RequestBody @Validated CommentDto commentDto) {
+		apiCommentService.addComment(commentMapper.toEntity(commentDto));
+		return JsonData.success();
+	}
 
 }

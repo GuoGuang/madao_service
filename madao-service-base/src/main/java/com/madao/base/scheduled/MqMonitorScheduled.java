@@ -26,22 +26,22 @@ import java.util.List;
 public class MqMonitorScheduled {
 
 	@Autowired(required = false)
-    private RabbitUtil rabbitUtil;
+	private RabbitUtil rabbitUtil;
 	@Autowired
-    private MqMonitorDao mqMonitorDao;
+	private MqMonitorDao mqMonitorDao;
 
 	/**
 	 * 每十分钟获取一次队列中的消息数量，根据阈值判断是否告警
 	 */
-    @Scheduled(cron = "0 0/10 * * * ?")
-    @SchedulerLock(name = "getQueueCount", lockAtMostFor = "6s",lockAtLeastFor = "3s")
-    public void getQueueCount() {
-        List<MqMonitor> allQueue = mqMonitorDao.findAll();
-        for (MqMonitor mqMonitor : allQueue) {
-            long queueCount = rabbitUtil.getQueueCount(mqMonitor.getQueue());
-            if (queueCount > mqMonitor.getThreshold()){
-                log.error("MQ队列：{}超过所设置的阈值：{}！",mqMonitor.getQueue(),mqMonitor.getThreshold());
-            }
-        }
-    }
+	@Scheduled(cron = "0 0/10 * * * ?")
+	@SchedulerLock(name = "getQueueCount", lockAtMostFor = "6s", lockAtLeastFor = "3s")
+	public void getQueueCount() {
+		List<MqMonitor> allQueue = mqMonitorDao.findAll();
+		for (MqMonitor mqMonitor : allQueue) {
+			long queueCount = rabbitUtil.getQueueCount(mqMonitor.getQueue());
+			if (queueCount > mqMonitor.getThreshold()) {
+				log.error("MQ队列：{}超过所设置的阈值：{}！", mqMonitor.getQueue(), mqMonitor.getThreshold());
+			}
+		}
+	}
 }

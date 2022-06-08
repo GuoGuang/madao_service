@@ -16,6 +16,7 @@ import java.util.Map;
 
 /**
  * 抽象验证码类
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -24,98 +25,98 @@ import java.util.Map;
  */
 public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> implements ValidateCodeProcessor {
 
-    /**
-     * 收集系统中所有的 {@link ValidateCodeGenerator} 接口的实现。
-     */
-    @Autowired
-    private Map<String, ValidateCodeGenerator> validateCodeGenerators;
+	/**
+	 * 收集系统中所有的 {@link ValidateCodeGenerator} 接口的实现。
+	 */
+	@Autowired
+	private Map<String, ValidateCodeGenerator> validateCodeGenerators;
 
-    @Autowired
-    private ValidateCodeRepository validateCodeRepository;
+	@Autowired
+	private ValidateCodeRepository validateCodeRepository;
 
-    @Override
-    public void create(ServletWebRequest request) throws ServletRequestBindingException, IOException {
-        C validateCode = generate(request);
-        save(request, validateCode);
-        send(request, validateCode);
-    }
+	@Override
+	public void create(ServletWebRequest request) throws ServletRequestBindingException, IOException {
+		C validateCode = generate(request);
+		save(request, validateCode);
+		send(request, validateCode);
+	}
 
-    /**
-     * 生成校验码
-     */
-    @SuppressWarnings("unchecked")
-    private C generate(ServletWebRequest request) {
-        String type = getValidateCodeType(request).toString().toLowerCase();
-        String generatorName = type + ValidateCodeGenerator.class.getSimpleName();
-        ValidateCodeGenerator validateCodeGenerator = validateCodeGenerators.get(generatorName);
-        if (validateCodeGenerator == null) {
-            throw new AuthException("验证码生成器" + generatorName + "不存在");
-        }
-        return (C) validateCodeGenerator.generate(request);
-    }
+	/**
+	 * 生成校验码
+	 */
+	@SuppressWarnings("unchecked")
+	private C generate(ServletWebRequest request) {
+		String type = getValidateCodeType(request).toString().toLowerCase();
+		String generatorName = type + ValidateCodeGenerator.class.getSimpleName();
+		ValidateCodeGenerator validateCodeGenerator = validateCodeGenerators.get(generatorName);
+		if (validateCodeGenerator == null) {
+			throw new AuthException("验证码生成器" + generatorName + "不存在");
+		}
+		return (C) validateCodeGenerator.generate(request);
+	}
 
-    /**
-     * 保存校验码
-     */
-    private void save(ServletWebRequest request, C validateCode) {
-        ValidateCode code = new ValidateCode(validateCode.getCode(), validateCode.getExpireTime());
-        validateCodeRepository.save(request, code, getValidateCodeType(request));
-    }
+	/**
+	 * 保存校验码
+	 */
+	private void save(ServletWebRequest request, C validateCode) {
+		ValidateCode code = new ValidateCode(validateCode.getCode(), validateCode.getExpireTime());
+		validateCodeRepository.save(request, code, getValidateCodeType(request));
+	}
 
-    /**
-     * 发送校验码，由子类实现
-     *
-     * @param validateCode
-     */
-    protected abstract void send(ServletWebRequest request, C validateCode) throws ServletRequestBindingException, IOException;
+	/**
+	 * 发送校验码，由子类实现
+	 *
+	 * @param validateCode
+	 */
+	protected abstract void send(ServletWebRequest request, C validateCode) throws ServletRequestBindingException, IOException;
 
-    /**
-     * 根据请求的url获取校验码的类型
-     *
-     * @param request
-     */
-    private ValidateCodeType getValidateCodeType(ServletWebRequest request) {
-        String type = StringUtils.substringBefore(getClass().getSimpleName(), "ValidateCodeProcessor");
-        return ValidateCodeType.valueOf(type.toUpperCase());
-    }
+	/**
+	 * 根据请求的url获取校验码的类型
+	 *
+	 * @param request
+	 */
+	private ValidateCodeType getValidateCodeType(ServletWebRequest request) {
+		String type = StringUtils.substringBefore(getClass().getSimpleName(), "ValidateCodeProcessor");
+		return ValidateCodeType.valueOf(type.toUpperCase());
+	}
 
-    /**
-     * 校验验证码实现
-     *
-     * @param bodyString 请求体
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public void validate(ServletWebRequest request, String bodyString) {
+	/**
+	 * 校验验证码实现
+	 *
+	 * @param bodyString 请求体
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public void validate(ServletWebRequest request, String bodyString) {
 
-        ValidateCodeType codeType = getValidateCodeType(request);
+		ValidateCodeType codeType = getValidateCodeType(request);
 
-        C codeInSession = (C) validateCodeRepository.get(request, codeType);
+		C codeInSession = (C) validateCodeRepository.get(request, codeType);
 
-        String codeInRequest;
+		String codeInRequest;
 
-        Map<String, Object> map = JsonUtil.jsonToMap(bodyString);
-        codeInRequest = map.get(codeType.getParamNameOnValidate()) + "";
+		Map<String, Object> map = JsonUtil.jsonToMap(bodyString);
+		codeInRequest = map.get(codeType.getParamNameOnValidate()) + "";
 
-        if (StringUtils.isBlank(codeInRequest)) {
-            throw new AuthException(codeType + "验证码的值不能为空");
-        }
+		if (StringUtils.isBlank(codeInRequest)) {
+			throw new AuthException(codeType + "验证码的值不能为空");
+		}
 
-        if (codeInSession == null) {
-            throw new AuthException(codeType + "验证码不存在");
-        }
+		if (codeInSession == null) {
+			throw new AuthException(codeType + "验证码不存在");
+		}
 
-        if (codeInSession.isExpried()) {
-            validateCodeRepository.remove(request, codeType);
-            throw new AuthException(codeType + "验证码已过期");
-        }
+		if (codeInSession.isExpried()) {
+			validateCodeRepository.remove(request, codeType);
+			throw new AuthException(codeType + "验证码已过期");
+		}
 
-        if (!StringUtils.equals(codeInSession.getCode(), codeInRequest)) {
-            throw new AuthException(codeType + StatusEnum.CAPTCHA_NOT_MATCH.getMsg());
-        }
+		if (!StringUtils.equals(codeInSession.getCode(), codeInRequest)) {
+			throw new AuthException(codeType + StatusEnum.CAPTCHA_NOT_MATCH.getMsg());
+		}
 
-        validateCodeRepository.remove(request, codeType);
+		validateCodeRepository.remove(request, codeType);
 
-    }
+	}
 
 }

@@ -2,8 +2,8 @@ package com.madao.gateway.config;
 
 import com.madao.gateway.execption.GlobalExceptionHandler;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.reactive.error.ErrorAttributes;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -28,21 +28,21 @@ import java.util.List;
  * @created 2019-09-29 7:37
  */
 @Configuration
-@EnableConfigurationProperties({ServerProperties.class, ResourceProperties.class})
+@EnableConfigurationProperties({ServerProperties.class, WebProperties.class})
 public class ErrorHandlerConfiguration {
 
 	private final ServerProperties serverProperties;
 
 	private final ApplicationContext applicationContext;
 
-	private final ResourceProperties resourceProperties;
+	private final WebProperties.Resources resourceProperties;
 
 	private final List<ViewResolver> viewResolvers;
 
 	private final ServerCodecConfigurer serverCodecConfigurer;
 
 	public ErrorHandlerConfiguration(ServerProperties serverProperties,
-	                                 ResourceProperties resourceProperties,
+	                                 WebProperties.Resources resourceProperties,
 	                                 ObjectProvider<List<ViewResolver>> viewResolversProvider,
 	                                 ServerCodecConfigurer serverCodecConfigurer,
 	                                 ApplicationContext applicationContext) {

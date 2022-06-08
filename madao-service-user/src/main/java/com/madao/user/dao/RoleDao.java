@@ -19,16 +19,16 @@ import java.util.Optional;
  * @created 2019-09-29 7:37
  */
 public interface RoleDao extends JpaRepository<Role, String>, JpaSpecificationExecutor<Role>, QuerydslPredicateExecutor<Role> {
-    /**
-     * 查询当前用户的角色
-     *
-     * @param id 用户id
-     * @return 角色数组
-     */
-    @Query(value = "SELECT * FROM us_role WHERE id in (SELECT role_id FROM us_user_role WHERE user_id = :id)", nativeQuery = true)
-    Optional<List<Role>> findRolesOfUser(@Param("id") String id);
+	/**
+	 * 查询当前用户的角色
+	 *
+	 * @param id 用户id
+	 * @return 角色数组
+	 */
+	@Query(value = "SELECT * FROM us_role WHERE id in (SELECT role_id FROM us_user_role WHERE user_id = :id)", nativeQuery = true)
+	Optional<List<Role>> findRolesOfUser(@Param("id") String id);
 
-    @Modifying
-    @Query("delete from Role where id in (:ids)")
-    void deleteBatch(List<String> ids);
+	@Modifying
+	@Query("delete from Role where id in (:ids)")
+	void deleteBatch(List<String> ids);
 }

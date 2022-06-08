@@ -38,7 +38,7 @@ public class RateLimiterAspect {
 	private final RedisScript<Long> limitScript;
 
 	@Before("@annotation(rateLimiter)")
-	public void doBefore(JoinPoint point, RateLimiter rateLimiter){
+	public void doBefore(JoinPoint point, RateLimiter rateLimiter) {
 		String key = rateLimiter.key();
 		int time = rateLimiter.time();
 		int count = rateLimiter.count();

@@ -15,6 +15,7 @@ import java.io.IOException;
 
 /**
  * 无权访问返回的 JSON 格式数据给前端（否则为 403 html 页面）
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -30,7 +31,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 		httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		// 如果这里状态改为HttpServletResponse.SC_UNAUTHORIZED 会导致feign之间调用异常 see https://xujin.org/sc/sc-feign-4xx/
 //		httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-		JsonData<Object> jsonData =  new JsonData<>(StatusEnum.UN_AUTHORIZED);
+		JsonData<Object> jsonData = new JsonData<>(StatusEnum.UN_AUTHORIZED);
 		httpServletResponse.getWriter().write(JsonUtil.toJsonString(jsonData));
 	}
 }

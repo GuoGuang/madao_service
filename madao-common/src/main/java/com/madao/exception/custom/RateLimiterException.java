@@ -2,6 +2,7 @@ package com.madao.exception.custom;
 
 /**
  * 达到限流峰值异常
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang

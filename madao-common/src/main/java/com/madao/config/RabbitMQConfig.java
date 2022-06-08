@@ -72,6 +72,7 @@ public class RabbitMQConfig {
 	/**
 	 * 可靠性投递配置
 	 * 因为要设置回调类，所以应是prototype类型
+	 *
 	 * @return the amqp template
 	 */
 	@Bean
@@ -79,16 +80,16 @@ public class RabbitMQConfig {
 	public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
 		RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
 		rabbitTemplate.setEncoding("UTF-8");
-		rabbitTemplate.setCorrelationDataPostProcessor((m, c) -> new  CorrelationData("custom_" + System.nanoTime()));
+		rabbitTemplate.setCorrelationDataPostProcessor((m, c) -> new CorrelationData("custom_" + System.nanoTime()));
 		//开启监听回调
 		rabbitTemplate.setMandatory(true);
 		rabbitTemplate.setReturnsCallback(returnedMessage -> {
 			log.info("------------------------------------消息成功到达exchange，但routing不到任何queue:------------------------------------");
-			log.info("ReturnCallback:     消息：{}" ,returnedMessage.getMessage());
-			log.info("ReturnCallback:     回应码：{}" ,returnedMessage.getReplyCode());
-			log.info("ReturnCallback:     回应信息：{}" ,returnedMessage.getReplyText());
-			log.info("ReturnCallback:     交换机：{}" ,returnedMessage.getExchange());
-			log.info("ReturnCallback:     路由键：{}" , returnedMessage.getRoutingKey());
+			log.info("ReturnCallback:     消息：{}", returnedMessage.getMessage());
+			log.info("ReturnCallback:     回应码：{}", returnedMessage.getReplyCode());
+			log.info("ReturnCallback:     回应信息：{}", returnedMessage.getReplyText());
+			log.info("ReturnCallback:     交换机：{}", returnedMessage.getExchange());
+			log.info("ReturnCallback:     路由键：{}", returnedMessage.getRoutingKey());
 		});
 		// 消息只要被 rabbitmq broker 接收到就会执行
 		rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {

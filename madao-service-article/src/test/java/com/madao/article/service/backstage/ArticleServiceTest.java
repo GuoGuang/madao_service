@@ -19,37 +19,37 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
 class ArticleServiceTest {
-    @Mock
-    ArticleDao articleDao;
-    @Mock
-    CategoryDao categoryDao;
-    @Mock
-    RedisUtil redisUtil;
-    @Mock
-    UserServiceRpc userServiceRpc;
-    @Mock
-    TagDao tagDao;
-    @InjectMocks
-    ArticleService articleService;
+	@Mock
+	ArticleDao articleDao;
+	@Mock
+	CategoryDao categoryDao;
+	@Mock
+	RedisUtil redisUtil;
+	@Mock
+	UserServiceRpc userServiceRpc;
+	@Mock
+	TagDao tagDao;
+	@InjectMocks
+	ArticleService articleService;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
+	@BeforeEach
+	void setUp() {
+		MockitoAnnotations.initMocks(this);
+	}
 
-    @Test
-    void testFindArticleByCondition() {
-        when(userServiceRpc.getUserInfo("admin")).thenReturn(new JsonData<>(true, 0, null, any()));
+	@Test
+	void testFindArticleByCondition() {
+		when(userServiceRpc.getUserInfo("admin")).thenReturn(new JsonData<>(true, 0, null, any()));
 
-        Page<ArticleDto> result = articleService.findArticleByCondition(new ArticleDto(), null);
-        Assertions.assertEquals(null, result);
-    }
+		Page<ArticleDto> result = articleService.findArticleByCondition(new ArticleDto(), null);
+		Assertions.assertNull(result);
+	}
 
-    @Test
-    void testFindArticleById() {
-        ArticleDto result = articleService.findArticleById("articleId");
-        Assertions.assertEquals(new ArticleDto(), result);
-    }
+	@Test
+	void testFindArticleById() {
+		ArticleDto result = articleService.findArticleById("articleId");
+		Assertions.assertEquals(new ArticleDto(), result);
+	}
 
 }
 

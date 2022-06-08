@@ -3,6 +3,7 @@ package com.madao.config.ratelimit;
 
 /**
  * 接口限流类型，支持ip或者全局
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang

@@ -49,22 +49,22 @@ public class SocketIOConfig {
 		return new SocketIOServer(config);
 	}
 
-	@Slf4j
-	static class SocketExceptionListener extends ExceptionListenerAdapter {
-		@Override
-		public boolean exceptionCaught(ChannelHandlerContext ctx, Throwable e) {
-			log.error("socket异常：{}",e.getMessage(),e);
-			ctx.close();
-			return true;
-		}
-	}
-
 	/**
 	 * 用于扫描netty-socketio的注解，比如 @OnConnect、@OnEvent
 	 */
 	@Bean
 	public SpringAnnotationScanner springAnnotationScanner() {
 		return new SpringAnnotationScanner(socketIOServer());
+	}
+
+	@Slf4j
+	static class SocketExceptionListener extends ExceptionListenerAdapter {
+		@Override
+		public boolean exceptionCaught(ChannelHandlerContext ctx, Throwable e) {
+			log.error("socket异常：{}", e.getMessage(), e);
+			ctx.close();
+			return true;
+		}
 	}
 
 }

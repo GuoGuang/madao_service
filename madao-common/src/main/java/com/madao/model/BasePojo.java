@@ -20,13 +20,13 @@ import java.io.Serializable;
 @EntityListeners(AuditingEntityListener.class)
 public class BasePojo implements Serializable {
 
-    @LastModifiedDate
-    @Column(length = 13)
-    private Long updateAt;
+	@LastModifiedDate
+	@Column(length = 13)
+	private Long updateAt;
 
-    @CreatedDate
-    @Column(length = 13)
-    private Long createAt;
+	@CreatedDate
+	@Column(length = 13)
+	private Long createAt;
 
 	public Long getUpdateAt() {
 		return updateAt;

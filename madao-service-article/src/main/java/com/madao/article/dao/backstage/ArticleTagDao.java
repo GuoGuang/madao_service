@@ -15,13 +15,13 @@ import java.util.List;
  * @created 2019-09-29 7:37
  */
 public interface ArticleTagDao extends JpaRepository<ArticleTag, String>,
-        JpaSpecificationExecutor<ArticleTag>, QuerydslPredicateExecutor<ArticleTag> {
+		JpaSpecificationExecutor<ArticleTag>, QuerydslPredicateExecutor<ArticleTag> {
 
-    List<ArticleTag> findAllByTagIdIn(List<String> collect);
+	List<ArticleTag> findAllByTagIdIn(List<String> collect);
 
-    List<ArticleTag> findAllByArticleIdIn(List<String> articleIds);
+	List<ArticleTag> findAllByArticleIdIn(List<String> articleIds);
 
-    void deleteByTagIdIn(List<String> tagIds);
+	void deleteByTagIdIn(List<String> tagIds);
 
-    void deleteByArticleIdIn(List<String> articleIds);
+	void deleteByArticleIdIn(List<String> articleIds);
 }

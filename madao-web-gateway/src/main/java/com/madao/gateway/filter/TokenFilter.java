@@ -68,7 +68,8 @@ public class TokenFilter implements GlobalFilter {
 		log.info("url:{},method:{},headers:{}", url, method, request.getHeaders());
 		//不需要网关签权的url
 		if (authService.ignoreAuthentication(url) || match(url,
-				"/doc/**",
+				"/v3/**",
+				"/webjars/**",
 				"/az/auth/token",
 				"/az/auth/code/sms",
 				"/api/login/**",

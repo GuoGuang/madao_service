@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 鉴权拦截器
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -21,22 +22,22 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class JwtFilter extends HandlerInterceptorAdapter {
 
-    @Autowired
-    private JWTAuthentication jwtAuthentication;
+	@Autowired
+	private JWTAuthentication jwtAuthentication;
 
-    /**
-     * 拦截器-预处理:可以进行编码、安全控制等处理
-     *
-     * @param request
-     * @param response
-     * @param handler
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        final String authorization = request.getHeader("Authorization");
-        if (StringUtils.isNotEmpty(authorization) && StringUtils.startsWith(authorization, "Bearer-")) {
+	/**
+	 * 拦截器-预处理:可以进行编码、安全控制等处理
+	 *
+	 * @param request
+	 * @param response
+	 * @param handler
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		final String authorization = request.getHeader("Authorization");
+		if (StringUtils.isNotEmpty(authorization) && StringUtils.startsWith(authorization, "Bearer-")) {
 			/*final String token = authorization.substring(7); // The part after "Bearer "
 			Claims claims = jwtAuthentication.parseJWT(token);
 			if (claims != null) {
@@ -49,37 +50,37 @@ public class JwtFilter extends HandlerInterceptorAdapter {
 					request.setAttribute("user_claims", claims);
 				}
 			}*/
-        }
-        return true;
-    }
+		}
+		return true;
+	}
 
-    /**
-     * 后处理（调用了Service并返回ModelAndView，但未进行页面渲染）
-     *
-     * @param request
-     * @param response
-     * @param handler
-     * @param modelAndView
-     * @throws Exception
-     */
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        log.info("postHandle invoke");
-        super.postHandle(request, response, handler, modelAndView);
-    }
+	/**
+	 * 后处理（调用了Service并返回ModelAndView，但未进行页面渲染）
+	 *
+	 * @param request
+	 * @param response
+	 * @param handler
+	 * @param modelAndView
+	 * @throws Exception
+	 */
+	@Override
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+		log.info("postHandle invoke");
+		super.postHandle(request, response, handler, modelAndView);
+	}
 
-    /**
-     * 返回处理（已经渲染了页面）
-     *
-     * @param request
-     * @param response
-     * @param handler
-     * @param ex
-     * @throws Exception
-     */
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        log.info("afterCompletion invoke");
-        super.afterCompletion(request, response, handler, ex);
-    }
+	/**
+	 * 返回处理（已经渲染了页面）
+	 *
+	 * @param request
+	 * @param response
+	 * @param handler
+	 * @param ex
+	 * @throws Exception
+	 */
+	@Override
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+		log.info("afterCompletion invoke");
+		super.afterCompletion(request, response, handler, ex);
+	}
 }

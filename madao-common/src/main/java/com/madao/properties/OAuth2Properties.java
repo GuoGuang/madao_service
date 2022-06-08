@@ -2,6 +2,7 @@ package com.madao.properties;
 
 /**
  * OAuth2配置项
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -10,10 +11,10 @@ package com.madao.properties;
  */
 public class OAuth2Properties {
 
-    /**
-     * 客户端配置
-     */
-    private OAuth2ClientProperties[] clients = {};
+	/**
+	 * 客户端配置
+	 */
+	private OAuth2ClientProperties[] clients = {};
 
 	public OAuth2ClientProperties[] getClients() {
 		return clients;

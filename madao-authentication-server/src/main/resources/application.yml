@@ -1,6 +1,8 @@
 server:
   port: 8090
 spring:
+  application:
+    name: authentication-server
   security:
     oauth2:
       client:

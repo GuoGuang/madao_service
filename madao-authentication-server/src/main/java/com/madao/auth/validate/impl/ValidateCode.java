@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 
 /**
  * 验证码信息封装类
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -20,32 +21,32 @@ import java.time.LocalDateTime;
  */
 public class ValidateCode implements Serializable {
 
-    private String code;
+	private String code;
 
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime expireTime;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	private LocalDateTime expireTime;
 
-    public ValidateCode(String code, int expireIn) {
-        this.code = code;
-        this.expireTime = LocalDateTime.now().plusSeconds(expireIn);
-    }
+	public ValidateCode(String code, int expireIn) {
+		this.code = code;
+		this.expireTime = LocalDateTime.now().plusSeconds(expireIn);
+	}
 
-    public ValidateCode(String code, LocalDateTime expireTime) {
-        this.code = code;
-        this.expireTime = expireTime;
-    }
+	public ValidateCode(String code, LocalDateTime expireTime) {
+		this.code = code;
+		this.expireTime = expireTime;
+	}
 
-    public ValidateCode() {
+	public ValidateCode() {
 
-    }
+	}
 
-    @JsonIgnore
-    public boolean isExpried() {
-        return LocalDateTime.now().isAfter(expireTime);
-    }
+	@JsonIgnore
+	public boolean isExpried() {
+		return LocalDateTime.now().isAfter(expireTime);
+	}
 
 	public String getCode() {
 		return code;

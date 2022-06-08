@@ -18,11 +18,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class TestRabbitMqFanout {
 
-    @Autowired
-    private RabbitUtil rabbitUtil;
+	@Autowired
+	private RabbitUtil rabbitUtil;
 
-    @Test
-    public void testRabbitFanout() {
-        rabbitUtil.sendFanoutToQueue("{\"id\":\"1\",\"name\":\"2\"}", "productLine", "");
-    }
+	@Test
+	public void testRabbitFanout() {
+		rabbitUtil.sendFanoutToQueue("{\"id\":\"1\",\"name\":\"2\"}", "productLine", "");
+	}
 }

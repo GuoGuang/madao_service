@@ -17,31 +17,31 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "mq_monitor",
-        uniqueConstraints=@UniqueConstraint(columnNames={"queue"}))
-@org.hibernate.annotations.Table(appliesTo = "mq_monitor",comment="MQ队列数量监视器")
+		uniqueConstraints = @UniqueConstraint(columnNames = {"queue"}))
+@org.hibernate.annotations.Table(appliesTo = "mq_monitor", comment = "MQ队列数量监视器")
 @Getter
 @Setter
 public class MqMonitor {
 
-    @Id
-    @Column(name = "id", unique = true, nullable = false, updatable = false, length = 20)
-    @GeneratedValue(generator = "idGenerator")
-    @GenericGenerator(name = "idGenerator", strategy = "com.madao.config.IdGeneratorConfig")
-    private String id;
+	@Id
+	@Column(name = "id", unique = true, nullable = false, updatable = false, length = 20)
+	@GeneratedValue(generator = "idGenerator")
+	@GenericGenerator(name = "idGenerator", strategy = "com.madao.config.IdGeneratorConfig")
+	private String id;
 
-    @Column(columnDefinition="varchar(100) COMMENT '队列名称'",nullable = false)
-    private String queue;
+	@Column(columnDefinition = "varchar(100) COMMENT '队列名称'", nullable = false)
+	private String queue;
 
-    @Column(columnDefinition="varchar(300) COMMENT '队列描述' default ''")
-    private String queueDesc;
+	@Column(columnDefinition = "varchar(300) COMMENT '队列描述' default ''")
+	private String queueDesc;
 
-    @Column(columnDefinition="int COMMENT '阈值' default null")
-    private int threshold;
+	@Column(columnDefinition = "int COMMENT '阈值' default null")
+	private int threshold;
 
-    @Column(columnDefinition="varchar(500) COMMENT '邮件收件人'",nullable = false)
-    private String receiver;
+	@Column(columnDefinition = "varchar(500) COMMENT '邮件收件人'", nullable = false)
+	private String receiver;
 
-    @Column(columnDefinition="varchar(500) COMMENT '短信收件人'",nullable = false)
-    private String mobile;
+	@Column(columnDefinition = "varchar(500) COMMENT '短信收件人'", nullable = false)
+	private String mobile;
 
 }

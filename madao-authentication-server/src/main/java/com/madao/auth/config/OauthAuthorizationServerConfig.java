@@ -30,6 +30,7 @@ import java.util.Arrays;
 
 /**
  * Oauth2认证配置
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -38,14 +39,8 @@ import java.util.Arrays;
  */
 @Configuration
 @EnableAuthorizationServer
-class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+public class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-	// jwt令牌转换器
-	@Autowired
-	private JwtAccessTokenConverter jwtAccessTokenConverter;
-	// 登录错误时执行
-	@Autowired
-	private CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
 	@Autowired
 	@Qualifier("userDetailsServiceImpl")
 	UserDetailsService userDetailsService;
@@ -53,18 +48,22 @@ class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapte
 	AuthenticationManager authenticationManager;
 	@Autowired
 	TokenStore tokenStore;
-
+	// jwt令牌转换器
+	@Autowired
+	private JwtAccessTokenConverter jwtAccessTokenConverter;
+	// 登录错误时执行
+	@Autowired
+	private CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
 	@Autowired
 	private OAuth2ClientProperties oAuth2ClientProperties;
+	@Resource(name = "keyProp")
+	private KeyProperties keyProperties;
 
 	//读取密钥的配置
 	@Bean("keyProp")
 	public KeyProperties keyProperties() {
 		return new KeyProperties();
 	}
-
-	@Resource(name = "keyProp")
-	private KeyProperties keyProperties;
 
 	/**
 	 * 配置客户端应用

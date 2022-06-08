@@ -1,6 +1,6 @@
 package com.madao.user.controller;
 
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * @author GuoGuang
@@ -9,7 +9,7 @@ import io.swagger.annotations.Api;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
-@Api(tags = "社交登录，第三方登录")
+@Tag(name = "社交登录，第三方登录")
 public class SocialController {
 
 }

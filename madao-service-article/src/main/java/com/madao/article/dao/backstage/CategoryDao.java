@@ -18,10 +18,10 @@ import java.util.List;
  * @created 2019-09-29 7:37
  */
 public interface CategoryDao extends JpaRepository<Category, String>,
-        JpaSpecificationExecutor<Category>, QuerydslPredicateExecutor<Category> {
+		JpaSpecificationExecutor<Category>, QuerydslPredicateExecutor<Category> {
 
-    @Modifying
-    @Query("delete from Category where id in (:ids)")
-    void deleteBatch(@Param("ids") List<String> ids);
+	@Modifying
+	@Query("delete from Category where id in (:ids)")
+	void deleteBatch(@Param("ids") List<String> ids);
 
 }

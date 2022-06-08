@@ -2,6 +2,7 @@ package com.madao.properties;
 
 /**
  * QQ登录配置项
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -10,9 +11,9 @@ package com.madao.properties;
  */
 public class GitHubProperties {
 
-    private final String providerId = "GITHUB";
-    private String clientId;
-    private String clientSecret;
+	private final String providerId = "GITHUB";
+	private String clientId;
+	private String clientSecret;
 
 	public String getProviderId() {
 		return providerId;

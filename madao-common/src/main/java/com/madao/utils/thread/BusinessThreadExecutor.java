@@ -44,11 +44,10 @@ public class BusinessThreadExecutor {
 	 */
 //	@Bean
 	public static ExecutorService userWorkStealingPool() {
-		return BusinessThreadExecutor.buildThreadFirstExecutor("USER-ForkJoinPool",(runnable, executor) -> {
+		return BusinessThreadExecutor.buildThreadFirstExecutor("USER-ForkJoinPool", (runnable, executor) -> {
 			log.warn("当前队列已满，拒绝执行！");
 		});
 	}
-
 
 
 	/**
@@ -68,12 +67,13 @@ public class BusinessThreadExecutor {
 	public static ThreadPoolExecutor buildThreadFirstExecutor(String poolName) {
 		int coreSize = BusinessThreadExecutor.getCpuProcessors();
 		int maxSize = coreSize * 8;
-		return buildThreadFirstExecutor(coreSize, maxSize, 5, TimeUnit.MINUTES, 1 << 16, poolName,null);
+		return buildThreadFirstExecutor(coreSize, maxSize, 5, TimeUnit.MINUTES, 1 << 16, poolName, null);
 	}
-	public static ThreadPoolExecutor buildThreadFirstExecutor(String poolName,RejectedExecutionHandler re) {
+
+	public static ThreadPoolExecutor buildThreadFirstExecutor(String poolName, RejectedExecutionHandler re) {
 		int coreSize = BusinessThreadExecutor.getCpuProcessors();
 		int maxSize = coreSize * 8;
-		return buildThreadFirstExecutor(coreSize, maxSize, 5, TimeUnit.MINUTES, 1 << 16, poolName,re);
+		return buildThreadFirstExecutor(coreSize, maxSize, 5, TimeUnit.MINUTES, 1 << 16, poolName, re);
 	}
 
 	/**

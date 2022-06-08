@@ -17,6 +17,7 @@ import java.io.IOException;
 /**
  * 用户没有登录时返回给前端的数据
  * 未登陆时返回 JSON 格式的数据给前端（否则为 html）
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -33,8 +34,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 //		httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		// 如果这里状态改为HttpServletResponse.SC_UNAUTHORIZED 会导致feign之间调用异常 see https://xujin.org/sc/sc-feign-4xx/
 		httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-		log.error("用户没有登录时返回给前端的数据，请求接口---------->{}",httpServletRequest.getRequestURL());
-		JsonData<Object> jsonData =  new JsonData<>(StatusEnum.LOGIN_EXPIRED);
+		log.error("用户没有登录时返回给前端的数据，请求接口---------->{}", httpServletRequest.getRequestURL());
+		JsonData<Object> jsonData = new JsonData<>(StatusEnum.LOGIN_EXPIRED);
 		httpServletResponse.getWriter().write(JsonUtil.toJsonString(jsonData));
 	}
 }

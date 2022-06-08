@@ -1,15 +1,15 @@
 package com.madao.model.dto.user;
 
 import com.google.common.base.Objects;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public class AuthToken {
-    @ApiModelProperty("访问token就是短令牌，用户身份令牌")
-    String access_token;
-    @ApiModelProperty("刷新token")
-    String refresh_token;
-    @ApiModelProperty("jwt令牌")
-    String jwt_token;
+	@Schema(title = "访问token就是短令牌，用户身份令牌")
+	String access_token;
+	@Schema(title = "刷新token")
+	String refresh_token;
+	@Schema(title = "jwt令牌")
+	String jwt_token;
 
 	public String getAccess_token() {
 		return access_token;
@@ -41,8 +41,7 @@ public class AuthToken {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof AuthToken)) return false;
-		AuthToken authToken = (AuthToken) o;
+		if (!(o instanceof AuthToken authToken)) return false;
 		return Objects.equal(access_token, authToken.access_token) && Objects.equal(refresh_token, authToken.refresh_token) && Objects.equal(jwt_token, authToken.jwt_token);
 	}
 

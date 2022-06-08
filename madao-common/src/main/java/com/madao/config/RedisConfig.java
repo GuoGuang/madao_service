@@ -30,6 +30,7 @@ import java.time.Duration;
  * JacksonJsonRedisSerializer     json到object的序列化/反序列化
  * Jackson2JsonRedisSerializer     json到object的序列化/反序列化
  * JdkSerializationRedisSerializer     java对象的序列化/反序列化
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -78,6 +79,7 @@ public class RedisConfig {
 
 	/**
 	 * 配置缓存管理器
+	 *
 	 * @param factory Redis 线程安全连接工厂
 	 * @return 缓存管理器
 	 */
@@ -105,8 +107,10 @@ public class RedisConfig {
 				.withCacheConfiguration("article", articleCacheConfig)
 				.build();
 	}
+
 	/**
 	 * 配置键序列化
+	 *
 	 * @return StringRedisSerializer
 	 */
 	private RedisSerializationContext.SerializationPair<String> keyPair() {
@@ -115,6 +119,7 @@ public class RedisConfig {
 
 	/**
 	 * 配置值序列化，使用 GenericJackson2JsonRedisSerializer 替换默认序列化
+	 *
 	 * @return GenericJackson2JsonRedisSerializer
 	 */
 	private RedisSerializationContext.SerializationPair<Object> valuePair() {

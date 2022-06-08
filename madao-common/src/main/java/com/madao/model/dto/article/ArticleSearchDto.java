@@ -12,6 +12,7 @@ import java.io.Serializable;
 
 /**
  * 文章板块: 文章类,集成ES
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -33,23 +34,23 @@ import java.io.Serializable;
 )
 public class ArticleSearchDto extends BasePojo implements Serializable {
 
-    private String id;
-    private String columnId;
-    private String userId;
-//    @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
+	private String id;
+	private String columnId;
+	private String userId;
+	//    @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
 	@Field(type = FieldType.Text)
 	private String title;
 	@Field(type = FieldType.Text)
 	private String content;
-    private String image;
-    private String isPublic;
-    private String isTop;
-    private Integer visits;
+	private String image;
+	private String isPublic;
+	private String isTop;
+	private Integer visits;
 	@Field(type = FieldType.Integer)
 	private Integer thumbUp;
-    private Integer comment;
-    private String state;
-    private String channelId;
-    private String url;
-    private String type;
+	private Integer comment;
+	private String state;
+	private String channelId;
+	private String url;
+	private String type;
 }

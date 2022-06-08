@@ -18,20 +18,20 @@ import java.util.List;
  * @created 2019-09-29 7:37
  */
 public interface ArticleDao extends JpaRepository<Article, String>,
-        JpaSpecificationExecutor<Article>, QuerydslPredicateExecutor<Article> {
+		JpaSpecificationExecutor<Article>, QuerydslPredicateExecutor<Article> {
 
-    @Modifying
-    @Query("delete from Article where id in (:ids)")
-    void deleteBatch(@Param("ids") List<String> ids);
+	@Modifying
+	@Query("delete from Article where id in (:ids)")
+	void deleteBatch(@Param("ids") List<String> ids);
 
-    /**
-     * 审核文章
-     *
-     * @param id
-     */
-    @Modifying
-    @Query("update Article set state='1' where id=:id")
-    void examine(@Param("id") String id);
+	/**
+	 * 审核文章
+	 *
+	 * @param id
+	 */
+	@Modifying
+	@Query("update Article set state='1' where id=:id")
+	void examine(@Param("id") String id);
 
-    List<Article> findByCategoryIdIn(List<String> ids);
+	List<Article> findByCategoryIdIn(List<String> ids);
 }
