@@ -13,6 +13,7 @@ import com.madao.utils.security.JWTAuthentication;
 import eu.bitwalker.useragentutils.UserAgent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -55,6 +56,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 	@Autowired
 	private ClientDetailsService clientDetailsService;
 	@Autowired
+	@Lazy
 	private AuthorizationServerTokenServices authorizationServerTokenServices;
 	@Autowired
 	private PasswordEncoder passwordEncoder;

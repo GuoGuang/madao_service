@@ -9,6 +9,7 @@ import com.madao.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -49,6 +50,7 @@ public class OauthLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 	private ClientDetailsService clientDetailsService;
 
 	@Autowired
+	@Lazy
 	private AuthorizationServerTokenServices authorizationServerTokenServices;
 
 	@Autowired
