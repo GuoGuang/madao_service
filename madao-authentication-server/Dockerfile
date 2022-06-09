@@ -1,4 +1,5 @@
-FROM openjdk:17-alpine
+# 解决因为openjdk导致图形验证码无法加载的问题
+FROM openjdk:17.0.2-jdk-oracle
 WORKDIR /service
 COPY target/madao-authentication-server-1.0.0.jar authentication-server.jar
 # RUN bash -c "touch /authentication-server.jar"
