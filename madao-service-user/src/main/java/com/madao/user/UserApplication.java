@@ -3,6 +3,8 @@ package com.madao.user;
 import com.madao.annotation.EnableSpringCloudComponent;
 import com.madao.utils.DateUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.amqp.rabbit.config.RabbitListenerConfigUtils;
+import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -61,5 +63,13 @@ public class UserApplication {
 		configurer.setProperties(yaml.getObject());
 		return configurer;
 	}*/
+
+	/*
+	 * Flowable所依赖的
+	 */
+	@Bean(name = RabbitListenerConfigUtils.RABBIT_LISTENER_ENDPOINT_REGISTRY_BEAN_NAME)
+	public RabbitListenerEndpointRegistry defaultRabbitListenerEndpointRegistry() {
+		return new RabbitListenerEndpointRegistry();
+	}
 
 }
