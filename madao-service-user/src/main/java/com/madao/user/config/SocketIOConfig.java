@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 public class SocketIOConfig {
 
 	private String host;
+	private String path;
 	private Integer port;
 	private int bossCount;
 	private int workCount;
@@ -36,7 +37,7 @@ public class SocketIOConfig {
 		socketConfig.setReuseAddress(true);
 		Configuration config = new Configuration();
 		config.setSocketConfig(socketConfig);
-		config.setContext("/socket");
+		config.setContext(path);
 		config.setHostname(host);
 		config.setPort(port);
 		config.setBossThreads(bossCount);

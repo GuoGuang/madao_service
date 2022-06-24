@@ -51,6 +51,7 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
 		String serverPort = env.getProperty("server.port");
 		String socketHost = env.getProperty("socketio.host");
 		String socketPort = env.getProperty("socketio.port");
+		String socketPath = env.getProperty("socketio.path");
 		String contextPath = Optional
 				.ofNullable(env.getProperty("server.servlet.context-path"))
 				.filter(StringUtils::isNotBlank)
@@ -79,7 +80,7 @@ public class StartedListener implements ApplicationListener<ApplicationStartedEv
 				serverPort,
 				contextPath,
 				"" + protocol + "://" + ip + ":8080/webjars/swagger-ui/index.html",
-				FeignConst.SERVICE_USER.equals(serviceName) ? "" + protocol + "://" + socketHost + ":" + socketPort : "NONE",
+				FeignConst.SERVICE_USER.equals(serviceName) ? "" + protocol + "://" + socketHost + ":" + socketPort+socketPath+"/?EIO=3&transport=websocket" : "NONE",
 				env.getActiveProfiles().length == 0 ? env.getDefaultProfiles() : env.getActiveProfiles(),
 				"----------------------------------------------------------"
 		);
