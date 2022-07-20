@@ -6,7 +6,9 @@ import com.madao.exception.custom.ThreadException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Nonnull;
@@ -15,6 +17,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 
 /**
@@ -28,6 +32,7 @@ import java.util.concurrent.*;
  */
 @Slf4j
 @Getter
+@Component
 public class BusinessThreadExecutor {
 
 	// 获取默认构造的通用线程池，线程池核心是为 CPU 核数，最大线程数为 8倍 CPU 核数
@@ -42,13 +47,32 @@ public class BusinessThreadExecutor {
 	/**
 	 * 用户服务ForkJoinPool
 	 */
-//	@Bean
-	public static ExecutorService userWorkStealingPool() {
-		return BusinessThreadExecutor.buildThreadFirstExecutor("USER-ForkJoinPool", (runnable, executor) -> {
-			log.warn("当前队列已满，拒绝执行！");
-		});
+	@Bean
+	public ExecutorService userWorkStealingPool() {
+		return BusinessThreadExecutor.buildThreadFirstExecutor("USER-ForkJoinPool");
 	}
 
+	/**
+	 * 获取默认线程数的线程池
+	 * 内部基于无界队列，请求量很大时候可能导致OOM的发生
+	 * @param poolName 线程池名称
+	 * @param nThreads 线程数量
+	 * @param uncaughtExceptionHandler 异常回调
+	 * @return ExecutorService
+	 */
+	public static ExecutorService newFixedThreadPool(String poolName,int nThreads,Thread.UncaughtExceptionHandler uncaughtExceptionHandler) {
+		ThreadPoolExecutor executor =  new ThreadPoolExecutor(nThreads, nThreads,
+				0L, TimeUnit.MILLISECONDS,
+				new LinkedBlockingQueue<Runnable>(),
+				new ThreadFactoryBuilder()
+						.setUncaughtExceptionHandler(uncaughtExceptionHandler)
+						.setNameFormat(poolName + "-%d").build());
+
+		BusinessThreadExecutor.displayThreadPoolStatus(executor, poolName);
+		BusinessThreadExecutor.hookShutdownThreadPool(executor, poolName);
+		ExecutorManager.registerThreadPoolExecutor(poolName, executor);
+		return executor;
+	}
 
 	/**
 	 * 构建线程优先的线程池
@@ -60,6 +84,7 @@ public class BusinessThreadExecutor {
 	 *
 	 * <p>
 	 * 此方法默认设置核心线程数为 CPU 核数，最大线程数为 8倍 CPU 核数，空闲线程超过 5 分钟销毁，工作队列大小为 65536。
+	 * 当任务超出工作队列
 	 *
 	 * @param poolName 线程池名称
 	 * @return ThreadPoolExecutor
@@ -67,14 +92,9 @@ public class BusinessThreadExecutor {
 	public static ThreadPoolExecutor buildThreadFirstExecutor(String poolName) {
 		int coreSize = BusinessThreadExecutor.getCpuProcessors();
 		int maxSize = coreSize * 8;
-		return buildThreadFirstExecutor(coreSize, maxSize, 5, TimeUnit.MINUTES, 1 << 16, poolName, null);
+		return buildThreadFirstExecutor(coreSize, maxSize, 5, TimeUnit.MINUTES, 1 << 16, poolName);
 	}
 
-	public static ThreadPoolExecutor buildThreadFirstExecutor(String poolName, RejectedExecutionHandler re) {
-		int coreSize = BusinessThreadExecutor.getCpuProcessors();
-		int maxSize = coreSize * 8;
-		return buildThreadFirstExecutor(coreSize, maxSize, 5, TimeUnit.MINUTES, 1 << 16, poolName, re);
-	}
 
 	/**
 	 * 构建线程优先的线程池，把队列当成一个后备方案
@@ -94,14 +114,12 @@ public class BusinessThreadExecutor {
 	                                                          long keepAliveTime,
 	                                                          TimeUnit unit,
 	                                                          int workQueueSize,
-	                                                          String poolName,
-	                                                          RejectedExecutionHandler re) {
+	                                                          String poolName) {
 		// 自定义队列，优先开启更多线程，而不是放入队列
 		// 通过重写队列的 offer 方法，直接返回 false，造成这个队列已满的假象，线程池在工作队列满了无法入队的情况下会扩容线程池。
 		// 直到线程数达到最大线程数，就会触发拒绝策略，此时再通过自定义的拒绝策略将任务通过队列的 put 方法放入队列中。
 		// 这样就可以优先开启更多线程，而不是进入队列了。
 		LinkedBlockingQueue<Runnable> queue = new LinkedBlockingQueue<>(workQueueSize) {
-			private static final long serialVersionUID = 5075561696269543041L;
 
 			@Override
 			public boolean offer(@Nonnull Runnable o) {
@@ -115,7 +133,7 @@ public class BusinessThreadExecutor {
 				// 任务拒绝时，通过 offer 放入队列
 				queue.put(runnable);
 			} catch (InterruptedException e) {
-				log.warn("{} Queue offer interrupted. ", poolName, e);
+				log.error("{} 插入队列被打断. ", poolName, e);
 				Thread.currentThread().interrupt();
 			}
 		};
@@ -127,10 +145,9 @@ public class BusinessThreadExecutor {
 				new ThreadFactoryBuilder()
 						.setNameFormat(poolName + "-%d")
 						.setUncaughtExceptionHandler((Thread thread, Throwable throwable) -> {
-							log.error("{} catching the uncaught exception, ThreadName: [{}]", poolName, thread.toString(), throwable);
+							log.error("{} 线程池未捕获的异常, ThreadName: [{}]", poolName, thread.toString(), throwable);
 						})
-						.build(),
-				re == null ? rejectedExecutionHandler : re
+						.build(), rejectedExecutionHandler
 		);
 
 		executor.allowCoreThreadTimeOut(true);
@@ -167,18 +184,15 @@ public class BusinessThreadExecutor {
 		if (CollectionUtils.isEmpty(tasks)) {
 			return Collections.emptyList();
 		}
-
 		int size = tasks.size();
-
 		List<Callable<T>> callables = tasks.stream().map(t -> (Callable<T>) () -> {
 			try {
 				T r = t.doExecute();
-
-				log.debug("[>>Executor<<] Async task execute success. ThreadName: [{}], BatchTaskName: [{}], SubTaskName: [{}]",
+				log.info("[>>========线程Executor======<<] 异步任务执行成功. 线程名称: [{}], 批处理任务名称: [{}], 子任务名称: [{}]",
 						Thread.currentThread().getName(), taskName, t.taskName());
 				return r;
 			} catch (Throwable e) {
-				log.warn("[>>Executor<<] Async task execute error. ThreadName: [{}], BatchTaskName: [{}], SubTaskName: [{}], exception: {}",
+				log.error("[>>========线程Executor======<<] 异步任务执行错误. 线程名称: [{}], 批处理任务名称: [{}], 子任务名称: [{}], 异常: {}",
 						Thread.currentThread().getName(), taskName, t.taskName(), e.getMessage());
 				throw e;
 			}
@@ -186,7 +200,7 @@ public class BusinessThreadExecutor {
 
 		CompletionService<T> cs = new ExecutorCompletionService<>(executor, new LinkedBlockingQueue<>(size));
 		List<Future<T>> futures = new ArrayList<>(size);
-		log.info("[>>Executor<<] Start async tasks, BatchTaskName: [{}], TaskSize: [{}]", taskName, size);
+		log.info("[>>========线程Executor======<<] 启动异步任务, 批处理任务名称: [{}], 任务数量: [{}]", taskName, size);
 
 		for (Callable<T> task : callables) {
 			futures.add(cs.submit(task));
@@ -199,14 +213,14 @@ public class BusinessThreadExecutor {
 				if (future != null) {
 					T result = future.get();
 					resultList.add(result);
-					log.debug("[>>Executor<<] Async task [{}] - [{}] execute success, result: {}", taskName, i, result);
+					log.debug("[>>========线程Executor======<<] 异步任务 [{}] - [{}]执行成功，结果: {}", taskName, i, result);
 				} else {
 					cancelTask(futures);
-					log.error("[>>Executor<<] Async task [{}] - [{}] execute timeout, then cancel other tasks.", taskName, i);
+					log.error("[>>========线程Executor======<<] 异步任务 [{}] - [{}] 执行超时，然后取消其他任务.", taskName, i);
 					throw new ThreadException("error.timeout");
 				}
 			} catch (ExecutionException e) {
-				log.warn("[>>Executor<<] Async task [{}] - [{}] execute error, then cancel other tasks.", taskName, i, e);
+				log.warn("[>>========线程Executor======<<] 异步任务 [{}] - [{}] 执行错误，然后取消其他任务", taskName, i, e);
 				cancelTask(futures);
 				Throwable throwable = e.getCause();
 				if (throwable instanceof DuplicateKeyException duplicateKeyException) {
@@ -217,11 +231,11 @@ public class BusinessThreadExecutor {
 			} catch (InterruptedException e) {
 				cancelTask(futures);
 				Thread.currentThread().interrupt(); // 重置中断标识
-				log.error("[>>Executor<<] Async task [{}] - [{}] were interrupted.", taskName, i);
+				log.error("[>>========线程Executor======<<] 异步任务 [{}] - [{}] 被打断.", taskName, i);
 				throw new ThreadException("error.timeout");
 			}
 		}
-		log.info("[>>Executor<<] Finish async tasks , BatchTaskName: [{}], TaskSize: [{}]", taskName, size);
+		log.info("[>>========线程Executor======<<]  完成异步任务，批处理任务名称: [{}], TaskSize: [{}]", taskName, size);
 		return resultList;
 	}
 
@@ -245,7 +259,7 @@ public class BusinessThreadExecutor {
 	 */
 	public static void displayThreadPoolStatus(ThreadPoolExecutor threadPool, String threadPoolName, long period, TimeUnit unit) {
 		Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
-			String payload = "[>>ExecutorStatus<<] ThreadPool Name: [{}], Pool Status: [shutdown={}, Terminated={}], Pool Thread Size: {}, Largest Pool Size: {}, Active Thread Count: {}, Task Count: {}, Tasks Completed: {}, Tasks in Queue: {}";
+			String payload = "[>>========线程池状态======<<] 线程池名称: [{}], 池状态: [shutdown={}, Terminated={}], 线程池线程数量: {}, 线程最大达到的数量: {}, 工作线程数: {}, 总任务数: {}, 已完成的任务数: {}, 队列中的任务: {}";
 			Object[] params = new Object[]{threadPoolName,
 					threadPool.isShutdown(), threadPool.isTerminated(), // 线程是否被终止
 					threadPool.getPoolSize(), // 线程池线程数量
@@ -271,30 +285,28 @@ public class BusinessThreadExecutor {
 	 */
 	public static void hookShutdownThreadPool(ExecutorService threadPool, String threadPoolName) {
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-			log.info("[>>ExecutorShutdown<<] Start to shutdown the thead pool: [{}]", threadPoolName);
+			log.info("[>>ExecutorShutdown<<] 开始关闭线程池: [{}]", threadPoolName);
 			// 使新任务无法提交
 			threadPool.shutdown();
 			try {
 				// 等待未完成任务结束
 				if (!threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
-					threadPool.shutdownNow(); // 取消当前执行的任务
-					log.warn("[>>ExecutorShutdown<<] Interrupt the worker, which may cause some task inconsistent. Please check the biz logs.");
+					threadPool.shutdownNow();
+					log.warn("[>>ExecutorShutdown<<]取消当前执行的任务，可能会导致一些任务不一致。请查看日志.");
 
 					// 等待任务取消的响应
 					if (!threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
-						log.error("[>>ExecutorShutdown<<] Thread pool can't be shutdown even with interrupting worker threads, which may cause some task inconsistent. Please check the biz logs.");
+						log.error("[>>ExecutorShutdown<<] 即使中断工作线程也无法关闭线程池，这可能会导致某些任务不一致。请查看日志");
 					}
 				}
 			} catch (InterruptedException ie) {
 				// 重新取消当前线程进行中断
 				threadPool.shutdownNow();
-				log.error("[>>ExecutorShutdown<<] The current server thread is interrupted when it is trying to stop the worker threads. This may leave an inconsistent state. Please check the biz logs.");
-
+				log.error("[>>ExecutorShutdown<<] 当前服务器线程在尝试停止工作线程时被中断。这可能导致不一致的状态。请查看日志");
 				// 保留中断状态
 				Thread.currentThread().interrupt();
 			}
-
-			log.info("[>>ExecutorShutdown<<] Finally shutdown the thead pool: [{}]", threadPoolName);
+			log.info("[>>ExecutorShutdown<<] 最后关闭线程池: [{}]", threadPoolName);
 		}));
 	}
 
@@ -308,6 +320,11 @@ public class BusinessThreadExecutor {
 				Runtime.getRuntime().availableProcessors() : 8;
 	}
 
+	/**
+	 * 取消任务
+	 *
+	 * @param futures 任务列表
+	 */
 	private static <T> void cancelTask(List<Future<T>> futures) {
 		for (Future<T> future : futures) {
 			if (!future.isDone()) {
@@ -315,6 +332,36 @@ public class BusinessThreadExecutor {
 			}
 		}
 	}
+
+	/**
+	 * 提交一组无返回值的任务，其中一个失败则全部失败。
+	 * @param taskList 任务列表
+	 * @param action 完成时的操作
+	 * @param supplier 待执行的业务
+	 * @param executorService 业务独有线程池，粒度不可过大或过小，可以以功能模块为维护进行划分，根据流程再细分。
+	 */
+	public static void main(List<Integer> taskList, BiConsumer<Object, ? super Throwable> action, Supplier<Object> supplier,ExecutorService executorService) {
+			CompletableFuture<?>[] cfs = taskList.stream()
+					.map(prescriptionId -> CompletableFuture.supplyAsync(supplier,executorService)
+					).toArray(CompletableFuture[]::new);
+			anyFail(cfs).whenComplete(action);
+	}
+
+	/**
+	 * 任意一个失败，则算全部失败
+	 */
+	private static CompletableFuture<?> anyFail(CompletableFuture... futures) {
+		CompletableFuture<?> allComplete = CompletableFuture.allOf(futures);
+		CompletableFuture<?> anyException = new CompletableFuture<>();
+		for (CompletableFuture<?> completableFuture : futures) {
+			completableFuture.exceptionally((t) -> {
+				anyException.completeExceptionally(t);
+				return null;
+			});
+		}
+		return CompletableFuture.anyOf(allComplete, anyException);
+	}
+
 
 	public static class ExecutorManager {
 
