@@ -5,6 +5,7 @@ import com.madao.model.dto.base.OptLogDto;
 import com.madao.utils.JsonData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -24,13 +25,10 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 @Tag(name = "操作日志")
 @RestController
 @RequestMapping("/optLog")
+@AllArgsConstructor
 public class OptLogController {
 
 	private final OptLogService optLogService;
-
-	public OptLogController(OptLogService optLogService) {
-		this.optLogService = optLogService;
-	}
 
 	@GetMapping
 	@Operation(summary = "按照条件查询全部列表", description = "OptLog")

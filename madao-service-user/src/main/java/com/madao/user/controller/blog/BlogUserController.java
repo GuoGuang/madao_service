@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -30,16 +31,13 @@ import java.util.HashMap;
 @Tag(name = "用户管理")
 @RestController
 @RequestMapping(value = "/api/su")
+@AllArgsConstructor
 public class BlogUserController {
 
 	private final BlogUserService blogUserService;
 
 	@Autowired(required = false)
 	private Smsbao smsbao;
-
-	public BlogUserController(BlogUserService blogUserService) {
-		this.blogUserService = blogUserService;
-	}
 
 	@GetMapping("/admin")
 	@Operation(summary = "获取作者信息", description = "Admin")

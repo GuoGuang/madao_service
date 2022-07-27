@@ -8,6 +8,7 @@ import com.madao.model.entity.article.Article;
 import com.madao.utils.JsonData;
 import com.madao.utils.RedisUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -27,15 +28,11 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
  */
 @RestController
 @RequestMapping(value = "/api/ar/article", produces = "application/json")
+@AllArgsConstructor
 public class ApiArticleController {
 
 	private final ApiArticleService articleService;
 	private final RedisUtil redisUtil;
-
-	public ApiArticleController(ApiArticleService articleService, RedisUtil redisUtil) {
-		this.articleService = articleService;
-		this.redisUtil = redisUtil;
-	}
 
 	@Operation(summary = "查询集合", description = "Article")
 	@GetMapping

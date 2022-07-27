@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,15 +31,11 @@ import java.io.IOException;
 @Tag(name = "用户画像")
 @RestController
 @RequestMapping(value = "/profile", produces = "application/json")
+@AllArgsConstructor
 public class ProfileController {
 
 	private final UserService userService;
 	private final OssClientUtil ossClientUtil;
-
-	public ProfileController(UserService userService, OssClientUtil ossClientUtil) {
-		this.userService = userService;
-		this.ossClientUtil = ossClientUtil;
-	}
 
 	@PutMapping("/avatar")
 	@Operation(summary = "用户上传头像", description = "用户上传头像")

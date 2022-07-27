@@ -6,6 +6,7 @@ import com.madao.article.mapper.CommentMapper;
 import com.madao.model.dto.article.CommentDto;
 import com.madao.model.entity.article.Article;
 import com.madao.model.entity.article.Comment;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -23,17 +24,12 @@ import java.util.stream.Collectors;
  * @created 2019-09-29 7:37
  */
 @Service
+@AllArgsConstructor
 public class ApiCommentService {
 
 	private final CommentDao commentDao;
 	private final ArticleDao articleDao;
 	private final CommentMapper commentMapper;
-
-	public ApiCommentService(CommentDao commentDao, ArticleDao articleDao, CommentMapper commentMapper) {
-		this.commentDao = commentDao;
-		this.articleDao = articleDao;
-		this.commentMapper = commentMapper;
-	}
 
 	public List<CommentDto> findCommentByCondition(String articleId) {
 		List<Comment> content = commentDao.findByArticleIdOrderByCreateAtDesc(articleId);
@@ -51,7 +47,7 @@ public class ApiCommentService {
 							}
 							return cm;
 						}
-				).collect(Collectors.toList());
+				).toList();
 	}
 
 	/**
@@ -86,7 +82,7 @@ public class ApiCommentService {
 		List<String> articleIds = myCurrentComment
 				.stream()
 				.map(Comment::getArticleId)
-				.collect(Collectors.toList());
+				.toList();
 		List<Article> articles = articleDao.findAllById(articleIds);
 
 		return myCurrentComment.stream().flatMap(comment -> articles.stream()
@@ -101,6 +97,6 @@ public class ApiCommentService {
 									return map;
 								}
 						))
-				.collect(Collectors.toList());
+				.toList();
 	}
 }

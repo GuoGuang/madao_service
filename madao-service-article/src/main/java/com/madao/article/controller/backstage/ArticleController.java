@@ -11,6 +11,7 @@ import com.madao.utils.JsonData;
 import com.madao.utils.OssClientUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -34,17 +35,13 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
  */
 @Tag(name = "文章管理")
 @RestController
+@AllArgsConstructor
 @RequestMapping(value = "/article", produces = "application/json")
 public class ArticleController implements BaseController {
 
 	private final ArticleService articleService;
 
 	private final OssClientUtil ossClientUtil;
-
-	public ArticleController(ArticleService articleService, OssClientUtil ossClientUtil) {
-		this.articleService = articleService;
-		this.ossClientUtil = ossClientUtil;
-	}
 
 	@Operation(summary = "查询文章集合", description = "Article")
 	@GetMapping

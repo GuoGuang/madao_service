@@ -9,6 +9,7 @@ import com.madao.model.dto.user.UserDto;
 import com.madao.model.entity.base.LoginLog;
 import com.madao.utils.BeanUtil;
 import com.madao.utils.JsonData;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +19,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 登录日志
@@ -30,20 +30,13 @@ import java.util.stream.Collectors;
  * @created 2019-09-29 7:37
  */
 @Service
+@AllArgsConstructor
 public class LoginLogService {
 
 	private final LoginLogDao loginLogDao;
 	private final LoginLogMapper loginLogMapper;
 
 	private final UserServiceRpc userServiceRpc;
-
-	public LoginLogService(LoginLogDao loginLogDao,
-	                       LoginLogMapper loginLogMapper,
-	                       UserServiceRpc userServiceRpc) {
-		this.loginLogDao = loginLogDao;
-		this.loginLogMapper = loginLogMapper;
-		this.userServiceRpc = userServiceRpc;
-	}
 
 	/**
 	 * 按照条件查询全部登录日志
@@ -67,7 +60,7 @@ public class LoginLogService {
 			userInfoByIds.getData().stream().flatMap(userInfo -> queryResults.getContent().stream()
 							.filter(articleId -> StringUtils.equals(userInfo.getId(), articleId.getUserId()))
 							.peek(articleId -> articleId.setUserName(userInfo.getUserName())))
-					.collect(Collectors.toList());
+					.toList();
 		}
 		return queryResults;
 

@@ -7,6 +7,7 @@ import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.dto.article.ArticleDto;
 import com.madao.model.entity.article.Article;
 import com.madao.model.entity.article.Comment;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -29,20 +30,12 @@ import java.util.stream.Collectors;
  */
 @Service
 @CacheConfig(cacheNames = "article")
+@AllArgsConstructor
 public class ApiArticleService {
 
 	private final ApiArticleDao articleDao;
 	private final ArticleMapper articleMapper;
 	private final CommentDao commentDao;
-
-	public ApiArticleService(ApiArticleDao articleDao,
-	                         ArticleMapper articleMapper,
-	                         CommentDao commentDao) {
-		this.articleDao = articleDao;
-		this.articleMapper = articleMapper;
-		this.commentDao = commentDao;
-	}
-
 
 	public Page<ArticleDto> findArticleByCondition(ArticleDto articleDto, String keyword, Pageable pageable) {
 		// 默认首页
@@ -57,7 +50,7 @@ public class ApiArticleService {
 			return query.where(predicates.toArray(new javax.persistence.criteria.Predicate[0])).getRestriction();
 		};
 		Page<ArticleDto> pageContent = articleDao.findAll(condition, pageable).map(articleMapper::toDto);
-		List<String> articleIds = pageContent.getContent().stream().map(ArticleDto::getId).collect(Collectors.toList());
+		List<String> articleIds = pageContent.getContent().stream().map(ArticleDto::getId).toList();
 		Map<String, List<Comment>> idKeysAndComments = commentDao.findByArticleIdIn(articleIds).stream().collect(Collectors.groupingBy(Comment::getArticleId));
 		pageContent.forEach(articleInfo -> {
 			if (idKeysAndComments.get(articleInfo.getId()) != null) {

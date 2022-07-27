@@ -10,6 +10,7 @@ import com.madao.utils.JsonData;
 import com.querydsl.core.QueryResults;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,13 +26,10 @@ import java.util.List;
 @Tag(name = "角色管理")
 @RestController
 @RequestMapping(value = "/role", produces = "application/json")
+@AllArgsConstructor
 public class RoleController {
 
 	private final RoleService roleService;
-
-	public RoleController(RoleService roleService) {
-		this.roleService = roleService;
-	}
 
 	@GetMapping
 	@Operation(summary = "条件查询角色", description = "Role")

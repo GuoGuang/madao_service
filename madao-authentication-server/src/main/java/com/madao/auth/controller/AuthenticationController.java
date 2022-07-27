@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -32,17 +33,11 @@ import java.io.IOException;
 @Tag(name = "用户登录认证")
 @RestController
 @RequestMapping("/auth")
+@AllArgsConstructor
 public class AuthenticationController {
 
 	private final RedisUtil redisUtil;
-
 	private final ValidateCodeProcessorHolder validateCodeProcessorHolder;
-
-	public AuthenticationController(ValidateCodeProcessorHolder validateCodeProcessorHolder,
-	                                RedisUtil redisUtil) {
-		this.validateCodeProcessorHolder = validateCodeProcessorHolder;
-		this.redisUtil = redisUtil;
-	}
 
 
 	@PostMapping(value = "/logout")

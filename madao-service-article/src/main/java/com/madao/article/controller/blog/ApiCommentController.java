@@ -6,6 +6,7 @@ import com.madao.model.dto.article.CommentDto;
 import com.madao.utils.JsonData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.validation.annotation.Validated;
@@ -24,15 +25,11 @@ import java.util.List;
 @Tag(name = "前台评论管理")
 @RestController
 @RequestMapping(value = "/api/ar/comment")
+@AllArgsConstructor
 public class ApiCommentController {
 
 	private final ApiCommentService apiCommentService;
 	private final CommentMapper commentMapper;
-
-	public ApiCommentController(ApiCommentService apiCommentService, CommentMapper commentMapper) {
-		this.apiCommentService = apiCommentService;
-		this.commentMapper = commentMapper;
-	}
 
 	@Operation(summary = "查询我的评论")
 	@GetMapping("/my/")

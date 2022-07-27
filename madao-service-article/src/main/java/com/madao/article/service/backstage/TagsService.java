@@ -8,6 +8,7 @@ import com.madao.model.dto.article.TagDto;
 import com.madao.model.entity.article.ArticleTag;
 import com.madao.model.entity.article.Tag;
 import com.madao.utils.BeanUtil;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,17 +29,12 @@ import java.util.stream.Collectors;
  * @created 2019-09-29 7:37
  */
 @Service
+@AllArgsConstructor
 public class TagsService {
 
 	private final TagDao tagDao;
 	private final ArticleTagDao articleTagDao;
 	private final TagMapper tagMapper;
-
-	public TagsService(TagDao tagDao, ArticleTagDao articleTagDao, TagMapper tagMapper) {
-		this.tagDao = tagDao;
-		this.articleTagDao = articleTagDao;
-		this.tagMapper = tagMapper;
-	}
 
 	public Page<TagDto> findTagsByCondition(TagDto tagDto, Pageable pageable) {
 		Specification<Tag> condition = (root, query, builder) -> {
@@ -54,7 +50,7 @@ public class TagsService {
 		Page<TagDto> tagsQueryResults = tagDao.findAll(condition, pageable)
 				.map(tagMapper::toDto);
 
-		List<ArticleTag> articleTags = articleTagDao.findAllByTagIdIn(tagsQueryResults.getContent().stream().map(TagDto::getId).collect(Collectors.toList()));
+		List<ArticleTag> articleTags = articleTagDao.findAllByTagIdIn(tagsQueryResults.getContent().stream().map(TagDto::getId).toList());
 
 		Map<String, List<ArticleTag>> tagIds = articleTags.stream()
 				.collect(Collectors.groupingBy(ArticleTag::getTagId));

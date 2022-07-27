@@ -7,6 +7,7 @@ import com.madao.model.dto.article.CommentDto;
 import com.madao.utils.JsonData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -27,13 +28,10 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 @Tag(name = "文章评论管理")
 @RestController
 @RequestMapping(value = "/comment")
+@AllArgsConstructor
 public class CommentController {
 
 	private final CommentService commentService;
-
-	public CommentController(CommentService commentService) {
-		this.commentService = commentService;
-	}
 
 	@GetMapping()
 	@Operation(summary = "查询文章评论", description = "Comment")

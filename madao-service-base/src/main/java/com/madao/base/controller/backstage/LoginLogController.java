@@ -5,6 +5,7 @@ import com.madao.model.dto.base.LoginLogDto;
 import com.madao.utils.JsonData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -24,13 +25,10 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 @Tag(name = "登录日志")
 @RestController
 @RequestMapping("/loginLog")
+@AllArgsConstructor
 public class LoginLogController {
 
 	private final LoginLogService loginLogService;
-
-	public LoginLogController(LoginLogService loginLogService) {
-		this.loginLogService = loginLogService;
-	}
 
 	@GetMapping
 	@Operation(summary = "按照条件查询全部列表", description = "LoginLog")

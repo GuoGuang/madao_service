@@ -5,6 +5,7 @@ import com.madao.model.dto.article.TagDto;
 import com.madao.utils.JsonData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,13 +27,10 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 @Tag(name = "前台标签管理")
 @RestController
 @RequestMapping(value = "/api/ar/tag")
+@AllArgsConstructor
 public class ApiTagsController {
 
 	private final ApiTagsService apiTagsService;
-
-	public ApiTagsController(ApiTagsService apiTagsService) {
-		this.apiTagsService = apiTagsService;
-	}
 
 	@Operation(summary = "查询标签集合", description = "Tag")
 	@GetMapping

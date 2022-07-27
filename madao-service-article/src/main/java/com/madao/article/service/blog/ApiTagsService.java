@@ -11,6 +11,7 @@ import com.madao.model.dto.user.UserDto;
 import com.madao.model.entity.article.ArticleTag;
 import com.madao.utils.JsonData;
 import com.madao.utils.RedisUtil;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+@AllArgsConstructor
 public class ApiTagsService {
 
 	private final TagDao tagDao;
@@ -37,21 +39,13 @@ public class ApiTagsService {
 	private final TagMapper tagMapper;
 	private final UserServiceRpc userServiceRpc;
 
-	public ApiTagsService(TagDao tagDao, ArticleTagDao articleTagDao, RedisUtil redisUtil, TagMapper tagMapper, UserServiceRpc userServiceRpc) {
-		this.tagDao = tagDao;
-		this.articleTagDao = articleTagDao;
-		this.redisUtil = redisUtil;
-		this.tagMapper = tagMapper;
-		this.userServiceRpc = userServiceRpc;
-	}
-
 	public List<TagDto> findTagsByCondition(TagDto tagDto, Pageable pageable) {
 		log.info("查询参数---------->{}", tagDto);
 		JsonData<UserDto> admin = userServiceRpc.getUserInfo("admin");
 		Page<TagDto> tagsQueryResults = tagDao.findAll(pageable)
 				.map(tagMapper::toDto);
 
-		List<ArticleTag> articleTags = articleTagDao.findAllByTagIdIn(tagsQueryResults.getContent().stream().map(TagDto::getId).collect(Collectors.toList()));
+		List<ArticleTag> articleTags = articleTagDao.findAllByTagIdIn(tagsQueryResults.getContent().stream().map(TagDto::getId).toList());
 
 		Map<String, List<ArticleTag>> tagIds = articleTags.stream()
 				.collect(Collectors.groupingBy(ArticleTag::getTagId));

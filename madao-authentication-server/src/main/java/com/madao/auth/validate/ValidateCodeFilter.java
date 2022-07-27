@@ -5,6 +5,7 @@ import com.madao.auth.exception.AuthException;
 import com.madao.enums.ValidateCodeType;
 import com.madao.properties.SecurityProperties;
 import com.madao.utils.HttpHelper;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -36,6 +37,7 @@ import java.util.Set;
  */
 @Slf4j
 @Component("validateCodeFilter")
+@AllArgsConstructor
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
 	/**
@@ -62,12 +64,6 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 	 * 验证请求url与配置的url是否匹配的工具类
 	 */
 	private final AntPathMatcher pathMatcher = new AntPathMatcher();
-
-	public ValidateCodeFilter(AuthenticationFailureHandler authenticationFailureHandler, SecurityProperties securityProperties, ValidateCodeProcessorHolder validateCodeProcessorHolder) {
-		this.authenticationFailureHandler = authenticationFailureHandler;
-		this.securityProperties = securityProperties;
-		this.validateCodeProcessorHolder = validateCodeProcessorHolder;
-	}
 
 	/**
 	 * 初始化要拦截的url配置信息

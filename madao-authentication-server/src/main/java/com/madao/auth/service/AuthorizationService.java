@@ -8,6 +8,7 @@ import com.madao.model.entity.user.Resource;
 import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;
 import com.madao.utils.RedisUtil;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.AccessDeniedException;
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+@AllArgsConstructor
 public class AuthorizationService {
 
 	// 未在资源库中的URL默认标识
@@ -42,11 +44,6 @@ public class AuthorizationService {
 
 	// 系统中所有权限集合
 	private Map<RequestMatcher, ConfigAttribute> resourceConfigAttributes;
-
-	public AuthorizationService(UserServiceRpc userServiceRpc, RedisUtil redisUtil) {
-		this.userServiceRpc = userServiceRpc;
-		this.redisUtil = redisUtil;
-	}
 
 
 	/**

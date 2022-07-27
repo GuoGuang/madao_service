@@ -14,6 +14,7 @@ import com.madao.user.dao.UserRoleDao;
 import com.madao.user.mapper.ResourceMapper;
 import com.madao.user.mapper.RoleMapper;
 import com.madao.user.mapper.UserMapper;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +24,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author GuoGuang
@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
  * @created 2019-09-29 7:37
  */
 @Service
+@AllArgsConstructor
 public class UserService {
 
 	private final UserDao userDao;
@@ -43,24 +44,6 @@ public class UserService {
 	private final ResourceDao resourceDao;
 	private final ResourceMapper resourceMapper;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-	public UserService(UserDao userDao,
-	                   UserMapper userMapper,
-	                   BCryptPasswordEncoder bCryptPasswordEncoder,
-	                   RoleDao roleDao,
-	                   UserRoleDao userRoleDao,
-	                   RoleMapper roleMapper,
-	                   ResourceDao resourceDao1,
-	                   ResourceMapper resourceMapper) {
-		this.userDao = userDao;
-		this.userMapper = userMapper;
-		this.roleDao = roleDao;
-		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-		this.userRoleDao = userRoleDao;
-		this.roleMapper = roleMapper;
-		this.resourceDao = resourceDao1;
-		this.resourceMapper = resourceMapper;
-	}
 
 	/**
 	 * 注册用户
@@ -98,10 +81,6 @@ public class UserService {
 			return query.where(builder.and(predicates.toArray(ps))).getRestriction();
 		};
 		Page<UserDto> result = userDao.findAll(condition, pageable).map(userMapper::toDto);
-
-		result.getContent().stream().map(this::assembleUserRoleData);
-
-
 		return result;
 
 	}
@@ -119,7 +98,7 @@ public class UserService {
 	public void updateByPrimaryKey(UserDto userDto) {
 		List<UserRole> userRoles = userDto.getRoles().stream()
 				.map(user -> new UserRole(userDto.getId(), user.getId()))
-				.collect(Collectors.toList());
+				.toList();
 
 		userDao.save(userMapper.toEntity(userDto));
 

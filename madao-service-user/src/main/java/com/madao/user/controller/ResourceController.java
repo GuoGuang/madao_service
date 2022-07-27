@@ -8,6 +8,7 @@ import com.madao.user.service.ResourceService;
 import com.madao.utils.JsonData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,13 +26,10 @@ import java.util.Set;
 @Tag(name = "资源管理")
 @RestController
 @RequestMapping(value = "/resource")
+@AllArgsConstructor
 public class ResourceController {
 
 	private final ResourceService resourceService;
-
-	public ResourceController(ResourceService resourceService) {
-		this.resourceService = resourceService;
-	}
 
 	@GetMapping
 	@Operation(summary = "条件查询资源", description = "Resource")

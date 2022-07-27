@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * 基于spring和redis的redisTemplate工具类
@@ -467,7 +466,7 @@ public class RedisUtil {
 	public <T> List<T> lGet(String key, long start, long end) {
 		try {
 			List<Object> range = redisTemplate.opsForList().range(key, start, end);
-			return range.stream().map(o -> (T) o).collect(Collectors.toList());
+			return range.stream().map(o -> (T) o).toList();
 		} catch (Exception e) {
 			log.error("查询redis缓存异常：{}", e.getMessage(), e);
 			return null;

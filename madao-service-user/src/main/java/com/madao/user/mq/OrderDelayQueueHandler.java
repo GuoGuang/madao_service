@@ -1,7 +1,6 @@
 package com.madao.user.mq;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,8 +13,8 @@ import org.springframework.stereotype.Component;
  * @created 2019-09-29 7:37
  */
 @Component
+@Slf4j
 public class OrderDelayQueueHandler {
-	private final Logger log = LoggerFactory.getLogger(OrderDelayQueueHandler.class);
 /*
     @Autowired
     private ProductOrderService productOrderService;

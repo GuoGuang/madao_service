@@ -20,6 +20,7 @@ import com.madao.utils.BeanUtil;
 import com.madao.utils.FakerUtil;
 import com.madao.utils.JsonUtil;
 import com.madao.utils.RedisUtil;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,6 +40,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
+@AllArgsConstructor
 public class BlogUserService {
 
 	private final RedisUtil redisUtil;
@@ -50,25 +52,6 @@ public class BlogUserService {
 	private final ResourceDao resourceDao;
 	private final ResourceMapper resourceMapper;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-	public BlogUserService(RedisUtil redisUtil, UserDao userDao,
-	                       UserMapper userMapper,
-	                       BCryptPasswordEncoder bCryptPasswordEncoder,
-	                       RoleDao roleDao,
-	                       UserRoleDao userRoleDao,
-	                       RoleMapper roleMapper,
-	                       ResourceDao resourceDao1,
-	                       ResourceMapper resourceMapper) {
-		this.redisUtil = redisUtil;
-		this.userDao = userDao;
-		this.userMapper = userMapper;
-		this.roleDao = roleDao;
-		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-		this.userRoleDao = userRoleDao;
-		this.roleMapper = roleMapper;
-		this.resourceDao = resourceDao1;
-		this.resourceMapper = resourceMapper;
-	}
 
 	public void updateByPrimaryKey(UserDto userDto, String userId) {
 		UserDto srcUserDto = this.findById(userId);

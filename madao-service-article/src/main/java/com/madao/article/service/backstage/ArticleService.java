@@ -14,6 +14,7 @@ import com.madao.model.entity.article.Article;
 import com.madao.model.entity.article.ArticleTag;
 import com.madao.utils.JsonData;
 import com.madao.utils.RedisUtil;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.Page;
@@ -22,7 +23,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author GuoGuang
@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @CacheConfig(cacheNames = "article")
+@AllArgsConstructor
 public class ArticleService {
 
 	private final ArticleDao articleDao;
@@ -44,20 +45,6 @@ public class ArticleService {
 	private final TagDao tagDao;
 	private final TagMapper tagMapper;
 	private final UserServiceRpc userServiceRpc;
-
-	public ArticleService(ArticleDao articleDao,
-	                      ArticleMapper articleMapper,
-	                      RedisUtil redisUtil,
-	                      ArticleTagDao articleTagDao,
-	                      TagDao tagDao, TagMapper tagMapper, UserServiceRpc userServiceRpc) {
-		this.articleDao = articleDao;
-		this.articleMapper = articleMapper;
-		this.redisUtil = redisUtil;
-		this.articleTagDao = articleTagDao;
-		this.tagDao = tagDao;
-		this.tagMapper = tagMapper;
-		this.userServiceRpc = userServiceRpc;
-	}
 
 	/**
 	 * 查询文章
@@ -100,7 +87,7 @@ public class ArticleService {
 			userInfoByIds.getData().stream().flatMap(userInfo -> queryResults.getContent().stream()
 							.filter(articleId -> StringUtils.equals(userInfo.getId(), articleId.getUserId()))
 							.peek(articleId -> articleId.setUserName(userInfo.getUserName())))
-					.collect(Collectors.toList());
+					.toList();
 		}
 		return queryResults;
 	}
@@ -146,7 +133,7 @@ public class ArticleService {
 
 		List<ArticleTag> articleTags = Arrays.stream(articleDto.getTagsId().split(","))
 				.map(tagsId -> new ArticleTag(articleResult.getId(), tagsId))
-				.collect(Collectors.toList());
+				.toList();
 
 		articleTagDao.saveAll(articleTags);
 

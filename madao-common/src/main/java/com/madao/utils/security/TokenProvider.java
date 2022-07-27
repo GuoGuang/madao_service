@@ -101,7 +101,7 @@ public class TokenProvider {
 				.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
 				.filter(auth -> !auth.trim().isEmpty())
 				.map(SimpleGrantedAuthority::new)
-				.collect(Collectors.toList());
+				.toList();
 		User principal = new User(claims.getSubject(), "", authorities);
 
 		return new UsernamePasswordAuthenticationToken(principal, token, authorities);

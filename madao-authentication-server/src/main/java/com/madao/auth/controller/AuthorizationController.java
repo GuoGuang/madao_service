@@ -7,6 +7,7 @@ import com.madao.utils.JsonData;
 import com.madao.utils.security.JWTAuthentication;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,13 +26,10 @@ import javax.servlet.http.HttpServletRequest;
 @Tag(name = "鉴权")
 @RequestMapping("/auth")
 @RestController
+@AllArgsConstructor
 public class AuthorizationController {
 
 	private final AuthorizationService authorizationService;
-
-	public AuthorizationController(AuthorizationService authorizationService) {
-		this.authorizationService = authorizationService;
-	}
 
 	/**
 	 * 根据url,method 验证当前用户是否有操作权限

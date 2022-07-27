@@ -6,6 +6,7 @@ import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.dto.base.DictDto;
 import com.madao.model.entity.base.Dict;
 import com.madao.utils.BeanUtil;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -27,16 +28,11 @@ import java.util.List;
  */
 @Slf4j
 @Service
+@AllArgsConstructor
 public class DictService {
 
 	private final DictDao dictDao;
 	private final DictMapper dictMapper;
-
-	public DictService(DictDao dictDao,
-	                   DictMapper dictMapper) {
-		this.dictDao = dictDao;
-		this.dictMapper = dictMapper;
-	}
 
 	/**
 	 * 条件查询字典

@@ -1,6 +1,7 @@
 package com.madao.auth.config;
 
 import com.madao.auth.service.UserJwt;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,13 +21,10 @@ import java.util.Map;
  * @created 2019-09-29 7:37
  */
 @Component
+@AllArgsConstructor
 public class CustomUserAuthenticationConverter extends DefaultUserAuthenticationConverter {
 
 	private final UserDetailsService userDetailsServiceImpl;
-
-	public CustomUserAuthenticationConverter(UserDetailsService userDetailsServiceImpl) {
-		this.userDetailsServiceImpl = userDetailsServiceImpl;
-	}
 
 	/**
 	 * 定义access_token内容，JWT谁都可读

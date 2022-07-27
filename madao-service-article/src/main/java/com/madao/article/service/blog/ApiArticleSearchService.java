@@ -81,7 +81,7 @@ public class ApiArticleSearchService {
 
 		long totalHits = search.getTotalHits();
 		log.info("总数据条数：{}", totalHits);
-		List<ArticleSearchDto> results = search.getSearchHits().stream().map(SearchHit::getContent).collect(Collectors.toList());
+		List<ArticleSearchDto> results = search.getSearchHits().stream().map(SearchHit::getContent).toList();
 		return results;
 	}
 

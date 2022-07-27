@@ -5,6 +5,7 @@ import com.madao.model.dto.article.CategoryDto;
 import com.madao.utils.JsonData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -25,13 +26,10 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 @Tag(name = "前台分类")
 @RestController
 @RequestMapping(value = "/api/ar/category")
+@AllArgsConstructor
 public class ApiCategoryController {
 
 	private final CategoryService categoryService;
-
-	public ApiCategoryController(CategoryService categoryService) {
-		this.categoryService = categoryService;
-	}
 
 	@Operation(summary = "查询分类集合", description = "Category")
 	@GetMapping

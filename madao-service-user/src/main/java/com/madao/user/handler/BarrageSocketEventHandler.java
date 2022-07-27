@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -47,7 +46,7 @@ public class BarrageSocketEventHandler {
 
 	public void sendBroadcast() {
 		List<SocketIOClient> allSession = WsSessionManager.getAllSession();
-		log.info("向{}广播消息", allSession.stream().map(SocketIOClient::getSessionId).collect(Collectors.toList()));
+		log.info("向{}广播消息", allSession.stream().map(SocketIOClient::getSessionId).toList());
 		for (SocketIOClient client : allSession) {
 			if (client.isChannelOpen()) {
 				client.sendEvent("Broadcast", "当前时间" + System.currentTimeMillis());

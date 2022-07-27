@@ -8,6 +8,7 @@ import com.madao.model.dto.article.CategoryDto;
 import com.madao.model.entity.article.Article;
 import com.madao.model.entity.article.Category;
 import com.madao.utils.BeanUtil;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,17 +29,12 @@ import java.util.stream.Collectors;
  * @created 2019-09-29 7:37
  */
 @Service
+@AllArgsConstructor
 public class CategoryService {
 
 	private final CategoryDao categoryDao;
 	private final ArticleDao articleDao;
 	private final CategoryMapper categoryMapper;
-
-	public CategoryService(CategoryDao categoryDao, ArticleDao articleDao, CategoryMapper categoryMapper) {
-		this.categoryDao = categoryDao;
-		this.articleDao = articleDao;
-		this.categoryMapper = categoryMapper;
-	}
 
 	public Page<CategoryDto> findCategoryByCondition(CategoryDto categoryDto, Pageable pageable) {
 		Specification<Category> condition = (root, query, builder) -> {
@@ -52,7 +48,7 @@ public class CategoryService {
 
 		List<String> ids = categoryDtoPage.getContent().stream()
 				.map(CategoryDto::getId)
-				.collect(Collectors.toList());
+				.toList();
 		Map<String, List<Article>> articleCollect = articleDao.findByCategoryIdIn(ids)
 				.stream()
 				.collect(Collectors.groupingBy(Article::getCategoryId));

@@ -6,6 +6,7 @@ import com.madao.auth.validate.impl.sms.AliSmsCodeSender;
 import com.madao.auth.validate.impl.sms.DefaultSmsCodeSender;
 import com.madao.auth.validate.impl.sms.SmsCodeSender;
 import com.madao.properties.SecurityProperties;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,13 +22,10 @@ import org.springframework.context.annotation.Configuration;
  * @created 2019-09-29 7:37
  */
 @Configuration
+@AllArgsConstructor
 public class ValidateCodeBeanConfig {
 
 	private final SecurityProperties securityProperties;
-
-	public ValidateCodeBeanConfig(SecurityProperties securityProperties) {
-		this.securityProperties = securityProperties;
-	}
 
 	/**
 	 * 图片验证码图片生成器

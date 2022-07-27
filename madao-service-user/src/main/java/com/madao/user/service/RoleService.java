@@ -20,12 +20,12 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author GuoGuang
@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
  * @created 2019-09-29 7:37
  */
 @Service
+@AllArgsConstructor
 public class RoleService {
 
 	private final RoleDao roleDao;
@@ -45,21 +46,6 @@ public class RoleService {
 
 	private final ResourceDao resourceDao;
 	private final ResourceMapper resourceMapper;
-
-	public RoleService(RoleDao roleDao,
-	                   RoleResourceDao roleResourceDao,
-	                   UserRoleDao userRoleDao,
-	                   RoleMapper roleMapper,
-	                   JPAQueryFactory jpaQueryFactory, ResourceDao resourceDao, ResourceMapper resourceMapper) {
-		this.roleDao = roleDao;
-		this.roleResourceDao = roleResourceDao;
-		this.userRoleDao = userRoleDao;
-		this.roleMapper = roleMapper;
-		this.jpaQueryFactory = jpaQueryFactory;
-		this.resourceDao = resourceDao;
-		this.resourceMapper = resourceMapper;
-	}
-
 
 	/**
 	 * 条件查询角色
@@ -119,7 +105,7 @@ public class RoleService {
 
 		List<RoleResource> roleResources = roleDto.getResources().stream()
 				.map(role -> new RoleResource(roleDto.getId(), role.getId()))
-				.collect(Collectors.toList());
+				.toList();
 		roleResourceDao.deleteByRoleIdIn(Collections.singletonList(roleDto.getId()));
 		roleResourceDao.saveAll(roleResources);
 	}
