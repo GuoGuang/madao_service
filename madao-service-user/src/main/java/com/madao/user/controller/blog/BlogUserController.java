@@ -6,14 +6,12 @@ import com.madao.enums.StatusEnum;
 import com.madao.model.dto.user.UserDto;
 import com.madao.user.service.blog.BlogUserService;
 import com.madao.utils.JsonData;
-import com.madao.utils.third.Smsbao;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.validation.annotation.Validated;
@@ -35,9 +33,6 @@ import java.util.HashMap;
 public class BlogUserController {
 
 	private final BlogUserService blogUserService;
-
-	@Autowired(required = false)
-	private Smsbao smsbao;
 
 	@GetMapping("/admin")
 	@Operation(summary = "获取作者信息", description = "Admin")
