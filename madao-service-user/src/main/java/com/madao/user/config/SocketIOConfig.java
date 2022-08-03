@@ -2,6 +2,7 @@ package com.madao.user.config;
 
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketConfig;
+import com.corundumstudio.socketio.SocketIONamespace;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.SpringAnnotationScanner;
 import com.corundumstudio.socketio.listener.ExceptionListenerAdapter;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 @Setter
 @org.springframework.context.annotation.Configuration
 @ConfigurationProperties(prefix = "socketio")
+@Slf4j
 public class SocketIOConfig {
 
 	private String host;
@@ -41,13 +43,20 @@ public class SocketIOConfig {
 		config.setHostname(host);
 		config.setPort(port);
 		config.setBossThreads(bossCount);
-		config.setWorkerThreads(workCount);
+//		config.setWorkerThreads(workCount);
 		config.setAllowCustomRequests(allowCustomRequests);
 		config.setUpgradeTimeout(upgradeTimeout);
 		config.setPingTimeout(pingTimeout);
 		config.setPingInterval(pingInterval);
 		config.setExceptionListener(new SocketExceptionListener());
-		return new SocketIOServer(config);
+		SocketIOServer socketIOServer = new SocketIOServer(config);
+		socketIOServer.addConnectListener(client -> {
+			log.info(client.getRemoteAddress() + " web客户端接入");
+//        client.sendEvent("helloPush", "hello");
+			SocketIONamespace namespace = client.getNamespace();
+			log.info("当前客户端数量：{}",namespace.getAllClients().size());
+		});
+		return socketIOServer;
 	}
 
 	/**
