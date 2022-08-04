@@ -35,7 +35,7 @@ public class BarrageSocketEventHandler {
 	@OnDisconnect
 	public void onDisconnect(SocketIOClient client) {
 		log.info("客户端:" + client.getSessionId() + "断开连接");
-		WsSessionManager.remove(client.getSessionId().toString());
+		WsSessionManager.removeAndClose(client.getSessionId().toString());
 	}
 
 	@OnEvent(value = "barrage-send")
