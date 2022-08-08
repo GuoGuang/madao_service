@@ -63,14 +63,16 @@ public class LoggingAspect {
 	@Around("applicationPackagePointcut() && springBeanPointcut()")
 	public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
 		Logger log = logger(joinPoint);
-		log.info("Enter: {}() with argument[s] = {}", joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
+		Object result = null;
+		log.info("进入: {}() with argument[s] = {}", joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
 		try {
-			Object result = joinPoint.proceed();
-			log.info("Exit: {}() with result = {}", joinPoint.getSignature().getName(), result);
+			 result = joinPoint.proceed();
 			return result;
 		} catch (IllegalArgumentException e) {
-			log.error("Illegal argument: {} in {}()", Arrays.toString(joinPoint.getArgs()), joinPoint.getSignature().getName());
+			log.error("程序处理异常: {} in {}()", Arrays.toString(joinPoint.getArgs()), joinPoint.getSignature().getName());
 			throw e;
+		}finally {
+			log.info("退出: {}() with result = {}", joinPoint.getSignature().getName(), result);
 		}
 	}
 }
