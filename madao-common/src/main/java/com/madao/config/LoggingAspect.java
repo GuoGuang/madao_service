@@ -64,7 +64,8 @@ public class LoggingAspect {
 	public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
 		Logger log = logger(joinPoint);
 		Object result = null;
-		log.info("进入: {}() with argument[s] = {}", joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
+		log.info("进入: {}() with argument[s] = {}", joinPoint.getTarget().getClass().getSimpleName()+"#"+joinPoint.getSignature().getName(),
+				joinPoint.getArgs());
 		try {
 			 result = joinPoint.proceed();
 			return result;
