@@ -32,7 +32,7 @@ public class ReceiveConsumer {
 	 */
 	@RabbitListener(
 			bindings = @QueueBinding(
-					value = @Queue(value = "queueOne", durable = "true",
+					value = @Queue(value="#{customNamingStrategy.generateName(\"user\")}",durable = "true",
 							arguments = {
 									@Argument(name = "x-dead-letter-exchange", value = "dlx.exchange"),
 									@Argument(name = "x-dead-letter-routing-key", value = "dlx.routing.key")
