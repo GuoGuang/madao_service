@@ -1,6 +1,7 @@
 package com.madao.user.controller;
 
 import com.madao.annotation.OptLog;
+import com.madao.config.chain.AbstractCommonHandler;
 import com.madao.enums.OptLogType;
 import com.madao.model.dto.user.RoleDto;
 import com.madao.model.dto.user.UserDto;
@@ -36,11 +37,13 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 public class UserController {
 
 	private final UserService userService;
+	private final AbstractCommonHandler<UserDto> userSaveHandler;
 
 	@PostMapping()
 	@OptLog(operationType = OptLogType.ADD, operationName = "注册用户")
 	@Operation(summary = "注册用户", description = "User")
 	public JsonData<Void> insertUser(@RequestBody @Validated UserDto userDto) {
+		userSaveHandler.doHandler(userDto);
 		userService.registerUser(userDto);
 		return JsonData.success();
 	}
