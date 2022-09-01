@@ -1,4 +1,4 @@
-package com.madao.auth.config;
+package com.madao.config;
 
 import com.madao.utils.thread.BusinessThreadExecutor;
 import lombok.extern.slf4j.Slf4j;

@@ -6,7 +6,6 @@ import com.madao.exception.custom.ThreadException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -45,14 +44,6 @@ public class BusinessThreadExecutor {
 	}
 
 	/**
-	 * 用户服务ForkJoinPool
-	 */
-	@Bean
-	public ExecutorService userWorkStealingPool() {
-		return BusinessThreadExecutor.buildThreadFirstExecutor("USER-ForkJoinPool");
-	}
-
-	/**
 	 * 获取默认线程数的线程池
 	 * 内部基于无界队列，请求量很大时候可能导致OOM的发生
 	 * @param poolName 线程池名称
@@ -84,7 +75,6 @@ public class BusinessThreadExecutor {
 	 *
 	 * <p>
 	 * 此方法默认设置核心线程数为 CPU 核数，最大线程数为 8倍 CPU 核数，空闲线程超过 5 分钟销毁，工作队列大小为 65536。
-	 * 当任务超出工作队列
 	 *
 	 * @param poolName 线程池名称
 	 * @return ThreadPoolExecutor
