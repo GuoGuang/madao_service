@@ -3,6 +3,7 @@ package com.madao.auth.handler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.madao.api.BaseServiceRpc;
 import com.madao.constant.CommonConst;
+import com.madao.event.LoginSuccessEvent;
 import com.madao.model.dto.user.AuthToken;
 import com.madao.model.entity.base.LoginLog;
 import com.madao.utils.HttpServletUtil;
@@ -13,11 +14,11 @@ import com.madao.utils.security.JWTAuthentication;
 import eu.bitwalker.useragentutils.UserAgent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
@@ -59,7 +60,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 	@Lazy
 	private AuthorizationServerTokenServices authorizationServerTokenServices;
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private ApplicationContext applicationContext;
 
 //	@Autowired
 //	RabbitUtil rabbitUtil;
@@ -145,6 +146,9 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 		saveToken(jti.toString(), jsonString, CommonConst.TIME_OUT_DAY);
 		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 		response.getWriter().write(objectMapper.writeValueAsString(JsonData.success(accessToken)));
+
+		// 监听者模式处理登录成功事件
+		applicationContext.publishEvent(new LoginSuccessEvent(this, authToken));
 
 	}
 
