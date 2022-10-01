@@ -62,6 +62,7 @@ public class TracerConfig {
 
 						t.createBaggage("INSTANCE", instance);
 
+						//  日志中添加USER-ID，便于基于USER-ID分析用户行为
 						if (StringUtils.isNotEmpty(authorization) & StringUtils.startsWith(authorization, JWTAuthentication.BEARER)) {
 							JSONObject jsonObject = JWTAuthentication.parseJwtToClaimsAsJSONObject(authorization);
 							t.createBaggage("USER-ID", jsonObject.getStr("user_name"));
