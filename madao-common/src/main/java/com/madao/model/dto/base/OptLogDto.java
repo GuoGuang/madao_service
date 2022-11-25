@@ -4,9 +4,13 @@ import com.google.common.base.Objects;
 import com.madao.enums.OptLogType;
 import com.madao.model.BasePojo;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class OptLogDto extends BasePojo implements Serializable {
 
 	@Schema(title = "操作日志表主键")
@@ -38,96 +42,6 @@ public class OptLogDto extends BasePojo implements Serializable {
 
 	@Schema(title = "操作系统信息")
 	private String osInfo;
-
-	public String getId() {
-		return id;
-	}
-
-	public OptLogDto setId(String id) {
-		this.id = id;
-		return this;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public OptLogDto setUserId(String userId) {
-		this.userId = userId;
-		return this;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public OptLogDto setUserName(String userName) {
-		this.userName = userName;
-		return this;
-	}
-
-	public String getClientIp() {
-		return clientIp;
-	}
-
-	public OptLogDto setClientIp(String clientIp) {
-		this.clientIp = clientIp;
-		return this;
-	}
-
-	public OptLogType getType() {
-		return type;
-	}
-
-	public OptLogDto setType(OptLogType type) {
-		this.type = type;
-		return this;
-	}
-
-	public String getMethod() {
-		return method;
-	}
-
-	public OptLogDto setMethod(String method) {
-		this.method = method;
-		return this;
-	}
-
-	public String getParams() {
-		return params;
-	}
-
-	public OptLogDto setParams(String params) {
-		this.params = params;
-		return this;
-	}
-
-	public String getExceptionDetail() {
-		return exceptionDetail;
-	}
-
-	public OptLogDto setExceptionDetail(String exceptionDetail) {
-		this.exceptionDetail = exceptionDetail;
-		return this;
-	}
-
-	public String getBrowser() {
-		return browser;
-	}
-
-	public OptLogDto setBrowser(String browser) {
-		this.browser = browser;
-		return this;
-	}
-
-	public String getOsInfo() {
-		return osInfo;
-	}
-
-	public OptLogDto setOsInfo(String osInfo) {
-		this.osInfo = osInfo;
-		return this;
-	}
 
 	@Override
 	public boolean equals(Object o) {

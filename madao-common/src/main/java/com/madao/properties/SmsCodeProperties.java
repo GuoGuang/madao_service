@@ -1,6 +1,8 @@
 package com.madao.properties;
 
 import com.madao.constant.CommonConst;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 短信验证码配置
@@ -11,6 +13,8 @@ import com.madao.constant.CommonConst;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Getter
+@Setter
 public class SmsCodeProperties {
 
 	/**
@@ -26,27 +30,4 @@ public class SmsCodeProperties {
 	 */
 	private String url;
 
-	public int getLength() {
-		return length;
-	}
-
-	public void setLength(int length) {
-		this.length = length;
-	}
-
-	public int getExpireIn() {
-		return expireIn;
-	}
-
-	public void setExpireIn(int expireIn) {
-		this.expireIn = expireIn;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
 }

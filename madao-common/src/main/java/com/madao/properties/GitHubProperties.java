@@ -1,5 +1,8 @@
 package com.madao.properties;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * QQ登录配置项
  *
@@ -9,31 +12,11 @@ package com.madao.properties;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Getter
+@Setter
 public class GitHubProperties {
 
 	private final String providerId = "GITHUB";
 	private String clientId;
 	private String clientSecret;
-
-	public String getProviderId() {
-		return providerId;
-	}
-
-	public String getClientId() {
-		return clientId;
-	}
-
-	public GitHubProperties setClientId(String clientId) {
-		this.clientId = clientId;
-		return this;
-	}
-
-	public String getClientSecret() {
-		return clientSecret;
-	}
-
-	public GitHubProperties setClientSecret(String clientSecret) {
-		this.clientSecret = clientSecret;
-		return this;
-	}
 }

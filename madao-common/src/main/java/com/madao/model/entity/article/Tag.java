@@ -1,6 +1,8 @@
 package com.madao.model.entity.article;
 
 import com.madao.model.BasePojo;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -13,6 +15,8 @@ import java.io.Serializable;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "ar_tag",
 		uniqueConstraints = @UniqueConstraint(columnNames = {"slug"}),
@@ -47,66 +51,4 @@ public class Tag extends BasePojo implements Serializable {
 	@Column(length = 1)
 	private Integer state;
 
-	public String getId() {
-		return id;
-	}
-
-	public Tag setId(String id) {
-		this.id = id;
-		return this;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public Tag setName(String name) {
-		this.name = name;
-		return this;
-	}
-
-	public String getSlug() {
-		return slug;
-	}
-
-	public Tag setSlug(String slug) {
-		this.slug = slug;
-		return this;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public Tag setDescription(String description) {
-		this.description = description;
-		return this;
-	}
-
-	public String getIcon() {
-		return icon;
-	}
-
-	public Tag setIcon(String icon) {
-		this.icon = icon;
-		return this;
-	}
-
-	public String getColor() {
-		return color;
-	}
-
-	public Tag setColor(String color) {
-		this.color = color;
-		return this;
-	}
-
-	public Integer getState() {
-		return state;
-	}
-
-	public Tag setState(Integer state) {
-		this.state = state;
-		return this;
-	}
 }

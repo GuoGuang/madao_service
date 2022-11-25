@@ -3,6 +3,8 @@ package com.madao.model.dto.user;
 import com.google.common.base.Objects;
 import com.madao.model.BasePojo;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -10,6 +12,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 public class ResourceDto extends BasePojo implements Serializable, Cloneable {
 
 	private Set<RoleDto> roles = new HashSet<>();
@@ -55,132 +59,6 @@ public class ResourceDto extends BasePojo implements Serializable, Cloneable {
 
 	@Schema(title = "资源标识")
 	private String code;
-
-	public Set<RoleDto> getRoles() {
-		return roles;
-	}
-
-	public ResourceDto setRoles(Set<RoleDto> roles) {
-		this.roles = roles;
-		return this;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public ResourceDto setId(String id) {
-		this.id = id;
-		return this;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public ResourceDto setName(String name) {
-		this.name = name;
-		return this;
-	}
-
-	public String getParentId() {
-		return parentId;
-	}
-
-	public ResourceDto setParentId(String parentId) {
-		this.parentId = parentId;
-		return this;
-	}
-
-	public String getComponent() {
-		return component;
-	}
-
-	public ResourceDto setComponent(String component) {
-		this.component = component;
-		return this;
-	}
-
-	public String getIcon() {
-		return icon;
-	}
-
-	public ResourceDto setIcon(String icon) {
-		this.icon = icon;
-		return this;
-	}
-
-	public String getPath() {
-		return path;
-	}
-
-	public ResourceDto setPath(String path) {
-		this.path = path;
-		return this;
-	}
-
-	public float getSort() {
-		return sort;
-	}
-
-	public ResourceDto setSort(float sort) {
-		this.sort = sort;
-		return this;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public ResourceDto setDescription(String description) {
-		this.description = description;
-		return this;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public ResourceDto setType(String type) {
-		this.type = type;
-		return this;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public ResourceDto setUrl(String url) {
-		this.url = url;
-		return this;
-	}
-
-	public String getMethod() {
-		return method;
-	}
-
-	public ResourceDto setMethod(String method) {
-		this.method = method;
-		return this;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public ResourceDto setCode(String code) {
-		this.code = code;
-		return this;
-	}
-
-	public Boolean getHidden() {
-		return hidden;
-	}
-
-	public ResourceDto setHidden(Boolean hidden) {
-		this.hidden = hidden;
-		return this;
-	}
 
 	@Override
 	public boolean equals(Object o) {

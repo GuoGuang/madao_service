@@ -1,6 +1,8 @@
 package com.madao.model.entity.base;
 
 import com.madao.model.BasePojo;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -13,6 +15,8 @@ import java.io.Serializable;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "ba_login_log",
 		indexes = {
@@ -43,57 +47,4 @@ public class LoginLog extends BasePojo implements Serializable {
 	@Column(length = 100)
 	private String osInfo;
 
-	public String getId() {
-		return id;
-	}
-
-	public LoginLog setId(String id) {
-		this.id = id;
-		return this;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public LoginLog setUserId(String userId) {
-		this.userId = userId;
-		return this;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public LoginLog setUserName(String userName) {
-		this.userName = userName;
-		return this;
-	}
-
-	public String getClientIp() {
-		return clientIp;
-	}
-
-	public LoginLog setClientIp(String clientIp) {
-		this.clientIp = clientIp;
-		return this;
-	}
-
-	public String getBrowser() {
-		return browser;
-	}
-
-	public LoginLog setBrowser(String browser) {
-		this.browser = browser;
-		return this;
-	}
-
-	public String getOsInfo() {
-		return osInfo;
-	}
-
-	public LoginLog setOsInfo(String osInfo) {
-		this.osInfo = osInfo;
-		return this;
-	}
 }

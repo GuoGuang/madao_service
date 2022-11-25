@@ -1,6 +1,8 @@
 package com.madao.model.entity.user;
 
 import com.madao.model.BasePojo;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -13,6 +15,8 @@ import java.io.Serializable;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "us_resource",
 		indexes = {
@@ -73,122 +77,5 @@ public class Resource extends BasePojo implements Serializable, Cloneable {
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		return super.clone();
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public Resource setId(String id) {
-		this.id = id;
-		return this;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public Resource setName(String name) {
-		this.name = name;
-		return this;
-	}
-
-	public String getParentId() {
-		return parentId;
-	}
-
-	public Resource setParentId(String parentId) {
-		this.parentId = parentId;
-		return this;
-	}
-
-	public String getComponent() {
-		return component;
-	}
-
-	public Resource setComponent(String component) {
-		this.component = component;
-		return this;
-	}
-
-	public String getIcon() {
-		return icon;
-	}
-
-	public Resource setIcon(String icon) {
-		this.icon = icon;
-		return this;
-	}
-
-	public String getPath() {
-		return path;
-	}
-
-	public Resource setPath(String path) {
-		this.path = path;
-		return this;
-	}
-
-	public float getSort() {
-		return sort;
-	}
-
-	public Resource setSort(float sort) {
-		this.sort = sort;
-		return this;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public Resource setDescription(String description) {
-		this.description = description;
-		return this;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public Resource setType(String type) {
-		this.type = type;
-		return this;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public Resource setUrl(String url) {
-		this.url = url;
-		return this;
-	}
-
-	public String getMethod() {
-		return method;
-	}
-
-	public Resource setMethod(String method) {
-		this.method = method;
-		return this;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public Resource setCode(String code) {
-		this.code = code;
-		return this;
-	}
-
-	public Boolean getHidden() {
-		return hidden;
-	}
-
-	public Resource setHidden(Boolean hidden) {
-		this.hidden = hidden;
-		return this;
 	}
 }

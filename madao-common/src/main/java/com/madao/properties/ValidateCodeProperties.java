@@ -1,5 +1,8 @@
 package com.madao.properties;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 验证码配置
  *
@@ -9,6 +12,8 @@ package com.madao.properties;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Getter
+@Setter
 public class ValidateCodeProperties {
 
 	/**
@@ -19,21 +24,5 @@ public class ValidateCodeProperties {
 	 * 短信验证码配置
 	 */
 	private SmsCodeProperties sms = new SmsCodeProperties();
-
-	public CaptchaProperties getImage() {
-		return image;
-	}
-
-	public void setImage(CaptchaProperties image) {
-		this.image = image;
-	}
-
-	public SmsCodeProperties getSms() {
-		return sms;
-	}
-
-	public void setSms(SmsCodeProperties sms) {
-		this.sms = sms;
-	}
 
 }

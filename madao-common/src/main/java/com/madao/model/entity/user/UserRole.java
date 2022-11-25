@@ -1,5 +1,7 @@
 package com.madao.model.entity.user;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -12,6 +14,8 @@ import java.io.Serializable;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "us_user_role",
 		indexes = {
@@ -37,32 +41,5 @@ public class UserRole implements Serializable {
 	}
 
 	public UserRole() {
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public UserRole setId(String id) {
-		this.id = id;
-		return this;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public UserRole setUserId(String userId) {
-		this.userId = userId;
-		return this;
-	}
-
-	public String getRoleId() {
-		return roleId;
-	}
-
-	public UserRole setRoleId(String roleId) {
-		this.roleId = roleId;
-		return this;
 	}
 }

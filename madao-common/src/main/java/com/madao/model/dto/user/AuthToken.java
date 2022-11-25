@@ -2,7 +2,11 @@ package com.madao.model.dto.user;
 
 import com.google.common.base.Objects;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class AuthToken {
 	@Schema(title = "访问token就是短令牌，用户身份令牌")
 	String access_token;
@@ -10,33 +14,6 @@ public class AuthToken {
 	String refresh_token;
 	@Schema(title = "jwt令牌")
 	String jwt_token;
-
-	public String getAccess_token() {
-		return access_token;
-	}
-
-	public AuthToken setAccess_token(String access_token) {
-		this.access_token = access_token;
-		return this;
-	}
-
-	public String getRefresh_token() {
-		return refresh_token;
-	}
-
-	public AuthToken setRefresh_token(String refresh_token) {
-		this.refresh_token = refresh_token;
-		return this;
-	}
-
-	public String getJwt_token() {
-		return jwt_token;
-	}
-
-	public AuthToken setJwt_token(String jwt_token) {
-		this.jwt_token = jwt_token;
-		return this;
-	}
 
 	@Override
 	public boolean equals(Object o) {

@@ -1,5 +1,8 @@
 package com.madao.properties;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 认证服务器注册的第三方应用配置项
  *
@@ -9,6 +12,8 @@ package com.madao.properties;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Getter
+@Setter
 public class OAuth2ClientProperties {
 
 	/**
@@ -23,29 +28,5 @@ public class OAuth2ClientProperties {
 	 * 针对此应用发出的token的有效时间
 	 */
 	private int accessTokenValidateSeconds = 7200;
-
-	public String getClientId() {
-		return clientId;
-	}
-
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
-	}
-
-	public String getClientSecret() {
-		return clientSecret;
-	}
-
-	public void setClientSecret(String clientSecret) {
-		this.clientSecret = clientSecret;
-	}
-
-	public int getAccessTokenValidateSeconds() {
-		return accessTokenValidateSeconds;
-	}
-
-	public void setAccessTokenValidateSeconds(int accessTokenValidateSeconds) {
-		this.accessTokenValidateSeconds = accessTokenValidateSeconds;
-	}
 
 }
