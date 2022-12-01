@@ -60,6 +60,33 @@ public class RabbitMQConfig {
 		return connectionFactory;
 	}
 
+
+	@Bean("connectionFactoryOther")
+	public ConnectionFactory connectionFactoryOther() {
+		CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
+		connectionFactory.setHost(host);
+		connectionFactory.setPort(port);
+		connectionFactory.setUsername(username);
+		connectionFactory.setPassword(password);
+		connectionFactory.setVirtualHost(virtualHost);
+		connectionFactory.setPublisherReturns(publisherReturns);
+		connectionFactory.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.CORRELATED);
+		return connectionFactory;
+	}
+
+	/**
+	 * 第二个MQ配置，适用于当前业务监听不同服务器的MQ
+	 */
+	@Bean(name="userMq")
+	public SimpleRabbitListenerContainerFactory userMqRabbitFactory(
+			ConnectionFactory connectionFactoryOther) {
+		SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+		factory.setConnectionFactory(connectionFactoryOther);
+		factory.setMessageConverter(new Jackson2JsonMessageConverter());
+		factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+		return factory;
+	}
+
 	@Bean
 	public RabbitListenerContainerFactory<?> rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
 		SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();

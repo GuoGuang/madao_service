@@ -35,7 +35,7 @@ public class UserQueueHandler {
 			@Argument(name = "x-dead-letter-routing-key", value = "dlx.routing.key")
 	}),
 			exchange = @Exchange(type = ExchangeTypes.FANOUT, value = "productLine", ignoreDeclarationExceptions = "true"), key = ""
-	)
+	),containerFactory = "userMq"
 	)
 	public void queueOne(Message message, Channel channel) throws IOException {
 		String msg = new String(message.getBody(), StandardCharsets.UTF_8);
