@@ -39,7 +39,7 @@ public class UserController {
 	private final UserService userService;
 	private final AbstractCommonHandler<UserDto> userSaveHandler;
 
-	@PostMapping()
+	@PostMapping
 	@OptLog(operationType = OptLogType.ADD, operationName = "注册用户")
 	@Operation(summary = "注册用户", description = "User")
 	public JsonData<Void> insertUser(@RequestBody @Validated UserDto userDto) {
@@ -112,7 +112,7 @@ public class UserController {
 		return JsonData.success(result);
 	}
 
-	@PutMapping()
+	@PutMapping
 	@OptLog(operationType = OptLogType.MODIFY, operationName = "更新用户资料")
 	@Operation(summary = "更新用户资料", description = "User")
 	public JsonData<Void> updateByPrimaryKey(@RequestBody @Validated UserDto userDto) {

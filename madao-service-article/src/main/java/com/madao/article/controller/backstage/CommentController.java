@@ -33,7 +33,7 @@ public class CommentController {
 
 	private final CommentService commentService;
 
-	@GetMapping()
+	@GetMapping
 	@Operation(summary = "查询文章评论", description = "Comment")
 	public JsonData<Page<CommentDto>> findCommentByCondition(CommentDto commentDto,
 	                                                         @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
@@ -48,7 +48,7 @@ public class CommentController {
 		return JsonData.success(result);
 	}
 
-	@PostMapping()
+	@PostMapping
 	@OptLog(operationType = OptLogType.ADD, operationName = "增加文章评论")
 	@Operation(summary = "增加文章评论", description = "Comment")
 	public JsonData<Void> insertComment(@RequestBody @Validated CommentDto commentDto) {

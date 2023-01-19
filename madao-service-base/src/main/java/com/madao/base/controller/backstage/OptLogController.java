@@ -46,7 +46,7 @@ public class OptLogController {
 		return JsonData.success(result);
 	}
 
-	@PostMapping()
+	@PostMapping
 	@Operation(summary = "增加操作日志", description = "OptLog")
 	public JsonData<Void> insertOptLog(@RequestBody OptLogDto optLogDto) {
 		optLogService.insertOptLog(optLogDto);

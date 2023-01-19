@@ -46,7 +46,7 @@ public class LoginLogController {
 		return JsonData.success(result);
 	}
 
-	@PostMapping()
+	@PostMapping
 	@Operation(summary = "增加登录日志", description = "LoginLog")
 	public JsonData<Void> insertLoginLog(@RequestBody LoginLogDto loginLogDto) {
 		loginLogService.save(loginLogDto);

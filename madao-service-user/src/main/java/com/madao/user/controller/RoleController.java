@@ -60,7 +60,7 @@ public class RoleController {
 		return JsonData.success();
 	}
 
-	@PutMapping()
+	@PutMapping
 	@OptLog(operationType = OptLogType.MODIFY, operationName = "更新角色")
 	@Operation(summary = "更新角色", description = "Role")
 	public JsonData<Void> updateByPrimaryKey(@RequestBody @Validated RoleDto roleDto) {
