@@ -105,7 +105,7 @@ class TokenProviderTest {
 		final String base64Secret = "fd54a45s65fds737b9aafcb3412e07ed99b267f33413274720ddbb7f6c5e64e9f14075f2d7ed041592f0b7657baf8";
 		SecurityMetersService securityMetersService = new SecurityMetersService(new SimpleMeterRegistry());
 
-		TokenProvider tokenProvider = new TokenProvider( securityMetersService);
+		TokenProvider tokenProvider = new TokenProvider(securityMetersService);
 
 		Key key = (Key) ReflectionTestUtils.getField(tokenProvider, "key");
 		assertThat(key).isNotNull().isEqualTo(Keys.hmacShaKeyFor(Decoders.BASE64.decode(base64Secret)));

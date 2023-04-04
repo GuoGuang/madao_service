@@ -24,12 +24,12 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
-import javax.annotation.Resource;
 import java.security.KeyPair;
 import java.util.Arrays;
 
 /**
  * Oauth2认证配置
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -38,22 +38,20 @@ import java.util.Arrays;
  */
 @Configuration
 @EnableAuthorizationServer
-class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+public class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-	// jwt令牌转换器
-	@Autowired
-	private JwtAccessTokenConverter jwtAccessTokenConverter;
-	// 登录错误时执行
-	@Autowired
-	private CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
 	@Autowired
 	@Qualifier("userDetailsServiceImpl")
 	UserDetailsService userDetailsService;
+
+	@Autowired
+	CustomUserAuthenticationConverter customUserAuthenticationConverter;
 	@Autowired
 	AuthenticationManager authenticationManager;
+	// jwt令牌转换器
+	// 登录错误时执行
 	@Autowired
-	TokenStore tokenStore;
-
+	private CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
 	@Autowired
 	private OAuth2ClientProperties oAuth2ClientProperties;
 
@@ -62,9 +60,6 @@ class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapte
 	public KeyProperties keyProperties() {
 		return new KeyProperties();
 	}
-
-	@Resource(name = "keyProp")
-	private KeyProperties keyProperties;
 
 	/**
 	 * 配置客户端应用
@@ -103,9 +98,9 @@ class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapte
 	 */
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-		endpoints.accessTokenConverter(jwtAccessTokenConverter)
+		endpoints.accessTokenConverter(jwtAccessTokenConverter())
 				.authenticationManager(authenticationManager)//认证管理器
-				.tokenStore(tokenStore)//令牌存储
+				.tokenStore(tokenStore())//令牌存储
 				.tokenEnhancer(tokenEnhancerChain())
 				.exceptionTranslator(customWebResponseExceptionTranslator)
 				.userDetailsService(userDetailsService);//用户信息service
@@ -128,26 +123,25 @@ class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapte
 	@Bean
 	public TokenEnhancerChain tokenEnhancerChain() {
 		TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(new CustomTokenEnhancer(), jwtAccessTokenConverter));
+		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(new CustomTokenEnhancer(), jwtAccessTokenConverter()));
 		return tokenEnhancerChain;
 	}
 
 	@Bean
-	@Autowired
-	public TokenStore tokenStore(JwtAccessTokenConverter jwtAccessTokenConverter) {
-		return new JwtTokenStore(jwtAccessTokenConverter);
+	public TokenStore tokenStore() {
+		return new JwtTokenStore(jwtAccessTokenConverter());
 	}
 
 	/**
 	 * 配置AccessToken加密方式
 	 */
 	@Bean
-	public JwtAccessTokenConverter jwtAccessTokenConverter(CustomUserAuthenticationConverter customUserAuthenticationConverter) {
+	public JwtAccessTokenConverter jwtAccessTokenConverter() {
 		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-		KeyPair keyPair = new KeyStoreKeyFactory(keyProperties.getKeyStore().getLocation(),
-				keyProperties.getKeyStore().getSecret().toCharArray())
-				.getKeyPair(keyProperties.getKeyStore().getAlias(),
-						keyProperties.getKeyStore().getPassword().toCharArray());
+		KeyPair keyPair = new KeyStoreKeyFactory(keyProperties().getKeyStore().getLocation(),
+				keyProperties().getKeyStore().getSecret().toCharArray())
+				.getKeyPair(keyProperties().getKeyStore().getAlias(),
+						keyProperties().getKeyStore().getPassword().toCharArray());
 		converter.setKeyPair(keyPair);
 		//配置自定义的CustomUserAuthenticationConverter
 		DefaultAccessTokenConverter accessTokenConverter = (DefaultAccessTokenConverter) converter.getAccessTokenConverter();

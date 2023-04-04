@@ -17,8 +17,8 @@ import java.util.List;
  * @created 2019-09-29 7:37
  */
 public interface LoginLogDao extends JpaRepository<LoginLog, String>, JpaSpecificationExecutor<LoginLog> {
-    @Modifying
-    @Query("delete from LoginLog where id in (:ids)")
-    void deleteBatch(@Param("ids") List<String> ids);
+	@Modifying
+	@Query("delete from LoginLog where id in (:ids)")
+	void deleteBatch(@Param("ids") List<String> ids);
 
 }

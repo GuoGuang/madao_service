@@ -1,7 +1,5 @@
 package com.madao.config;
 
-import cn.hutool.core.lang.Snowflake;
-import cn.hutool.core.util.IdUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.UUIDGenerator;
@@ -11,6 +9,7 @@ import java.io.Serializable;
 
 /**
  * 自定义Id生成器
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -20,9 +19,10 @@ import java.io.Serializable;
 @Configuration
 public class IdGeneratorConfig extends UUIDGenerator {
 
-    @Override
-    public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException {
-        Snowflake snowflake = IdUtil.getSnowflake(1, 1);
-        return String.valueOf(snowflake.nextId());
-    }
+	@Override
+	public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException {
+		return String.valueOf(IdGenerator.generateId());
+	}
+
+
 }

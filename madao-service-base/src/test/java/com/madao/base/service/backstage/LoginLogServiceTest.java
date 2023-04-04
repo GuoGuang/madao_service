@@ -13,19 +13,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class LoginLogServiceTest {
 
-    @Autowired
-    private LoginLogService loginLogService;
+	@Autowired
+	private LoginLogService loginLogService;
 
-    @Test
-    public void findLoginLogByCondition() {
-        Page<LoginLogDto> dictByCondition = loginLogService.findLoginLogByCondition(new LoginLogDto(), null);
-        Assert.assertTrue(dictByCondition.getTotalElements() > 0);
-    }
+	@Test
+	public void findLoginLogByCondition() {
+		Page<LoginLogDto> dictByCondition = loginLogService.findLoginLogByCondition(new LoginLogDto(), null);
+		Assert.assertTrue(dictByCondition.getTotalElements() > 0);
+	}
 
-    @Test
-    public void findById() {
-        LoginLogDto byId = loginLogService.findById("1141704085730828289");
-        Assert.assertNotNull(byId);
-    }
+	@Test
+	public void findById() {
+		LoginLogDto byId = loginLogService.findById("1141704085730828289");
+		Assert.assertNotNull(byId);
+	}
 
 }

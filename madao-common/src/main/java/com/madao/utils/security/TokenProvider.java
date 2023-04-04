@@ -28,11 +28,13 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TokenProvider {
 
+	public static final String BEARER = "Bearer";
+	// Authorization认证开头是"bearer "
+	public static final int BEARER_BEGIN_INDEX = 7;
 	private static final String AUTHORITIES_KEY = "auth";
 	private static final String INVALID_JWT_TOKEN = "Invalid JWT token.";
 	//公钥
 	private static final String PUBLIC_KEY = "publickey.txt";
-	public static final String BEARER = "Bearer";
 	// jwt 签发者
 	private static final String ISSUER = "excloud";
 	private final Key key;
@@ -41,8 +43,6 @@ public class TokenProvider {
 	private final long tokenValidityInMillisecondsForRememberMe;
 	private final SecurityMetersService securityMetersService;
 	private final String secret = "OGZkMDRhYjkxOGRjYTZjODhjZjVkNGZjZWQ5NGFiMTU3NmQ1ZGRhZDQxMzcxYmExNDNhZTkwNDgzNDRhMTFjZWEzYmI2MmM2ZjZjZmJkNDZhMmMzZTEzZjUzYjYyNTNiYmY3NGY3MTI2OGVhOTZlMDViZGJkZGQ5M2RhOGE1Yzk=";
-	// Authorization认证开头是"bearer "
-	public static final int BEARER_BEGIN_INDEX = 7;
 
 	public TokenProvider(SecurityMetersService securityMetersService) {
 		byte[] keyBytes = Decoders.BASE64.decode(secret);
@@ -54,7 +54,17 @@ public class TokenProvider {
 	}
 
 	/**
+	 * 拼接 Bearer 令牌
+	 *
+	 * @param auth 令牌
+	 */
+	public static String getFullAuthorization(String auth) {
+		return StringUtils.substring(auth, BEARER_BEGIN_INDEX);
+	}
+
+	/**
 	 * 创建JWT Token
+	 *
 	 * @param authentication
 	 * @param rememberMe
 	 * @return
@@ -78,9 +88,9 @@ public class TokenProvider {
 				.compact();
 	}
 
-
 	/**
 	 * 基于token获取Authentication
+	 *
 	 * @param token
 	 * @return
 	 */
@@ -91,7 +101,7 @@ public class TokenProvider {
 				.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
 				.filter(auth -> !auth.trim().isEmpty())
 				.map(SimpleGrantedAuthority::new)
-				.collect(Collectors.toList());
+				.toList();
 		User principal = new User(claims.getSubject(), "", authorities);
 
 		return new UsernamePasswordAuthenticationToken(principal, token, authorities);
@@ -99,6 +109,7 @@ public class TokenProvider {
 
 	/**
 	 * 验证Token
+	 *
 	 * @param authToken
 	 * @return
 	 */
@@ -123,14 +134,5 @@ public class TokenProvider {
 			log.error("Token validation error {}", e.getMessage());
 		}
 		return false;
-	}
-
-
-	/**
-	 * 拼接 Bearer 令牌
-	 * @param auth 令牌
-	 */
-	public static String getFullAuthorization(String auth) {
-		return StringUtils.substring(auth, BEARER_BEGIN_INDEX);
 	}
 }

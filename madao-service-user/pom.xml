@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-   <parent>
-       <artifactId>madao-common-parent</artifactId>
-       <groupId>com.madao</groupId>
-       <version>1.0.0</version>
-       <relativePath>../madao-common-parent/pom.xml</relativePath>
-   </parent>
+    <parent>
+        <artifactId>madao-common-parent</artifactId>
+        <groupId>com.madao</groupId>
+        <version>1.0.0</version>
+        <relativePath>../madao-common-parent/pom.xml</relativePath>
+    </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,10 +15,23 @@
     <description>用户微服务模块</description>
     <properties>
         <madao-service-api.version>1.0.0</madao-service-api.version>
+        <flowable-spring-boot-starter-rest.version>6.7.2</flowable-spring-boot-starter-rest.version>
     </properties>
     <name>madao-service-user【用户服务】</name>
 
     <dependencies>
+        <!--     Flowable依赖javax包   -->
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flowable</groupId>
+            <artifactId>flowable-spring-boot-starter</artifactId>
+            <version>${flowable-spring-boot-starter-rest.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.corundumstudio.socketio</groupId>
             <artifactId>netty-socketio</artifactId>
@@ -76,8 +89,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>17</source>
+                    <target>17</target>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>

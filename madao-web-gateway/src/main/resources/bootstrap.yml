@@ -36,7 +36,3 @@ spring:
   config:
     activate:
       on-profile: prod
-springfox:
-  documentation:
-    swagger-ui:
-      enabled: false

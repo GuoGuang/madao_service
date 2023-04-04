@@ -29,7 +29,7 @@ public class BarrageService {
 	}
 
 	public List<BarrageMessage> findAll() {
-		return redisUtil.lGet(BARRAGE,0,-1);
+		return redisUtil.lGet(BARRAGE, 0, -1);
 	}
 
 }

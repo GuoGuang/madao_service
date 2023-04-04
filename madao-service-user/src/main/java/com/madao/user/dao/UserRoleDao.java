@@ -15,9 +15,9 @@ import java.util.List;
  * @created 2019-09-29 7:37
  */
 public interface UserRoleDao extends JpaRepository<UserRole, String>,
-        JpaSpecificationExecutor<UserRole>, QuerydslPredicateExecutor<UserRole> {
+		JpaSpecificationExecutor<UserRole>, QuerydslPredicateExecutor<UserRole> {
 
-    void deleteByUserIdIn(List<String> userIds);
+	void deleteByUserIdIn(List<String> userIds);
 
-    void deleteByRoleIdIn(List<String> roleId);
+	void deleteByRoleIdIn(List<String> roleId);
 }

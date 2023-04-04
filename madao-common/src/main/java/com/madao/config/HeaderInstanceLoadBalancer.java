@@ -34,13 +34,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 public class HeaderInstanceLoadBalancer implements ReactorServiceInstanceLoadBalancer {
 
-	public  HeaderInstanceLoadBalancer(ObjectProvider<ServiceInstanceListSupplier> serviceInstanceListSupplierProvider, String serviceId) {
+	String serviceId;
+	ObjectProvider<ServiceInstanceListSupplier> serviceInstanceListSupplierProvider;
+	public HeaderInstanceLoadBalancer(ObjectProvider<ServiceInstanceListSupplier> serviceInstanceListSupplierProvider, String serviceId) {
 		this.serviceId = serviceId;
 		this.serviceInstanceListSupplierProvider = serviceInstanceListSupplierProvider;
 	}
-
-	String serviceId;
-	ObjectProvider<ServiceInstanceListSupplier> serviceInstanceListSupplierProvider;
 
 	@Override
 	public Mono<Response<ServiceInstance>> choose(Request request) {
@@ -51,12 +50,12 @@ public class HeaderInstanceLoadBalancer implements ReactorServiceInstanceLoadBal
 		return supplier.get(request)
 				.next()
 				//从列表中选择一个实例
-				.map(serviceInstances -> processInstanceResponse(supplier, serviceInstances,request));
+				.map(serviceInstances -> processInstanceResponse(supplier, serviceInstances, request));
 	}
 
 	private Response<ServiceInstance> processInstanceResponse(ServiceInstanceListSupplier supplier,
 	                                                          List<ServiceInstance> serviceInstances, Request request) {
-		Response<ServiceInstance> serviceInstanceResponse = getInstanceResponse(serviceInstances,request);
+		Response<ServiceInstance> serviceInstanceResponse = getInstanceResponse(serviceInstances, request);
 		// 如果 ServiceInstanceListSupplier 也实现了 SelectedInstanceCallback，
 		// 则执行下面的逻辑进行回调。SelectedInstanceCallback 就是每次负载均衡器选择实例之后进行的回调
 		if (supplier instanceof SelectedInstanceCallback && serviceInstanceResponse.hasServer()) {
@@ -80,10 +79,10 @@ public class HeaderInstanceLoadBalancer implements ReactorServiceInstanceLoadBal
 
 		for (ServiceInstance serviceInstance : instances) {
 			String headersInstance = headers.getFirst("INSTANCE");
-			if (StringUtils.isNotBlank(headersInstance) && headersInstance.equals(serviceInstance.getHost())){
-					instance = serviceInstance;
-					break;
-				}
+			if (StringUtils.isNotBlank(headersInstance) && headersInstance.equals(serviceInstance.getHost())) {
+				instance = serviceInstance;
+				break;
+			}
 		}
 		return new DefaultResponse(instance);
 	}

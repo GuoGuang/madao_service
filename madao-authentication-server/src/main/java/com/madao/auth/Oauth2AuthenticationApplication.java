@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 
 /**
  * Oauth2授权、鉴权
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -30,27 +31,27 @@ import javax.annotation.PostConstruct;
 @EnableDiscoveryClient
 @EnableRabbit
 public class Oauth2AuthenticationApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(Oauth2AuthenticationApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(Oauth2AuthenticationApplication.class, args);
+	}
 
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate(new OkHttp3ClientHttpRequestFactory());
-    }
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate(new OkHttp3ClientHttpRequestFactory());
+	}
 
-    @PostConstruct
-    void started() {
-        DateUtil.setDefaultZone();
-    }
+	@PostConstruct
+	void started() {
+		DateUtil.setDefaultZone();
+	}
 
-    @Bean
-    public SecurityProperties securityProperties() {
-        return new SecurityProperties();
-    }
+	@Bean
+	public SecurityProperties securityProperties() {
+		return new SecurityProperties();
+	}
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 阿里验证码发送器
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -15,17 +16,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Slf4j
 public class AliSmsCodeSender implements SmsCodeSender {
 
-    // @Autowired
-    //RabbitUtil rabbitUtil;
+	// @Autowired
+	//RabbitUtil rabbitUtil;
 
-    @Autowired(required = false)
-    private Smsbao smsbao;
+	@Autowired(required = false)
+	private Smsbao smsbao;
 
-    @Override
-    public void send(String phone, String code) {
-        smsbao.sendSms(phone, code);
-        log.info("向手机" + phone + "发送短信验证码" + code);
+	@Override
+	public void send(String phone, String code) {
+		smsbao.sendSms(phone, code);
+		log.info("向手机" + phone + "发送短信验证码" + code);
 //		rabbitUtil.sendMessageToExchange(,"");
-    }
+	}
 
 }

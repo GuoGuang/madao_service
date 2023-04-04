@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * 登录，认证
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -18,16 +19,16 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class AuthenticationService {
 
-    @Autowired
-    LoadBalancerClient loadBalancerClient;
+	@Autowired
+	LoadBalancerClient loadBalancerClient;
 
-    @Autowired
-    RedisUtil redisUtil;
+	@Autowired
+	RedisUtil redisUtil;
 
-    @Autowired
-    BaseServiceRpc baseServiceRpc;
+	@Autowired
+	BaseServiceRpc baseServiceRpc;
 
-    @Autowired
-    RestTemplate restTemplate;
+	@Autowired
+	RestTemplate restTemplate;
 
 }

@@ -16,23 +16,23 @@ import java.util.List;
 @SpringBootTest
 public class DictServiceTest {
 
-    @Autowired
-    private DictService dictService;
+	@Autowired
+	private DictService dictService;
 
-    @Test
-    public void findDictByCondition() {
-        QueryVO queryVO = new QueryVO();
-        Page<DictDto> dictByCondition = dictService.findDictByCondition(new DictDto(), null);
-        Assert.assertTrue(dictByCondition.getTotalElements() > 0);
-    }
+	@Test
+	public void findDictByCondition() {
+		QueryVO queryVO = new QueryVO();
+		Page<DictDto> dictByCondition = dictService.findDictByCondition(new DictDto(), null);
+		Assert.assertTrue(dictByCondition.getTotalElements() > 0);
+	}
 
-    @Test
-    public void findIdNameTypeByParentId() {
+	@Test
+	public void findIdNameTypeByParentId() {
 
-        DictDto dict = new DictDto();
-        dict.setId("1133978877252415931");
-        List<DictDto> idNameTypeByParentId = dictService.findIdNameTypeByParentId(dict);
+		DictDto dict = new DictDto();
+		dict.setId("1133978877252415931");
+		List<DictDto> idNameTypeByParentId = dictService.findIdNameTypeByParentId(dict);
 
-        Assert.assertNotNull(idNameTypeByParentId);
-    }
+		Assert.assertNotNull(idNameTypeByParentId);
+	}
 }

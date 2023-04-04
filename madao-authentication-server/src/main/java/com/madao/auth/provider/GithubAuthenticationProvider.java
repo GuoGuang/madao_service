@@ -18,6 +18,7 @@ import java.util.Map;
 
 /**
  * 三方GitHub登录
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -27,32 +28,32 @@ import java.util.Map;
 @Component
 public class GithubAuthenticationProvider implements AuthenticationProvider {
 
-    @Autowired
-    private RedisUtil redisUtil;
+	@Autowired
+	private RedisUtil redisUtil;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 
-    @Autowired
-    @Qualifier("gitHubDetailsServiceImpl")
-    private GitHubDetailsServiceImpl gitHubDetailsServiceImpl;
+	@Autowired
+	@Qualifier("gitHubDetailsServiceImpl")
+	private GitHubDetailsServiceImpl gitHubDetailsServiceImpl;
 
-    @Override
-    public Authentication authenticate(Authentication authentication) {
+	@Override
+	public Authentication authenticate(Authentication authentication) {
 
-        GitHubAuthenticationToken authenticationToken = (GitHubAuthenticationToken) authentication;
-        String accessToken = authenticationToken.getPrincipal().toString();
-        Map<String, Object> userInfo = HttpHelper.httpOauthGet(accessToken);
+		GitHubAuthenticationToken authenticationToken = (GitHubAuthenticationToken) authentication;
+		String accessToken = authenticationToken.getPrincipal().toString();
+		Map<String, Object> userInfo = HttpHelper.httpOauthGet(accessToken);
 
-        System.out.println(userInfo);
-        UserDetails userDetails = gitHubDetailsServiceImpl.loadUserByUsername(JsonUtil.toJsonString(userInfo));
-        return new CaptchaAuthenticationToken(userDetails, userDetails.getAuthorities());
-    }
+		System.out.println(userInfo);
+		UserDetails userDetails = gitHubDetailsServiceImpl.loadUserByUsername(JsonUtil.toJsonString(userInfo));
+		return new CaptchaAuthenticationToken(userDetails, userDetails.getAuthorities());
+	}
 
-    @Override
-    public boolean supports(Class<?> authentication) {
-        return (GitHubAuthenticationToken.class.isAssignableFrom(authentication));
-    }
+	@Override
+	public boolean supports(Class<?> authentication) {
+		return (GitHubAuthenticationToken.class.isAssignableFrom(authentication));
+	}
 
 }

@@ -3,138 +3,51 @@ package com.madao.model.dto.base;
 import com.google.common.base.Objects;
 import com.madao.enums.OptLogType;
 import com.madao.model.BasePojo;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class OptLogDto extends BasePojo implements Serializable {
 
-    @ApiModelProperty("操作日志表主键")
-    private String id;
+	@Schema(title = "操作日志表主键")
+	private String id;
 
-    @ApiModelProperty("操作人id")
-    private String userId;
+	@Schema(title = "操作人id")
+	private String userId;
 
-    @ApiModelProperty("操作人名称")
-    private String userName;
+	@Schema(title = "操作人名称")
+	private String userName;
 
-    @ApiModelProperty("操作ip")
-    private String clientIp;
+	@Schema(title = "操作ip")
+	private String clientIp;
 
-    @ApiModelProperty(value = "操作类型（1：增，2：删，3：改）")
-    private OptLogType type;
+	@Schema(title = "操作类型（1：增，2：删，3：改）")
+	private OptLogType type;
 
-    @ApiModelProperty("操作方法名称")
-    private String method;
+	@Schema(title = "操作方法名称")
+	private String method;
 
-    @ApiModelProperty("操作方法的参数（json）")
-    private String params;
+	@Schema(title = "操作方法的参数（json）")
+	private String params;
 
-    @ApiModelProperty("异常详情")
-    private String exceptionDetail;
+	@Schema(title = "异常详情")
+	private String exceptionDetail;
 
-    @ApiModelProperty("浏览器")
-    private String browser;
+	@Schema(title = "浏览器")
+	private String browser;
 
-    @ApiModelProperty("操作系统信息")
-    private String osInfo;
-
-	public String getId() {
-		return id;
-	}
-
-	public OptLogDto setId(String id) {
-		this.id = id;
-		return this;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public OptLogDto setUserId(String userId) {
-		this.userId = userId;
-		return this;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public OptLogDto setUserName(String userName) {
-		this.userName = userName;
-		return this;
-	}
-
-	public String getClientIp() {
-		return clientIp;
-	}
-
-	public OptLogDto setClientIp(String clientIp) {
-		this.clientIp = clientIp;
-		return this;
-	}
-
-	public OptLogType getType() {
-		return type;
-	}
-
-	public OptLogDto setType(OptLogType type) {
-		this.type = type;
-		return this;
-	}
-
-	public String getMethod() {
-		return method;
-	}
-
-	public OptLogDto setMethod(String method) {
-		this.method = method;
-		return this;
-	}
-
-	public String getParams() {
-		return params;
-	}
-
-	public OptLogDto setParams(String params) {
-		this.params = params;
-		return this;
-	}
-
-	public String getExceptionDetail() {
-		return exceptionDetail;
-	}
-
-	public OptLogDto setExceptionDetail(String exceptionDetail) {
-		this.exceptionDetail = exceptionDetail;
-		return this;
-	}
-
-	public String getBrowser() {
-		return browser;
-	}
-
-	public OptLogDto setBrowser(String browser) {
-		this.browser = browser;
-		return this;
-	}
-
-	public String getOsInfo() {
-		return osInfo;
-	}
-
-	public OptLogDto setOsInfo(String osInfo) {
-		this.osInfo = osInfo;
-		return this;
-	}
+	@Schema(title = "操作系统信息")
+	private String osInfo;
 
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof OptLogDto)) return false;
+		if (!(o instanceof OptLogDto optLogDto)) return false;
 		if (!super.equals(o)) return false;
-		OptLogDto optLogDto = (OptLogDto) o;
 		return Objects.equal(id, optLogDto.id) && Objects.equal(userId, optLogDto.userId) && Objects.equal(userName, optLogDto.userName) && Objects.equal(clientIp, optLogDto.clientIp) && type == optLogDto.type && Objects.equal(method, optLogDto.method) && Objects.equal(params, optLogDto.params) && Objects.equal(exceptionDetail, optLogDto.exceptionDetail) && Objects.equal(browser, optLogDto.browser) && Objects.equal(osInfo, optLogDto.osInfo);
 	}
 

@@ -6,6 +6,7 @@ import java.util.Map;
 
 /**
  * 参数校验
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -14,27 +15,26 @@ import java.util.Map;
  */
 public class ParamUtil {
 
-    /**
-     * 验证参数有效性
-     *
-     * @param map
-     * @param params: 一个或者多个参数, 适用于 逻辑与
-     * @return boolean
-     */
-    public static Boolean isAvailable(Map map, Object... params) {
-        for (Object param : params) {
-            if (map.get(param) == null || StringUtils.isBlank(map.get(param).toString())) {
-                return false;
-            }
-        }
-        return true;
-    }
+	/**
+	 * Utility classes should not have public constructors
+	 */
+	private ParamUtil() {
+		throw new IllegalStateException("Utility class");
+	}
 
-
-    /**
-     * Utility classes should not have public constructors
-     */
-    private ParamUtil() {
-        throw new IllegalStateException("Utility class");
-    }
+	/**
+	 * 验证参数有效性
+	 *
+	 * @param map
+	 * @param params: 一个或者多个参数, 适用于 逻辑与
+	 * @return boolean
+	 */
+	public static Boolean isAvailable(Map map, Object... params) {
+		for (Object param : params) {
+			if (map.get(param) == null || StringUtils.isBlank(map.get(param).toString())) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

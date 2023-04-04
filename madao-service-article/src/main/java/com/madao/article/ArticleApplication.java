@@ -22,7 +22,7 @@ import javax.annotation.PostConstruct;
  */
 @EnableSpringCloudComponent
 @EnableJpaRepositories("com.madao.article.dao")
-@EnableElasticsearchRepositories
+@EnableElasticsearchRepositories("com.madao.article.search")
 public class ArticleApplication {
 
 	public static void main(String[] args) {

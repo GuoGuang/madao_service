@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 /**
  * 资源服务器配置
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -31,60 +32,58 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-    public static final String PARAM_NAME_ON_AUTHORITY = AuthorityEnum.ROLE_ADMIN.getParamNameOnAuthority();
+	public static final String PARAM_NAME_ON_AUTHORITY = AuthorityEnum.ROLE_ADMIN.getParamNameOnAuthority();
+	/**
+	 * 公钥
+	 */
+	private static final String PUBLIC_KEY = "publickey.txt";
+	@Autowired
+	private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+	@Autowired
+	private CustomAccessDeniedHandler customAccessDeniedHandler;
 
-    @Autowired
-    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
-    @Autowired
-    private CustomAccessDeniedHandler customAccessDeniedHandler;
+	@Override
+	public void configure(ResourceServerSecurityConfigurer resourceServerSecurityConfigurer) {
+		resourceServerSecurityConfigurer
+				.tokenStore(tokenStore())
+				.authenticationEntryPoint(customAuthenticationEntryPoint)
+				.accessDeniedHandler(customAccessDeniedHandler)
+				.resourceId("service-article");
+	}
 
-    /**
-     * 公钥
-     */
-    private static final String PUBLIC_KEY = "publickey.txt";
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+		http
+				.csrf()
+				.disable()
+				.headers()
+				.frameOptions()
+				.disable()
+				.and()
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and()
+				.authorizeRequests()
+				.antMatchers("/api/**").permitAll()
+				.antMatchers("management/health").permitAll()
+				.antMatchers("/management/**").hasAuthority(PARAM_NAME_ON_AUTHORITY)
+				.antMatchers(HttpMethod.DELETE).hasAuthority(PARAM_NAME_ON_AUTHORITY)
+				.antMatchers(HttpMethod.PUT).hasAuthority(PARAM_NAME_ON_AUTHORITY)
+				.antMatchers("/v2/api-docs",
+						"/swagger-resources/**",
+						"/swagger-ui/**").permitAll()
+				.antMatchers("/**").authenticated();
+	}
 
-    @Override
-    public void configure(ResourceServerSecurityConfigurer resourceServerSecurityConfigurer) {
-        resourceServerSecurityConfigurer
-                .tokenStore(tokenStore())
-                .authenticationEntryPoint(customAuthenticationEntryPoint)
-                .accessDeniedHandler(customAccessDeniedHandler)
-                .resourceId("service-article");
-    }
+	@Bean
+	public TokenStore tokenStore() {
+		return new JwtTokenStore(jwtAccessTokenConverter());
+	}
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf()
-                .disable()
-                .headers()
-                .frameOptions()
-                .disable()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/api/**").permitAll()
-                .antMatchers("management/health").permitAll()
-                .antMatchers("/management/**").hasAuthority(PARAM_NAME_ON_AUTHORITY)
-                .antMatchers(HttpMethod.DELETE).hasAuthority(PARAM_NAME_ON_AUTHORITY)
-                .antMatchers(HttpMethod.PUT).hasAuthority(PARAM_NAME_ON_AUTHORITY)
-                .antMatchers("/v2/api-docs",
-		                "/swagger-resources/**",
-		                "/swagger-ui/**").permitAll()
-                .antMatchers("/**").authenticated();
-    }
-
-    @Bean
-    public TokenStore tokenStore() {
-        return new JwtTokenStore(jwtAccessTokenConverter());
-    }
-
-    @Bean
-    public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setVerifierKey(JWTAuthentication.getPubKey(PUBLIC_KEY));
-        return converter;
-    }
+	@Bean
+	public JwtAccessTokenConverter jwtAccessTokenConverter() {
+		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+		converter.setVerifierKey(JWTAuthentication.getPubKey(PUBLIC_KEY));
+		return converter;
+	}
 }

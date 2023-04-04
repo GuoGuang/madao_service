@@ -7,6 +7,7 @@ import java.util.Collection;
 
 /**
  * Oauth临时存储user类
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -15,25 +16,25 @@ import java.util.Collection;
  */
 public class UserJwt extends User {
 
-    private String id;
-    private String name;
-    private String account;
-    private String nickName;
-    private String avatar;
-    private String phone;
-    private String email;
+	private String id;
+	private String name;
+	private String account;
+	private String nickName;
+	private String avatar;
+	private String phone;
+	private String email;
 
-    public UserJwt(String username, String password, String id, String nickName,
-                   String avatar, String email, String phone, String account,
-                   Collection<GrantedAuthority> authorities) {
-        super(username, password, authorities);
-        this.id = id;
-        this.nickName = nickName;
-        this.account = account;
-        this.avatar = avatar;
-        this.email = email;
-        this.phone = phone;
-    }
+	public UserJwt(String username, String password, String id, String nickName,
+	               String avatar, String email, String phone, String account,
+	               Collection<GrantedAuthority> authorities) {
+		super(username, password, authorities);
+		this.id = id;
+		this.nickName = nickName;
+		this.account = account;
+		this.avatar = avatar;
+		this.email = email;
+		this.phone = phone;
+	}
 
 	public String getId() {
 		return id;

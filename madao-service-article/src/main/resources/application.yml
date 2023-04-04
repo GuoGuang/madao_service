@@ -3,15 +3,12 @@ server:
 spring:
   jpa:
     show-sql: true
-logging:
-  level:
-    org.springframework.data.elasticsearch.client.WIRE: TRACE
 
-elasticsearch:
-  host: 127.0.0.1
-  port: 9200
-  username: elastic
-  password: elastic
+#elasticsearch:
+#  host: 82.156.205.178
+#  port: 9200
+#  username:
+#  password:
 com:
   madao:
     aopPointcutExpression: execution (* com.madao.article.service..*.*(..))
@@ -24,3 +21,15 @@ hystrix:
           enabled: false
         isolation:
           strategy: SEMAPHORE
+
+springdoc:
+  packages-to-scan:
+    - com.madao.article.controller
+    - com.madao.model
+  paths-to-match:
+    - /api/**
+    - /**
+
+logging:
+  level:
+    org.springframework.data.elasticsearch.client.WIRE: TRACE

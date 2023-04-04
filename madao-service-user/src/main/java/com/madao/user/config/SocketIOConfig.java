@@ -2,6 +2,7 @@ package com.madao.user.config;
 
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketConfig;
+import com.corundumstudio.socketio.SocketIONamespace;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.SpringAnnotationScanner;
 import com.corundumstudio.socketio.listener.ExceptionListenerAdapter;
@@ -16,9 +17,11 @@ import org.springframework.context.annotation.Bean;
 @Setter
 @org.springframework.context.annotation.Configuration
 @ConfigurationProperties(prefix = "socketio")
+@Slf4j
 public class SocketIOConfig {
 
 	private String host;
+	private String path;
 	private Integer port;
 	private int bossCount;
 	private int workCount;
@@ -32,29 +35,28 @@ public class SocketIOConfig {
 		SocketConfig socketConfig = new SocketConfig();
 		socketConfig.setTcpNoDelay(true);
 		socketConfig.setSoLinger(0);
+		socketConfig.setAcceptBackLog(4000);
+		socketConfig.setReuseAddress(true);
 		Configuration config = new Configuration();
 		config.setSocketConfig(socketConfig);
-		config.setContext("/socket");
+		config.setContext(path);
 		config.setHostname(host);
 		config.setPort(port);
 		config.setBossThreads(bossCount);
-		config.setWorkerThreads(workCount);
+//		config.setWorkerThreads(workCount);
 		config.setAllowCustomRequests(allowCustomRequests);
 		config.setUpgradeTimeout(upgradeTimeout);
 		config.setPingTimeout(pingTimeout);
 		config.setPingInterval(pingInterval);
 		config.setExceptionListener(new SocketExceptionListener());
-		return new SocketIOServer(config);
-	}
-
-	@Slf4j
-	static class SocketExceptionListener extends ExceptionListenerAdapter {
-		@Override
-		public boolean exceptionCaught(ChannelHandlerContext ctx, Throwable e) {
-			log.error("socket异常：{}",e.getMessage(),e);
-			ctx.close();
-			return true;
-		}
+		SocketIOServer socketIOServer = new SocketIOServer(config);
+		socketIOServer.addConnectListener(client -> {
+			log.info(client.getRemoteAddress() + " web客户端接入");
+//        client.sendEvent("helloPush", "hello");
+			SocketIONamespace namespace = client.getNamespace();
+			log.info("当前客户端数量：{}",namespace.getAllClients().size());
+		});
+		return socketIOServer;
 	}
 
 	/**
@@ -63,6 +65,16 @@ public class SocketIOConfig {
 	@Bean
 	public SpringAnnotationScanner springAnnotationScanner() {
 		return new SpringAnnotationScanner(socketIOServer());
+	}
+
+	@Slf4j
+	static class SocketExceptionListener extends ExceptionListenerAdapter {
+		@Override
+		public boolean exceptionCaught(ChannelHandlerContext ctx, Throwable e) {
+			log.error("socket异常：{}", e.getMessage(), e);
+			ctx.close();
+			return true;
+		}
 	}
 
 }

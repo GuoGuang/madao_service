@@ -6,6 +6,7 @@ import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.dto.article.CommentDto;
 import com.madao.model.entity.article.Comment;
 import com.madao.utils.BeanUtil;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,41 +25,37 @@ import java.util.List;
  * @created 2019-09-29 7:37
  */
 @Service
+@AllArgsConstructor
 public class CommentService {
 
-    private final CommentDao commentDao;
-    private final CommentMapper commentMapper;
+	private final CommentDao commentDao;
+	private final CommentMapper commentMapper;
 
-    public CommentService(CommentDao commentDao, CommentMapper commentMapper) {
-        this.commentDao = commentDao;
-        this.commentMapper = commentMapper;
-    }
+	public Page<CommentDto> findCommentByCondition(CommentDto commentDto, Pageable pageable) {
+		Specification<Comment> condition = (root, query, builder) -> {
+			List<Predicate> predicates = new ArrayList<>();
+			if (StringUtils.isNotEmpty(commentDto.getContent())) {
+				predicates.add(builder.like(root.get("content"), "%" + commentDto.getContent() + "%"));
+			}
+			return query.where(predicates.toArray(new Predicate[0])).getRestriction();
+		};
+		return commentDao.findAll(condition, pageable).map(commentMapper::toDto);
+	}
 
-    public Page<CommentDto> findCommentByCondition(CommentDto commentDto, Pageable pageable) {
-        Specification<Comment> condition = (root, query, builder) -> {
-            List<Predicate> predicates = new ArrayList<>();
-            if (StringUtils.isNotEmpty(commentDto.getContent())) {
-                predicates.add(builder.like(root.get("content"), "%" + commentDto.getContent() + "%"));
-            }
-            return query.where(predicates.toArray(new Predicate[0])).getRestriction();
-        };
-        return commentDao.findAll(condition, pageable).map(commentMapper::toDto);
-    }
+	public CommentDto findCommentByPrimaryKey(String commentId) {
+		return commentDao.findById(commentId).map(commentMapper::toDto).orElseThrow(ResourceNotFoundException::new);
+	}
 
-    public CommentDto findCommentByPrimaryKey(String commentId) {
-        return commentDao.findById(commentId).map(commentMapper::toDto).orElseThrow(ResourceNotFoundException::new);
-    }
+	public void saveOrUpdate(CommentDto commentDto) {
+		if (StringUtils.isNotBlank(commentDto.getId())) {
+			Comment tempComment = commentDao.findById(commentDto.getId()).orElseThrow(ResourceNotFoundException::new);
+			BeanUtil.copyProperties(tempComment, commentDto);
+		}
+		commentDao.save(commentMapper.toEntity(commentDto));
+	}
 
-    public void saveOrUpdate(CommentDto commentDto) {
-        if (StringUtils.isNotBlank(commentDto.getId())) {
-            Comment tempComment = commentDao.findById(commentDto.getId()).orElseThrow(ResourceNotFoundException::new);
-            BeanUtil.copyProperties(tempComment, commentDto);
-        }
-        commentDao.save(commentMapper.toEntity(commentDto));
-    }
-
-    public void deleteCommentByIds(List<String> commentIds) {
-        commentDao.deleteBatch(commentIds);
-    }
+	public void deleteCommentByIds(List<String> commentIds) {
+		commentDao.deleteBatch(commentIds);
+	}
 
 }

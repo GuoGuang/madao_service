@@ -57,7 +57,7 @@ class ArticleControllerTest {
 		Mockito.when(articleService.findArticleByCondition(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(page);
 
 		ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get(ENDPOINT_URL)
-				.accept(MediaType.APPLICATION_JSON))
+						.accept(MediaType.APPLICATION_JSON))
 				.andDo(MockMvcResultHandlers.print())
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.data.content", Matchers.hasSize(1)));
@@ -72,13 +72,13 @@ class ArticleControllerTest {
 
 	}
 
-    @Test
-    void testFindArticleById() {
-	    Mockito.when(articleService.findArticleById(ArgumentMatchers.anyString())).thenReturn(new ArticleDto());
+	@Test
+	void testFindArticleById() {
+		Mockito.when(articleService.findArticleById(ArgumentMatchers.anyString())).thenReturn(new ArticleDto());
 
-        JsonData<ArticleDto> result = articleController.findArticleById("id");
-        Assertions.assertEquals(new JsonData<ArticleDto>(true, 0, "message", ArgumentMatchers.any()), result);
-    }
+		JsonData<ArticleDto> result = articleController.findArticleById("id");
+		Assertions.assertEquals(new JsonData<ArticleDto>(true, 0, "message", ArgumentMatchers.any()), result);
+	}
 
    /* @Test
     void testInsertArticle() {

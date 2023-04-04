@@ -2,6 +2,13 @@ server:
   port: 9008
 spring:
 
+springdoc:
+  packages-to-scan:
+    - com.madao.base.controller
+    - com.madao.model
+  paths-to-match:
+    - /api/**
+    - /**
 com:
   madao:
     aopPointcutExpression: execution (* com.madao.base.service..*.*(..))

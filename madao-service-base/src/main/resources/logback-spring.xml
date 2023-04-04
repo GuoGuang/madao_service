@@ -3,11 +3,10 @@
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <jmxConfigurator/>
     <logger name="org.springframework.orm.jpa" level="DEBUG"/>
-    <logger name="io.swagger.models.parameters.AbstractSerializableParameter" level="ERROR" />
     <appender name="KAFKA" class="com.github.danielwegener.logback.kafka.KafkaAppender">
         <encoder>
             <pattern>Base %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
- <!--        <pattern>Gateway [%X{traceId}-%X{spanId}-%X{userId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>-->
+            <!--        <pattern>Gateway [%X{traceId}-%X{spanId}-%X{userId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>-->
         </encoder>
         <topic>test</topic>
         <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy"/>
@@ -16,16 +15,19 @@
         <appender-ref ref="CONSOLE"/>
     </appender>
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>106.13.62.162:5000</destination> <encoder>
-        <pattern>Base [%X{traceId}-%X{spanId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
-        <charset>UTF-8</charset> </encoder>
+        <destination>106.13.62.162:5000</destination>
+        <encoder>
+            <pattern>Base [%X{traceId}-%X{spanId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
     </appender>
     <appender name="STDOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>log/madao-service-base/madao-service-base.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>log/madao-service-base/madao-service-base.%d.%i.log</fileNamePattern>
             <maxHistory>30</maxHistory>
-            <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>10MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>

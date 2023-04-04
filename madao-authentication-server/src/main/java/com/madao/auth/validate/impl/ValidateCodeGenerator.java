@@ -4,6 +4,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 /**
  * 校验码生成器
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -12,11 +13,12 @@ import org.springframework.web.context.request.ServletWebRequest;
  */
 public interface ValidateCodeGenerator {
 
-    /**
-     * 生成校验码
-     * @param request ServletWebRequest
-     * @return ValidateCode
-     */
-    ValidateCode generate(ServletWebRequest request);
+	/**
+	 * 生成校验码
+	 *
+	 * @param request ServletWebRequest
+	 * @return ValidateCode
+	 */
+	ValidateCode generate(ServletWebRequest request);
 
 }

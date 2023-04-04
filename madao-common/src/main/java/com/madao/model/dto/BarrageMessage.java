@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 /**
  * 接收前端弹幕消息
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -17,5 +18,5 @@ public class BarrageMessage {
 
 	private String text;
 	private String date;
-	private HashMap<String,String> style;
+	private HashMap<String, String> style;
 }

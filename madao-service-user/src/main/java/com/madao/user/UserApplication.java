@@ -1,8 +1,14 @@
 package com.madao.user;
 
 import com.madao.annotation.EnableSpringCloudComponent;
+import com.madao.config.chain.AbstractCommonHandler;
+import com.madao.model.dto.user.UserDto;
+import com.madao.user.config.chain.CreditHandler;
+import com.madao.user.config.chain.WindControlHandler;
 import com.madao.utils.DateUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.amqp.rabbit.config.RabbitListenerConfigUtils;
+import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -51,6 +57,20 @@ public class UserApplication {
 	}
 
 	/**
+	 * 注册的新用户校验
+	 * 1、满足风控条件
+	 * 2、满足中国公民条件
+	 * 3、满足引用条件
+	 */
+	@Bean
+	public AbstractCommonHandler<UserDto> userSaveHandler(){
+		AbstractCommonHandler.Builder<UserDto> builder = new AbstractCommonHandler.Builder<>();
+		return builder.addHandler(new WindControlHandler())
+				.addHandler(new CreditHandler())
+				.build();
+	}
+
+	/**
 	 * 加密的配置文件信息
 	 */
 	/*@Bean
@@ -61,5 +81,13 @@ public class UserApplication {
 		configurer.setProperties(yaml.getObject());
 		return configurer;
 	}*/
+
+	/*
+	 * Flowable所依赖的
+	 */
+	@Bean(name = RabbitListenerConfigUtils.RABBIT_LISTENER_ENDPOINT_REGISTRY_BEAN_NAME)
+	public RabbitListenerEndpointRegistry defaultRabbitListenerEndpointRegistry() {
+		return new RabbitListenerEndpointRegistry();
+	}
 
 }

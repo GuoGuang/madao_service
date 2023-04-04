@@ -8,6 +8,7 @@ import java.io.IOException;
 /**
  * 校验码处理器，封装不同校验码的处理逻辑
  * 使用Spring中常用的 依赖搜索 技巧
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -16,19 +17,19 @@ import java.io.IOException;
  */
 public interface ValidateCodeProcessor {
 
-    /**
-     * 创建校验码
-     *
-     * @param request request
-     */
-    void create(ServletWebRequest request) throws ServletRequestBindingException, IOException;
+	/**
+	 * 创建校验码
+	 *
+	 * @param request request
+	 */
+	void create(ServletWebRequest request) throws ServletRequestBindingException, IOException;
 
-    /**
-     * 校验验证码
-     *
-     * @param servletWebRequest 封装了request和response的
-     * @param bodyString
-     */
-    void validate(ServletWebRequest servletWebRequest, String bodyString);
+	/**
+	 * 校验验证码
+	 *
+	 * @param servletWebRequest 封装了request和response的
+	 * @param bodyString
+	 */
+	void validate(ServletWebRequest servletWebRequest, String bodyString);
 
 }

@@ -17,6 +17,7 @@ import java.io.IOException;
 
 /**
  * 用户登录失败时返回给前端的数据
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -27,15 +28,15 @@ import java.io.IOException;
 @Component
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
-    @Override
-    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        log.error("用户登录失败时异常----------->{}", e.getMessage(), e);
-        JsonData<Void> errorResult = JsonData.failed(StatusEnum.SYSTEM_ERROR);
-        if (e instanceof AuthException) {
-            errorResult = JsonData.failed(StatusEnum.LOGIN_ERROR, e.getMessage());
-        }
-        httpServletResponse.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-        httpServletResponse.getWriter().write(JsonUtil.toJsonString(errorResult));
-    }
+	@Override
+	public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+		log.error("用户登录失败时异常----------->{}", e.getMessage(), e);
+		JsonData<Void> errorResult = JsonData.failed(StatusEnum.SYSTEM_ERROR);
+		if (e instanceof AuthException) {
+			errorResult = JsonData.failed(StatusEnum.LOGIN_ERROR, e.getMessage());
+		}
+		httpServletResponse.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+		httpServletResponse.getWriter().write(JsonUtil.toJsonString(errorResult));
+	}
 }
 

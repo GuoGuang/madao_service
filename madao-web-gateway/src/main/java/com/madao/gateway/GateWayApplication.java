@@ -4,6 +4,7 @@ import com.madao.gateway.config.CustomLoadBalancerConfiguration;
 import com.madao.utils.DateUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClients;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
@@ -38,6 +39,10 @@ public class GateWayApplication {
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+	@Bean
+	public WebProperties.Resources resources() {
+		return new WebProperties.Resources();
 	}
 }
 

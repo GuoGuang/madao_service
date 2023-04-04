@@ -6,6 +6,7 @@ import org.mapstruct.Mapper;
 
 /**
  * Mapper for the entity {@link Resource} and its DTO {@link ResourceDto}.
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang

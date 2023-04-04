@@ -41,6 +41,8 @@ public class GateWayConfig {
 	@Bean
 	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
 		return builder.routes()
+				// socket
+				.route("socket", r -> r.path("/socket/**").uri("ws://127.0.0.1:9099"))
 				// user
 				.route("user_route", r -> r.path("/su/**").filters(f -> f.stripPrefix(1)).uri("lb://SERVICE-USER"))
 				// base

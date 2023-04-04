@@ -50,7 +50,8 @@ public @interface CheckMobile {
 	class ValidatorValue implements ConstraintValidator<CheckMobile, String> {
 
 		@Override
-		public void initialize(CheckMobile constraintAnnotation) {}
+		public void initialize(CheckMobile constraintAnnotation) {
+		}
 
 		@Override
 		public boolean isValid(String content, ConstraintValidatorContext constraintValidatorContext) {

@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 @Slf4j
-public class SocketIoStart implements CommandLineRunner {
-    private final SocketIOServer server;
+public class SocketIoRunner implements CommandLineRunner {
+	private final SocketIOServer server;
 
-    @Override
-    public void run(String... args) throws Exception {
-        server.start();
-        log.info("socket.io启动成功，port:{}",server.getConfiguration().getPort());
-    }
+	@Override
+	public void run(String... args) throws Exception {
+		server.start();
+		log.info("socket.io启动成功，port:{}", server.getConfiguration().getPort());
+	}
 }

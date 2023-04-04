@@ -5,7 +5,7 @@ import com.madao.utils.JsonData;
 import com.madao.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
-import org.springframework.boot.autoconfigure.web.ResourceProperties;
+import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.DefaultErrorWebExceptionHandler;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.reactive.error.ErrorAttributes;
@@ -26,9 +26,9 @@ import java.util.Map;
 @Slf4j
 public class GlobalExceptionHandler extends DefaultErrorWebExceptionHandler {
 
-	public GlobalExceptionHandler(ErrorAttributes errorAttributes, ResourceProperties resourceProperties,
+	public GlobalExceptionHandler(ErrorAttributes errorAttributes, WebProperties.Resources  resources,
 	                              ErrorProperties errorProperties, ApplicationContext applicationContext) {
-		super(errorAttributes, resourceProperties, errorProperties, applicationContext);
+		super(errorAttributes, resources, errorProperties, applicationContext);
 	}
 
 	/**

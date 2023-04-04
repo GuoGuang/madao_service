@@ -8,6 +8,7 @@ import java.util.Map;
 
 /**
  * 基础控制器，其他控制器需继承该控制器
+ *
  * @author GuoGuang
  * @公众号 码道人生
  * @gitHub https://github.com/GuoGuang
@@ -16,9 +17,9 @@ import java.util.Map;
  */
 public interface BaseController {
 
-    default Map<String, String> getUserInfo(HttpServletRequest request) {
-        String fullAuthorization = JWTAuthentication.getFullAuthorization(request.getHeader(HttpHeaders.AUTHORIZATION));
-	    return JWTAuthentication.parseJwtToClaims(fullAuthorization);
-    }
+	default Map<String, String> getUserInfo(HttpServletRequest request) {
+		String fullAuthorization = JWTAuthentication.getFullAuthorization(request.getHeader(HttpHeaders.AUTHORIZATION));
+		return JWTAuthentication.parseJwtToClaims(fullAuthorization);
+	}
 
 }

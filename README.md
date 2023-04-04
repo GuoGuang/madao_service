@@ -78,7 +78,7 @@ pinyinUtils | https://github.com/GuoGuang/pinyinUtils
 ```
 ### 前置环境
 1. IDE：IntelliJ IDEA
-2. JDK：1.8+ 
+2. JDK：17+ 
 3. 工具：Maven
 
 ## 五、快速开始
