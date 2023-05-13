@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.0</version>
+        <version>3.0.6</version>
     </parent>
 
     <properties>
@@ -21,18 +21,18 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
         <jackson.version>2.9.6</jackson.version>
-        <logback.version>1.2.10</logback.version>
-        <spring.cloud.version>2021.0.3</spring.cloud.version>
+        <spring.cloud.version>2022.0.2</spring.cloud.version>
         <spring.security.oauth2.version>2.3.6.RELEASE</spring.security.oauth2.version>
         <netflix.eureka.version>2.0.6.RELEASE</netflix.eureka.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <logstash-logback-encoder.version>6.3</logstash-logback-encoder.version>
         <logback-kafka-appender.version>0.2.0-RC2</logback-kafka-appender.version>
-        <springdoc.version>1.6.9</springdoc.version>
+        <springdoc.version>1.7.0</springdoc.version>
         <spring-cloud-starter-openfeign.version>2.1.1.RELEASE</spring-cloud-starter-openfeign.version>
         <madao-service-api.version>1.0.0</madao-service-api.version>
         <jjwt.version>0.11.2</jjwt.version>
+        <spring-cloud-starter-sleuth.version>3.1.8</spring-cloud-starter-sleuth.version>
     </properties>
 
     <dependencies>
@@ -58,6 +58,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-sleuth</artifactId>
+            <version>${spring-cloud-starter-sleuth.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -95,25 +96,21 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>${logback.version}</version>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-access</artifactId>
-            <version>${logback.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
         </dependency>
 
-<!--        https://springdoc.org/demos.html-->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
