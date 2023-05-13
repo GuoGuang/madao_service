@@ -1,4 +1,7 @@
 spring:
+  cloud:
+    compatibility-verifier:
+      enabled: false  # 关闭Spring Cloud Sleuth 与Spring Cloud 版本不适配问题，暂时关闭校验，延迟解决
   application:
     name: authentication-server
   profiles:

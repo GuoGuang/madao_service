@@ -9,6 +9,13 @@ spring:
     active: ${ACTIVE_PROFILE:dev}
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+    web-application-type: reactive
+  cloud:
+    compatibility-verifier:
+      enabled: false  # 关闭Spring Cloud Sleuth 与Spring Cloud 版本不适配问题，暂时关闭校验，延迟解决
 ---
 spring:
   cloud:
