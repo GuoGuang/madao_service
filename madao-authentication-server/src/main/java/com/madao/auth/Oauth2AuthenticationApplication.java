@@ -2,7 +2,9 @@ package com.madao.auth;
 
 import com.madao.properties.SecurityProperties;
 import com.madao.utils.DateUtil;
+import jakarta.annotation.PostConstruct;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -12,9 +14,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
 
 /**
  * Oauth2授权、鉴权
@@ -31,6 +35,10 @@ import javax.annotation.PostConstruct;
 @EnableDiscoveryClient
 @EnableRabbit
 public class Oauth2AuthenticationApplication {
+
+	@Autowired
+	private DataSource dataSource;
+
 	public static void main(String[] args) {
 		SpringApplication.run(Oauth2AuthenticationApplication.class, args);
 	}
@@ -54,4 +62,11 @@ public class Oauth2AuthenticationApplication {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+
+
+	@Bean
+	public ClientDetailsService clientDetails() {
+		return new JdbcClientDetailsService(dataSource);
+	}
+
 }

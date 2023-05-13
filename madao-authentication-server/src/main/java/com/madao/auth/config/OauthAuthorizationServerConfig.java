@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
@@ -37,7 +36,7 @@ import java.util.Arrays;
  * @created 2019-09-29 7:37
  */
 @Configuration
-@EnableAuthorizationServer
+//@EnableAuthorizationServer
 public class OauthAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
 	@Autowired
@@ -148,7 +147,6 @@ public class OauthAuthorizationServerConfig extends AuthorizationServerConfigure
 		accessTokenConverter.setUserTokenConverter(customUserAuthenticationConverter);
 		return converter;
 	}
-
 
 }
 

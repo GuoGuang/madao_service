@@ -1,6 +1,5 @@
 package com.madao.auth.config;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.madao.auth.filter.CaptchaAuthenticationFilter;
 import com.madao.auth.filter.GithubAuthenticationFilter;
 import com.madao.auth.filter.SmsCodeAuthenticationFilter;
@@ -17,14 +16,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
+import java.util.List;
 
 /**
  * WebServerSecurity配置
@@ -36,12 +38,12 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
  * @created 2019-09-29 7:37
  */
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
 @Order(-1)
 @Slf4j
-public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
+public class OauthWebServerSecurityConfig {
 	@Autowired
-	private DruidDataSource dataSource;
+	private DataSource dataSource;
 
 	// 短信验证码
 	//@Autowired
@@ -67,28 +69,24 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
-	@Override
-	public void configure(WebSecurity web) {
-		web.ignoring().antMatchers("/auth/**", "/connect/**",
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() {
+		return (web) -> web.ignoring().requestMatchers("/auth/**", "/connect/**",
 				"/v2/api-docs",
 				"/swagger-resources/**",
 				"/swagger-ui/**");
-
 	}
 
+	/**
+	 * actuator、key禁止访问
+	 */
 	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
-
-	@Override
-	public void configure(HttpSecurity http) throws Exception {
+	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 		http.httpBasic().and()
 				.authorizeRequests()
-				.antMatchers(HttpMethod.OPTIONS).permitAll()
-				.antMatchers("/v2/api-docs",
+				.requestMatchers(HttpMethod.OPTIONS).permitAll()
+				.requestMatchers("/v2/api-docs",
 						"/swagger-resources/**",
 						"/swagger-ui/**").permitAll()
 				.and()
@@ -115,6 +113,7 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 		/*http.apply(validateCodeSecurityConfig) // 全局配置，过滤器链第一个过滤器
 				.and()
 				.apply(smsCodeAuthenticationSecurityConfig);*/
+		return http.build();
 	}
 
 	/**
@@ -123,7 +122,7 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public SmsCodeAuthenticationFilter smsCodeAuthenticationFilter() throws Exception {
 		SmsCodeAuthenticationFilter smsCodeAuthenticationFilter = new SmsCodeAuthenticationFilter();
-		smsCodeAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
+		smsCodeAuthenticationFilter.setAuthenticationManager(authenticationManager());
 		smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
 		smsCodeAuthenticationFilter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
 		return smsCodeAuthenticationFilter;
@@ -135,7 +134,7 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public CaptchaAuthenticationFilter captchaAuthenticationFilter() throws Exception {
 		CaptchaAuthenticationFilter captchaAuthenticationFilter = new CaptchaAuthenticationFilter();
-		captchaAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
+		captchaAuthenticationFilter.setAuthenticationManager(authenticationManager());
 		captchaAuthenticationFilter.setAuthenticationSuccessHandler(customAuthenticationSuccessHandler);
 		captchaAuthenticationFilter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
 		return captchaAuthenticationFilter;
@@ -145,7 +144,7 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public GithubAuthenticationFilter githubAuthenticationFilter() throws Exception {
 		GithubAuthenticationFilter githubAuthenticationFilter = new GithubAuthenticationFilter();
-		githubAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
+		githubAuthenticationFilter.setAuthenticationManager(authenticationManager());
 		githubAuthenticationFilter.setAuthenticationSuccessHandler(oauthLoginSuccessHandler);
 		githubAuthenticationFilter.setAuthenticationFailureHandler(customAuthenticationFailureHandler);
 		return githubAuthenticationFilter;
@@ -156,12 +155,12 @@ public class OauthWebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 	 * 所需的authenticationManager
 	 * 目前支持验证码和手机验证码登录
 	 */
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) {
-		auth.authenticationProvider(smsCodeAuthenticationProvider)
-				.authenticationProvider(captchaAuthenticationProvider)
-				.authenticationProvider(githubAuthenticationProvider);
+	@Bean
+	public AuthenticationManager authenticationManager() {
+		List<AuthenticationProvider> providers =  List.of(smsCodeAuthenticationProvider,captchaAuthenticationProvider,githubAuthenticationProvider);
+		return new ProviderManager(providers);
 	}
+
 
 	/*@Bean
 	public CaptchaAuthenticationFilter captchaAuthenticationFilter() throws Exception {

@@ -1,9 +1,10 @@
 package com.madao.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * @author GuoGuang
@@ -14,22 +15,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  */
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig  {
 
 	/**
 	 * actuator、key禁止访问
 	 */
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable();
+	@Bean
+	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/actuator/**").authenticated()
-				.antMatchers("/key/**").authenticated()
-				.antMatchers("/decrypt").authenticated()
-				.anyRequest().permitAll();
+				.requestMatchers("/actuator/**").authenticated()
+				.requestMatchers("/key/**").authenticated()
+				.requestMatchers("/decrypt/**").authenticated()
+				.anyRequest().permitAll()
+				.and()
+				.csrf().disable();
+		return http.build();
 	}
-	  /*  @Override
-	    public void configure(WebSecurity web){
-	        web.ignoring().antMatchers("/actuator/**");
-	    }*/
 }
