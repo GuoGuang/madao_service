@@ -3,10 +3,14 @@ package com.madao.model.dto.base;
 import com.madao.model.BasePojo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Transient;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@Getter
+@Setter
 public class LoginLogDto extends BasePojo implements Serializable {
 
 	@Schema(title = "登录日志表主键")
@@ -27,54 +31,6 @@ public class LoginLogDto extends BasePojo implements Serializable {
 
 	@Schema(title = "操作系统信息")
 	private String osInfo;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getClientIp() {
-		return clientIp;
-	}
-
-	public void setClientIp(String clientIp) {
-		this.clientIp = clientIp;
-	}
-
-	public String getBrowser() {
-		return browser;
-	}
-
-	public void setBrowser(String browser) {
-		this.browser = browser;
-	}
-
-	public String getOsInfo() {
-		return osInfo;
-	}
-
-	public void setOsInfo(String osInfo) {
-		this.osInfo = osInfo;
-	}
 
 	@Override
 	public boolean equals(Object o) {

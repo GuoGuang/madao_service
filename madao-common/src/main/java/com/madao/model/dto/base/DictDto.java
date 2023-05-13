@@ -3,10 +3,14 @@ package com.madao.model.dto.base;
 import com.madao.model.BasePojo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@Getter
+@Setter
 public class DictDto extends BasePojo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -28,73 +32,6 @@ public class DictDto extends BasePojo implements Serializable {
 	@Schema(title = "类型")
 	@NotNull(message = "类型不能为空")
 	private String type;
-
-	public static long getSerialVersionUID() {
-		return serialVersionUID;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public DictDto setId(String id) {
-		this.id = id;
-		return this;
-	}
-
-	public String getParentId() {
-		return parentId;
-	}
-
-	public DictDto setParentId(String parentId) {
-		this.parentId = parentId;
-		return this;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public DictDto setCode(String code) {
-		this.code = code;
-		return this;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public DictDto setName(String name) {
-		this.name = name;
-		return this;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public DictDto setDescription(String description) {
-		this.description = description;
-		return this;
-	}
-
-	public Integer getState() {
-		return state;
-	}
-
-	public DictDto setState(Integer state) {
-		this.state = state;
-		return this;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public DictDto setType(String type) {
-		this.type = type;
-		return this;
-	}
 
 	@Override
 	public boolean equals(Object o) {

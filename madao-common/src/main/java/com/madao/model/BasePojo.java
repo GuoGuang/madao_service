@@ -3,6 +3,8 @@ package com.madao.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -18,6 +20,8 @@ import java.io.Serializable;
  */
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@Getter
+@Setter
 public class BasePojo implements Serializable {
 
 	@LastModifiedDate
@@ -27,22 +31,4 @@ public class BasePojo implements Serializable {
 	@CreatedDate
 	@Column(length = 13)
 	private Long createAt;
-
-	public Long getUpdateAt() {
-		return updateAt;
-	}
-
-	public BasePojo setUpdateAt(Long updateAt) {
-		this.updateAt = updateAt;
-		return this;
-	}
-
-	public Long getCreateAt() {
-		return createAt;
-	}
-
-	public BasePojo setCreateAt(Long createAt) {
-		this.createAt = createAt;
-		return this;
-	}
 }

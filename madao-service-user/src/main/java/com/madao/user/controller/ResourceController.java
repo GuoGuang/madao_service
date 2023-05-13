@@ -68,7 +68,7 @@ public class ResourceController {
 		return JsonData.success();
 	}
 
-	@DeleteMapping()
+	@DeleteMapping
 	@OptLog(operationType = OptLogType.DELETE, operationName = "删除Resource")
 	@Operation(summary = "删除资源", description = "Resource")
 	public JsonData<Void> deleteByIds(@RequestBody List<String> resId) {

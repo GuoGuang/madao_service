@@ -2,6 +2,8 @@ package com.madao.model.entity.user;
 
 import com.madao.model.BasePojo;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
@@ -13,6 +15,8 @@ import java.io.Serializable;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "us_role",
 		uniqueConstraints = @UniqueConstraint(columnNames = {"code"}),
@@ -37,39 +41,4 @@ public class Role extends BasePojo implements Serializable {
 	@Column(length = 20)
 	private String code;
 
-	public String getId() {
-		return id;
-	}
-
-	public Role setId(String id) {
-		this.id = id;
-		return this;
-	}
-
-	public String getRoleName() {
-		return roleName;
-	}
-
-	public Role setRoleName(String roleName) {
-		this.roleName = roleName;
-		return this;
-	}
-
-	public String getRoleDesc() {
-		return roleDesc;
-	}
-
-	public Role setRoleDesc(String roleDesc) {
-		this.roleDesc = roleDesc;
-		return this;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public Role setCode(String code) {
-		this.code = code;
-		return this;
-	}
 }

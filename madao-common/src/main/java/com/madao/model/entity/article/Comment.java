@@ -2,6 +2,8 @@ package com.madao.model.entity.article;
 
 import com.madao.model.BasePojo;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
@@ -13,6 +15,8 @@ import java.io.Serializable;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "ar_comment",
 		indexes = {

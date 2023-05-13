@@ -4,10 +4,14 @@ import com.google.common.base.Objects;
 import com.madao.model.BasePojo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
 
+@Getter
+@Setter
 public class CommentDto extends BasePojo implements Serializable {
 
 	@Schema(title = "文章的评论表主键")
@@ -50,114 +54,6 @@ public class CommentDto extends BasePojo implements Serializable {
 
 	@Schema(title = "回复")
 	private List<CommentDto> reply;
-
-	public String getId() {
-		return id;
-	}
-
-	public CommentDto setId(String id) {
-		this.id = id;
-		return this;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public CommentDto setUserId(String userId) {
-		this.userId = userId;
-		return this;
-	}
-
-	public String getParentId() {
-		return parentId;
-	}
-
-	public CommentDto setParentId(String parentId) {
-		this.parentId = parentId;
-		return this;
-	}
-
-	public String getArticleId() {
-		return articleId;
-	}
-
-	public CommentDto setArticleId(String articleId) {
-		this.articleId = articleId;
-		return this;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public CommentDto setContent(String content) {
-		this.content = content;
-		return this;
-	}
-
-	public Integer getUpvote() {
-		return upvote;
-	}
-
-	public CommentDto setUpvote(Integer upvote) {
-		this.upvote = upvote;
-		return this;
-	}
-
-	public String getAvatar() {
-		return avatar;
-	}
-
-	public CommentDto setAvatar(String avatar) {
-		this.avatar = avatar;
-		return this;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public CommentDto setUserName(String userName) {
-		this.userName = userName;
-		return this;
-	}
-
-	public String getToId() {
-		return toId;
-	}
-
-	public CommentDto setToId(String toId) {
-		this.toId = toId;
-		return this;
-	}
-
-	public String getToName() {
-		return toName;
-	}
-
-	public CommentDto setToName(String toName) {
-		this.toName = toName;
-		return this;
-	}
-
-	public String getToAvatar() {
-		return toAvatar;
-	}
-
-	public CommentDto setToAvatar(String toAvatar) {
-		this.toAvatar = toAvatar;
-		return this;
-	}
-
-	public List<CommentDto> getReply() {
-		return reply;
-	}
-
-	public CommentDto setReply(List<CommentDto> reply) {
-		this.reply = reply;
-		return this;
-	}
 
 	@Override
 	public boolean equals(Object o) {

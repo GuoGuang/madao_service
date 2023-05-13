@@ -1,5 +1,8 @@
 package com.madao.properties;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 图片验证码配置项
  *
@@ -9,6 +12,8 @@ package com.madao.properties;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Getter
+@Setter
 public class CaptchaProperties extends SmsCodeProperties {
 
 	private int width = 124;
@@ -17,19 +22,4 @@ public class CaptchaProperties extends SmsCodeProperties {
 		setLength(4);
 	}
 
-	public int getWidth() {
-		return width;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
-	}
 }

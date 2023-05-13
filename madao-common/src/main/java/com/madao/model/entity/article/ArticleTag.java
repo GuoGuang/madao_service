@@ -1,6 +1,9 @@
 package com.madao.model.entity.article;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
@@ -12,6 +15,9 @@ import java.io.Serializable;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "ar_article_tag",
 		indexes = {
@@ -34,35 +40,5 @@ public class ArticleTag implements Serializable {
 	public ArticleTag(String articleId, String tagId) {
 		this.articleId = articleId;
 		this.tagId = tagId;
-	}
-
-	public ArticleTag() {
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public ArticleTag setId(String id) {
-		this.id = id;
-		return this;
-	}
-
-	public String getArticleId() {
-		return articleId;
-	}
-
-	public ArticleTag setArticleId(String articleId) {
-		this.articleId = articleId;
-		return this;
-	}
-
-	public String getTagId() {
-		return tagId;
-	}
-
-	public ArticleTag setTagId(String tagId) {
-		this.tagId = tagId;
-		return this;
 	}
 }

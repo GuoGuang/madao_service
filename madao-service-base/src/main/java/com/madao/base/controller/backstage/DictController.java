@@ -78,7 +78,7 @@ public class DictController {
 		return JsonData.success();
 	}
 
-	@DeleteMapping()
+	@DeleteMapping
 	@OptLog(operationType = OptLogType.DELETE, operationName = "删除字典项")
 	@Operation(summary = "删除字典项", description = "DictDto")
 	public JsonData<Void> deleteByIds(@RequestBody List<String> resId) {
