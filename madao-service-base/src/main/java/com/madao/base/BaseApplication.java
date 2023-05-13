@@ -3,12 +3,11 @@ package com.madao.base;
 import com.madao.annotation.EnableSpringCloudComponent;
 import com.madao.utils.DateUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
 
 /**
  * 基础服务

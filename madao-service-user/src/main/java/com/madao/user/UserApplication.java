@@ -7,15 +7,14 @@ import com.madao.user.config.chain.CreditHandler;
 import com.madao.user.config.chain.WindControlHandler;
 import com.madao.utils.DateUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityManager;
 import org.springframework.amqp.rabbit.config.RabbitListenerConfigUtils;
 import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
 
 /**
  * 用户服务

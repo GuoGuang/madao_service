@@ -40,14 +40,14 @@ public class ApiArticleService {
 	public Page<ArticleDto> findArticleByCondition(ArticleDto articleDto, String keyword, Pageable pageable) {
 		// 默认首页
 		Specification<Article> condition = (root, query, builder) -> {
-			List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
+			List<jakarta.persistence.criteria.Predicate> predicates = new ArrayList<>();
 			if (StringUtils.isNotEmpty(articleDto.getCategoryId())) {
 				predicates.add(builder.equal(root.get("categoryId"), articleDto.getCategoryId()));
 			}
 			if (StringUtils.isNotEmpty(keyword)) {
 				predicates.add(builder.like(root.get("title"), "%" + keyword + "%"));
 			}
-			return query.where(predicates.toArray(new javax.persistence.criteria.Predicate[0])).getRestriction();
+			return query.where(predicates.toArray(new jakarta.persistence.criteria.Predicate[0])).getRestriction();
 		};
 		Page<ArticleDto> pageContent = articleDao.findAll(condition, pageable).map(articleMapper::toDto);
 		List<String> articleIds = pageContent.getContent().stream().map(ArticleDto::getId).toList();

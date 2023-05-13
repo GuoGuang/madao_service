@@ -4,7 +4,7 @@ import com.madao.annotation.EnableSpringCloudComponent;
 import com.madao.utils.DateUtil;
 import org.springframework.boot.SpringApplication;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 /**
  * 搜索服务

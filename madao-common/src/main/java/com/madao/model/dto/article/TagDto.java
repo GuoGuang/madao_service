@@ -3,8 +3,8 @@ package com.madao.model.dto.article;
 import com.google.common.base.Objects;
 import com.madao.model.BasePojo;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Schema(title = "article", description = "标签类")

@@ -1,9 +1,9 @@
 package com.madao.model.entity.user;
 
 import com.madao.model.BasePojo;
+import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -43,7 +43,7 @@ public class Resource extends BasePojo implements Serializable, Cloneable {
 	@Column(length = 100)
 	private String path;
 
-	@Column(precision = 30, scale = 1, length = 5)
+	@Column(precision = 30, length = 5)
 	private float sort;
 
 	@Column(length = 1, columnDefinition = "bit(1) COMMENT '是否隐藏' default '0'")

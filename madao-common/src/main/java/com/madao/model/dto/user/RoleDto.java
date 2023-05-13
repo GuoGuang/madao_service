@@ -3,8 +3,8 @@ package com.madao.model.dto.user;
 import com.google.common.base.Objects;
 import com.madao.model.BasePojo;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;

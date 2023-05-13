@@ -2,6 +2,7 @@ package com.madao.gateway;
 
 import com.madao.gateway.config.CustomLoadBalancerConfiguration;
 import com.madao.utils.DateUtil;
+import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.WebProperties;
@@ -9,8 +10,6 @@ import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClients;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import javax.annotation.PostConstruct;
 
 /**
  * gateway服务网关

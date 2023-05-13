@@ -64,7 +64,7 @@ public class ArticleService {
 			predicates.add(builder.or(address, name));
 			return query.where(predicates.toArray(new Predicate[0])).getRestriction();*/
 
-			List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
+			List<jakarta.persistence.criteria.Predicate> predicates = new ArrayList<>();
 			if (StringUtils.isNotEmpty(articleDto.getTitle())) {
 				predicates.add(builder.like(root.get("title"), "%" + articleDto.getTitle() + "%"));
 			}
@@ -74,7 +74,7 @@ public class ArticleService {
 			if (StringUtils.isNotEmpty(articleDto.getDescription())) {
 				predicates.add(builder.like(root.get("description"), "%" + articleDto.getDescription() + "%"));
 			}
-			return query.where(predicates.toArray(new javax.persistence.criteria.Predicate[0])).getRestriction();
+			return query.where(predicates.toArray(new jakarta.persistence.criteria.Predicate[0])).getRestriction();
 		};
 
 		Page<ArticleDto> queryResults = articleDao.findAll(condition, pageable)

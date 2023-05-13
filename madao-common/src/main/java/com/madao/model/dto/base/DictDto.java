@@ -2,8 +2,8 @@ package com.madao.model.dto.base;
 
 import com.madao.model.BasePojo;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 

@@ -3,9 +3,9 @@ package com.madao.model.entity.article;
 import com.madao.enums.ArticleAuditStatus;
 import com.madao.enums.ArticleOriginType;
 import com.madao.model.BasePojo;
+import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -67,7 +67,7 @@ public class Article extends BasePojo implements Serializable {
 	/**
 	 * 热度
 	 */
-	@Column(precision = 2, scale = 1, length = 5)
+	@Column(precision = 2, length = 5)
 	private float importance;
 
 	@Column(length = 500)

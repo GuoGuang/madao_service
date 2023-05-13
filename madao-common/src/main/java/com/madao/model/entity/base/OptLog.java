@@ -2,13 +2,13 @@ package com.madao.model.entity.base;
 
 import com.madao.enums.OptLogType;
 import com.madao.model.BasePojo;
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 /**

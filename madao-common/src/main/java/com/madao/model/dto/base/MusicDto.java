@@ -3,8 +3,8 @@ package com.madao.model.dto.base;
 import com.google.common.base.Objects;
 import com.madao.model.BasePojo;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class MusicDto extends BasePojo implements Serializable {

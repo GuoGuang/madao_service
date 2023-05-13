@@ -1,9 +1,9 @@
 package com.madao.model.entity.base;
 
 import com.madao.model.BasePojo;
+import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 /**

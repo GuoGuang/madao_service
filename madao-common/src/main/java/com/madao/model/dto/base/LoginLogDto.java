@@ -2,8 +2,8 @@ package com.madao.model.dto.base;
 
 import com.madao.model.BasePojo;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Transient;
 
-import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Objects;
 

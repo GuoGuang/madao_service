@@ -9,12 +9,12 @@ import com.madao.user.dao.ResourceDao;
 import com.madao.user.dao.RoleResourceDao;
 import com.madao.user.mapper.ResourceMapper;
 import com.madao.utils.RedisUtil;
+import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Predicate;
 import java.util.*;
 
 /**
