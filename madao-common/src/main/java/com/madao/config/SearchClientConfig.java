@@ -1,13 +1,10 @@
 package com.madao.config;
 
-import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
-import org.springframework.data.elasticsearch.client.RestClients;
-import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfiguration;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfiguration;
 
 /**
  * ES配置
@@ -21,7 +18,7 @@ import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfig
  */
 @Configuration
 @ConditionalOnProperty(value = "elasticsearch.host")
-public class SearchClientConfig extends AbstractElasticsearchConfiguration {
+public class SearchClientConfig extends ElasticsearchConfiguration {
 
 	@Value("${elasticsearch.host}")
 	private String host;
@@ -36,12 +33,10 @@ public class SearchClientConfig extends AbstractElasticsearchConfiguration {
 	private String password;
 
 	@Override
-	@Bean
-	public RestHighLevelClient elasticsearchClient() {
-		final ClientConfiguration clientConfiguration = ClientConfiguration.builder()
+	public ClientConfiguration clientConfiguration() {
+		return ClientConfiguration.builder()
 				.connectedTo(host + ":" + port)
 				.withBasicAuth(userName, password)
 				.build();
-		return RestClients.create(clientConfiguration).rest();
 	}
 }
