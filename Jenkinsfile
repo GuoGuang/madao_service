@@ -123,9 +123,16 @@ pipeline {
                 echo "开始部署到----> ${serviceName}......"
                 script {
                     echo "即将进入"
-                        sh "sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories"
-                        sh "apk update"
-                        sh "apk add sshpass"
+                                               // jenkinsci/blueocean镜像是基于Alpine Linux系统
+                        // sh "sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories"
+                        // sh "apk update"
+                        // sh "apk add sshpass"
+
+                        // jenkins/jenkins镜像是基于Ubuntu系统
+                        sh "sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list"
+                        sh "apt-get update"
+                        sh "apt-get install sshpass"
+                    
                         def container = sh(returnStdout: true, script: "${REMOTE_SCRIPT} docker ps -a | grep $serviceName | awk '{print \$1}'").trim()
                         if (container.size() > 0) {
                             sh "${REMOTE_SCRIPT} docker ps -a | grep $serviceName | awk  '{print \$1}' | xargs ${REMOTE_SCRIPT} docker stop"
