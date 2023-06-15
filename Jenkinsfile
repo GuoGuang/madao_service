@@ -3,7 +3,7 @@ pipeline {
     agent any
     parameters {
         string(name: 'repoUrl', defaultValue: 'https://github.com/GuoGuang/madao_service.git', description: 'git代码路径')
-        string(name: 'repoBranch', defaultValue: 'develop', description: 'git分支名称')
+        string(name: 'repoBranch', defaultValue: 'dev', description: 'git分支名称')
         string(name: 'pomPath', defaultValue: 'pom.xml', description: 'pom.xml的相对路径')
         string(name: 'warLocation', defaultValue: 'rpc/war/target/*.war', description: 'war包的相对路径 ')
         choice(name: 'server', choices: '192.168.1.107,9090,*****,*****\n192.168.1.60,9090,*****,*****', description: '测试服务器列表选择(IP,JettyPort,Name,Passwd)')
@@ -53,7 +53,7 @@ pipeline {
                 }
                 echo "开始从 ${params.repoUrl} 获取代码......"
                 sh "rm -rf ./*"
-                sh "git clone -b develop --depth=1 https://gitee.com/guoguang0536/madao_service.git"
+                sh "git clone -b dev --depth=1 https://gitee.com/guoguang0536/madao_service.git"
             }
         }
 
