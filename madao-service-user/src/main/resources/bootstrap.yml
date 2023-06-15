@@ -29,7 +29,7 @@ spring:
     config:
       name: user
       label: master
-      uri: http://121.36.158.84:9009/config
+      uri: http://127.0.0.1:9009/config
       profile: prod
   config:
     activate:

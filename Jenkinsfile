@@ -24,7 +24,7 @@ pipeline {
     environment {
         FRESH_HOST = "registry.cn-hongkong.aliyuncs.com"
         REMOTE_SCRIPT = 'sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${INSTANCE_IP}'
-        REMOTE_IP = "121.36.158.84"
+        REMOTE_IP = "82.156.148.211"
         DOCKER_IMAGE = "${params.project}"
         DOCKER_CONTAINER = "${params.project}"
         QA_EMAIL = "1831682775@qq.com"
