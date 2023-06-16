@@ -6,16 +6,16 @@
 
 <p align="center">
   <a href="#">
-    <img src="https://img.shields.io/badge/jdk->=1.8-blue.svg" alt="vue">
+    <img src="https://img.shields.io/badge/jdk->=17-blue.svg" alt="vue">
   </a>
   <a href="#">
     <img src="https://img.shields.io/badge/license-GPL%20(%3E%3D%202)-blue" alt="vue">
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/springcloud-Finchley.SR2-brightgreen.svg" alt="element-ui">
+    <img src="https://img.shields.io/badge/springcloud-2022.0.2-brightgreen.svg" alt="element-ui">
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/springboot-2.0.2.RELEASE-brightgreen.svg" alt="license">
+    <img src="https://img.shields.io/badge/springboot-3.0.6-brightgreen.svg" alt="license">
   </a>
 </p>
 

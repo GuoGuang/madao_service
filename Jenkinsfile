@@ -3,7 +3,7 @@ pipeline {
     agent any
     parameters {
         string(name: 'repoUrl', defaultValue: 'https://github.com/GuoGuang/madao_service.git', description: 'git代码路径')
-        string(name: 'repoBranch', defaultValue: 'develop', description: 'git分支名称')
+        string(name: 'repoBranch', defaultValue: 'dev', description: 'git分支名称')
         string(name: 'pomPath', defaultValue: 'pom.xml', description: 'pom.xml的相对路径')
         string(name: 'warLocation', defaultValue: 'rpc/war/target/*.war', description: 'war包的相对路径 ')
         choice(name: 'server', choices: '192.168.1.107,9090,*****,*****\n192.168.1.60,9090,*****,*****', description: '测试服务器列表选择(IP,JettyPort,Name,Passwd)')
@@ -24,7 +24,7 @@ pipeline {
     environment {
         FRESH_HOST = "registry.cn-hongkong.aliyuncs.com"
         REMOTE_SCRIPT = 'sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${INSTANCE_IP}'
-        REMOTE_IP = "121.36.158.84"
+        REMOTE_IP = "82.156.148.211"
         DOCKER_IMAGE = "${params.project}"
         DOCKER_CONTAINER = "${params.project}"
         QA_EMAIL = "1831682775@qq.com"
@@ -53,7 +53,7 @@ pipeline {
                 }
                 echo "开始从 ${params.repoUrl} 获取代码......"
                 sh "rm -rf ./*"
-                sh "git clone -b develop --depth=1 https://gitee.com/guoguang0536/madao_service.git"
+                sh "git clone -b dev --depth=1 https://gitee.com/guoguang0536/madao_service.git"
             }
         }
 
@@ -123,9 +123,16 @@ pipeline {
                 echo "开始部署到----> ${serviceName}......"
                 script {
                     echo "即将进入"
-                        sh "sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories"
-                        sh "apk update"
-                        sh "apk add sshpass"
+                                               // jenkinsci/blueocean镜像是基于Alpine Linux系统
+                        // sh "sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories"
+                        // sh "apk update"
+                        // sh "apk add sshpass"
+
+                        // jenkins/jenkins镜像是基于Ubuntu系统
+                        sh "sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list"
+                        sh "apt-get update"
+                        sh "apt-get install sshpass"
+                    
                         def container = sh(returnStdout: true, script: "${REMOTE_SCRIPT} docker ps -a | grep $serviceName | awk '{print \$1}'").trim()
                         if (container.size() > 0) {
                             sh "${REMOTE_SCRIPT} docker ps -a | grep $serviceName | awk  '{print \$1}' | xargs ${REMOTE_SCRIPT} docker stop"
