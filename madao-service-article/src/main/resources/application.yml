@@ -4,7 +4,7 @@ spring:
   jpa:
     show-sql: true
   elasticsearch:
-    uris: 82.156.205.178:9200
+    uris: 82.156.148.211:9200
 
 com:
   madao:
