@@ -114,6 +114,10 @@
             <artifactId>spring-security-jwt</artifactId>
             <version>${spring-security-jwt.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+        </dependency>
         <!-- Spring Data Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
