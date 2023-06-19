@@ -9,12 +9,15 @@ import com.madao.utils.DateUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
+import jakarta.servlet.Filter;
 import org.springframework.amqp.rabbit.config.RabbitListenerConfigUtils;
 import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * 用户服务
@@ -87,6 +90,18 @@ public class UserApplication {
 	@Bean(name = RabbitListenerConfigUtils.RABBIT_LISTENER_ENDPOINT_REGISTRY_BEAN_NAME)
 	public RabbitListenerEndpointRegistry defaultRabbitListenerEndpointRegistry() {
 		return new RabbitListenerEndpointRegistry();
+	}
+
+
+	@Bean
+	public CommandLineRunner commandLineRunner(SecurityFilterChain securityFilterChain) {
+		return args -> {
+			for (int i = 0; i < securityFilterChain.getFilters().size(); i++) {
+				Filter filter = securityFilterChain.getFilters().get(i);
+				System.out.println("第"+i+"个过滤器：" + filter.getClass().getName());
+			}
+		};
+
 	}
 
 }
