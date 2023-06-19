@@ -13,6 +13,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * 自定义登录之前的JWT校验逻辑，使用 oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)替换掉
+ */
+@Deprecated(since = "2.1", forRemoval = true)
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
