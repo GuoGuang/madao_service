@@ -5,10 +5,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 import java.util.Arrays;
-import java.util.Optional;
+import java.util.Map;
 import java.util.stream.Stream;
 
 @NoArgsConstructor
@@ -18,34 +18,16 @@ public final class SecurityUtils {
 	public static final String USER = "ROLE_USER";
 	public static final String ANONYMOUS = "ROLE_ANONYMOUS";
 
-	/**
-	 * 获取当前用户的登录信息。
-	 */
-	public static Optional<String> getCurrentUserLogin() {
-		SecurityContext securityContext = SecurityContextHolder.getContext();
-		return Optional.ofNullable(extractPrincipal(securityContext.getAuthentication()));
-	}
-
-	private static String extractPrincipal(Authentication authentication) {
-		if (authentication == null) {
-			return null;
-		} else if (authentication.getPrincipal() instanceof UserDetails springSecurityUser) {
-			return springSecurityUser.getUsername();
-		} else if (authentication.getPrincipal() instanceof String) {
-			return (String) authentication.getPrincipal();
-		}
-		return null;
+	public static String getCurrentUserId() {
+		 return getTokenAttributes().getOrDefault("id","").toString();
 	}
 
 	/**
-	 * 获取当前用户的 JWT。
+	 * 提取授权信息中的主要信息。
 	 */
-	public static Optional<String> getCurrentUserJWT() {
+	public static Map<String, Object> getTokenAttributes() {
 		SecurityContext securityContext = SecurityContextHolder.getContext();
-		return Optional
-				.ofNullable(securityContext.getAuthentication())
-				.filter(authentication -> authentication.getCredentials() instanceof String)
-				.map(authentication -> (String) authentication.getCredentials());
+		return ((JwtAuthenticationToken) securityContext.getAuthentication()).getTokenAttributes();
 	}
 
 	/**
