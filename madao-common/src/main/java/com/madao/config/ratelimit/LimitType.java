@@ -18,5 +18,9 @@ public enum LimitType {
 	/**
 	 * 根据请求者IP进行限流
 	 */
-	IP
+	IP,
+	/**
+	 * 根据请求者token中的用户ID进行限流
+	 */
+	USER_ID
 }

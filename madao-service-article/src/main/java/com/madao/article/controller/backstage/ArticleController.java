@@ -59,7 +59,7 @@ public class ArticleController implements BaseController {
 	}
 
 	@Operation(summary = "添加一条新的文章")
-	@RateLimiter(time = 60 * 3, count = 1, limitType = LimitType.IP)
+	@RateLimiter(time = 60 * 3, count = 1, limitType = LimitType.USER_ID)
 	@PostMapping
 	@OptLog(operationType = OptLogType.ADD, operationName = "添加一条新的文章")
 	public JsonData<Map<String, String>> insertArticle(@RequestBody @Validated ArticleDto articleDto, HttpServletRequest request) {
