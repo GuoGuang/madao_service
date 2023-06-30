@@ -36,6 +36,7 @@ import java.util.*;
 @AllArgsConstructor
 public class ArticleService {
 
+	public static final Random RANDOM = new Random();
 	private final ArticleDao articleDao;
 	private final ArticleMapper articleMapper;
 
@@ -117,10 +118,10 @@ public class ArticleService {
 		if (StringUtils.isBlank(articleDto.getId())) {
 			isCreate = true;
 			articleDto.setComment(0);
-			articleDto.setUpvote(new Random().nextInt(20));
-			articleDto.setVisits(new Random().nextInt(98));
+			articleDto.setUpvote(RANDOM.nextInt(20));
+			articleDto.setVisits(RANDOM.nextInt(98));
 			articleDto.setReviewState(ArticleAuditStatus.PASS);
-			articleDto.setImportance(new Random().nextInt(5));
+			articleDto.setImportance(RANDOM.nextInt(5));
 			if (articleDto.getIsPublic() == null) {
 				articleDto.setIsPublic(false);
 			}
