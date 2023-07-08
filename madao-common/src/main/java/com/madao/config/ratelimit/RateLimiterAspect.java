@@ -2,6 +2,7 @@ package com.madao.config.ratelimit;
 
 import com.madao.exception.custom.RateLimiterException;
 import com.madao.utils.IPUtils;
+import com.madao.utils.security.SecurityUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -19,7 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * 接口限流
+ * 接口限流，基于LUA脚本，时间窗口算法限流
  *
  * @author GuoGuang
  * @公众号 码道人生
@@ -64,6 +65,8 @@ public class RateLimiterAspect {
 		StringBuilder sb = new StringBuilder(rateLimiter.key());
 		if (rateLimiter.limitType() == LimitType.IP) {
 			sb.append(IPUtils.getIpAddr(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest())).append("-");
+		} else if (rateLimiter.limitType() == LimitType.USER_ID) {
+			sb.append(SecurityUtils.getCurrentUserId()).append("-");
 		}
 		MethodSignature signature = (MethodSignature) point.getSignature();
 		Method method = signature.getMethod();
