@@ -28,4 +28,4 @@ spring:
       name: article
       label: master
       profile: prod
-      uri: http://127.0.0.1:9009/config
+      uri: http://82.156.148.211:9009/config
