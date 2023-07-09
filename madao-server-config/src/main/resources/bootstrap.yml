@@ -12,23 +12,21 @@ spring:
   profiles:
     active: ${ACTIVE_PROFILE:dev}
   cloud:
-    compatibility-verifier:
-      enabled: false  # 关闭Spring Cloud Sleuth 与Spring Cloud 版本不适配问题，暂时关闭校验，延迟解决
     config:
       server:
         prefix: /config
         encrypt:
           enabled: true # 启用config加密功能
         git:
-          uri: https://gitee.com/jackso_n/codeway_config.git
+          uri: https://github.com/jackonli-Eils/madaoo_config.git
           searchPaths: ${spring.profiles.active}
           default-label: master
-          username: jackso_n
-          password: TrWVR*D8qwLpxHx
-      bus:
-        enabled: true    # 开启消息跟踪
+          username: 你的github账号
+          password: '你的github密码'
+    bus:
+      enabled: true    # 开启消息跟踪
 
-# 非对称加密
+ #非对称加密
 encrypt:
   key-store:
     location: classpath:config-server.jks
