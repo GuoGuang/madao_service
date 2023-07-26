@@ -6,7 +6,6 @@ import com.madao.exception.custom.ThreadException;
 import jakarta.annotation.Nonnull;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomUtils;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.util.CollectionUtils;
 
@@ -234,7 +233,7 @@ public class BusinessThreadExecutor {
 	 * @param threadPoolName 线程池名称
 	 */
 	public static void displayThreadPoolStatus(ThreadPoolExecutor threadPool, String threadPoolName) {
-		displayThreadPoolStatus(threadPool, threadPoolName, RandomUtils.nextInt(60, 600), TimeUnit.SECONDS);
+		displayThreadPoolStatus(threadPool, threadPoolName, 5, TimeUnit.MINUTES);
 	}
 
 	/**
