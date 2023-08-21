@@ -21,12 +21,12 @@
         <spring-security-jwt.version>1.1.1.RELEASE</spring-security-jwt.version>
         <java-jwt.version>3.8.1</java-jwt.version>
         <hibernate-validator.version>7.0.1.Final</hibernate-validator.version>
-        <aliyun-spring-boot-starter-oss.version>1.1.0</aliyun-spring-boot-starter-oss.version>
         <guava.version>32.0.1-jre</guava.version>
         <UserAgentUtils.version>1.21</UserAgentUtils.version>
         <quartz.version>2.3.2</quartz.version>
-        <aliyun-java-sdk-dysmsapi.version>1.1.0</aliyun-java-sdk-dysmsapi.version>
-        <aliyun-java-sdk-core.version>4.0.3</aliyun-java-sdk-core.version>
+        <aliyun-spring-boot-starter-oss.version>1.1.0</aliyun-spring-boot-starter-oss.version>
+        <aliyun-java-sdk-dysmsapi.version>2.2.1</aliyun-java-sdk-dysmsapi.version>
+        <aliyun-java-sdk-core.version>4.6.3</aliyun-java-sdk-core.version>
         <shedlock.version>4.33.0</shedlock.version>
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
         <mysql-connector-java.version>8.0.33</mysql-connector-java.version>
