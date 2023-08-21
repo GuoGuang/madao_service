@@ -47,7 +47,7 @@ public class Resource extends BasePojo implements Serializable, Cloneable {
 	@Column(length = 100)
 	private String path;
 
-	@Column(precision = 30, length = 5)
+	@Column( length = 5)
 	private float sort;
 
 	@Column(length = 1, columnDefinition = "bit(1) COMMENT '是否隐藏' default '0'")

@@ -46,7 +46,7 @@ public class OptLog extends BasePojo implements Serializable {
 	@Column(columnDefinition = "varchar(20) COMMENT '客户端IP'", nullable = false)
 	private String clientIp;
 
-	@Column(columnDefinition = "int COMMENT '操作类型'", nullable = false)
+	@Column(nullable = false)
 	private OptLogType type;
 
 	@Column(columnDefinition = "varchar(100) COMMENT '方法'", nullable = false)

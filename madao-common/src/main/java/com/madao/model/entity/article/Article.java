@@ -71,7 +71,7 @@ public class Article extends BasePojo implements Serializable {
 	/**
 	 * 热度
 	 */
-	@Column(precision = 2, scale = 1, length = 5)
+	@Column(precision = 2, length = 5)
 	private float importance;
 
 	@Column(length = 500)
