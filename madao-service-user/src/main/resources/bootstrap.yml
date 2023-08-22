@@ -3,9 +3,7 @@ spring:
     name: service-user
   profiles:
     active: ${ACTIVE_PROFILE:dev}
-  cloud:
-    compatibility-verifier:
-      enabled: false  # 关闭Spring Cloud Sleuth 与Spring Cloud 版本不适配问题，暂时关闭校验，延迟解决
+
 logging:
   pattern:
     level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-},%X{parentId:-},%mdc{req.method},%mdc{req.requestURI},%mdc{USER-ID}]'

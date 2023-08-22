@@ -32,7 +32,6 @@
         <spring-cloud-starter-openfeign.version>2.1.1.RELEASE</spring-cloud-starter-openfeign.version>
         <madao-service-api.version>1.0.0</madao-service-api.version>
         <jjwt.version>0.11.2</jjwt.version>
-        <spring-cloud-starter-sleuth.version>3.1.8</spring-cloud-starter-sleuth.version>
     </properties>
 
     <dependencies>
@@ -55,11 +54,6 @@
             <version>${jjwt.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-            <version>${spring-cloud-starter-sleuth.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
