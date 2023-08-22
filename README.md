@@ -12,10 +12,10 @@
     <img src="https://img.shields.io/badge/license-GPL%20(%3E%3D%202)-blue" alt="vue">
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/springcloud-2022.0.2-brightgreen.svg" alt="element-ui">
+    <img src="https://img.shields.io/badge/springcloud-2022.0.3-brightgreen.svg" alt="element-ui">
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/springboot-3.0.6-brightgreen.svg" alt="license">
+    <img src="https://img.shields.io/badge/springboot-3.1.2-brightgreen.svg" alt="license">
   </a>
 </p>
 
