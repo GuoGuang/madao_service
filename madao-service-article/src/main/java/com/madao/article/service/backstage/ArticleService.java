@@ -36,6 +36,7 @@ import java.util.*;
 @AllArgsConstructor
 public class ArticleService {
 
+	public static final Random RANDOM = new Random();
 	private final ArticleDao articleDao;
 	private final ArticleMapper articleMapper;
 
@@ -64,7 +65,7 @@ public class ArticleService {
 			predicates.add(builder.or(address, name));
 			return query.where(predicates.toArray(new Predicate[0])).getRestriction();*/
 
-			List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
+			List<jakarta.persistence.criteria.Predicate> predicates = new ArrayList<>();
 			if (StringUtils.isNotEmpty(articleDto.getTitle())) {
 				predicates.add(builder.like(root.get("title"), "%" + articleDto.getTitle() + "%"));
 			}
@@ -74,7 +75,7 @@ public class ArticleService {
 			if (StringUtils.isNotEmpty(articleDto.getDescription())) {
 				predicates.add(builder.like(root.get("description"), "%" + articleDto.getDescription() + "%"));
 			}
-			return query.where(predicates.toArray(new javax.persistence.criteria.Predicate[0])).getRestriction();
+			return query.where(predicates.toArray(new jakarta.persistence.criteria.Predicate[0])).getRestriction();
 		};
 
 		Page<ArticleDto> queryResults = articleDao.findAll(condition, pageable)
@@ -117,10 +118,10 @@ public class ArticleService {
 		if (StringUtils.isBlank(articleDto.getId())) {
 			isCreate = true;
 			articleDto.setComment(0);
-			articleDto.setUpvote(new Random().nextInt(20));
-			articleDto.setVisits(new Random().nextInt(98));
+			articleDto.setUpvote(RANDOM.nextInt(20));
+			articleDto.setVisits(RANDOM.nextInt(98));
 			articleDto.setReviewState(ArticleAuditStatus.PASS);
-			articleDto.setImportance(new Random().nextInt(5));
+			articleDto.setImportance(RANDOM.nextInt(5));
 			if (articleDto.getIsPublic() == null) {
 				articleDto.setIsPublic(false);
 			}

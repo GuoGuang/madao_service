@@ -7,6 +7,7 @@ import com.madao.model.dto.user.RoleDto;
 import com.madao.model.dto.user.UserDto;
 import com.madao.user.service.UserService;
 import com.madao.utils.JsonData;
+import com.madao.utils.security.SecurityUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,8 +15,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,8 +49,8 @@ public class UserController {
 
 	@PostMapping("/permission")
 	@Operation(summary = "获取用户角色、权限", description = "User")
-	public JsonData<UserDto> getUserPermission(@CurrentSecurityContext(expression = "authentication") Authentication authentication) {
-		UserDto result = userService.getUserPermission(authentication.getName());
+	public JsonData<UserDto> getUserPermission() {
+		UserDto result = userService.getUserPermission(SecurityUtils.getCurrentUserId());
 		return JsonData.success(result);
 	}
 

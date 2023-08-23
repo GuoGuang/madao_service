@@ -2,13 +2,13 @@ package com.madao.model.entity.base;
 
 import com.madao.enums.OptLogType;
 import com.madao.model.BasePojo;
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -46,7 +46,7 @@ public class OptLog extends BasePojo implements Serializable {
 	@Column(columnDefinition = "varchar(20) COMMENT '客户端IP'", nullable = false)
 	private String clientIp;
 
-	@Column(columnDefinition = "int COMMENT '操作类型'", nullable = false)
+	@Column(nullable = false)
 	private OptLogType type;
 
 	@Column(columnDefinition = "varchar(100) COMMENT '方法'", nullable = false)

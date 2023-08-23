@@ -6,14 +6,13 @@ import com.madao.enums.StatusEnum;
 import com.madao.model.dto.user.UserDto;
 import com.madao.user.service.blog.BlogUserService;
 import com.madao.utils.JsonData;
+import com.madao.utils.security.SecurityUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,8 +42,8 @@ public class BlogUserController {
 
 	@GetMapping
 	@Operation(summary = "获取用户信息", description = "Admin")
-	public JsonData<UserDto> getUserInfo(@CurrentSecurityContext(expression = "authentication") Authentication authentication) {
-		UserDto result = blogUserService.findById(authentication.getName());
+	public JsonData<UserDto> getUserInfo() {
+		UserDto result = blogUserService.findById(SecurityUtils.getCurrentUserId());
 		return JsonData.success(result);
 	}
 
@@ -80,9 +79,8 @@ public class BlogUserController {
 	@PutMapping("/userInfo")
 	@OptLog(operationType = OptLogType.MODIFY, operationName = "更新用户资料")
 	@Operation(summary = "更新用户资料", description = "User")
-	public JsonData<Void> updateByPrimaryKey(@RequestBody @Validated(UserDto.ChangeUserInfo.class) UserDto userDto,
-	                                         @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
-		blogUserService.updateByPrimaryKey(userDto, authentication.getName());
+	public JsonData<Void> updateByPrimaryKey(@RequestBody @Validated(UserDto.ChangeUserInfo.class) UserDto userDto) {
+		blogUserService.updateByPrimaryKey(userDto, SecurityUtils.getCurrentUserId());
 		return JsonData.success();
 	}
 

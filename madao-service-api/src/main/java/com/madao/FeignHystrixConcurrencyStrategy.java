@@ -63,7 +63,7 @@ public class FeignHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy 
 			HystrixPlugins.getInstance().registerMetricsPublisher(metricsPublisher);
 			HystrixPlugins.getInstance().registerPropertiesStrategy(propertiesStrategy);
 		} catch (Exception e) {
-			log.error("Failed to register Sleuth Hystrix Concurrency Strategy", e);
+			log.error("Failed to register Hystrix Concurrency Strategy", e);
 		}
 	}
 
@@ -73,7 +73,7 @@ public class FeignHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy 
 			log.debug("Current Hystrix plugins configuration is [" + "concurrencyStrategy ["
 					+ this.delegate + "]," + "eventNotifier [" + eventNotifier + "]," + "metricPublisher ["
 					+ metricsPublisher + "]," + "propertiesStrategy [" + propertiesStrategy + "]," + "]");
-			log.debug("Registering Sleuth Hystrix Concurrency Strategy.");
+			log.debug("Registering Hystrix Concurrency Strategy.");
 		}
 	}
 

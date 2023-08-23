@@ -4,11 +4,10 @@ import com.madao.article.mapper.CommentMapper;
 import com.madao.article.service.blog.ApiCommentService;
 import com.madao.model.dto.article.CommentDto;
 import com.madao.utils.JsonData;
+import com.madao.utils.security.SecurityUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +32,8 @@ public class ApiCommentController {
 
 	@Operation(summary = "查询我的评论")
 	@GetMapping("/my/")
-	public JsonData<List<HashMap<Object, Object>>> findMyComment(@CurrentSecurityContext(expression = "authentication") Authentication authentication) {
-		return JsonData.success(apiCommentService.findMyComment(authentication.getName()));
+	public JsonData<List<HashMap<Object, Object>>> findMyComment() {
+		return JsonData.success(apiCommentService.findMyComment(SecurityUtils.getCurrentUserId()));
 	}
 
 	@Operation(summary = "查询评论列表", description = "查询评论列表")

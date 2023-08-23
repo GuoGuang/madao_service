@@ -39,6 +39,7 @@ public class CorsConfig {
 		if (Arrays.asList(activeProfiles).contains("dev")) {
 			corsConfiguration.addAllowedOrigin("http://localhost:9527");
 			corsConfiguration.addAllowedOrigin("http://127.0.0.1:3000");
+			corsConfiguration.addAllowedOrigin("http://localhost:3000");
 		}
 		corsConfiguration.addAllowedOrigin("http://admin.madaoo.com");
 		corsConfiguration.addAllowedOrigin("http://madaoo.com");

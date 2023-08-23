@@ -6,10 +6,10 @@ import com.madao.enums.ArticleAuditStatus;
 import com.madao.enums.ArticleOriginType;
 import com.madao.model.BasePojo;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 

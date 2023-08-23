@@ -8,6 +8,7 @@ import com.madao.model.dto.article.CategoryDto;
 import com.madao.model.entity.article.Article;
 import com.madao.model.entity.article.Category;
 import com.madao.utils.BeanUtil;
+import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -15,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

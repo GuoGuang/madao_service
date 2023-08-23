@@ -1,10 +1,5 @@
 package com.madao.config;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +9,7 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.scripting.support.ResourceScriptSource;
@@ -50,30 +45,14 @@ public class RedisConfig {
 	public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
 		RedisTemplate<Object, Object> template = new RedisTemplate<>();
 		template.setConnectionFactory(redisConnectionFactory);
-		// 使用jackson2序列化
-		Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
-
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-		mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-		mapper.registerModule(new Jdk8Module())
-				.registerModule(new JavaTimeModule());
-		jackson2JsonRedisSerializer.setObjectMapper(mapper);
+		GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer();
 		StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
-
-		// key采用String的序列化方式
 		template.setKeySerializer(stringRedisSerializer);
-		// hash的key也采用String的序列化方式
 		template.setHashKeySerializer(stringRedisSerializer);
-		// value序列化方式采用jackson
-		template.setValueSerializer(jackson2JsonRedisSerializer);
-
-		// hash的value序列化方式采用jackson
-		template.setHashValueSerializer(jackson2JsonRedisSerializer);
+		template.setValueSerializer(genericJackson2JsonRedisSerializer);
+		template.setHashValueSerializer(genericJackson2JsonRedisSerializer);
 		template.afterPropertiesSet();
-
-		// 设置默认使用Jackson序列化
-		template.setDefaultSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class));
+		template.setDefaultSerializer(new GenericJackson2JsonRedisSerializer());
 		return template;
 	}
 
@@ -83,13 +62,15 @@ public class RedisConfig {
 	 * @param factory Redis 线程安全连接工厂
 	 * @return 缓存管理器
 	 */
+
 	@Bean
 	public CacheManager cacheManager(RedisConnectionFactory factory) {
+
 		RedisCacheConfiguration userCacheConfig = RedisCacheConfiguration.defaultCacheConfig()
 				// 设置过期时间 10 分钟
 				.entryTtl(Duration.ofMinutes(10))
 				// 设置缓存前缀
-				.prefixCacheNameWith("cache:article:")
+				.prefixCacheNameWith("cache:user:")
 				// 禁止缓存 null 值
 				.disableCachingNullValues()
 				// 设置 key 序列化
@@ -98,7 +79,7 @@ public class RedisConfig {
 				.serializeValuesWith(valuePair());
 		RedisCacheConfiguration articleCacheConfig = RedisCacheConfiguration.defaultCacheConfig()
 				.entryTtl(Duration.ofSeconds(30))
-				.prefixCacheNameWith("cache:user:")
+				.prefixCacheNameWith("cache:article:")
 				.disableCachingNullValues()
 				.serializeKeysWith(keyPair())
 				.serializeValuesWith(valuePair());
@@ -118,12 +99,10 @@ public class RedisConfig {
 	}
 
 	/**
-	 * 配置值序列化，使用 GenericJackson2JsonRedisSerializer 替换默认序列化
-	 *
-	 * @return GenericJackson2JsonRedisSerializer
+	 * 配置值序列化
 	 */
 	private RedisSerializationContext.SerializationPair<Object> valuePair() {
-		return RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
+		return RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer());
 	}
 
 	/**

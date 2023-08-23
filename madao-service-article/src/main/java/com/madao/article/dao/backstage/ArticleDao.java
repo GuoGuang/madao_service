@@ -30,7 +30,7 @@ public interface ArticleDao extends JpaRepository<Article, String>,
 	 * @param id
 	 */
 	@Modifying
-	@Query("update Article set state='1' where id=:id")
+	@Query(nativeQuery = true,value = "update ar_article set reviewState = 1 where id=:id")
 	void examine(@Param("id") String id);
 
 	List<Article> findByCategoryIdIn(List<String> ids);

@@ -1,11 +1,11 @@
 package com.madao.model.entity.base;
 
 import com.madao.model.BasePojo;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -37,7 +37,7 @@ public class Dict extends BasePojo implements Serializable {
 	private String parentId;
 	@Column(length = 10)
 	private String code;
-	@Column(length = 10)
+	@Column(length = 50)
 	private String name;
 	@Column(length = 200)
 	private String description;

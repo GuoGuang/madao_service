@@ -14,6 +14,7 @@ import com.madao.user.dao.UserRoleDao;
 import com.madao.user.mapper.ResourceMapper;
 import com.madao.user.mapper.RoleMapper;
 import com.madao.user.mapper.UserMapper;
+import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -22,7 +23,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Predicate;
 import java.util.*;
 
 /**

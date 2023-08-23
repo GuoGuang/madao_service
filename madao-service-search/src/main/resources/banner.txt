@@ -1,9 +1,0 @@
-${AnsiColor.BLUE}
-                         _     
- ___  ___  __ _ _ __ ___| |__  
-/ __|/ _ \/ _` | '__/ __| '_ \ 
-\__ \  __/ (_| | | | (__| | | |
-|___/\___|\__,_|_|  \___|_| |_|
-                               
-${AnsiColor.BRIGHT_YELLOW}
-Version: @project.version@

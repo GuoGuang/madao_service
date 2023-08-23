@@ -3,12 +3,9 @@ server:
 spring:
   jpa:
     show-sql: true
+  elasticsearch:
+    uris: 82.156.148.211:9200
 
-#elasticsearch:
-#  host: 82.156.205.178
-#  port: 9200
-#  username:
-#  password:
 com:
   madao:
     aopPointcutExpression: execution (* com.madao.article.service..*.*(..))

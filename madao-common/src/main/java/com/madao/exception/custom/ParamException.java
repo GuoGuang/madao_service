@@ -11,4 +11,7 @@ package com.madao.exception.custom;
  */
 public class ParamException extends RuntimeException {
 
+    public ParamException(String message) {
+        super(message);
+    }
 }

@@ -1,11 +1,11 @@
 package com.madao.model.entity.article;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 /**

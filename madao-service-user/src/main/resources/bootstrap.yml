@@ -3,6 +3,7 @@ spring:
     name: service-user
   profiles:
     active: ${ACTIVE_PROFILE:dev}
+
 logging:
   pattern:
     level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-},%X{parentId:-},%mdc{req.method},%mdc{req.requestURI},%mdc{USER-ID}]'
@@ -26,7 +27,7 @@ spring:
     config:
       name: user
       label: master
-      uri: http://121.36.158.84:9009/config
+      uri: http://82.156.148.211:9009/config
       profile: prod
   config:
     activate:

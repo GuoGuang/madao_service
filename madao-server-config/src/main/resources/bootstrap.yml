@@ -26,10 +26,10 @@ spring:
     bus:
       enabled: true    # 开启消息跟踪
 
-# 非对称加密
-#encrypt:
-#  key-store:
-#    location: classpath:config-server.jks
-#    alias: codeif.tech
-#    password: IAS76D
-#    secret: IAS76D
+ #非对称加密
+encrypt:
+  key-store:
+    location: classpath:config-server.jks
+    alias: codeif.tech
+    password: IAS76D
+    secret: IAS76D

@@ -3,9 +3,9 @@ package com.madao.model.entity.article;
 import com.madao.model.BasePojo;
 import lombok.Getter;
 import lombok.Setter;
+import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 /**

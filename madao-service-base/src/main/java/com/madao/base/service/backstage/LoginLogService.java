@@ -9,6 +9,7 @@ import com.madao.model.dto.user.UserDto;
 import com.madao.model.entity.base.LoginLog;
 import com.madao.utils.BeanUtil;
 import com.madao.utils.JsonData;
+import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -16,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 

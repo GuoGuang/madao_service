@@ -7,9 +7,7 @@ import com.madao.article.mapper.TagMapper;
 import com.madao.constant.CommonConst;
 import com.madao.constant.RedisConstant;
 import com.madao.model.dto.article.TagDto;
-import com.madao.model.dto.user.UserDto;
 import com.madao.model.entity.article.ArticleTag;
-import com.madao.utils.JsonData;
 import com.madao.utils.RedisUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +39,6 @@ public class ApiTagsService {
 
 	public List<TagDto> findTagsByCondition(TagDto tagDto, Pageable pageable) {
 		log.info("查询参数---------->{}", tagDto);
-		JsonData<UserDto> admin = userServiceRpc.getUserInfo("admin");
 		Page<TagDto> tagsQueryResults = tagDao.findAll(pageable)
 				.map(tagMapper::toDto);
 

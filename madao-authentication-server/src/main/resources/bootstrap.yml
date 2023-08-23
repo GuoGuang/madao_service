@@ -22,7 +22,7 @@ spring:
     config:
       name: application
       label: master
-      uri: http://121.36.158.84:9009/config
+      uri: http://82.156.148.211:9009/config
       profile: prod
   config:
     activate:

@@ -8,6 +8,7 @@ import com.madao.model.dto.article.TagDto;
 import com.madao.model.entity.article.ArticleTag;
 import com.madao.model.entity.article.Tag;
 import com.madao.utils.BeanUtil;
+import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -15,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +38,7 @@ public class TagsService {
 
 	public Page<TagDto> findTagsByCondition(TagDto tagDto, Pageable pageable) {
 		Specification<Tag> condition = (root, query, builder) -> {
-			List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
+			List<jakarta.persistence.criteria.Predicate> predicates = new ArrayList<>();
 			if (StringUtils.isNotEmpty(tagDto.getName())) {
 				predicates.add(builder.like(root.get("name"), "%" + tagDto.getName() + "%"));
 			}

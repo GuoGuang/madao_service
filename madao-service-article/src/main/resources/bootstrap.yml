@@ -3,6 +3,7 @@ spring:
     name: service-article
   profiles:
     active: ${ACTIVE_PROFILE:dev}
+
 ---
 spring:
   config:
@@ -25,4 +26,4 @@ spring:
       name: article
       label: master
       profile: prod
-      uri: http://121.36.158.84:9009/config
+      uri: http://82.156.148.211:9009/config

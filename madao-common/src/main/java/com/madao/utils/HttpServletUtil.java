@@ -1,6 +1,6 @@
 package com.madao.utils;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * HttpServlet的工具类

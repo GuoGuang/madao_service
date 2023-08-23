@@ -1,14 +1,13 @@
 package com.madao.user.filter;
 
 import com.madao.utils.security.JWTAuthentication;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * 鉴权拦截器
@@ -20,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  * @created 2019-09-29 7:37
  */
 @Slf4j
-public class JwtFilter extends HandlerInterceptorAdapter {
+public class JwtFilter implements HandlerInterceptor {
 
 	@Autowired
 	private JWTAuthentication jwtAuthentication;
@@ -66,7 +65,6 @@ public class JwtFilter extends HandlerInterceptorAdapter {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 		log.info("postHandle invoke");
-		super.postHandle(request, response, handler, modelAndView);
 	}
 
 	/**
@@ -81,6 +79,5 @@ public class JwtFilter extends HandlerInterceptorAdapter {
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 		log.info("afterCompletion invoke");
-		super.afterCompletion(request, response, handler, ex);
 	}
 }

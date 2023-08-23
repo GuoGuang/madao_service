@@ -1,14 +1,15 @@
 spring:
   application:
     name: web-gateway
-  sleuth:
-    reactor:
-      # 性能会下降很多，正式不建议使用 参考https://github.com/spring-cloud/spring-cloud-sleuth/issues/1806#issuecomment-744276034
-      instrumentation-type: decorate_on_each
   profiles:
     active: ${ACTIVE_PROFILE:dev}
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+    web-application-type: reactive
+
 ---
 spring:
   cloud:
@@ -31,7 +32,7 @@ spring:
     config:
       name: gateway
       label: master
-      uri: http://121.36.158.84:9009/config
+      uri: http://82.156.148.211:9009/config
       profile: prod
   config:
     activate:

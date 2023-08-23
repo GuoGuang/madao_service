@@ -11,6 +11,7 @@ import com.madao.utils.JsonData;
 import com.madao.utils.OssClientUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +20,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +59,7 @@ public class ArticleController implements BaseController {
 	}
 
 	@Operation(summary = "添加一条新的文章")
-	@RateLimiter(time = 60 * 3, count = 1, limitType = LimitType.IP)
+	@RateLimiter(time = 60 * 3, count = 1, limitType = LimitType.USER_ID)
 	@PostMapping
 	@OptLog(operationType = OptLogType.ADD, operationName = "添加一条新的文章")
 	public JsonData<Map<String, String>> insertArticle(@RequestBody @Validated ArticleDto articleDto, HttpServletRequest request) {

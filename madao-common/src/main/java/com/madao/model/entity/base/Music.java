@@ -1,10 +1,10 @@
 package com.madao.model.entity.base;
 
 import com.madao.model.BasePojo;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
