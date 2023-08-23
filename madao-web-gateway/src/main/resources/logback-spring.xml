@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <property resource="bootstrap.yml"/>
+    <springProperty scope="context" name="serverName" source="spring.application.name" />
+
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <jmxConfigurator/>
+    <logger name="org.springframework.orm.jpa" level="DEBUG"/>
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>106.13.62.162:5000</destination> <encoder>
-        <pattern>Gateway [%X{traceId}-%X{spanId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
-<!--        <pattern>Gateway [%X{traceId}-%X{spanId}-%X{userId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>-->
-        <charset>UTF-8</charset> </encoder>
+        <destination>82.156.148.211:50000</destination>
+        <encoder>
+            <pattern>[${serverName:-}] [%X{traceId}-%X{spanId}-%X{parentId:-},%mdc{req.method},%mdc{req.requestURI},%mdc{USER-ID}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n%throwable</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
     </appender>
     <appender name="KAFKA" class="com.github.danielwegener.logback.kafka.KafkaAppender">
         <encoder>
-            <pattern>Gateway %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <pattern>[${serverName:-}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
         </encoder>
         <topic>test</topic>
         <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy"/>
@@ -19,63 +24,21 @@
         <appender-ref ref="CONSOLE"/>
     </appender>
     <appender name="STDOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>log/madao-service-gateway/madao-service-gateway.log</File>
+        <File>log/madao-service-article/madao-service-article.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>log/madao-service-gateway/madao-service-gateway.%d.%i.log</fileNamePattern>
+            <fileNamePattern>log/madao-service-article/madao-service-article.%d.%i.log</fileNamePattern>
             <maxHistory>30</maxHistory>
-            <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>10MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
-        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-            <providers>
-                <timestamp>
-                    <fieldName>timestamp</fieldName>
-                </timestamp>
-                <logLevel/>
-                <threadName/>
-                <loggerName/>
-                <throwableClassName>
-                    <useSimpleClassName>false</useSimpleClassName>
-                </throwableClassName>
-                <throwableRootCauseClassName>
-                    <useSimpleClassName>false</useSimpleClassName>
-                </throwableRootCauseClassName>
-                <message/>
-                <callerData/>
-                <arguments/>
-                <stackTrace>
-                    <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
-                        <maxDepthPerThrowable>30</maxDepthPerThrowable>
-                        <maxLength>1024</maxLength>
-                        <shortenedClassNameLength>20</shortenedClassNameLength>
-                        <exclude>sun\.reflect\..*\.invoke.*</exclude>
-                        <exclude>net\.sf\.cglib\.proxy\.MethodProxy\.invoke</exclude>
-                        <rootCauseFirst>true</rootCauseFirst>
-                        <inlineHash>true</inlineHash>
-                    </throwableConverter>
-                </stackTrace>
-                <pattern>
-                    <omitEmptyFields>true</omitEmptyFields>
-                    <pattern>
-                        {
-                        "type":"service",
-                        "pid":"#asLong{${PID}}",
-                        "hostname":"${HOSTNAME}",
-                        "requested_uri":"%mdc{req.requestURI}",
-                        "query_string":"%mdc{req.queryString}",
-                        "traceId":"%mdc{traceId}",
-                        "spanId":"%mdc{spanId}",
-                        "parentId":"%mdc{parentId}",
-                        "method":"%mdc{req.method}"
-                        }
-                    </pattern>
-                </pattern>
-            </providers>
+        <encoder>
+            <pattern>[${serverName:-}] [%X{traceId}-%X{spanId}-%X{parentId:-},%mdc{req.method},%mdc{req.requestURI},%mdc{USER-ID}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n%throwable</pattern>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
     <root level="info">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="LOGSTASH"/>
     </root>
-</configuration> 
+</configuration>

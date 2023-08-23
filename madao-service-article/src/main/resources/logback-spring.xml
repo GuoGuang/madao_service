@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <property resource="bootstrap.yml"/>
+    <springProperty scope="context" name="serverName" source="spring.application.name" />
+
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <jmxConfigurator/>
     <logger name="org.springframework.orm.jpa" level="DEBUG"/>
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>106.13.62.162:5000</destination>
+        <destination>82.156.148.211:50000</destination>
         <encoder>
-            <pattern>Article [%X{traceId}-%X{spanId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} -
-                %msg%n
-            </pattern>
-            <!--        <pattern>Gateway [%X{traceId}-%X{spanId}-%X{userId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>-->
+            <pattern>[${serverName:-}] [%X{traceId}-%X{spanId}-%X{parentId:-},%mdc{req.method},%mdc{req.requestURI},%mdc{USER-ID}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n%throwable</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
     <appender name="KAFKA" class="com.github.danielwegener.logback.kafka.KafkaAppender">
         <encoder>
-            <pattern>Article %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <pattern>[${serverName:-}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
         </encoder>
         <topic>test</topic>
         <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy"/>
@@ -33,9 +33,20 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
-            <pattern>
-                %d %p (%file:%line\)- %m%n
-            </pattern>
+            <!--
+                        {
+                        "type":"service",
+                        "pid":"#asLong{${PID}}",
+                        "hostname":"${HOSTNAME}",
+                        "requested_uri":"%mdc{req.requestURI}",
+                        "query_string":"%mdc{req.queryString}",
+                        "traceId":"%mdc{traceId}",
+                        "spanId":"%mdc{spanId}",
+                        "parentId":"%mdc{parentId}",
+                        "method":"%mdc{req.method}"
+                        }
+            -->
+            <pattern>[${serverName:-}] [%X{traceId}-%X{spanId}-%X{parentId:-},%mdc{req.method},%mdc{req.requestURI},%mdc{USER-ID}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n%throwable</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
@@ -43,4 +54,4 @@
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="LOGSTASH"/>
     </root>
-</configuration> 
+</configuration>
