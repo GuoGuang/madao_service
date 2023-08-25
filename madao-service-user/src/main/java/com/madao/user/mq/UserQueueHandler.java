@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.*;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -21,8 +22,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @website https://madaoo.com
  */
 @Slf4j
+@Component
 public class UserQueueHandler {
-
 
 	/**
 	 * 如果不存在，自动创建队列和交换器并且绑定
