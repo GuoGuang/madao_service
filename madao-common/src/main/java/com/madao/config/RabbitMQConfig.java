@@ -8,6 +8,7 @@ import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFacto
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.RabbitListenerContainerFactory;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -16,10 +17,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 
 /**
- * mq配置
+ * mq配置，支持连接多个不同的MQ
  *
  * @author GuoGuang
  * @公众号 码道人生
@@ -47,7 +49,27 @@ public class RabbitMQConfig {
 
 	private String virtualHost;
 
+	/**
+	 * 自动创建队列交换机所需要的RabbitAdmin
+	 */
 	@Bean
+	@Primary
+	public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory) {
+		RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
+		// 服务启动时候开启自动启动
+		rabbitAdmin.setAutoStartup(true);
+		return rabbitAdmin;
+	}
+	@Bean
+	public RabbitAdmin rabbitAdminOther(ConnectionFactory connectionFactoryOther) {
+		RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactoryOther);
+		// 服务启动时候开启自动启动
+		rabbitAdmin.setAutoStartup(true);
+		return rabbitAdmin;
+	}
+
+	@Bean
+	@Primary
 	public ConnectionFactory connectionFactory() {
 		CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
 		connectionFactory.setHost(host);
@@ -78,11 +100,12 @@ public class RabbitMQConfig {
 	 * 第二个MQ配置，适用于当前业务监听不同服务器的MQ
 	 */
 	@Bean(name="userMq")
-	public SimpleRabbitListenerContainerFactory userMqRabbitFactory(
-			ConnectionFactory connectionFactoryOther) {
+	public SimpleRabbitListenerContainerFactory userMqRabbitFactory(ConnectionFactory connectionFactoryOther) {
 		SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
 		factory.setConnectionFactory(connectionFactoryOther);
 		factory.setMessageConverter(new Jackson2JsonMessageConverter());
+		// 启用观察模式，traceId传输
+		factory.setObservationEnabled(true);
 		factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
 		return factory;
 	}
@@ -92,6 +115,8 @@ public class RabbitMQConfig {
 		SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
 		factory.setConnectionFactory(connectionFactory);
 		factory.setMessageConverter(new Jackson2JsonMessageConverter());
+		// 启用观察模式，traceId传输
+		factory.setObservationEnabled(true);
 		factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
 		return factory;
 	}
@@ -106,6 +131,7 @@ public class RabbitMQConfig {
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
 		RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+//		rabbitTemplate.setObservationEnabled(true);
 		rabbitTemplate.setEncoding("UTF-8");
 		rabbitTemplate.setCorrelationDataPostProcessor((m, c) -> new CorrelationData("custom_" + System.nanoTime()));
 		//开启监听回调

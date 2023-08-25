@@ -2,13 +2,16 @@ package com.madao.auth;
 
 import com.madao.config.BasicApplication;
 import com.madao.properties.SecurityProperties;
+import jakarta.servlet.Filter;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * Oauth2授权、鉴权
@@ -28,6 +31,16 @@ public class Oauth2AuthenticationApplication extends BasicApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Oauth2AuthenticationApplication.class, args);
+	}
+
+	@Bean
+	public CommandLineRunner commandLineRunner(SecurityFilterChain securityFilterChain) {
+		return args -> {
+			for (int i = 0; i < securityFilterChain.getFilters().size(); i++) {
+				Filter filter = securityFilterChain.getFilters().get(i);
+				System.out.println("第" + i + "个过滤器：" + filter.getClass().getName());
+			}
+		};
 	}
 
 	@Bean
