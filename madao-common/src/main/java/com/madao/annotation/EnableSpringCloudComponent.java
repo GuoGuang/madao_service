@@ -1,5 +1,6 @@
 package com.madao.annotation;
 
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;
@@ -20,6 +21,7 @@ import java.lang.annotation.*;
 @ComponentScan(basePackages = {"com.madao"})
 @EnableScheduling
 @EnableCaching
+@EnableRabbit
 public @interface EnableSpringCloudComponent {
 
 }
