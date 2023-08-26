@@ -44,18 +44,7 @@ public class RabbitUtil {
 	 * @param message      内容
 	 */
 	public void sendFanoutToQueue(String message, String exchangeName, String routingKey) {
-		rabbitTemplate.setMandatory(true);
-		// 当消息成功到达exchange的时候触发的ack回调。
-		rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
-			log.error("correlationData:{}", correlationData);
-			log.error("ack:{}", ack);
-			if (!ack) {
-				log.error("异常处理...");
-			}
-		});
-		// 成功到达exchange，但routing不到任何queue时会调用
-		rabbitTemplate.setReturnsCallback(returnedMessage -> log.info("MQ回调: " + returnedMessage));
-		rabbitTemplate.convertAndSend(exchangeName, null, message,
+		rabbitTemplate.convertAndSend(exchangeName, routingKey, message,
 				messagePostProcessor -> {
 					//设置消息持久化
 					messagePostProcessor.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
