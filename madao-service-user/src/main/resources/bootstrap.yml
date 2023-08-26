@@ -4,11 +4,6 @@ spring:
   profiles:
     active: ${ACTIVE_PROFILE:dev}
 
-logging:
-  pattern:
-    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-},%X{parentId:-},%mdc{req.method},%mdc{req.requestURI},%mdc{USER-ID}]'
-
-
 ---
 spring:
   cloud:
