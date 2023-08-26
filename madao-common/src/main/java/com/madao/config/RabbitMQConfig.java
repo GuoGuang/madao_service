@@ -3,6 +3,7 @@ package com.madao.config;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -131,12 +132,14 @@ public class RabbitMQConfig {
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
 		RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-//		rabbitTemplate.setObservationEnabled(true);
+		rabbitTemplate.setObservationEnabled(true);
 		rabbitTemplate.setEncoding("UTF-8");
-		rabbitTemplate.setCorrelationDataPostProcessor((m, c) -> new CorrelationData("custom_" + System.nanoTime()));
+		rabbitTemplate.setCorrelationDataPostProcessor((m, c) -> new CorrelationData("traceId_" + MDC.get("traceId")));
 		//开启监听回调
 		rabbitTemplate.setMandatory(true);
+		// 成功到达exchange，但routing不到任何queue时会调用
 		rabbitTemplate.setReturnsCallback(returnedMessage -> {
+			MDC.put("traceId",returnedMessage.getMessage().getMessageProperties().getHeader("spring_returned_message_correlation").toString().split("_")[1]);
 			log.info("------------------------------------消息成功到达exchange，但routing不到任何queue:------------------------------------");
 			log.info("ReturnCallback:     消息：{}", returnedMessage.getMessage());
 			log.info("ReturnCallback:     回应码：{}", returnedMessage.getReplyCode());
@@ -144,8 +147,9 @@ public class RabbitMQConfig {
 			log.info("ReturnCallback:     交换机：{}", returnedMessage.getExchange());
 			log.info("ReturnCallback:     路由键：{}", returnedMessage.getRoutingKey());
 		});
-		// 消息只要被 rabbitmq broker 接收到就会执行
+		// 消息被RabbitMQ服务器确认接收后会被触发，用于确保消息已经成功发送到RabbitMQ服务器并被确认
 		rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
+			MDC.put("traceId",correlationData.getId().split("_")[1]);
 			log.info("------------------------------------消息成功发送到broker------------------------------------");
 			log.info("ConfirmCallback:     相关数据：{}", correlationData);
 			log.info("ConfirmCallback:     确认情况：{}", ack);
