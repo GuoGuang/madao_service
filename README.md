@@ -59,6 +59,8 @@ pinyinUtils | https://github.com/GuoGuang/pinyinUtils
 ```
 ├─madao-common-parent----------------------------父项目，公共依赖
 │  │
+│  │─madao-authentication-server----------------认证服务
+│  │
 │  ├─madao-common--------------------------------微服务公共包
 │  │
 │  ├─madao-service-config-------------------------微服务配置中心+微服务注册中心
@@ -110,14 +112,16 @@ idea里 maven选项选中madao-common-parent install 需要在Maven Projects界�
     // redis
     docker run --name myredis -d -p 6379:6379 -v /data/redis/redis.conf:/etc/redis/redis.conf -v /data/redis/data:/data redis  redis-server /etc/redis/redis.conf --requirepass "root" --appendonly yes
     
-    // rebbitmq 暂时没有用到，可以先pass
+    // rebbitmq
     docker run -d --name rabbit-server -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin -p 5672:5672 -p 15672:15672 rabbitmq:3-management
     
     ```
 
 ### 4. 配置注册中心远程仓库
 github fork此仓库[配置中心](https://github.com/GuoGuang/madao_config)
-将里面的配置文件更改为你的地址，阿里云oss地址没有的话可以注释掉
+1. 将里面的配置文件更改为你的地址
+2. 阿里云oss地址没有的话需要注释掉
+3. 将密码部分（{cipher}）改为你的真实密码（{cipher}是指用的加密数据）
 
 ### 5.  配置注册中心远程地址
 在madao-server-config服务中找到bootstrap.yml文件，配置如下
@@ -140,7 +144,7 @@ spring:
 
       enabled: true    # 开启消息跟踪
 
-# 非对称加密，将下面的配置注释。如果上面配置的"你的github密码"地方是明文，这里就不用管
+# 非对称加密，将下面的配置注释。如果上面配置的"你的github密码"地方是明文，则注释掉下面配置
 # encrypt:
 #   key-store:
 #     location: classpath:xxx
@@ -149,7 +153,23 @@ spring:
 #     secret: xxx
 ```
 
-### 6. 启动
+### 6. 生成store文件
+生成store文件并将其放到madao-server-config服务下的resources目录下。
+```shell
+# 生成文件，或者直接用根目录下的madao.keystore文件
+keytool -export -alias madaoo.com -file test.crt -keystore madao.keystore
+
+# 获取公钥，以文本方式打开rsa_public_key.pem，然后在配置中心配置其内容
+openssl x509 -inform der -in test.crt -pubkey -noout > rsa_public_key.pem
+
+# 远端配置中心示例：
+com:
+  madao:
+    # 秘钥token，例：-----BEGIN PUBLIC KEY-----xxxx-----END PUBLIC KEY----- 取其中的xxxx
+    secretKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvbwpEqZcet2KRTppVazzOU55+w6o1pf/JSiQEYYpXw/wCRZCXTf2wqnoLjb50+21ZEIhAFkE9wvW1FjNpFO1zYcy0HcKvJQb8qhQhGUHmP4w6Qb9bRJXhGt4IoKApXVUN+A4+xz8xC+Jw6/zn46pNQv2e47HATm/P+0LDDqxU7MPhPvddr9ihKeeVCG+/8W2X2a4N/NHoQo0Q1AyGWQcVWnl4yYgKpmedk3eGLpuaHZKJxse5bb9K5mEk5vuRsEhTkhtLVH2HT3ZCDycJQPdXjv+iO88O5Nbj/Tc2wehxnD3GFBKPaOZWDwIcNyIOTXRa4OvVFtEe4Qb3wNNhIYfiQIDAQAB
+```
+
+### 7. 启动
 第一步首先启动madao-service-config服务，这个是注册中心+配置中心，然后再启动其他的服务。
 
 
