@@ -156,9 +156,11 @@ spring:
 ### 6. 生成store文件
 生成store文件并将其放到madao-server-config服务下的resources目录下。
 ```shell
-# 生成文件，或者直接用根目录下的madao.keystore文件
-keytool -export -alias madaoo.com -file test.crt -keystore madao.keystore
 
+# 生成keystore，或者直接用根目录下的madao.keystore文件
+keytool -genkeypair -alias madaoo.com -keyalg RSA -dname "CN=Web Server,OU=China,O=www.youwebsite.im,L=ShangHai,S=ShangHai,C=China" -keypass madaoo.com -keystore madao.keystore -storepass madaoo.com
+# 生成crt，后面获取公钥
+keytool -export -alias madaoo.com -file test.crt -keystore madao.keystore
 # 获取公钥，以文本方式打开rsa_public_key.pem，然后在配置中心配置其内容
 openssl x509 -inform der -in test.crt -pubkey -noout > rsa_public_key.pem
 
