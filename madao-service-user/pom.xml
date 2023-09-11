@@ -26,13 +26,11 @@
             <artifactId>flowable-spring-boot-starter</artifactId>
             <version>${flowable-spring-boot-starter-rest.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.corundumstudio.socketio</groupId>
             <artifactId>netty-socketio</artifactId>
             <version>${netty-socketio.version}</version>
         </dependency>
-
         <!-- websocket -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

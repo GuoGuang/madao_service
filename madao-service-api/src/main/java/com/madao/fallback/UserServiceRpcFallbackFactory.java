@@ -5,8 +5,8 @@ import com.madao.enums.StatusEnum;
 import com.madao.model.dto.user.UserDto;
 import com.madao.model.entity.user.Resource;
 import com.madao.utils.JsonData;
-import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
