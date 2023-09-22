@@ -1,13 +1,17 @@
 
+# 秘钥文件
+madao-authentication-server/src/main/resources/JWT.keystore
+madao-server-config/src/main/resources/config-server.jks
+*.keystore
+*.jks
+
 # IntelliJ project files
 .idea
 *.iml
 out
 gen
 
-### Java template
-# Compiled class file
-
-### after hiding the class file cannot be seen
-#*.class
+# Java template
+*.class
 *.log
+
