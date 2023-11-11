@@ -5,6 +5,8 @@
 
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <jmxConfigurator/>
+    <!--  打印ES日志  -->
+    <logger name="tracer" level="trace"/>
     <logger name="org.springframework.orm.jpa" level="DEBUG"/>
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>82.156.148.211:50000</destination>
