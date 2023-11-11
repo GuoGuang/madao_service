@@ -1,14 +1,14 @@
 package com.madao.model.dto.article;
 
 import com.madao.model.BasePojo;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.data.elasticsearch.annotations.Setting;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * 文章板块: 文章类,集成ES
@@ -21,7 +21,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-@Document(indexName = "qqarticle")
+@Document(indexName = "article_search")
 @Setting(
 		refreshInterval = "1s",// 索引的刷新间隔，默认情况下每个分片会每秒自动刷新一次。这就是为什么我们说 Elasticsearch 是 近 实时搜索: 文档的变化并不是立即对搜索可见，但会在一秒之内变为可见。
 		replicas = 0, // 索引的副本数
@@ -34,6 +34,8 @@ import java.io.Serializable;
 )
 public class ArticleSearchDto extends BasePojo implements Serializable {
 
+	// 索引主键
+	@Id
 	private String id;
 	private String columnId;
 	private String userId;
@@ -42,8 +44,13 @@ public class ArticleSearchDto extends BasePojo implements Serializable {
 	private String title;
 	@Field(type = FieldType.Text)
 	private String content;
+
+	@Schema(type = "String",description = "图片")
+	@Field(type = FieldType.Text)
 	private String image;
 	private String isPublic;
+	@Schema(type = "String",description = "置顶")
+	@Field(type = FieldType.Keyword)
 	private String isTop;
 	private Integer visits;
 	@Field(type = FieldType.Integer)
@@ -53,4 +60,7 @@ public class ArticleSearchDto extends BasePojo implements Serializable {
 	private String channelId;
 	private String url;
 	private String type;
+
+	@Field(type = FieldType.Date,format = DateFormat.date)
+	private LocalDate topDate;
 }
