@@ -40,9 +40,9 @@ public class ArticleSearchDto extends BasePojo implements Serializable {
 	private String columnId;
 	private String userId;
 	//    @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
-	@Field(type = FieldType.Text)
+	@Field(type = FieldType.Keyword)
 	private String title;
-	@Field(type = FieldType.Text)
+	@Field(type = FieldType.Keyword)
 	private String content;
 
 	@Schema(type = "String",description = "图片")
@@ -56,11 +56,16 @@ public class ArticleSearchDto extends BasePojo implements Serializable {
 	@Field(type = FieldType.Integer)
 	private Integer thumbUp;
 	private Integer comment;
+	@Field(type = FieldType.Keyword)
 	private String state;
 	private String channelId;
 	private String url;
+	@Field(type = FieldType.Text)
 	private String type;
-
 	@Field(type = FieldType.Date,format = DateFormat.date)
 	private LocalDate topDate;
+
+	private String keyword;
+	private LocalDate startDate;
+	private LocalDate endDate;
 }
