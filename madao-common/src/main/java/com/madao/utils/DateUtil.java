@@ -61,6 +61,23 @@ public class DateUtil {
 	}
 
 	/**
+	 * 字符串日期格式转LocalDate
+	 */
+	public static LocalDate dateStringToDate(String dateString) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		return LocalDate.parse(dateString, formatter);
+	}
+
+	/**
+	 * 字符串日期时间格式转LocalDateTime
+	 */
+	public static LocalDateTime dateTimeStringToDateTime(String dateString) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		return LocalDateTime.parse(dateString, formatter);
+	}
+
+
+	/**
 	 * 不能小于当前日期
 	 */
 	public static boolean lessThanOrEqualTo(Long timestamp) {
@@ -69,7 +86,6 @@ public class DateUtil {
 		int isItEffective = currentTime.compareTo(appointmentDate);
 		return isItEffective >= 0;
 	}
-
 
 	/**
 	 * 时间戳转日期
