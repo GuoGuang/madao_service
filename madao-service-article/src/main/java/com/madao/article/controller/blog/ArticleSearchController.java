@@ -26,7 +26,7 @@ public class ArticleSearchController {
 		return JsonData.success(articles);
 	}
 
-	@GetMapping(value = "/search")
+	@PostMapping(value = "/search")
 	public JsonData<Page<ArticleSearchDto>> searchArticleByCondition(@RequestBody ArticleSearchDto articleSearchDto, @PageableDefault(sort = "topDate", direction = DESC) Pageable pageable) {
 		Page<ArticleSearchDto> articles = articleSearchService.searchByDtoAndPage(articleSearchDto, pageable);
 		return JsonData.success(articles);
@@ -41,7 +41,7 @@ public class ArticleSearchController {
 	@PostMapping
 	public JsonData<Void> insertArticle(@RequestBody ArticleSearchDto article) {
 		articleSearchService.insertArticle(article);
-		return JsonData.success(null);
+		return JsonData.success();
 	}
 
 	@PutMapping(value = "/{id}")

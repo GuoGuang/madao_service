@@ -33,20 +33,21 @@ public class SearchClientConfig {
     public void initAlias() {
         IndexOperations indexOps = elasticsearchOperations.indexOps(ArticleSearchDto.class);
         indexOps.alias(
-                        new AliasActions()
-                                .add(new AliasAction.Add(
-                                                AliasActionParameters.builder()
-                                                        .withIndices("article_search")
-                                                        .withAliases("article_se_v1")
-                                                        .build()
-                                        )
-                                ).add(new AliasAction.Add(
-                                                AliasActionParameters.builder()
-                                                        .withIndices("article_search")
-                                                        .withAliases("article_se_v2")
-                                                        .build()
-                                        )
+                new AliasActions()
+                        .add(new AliasAction.Add(
+                                        AliasActionParameters.builder()
+                                                .withIndices("article_search")
+                                                .withAliases("article_se_v1")
+                                                .build()
                                 )
-                );
+                        ).add(new AliasAction.Add(
+                                        AliasActionParameters.builder()
+                                                .withIndices("article_search")
+                                                .withAliases("article_se_v2")
+                                                .build()
+                                )
+                        )
+        );
     }
+
 }

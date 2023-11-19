@@ -10,11 +10,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.client.elc.NativeQueryBuilder;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
-import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.query.Criteria;
+import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.data.elasticsearch.core.query.HighlightQuery;
 import org.springframework.data.elasticsearch.core.query.highlight.Highlight;
 import org.springframework.data.elasticsearch.core.query.highlight.HighlightField;
@@ -36,33 +36,19 @@ public class ApiArticleSearchService {
     private final ElasticsearchOperations elasticsearchOperations;
 
     public List<ArticleSearchDto> searchArticleByCondition(String keywords, Integer page, Integer size) {
-
-//			多条件
-//			RangeQueryBuilder queryStartDate = QueryBuilders.rangeQuery("startTime").gte("111").lte("");
-//			RangeQueryBuilder queryEndDate = QueryBuilders.rangeQuery("endTime").gte("111").lte("");
-//			MatchQueryBuilder name = QueryBuilders.matchQuery("name", "xxx");
-//			QueryBuilder queryBuilder = QueryBuilders.boolQuery()
-//					.must(queryStartDate)
-//					.must(queryEndDate)
-//					.must(name);
-//			Query nativeSearchQuery = new NativeSearchQuery(queryBuilder);
-//			nativeSearchQuery.setPageable(pageable);
-//			SearchHits<ArticleSearchDto> results = elasticsearchRestTemplate.search(nativeSearchQuery, ArticleSearchDto.class);
-//			List<SearchHit<ArticleSearchDto>> searchHits = results.getSearchHits();
-        NativeQuery query = NativeQuery.builder()
-                .withQuery(q -> q
-                        .match(m -> m
-                                .field("user")
-                                .query("firstName")
-                        )
-                )
-//				.withPageable(pageable)
-                .build();
-        SearchHits<ArticleSearchDto> searchHits = elasticsearchOperations.search(query, ArticleSearchDto.class);
+        var expectedDate = "2014-10-29";
+        var expectedWord = "Scala";
+        // 面向对象的查询方式
+        var criteria = new Criteria("title")
+                .contains(expectedWord)
+                .and(
+                        new Criteria("startDate").greaterThanEqual(expectedDate)
+                );
+        var query = new CriteriaQuery(criteria);
+        var searchHits = elasticsearchOperations.search(query, ArticleSearchDto.class);
         long totalHits = searchHits.getTotalHits();
         log.info("总数据条数：{}", totalHits);
-        List<ArticleSearchDto> results = searchHits.getSearchHits().stream().map(SearchHit::getContent).toList();
-        return results;
+        return searchHits.getSearchHits().stream().map(SearchHit::getContent).toList();
     }
 
     /**
@@ -99,10 +85,10 @@ public class ApiArticleSearchService {
         nativeQueryBuilder.withPageable(pageable);
         log.info("ES查询语句：{}", nativeQueryBuilder.getQuery());
 
-        SearchHits<ArticleSearchDto> searchHits = elasticsearchOperations.search(nativeQueryBuilder.build(), ArticleSearchDto.class);
-        final List<ArticleSearchDto> list = searchHits.getSearchHits().stream()
+        var searchHits = elasticsearchOperations.search(nativeQueryBuilder.build(), ArticleSearchDto.class);
+        final var list = searchHits.getSearchHits().stream()
                 .map(item -> {
-                    final ArticleSearchDto content = item.getContent();
+                    final var content = item.getContent();
                     final List<String> title = item.getHighlightFields().get("title");
                     final List<String> contentList = item.getHighlightFields().get("content");
                     return content;
@@ -111,22 +97,22 @@ public class ApiArticleSearchService {
     }
 
     /**
-     * 关键字查询
+     * 原生模式关键字查询
      */
     private void setKeyWordAndHighlightField(ArticleSearchDto articleSearchDto, NativeQueryBuilder nativeQueryBuilder, BoolQuery.Builder boolBuilder) {
-        final String keyword = articleSearchDto.getKeyword();
+        final var keyword = articleSearchDto.getKeyword();
         boolBuilder.must(b -> b.multiMatch(m -> m.fields("title", "content").query(keyword)));
         // 高亮
-        final HighlightFieldParameters.HighlightFieldParametersBuilder builder = HighlightFieldParameters.builder()
+        final var builder = HighlightFieldParameters.builder()
                 .withPreTags("<font color='red'>")
                 .withPostTags("</font>")
                 .withRequireFieldMatch(true) // 只有在字段匹配时才添加标签
                 .withNumberOfFragments(0); // 显示全文
 
-        final HighlightField titleHighlightField = new HighlightField("title", builder.build());
-        final HighlightField contentHighlightField = new HighlightField("content", builder.build());
+        final var titleHighlightField = new HighlightField("title", builder.build());
+        final var contentHighlightField = new HighlightField("content", builder.build());
         // 创建高亮对象，包含标题和内容字段的高亮设置
-        final Highlight titleHighlight = new Highlight(List.of(titleHighlightField, contentHighlightField));
+        final var titleHighlight = new Highlight(List.of(titleHighlightField, contentHighlightField));
 
         // 创建函数评分查询，使用 bool 查询构建器中的条件
         nativeQueryBuilder.withQuery(f -> f.functionScore(
