@@ -63,7 +63,7 @@ public class TokenFilter implements GlobalFilter {
 
 		ServerHttpRequest request = exchange.getRequest();
 		String jwtToken = request.getHeaders().getFirst("Authorization");
-		String method = request.getMethodValue();
+		String method = request.getMethod().name();
 		String url = request.getPath().value();
 		log.info("url:{},method:{},headers:{}", url, method, request.getHeaders());
 		//不需要网关签权的url

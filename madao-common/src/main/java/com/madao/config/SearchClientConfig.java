@@ -1,10 +1,14 @@
 package com.madao.config;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import com.madao.model.dto.article.ArticleSearchDto;
+import jakarta.annotation.PostConstruct;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.elasticsearch.client.ClientConfiguration;
-import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfiguration;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.IndexOperations;
+import org.springframework.data.elasticsearch.core.index.AliasAction;
+import org.springframework.data.elasticsearch.core.index.AliasActionParameters;
+import org.springframework.data.elasticsearch.core.index.AliasActions;
 
 /**
  * ES配置
@@ -17,26 +21,33 @@ import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfigurat
  * @created 2021/11/23/ 22:09:00
  */
 @Configuration
-@ConditionalOnProperty(value = "elasticsearch.host")
-public class SearchClientConfig extends ElasticsearchConfiguration {
+@AllArgsConstructor
+public class SearchClientConfig {
 
-	@Value("${elasticsearch.host}")
-	private String host;
+    private final ElasticsearchOperations elasticsearchOperations;
 
-	@Value("${elasticsearch.port}")
-	private int port;
+    /**
+     * 初始化ES索引的别名
+     */
+    @PostConstruct
+    public void initAlias() {
+        IndexOperations indexOps = elasticsearchOperations.indexOps(ArticleSearchDto.class);
+        indexOps.alias(
+                new AliasActions()
+                        .add(new AliasAction.Add(
+                                        AliasActionParameters.builder()
+                                                .withIndices("article_search")
+                                                .withAliases("article_se_v1")
+                                                .build()
+                                )
+                        ).add(new AliasAction.Add(
+                                        AliasActionParameters.builder()
+                                                .withIndices("article_search")
+                                                .withAliases("article_se_v2")
+                                                .build()
+                                )
+                        )
+        );
+    }
 
-	@Value("${elasticsearch.username}")
-	private String userName;
-
-	@Value("${elasticsearch.password}")
-	private String password;
-
-	@Override
-	public ClientConfiguration clientConfiguration() {
-		return ClientConfiguration.builder()
-				.connectedTo(host + ":" + port)
-				.withBasicAuth(userName, password)
-				.build();
-	}
 }

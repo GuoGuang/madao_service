@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.2</version>
+        <version>3.2.0</version>
     </parent>
 
     <properties>
@@ -21,16 +21,16 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
         <jackson.version>2.15.2</jackson.version>
-        <spring.cloud.version>2022.0.3</spring.cloud.version>
+        <spring.cloud.version>2023.0.0</spring.cloud.version>
         <spring.security.oauth2.version>2.3.6.RELEASE</spring.security.oauth2.version>
         <netflix.eureka.version>2.0.6.RELEASE</netflix.eureka.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <logstash-logback-encoder.version>7.4</logstash-logback-encoder.version>
         <logback-kafka-appender.version>0.2.0-RC2</logback-kafka-appender.version>
-        <springdoc.version>1.7.0</springdoc.version>
-        <spring-cloud-starter-openfeign.version>2.1.1.RELEASE</spring-cloud-starter-openfeign.version>
         <madao-service-api.version>1.0.0</madao-service-api.version>
+        <springdoc-openapi-starter-webmvc-ui>2.3.0</springdoc-openapi-starter-webmvc-ui>
+        <springdoc-openapi-starter-webflux-ui.version>2.3.0</springdoc-openapi-starter-webflux-ui.version>
         <jjwt.version>0.11.2</jjwt.version>
     </properties>
 
@@ -53,19 +53,16 @@
             <scope>runtime</scope>
             <version>${jjwt.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${org.mapstruct.version}</version>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -104,14 +101,16 @@
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${springdoc.version}</version>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc-openapi-starter-webmvc-ui}</version>
         </dependency>
-
-
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mysql</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -120,7 +119,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
-            <version>${spring-cloud-starter-openfeign.version}</version>
         </dependency>
         <!-- 从Git中读取配置时所需jar -->
         <dependency>

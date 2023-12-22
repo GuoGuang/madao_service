@@ -57,7 +57,7 @@ public class OauthWebServerSecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers("/auth/**", "/connect/**",
-                "/v2/api-docs",
+                "/v3/api-docs",
                 "/swagger-resources/**",
                 "/swagger-ui/**");
     }
@@ -75,7 +75,7 @@ public class OauthWebServerSecurityConfig {
         http.httpBasic().and()
                 .authorizeRequests()
                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
-                .requestMatchers("/v2/api-docs",
+                .requestMatchers("/v3/api-docs",
                         "/swagger-resources/**",
                         "/swagger-ui/**").permitAll()
                 .and()

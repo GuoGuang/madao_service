@@ -4,9 +4,14 @@ import com.madao.article.service.blog.ApiArticleSearchService;
 import com.madao.model.dto.article.ArticleSearchDto;
 import com.madao.utils.JsonData;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @RestController
 @RequestMapping("/article")
@@ -21,6 +26,12 @@ public class ArticleSearchController {
 		return JsonData.success(articles);
 	}
 
+	@PostMapping(value = "/search")
+	public JsonData<Page<ArticleSearchDto>> searchArticleByCondition(@RequestBody ArticleSearchDto articleSearchDto, @PageableDefault(sort = "topDate", direction = DESC) Pageable pageable) {
+		Page<ArticleSearchDto> articles = articleSearchService.searchByDtoAndPage(articleSearchDto, pageable);
+		return JsonData.success(articles);
+	}
+
 	@GetMapping(value = "/{id}")
 	public JsonData<ArticleSearchDto> findArticleByPrimaryKey(@PathVariable String id) {
 		ArticleSearchDto result = articleSearchService.findArticleByPrimaryKey(id);
@@ -30,7 +41,7 @@ public class ArticleSearchController {
 	@PostMapping
 	public JsonData<Void> insertArticle(@RequestBody ArticleSearchDto article) {
 		articleSearchService.insertArticle(article);
-		return JsonData.success(null);
+		return JsonData.success();
 	}
 
 	@PutMapping(value = "/{id}")
