@@ -45,7 +45,7 @@ public class SecurityFilterChainConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(HttpMethod.GET, "/user/info").permitAll()
                         .requestMatchers(
-                                "/v2/api-docs",
+                                "/v3/api-docs",
                                 "/api/**",
                                 "/swagger-resources/**",
                                 "/management/health/**",
