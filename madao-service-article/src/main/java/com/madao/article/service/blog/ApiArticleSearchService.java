@@ -89,11 +89,10 @@ public class ApiArticleSearchService {
         final var list = searchHits.getSearchHits().stream()
                 .map(item -> {
                     final var content = item.getContent();
-                    final List<String> title = item.getHighlightFields().get("title");
-                    final List<String> contentList = item.getHighlightFields().get("content");
+                    content.setTitle(String.join("", item.getHighlightFields().get("title")));
                     return content;
                 }).toList();
-        return new PageImpl<>(list);
+        return new PageImpl<>(list,pageable,searchHits.getTotalHits());
     }
 
     /**
@@ -108,11 +107,7 @@ public class ApiArticleSearchService {
                 .withPostTags("</font>")
                 .withRequireFieldMatch(true) // 只有在字段匹配时才添加标签
                 .withNumberOfFragments(0); // 显示全文
-
-        final var titleHighlightField = new HighlightField("title", builder.build());
-        final var contentHighlightField = new HighlightField("content", builder.build());
-        // 创建高亮对象，包含标题和内容字段的高亮设置
-        final var titleHighlight = new Highlight(List.of(titleHighlightField, contentHighlightField));
+        final var titleHighlight = new Highlight(List.of(new HighlightField("title", builder.build())));
 
         // 创建函数评分查询，使用 bool 查询构建器中的条件
         nativeQueryBuilder.withQuery(f -> f.functionScore(

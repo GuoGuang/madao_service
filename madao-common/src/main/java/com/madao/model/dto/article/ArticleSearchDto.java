@@ -2,9 +2,7 @@ package com.madao.model.dto.article;
 
 import com.madao.model.BasePojo;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
 
@@ -22,6 +20,8 @@ import java.time.LocalDate;
  */
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Document(indexName = "article_search")
 @Setting(
@@ -42,7 +42,7 @@ public class ArticleSearchDto extends BasePojo implements Serializable {
     private String columnId;
     private String userId;
     //    @Field(analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text)
     private String title;
     @Field(type = FieldType.Keyword)
     private String content;
@@ -62,7 +62,7 @@ public class ArticleSearchDto extends BasePojo implements Serializable {
     private String state;
     private String channelId;
     private String url;
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     private String type;
     @Field(type = FieldType.Date, format = DateFormat.date)
     private LocalDate topDate;
