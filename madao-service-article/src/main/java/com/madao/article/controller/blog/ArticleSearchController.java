@@ -32,6 +32,18 @@ public class ArticleSearchController {
 		return JsonData.success(articles);
 	}
 
+
+	/**
+	 * 测试搜索
+	 * @param articleSearchDto
+	 * @param pageable
+	 * @return
+	 */
+	@PostMapping(value = "/search-group")
+	public JsonData<Object> searchArticleByConditiongroup(@RequestBody ArticleSearchDto articleSearchDto, @PageableDefault(sort = "topDate", direction = DESC) Pageable pageable) {
+		return JsonData.success(articleSearchService.findByTerm(articleSearchDto,pageable));
+	}
+
 	@GetMapping(value = "/{id}")
 	public JsonData<ArticleSearchDto> findArticleByPrimaryKey(@PathVariable String id) {
 		ArticleSearchDto result = articleSearchService.findArticleByPrimaryKey(id);

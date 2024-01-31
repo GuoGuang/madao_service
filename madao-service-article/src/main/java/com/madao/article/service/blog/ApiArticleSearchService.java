@@ -1,5 +1,6 @@
 package com.madao.article.service.blog;
 
+import co.elastic.clients.elasticsearch._types.FieldValue;
 import co.elastic.clients.elasticsearch._types.query_dsl.*;
 import co.elastic.clients.json.JsonData;
 import com.madao.article.search.ApiArticleSearchDao;
@@ -31,15 +32,87 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ApiArticleSearchService {
 
+    public static final String TITLE = "title";
     private final ApiArticleSearchDao articleSearchDao;
 
     private final ElasticsearchOperations elasticsearchOperations;
+
+
+    /**
+     * 查询所有数据
+     */
+    public List<ArticleSearchDto> findAll(Pageable pageable) {
+        final var nativeQueryBuilder = new NativeQueryBuilder();
+        final var query = new MatchAllQuery.Builder();
+        nativeQueryBuilder.withPageable(pageable);
+        nativeQueryBuilder.withQuery(query.build()._toQuery());
+        var searchHits = elasticsearchOperations.search(nativeQueryBuilder.build(), ArticleSearchDto.class);
+        return searchHits.getSearchHits().stream()
+                .map(SearchHit::getContent).toList();
+    }
+
+    /**
+     * 精确查询term
+     */
+    public List<ArticleSearchDto> findByTerm(ArticleSearchDto articleSearchDto, Pageable pageable) {
+        final var nativeQueryBuilder = new NativeQueryBuilder();
+        final var query = new TermQuery.Builder();
+        query.field(TITLE).value(articleSearchDto.getTitle());
+        nativeQueryBuilder.withPageable(pageable);
+        nativeQueryBuilder.withQuery(query.build()._toQuery());
+        var searchHits = elasticsearchOperations.search(nativeQueryBuilder.build(), ArticleSearchDto.class);
+        return searchHits.getSearchHits().stream()
+                .map(SearchHit::getContent).toList();
+    }
+
+    /**
+     * 精确查询terms
+     */
+    public List<ArticleSearchDto> findByTerms(List<String> title, Pageable pageable) {
+        final var nativeQueryBuilder = new NativeQueryBuilder();
+        final var query = new TermsQuery.Builder();
+        query.field(TITLE)
+                .terms(term ->
+                        term.value(
+                                title.stream()
+                                .map(FieldValue::of)
+                                .collect(Collectors.toList())
+                        )
+                );
+        nativeQueryBuilder.withPageable(pageable);
+        nativeQueryBuilder.withQuery(query.build()._toQuery());
+        var searchHits = elasticsearchOperations.search(nativeQueryBuilder.build(), ArticleSearchDto.class);
+        return searchHits.getSearchHits().stream()
+                .map(SearchHit::getContent).toList();
+    }
+
+
+
+    /**
+     *
+     */
+    public List<ArticleSearchDto> xxxxx(String title, Pageable pageable) {
+        final var nativeQueryBuilder = new NativeQueryBuilder();
+        final var query = new BoolQuery.Builder();
+        query.must(builder ->
+                builder.multiMatch(match ->
+                        match.fields(TITLE, "content").query(title)
+                )
+        );
+        nativeQueryBuilder.withPageable(pageable);
+        nativeQueryBuilder.withQuery(query.build()._toQuery());
+        var searchHits = elasticsearchOperations.search(nativeQueryBuilder.build(), ArticleSearchDto.class);
+        return searchHits.getSearchHits().stream()
+                .map(SearchHit::getContent).toList();
+    }
+
+
 
     public List<ArticleSearchDto> searchArticleByCondition(String keywords, Integer page, Integer size) {
         var expectedDate = "2014-10-29";
         var expectedWord = "Scala";
         // 面向对象的查询方式
-        var criteria = new Criteria("title")
+        var criteria = new Criteria(TITLE)
                 .contains(expectedWord)
                 .and(
                         new Criteria("startDate").greaterThanEqual(expectedDate)
@@ -89,10 +162,10 @@ public class ApiArticleSearchService {
         final var list = searchHits.getSearchHits().stream()
                 .map(item -> {
                     final var content = item.getContent();
-                    content.setTitle(String.join("", item.getHighlightFields().get("title")));
+                    content.setTitle(String.join("", item.getHighlightFields().get(TITLE)));
                     return content;
                 }).toList();
-        return new PageImpl<>(list,pageable,searchHits.getTotalHits());
+        return new PageImpl<>(list, pageable, searchHits.getTotalHits());
     }
 
     /**
@@ -100,14 +173,14 @@ public class ApiArticleSearchService {
      */
     private void setKeyWordAndHighlightField(ArticleSearchDto articleSearchDto, NativeQueryBuilder nativeQueryBuilder, BoolQuery.Builder boolBuilder) {
         final var keyword = articleSearchDto.getKeyword();
-        boolBuilder.must(b -> b.multiMatch(m -> m.fields("title", "content").query(keyword)));
+        boolBuilder.must(b -> b.multiMatch(m -> m.fields(TITLE, "content").query(keyword)));
         // 高亮
         final var builder = HighlightFieldParameters.builder()
                 .withPreTags("<font color='red'>")
                 .withPostTags("</font>")
                 .withRequireFieldMatch(true) // 只有在字段匹配时才添加标签
                 .withNumberOfFragments(0); // 显示全文
-        final var titleHighlight = new Highlight(List.of(new HighlightField("title", builder.build())));
+        final var titleHighlight = new Highlight(List.of(new HighlightField(TITLE, builder.build())));
 
         // 创建函数评分查询，使用 bool 查询构建器中的条件
         nativeQueryBuilder.withQuery(f -> f.functionScore(
@@ -115,7 +188,7 @@ public class ApiArticleSearchService {
                                 .functions(
                                         // 标题字段匹配权重为 100.0
                                         FunctionScore.of(func -> func.filter(
-                                                fq -> fq.match(ft -> ft.field("title").query(keyword))).weight(100.0)),
+                                                fq -> fq.match(ft -> ft.field(TITLE).query(keyword))).weight(100.0)),
                                         // 内容字段匹配权重为 20.0
                                         FunctionScore.of(func -> func.filter(
                                                 fq -> fq.match(ft -> ft.field("content").query(keyword))).weight(20.0))
