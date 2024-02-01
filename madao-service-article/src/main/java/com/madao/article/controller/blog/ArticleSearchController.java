@@ -40,8 +40,8 @@ public class ArticleSearchController {
 	 * @return
 	 */
 	@PostMapping(value = "/search-group")
-	public JsonData<Object> searchArticleByConditiongroup(@RequestBody ArticleSearchDto articleSearchDto, @PageableDefault(sort = "topDate", direction = DESC) Pageable pageable) {
-		return JsonData.success(articleSearchService.findByTerm(articleSearchDto,pageable));
+	public JsonData<Object> searchArticleByConditiongroup(@RequestBody ArticleSearchDto articleSearchDto, @PageableDefault Pageable pageable) {
+		return JsonData.success(articleSearchService.findByFilter(articleSearchDto.getTitle(),pageable));
 	}
 
 	@GetMapping(value = "/{id}")
@@ -52,14 +52,14 @@ public class ArticleSearchController {
 
 	@PostMapping
 	public JsonData<Void> insertArticle(@RequestBody ArticleSearchDto article) {
-		articleSearchService.insertArticle(article);
+		articleSearchService.saveOrUpdateArticle(article);
 		return JsonData.success();
 	}
 
 	@PutMapping(value = "/{id}")
 	public JsonData<Void> updateByPrimaryKeySelective(@RequestBody ArticleSearchDto article, @PathVariable String id) {
 		article.setId(id);
-		articleSearchService.updateByPrimaryKey(article);
+		articleSearchService.saveOrUpdateArticle(article);
 		return JsonData.success(null);
 	}
 
