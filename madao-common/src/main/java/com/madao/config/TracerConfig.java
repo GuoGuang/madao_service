@@ -40,6 +40,23 @@ public class TracerConfig {
     @Bean
     WebFilter tracerWebFilter(Optional<Tracer> tracer) {
         return (exchange, chain) -> chain.filter(exchange)
+                .doOnRequest(request -> tracer.ifPresent(t -> {
+                    // 执行请求前传播字段：请求地址，请求人，请求方法，方便进一步排查问题
+                    t.createBaggageInScope(ClassicConstants.REQUEST_REQUEST_URI, exchange.getRequest().getURI().getPath());
+                    t.createBaggageInScope(ClassicConstants.REQUEST_QUERY_STRING, exchange.getRequest().getURI().getQuery());
+                    t.createBaggageInScope(ClassicConstants.REQUEST_METHOD, exchange.getRequest().getMethod().name());
+
+                    // 获取请求中的实例ID作为传播的一部分，此实例标识用于前端来指定调用哪个IP，仅适用于开发环境联调使用
+                    String instance = exchange.getRequest().getHeaders().getFirst("INSTANCE");
+                    String authorization = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+                    t.createBaggageInScope("INSTANCE", instance);
+
+                    //  日志中添加USER-ID，便于基于USER-ID分析用户行为
+                    if (StringUtils.isNotEmpty(authorization) & StringUtils.startsWith(authorization, JWTAuthentication.BEARER)) {
+                        JSONObject jsonObject = JWTAuthentication.parseJwtToClaimsAsJSONObject(authorization);
+                        t.createBaggageInScope(t.currentTraceContext().context(),"USER-ID", jsonObject.getStr("user_name"));
+                    }
+                }))
                 // 执行完请求后将相关traceId、spanID返回前端，方便排查
                 .doOnSubscribe(subscription -> tracer.ifPresent(t -> {
                     Optional.ofNullable(t.currentSpan()).map(Span::context).ifPresent(context -> exchange.getResponse().beforeCommit(() -> {
@@ -48,21 +65,6 @@ public class TracerConfig {
                         Optional.ofNullable(context.parentId()).ifPresent(parentId -> exchange.getResponse().getHeaders().add("parentId", parentId));
                         return Mono.empty();
                     }));
-                    // 执行请求前传播字段：请求地址，请求人，请求方法，方便进一步排查问题
-                    t.createBaggageInScope(ClassicConstants.REQUEST_REQUEST_URI, exchange.getRequest().getURI().getPath()).close();
-                    t.createBaggageInScope(ClassicConstants.REQUEST_QUERY_STRING, exchange.getRequest().getURI().getQuery()).close();
-                    t.createBaggageInScope(ClassicConstants.REQUEST_METHOD, exchange.getRequest().getMethod().name()).close();
-
-                    // 获取请求中的实例ID作为传播的一部分，此实例标识用于前端来指定调用哪个IP，仅适用于开发环境联调使用
-                    String instance = exchange.getRequest().getHeaders().getFirst("INSTANCE");
-                    String authorization = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-                    t.createBaggageInScope("INSTANCE", instance).close();
-
-                    //  日志中添加USER-ID，便于基于USER-ID分析用户行为
-                    if (StringUtils.isNotEmpty(authorization) & StringUtils.startsWith(authorization, JWTAuthentication.BEARER)) {
-                        JSONObject jsonObject = JWTAuthentication.parseJwtToClaimsAsJSONObject(authorization);
-                        t.createBaggageInScope("USER-ID", jsonObject.getStr("user_name")).close();
-                    }
                 }));
     }
 
