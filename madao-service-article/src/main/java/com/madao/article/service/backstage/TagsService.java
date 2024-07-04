@@ -1,8 +1,8 @@
 package com.madao.article.service.backstage;
 
-import com.madao.article.dao.backstage.ArticleTagDao;
-import com.madao.article.dao.backstage.TagDao;
 import com.madao.article.mapper.TagMapper;
+import com.madao.article.repository.backstage.ArticleTagRepository;
+import com.madao.article.repository.backstage.TagRepository;
 import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.dto.article.TagDto;
 import com.madao.model.entity.article.ArticleTag;
@@ -32,8 +32,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class TagsService {
 
-	private final TagDao tagDao;
-	private final ArticleTagDao articleTagDao;
+	private final TagRepository tagRepository;
+	private final ArticleTagRepository articleTagRepository;
 	private final TagMapper tagMapper;
 
 	public Page<TagDto> findTagsByCondition(TagDto tagDto, Pageable pageable) {
@@ -47,10 +47,10 @@ public class TagsService {
 			}
 			return query.where(predicates.toArray(new Predicate[0])).getRestriction();
 		};
-		Page<TagDto> tagsQueryResults = tagDao.findAll(condition, pageable)
+		Page<TagDto> tagsQueryResults = tagRepository.findAll(condition, pageable)
 				.map(tagMapper::toDto);
 
-		List<ArticleTag> articleTags = articleTagDao.findAllByTagIdIn(tagsQueryResults.getContent().stream().map(TagDto::getId).toList());
+		List<ArticleTag> articleTags = articleTagRepository.findAllByTagIdIn(tagsQueryResults.getContent().stream().map(TagDto::getId).toList());
 
 		Map<String, List<ArticleTag>> tagIds = articleTags.stream()
 				.collect(Collectors.groupingBy(ArticleTag::getTagId));
@@ -64,19 +64,19 @@ public class TagsService {
 	}
 
 	public TagDto findTagsById(String id) {
-		return tagDao.findById(id).map(tagMapper::toDto).orElseThrow(ResourceNotFoundException::new);
+		return tagRepository.findById(id).map(tagMapper::toDto).orElseThrow(ResourceNotFoundException::new);
 	}
 
 	public void saveOrUpdate(TagDto tagDto) {
 		if (StringUtils.isNotBlank(tagDto.getId())) {
-			Tag tempTags = tagDao.findById(tagDto.getId()).orElseThrow(ResourceNotFoundException::new);
+			Tag tempTags = tagRepository.findById(tagDto.getId()).orElseThrow(ResourceNotFoundException::new);
 			BeanUtil.copyProperties(tempTags, tagDto);
 		}
-		tagDao.save(tagMapper.toEntity(tagDto));
+		tagRepository.save(tagMapper.toEntity(tagDto));
 	}
 
 	public void deleteBatch(List<String> tagIds) {
-		tagDao.deleteBatch(tagIds);
-		articleTagDao.deleteByTagIdIn(tagIds);
+		tagRepository.deleteBatch(tagIds);
+		articleTagRepository.deleteByTagIdIn(tagIds);
 	}
 }

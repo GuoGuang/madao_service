@@ -1,7 +1,7 @@
 package com.madao.base.service.backstage;
 
-import com.madao.base.dao.DictDao;
 import com.madao.base.mapper.DictMapper;
+import com.madao.base.repository.DictRepository;
 import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.dto.base.DictDto;
 import com.madao.model.entity.base.Dict;
@@ -31,7 +31,7 @@ import java.util.List;
 @AllArgsConstructor
 public class DictService {
 
-	private final DictDao dictDao;
+	private final DictRepository dictRepository;
 	private final DictMapper dictMapper;
 
 	/**
@@ -51,7 +51,7 @@ public class DictService {
 			}
 			return query.where(predicates.toArray(new jakarta.persistence.criteria.Predicate[0])).getRestriction();
 		};
-		return dictDao.findAll(condition, pageable).map(dictMapper::toDto);
+		return dictRepository.findAll(condition, pageable).map(dictMapper::toDto);
 	}
 
 	/**
@@ -61,27 +61,27 @@ public class DictService {
 	 * @return List
 	 */
 	public List<DictDto> fetchDictTreeList(DictDto dictDto) {
-		return dictDao.findAllByType(dictDto.getType())
+		return dictRepository.findAllByType(dictDto.getType())
 				.map(dictMapper::toDto)
 				.orElseThrow(ResourceNotFoundException::new);
 	}
 
 	public DictDto findDictById(String resId) {
-		return dictDao.findById(resId)
+		return dictRepository.findById(resId)
 				.map(dictMapper::toDto)
 				.orElseThrow(ResourceNotFoundException::new);
 	}
 
 	public void saveOrUpdate(DictDto dictDto) {
 		if (StringUtils.isNotBlank(dictDto.getId())) {
-			Dict tempDict = dictDao.findById(dictDto.getId()).orElseThrow(ResourceNotFoundException::new);
+			Dict tempDict = dictRepository.findById(dictDto.getId()).orElseThrow(ResourceNotFoundException::new);
 			BeanUtil.copyProperties(tempDict, dictDto);
 		}
-		dictDao.save(dictMapper.toEntity(dictDto));
+		dictRepository.save(dictMapper.toEntity(dictDto));
 	}
 
 	public void deleteBatch(List<String> resId) {
-		dictDao.deleteBatch(resId);
+		dictRepository.deleteBatch(resId);
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class DictService {
 	 */
 	public List<DictDto> findIdNameTypeByParentId(DictDto dictDto) {
 		log.info("参数：{}", dictDto);
-		return dictDao.findByParentId("0")
+		return dictRepository.findByParentId("0")
 				.map(dictMapper::toDto)
 				.orElseThrow(ResourceNotFoundException::new);
 	}

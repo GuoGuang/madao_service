@@ -1,11 +1,11 @@
 package com.madao.article.service.backstage;
 
 import com.madao.api.UserServiceRpc;
-import com.madao.article.dao.backstage.ArticleDao;
-import com.madao.article.dao.backstage.ArticleTagDao;
-import com.madao.article.dao.backstage.TagDao;
 import com.madao.article.mapper.ArticleMapper;
 import com.madao.article.mapper.TagMapper;
+import com.madao.article.repository.backstage.ArticleRepository;
+import com.madao.article.repository.backstage.ArticleTagRepository;
+import com.madao.article.repository.backstage.TagRepository;
 import com.madao.enums.ArticleAuditStatus;
 import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.dto.article.ArticleDto;
@@ -37,13 +37,13 @@ import java.util.*;
 public class ArticleService {
 
 	public static final Random RANDOM = new Random();
-	private final ArticleDao articleDao;
+	private final ArticleRepository articleRepository;
 	private final ArticleMapper articleMapper;
 
 	private final RedisUtil redisUtil;
 
-	private final ArticleTagDao articleTagDao;
-	private final TagDao tagDao;
+	private final ArticleTagRepository articleTagRepository;
+	private final TagRepository tagRepository;
 	private final TagMapper tagMapper;
 	private final UserServiceRpc userServiceRpc;
 
@@ -78,7 +78,7 @@ public class ArticleService {
 			return query.where(predicates.toArray(new jakarta.persistence.criteria.Predicate[0])).getRestriction();
 		};
 
-		Page<ArticleDto> queryResults = articleDao.findAll(condition, pageable)
+		Page<ArticleDto> queryResults = articleRepository.findAll(condition, pageable)
 				.map(articleMapper::toDto);
 
 		JsonData<List<UserDto>> userInfoByIds = userServiceRpc.getUserInfoByIds(queryResults.getContent().stream()
@@ -101,11 +101,11 @@ public class ArticleService {
 	 * @return Article
 	 */
 	public ArticleDto findArticleById(String articleId) {
-		ArticleDto articleDto = articleDao.findById(articleId)
+		ArticleDto articleDto = articleRepository.findById(articleId)
 				.map(articleMapper::toDto)
 				.orElseThrow(ResourceNotFoundException::new);
 
-		articleDto.setTags(tagDao.findTagsByArticleId(articleId)
+		articleDto.setTags(tagRepository.findTagsByArticleId(articleId)
 				.map(tagMapper::toDto)
 				.orElse(Collections.emptyList()));
 
@@ -127,16 +127,16 @@ public class ArticleService {
 			}
 		} else {
 			redisUtil.del("ARTICLE_" + articleDto.getId());
-			articleTagDao.deleteByArticleIdIn(Collections.singletonList(articleDto.getId()));
+			articleTagRepository.deleteByArticleIdIn(Collections.singletonList(articleDto.getId()));
 		}
 
-		Article articleResult = articleDao.save(articleMapper.toEntity(articleDto));
+		Article articleResult = articleRepository.save(articleMapper.toEntity(articleDto));
 
 		List<ArticleTag> articleTags = Arrays.stream(articleDto.getTagsId().split(","))
 				.map(tagsId -> new ArticleTag(articleResult.getId(), tagsId))
 				.toList();
 
-		articleTagDao.saveAll(articleTags);
+		articleTagRepository.saveAll(articleTags);
 
 		if (isCreate) {
 			redisUtil.lSet("ARTICLE_HOT", articleResult);
@@ -149,8 +149,8 @@ public class ArticleService {
 	 * @param articleIds:文章id集合
 	 */
 	public void deleteArticleByIds(List<String> articleIds) {
-		articleDao.deleteBatch(articleIds);
-		articleTagDao.deleteByArticleIdIn(articleIds);
+		articleRepository.deleteBatch(articleIds);
+		articleTagRepository.deleteByArticleIdIn(articleIds);
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class ArticleService {
 	 * @param id
 	 */
 	public void examine(String id) {
-		articleDao.examine(id);
+		articleRepository.examine(id);
 	}
 
 }

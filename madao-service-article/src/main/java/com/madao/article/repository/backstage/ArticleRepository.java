@@ -1,4 +1,4 @@
-package com.madao.article.dao.backstage;
+package com.madao.article.repository.backstage;
 
 import com.madao.model.entity.article.Article;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,7 +17,7 @@ import java.util.List;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
-public interface ArticleDao extends JpaRepository<Article, String>,
+public interface ArticleRepository extends JpaRepository<Article, String>,
 		JpaSpecificationExecutor<Article>, QuerydslPredicateExecutor<Article> {
 
 	@Modifying

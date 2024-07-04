@@ -18,7 +18,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * @created 2019-09-29 7:37
  */
 @EnableSpringCloudComponent
-@EnableJpaRepositories("com.madao.base.dao")
+@EnableJpaRepositories("com.madao.base.repository")
 public class BaseApplication extends BasicApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BaseApplication.class, args);

@@ -1,7 +1,7 @@
 package com.madao.article.service.backstage;
 
-import com.madao.article.dao.backstage.CommentDao;
 import com.madao.article.mapper.CommentMapper;
+import com.madao.article.repository.backstage.CommentRepository;
 import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.dto.article.CommentDto;
 import com.madao.model.entity.article.Comment;
@@ -28,7 +28,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CommentService {
 
-	private final CommentDao commentDao;
+	private final CommentRepository commentRepository;
 	private final CommentMapper commentMapper;
 
 	public Page<CommentDto> findCommentByCondition(CommentDto commentDto, Pageable pageable) {
@@ -39,23 +39,23 @@ public class CommentService {
 			}
 			return query.where(predicates.toArray(new Predicate[0])).getRestriction();
 		};
-		return commentDao.findAll(condition, pageable).map(commentMapper::toDto);
+		return commentRepository.findAll(condition, pageable).map(commentMapper::toDto);
 	}
 
 	public CommentDto findCommentByPrimaryKey(String commentId) {
-		return commentDao.findById(commentId).map(commentMapper::toDto).orElseThrow(ResourceNotFoundException::new);
+		return commentRepository.findById(commentId).map(commentMapper::toDto).orElseThrow(ResourceNotFoundException::new);
 	}
 
 	public void saveOrUpdate(CommentDto commentDto) {
 		if (StringUtils.isNotBlank(commentDto.getId())) {
-			Comment tempComment = commentDao.findById(commentDto.getId()).orElseThrow(ResourceNotFoundException::new);
+			Comment tempComment = commentRepository.findById(commentDto.getId()).orElseThrow(ResourceNotFoundException::new);
 			BeanUtil.copyProperties(tempComment, commentDto);
 		}
-		commentDao.save(commentMapper.toEntity(commentDto));
+		commentRepository.save(commentMapper.toEntity(commentDto));
 	}
 
 	public void deleteCommentByIds(List<String> commentIds) {
-		commentDao.deleteBatch(commentIds);
+		commentRepository.deleteBatch(commentIds);
 	}
 
 }

@@ -23,7 +23,7 @@ import java.util.Arrays;
  * @created 2019-09-29 7:37
  */
 @EnableSpringCloudComponent
-@EnableJpaRepositories("com.madao.article.dao")
+@EnableJpaRepositories("com.madao.article.repository")
 @EnableElasticsearchRepositories("com.madao.article.search")
 public class ArticleApplication extends BasicApplication {
 

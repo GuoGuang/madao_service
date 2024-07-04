@@ -1,8 +1,8 @@
 package com.madao.base.service.backstage;
 
 import com.madao.api.UserServiceRpc;
-import com.madao.base.dao.OptLogDao;
 import com.madao.base.mapper.OptLogMapper;
+import com.madao.base.repository.OptLogRepository;
 import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.dto.base.OptLogDto;
 import com.madao.model.dto.user.UserDto;
@@ -30,7 +30,7 @@ import java.util.List;
 @AllArgsConstructor
 public class OptLogService {
 
-	private final OptLogDao optLogDao;
+	private final OptLogRepository optLogRepository;
 	private final OptLogMapper optLogMapper;
 	private final UserServiceRpc userServiceRpc;
 
@@ -47,7 +47,7 @@ public class OptLogService {
 			}
 			return query.where(predicates.toArray(new jakarta.persistence.criteria.Predicate[0])).getRestriction();
 		};
-		Page<OptLogDto> queryResults = optLogDao.findAll(condition, pageable)
+		Page<OptLogDto> queryResults = optLogRepository.findAll(condition, pageable)
 				.map(optLogMapper::toDto);
 
 		JsonData<List<UserDto>> userInfoByIds = userServiceRpc.getUserInfoByIds(queryResults.getContent().stream()
@@ -69,7 +69,7 @@ public class OptLogService {
 	 * @return OptLog
 	 */
 	public OptLogDto findById(String id) {
-		return optLogDao.findById(id)
+		return optLogRepository.findById(id)
 				.map(optLogMapper::toDto)
 				.orElseThrow(ResourceNotFoundException::new);
 	}
@@ -81,14 +81,14 @@ public class OptLogService {
 	 */
 	public void insertOptLog(OptLogDto optLogDto) {
 		if (StringUtils.isNotBlank(optLogDto.getId())) {
-			OptLog tempOptLog = optLogDao.findById(optLogDto.getId()).orElseThrow(ResourceNotFoundException::new);
+			OptLog tempOptLog = optLogRepository.findById(optLogDto.getId()).orElseThrow(ResourceNotFoundException::new);
 			BeanUtil.copyProperties(tempOptLog, optLogDto);
 		}
-		optLogDao.save(optLogMapper.toEntity(optLogDto));
+		optLogRepository.save(optLogMapper.toEntity(optLogDto));
 	}
 
 	public void deleteBatch(List<String> resId) {
-		optLogDao.deleteBatch(resId);
+		optLogRepository.deleteBatch(resId);
 	}
 }
 

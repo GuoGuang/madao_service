@@ -1,4 +1,4 @@
-package com.madao.article.dao.blog;
+package com.madao.article.repository.blog;
 
 import com.madao.model.entity.article.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +11,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
-public interface ApiTagsDao extends JpaRepository<Tag, String>, JpaSpecificationExecutor<Tag> {
+public interface ApiTagsRepository extends JpaRepository<Tag, String>, JpaSpecificationExecutor<Tag> {
 
 }

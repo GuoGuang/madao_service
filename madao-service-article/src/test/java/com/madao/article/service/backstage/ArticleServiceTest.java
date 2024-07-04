@@ -1,9 +1,9 @@
 package com.madao.article.service.backstage;
 
 import com.madao.api.UserServiceRpc;
-import com.madao.article.dao.backstage.ArticleDao;
-import com.madao.article.dao.backstage.CategoryDao;
-import com.madao.article.dao.backstage.TagDao;
+import com.madao.article.repository.backstage.ArticleRepository;
+import com.madao.article.repository.backstage.CategoryRepository;
+import com.madao.article.repository.backstage.TagRepository;
 import com.madao.model.dto.article.ArticleDto;
 import com.madao.utils.JsonData;
 import com.madao.utils.RedisUtil;
@@ -20,15 +20,15 @@ import static org.mockito.Mockito.when;
 
 class ArticleServiceTest {
 	@Mock
-	ArticleDao articleDao;
+	ArticleRepository articleRepository;
 	@Mock
-	CategoryDao categoryDao;
+	CategoryRepository categoryRepository;
 	@Mock
 	RedisUtil redisUtil;
 	@Mock
 	UserServiceRpc userServiceRpc;
 	@Mock
-	TagDao tagDao;
+	TagRepository tagRepository;
 	@InjectMocks
 	ArticleService articleService;
 

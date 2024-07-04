@@ -1,8 +1,8 @@
 package com.madao.article.service.blog;
 
-import com.madao.article.dao.backstage.ArticleDao;
-import com.madao.article.dao.backstage.CommentDao;
 import com.madao.article.mapper.CommentMapper;
+import com.madao.article.repository.backstage.ArticleRepository;
+import com.madao.article.repository.backstage.CommentRepository;
 import com.madao.model.dto.article.CommentDto;
 import com.madao.model.entity.article.Article;
 import com.madao.model.entity.article.Comment;
@@ -27,12 +27,12 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ApiCommentService {
 
-	private final CommentDao commentDao;
-	private final ArticleDao articleDao;
+	private final CommentRepository commentRepository;
+	private final ArticleRepository articleRepository;
 	private final CommentMapper commentMapper;
 
 	public List<CommentDto> findCommentByCondition(String articleId) {
-		List<Comment> content = commentDao.findByArticleIdOrderByCreateAtDesc(articleId);
+		List<Comment> content = commentRepository.findByArticleIdOrderByCreateAtDesc(articleId);
 		List<CommentDto> commentDto = commentMapper.toDto(content);
 
 		Map<String, List<CommentDto>> subComment = commentDto.stream()
@@ -57,11 +57,11 @@ public class ApiCommentService {
 	 * @param commentId 评论表id
 	 */
 	public void upVote(String commentId) {
-		commentDao.updateUpVote(commentId);
+		commentRepository.updateUpVote(commentId);
 	}
 
 	public void unUpVote(String commentId) {
-		commentDao.updateUnUpVote(commentId);
+		commentRepository.updateUnUpVote(commentId);
 	}
 
 
@@ -69,12 +69,12 @@ public class ApiCommentService {
 		if (StringUtils.isBlank(comment.getId())) {
 			comment.setUpvote(0);
 		}
-		commentDao.save(comment);
+		commentRepository.save(comment);
 	}
 
 	public List<HashMap<Object, Object>> findMyComment(String userId) {
 
-		List<Comment> myCurrentComment = commentDao.findByUserIdAndParentIdIs(userId, "");
+		List<Comment> myCurrentComment = commentRepository.findByUserIdAndParentIdIs(userId, "");
 		if (myCurrentComment.isEmpty()) {
 			return Collections.emptyList();
 		}
@@ -83,7 +83,7 @@ public class ApiCommentService {
 				.stream()
 				.map(Comment::getArticleId)
 				.toList();
-		List<Article> articles = articleDao.findAllById(articleIds);
+		List<Article> articles = articleRepository.findAllById(articleIds);
 
 		return myCurrentComment.stream().flatMap(comment -> articles.stream()
 						.filter(article -> comment.getArticleId().equals(article.getId()))

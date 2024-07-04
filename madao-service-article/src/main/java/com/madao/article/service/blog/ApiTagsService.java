@@ -1,9 +1,9 @@
 package com.madao.article.service.blog;
 
 import com.madao.api.UserServiceRpc;
-import com.madao.article.dao.backstage.ArticleTagDao;
-import com.madao.article.dao.backstage.TagDao;
 import com.madao.article.mapper.TagMapper;
+import com.madao.article.repository.backstage.ArticleTagRepository;
+import com.madao.article.repository.backstage.TagRepository;
 import com.madao.constant.CommonConst;
 import com.madao.constant.RedisConstant;
 import com.madao.model.dto.article.TagDto;
@@ -31,18 +31,18 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ApiTagsService {
 
-	private final TagDao tagDao;
-	private final ArticleTagDao articleTagDao;
+	private final TagRepository tagRepository;
+	private final ArticleTagRepository articleTagRepository;
 	private final RedisUtil redisUtil;
 	private final TagMapper tagMapper;
 	private final UserServiceRpc userServiceRpc;
 
 	public List<TagDto> findTagsByCondition(TagDto tagDto, Pageable pageable) {
 		log.info("查询参数---------->{}", tagDto);
-		Page<TagDto> tagsQueryResults = tagDao.findAll(pageable)
+		Page<TagDto> tagsQueryResults = tagRepository.findAll(pageable)
 				.map(tagMapper::toDto);
 
-		List<ArticleTag> articleTags = articleTagDao.findAllByTagIdIn(tagsQueryResults.getContent().stream().map(TagDto::getId).toList());
+		List<ArticleTag> articleTags = articleTagRepository.findAllByTagIdIn(tagsQueryResults.getContent().stream().map(TagDto::getId).toList());
 
 		Map<String, List<ArticleTag>> tagIds = articleTags.stream()
 				.collect(Collectors.groupingBy(ArticleTag::getTagId));
@@ -67,7 +67,7 @@ public class ApiTagsService {
 //			log.error("findTagsById->查询标签异常，参数为：{}", id, e);
 //        }
 
-		tagDto = tagDao.findById(id).map(tagMapper::toDto).orElse(null);
+		tagDto = tagRepository.findById(id).map(tagMapper::toDto).orElse(null);
 		try {
 			redisUtil.set(RedisConstant.REDIS_KEY_ARTICLE + id, tagDto, CommonConst.TIME_OUT_DAY);
 		} catch (Exception e) {

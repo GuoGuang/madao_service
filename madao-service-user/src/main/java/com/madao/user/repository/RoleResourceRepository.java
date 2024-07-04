@@ -1,4 +1,4 @@
-package com.madao.user.dao;
+package com.madao.user.repository;
 
 import com.madao.model.entity.user.RoleResource;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +14,7 @@ import java.util.List;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
-public interface RoleResourceDao extends JpaRepository<RoleResource, String>,
+public interface RoleResourceRepository extends JpaRepository<RoleResource, String>,
 		JpaSpecificationExecutor<RoleResource>, QuerydslPredicateExecutor<RoleResource> {
 
 	void deleteByRoleIdIn(List<String> roleId);

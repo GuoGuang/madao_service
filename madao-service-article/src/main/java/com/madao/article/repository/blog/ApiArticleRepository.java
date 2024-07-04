@@ -1,4 +1,4 @@
-package com.madao.article.dao.blog;
+package com.madao.article.repository.blog;
 
 import com.madao.model.entity.article.Article;
 import org.springframework.data.domain.Page;
@@ -20,7 +20,7 @@ import java.util.Map;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
-public interface ApiArticleDao extends JpaRepository<Article, String>, JpaSpecificationExecutor<Article> {
+public interface ApiArticleRepository extends JpaRepository<Article, String>, JpaSpecificationExecutor<Article> {
 
 	/**
 	 * 获取随机六条文章作为推荐数据
