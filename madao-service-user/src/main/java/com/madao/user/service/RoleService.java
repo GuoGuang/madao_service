@@ -6,12 +6,12 @@ import com.madao.model.dto.user.RoleDto;
 import com.madao.model.entity.user.QRole;
 import com.madao.model.entity.user.Role;
 import com.madao.model.entity.user.RoleResource;
-import com.madao.user.dao.ResourceDao;
-import com.madao.user.dao.RoleDao;
-import com.madao.user.dao.RoleResourceDao;
-import com.madao.user.dao.UserRoleDao;
 import com.madao.user.mapper.ResourceMapper;
 import com.madao.user.mapper.RoleMapper;
+import com.madao.user.repository.ResourceRepository;
+import com.madao.user.repository.RoleRepository;
+import com.madao.user.repository.RoleResourceRepository;
+import com.madao.user.repository.UserRoleRepository;
 import com.madao.utils.BeanUtil;
 import com.madao.utils.QuerydslUtil;
 import com.querydsl.core.QueryResults;
@@ -38,13 +38,13 @@ import java.util.List;
 @AllArgsConstructor
 public class RoleService {
 
-	private final RoleDao roleDao;
-	private final RoleResourceDao roleResourceDao;
-	private final UserRoleDao userRoleDao;
+	private final RoleRepository roleRepository;
+	private final RoleResourceRepository roleResourceRepository;
+	private final UserRoleRepository userRoleRepository;
 	private final RoleMapper roleMapper;
 	private final JPAQueryFactory jpaQueryFactory;
 
-	private final ResourceDao resourceDao;
+	private final ResourceRepository resourceRepository;
 	private final ResourceMapper resourceMapper;
 
 	/**
@@ -74,16 +74,16 @@ public class RoleService {
 	}
 
 	public List<RoleDto> getUseRoles(String id) {
-		return roleDao.findRolesOfUser(id)
+		return roleRepository.findRolesOfUser(id)
 				.map(roleMapper::toDto)
 				.orElseThrow(ResourceNotFoundException::new);
 	}
 
 	public RoleDto findRoleById(String roleId) {
-		return roleDao.findById(roleId).map(role -> {
+		return roleRepository.findById(roleId).map(role -> {
 			RoleDto roleDto = roleMapper.toDto(role);
 			roleDto.setResources(resourceMapper.toDto(
-					resourceDao.findResourceByRoleIds(Collections.singletonList(role.getId()))
+					resourceRepository.findResourceByRoleIds(Collections.singletonList(role.getId()))
 			));
 			return roleDto;
 		}).orElseThrow(ResourceNotFoundException::new);
@@ -98,22 +98,22 @@ public class RoleService {
 	public void saveOrUpdate(RoleDto roleDto) {
 
 		if (StringUtils.isNotBlank(roleDto.getId())) {
-			Role sourceRole = roleDao.findById(roleDto.getId()).orElseThrow(ResourceNotFoundException::new);
+			Role sourceRole = roleRepository.findById(roleDto.getId()).orElseThrow(ResourceNotFoundException::new);
 			BeanUtil.copyProperties(sourceRole, roleDto);
 		}
-		roleDao.save(roleMapper.toEntity(roleDto));
+		roleRepository.save(roleMapper.toEntity(roleDto));
 
 		List<RoleResource> roleResources = roleDto.getResources().stream()
 				.map(role -> new RoleResource(roleDto.getId(), role.getId()))
 				.toList();
-		roleResourceDao.deleteByRoleIdIn(Collections.singletonList(roleDto.getId()));
-		roleResourceDao.saveAll(roleResources);
+		roleResourceRepository.deleteByRoleIdIn(Collections.singletonList(roleDto.getId()));
+		roleResourceRepository.saveAll(roleResources);
 	}
 
 	public void deleteByIds(List<String> roleId) {
-		roleDao.deleteBatch(roleId);
-		userRoleDao.deleteByRoleIdIn(roleId);
-		roleResourceDao.deleteByRoleIdIn(roleId);
+		roleRepository.deleteBatch(roleId);
+		userRoleRepository.deleteByRoleIdIn(roleId);
+		roleResourceRepository.deleteByRoleIdIn(roleId);
 	}
 
 }

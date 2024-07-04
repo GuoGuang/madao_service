@@ -7,13 +7,13 @@ import com.madao.model.dto.user.RoleDto;
 import com.madao.model.dto.user.UserDto;
 import com.madao.model.entity.user.User;
 import com.madao.model.entity.user.UserRole;
-import com.madao.user.dao.ResourceDao;
-import com.madao.user.dao.RoleDao;
-import com.madao.user.dao.UserDao;
-import com.madao.user.dao.UserRoleDao;
 import com.madao.user.mapper.ResourceMapper;
 import com.madao.user.mapper.RoleMapper;
 import com.madao.user.mapper.UserMapper;
+import com.madao.user.repository.ResourceRepository;
+import com.madao.user.repository.RoleRepository;
+import com.madao.user.repository.UserRepository;
+import com.madao.user.repository.UserRoleRepository;
 import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -36,12 +36,12 @@ import java.util.*;
 @AllArgsConstructor
 public class UserService {
 
-	private final UserDao userDao;
-	private final UserRoleDao userRoleDao;
+	private final UserRepository userRepository;
+	private final UserRoleRepository userRoleRepository;
 	private final UserMapper userMapper;
 	private final RoleMapper roleMapper;
-	private final RoleDao roleDao;
-	private final ResourceDao resourceDao;
+	private final RoleRepository roleRepository;
+	private final ResourceRepository resourceRepository;
 	private final ResourceMapper resourceMapper;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -54,7 +54,7 @@ public class UserService {
 		//加密后的密码
 		String bCryptPassword = bCryptPasswordEncoder.encode(userDto.getPassword());
 		userDto.setPassword(bCryptPassword);
-		userDao.save(userMapper.toEntity(userDto));
+		userRepository.save(userMapper.toEntity(userDto));
 	}
 
 
@@ -80,14 +80,14 @@ public class UserService {
 			Predicate[] ps = new Predicate[predicates.size()];
 			return query.where(builder.and(predicates.toArray(ps))).getRestriction();
 		};
-		Page<UserDto> result = userDao.findAll(condition, pageable).map(userMapper::toDto);
+		Page<UserDto> result = userRepository.findAll(condition, pageable).map(userMapper::toDto);
 		return result;
 
 	}
 
 	public void deleteByIds(List<String> userIds) {
-		userDao.deleteBatch(userIds);
-		userRoleDao.deleteByUserIdIn(userIds);
+		userRepository.deleteBatch(userIds);
+		userRoleRepository.deleteByUserIdIn(userIds);
 	}
 
 	/**
@@ -100,11 +100,11 @@ public class UserService {
 				.map(user -> new UserRole(userDto.getId(), user.getId()))
 				.toList();
 
-		userDao.save(userMapper.toEntity(userDto));
+		userRepository.save(userMapper.toEntity(userDto));
 
-		userRoleDao.deleteByUserIdIn(Collections.singletonList(userDto.getId()));
+		userRoleRepository.deleteByUserIdIn(Collections.singletonList(userDto.getId()));
 
-		userRoleDao.saveAll(userRoles);
+		userRoleRepository.saveAll(userRoles);
 	}
 
 
@@ -114,12 +114,12 @@ public class UserService {
 	 * @param oldPassword 老密码
 	 */
 	public void changePassword(String userId, String oldPassword, String newOnePass) {
-		User userInfo = userDao.findByIdAndRequireNonNull(userId);
+		User userInfo = userRepository.findByIdAndRequireNonNull(userId);
 		if (!bCryptPasswordEncoder.matches(oldPassword, userInfo.getPassword())) {
 			throw new UserException("密码不匹配！");
 		}
 		userInfo.setPassword(bCryptPasswordEncoder.encode(newOnePass));
-		userDao.save(userInfo);
+		userRepository.save(userInfo);
 	}
 
 	/**
@@ -128,12 +128,12 @@ public class UserService {
 	 * @param userId 用户id
 	 */
 	public UserDto getUserPermission(String userId) {
-		User user = userDao.findByIdAndRequireNonNull(userId);
+		User user = userRepository.findByIdAndRequireNonNull(userId);
 		UserDto userDto = userMapper.toDto(user);
-		List<RoleDto> roles = roleDao.findRolesOfUser(userId).map(roleMapper::toDto).orElse(Collections.emptyList());
+		List<RoleDto> roles = roleRepository.findRolesOfUser(userId).map(roleMapper::toDto).orElse(Collections.emptyList());
 		roles.forEach(item -> {
 					Set<ResourceDto> resources = Optional.ofNullable(
-									resourceDao.findResourceByRoleIds(Collections.singletonList(item.getId())))
+									resourceRepository.findResourceByRoleIds(Collections.singletonList(item.getId())))
 							.map(resourceMapper::toDto)
 							.orElse(Collections.emptySet());
 					item.setResources(resources);
@@ -151,18 +151,18 @@ public class UserService {
 	 * @return List<User>
 	 */
 	public List<UserDto> findUsersOfRole(RoleDto roleDto) {
-		return userDao.findUsersOfRole(roleDto.getId())
+		return userRepository.findUsersOfRole(roleDto.getId())
 				.map(userMapper::toDto)
 				.orElseThrow(ResourceNotFoundException::new);
 	}
 
 	public UserDto findById(String userId) {
-		User user = userDao.findByIdAndRequireNonNull(userId);
+		User user = userRepository.findByIdAndRequireNonNull(userId);
 		return assembleUserRoleData(userMapper.toDto(user));
 	}
 
 	public List<UserDto> findByIds(List<String> userId) {
-		List<User> allById = userDao.findAllById(userId);
+		List<User> allById = userRepository.findAllById(userId);
 		return userMapper.toDto(allById);
 	}
 
@@ -177,7 +177,7 @@ public class UserService {
 			return query.where(builder.and(predicates.toArray(ps))).getRestriction();
 		};
 
-		UserDto userInfo = userDao.findOne(condition)
+		UserDto userInfo = userRepository.findOne(condition)
 				.map(userMapper::toDto)
 				.orElse(null);
 
@@ -185,7 +185,7 @@ public class UserService {
 	}
 
 	public void updateUserProfile(UserDto userDto) {
-		userDao.save(userMapper.toEntity(userDto));
+		userRepository.save(userMapper.toEntity(userDto));
 	}
 
 
@@ -199,7 +199,7 @@ public class UserService {
 		if (userDto == null) {
 			return null;
 		}
-		List<RoleDto> rolesOfUser = roleDao.findRolesOfUser(userDto.getId())
+		List<RoleDto> rolesOfUser = roleRepository.findRolesOfUser(userDto.getId())
 				.map(roleMapper::toDto)
 				.orElseThrow(ResourceNotFoundException::new);
 		userDto.setRoles(new HashSet<>(rolesOfUser));

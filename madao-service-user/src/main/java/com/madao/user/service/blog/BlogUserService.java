@@ -9,13 +9,13 @@ import com.madao.model.dto.user.RoleDto;
 import com.madao.model.dto.user.UserDto;
 import com.madao.model.entity.user.User;
 import com.madao.model.entity.user.UserRole;
-import com.madao.user.dao.ResourceDao;
-import com.madao.user.dao.RoleDao;
-import com.madao.user.dao.UserDao;
-import com.madao.user.dao.UserRoleDao;
 import com.madao.user.mapper.ResourceMapper;
 import com.madao.user.mapper.RoleMapper;
 import com.madao.user.mapper.UserMapper;
+import com.madao.user.repository.ResourceRepository;
+import com.madao.user.repository.RoleRepository;
+import com.madao.user.repository.UserRepository;
+import com.madao.user.repository.UserRoleRepository;
 import com.madao.utils.BeanUtil;
 import com.madao.utils.FakerUtil;
 import com.madao.utils.JsonUtil;
@@ -44,29 +44,29 @@ import java.util.Map;
 public class BlogUserService {
 
 	private final RedisUtil redisUtil;
-	private final UserDao userDao;
-	private final UserRoleDao userRoleDao;
+	private final UserRepository userRepository;
+	private final UserRoleRepository userRoleRepository;
 	private final UserMapper userMapper;
 	private final RoleMapper roleMapper;
-	private final RoleDao roleDao;
-	private final ResourceDao resourceDao;
+	private final RoleRepository roleRepository;
+	private final ResourceRepository resourceRepository;
 	private final ResourceMapper resourceMapper;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public void updateByPrimaryKey(UserDto userDto, String userId) {
 		UserDto srcUserDto = this.findById(userId);
 		BeanUtil.copyProperties(srcUserDto, userDto);
-		userDao.save(userMapper.toEntity(userDto));
+		userRepository.save(userMapper.toEntity(userDto));
 	}
 
 	public UserDto findByPhone(String phone) {
-		return userDao.findByPhone(phone)
+		return userRepository.findByPhone(phone)
 				.map(userMapper::toDto)
 				.orElseThrow(ResourceNotFoundException::new);
 	}
 
 	public UserDto registerUser(UserDto userDto) {
-		User user = userDao.findByPhone(userDto.getPhone()).orElse(null);
+		User user = userRepository.findByPhone(userDto.getPhone()).orElse(null);
 		if (user != null) {
 			throw new PhoneExistingException();
 		}
@@ -92,7 +92,7 @@ public class BlogUserService {
 	 * @return UserDto
 	 */
 	public UserDto loginWithGithub(HashMap<String, Object> params) {
-		UserDto userInfo = userDao.findByBindId(params.get("node_id") + "")
+		UserDto userInfo = userRepository.findByBindId(params.get("node_id") + "")
 				.map(userMapper::toDto)
 				.orElseGet(() -> createDefaultUser(
 						params.get("name").toString(),
@@ -106,7 +106,7 @@ public class BlogUserService {
 						bCryptPasswordEncoder.encode(params.get("name").toString() + params.get("node_id").toString()))
 				);
 
-		List<RoleDto> rolesOfUser = roleDao.findRolesOfUser(userInfo.getId())
+		List<RoleDto> rolesOfUser = roleRepository.findRolesOfUser(userInfo.getId())
 				.map(roleMapper::toDto)
 				.orElseThrow(ResourceNotFoundException::new);
 		userInfo.setRoles(new HashSet<>(rolesOfUser));
@@ -137,28 +137,28 @@ public class BlogUserService {
 				.setProvider(provider)
 				.setContactAddress(contactAddress)
 				.setStatus(false);
-		UserDto userDtoResult = userMapper.toDto(userDao.save(userMapper.toEntity(userDto)));
-		userRoleDao.save(new UserRole(userDtoResult.getId(), "1257559802842845184"));
+		UserDto userDtoResult = userMapper.toDto(userRepository.save(userMapper.toEntity(userDto)));
+		userRoleRepository.save(new UserRole(userDtoResult.getId(), "1257559802842845184"));
 		return userDtoResult;
 	}
 
 	public UserDto findById(String userId) {
-		return userMapper.toDto(userDao.findByIdAndRequireNonNull(userId));
+		return userMapper.toDto(userRepository.findByIdAndRequireNonNull(userId));
 	}
 
 	public UserDto findByAccount(String account) {
-		return userDao.findByAccount(account)
+		return userRepository.findByAccount(account)
 				.map(userMapper::toDto)
 				.orElseThrow(ResourceNotFoundException::new);
 	}
 
 	public void changePassword(String userId, String oldPassword, String newOnePass) {
-		User userInfo = userDao.findByIdAndRequireNonNull(userId);
+		User userInfo = userRepository.findByIdAndRequireNonNull(userId);
 		if (!bCryptPasswordEncoder.matches(oldPassword, userInfo.getPassword())) {
 			throw new UserException("密码不匹配！");
 		}
 		userInfo.setPassword(bCryptPasswordEncoder.encode(newOnePass));
-		userDao.save(userInfo);
+		userRepository.save(userInfo);
 	}
 
 }

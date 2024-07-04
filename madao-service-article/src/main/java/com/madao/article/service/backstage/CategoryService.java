@@ -1,8 +1,8 @@
 package com.madao.article.service.backstage;
 
-import com.madao.article.dao.backstage.ArticleDao;
-import com.madao.article.dao.backstage.CategoryDao;
 import com.madao.article.mapper.CategoryMapper;
+import com.madao.article.repository.backstage.ArticleRepository;
+import com.madao.article.repository.backstage.CategoryRepository;
 import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.dto.article.CategoryDto;
 import com.madao.model.entity.article.Article;
@@ -32,8 +32,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CategoryService {
 
-	private final CategoryDao categoryDao;
-	private final ArticleDao articleDao;
+	private final CategoryRepository categoryRepository;
+	private final ArticleRepository articleRepository;
 	private final CategoryMapper categoryMapper;
 
 	public Page<CategoryDto> findCategoryByCondition(CategoryDto categoryDto, Pageable pageable) {
@@ -44,12 +44,12 @@ public class CategoryService {
 			}
 			return query.where(predicates.toArray(new Predicate[0])).getRestriction();
 		};
-		Page<CategoryDto> categoryDtoPage = categoryDao.findAll(condition, pageable).map(categoryMapper::toDto);
+		Page<CategoryDto> categoryDtoPage = categoryRepository.findAll(condition, pageable).map(categoryMapper::toDto);
 
 		List<String> ids = categoryDtoPage.getContent().stream()
 				.map(CategoryDto::getId)
 				.toList();
-		Map<String, List<Article>> articleCollect = articleDao.findByCategoryIdIn(ids)
+		Map<String, List<Article>> articleCollect = articleRepository.findByCategoryIdIn(ids)
 				.stream()
 				.collect(Collectors.groupingBy(Article::getCategoryId));
 
@@ -63,21 +63,21 @@ public class CategoryService {
 	}
 
 	public CategoryDto findCategoryById(String categoryId) {
-		return categoryDao.findById(categoryId)
+		return categoryRepository.findById(categoryId)
 				.map(categoryMapper::toDto)
 				.orElseThrow(ResourceNotFoundException::new);
 	}
 
 	public void saveOrUpdate(CategoryDto categoryDto) {
 		if (StringUtils.isNotBlank(categoryDto.getId())) {
-			Category tempCategory = categoryDao.findById(categoryDto.getId())
+			Category tempCategory = categoryRepository.findById(categoryDto.getId())
 					.orElseThrow(ResourceNotFoundException::new);
 			BeanUtil.copyProperties(tempCategory, categoryDto);
 		}
-		categoryDao.save(categoryMapper.toEntity(categoryDto));
+		categoryRepository.save(categoryMapper.toEntity(categoryDto));
 	}
 
 	public void deleteCategoryByIds(List<String> categoryIds) {
-		categoryDao.deleteBatch(categoryIds);
+		categoryRepository.deleteBatch(categoryIds);
 	}
 }

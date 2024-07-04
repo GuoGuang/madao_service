@@ -3,6 +3,8 @@ package com.madao.article.search;
 import com.madao.model.dto.article.ArticleSearchDto;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
+import java.util.List;
+
 /**
  * @author GuoGuang
  * @公众号 码道人生
@@ -13,4 +15,5 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  */
 public interface ApiArticleSearchDao extends ElasticsearchRepository<ArticleSearchDto, String> {
 
+    List<ArticleSearchDto> findByTitle(String title);
 }

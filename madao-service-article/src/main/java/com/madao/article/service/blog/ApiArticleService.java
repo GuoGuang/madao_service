@@ -1,8 +1,8 @@
 package com.madao.article.service.blog;
 
-import com.madao.article.dao.backstage.CommentDao;
-import com.madao.article.dao.blog.ApiArticleDao;
 import com.madao.article.mapper.ArticleMapper;
+import com.madao.article.repository.backstage.CommentRepository;
+import com.madao.article.repository.blog.ApiArticleRepository;
 import com.madao.constant.RedisConstant;
 import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.dto.article.ArticleDto;
@@ -36,9 +36,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ApiArticleService {
 
-	private final ApiArticleDao articleDao;
+	private final ApiArticleRepository articleDao;
 	private final ArticleMapper articleMapper;
-	private final CommentDao commentDao;
+	private final CommentRepository commentRepository;
 	private final RedisUtil redisUtil;
 
 	public Page<ArticleDto> findArticleByCondition(ArticleDto articleDto, String keyword, Pageable pageable) {
@@ -55,7 +55,7 @@ public class ApiArticleService {
 		};
 		Page<ArticleDto> pageContent = articleDao.findAll(condition, pageable).map(articleMapper::toDto);
 		List<String> articleIds = pageContent.getContent().stream().map(ArticleDto::getId).toList();
-		Map<String, List<Comment>> idKeysAndComments = commentDao.findByArticleIdIn(articleIds).stream().collect(Collectors.groupingBy(Comment::getArticleId));
+		Map<String, List<Comment>> idKeysAndComments = commentRepository.findByArticleIdIn(articleIds).stream().collect(Collectors.groupingBy(Comment::getArticleId));
 		pageContent.forEach(articleInfo -> {
 			if (idKeysAndComments.get(articleInfo.getId()) != null) {
 				articleInfo.setComment(idKeysAndComments.get(articleInfo.getId()).size());

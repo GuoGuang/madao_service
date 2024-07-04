@@ -1,4 +1,4 @@
-package com.madao.article.dao.backstage;
+package com.madao.article.repository.backstage;
 
 import com.madao.model.entity.article.ArticleTag;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +14,7 @@ import java.util.List;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
-public interface ArticleTagDao extends JpaRepository<ArticleTag, String>,
+public interface ArticleTagRepository extends JpaRepository<ArticleTag, String>,
 		JpaSpecificationExecutor<ArticleTag>, QuerydslPredicateExecutor<ArticleTag> {
 
 	List<ArticleTag> findAllByTagIdIn(List<String> collect);

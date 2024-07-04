@@ -1,12 +1,12 @@
 package com.madao.article.mapper;
 
-import com.madao.article.dao.backstage.CommentDao;
+import com.madao.article.repository.backstage.CommentRepository;
 import com.madao.model.dto.article.CommentDto;
 import com.madao.model.entity.article.Comment;
 import org.mapstruct.Mapper;
 
 /**
- * Mapper for the entity {@link Comment} and its DTO {@link CommentDao}.
+ * Mapper for the entity {@link Comment} and its DTO {@link CommentRepository}.
  *
  * @author GuoGuang
  * @公众号 码道人生

@@ -27,7 +27,7 @@ import org.springframework.security.web.SecurityFilterChain;
  * @created 2019-09-29 7:37
  */
 @EnableSpringCloudComponent
-@EnableJpaRepositories("com.madao.user.dao")
+@EnableJpaRepositories("com.madao.user.repository")
 public class UserApplication extends BasicApplication {
 
 	public static void main(String[] args) {

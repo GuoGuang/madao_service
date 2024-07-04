@@ -1,4 +1,4 @@
-package com.madao.base.dao;
+package com.madao.base.repository;
 
 import com.madao.model.entity.base.LoginLog;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,7 +16,7 @@ import java.util.List;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
-public interface LoginLogDao extends JpaRepository<LoginLog, String>, JpaSpecificationExecutor<LoginLog> {
+public interface LoginLogRepository extends JpaRepository<LoginLog, String>, JpaSpecificationExecutor<LoginLog> {
 	@Modifying
 	@Query("delete from LoginLog where id in (:ids)")
 	void deleteBatch(@Param("ids") List<String> ids);

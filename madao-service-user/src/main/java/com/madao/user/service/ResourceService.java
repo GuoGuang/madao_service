@@ -5,9 +5,9 @@ import com.madao.model.QueryVO;
 import com.madao.model.dto.user.ResourceDto;
 import com.madao.model.entity.user.Resource;
 import com.madao.model.entity.user.RoleResource;
-import com.madao.user.dao.ResourceDao;
-import com.madao.user.dao.RoleResourceDao;
 import com.madao.user.mapper.ResourceMapper;
+import com.madao.user.repository.ResourceRepository;
+import com.madao.user.repository.RoleResourceRepository;
 import com.madao.utils.RedisUtil;
 import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
@@ -28,9 +28,9 @@ import java.util.*;
 @AllArgsConstructor
 public class ResourceService {
 
-	private final ResourceDao resourceDao;
+	private final ResourceRepository resourceRepository;
 	private final ResourceMapper resourceMapper;
-	private final RoleResourceDao roleResourceDao;
+	private final RoleResourceRepository roleResourceRepository;
 	private final RedisUtil redisUtil;
 
 	/**
@@ -50,37 +50,37 @@ public class ResourceService {
 			Predicate[] ps = new Predicate[predicates.size()];
 			return query.where(builder.and(predicates.toArray(ps))).getRestriction();
 		};
-		List<Resource> result = resourceDao.findAll(condition);
+		List<Resource> result = resourceRepository.findAll(condition);
 		return resourceMapper.toDto(result);
 	}
 
 	public ResourceDto findResourceById(String resId) {
-		return resourceDao.findById(resId)
+		return resourceRepository.findById(resId)
 				.map(resourceMapper::toDto)
 				.orElseThrow(ResourceNotFoundException::new);
 	}
 
 	public Set<ResourceDto> findResourceByRoleIds(List<String> resId) {
-		return Optional.ofNullable(resourceDao.findResourceByRoleIds(resId))
+		return Optional.ofNullable(resourceRepository.findResourceByRoleIds(resId))
 				.map(resourceMapper::toDto)
 				.orElseThrow(ResourceNotFoundException::new);
 	}
 
 	public void saveOrUpdate(ResourceDto resourceDto) {
-		resourceDao.save(resourceMapper.toEntity(resourceDto));
+		resourceRepository.save(resourceMapper.toEntity(resourceDto));
 
 		List<RoleResource> roleResources = resourceDto.getRoles().stream()
 				.map(resource -> new RoleResource(resource.getId(), resourceDto.getId()))
 				.toList();
 
-		roleResourceDao.deleteByRoleIdIn(Collections.singletonList(resourceDto.getId()));
-		roleResourceDao.saveAll(roleResources);
+		roleResourceRepository.deleteByRoleIdIn(Collections.singletonList(resourceDto.getId()));
+		roleResourceRepository.saveAll(roleResources);
 		redisUtil.del("resources");
 	}
 
 	public void deleteByIds(List<String> resId) {
-		resourceDao.deleteBatch(resId);
-		roleResourceDao.deleteByResourceIdIn(resId);
+		resourceRepository.deleteBatch(resId);
+		roleResourceRepository.deleteByResourceIdIn(resId);
 		redisUtil.del("resources");
 	}
 }

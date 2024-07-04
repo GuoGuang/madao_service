@@ -1,4 +1,4 @@
-package com.madao.user.dao;
+package com.madao.user.repository;
 
 import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.entity.user.User;
@@ -19,7 +19,7 @@ import java.util.Optional;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
-public interface UserDao extends JpaRepository<User, String>, JpaSpecificationExecutor<User>,
+public interface UserRepository extends JpaRepository<User, String>, JpaSpecificationExecutor<User>,
 		QuerydslPredicateExecutor<User> {
 
 	@Query(value = "SELECT * FROM us_user WHERE id in (SELECT user_id FROM us_user_role WHERE role_id = :roleId)"

@@ -5,6 +5,8 @@ spring:
     show-sql: true
   elasticsearch:
     uris: 82.156.148.211:9200
+    username: elastic
+    password: 2ii3lABYkZCCrjkSBKAs
 
 com:
   madao:

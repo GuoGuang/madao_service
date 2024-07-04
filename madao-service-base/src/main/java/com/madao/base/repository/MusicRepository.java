@@ -1,4 +1,4 @@
-package com.madao.base.dao;
+package com.madao.base.repository;
 
 /**
  * @author GuoGuang
@@ -7,6 +7,6 @@ package com.madao.base.dao;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
-public interface MusicDao {
+public interface MusicRepository {
 
 }

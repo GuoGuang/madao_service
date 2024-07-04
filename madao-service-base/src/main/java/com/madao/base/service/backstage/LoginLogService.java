@@ -1,8 +1,8 @@
 package com.madao.base.service.backstage;
 
 import com.madao.api.UserServiceRpc;
-import com.madao.base.dao.LoginLogDao;
 import com.madao.base.mapper.LoginLogMapper;
+import com.madao.base.repository.LoginLogRepository;
 import com.madao.exception.custom.ResourceNotFoundException;
 import com.madao.model.dto.base.LoginLogDto;
 import com.madao.model.dto.user.UserDto;
@@ -33,7 +33,7 @@ import java.util.List;
 @AllArgsConstructor
 public class LoginLogService {
 
-	private final LoginLogDao loginLogDao;
+	private final LoginLogRepository loginLogRepository;
 	private final LoginLogMapper loginLogMapper;
 
 	private final UserServiceRpc userServiceRpc;
@@ -51,7 +51,7 @@ public class LoginLogService {
 			}
 			return query.where(predicates.toArray(new Predicate[0])).getRestriction();
 		};
-		Page<LoginLogDto> queryResults = loginLogDao.findAll(condition, pageable)
+		Page<LoginLogDto> queryResults = loginLogRepository.findAll(condition, pageable)
 				.map(loginLogMapper::toDto);
 		JsonData<List<UserDto>> userInfoByIds = userServiceRpc.getUserInfoByIds(queryResults.getContent().stream()
 				.map(LoginLogDto::getUserId).toArray(String[]::new));
@@ -73,7 +73,7 @@ public class LoginLogService {
 	 * @return LoginLog
 	 */
 	public LoginLogDto findById(String logId) {
-		return loginLogDao.findById(logId)
+		return loginLogRepository.findById(logId)
 				.map(loginLogMapper::toDto)
 				.orElseThrow(ResourceNotFoundException::new);
 	}
@@ -85,14 +85,14 @@ public class LoginLogService {
 	 */
 	public void save(LoginLogDto loginLogDto) {
 		if (StringUtils.isNotBlank(loginLogDto.getId())) {
-			LoginLog tempLoginLog = loginLogDao.findById(loginLogDto.getId()).orElseThrow(ResourceNotFoundException::new);
+			LoginLog tempLoginLog = loginLogRepository.findById(loginLogDto.getId()).orElseThrow(ResourceNotFoundException::new);
 			BeanUtil.copyProperties(tempLoginLog, loginLogDto);
 		}
-		loginLogDao.save(loginLogMapper.toEntity(loginLogDto));
+		loginLogRepository.save(loginLogMapper.toEntity(loginLogDto));
 	}
 
 	public void deleteBatch(List<String> logId) {
-		loginLogDao.deleteBatch(logId);
+		loginLogRepository.deleteBatch(logId);
 	}
 
 }

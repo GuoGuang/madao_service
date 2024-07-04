@@ -1,6 +1,6 @@
-package com.madao.base.dao;
+package com.madao.base.repository;
 
-import com.madao.model.entity.base.OptLog;
+import com.madao.model.entity.base.Dict;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,6 +9,7 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author GuoGuang
@@ -17,10 +18,13 @@ import java.util.List;
  * @website https://madaoo.com
  * @created 2019-09-29 7:37
  */
-public interface OptLogDao extends JpaRepository<OptLog, String>, JpaSpecificationExecutor<OptLog>, QuerydslPredicateExecutor<OptLog> {
-
+public interface DictRepository extends JpaRepository<Dict, String>, JpaSpecificationExecutor<Dict>, QuerydslPredicateExecutor<Dict> {
 
 	@Modifying
-	@Query("delete from OptLog where id in (:ids)")
+	@Query("delete from Dict where id in (:ids)")
 	void deleteBatch(@Param("ids") List<String> ids);
+
+	Optional<List<Dict>> findAllByType(String type);
+
+	Optional<List<Dict>> findByParentId(String parentId);
 }
