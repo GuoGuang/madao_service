@@ -72,7 +72,7 @@ public class ArticleController implements BaseController {
 	@RateLimiter(time = 60 * 3, count = 1, limitType = LimitType.IP)
 	@PutMapping("/thumb")
 	@OptLog(operationType = OptLogType.ADD, operationName = "上传文章封面")
-	public JsonData<String> updateThumb(MultipartFile file) throws IOException {
+	public JsonData<String> updateThumb(@RequestParam MultipartFile file) throws IOException {
 		String fileUrl = ossClientUtil.uploadFile(file);
 		return JsonData.success(fileUrl);
 	}
