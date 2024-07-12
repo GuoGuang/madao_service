@@ -14,32 +14,25 @@ import java.util.List;
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/article/search")
 @AllArgsConstructor
 public class ArticleSearchController {
 
 	private final ApiArticleSearchService articleSearchService;
 
-	@GetMapping(value = "/search/{keywords}/{page}/{size}")
+	@GetMapping(value = "/{keywords}/{page}/{size}")
 	public JsonData<List<ArticleSearchDto>> searchArticleByCondition(@PathVariable String keywords, @PathVariable Integer page, @PathVariable Integer size) {
 		List<ArticleSearchDto> articles = articleSearchService.searchArticleByCondition(keywords, page, size);
 		return JsonData.success(articles);
 	}
 
-	@PostMapping(value = "/search")
+	@PostMapping("/condition")
 	public JsonData<Page<ArticleSearchDto>> searchArticleByCondition(@RequestBody ArticleSearchDto articleSearchDto, @PageableDefault(sort = "topDate", direction = DESC) Pageable pageable) {
 		Page<ArticleSearchDto> articles = articleSearchService.searchByDtoAndPage(articleSearchDto, pageable);
 		return JsonData.success(articles);
 	}
 
-
-	/**
-	 * 测试搜索
-	 * @param articleSearchDto
-	 * @param pageable
-	 * @return
-	 */
-	@PostMapping(value = "/search-group")
+	@PostMapping(value = "/filter")
 	public JsonData<Object> searchArticleByConditiongroup(@RequestBody ArticleSearchDto articleSearchDto, @PageableDefault Pageable pageable) {
 		return JsonData.success(articleSearchService.findByFilter(articleSearchDto.getTitle(),pageable));
 	}
