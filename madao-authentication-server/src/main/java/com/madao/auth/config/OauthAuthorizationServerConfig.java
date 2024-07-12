@@ -1,11 +1,14 @@
 package com.madao.auth.config;
 
-import com.madao.auth.handler.CustomTokenEnhancer;
-import com.madao.auth.handler.CustomWebResponseExceptionTranslator;
 import com.madao.auth.provider.CaptchaAuthenticationProvider;
 import com.madao.auth.provider.GithubAuthenticationProvider;
 import com.madao.auth.provider.SmsCodeAuthenticationProvider;
 import com.madao.constant.CommonConst;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.bootstrap.encrypt.KeyProperties;
@@ -15,21 +18,29 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.oauth2.config.annotation.builders.ClientDetailsServiceBuilder;
-import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
-import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+import org.springframework.security.oauth2.core.oidc.OidcScopes;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 
+import java.io.FileInputStream;
 import java.security.KeyPair;
-import java.util.Arrays;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.cert.Certificate;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.time.Duration;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Oauth2认证配置
@@ -41,27 +52,10 @@ import java.util.List;
  * @created 2019-09-29 7:37
  */
 @Configuration
-public class OauthAuthorizationServerConfig  {
-
-    @Autowired
-    CustomUserAuthenticationConverter customUserAuthenticationConverter;
-
-    //读取密钥的配置
-    @Bean("keyProp")
-    public KeyProperties keyProperties() {
-        return new KeyProperties();
-    }
-
-
+public class OauthAuthorizationServerConfig {
     @Autowired
     @Qualifier("userDetailsServiceImpl")
     UserDetailsService userDetailsService;
-
-    // jwt令牌转换器
-    // 登录错误时执行
-    @Autowired
-    private CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
-
     @Autowired
     private SmsCodeAuthenticationProvider smsCodeAuthenticationProvider;
     @Autowired
@@ -74,20 +68,32 @@ public class OauthAuthorizationServerConfig  {
      * 如果要实现类似GitHub、Google那种支持开发者申请APP或者有多个不同系统的可以将此处改为从数据库动态取数据加载。
      */
     @Bean
-    public ClientDetailsService clientDetailsService() throws Exception {
-       ClientDetailsServiceBuilder<InMemoryClientDetailsServiceBuilder> clients = new InMemoryClientDetailsServiceBuilder();
-        return clients.inMemory()
-                .withClient("XcWebApp")//客户端id
-                .secret("XcWebApp")//密码，要保密
-                .accessTokenValiditySeconds(CommonConst.TIME_OUT_DAY)//访问令牌有效期
-                .refreshTokenValiditySeconds(CommonConst.TIME_OUT_DAY)//刷新令牌有效期
+    public RegisteredClientRepository registeredClientRepository() {
+        RegisteredClient loginClient = RegisteredClient.withId(UUID.randomUUID().toString())
+                .clientId("XcWebApp")
+                .clientSecret("XcWebApp")
                 //授权客户端请求认证服务的类型authorization_code：根据授权码生成令牌，
                 // client_credentials:客户端认证，refresh_token：刷新令牌，password：密码方式认证
-                .authorizedGrantTypes("authorization_code", "client_credentials", "refresh_token", "password")
-                .scopes("app")//客户端范围，名称自定义，必填
-                .and().build();
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
+                .redirectUri("http://127.0.0.1:8080/login/oauth2/code/login-client")
+                .redirectUri("http://127.0.0.1:8080/authorized")
+                //客户端范围，名称自定义，必填
+                .scope(OidcScopes.OPENID)
+                .scope(OidcScopes.PROFILE)
+                .scope("app")
+                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+                .tokenSettings(TokenSettings.builder()
+                        //访问令牌有效期
+                        .accessTokenTimeToLive(Duration.ofDays(CommonConst.TIME_OUT_DAY))
+                        //刷新令牌有效期
+                        .refreshTokenTimeToLive(Duration.ofDays(CommonConst.TIME_OUT_DAY))
+                        .build())
+                .build();
+        return new InMemoryRegisteredClientRepository(loginClient);
     }
-
 
     /**
      * 构建AuthorizationServerConfig.configure(AuthorizationServerEndpointsConfigurer endpoints)
@@ -96,58 +102,59 @@ public class OauthAuthorizationServerConfig  {
      */
     @Bean
     public AuthenticationManager authenticationManager() {
-        List<AuthenticationProvider> providers =  List.of(smsCodeAuthenticationProvider,captchaAuthenticationProvider,githubAuthenticationProvider);
+        List<AuthenticationProvider> providers = List.of(smsCodeAuthenticationProvider, captchaAuthenticationProvider, githubAuthenticationProvider);
         return new ProviderManager(providers);
     }
 
-    /**
-     * 配置AccessToken加密方式
-     */
-    @Bean
-    public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        KeyPair keyPair = new KeyStoreKeyFactory(keyProperties().getKeyStore().getLocation(),
-                keyProperties().getKeyStore().getSecret().toCharArray())
-                .getKeyPair(keyProperties().getKeyStore().getAlias(),
-                        keyProperties().getKeyStore().getPassword().toCharArray());
-        converter.setKeyPair(keyPair);
-        //配置自定义的CustomUserAuthenticationConverter
-        DefaultAccessTokenConverter accessTokenConverter = (DefaultAccessTokenConverter) converter.getAccessTokenConverter();
-        accessTokenConverter.setUserTokenConverter(customUserAuthenticationConverter);
-        return converter;
-    }
 
-
-    /**
-     * 自定义token
-     */
-    @Bean
-    public TokenEnhancerChain tokenEnhancerChain() {
-        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(new CustomTokenEnhancer(), jwtAccessTokenConverter()));
-        return tokenEnhancerChain;
-    }
-
-    @Bean
-    public TokenStore tokenStore() {
-        return new JwtTokenStore(jwtAccessTokenConverter());
+    @Bean("keyProp")
+    public KeyProperties keyProperties() {
+        return new KeyProperties();
     }
 
     /**
-     * 端点配置
-     * 配置用户认证
-     * 所有的用户认证逻辑，由authenticationManager统一管理
+     * 从指定的keystore文件中加载并返回KeyPair。
+     *
+     * @return 从keystore中提取的KeyPair对象，其中包含公钥和私钥。
      */
     @Bean
-    public AuthorizationServerTokenServices authorizationServerTokenServices() throws Exception {
-        AuthorizationServerEndpointsConfigurer endpoints = new AuthorizationServerEndpointsConfigurer();
-        endpoints.setClientDetailsService(clientDetailsService());
-        return endpoints.accessTokenConverter(jwtAccessTokenConverter())
-                .authenticationManager(authenticationManager())//认证管理器
-                .tokenStore(tokenStore())//令牌存储
-                .tokenEnhancer(tokenEnhancerChain())
-                .exceptionTranslator(customWebResponseExceptionTranslator)
-                .userDetailsService(userDetailsService).getTokenServices();//用户信息service
+    public KeyPair keyPair() {
+        KeyPair keyPair;
+        try {
+            KeyStore keystore = KeyStore.getInstance("JKS");
+            try (FileInputStream fis = new FileInputStream(keyProperties().getKeyStore().getLocation().getFile())) {
+                keystore.load(fis, keyProperties().getKeyStore().getSecret().toCharArray());
+            }
+            PrivateKey privateKey = (PrivateKey) keystore.getKey(keyProperties().getKeyStore().getAlias(), keyProperties().getKeyStore().getPassword().toCharArray());
+            Certificate cert = keystore.getCertificate(keyProperties().getKeyStore().getAlias());
+            keyPair = new KeyPair(cert.getPublicKey(), privateKey);
+        } catch (Exception ex) {
+            throw new IllegalStateException(ex);
+        }
+        return keyPair;
     }
+
+    @Bean
+    public JWKSource<SecurityContext> jwkSource(KeyPair keyPair) {
+        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+        RSAKey rsaKey = new RSAKey.Builder(publicKey)
+                .privateKey(privateKey)
+                .keyID(UUID.randomUUID().toString())
+                .build();
+        JWKSet jwkSet = new JWKSet(rsaKey);
+        return new ImmutableJWKSet<>(jwkSet);
+    }
+
+    @Bean
+    public JwtDecoder jwtDecoder(KeyPair keyPair) {
+        return NimbusJwtDecoder.withPublicKey((RSAPublicKey) keyPair.getPublic()).build();
+    }
+
+    @Bean
+    public JwtEncoder jwtEncoder(KeyPair keyPair) {
+        return new NimbusJwtEncoder(jwkSource(keyPair));
+    }
+
 }
 
