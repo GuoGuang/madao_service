@@ -11,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -18,8 +19,14 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * 资源服务器的配置
+ * 以及
+ * 安全相关的配置
+ */
 @Configuration
 @EnableMethodSecurity
+@EnableWebSecurity
 public class SecurityFilterChainConfig {
 
     public static final String PARAM_NAME_ON_AUTHORITY = AuthorityEnum.ROLE_ADMIN.getParamNameOnAuthority();
@@ -61,6 +68,10 @@ public class SecurityFilterChainConfig {
                         .accessDeniedHandler(customAccessDeniedHandler)).build();
     }
 
+    /**
+     * token解码方式
+     * 采用公私钥的方式
+     */
     @Bean
     JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(TokenProvider.RSA_PUBLIC_KEY).build();
