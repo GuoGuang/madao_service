@@ -1,7 +1,7 @@
 package com.madao.utils;
 
 import com.aliyun.oss.HttpMethod;
-import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.OSS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,8 +26,8 @@ public class OssClientUtil {
 	 */
 	private static final String BUCKET_NAME = "vue-admin-guoguang";
 
-	@Autowired(required = false)
-	private OSSClient ossClient;
+	@Autowired
+	private OSS ossClient;
 
 	/**
 	 * 上传文件

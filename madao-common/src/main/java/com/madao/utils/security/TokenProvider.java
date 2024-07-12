@@ -46,7 +46,7 @@ public class TokenProvider {
         byte[] publicKeyBytes = Base64.getDecoder().decode(secretKey);
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKeyBytes);
         PublicKey publicKey = KeyFactory.getInstance("RSA").generatePublic(keySpec);
-        jwtParser = Jwts.parserBuilder().setSigningKey(publicKey).build();
+        jwtParser = Jwts.parser().verifyWith(publicKey).build();
 
         // V2供.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt) SpringSecurity6内置JWT解析器使用
         RSA_PUBLIC_KEY = (RSAPublicKey) publicKey;
