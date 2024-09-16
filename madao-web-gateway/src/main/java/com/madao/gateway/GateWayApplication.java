@@ -2,11 +2,14 @@ package com.madao.gateway;
 
 import com.madao.annotation.EnableSpringCloudComponent;
 import com.madao.config.BasicApplication;
+import com.madao.config.JpaConfig;
 import com.madao.gateway.config.CustomLoadBalancerConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import reactor.core.publisher.Hooks;
 
 /**
@@ -21,6 +24,7 @@ import reactor.core.publisher.Hooks;
  */
 @EnableSpringCloudComponent
 @LoadBalancerClients(defaultConfiguration = CustomLoadBalancerConfiguration.class)
+@ComponentScan(excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {JpaConfig.class}))
 public class GateWayApplication extends BasicApplication {
 
 	public static void main(String[] args) {
