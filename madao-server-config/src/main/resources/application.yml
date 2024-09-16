@@ -1,4 +1,5 @@
-
+server:
+  port: 9009
 spring:
   application:
     name: server-config #指定服务名
