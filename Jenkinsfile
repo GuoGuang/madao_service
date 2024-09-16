@@ -24,7 +24,7 @@ pipeline {
     environment {
         FRESH_HOST = "registry.cn-hongkong.aliyuncs.com"
         REMOTE_SCRIPT = 'sshpass -f /var/jenkins_home/password.txt ssh -t -t -o StrictHostKeyChecking=no root@${INSTANCE_IP}'
-        REMOTE_IP = "82.156.148.211"
+        REMOTE_IP = "120.53.222.40"
         DOCKER_IMAGE = "${params.project}"
         DOCKER_CONTAINER = "${params.project}"
         QA_EMAIL = "1831682775@qq.com"
@@ -124,10 +124,14 @@ pipeline {
                         // sh "apk add sshpass"
 
                         // jenkins/jenkins镜像是基于Ubuntu系统
-                        sh "sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list"
-                        sh "apt-get update"
-                        sh "apt-get install sshpass"
-                    
+                       //  sh "sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list"
+                        // sh "apt-get update"
+                        // sh "apt-get install sshpass"
+
+                        // debian系统
+                        sh "apt update"
+                       sh " apt install sshpass"
+
                         def container = sh(returnStdout: true, script: "${REMOTE_SCRIPT} docker ps -a | grep $serviceName | awk '{print \$1}'").trim()
                         if (container.size() > 0) {
                             sh "${REMOTE_SCRIPT} docker ps -a | grep $serviceName | awk  '{print \$1}' | xargs ${REMOTE_SCRIPT} docker stop"
