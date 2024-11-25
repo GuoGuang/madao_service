@@ -4,7 +4,7 @@ spring:
   jpa:
     show-sql: true
   elasticsearch:
-    uris: 82.156.148.211:9200
+    uris: 120.53.222.40:9200
     username: elastic
     password: 2ii3lABYkZCCrjkSBKAs
 

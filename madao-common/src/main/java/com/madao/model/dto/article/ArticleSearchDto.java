@@ -43,7 +43,8 @@ public class ArticleSearchDto extends BasePojo implements Serializable {
     private String userId;
     @Field(type = FieldType.Keyword)
     private String title;
-    @Field(type = FieldType.Text,analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
+//    @Field(type = FieldType.Text,analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
+    @Field(type = FieldType.Text)
     private String content;
 
     @Schema(type = "String", description = "图片")
