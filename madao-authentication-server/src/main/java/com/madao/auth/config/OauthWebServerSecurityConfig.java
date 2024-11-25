@@ -32,7 +32,6 @@ import javax.sql.DataSource;
  * @created 2019-09-29 7:37
  */
 @Configuration
-//@EnableWebSecurity
 @Order(-1)
 @Slf4j
 public class OauthWebServerSecurityConfig {

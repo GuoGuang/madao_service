@@ -15,22 +15,22 @@
     <properties>
         <java.version>17</java.version>
         <maven.compiler.release>17</maven.compiler.release>
-        <druid.version>1.2.17</druid.version>
+        <druid.version>1.2.23</druid.version>
         <javafaker.version>1.0.2</javafaker.version>
-        <hutool-all.version>5.8.21</hutool-all.version>
+        <hutool-all.version>5.8.29</hutool-all.version>
         <spring-security-jwt.version>1.1.1.RELEASE</spring-security-jwt.version>
-        <java-jwt.version>3.8.1</java-jwt.version>
-        <hibernate-validator.version>7.0.1.Final</hibernate-validator.version>
-        <guava.version>32.0.1-jre</guava.version>
+        <java-jwt.version>4.4.0</java-jwt.version>
+        <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
+        <guava.version>33.2.1-jre</guava.version>
         <UserAgentUtils.version>1.21</UserAgentUtils.version>
         <quartz.version>2.3.2</quartz.version>
         <aliyun-spring-boot-starter-oss.version>1.1.0</aliyun-spring-boot-starter-oss.version>
         <aliyun-java-sdk-dysmsapi.version>2.2.1</aliyun-java-sdk-dysmsapi.version>
-        <aliyun-java-sdk-core.version>4.6.3</aliyun-java-sdk-core.version>
-        <shedlock.version>4.33.0</shedlock.version>
-        <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
-        <mysql-connector-java.version>8.0.33</mysql-connector-java.version>
-        <querydsl.version>5.0.0</querydsl.version>
+        <shedlock.version>5.13.0</shedlock.version>
+        <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
+        <mysql-connector-java.version>8.4.0</mysql-connector-java.version>
+        <querydsl.version>5.1.0</querydsl.version>
+        <aliyun-sdk-oss.version>3.18.0</aliyun-sdk-oss.version>
     </properties>
 
     <dependencies>
@@ -75,11 +75,10 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-        <!--DB-->
         <!-- mysql驱动 -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
             <version>${mysql-connector-java.version}</version>
         </dependency>
         <!--引入druid-->
@@ -168,22 +167,17 @@
             <artifactId>java-jwt</artifactId>
             <version>${java-jwt.version}</version>
         </dependency>
-
         <!-- JSR303 validator -->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator.version}</version>
         </dependency>
-
-
-        <!-- Aliyun OSS  -->
         <dependency>
-            <groupId>cn.javaer.aliyun</groupId>
-            <artifactId>aliyun-spring-boot-starter-oss</artifactId>
-            <version>${aliyun-spring-boot-starter-oss.version}</version>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>${aliyun-sdk-oss.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -201,7 +195,6 @@
             <artifactId>quartz</artifactId>
             <version>${quartz.version}</version>
         </dependency>
-
         <!--阿里云通信API-->
         <dependency>
             <groupId>com.aliyun</groupId>
@@ -209,22 +202,8 @@
             <version>${aliyun-java-sdk-dysmsapi.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.aliyun</groupId>
-            <artifactId>aliyun-java-sdk-core</artifactId>
-            <version>${aliyun-java-sdk-core.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
         </dependency>
-
     </dependencies>
-
-    <build>
-
-
-        <plugins>
-
-        </plugins>
-    </build>
 </project>

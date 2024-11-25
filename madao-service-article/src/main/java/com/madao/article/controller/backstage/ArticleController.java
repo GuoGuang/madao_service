@@ -13,9 +13,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,19 +37,23 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
  * @created 2019-09-29 7:37
  */
 @Tag(name = "文章管理")
+@Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "/article", produces = "application/json")
+@RequestMapping(value = "/article")
 public class ArticleController implements BaseController {
 
 	private final ArticleService articleService;
-
 	private final OssClientUtil ossClientUtil;
 
 	@Operation(summary = "查询文章集合", description = "Article")
 	@GetMapping
 	public JsonData<Page<ArticleDto>> findArticleByCondition(ArticleDto articleDto,
-	                                                         @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable) {
+	                                                         @PageableDefault(sort = "createAt", direction = DESC) Pageable pageable,
+															 @AuthenticationPrincipal Jwt jwt) {
+		log.info("claims：{}",jwt.getClaims());
+		log.info("headers：{}",jwt.getHeaders());
+		log.info("token：{}",jwt.getTokenValue());
 		Page<ArticleDto> result = articleService.findArticleByCondition(articleDto, pageable);
 		return JsonData.success(result);
 	}
@@ -72,7 +79,7 @@ public class ArticleController implements BaseController {
 	@RateLimiter(time = 60 * 3, count = 1, limitType = LimitType.IP)
 	@PutMapping("/thumb")
 	@OptLog(operationType = OptLogType.ADD, operationName = "上传文章封面")
-	public JsonData<String> updateThumb(MultipartFile file) throws IOException {
+	public JsonData<String> updateThumb(@RequestParam MultipartFile file) throws IOException {
 		String fileUrl = ossClientUtil.uploadFile(file);
 		return JsonData.success(fileUrl);
 	}

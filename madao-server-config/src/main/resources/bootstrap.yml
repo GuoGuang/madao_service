@@ -1,3 +1,5 @@
+server:
+  port: 9009
 eureka:
   instance:
     hostname: ${spring.cloud.client.ip-address} #eureka服务端的实例名称

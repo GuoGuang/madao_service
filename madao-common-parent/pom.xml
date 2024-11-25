@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.0</version>
+        <version>3.3.1</version>
     </parent>
 
     <properties>
@@ -21,17 +21,17 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
         <jackson.version>2.15.2</jackson.version>
-        <spring.cloud.version>2023.0.0</spring.cloud.version>
+        <spring.cloud.version>2023.0.3</spring.cloud.version>
         <spring.security.oauth2.version>2.3.6.RELEASE</spring.security.oauth2.version>
-        <netflix.eureka.version>2.0.6.RELEASE</netflix.eureka.version>
-        <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
-        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+        <commons-lang3.version>3.14.0</commons-lang3.version>
         <logstash-logback-encoder.version>7.4</logstash-logback-encoder.version>
         <logback-kafka-appender.version>0.2.0-RC2</logback-kafka-appender.version>
         <madao-service-api.version>1.0.0</madao-service-api.version>
-        <springdoc-openapi-starter-webmvc-ui>2.3.0</springdoc-openapi-starter-webmvc-ui>
-        <springdoc-openapi-starter-webflux-ui.version>2.3.0</springdoc-openapi-starter-webflux-ui.version>
-        <jjwt.version>0.11.2</jjwt.version>
+        <springdoc-openapi-starter-webmvc-ui>2.6.0</springdoc-openapi-starter-webmvc-ui>
+        <springdoc-openapi-starter-webflux-ui.version>2.6.0</springdoc-openapi-starter-webflux-ui.version>
+        <jjwt.version>0.12.6</jjwt.version>
+        <logback-access.version>1.4.14</logback-access.version>
     </properties>
 
     <dependencies>
@@ -88,10 +88,10 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
         </dependency>
-
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-access</artifactId>
+            <version>${logback-access.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
