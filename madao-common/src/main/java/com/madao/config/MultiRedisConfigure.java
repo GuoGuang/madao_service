@@ -121,3 +121,31 @@
 //    private final int maxIdle;
 //    private final int minIdle;
 //}
+
+/*spring:
+  redis:
+    host: 192.9.200.227
+    port: 6379
+    password: ''
+    database: 0
+    ssl: false
+    timeout: 0
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: 8
+        max-idle: 8
+        min-idle: 0
+  business-redis:
+    host: 120.53.222.40
+    port: 6379
+    database: 0
+    timeout: 0
+    password: QAZ2weTrsx
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: 8
+        max-idle: 8
+        min-idle: 0
+        */
