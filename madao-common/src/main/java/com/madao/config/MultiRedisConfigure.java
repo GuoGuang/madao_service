@@ -22,9 +22,16 @@
 //
 //import java.time.Duration;
 //
-///**
-// * 切换多Redis数据源
-// */
+/**
+ * 切换多Redis数据源
+ * Use：
+ * ==============数据源一：默认、基础、平台级数据源=======
+ * @Autowired private RedisTemplate redisTemplate;
+ * @Autowired private BladeRedis redis;
+ * * ==============数据源二：业务级数据源=================
+ * @Autowired private RedisTemplate businessRedisTemplate;
+ * @Autowired private BladeRedis businessBladeRedis;
+ */
 //@Configuration
 //public class MultiRedisConfigure {
 //
