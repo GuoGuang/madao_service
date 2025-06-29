@@ -42,6 +42,7 @@ public class CorsConfig {
 			corsConfiguration.addAllowedOrigin("http://localhost:3000");
 		}
 		corsConfiguration.addAllowedOrigin("http://admin.madaoo.com");
+		corsConfiguration.addAllowedOrigin("https://admin.madaoo.com");
 		corsConfiguration.addAllowedOrigin("http://madaoo.com");
 		corsConfiguration.addAllowedOrigin("https://madaoo.com");
 		corsConfiguration.addAllowedHeader("*");
