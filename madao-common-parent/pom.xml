@@ -24,7 +24,7 @@
         <spring.cloud.version>2023.0.3</spring.cloud.version>
         <spring.security.oauth2.version>2.3.6.RELEASE</spring.security.oauth2.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
-        <commons-lang3.version>3.14.0</commons-lang3.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
         <logstash-logback-encoder.version>7.4</logstash-logback-encoder.version>
         <logback-kafka-appender.version>0.2.0-RC2</logback-kafka-appender.version>
         <madao-service-api.version>1.0.0</madao-service-api.version>
