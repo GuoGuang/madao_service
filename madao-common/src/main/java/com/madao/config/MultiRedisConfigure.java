@@ -144,7 +144,7 @@
         max-idle: 8
         min-idle: 0
   business-redis:
-    host: 120.53.222.40
+    host: 43.138.66.201
     port: 6379
     database: 0
     timeout: 0

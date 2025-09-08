@@ -36,7 +36,7 @@ spring:
         corsConfigurations:
           '[/**]':
             allowedHeaders: "x-token"
-            allowedOrigins: "http://120.53.222.40:9527"
+            allowedOrigins: "http://43.138.66.201:9527"
             allowedMethods:
             - OPTIONS
             - GET
